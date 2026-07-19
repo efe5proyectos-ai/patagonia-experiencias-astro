@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { obtenerGuias } from '../../lib/contenido.js';
+const guias = await obtenerGuias();
+---
+<BaseLayout titulo="Guías de viaje de la Patagonia" descripcion="Guías completas para planificar tu viaje por Chubut y la Patagonia: destinos, secretos locales, temporadas y experiencias verificadas.">
+  <main class="contenedor">
+    <h1 style="margin:1.5rem 0;">Guías de viaje</h1>
+    <ul style="list-style:none; padding:0;">
+      {guias.map((g) => (
+        <li style="margin-bottom:1.2rem; border-bottom:1px solid #eee; padding-bottom:1.2rem;">
+          <a href={`/guias/${g.slug}/`} style="font-size:1.2rem; font-weight:600;">{g.titulo}</a>
+          <p style="color:#555;">{g.bajada}</p>
+        </li>
+      ))}
+    </ul>
+  </main>
+</BaseLayout>

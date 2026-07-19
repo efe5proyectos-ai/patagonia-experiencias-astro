@@ -1,0 +1,29 @@
+[
+  {
+    "slug": "esquel-trevelin",
+    "titulo": "Esquel y Trevelin: guía completa de la cordillera chubutense",
+    "bajada": "Bosques milenarios, el tren a vapor más famoso de la Patagonia y campos de peonías en contraestación: todo lo que necesitás para planificar tu viaje.",
+    "destino": "Esquel - Trevelin",
+    "imagenPrincipal": "https://patagoniaexperiencias.com/img/esquel-trevelin.jpg",
+    "contenido": "<h2>El Alerce Abuelo: más de 2.600 años de historia viva</h2><p>En el Parque Nacional Los Alerces te espera uno de los seres vivos más antiguos del planeta. El Alerce Abuelo supera los 2.600 años de edad y llegar hasta él es una experiencia que combina navegación lacustre y senderismo entre bosque valdiviano.</p><h2>La Trochita, desde 1922</h2><p>El viejo expreso patagónico funciona desde 1922 y sigue recorriendo la estepa a vapor. Es una de las experiencias ferroviarias más singulares del mundo.</p><h2>Peonías en contraestación</h2><p>Trevelin produce peonías cuando el hemisferio norte está en invierno: los campos florecidos de noviembre y diciembre son un espectáculo que pocos conocen. Y esto es solo el principio: la guía completa incluye 12 secretos locales, consejos de fotografía con horarios exactos de luz y una red de 18 anfitriones con beneficios.</p>",
+    "faqs": [
+      { "pregunta": "¿Cuál es la mejor época para visitar Esquel y Trevelin?", "respuesta": "Todo el año: invierno para esquí en La Hoya, primavera para las peonías de Trevelin, verano y otoño para Los Alerces y La Trochita." },
+      { "pregunta": "¿Cuántos días necesito para conocer la zona?", "respuesta": "Recomendamos un mínimo de 3 a 4 días para combinar Parque Nacional Los Alerces, La Trochita y el valle de Trevelin sin apuros." }
+    ],
+    "actualizado": "2026-07-18",
+    "publicado": true
+  },
+  {
+    "slug": "huella-galesa-ruta-7",
+    "titulo": "La Huella Galesa: Rawson, Trelew, Gaiman, Dolavon y 28 de Julio",
+    "bajada": "El corredor de la Ruta 7 une cinco pueblos del valle del Chubut con casas de té, capillas históricas y, desde septiembre 2026, el campo de tulipanes de 28 de Julio.",
+    "destino": "Valle del Chubut",
+    "imagenPrincipal": "https://patagoniaexperiencias.com/img/huella-galesa.jpg",
+    "contenido": "<h2>Un corredor, cinco pueblos</h2><p>La Huella Galesa recorre el valle inferior del río Chubut siguiendo la Ruta 7, desde Rawson hasta 28 de Julio, pasando por Trelew, Gaiman y Dolavon. Historia de la colonización galesa, casas de té tradicionales y paisaje de chacras.</p><h2>El campo de tulipanes</h2><p>La gran novedad del corredor: en septiembre de 2026 se inaugura el campo de tulipanes de 28 de Julio, la atracción estrella de la primavera en el valle.</p>",
+    "faqs": [
+      { "pregunta": "¿Desde dónde conviene salir para recorrer la Huella Galesa?", "respuesta": "Trelew es el punto de partida ideal: Rawson queda a 17 km y Gaiman a solo 18 km, lo que permite recorrer el corredor completo en el día." }
+    ],
+    "actualizado": "2026-07-18",
+    "publicado": true
+  }
+]

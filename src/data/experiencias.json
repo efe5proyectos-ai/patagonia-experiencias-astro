@@ -1,0 +1,15 @@
+[
+  {
+    "titulo": "Avistaje de ballenas en Puerto Pirámides",
+    "slug": "avistaje-ballenas-puerto-piramides",
+    "destino": "Puerto Pirámides - Península Valdés",
+    "categoria": "Náutica",
+    "duracion": "par_horas",
+    "precio": 85000,
+    "precioLista": 95000,
+    "descripcionLarga": "<p>Navegación de avistaje de ballena franca austral desde Puerto Pirámides, dentro del área natural protegida Península Valdés. Embarcaciones habilitadas, guías balleneros y la posibilidad de ver ejemplares a metros del bote entre junio y diciembre.</p>",
+    "imagenUrl": "https://patagoniaexperiencias.com/img/ballenas.jpg",
+    "proveedorNombre": "Prestador de ejemplo",
+    "activo": true
+  }
+]

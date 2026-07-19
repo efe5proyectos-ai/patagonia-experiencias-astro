@@ -1,0 +1,75 @@
+---
+// ─────────────────────────────────────────────────────────────
+// LAYOUT BASE — el SEO vive acá, una sola vez, para todo el sitio.
+// Ninguna página puede publicarse sin title, description,
+// canonical, Open Graph y JSON-LD. Es estructural, no opcional.
+// ─────────────────────────────────────────────────────────────
+const {
+  titulo,
+  descripcion,
+  imagen = 'https://patagoniaexperiencias.com/og-default.jpg',
+  schema = null, // objeto JSON-LD específico de la página
+  tipo = 'website',
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const tituloCompleto = `${titulo} | Patagonia Experiencias`;
+
+const schemaOrganizacion = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Patagonia Experiencias',
+  url: 'https://patagoniaexperiencias.com',
+  logo: 'https://patagoniaexperiencias.com/logo.png',
+  sameAs: ['https://www.instagram.com/patagoniaexperienciasok'],
+};
+---
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{tituloCompleto}</title>
+    <meta name="description" content={descripcion} />
+    <link rel="canonical" href={canonical} />
+
+    <meta property="og:type" content={tipo} />
+    <meta property="og:title" content={tituloCompleto} />
+    <meta property="og:description" content={descripcion} />
+    <meta property="og:image" content={imagen} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="es_AR" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(schemaOrganizacion)} />
+    {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet" />
+    <style is:global>
+      :root { --fucsia: #E6007E; }
+      * { box-sizing: border-box; margin: 0; }
+      body { font-family: 'Montserrat', sans-serif; color: #222; line-height: 1.7; }
+      a { color: var(--fucsia); }
+      .contenedor { max-width: 860px; margin: 0 auto; padding: 0 20px; }
+      header.sitio { border-bottom: 3px solid var(--fucsia); padding: 14px 0; }
+      header.sitio a.marca { font-weight: 800; text-decoration: none; color: var(--fucsia); font-size: 1.2rem; }
+      nav.migas { font-size: .85rem; margin: 18px 0; color: #666; }
+      nav.migas a { color: #666; }
+      footer.sitio { margin-top: 60px; padding: 30px 0; background: #111; color: #eee; font-size: .9rem; }
+    </style>
+  </head>
+  <body>
+    <header class="sitio">
+      <div class="contenedor">
+        <a class="marca" href="/">Patagonia Experiencias</a>
+      </div>
+    </header>
+    <slot />
+    <footer class="sitio">
+      <div class="contenedor">
+        Patagonia Experiencias · efe5 proyectos SRL · Trelew, Chubut, Argentina
+      </div>
+    </footer>
+  </body>
+</html>

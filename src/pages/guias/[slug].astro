@@ -1,0 +1,97 @@
+---
+// ─────────────────────────────────────────────────────────────
+// /guias/[slug]/ — UNA PÁGINA HTML POR CADA GUÍA EN FIRESTORE.
+// getStaticPaths corre en el build: lee Firestore y genera
+// todas las rutas. Cargar una guía nueva en el admin +
+// rebuild automático = página nueva en Google. Sin archivos
+// manuales, nunca.
+// ─────────────────────────────────────────────────────────────
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { obtenerGuias } from '../../lib/contenido.js';
+
+export async function getStaticPaths() {
+  const guias = await obtenerGuias();
+  return guias.map((guia) => ({ params: { slug: guia.slug }, props: { guia } }));
+}
+
+const { guia } = Astro.props;
+const url = new URL(Astro.url.pathname, Astro.site).href;
+
+// Description automática: bajada recortada a 160 caracteres
+const descripcion = (guia.bajada || guia.cuerpo.replace(/<[^>]+>/g, ''))
+  .slice(0, 157)
+  .trim() + '…';
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: guia.titulo,
+    image: guia.imagen,
+    inLanguage: 'es-AR',
+    dateModified: guia.actualizado || undefined,
+    author: { '@type': 'Organization', name: 'Patagonia Magazine' },
+    publisher: { '@type': 'Organization', name: 'Patagonia Experiencias' },
+    mainEntityOfPage: url,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://patagoniaexperiencias.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Guías', item: 'https://patagoniaexperiencias.com/guias/' },
+      { '@type': 'ListItem', position: 3, name: guia.titulo, item: url },
+    ],
+  },
+  guia.faqs.length && {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: guia.faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.pregunta,
+      acceptedAnswer: { '@type': 'Answer', text: f.respuesta },
+    })),
+  },
+].filter(Boolean);
+---
+<BaseLayout titulo={guia.titulo} descripcion={descripcion} imagen={guia.imagen} schema={schema} tipo="article">
+  <main class="contenedor">
+    <nav class="migas" aria-label="Migas de pan">
+      <a href="/">Inicio</a> › <a href="/guias/">Guías</a> › {guia.titulo}
+    </nav>
+    <article>
+      <h1 style="font-size:2rem; line-height:1.25; margin-bottom:.5rem;">{guia.titulo}</h1>
+      {guia.bajada && <p style="font-size:1.15rem; color:#555; margin-bottom:1.5rem;">{guia.bajada}</p>}
+      {guia.imagen && (
+        <img
+          src={guia.imagen}
+          alt={`${guia.titulo} — ${guia.destino}, Patagonia`}
+          width="820" height="460"
+          style="width:100%; height:auto; border-radius:12px; margin-bottom:1.5rem;"
+          loading="eager"
+        />
+      )}
+      <div set:html={guia.cuerpo} />
+
+      {guia.faqs.length > 0 && (
+        <section style="margin-top:2.5rem;">
+          <h2 style="margin-bottom:1rem;">Preguntas frecuentes</h2>
+          {guia.faqs.map((f) => (
+            <details style="margin-bottom:.8rem; border:1px solid #eee; border-radius:8px; padding:.8rem 1rem;">
+              <summary style="font-weight:600; cursor:pointer;">{f.pregunta}</summary>
+              <p style="margin-top:.6rem;">{f.respuesta}</p>
+            </details>
+          ))}
+        </section>
+      )}
+
+      <aside style="margin-top:3rem; background:#FBEAF0; border-radius:12px; padding:1.5rem;">
+        <h2 style="margin-bottom:.5rem;">Viví {guia.destino} con nosotros</h2>
+        <p>Reservá experiencias verificadas con prestadores locales y sumá Patagonia Puntos.</p>
+        <p style="margin-top:.8rem;">
+          <a href={`/destinos/${guia.slug}/`} style="font-weight:600;">Ver experiencias en {guia.destino} →</a>
+        </p>
+      </aside>
+    </article>
+  </main>
+</BaseLayout>

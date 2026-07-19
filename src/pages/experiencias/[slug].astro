@@ -1,0 +1,95 @@
+---
+// /experiencias/[slug]/ — una ficha HTML por cada tour en Firestore
+// Schema Product + Offer: precio en ARS visible en resultados de Google
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { obtenerExperiencias, slugificar } from '../../lib/contenido.js';
+
+export async function getStaticPaths() {
+  const exps = await obtenerExperiencias();
+  return exps.map((exp) => ({ params: { slug: exp.slug }, props: { exp } }));
+}
+
+const { exp } = Astro.props;
+const url = new URL(Astro.url.pathname, Astro.site).href;
+const textoPlano = exp.descripcion.replace(/<[^>]+>/g, '');
+const descripcion = textoPlano.slice(0, 157).trim() + '…';
+
+const etiquetaDuracion = {
+  par_horas: 'Un par de horas',
+  medio_dia: 'Medio día',
+  dia_completo: 'Día completo',
+}[exp.duracion] || exp.duracion;
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: exp.titulo,
+    image: exp.imagenes.length ? exp.imagenes : exp.imagen,
+    description: textoPlano.slice(0, 300),
+    brand: { '@type': 'Brand', name: 'Patagonia Experiencias' },
+    ...(exp.precio && {
+      offers: {
+        '@type': 'Offer',
+        price: String(exp.precio),
+        priceCurrency: 'ARS',
+        availability: 'https://schema.org/InStock',
+        url,
+        seller: { '@type': 'Organization', name: exp.proveedor || 'Patagonia Experiencias' },
+      },
+    }),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://patagoniaexperiencias.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Experiencias', item: 'https://patagoniaexperiencias.com/experiencias/' },
+      { '@type': 'ListItem', position: 3, name: exp.titulo, item: url },
+    ],
+  },
+];
+---
+<BaseLayout titulo={`${exp.titulo} en ${exp.destino}`} descripcion={descripcion} imagen={exp.imagen} schema={schema} tipo="product">
+  <main class="contenedor">
+    <nav class="migas" aria-label="Migas de pan">
+      <a href="/">Inicio</a> › <a href="/experiencias/">Experiencias</a> › {exp.titulo}
+    </nav>
+    <article>
+      <h1 style="font-size:2rem; line-height:1.25; margin-bottom:.5rem;">{exp.titulo}</h1>
+      <p style="color:#555; margin-bottom:1rem;">
+        {exp.destino}{etiquetaDuracion && ` · ${etiquetaDuracion}`}{exp.proveedor && ` · Prestador: ${exp.proveedor}`}
+      </p>
+      {exp.imagen && (
+        <img
+          src={exp.imagen}
+          alt={`${exp.titulo} — ${exp.destino}, Patagonia`}
+          width="820" height="460"
+          style="width:100%; height:auto; border-radius:12px; margin-bottom:1.5rem;"
+          loading="eager"
+        />
+      )}
+      {exp.precio && (
+        <p style="font-size:1.5rem; font-weight:800; color:var(--fucsia); margin-bottom:1.5rem;">
+          ${exp.precio.toLocaleString('es-AR')} ARS
+          {exp.precioLista && exp.precioLista > exp.precio && (
+            <span style="font-size:1rem; color:#999; text-decoration:line-through; font-weight:400; margin-left:.5rem;">
+              ${exp.precioLista.toLocaleString('es-AR')}
+            </span>
+          )}
+        </p>
+      )}
+      <div set:html={exp.descripcion} />
+
+      <aside style="margin-top:2.5rem; background:#FBEAF0; border-radius:12px; padding:1.5rem;">
+        <h2 style="margin-bottom:.5rem;">Reservá esta experiencia</h2>
+        <p>Asegurá tu lugar con reserva online y sumá Patagonia Puntos.</p>
+        <p style="margin-top:.8rem;">
+          <a href={`https://patagoniaexperiencias.com/#tour-${exp.slug}`} style="display:inline-block; background:var(--fucsia); color:#fff; padding:.7rem 1.4rem; border-radius:8px; text-decoration:none; font-weight:600;">
+            Reservar ahora
+          </a>
+        </p>
+      </aside>
+    </article>
+  </main>
+</BaseLayout>

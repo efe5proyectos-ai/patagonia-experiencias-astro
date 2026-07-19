@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { obtenerExperiencias } from '../../lib/contenido.js';
+const exps = await obtenerExperiencias();
+---
+<BaseLayout titulo="Experiencias en la Patagonia" descripcion="Excursiones y experiencias verificadas con prestadores locales: avistaje de ballenas, La Hoya, Los Alerces, Huella Galesa y todo el Chubut.">
+  <main class="contenedor">
+    <h1 style="margin:1.5rem 0;">Experiencias</h1>
+    <ul style="list-style:none; padding:0;">
+      {exps.map((e) => (
+        <li style="margin-bottom:1.2rem; border-bottom:1px solid #eee; padding-bottom:1.2rem;">
+          <a href={`/experiencias/${e.slug}/`} style="font-size:1.2rem; font-weight:600;">{e.titulo}</a>
+          <p style="color:#555;">{e.destino}{e.precio ? ` · desde $${e.precio.toLocaleString('es-AR')} ARS` : ''}</p>
+        </li>
+      ))}
+    </ul>
+  </main>
+</BaseLayout>

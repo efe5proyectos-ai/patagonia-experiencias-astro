@@ -1,16 +1,19 @@
 {
-  "name": "pe-astro",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@astrojs/sitemap": "^3.7.3",
-    "astro": "^7.1.1"
-  }
+    "name": "pe-astro",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+          "dev": "astro dev",
+          "build": "astro build",
+          "preview": "astro preview",
+          "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+          "@astrojs/sitemap": "^3.7.3",
+          "astro": "^7.1.1"
+    }
 }

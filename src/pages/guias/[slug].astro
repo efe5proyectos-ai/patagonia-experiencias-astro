@@ -1,11 +1,4 @@
 ---
-// ─────────────────────────────────────────────────────────────
-// /guias/[slug]/ — UNA PÁGINA HTML POR CADA GUÍA EN FIRESTORE.
-// getStaticPaths corre en el build: lee Firestore y genera
-// todas las rutas. Cargar una guía nueva en el admin +
-// rebuild automático = página nueva en Google. Sin archivos
-// manuales, nunca.
-// ─────────────────────────────────────────────────────────────
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { obtenerGuias } from '../../lib/contenido.js';
 
@@ -17,81 +10,72 @@ export async function getStaticPaths() {
 const { guia } = Astro.props;
 const url = new URL(Astro.url.pathname, Astro.site).href;
 
-// Description automática: bajada recortada a 160 caracteres
-const descripcion = (guia.bajada || guia.cuerpo.replace(/<[^>]+>/g, ''))
-  .slice(0, 157)
-  .trim() + '…';
+// Description: saca el HTML y evita repetir el título si el cuerpo arranca con él
+let textoPlano = guia.cuerpo.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+const tituloCorto = guia.titulo.split(':')[0].trim();
+if (textoPlano.toLowerCase().startsWith(guia.titulo.toLowerCase())) textoPlano = textoPlano.slice(guia.titulo.length).trim();
+else if (textoPlano.toLowerCase().includes(tituloCorto.toLowerCase().slice(0, 25))) textoPlano = textoPlano.slice(textoPlano.indexOf('¿') > -1 ? textoPlano.indexOf('¿') : 0);
+const descripcion = (guia.bajada || textoPlano).slice(0, 157).trim() + '…';
 
 const schema = [
-  {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    headline: guia.titulo,
-    image: guia.imagen,
-    inLanguage: 'es-AR',
-    dateModified: guia.actualizado || undefined,
+  { '@context': 'https://schema.org', '@type': 'Article', headline: guia.titulo, image: guia.imagen,
+    inLanguage: 'es-AR', dateModified: guia.actualizado || undefined,
     author: { '@type': 'Organization', name: 'Patagonia Magazine' },
-    publisher: { '@type': 'Organization', name: 'Patagonia Experiencias' },
-    mainEntityOfPage: url,
-  },
-  {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://patagoniaexperiencias.com/' },
-      { '@type': 'ListItem', position: 2, name: 'Guías', item: 'https://patagoniaexperiencias.com/guias/' },
-      { '@type': 'ListItem', position: 3, name: guia.titulo, item: url },
-    ],
-  },
-  guia.faqs.length && {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: guia.faqs.map((f) => ({
-      '@type': 'Question',
-      name: f.pregunta,
-      acceptedAnswer: { '@type': 'Answer', text: f.respuesta },
-    })),
-  },
+    publisher: { '@type': 'Organization', name: 'Patagonia Experiencias' }, mainEntityOfPage: url },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://patagoniaexperiencias.com/' },
+    { '@type': 'ListItem', position: 2, name: 'Guías', item: 'https://patagoniaexperiencias.com/guias/' },
+    { '@type': 'ListItem', position: 3, name: guia.titulo, item: url } ] },
+  guia.faqs.length && { '@context': 'https://schema.org', '@type': 'FAQPage',
+    mainEntity: guia.faqs.map((f) => ({ '@type': 'Question', name: f.pregunta, acceptedAnswer: { '@type': 'Answer', text: f.respuesta } })) },
 ].filter(Boolean);
 ---
 <BaseLayout titulo={guia.titulo} descripcion={descripcion} imagen={guia.imagen} schema={schema} tipo="article">
-  <main class="contenedor">
-    <nav class="migas" aria-label="Migas de pan">
-      <a href="/">Inicio</a> › <a href="/guias/">Guías</a> › {guia.titulo}
-    </nav>
-    <article>
-      <h1 style="font-size:2rem; line-height:1.25; margin-bottom:.5rem;">{guia.titulo}</h1>
-      {guia.bajada && <p style="font-size:1.15rem; color:#555; margin-bottom:1.5rem;">{guia.bajada}</p>}
-      {guia.imagen && (
-        <img
-          src={guia.imagen}
-          alt={`${guia.titulo} — ${guia.destino}, Patagonia`}
-          width="820" height="460"
-          style="width:100%; height:auto; border-radius:12px; margin-bottom:1.5rem;"
-          loading="eager"
-        />
-      )}
-      <div set:html={guia.cuerpo} />
+  <main>
+    {guia.imagen && (
+      <div class="relative h-[45vh] min-h-[320px] overflow-hidden">
+        <img src={guia.imagen} alt={guia.titulo} width="1600" height="700" class="w-full h-full object-cover" loading="eager" fetchpriority="high" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+        <div class="absolute bottom-0 inset-x-0 max-w-4xl mx-auto px-4 sm:px-6 pb-10">
+          {guia.destino && <span class="inline-flex items-center gap-1.5 bg-brand-fuchsia text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-md mb-4"><i class="fa-solid fa-star"></i> {guia.destino}</span>}
+          <h1 class="font-sans font-extrabold text-2xl sm:text-4xl text-white leading-tight drop-shadow-lg">{guia.titulo}</h1>
+        </div>
+      </div>
+    )}
+    <article class="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+      <nav class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-8" aria-label="Migas de pan">
+        <a href="/" class="hover:text-brand-fuchsia">Inicio</a> <span class="mx-1">›</span> <a href="/guias/" class="hover:text-brand-fuchsia">Guías</a>
+      </nav>
+      {!guia.imagen && <h1 class="font-sans font-extrabold text-3xl sm:text-4xl leading-tight mb-8 text-brand-oxford">{guia.titulo}</h1>}
+
+      <div class="prose-pe text-[17px] leading-relaxed text-slate-700 space-y-5" set:html={guia.cuerpo} />
 
       {guia.faqs.length > 0 && (
-        <section style="margin-top:2.5rem;">
-          <h2 style="margin-bottom:1rem;">Preguntas frecuentes</h2>
+        <section class="mt-14">
+          <h2 class="font-sans font-extrabold text-2xl text-brand-oxford mb-6">Preguntas frecuentes</h2>
           {guia.faqs.map((f) => (
-            <details style="margin-bottom:.8rem; border:1px solid #eee; border-radius:8px; padding:.8rem 1rem;">
-              <summary style="font-weight:600; cursor:pointer;">{f.pregunta}</summary>
-              <p style="margin-top:.6rem;">{f.respuesta}</p>
+            <details class="mb-3 bg-white border border-slate-200 rounded-xl px-5 py-4 shadow-sm">
+              <summary class="font-sans font-bold cursor-pointer text-slate-800">{f.pregunta}</summary>
+              <p class="mt-3 text-slate-600">{f.respuesta}</p>
             </details>
           ))}
         </section>
       )}
 
-      <aside style="margin-top:3rem; background:#FBEAF0; border-radius:12px; padding:1.5rem;">
-        <h2 style="margin-bottom:.5rem;">Viví {guia.destino} con nosotros</h2>
-        <p>Reservá experiencias verificadas con prestadores locales y sumá Patagonia Puntos.</p>
-        <p style="margin-top:.8rem;">
-          <a href={`/destinos/${guia.slug}/`} style="font-weight:600;">Ver experiencias en {guia.destino} →</a>
-        </p>
+      <aside class="mt-14 bg-gradient-to-br from-brand-fuchsia to-brand-fuchsiaDark rounded-3xl p-8 text-white shadow-2xl shadow-brand-fuchsia/20">
+        <h2 class="font-sans font-extrabold text-2xl mb-2">Viví esta experiencia con nosotros</h2>
+        <p class="text-white/80 mb-5">Reservá con prestadores locales verificados y sumá Patagonia Puntos en cada viaje.</p>
+        <a href="/experiencias/" class="inline-flex items-center gap-2 bg-white text-brand-fuchsia font-bold text-sm uppercase tracking-widest px-6 py-3 rounded-full hover:bg-slate-100 transition-all"><i class="fa-solid fa-ticket"></i> Ver experiencias</a>
       </aside>
     </article>
   </main>
+  <style is:global>
+    .prose-pe h2 { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.5rem; color: #2c3e50; margin-top: 2.2rem; margin-bottom: .8rem; }
+    .prose-pe h3 { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.2rem; color: #2c3e50; margin-top: 1.6rem; margin-bottom: .6rem; }
+    .prose-pe p { margin-bottom: 1.1rem; }
+    .prose-pe img { border-radius: 1rem; margin: 1.5rem 0; }
+    .prose-pe a { color: #E91E63; font-weight: 600; }
+    .prose-pe ul, .prose-pe ol { padding-left: 1.4rem; margin-bottom: 1.1rem; }
+    .prose-pe li { margin-bottom: .4rem; list-style: disc; }
+  </style>
 </BaseLayout>

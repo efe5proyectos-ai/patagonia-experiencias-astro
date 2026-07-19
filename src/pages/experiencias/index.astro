@@ -4,15 +4,28 @@ import { obtenerExperiencias } from '../../lib/contenido.js';
 const exps = await obtenerExperiencias();
 ---
 <BaseLayout titulo="Experiencias en la Patagonia" descripcion="Excursiones y experiencias verificadas con prestadores locales: avistaje de ballenas, La Hoya, Los Alerces, Huella Galesa y todo el Chubut.">
-  <main class="contenedor">
-    <h1 style="margin:1.5rem 0;">Experiencias</h1>
-    <ul style="list-style:none; padding:0;">
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <p class="text-brand-fuchsia text-xs font-black uppercase tracking-[0.3em] mb-3"><i class="fa-solid fa-compass mr-2"></i>Catálogo verificado</p>
+    <h1 class="font-sans font-extrabold text-3xl sm:text-5xl leading-tight mb-10 text-brand-oxford">Experiencias</h1>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
       {exps.map((e) => (
-        <li style="margin-bottom:1.2rem; border-bottom:1px solid #eee; padding-bottom:1.2rem;">
-          <a href={`/experiencias/${e.slug}/`} style="font-size:1.2rem; font-weight:600;">{e.titulo}</a>
-          <p style="color:#555;">{e.destino}{e.precio ? ` · desde $${e.precio.toLocaleString('es-AR')} ARS` : ''}</p>
-        </li>
+        <a href={`/experiencias/${e.slug}/`} class="group bg-white border border-slate-200 rounded-2xl overflow-hidden flex flex-col shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+          {e.imagen && (
+            <div class="relative h-52 overflow-hidden">
+              <img src={e.imagen} alt={`${e.titulo} — ${e.destino}`} loading="lazy" width="600" height="400" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              {e.categoria && <span class="absolute top-4 left-4 bg-brand-fuchsia text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-md shadow-sm">{e.categoria}</span>}
+            </div>
+          )}
+          <div class="p-6 flex flex-col flex-grow">
+            <h2 class="font-sans font-bold text-[15px] mb-2 leading-snug group-hover:text-brand-fuchsia transition-colors">{e.titulo}</h2>
+            <p class="text-xs text-slate-400 font-bold uppercase tracking-widest mb-4"><i class="fa-solid fa-location-dot mr-1"></i>{e.destino}</p>
+            <div class="flex justify-between items-center mt-auto border-t border-slate-100 pt-4">
+              {e.precio ? <span class="font-sans font-extrabold text-brand-fuchsia">${e.precio.toLocaleString('es-AR')}</span> : <span></span>}
+              <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400 group-hover:text-brand-fuchsia transition-colors">Ver más <i class="fa-solid fa-arrow-right ml-0.5"></i></span>
+            </div>
+          </div>
+        </a>
       ))}
-    </ul>
+    </div>
   </main>
 </BaseLayout>

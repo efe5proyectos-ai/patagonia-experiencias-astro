@@ -1,26 +1,15 @@
 ---
-// ─────────────────────────────────────────────────────────────
-// LAYOUT BASE — el SEO vive acá, una sola vez, para todo el sitio.
-// Ninguna página puede publicarse sin title, description,
-// canonical, Open Graph y JSON-LD. Es estructural, no opcional.
-// ─────────────────────────────────────────────────────────────
+// Layout con el diseño real de producción: Tailwind + Montserrat/Inter + fucsia E91E63
 const {
-  titulo,
-  descripcion,
+  titulo, descripcion,
   imagen = 'https://patagoniaexperiencias.com/og-default.jpg',
-  schema = null, // objeto JSON-LD específico de la página
-  tipo = 'website',
+  schema = null, tipo = 'website', temaOscuro = false,
 } = Astro.props;
-
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const tituloCompleto = `${titulo} | Patagonia Experiencias`;
-
-const schemaOrganizacion = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: 'Patagonia Experiencias',
-  url: 'https://patagoniaexperiencias.com',
-  logo: 'https://patagoniaexperiencias.com/logo.png',
+const schemaOrg = {
+  '@context': 'https://schema.org', '@type': 'Organization',
+  name: 'Patagonia Experiencias', url: 'https://patagoniaexperiencias.com',
   sameAs: ['https://www.instagram.com/patagoniaexperienciasok'],
 };
 ---
@@ -32,7 +21,6 @@ const schemaOrganizacion = {
     <title>{tituloCompleto}</title>
     <meta name="description" content={descripcion} />
     <link rel="canonical" href={canonical} />
-
     <meta property="og:type" content={tipo} />
     <meta property="og:title" content={tituloCompleto} />
     <meta property="og:description" content={descripcion} />
@@ -40,36 +28,65 @@ const schemaOrganizacion = {
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content="es_AR" />
     <meta name="twitter:card" content="summary_large_image" />
-
-    <script type="application/ld+json" set:html={JSON.stringify(schemaOrganizacion)} />
+    <script type="application/ld+json" set:html={JSON.stringify(schemaOrg)} />
     {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
-
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet" />
-    <style is:global>
-      :root { --fucsia: #E6007E; }
-      * { box-sizing: border-box; margin: 0; }
-      body { font-family: 'Montserrat', sans-serif; color: #222; line-height: 1.7; }
-      a { color: var(--fucsia); }
-      .contenedor { max-width: 860px; margin: 0 auto; padding: 0 20px; }
-      header.sitio { border-bottom: 3px solid var(--fucsia); padding: 14px 0; }
-      header.sitio a.marca { font-weight: 800; text-decoration: none; color: var(--fucsia); font-size: 1.2rem; }
-      nav.migas { font-size: .85rem; margin: 18px 0; color: #666; }
-      nav.migas a { color: #666; }
-      footer.sitio { margin-top: 60px; padding: 30px 0; background: #111; color: #eee; font-size: .9rem; }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script is:inline>
+      tailwind.config = { theme: { extend: {
+        fontFamily: { sans: ['Montserrat','sans-serif'], body: ['Inter','sans-serif'] },
+        colors: { brand: { fuchsia:'#E91E63', fuchsiaDark:'#C2185B', dark:'#1f2937', light:'#f9fafb', oxford:'#2c3e50' } }
+      } } };
+    </script>
   </head>
-  <body>
-    <header class="sitio">
-      <div class="contenedor">
-        <a class="marca" href="/">Patagonia Experiencias</a>
+  <body class:list={["font-body antialiased", temaOscuro ? "bg-[#0d1117] text-white" : "bg-brand-light text-slate-800"]}>
+
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
+        <a href="/" class="font-sans font-extrabold text-lg tracking-tight text-brand-oxford">
+          Patagonia<span class="text-brand-fuchsia">Experiencias</span>
+        </a>
+        <nav class="flex items-center gap-1">
+          <a href="/guias/" class="hidden md:flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full text-slate-500 hover:bg-brand-fuchsia/5 hover:text-brand-fuchsia transition-all"><i class="fa-solid fa-newspaper"></i> Revista</a>
+          <a href="/experiencias/" class="hidden md:flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full text-slate-500 hover:bg-brand-fuchsia/5 hover:text-brand-fuchsia transition-all"><i class="fa-solid fa-compass"></i> Experiencias</a>
+          <a href="https://patagoniaexperiencias.com/guiadeviajeros.html" class="hidden md:flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full text-slate-500 hover:bg-brand-fuchsia/5 hover:text-brand-fuchsia transition-all"><i class="fa-solid fa-book-open"></i> Guía de Viajeros</a>
+          <a href="https://tienda.patagoniapuntos.com" target="_blank" rel="noopener noreferrer" class="hidden md:flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full text-slate-500 hover:bg-brand-fuchsia/5 hover:text-brand-fuchsia transition-all"><i class="fa-solid fa-coins"></i> Suma Puntos</a>
+          <a href="https://patagoniaexperiencias.com/#experiencias" class="flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-5 py-2.5 rounded-full bg-brand-fuchsia text-white shadow-lg shadow-brand-fuchsia/30 hover:bg-brand-fuchsiaDark transition-all"><i class="fa-solid fa-ticket"></i> Reservar</a>
+        </nav>
       </div>
     </header>
+
     <slot />
-    <footer class="sitio">
-      <div class="contenedor">
-        Patagonia Experiencias · efe5 proyectos SRL · Trelew, Chubut, Argentina
+
+    <footer class="bg-brand-dark text-white mt-20">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 grid md:grid-cols-3 gap-10">
+        <div>
+          <p class="font-sans font-extrabold text-lg mb-3">Patagonia<span class="text-brand-fuchsia">Experiencias</span></p>
+          <p class="text-sm text-white/60 leading-relaxed">La Patagonia se decide antes de llegar. Experiencias verificadas con prestadores locales de todo el Chubut y la región.</p>
+        </div>
+        <div>
+          <p class="text-xs font-bold uppercase tracking-widest text-white/40 mb-4">Ecosistema</p>
+          <ul class="space-y-2 text-sm">
+            <li><a href="/guias/" class="text-white/70 hover:text-brand-fuchsia transition-colors">Revista y guías</a></li>
+            <li><a href="/experiencias/" class="text-white/70 hover:text-brand-fuchsia transition-colors">Experiencias</a></li>
+            <li><a href="https://tienda.patagoniapuntos.com" class="text-white/70 hover:text-brand-fuchsia transition-colors">Patagonia Puntos</a></li>
+            <li><a href="https://patagoniaexperiencias.com/prestadores.html" class="text-white/70 hover:text-brand-fuchsia transition-colors">Soy Prestador</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="text-xs font-bold uppercase tracking-widest text-white/40 mb-4">Contacto</p>
+          <p class="text-sm text-white/70">efe5 proyectos SRL · Trelew, Chubut, Argentina</p>
+          <a href="https://www.instagram.com/patagoniaexperienciasok" class="inline-flex items-center gap-2 mt-3 text-sm text-white/70 hover:text-brand-fuchsia transition-colors"><i class="fa-brands fa-instagram"></i> @patagoniaexperienciasok</a>
+        </div>
       </div>
+      <div class="border-t border-white/10 py-5 text-center text-xs text-white/40">© 2026 Patagonia Experiencias · Todos los derechos reservados</div>
     </footer>
+
+    <a href="https://wa.me/5492804000000" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"
+       class="fixed bottom-6 right-6 w-14 h-14 bg-green-500 hover:bg-green-600 text-white rounded-full flex items-center justify-center text-3xl shadow-lg shadow-green-500/30 z-50 transition-all">
+      <i class="fa-brands fa-whatsapp"></i>
+    </a>
   </body>
 </html>

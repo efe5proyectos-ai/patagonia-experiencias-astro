@@ -1,14 +1,16 @@
 {
-    "name": "patagonia-experiencias-astro",
-    "version": "1.0.0",
-    "type": "module",
-    "scripts": {
-          "build": "astro build",
-          "dev": "astro dev",
-          "preview": "astro preview"
-    },
-    "dependencies": {
-          "astro": "^7.1.1",
-          "@astrojs/sitemap": "^3.6.0"
-    }
+  "name": "pe-astro",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.3",
+    "astro": "^7.1.1"
+  }
 }

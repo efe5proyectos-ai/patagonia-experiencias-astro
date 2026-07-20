@@ -1,0 +1,17 @@
+# ── Portado del .htaccess de producción ──────────────────────
+# (HTTPS forzado y URLs limpias .html las maneja Cloudflare Pages solo)
+
+# www → sin www (unificar dominio canónico)
+https://www.patagoniaexperiencias.com/* https://patagoniaexperiencias.com/:splat 301
+
+# Links viejos /octopus/ → raíz
+/octopus/* /:splat 301
+/octopus / 301
+
+# Subdominios históricos de campañas
+https://panel.patagoniaexperiencias.com/* https://patagoniaexperiencias.com/dashboard-prestadores.html 301
+https://catchubut.patagoniaexperiencias.com/* https://patagoniaexperiencias.com/preregistro 301
+https://cattdf.patagoniaexperiencias.com/* https://patagoniaexperiencias.com/preregistrotdf 301
+
+# ── Redirecciones de /guias/ viejas → páginas nuevas ─────────
+# (pendiente: se completan con el listado de la carpeta guias/)

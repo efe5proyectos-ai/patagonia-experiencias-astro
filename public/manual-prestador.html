@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Meta Pixel Base · Patagonia Experiencias -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window,document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '1501384968138883');
+      fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=1501384968138883&ev=PageView&noscript=1"/></noscript>
+    <!-- End Meta Pixel -->
+    <title>Manual del Prestador | Patagonia Experiencias</title>
+    <meta name="description" content="Guía completa para prestadores de Patagonia Experiencias: cómo cargar servicios, gestionar reservas, entender comisiones y más.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-fuchsia': '#E91E63',
+                        'brand-fuchsiaDark': '#C2185B',
+                        'brand-oxford': '#2c3e50',
+                        'brand-snow': '#FDFDFD',
+                        'brand-border': '#e5e7eb',
+                        'brand-grayLight': '#F8FAFC',
+                    },
+                    fontFamily: {
+                        'sans': ['Plus Jakarta Sans', 'sans-serif'],
+                        'title': ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html { scroll-behavior: smooth; }
+        html, body { overflow-x: hidden; max-width: 100%; }
+        body { background: #FDFDFD; color: #2c3e50; }
+        /* Scroll suave con offset para el navbar fijo */
+        section[id] { scroll-margin-top: 90px; }
+        /* Item activo del índice */
+        .toc-link.active {
+            color: #E91E63;
+            border-left-color: #E91E63;
+            font-weight: 700;
+        }
+        .toc-link {
+            border-left: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="font-sans">
+
+    <!-- NAVBAR -->
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-brand-border shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex justify-between items-center">
+            <a href="patagonia-experiencias.html" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                <div class="w-10 h-10 bg-brand-fuchsia rounded-xl flex items-center justify-center text-white shadow-lg shadow-brand-fuchsia/30">
+                    <i class="fa-solid fa-location-dot text-lg"></i>
+                </div>
+                <span class="font-bold text-xl tracking-tight font-title">Patagonia<span class="text-brand-fuchsia">Experiencias</span></span>
+            </a>
+            <div class="hidden md:flex gap-6 items-center font-medium text-sm">
+                <a href="prestadores.html" class="hover:text-brand-fuchsia transition-colors">Volver al portal</a>
+                <a href="prestadores.html" class="bg-brand-fuchsia text-white px-5 py-2.5 rounded-full font-semibold shadow-md hover:bg-brand-fuchsiaDark transition-colors">Acceso Prestador</a>
+            </div>
+            <a href="prestadores.html" class="md:hidden bg-brand-fuchsia text-white px-4 py-2 rounded-full text-sm font-semibold">Acceder</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="pt-32 pb-16 bg-gradient-to-br from-brand-oxford via-brand-fuchsiaDark to-brand-fuchsia text-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 font-medium text-sm mb-6">
+                <i class="fa-solid fa-book-open"></i>
+                Manual del Prestador
+            </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-5 tracking-tight font-title">Todo lo que necesitás saber para vender más</h1>
+            <p class="text-lg text-white/90 font-light max-w-2xl mx-auto">Una guía simple y directa para sacarle el máximo provecho a tu cuenta en Patagonia Experiencias.</p>
+        </div>
+    </header>
+
+    <!-- CONTENIDO + ÍNDICE -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex gap-12">
+
+        <!-- ÍNDICE LATERAL (sticky) -->
+        <aside class="hidden lg:block w-64 flex-shrink-0">
+            <div class="sticky top-28">
+                <p class="text-[11px] font-bold uppercase tracking-widest text-gray-400 mb-4">Contenido</p>
+                <nav class="space-y-1 text-sm">
+                    <a href="#empezar" class="toc-link block pl-4 py-2 text-gray-600 hover:text-brand-fuchsia">1. Cómo empezar</a>
+                    <a href="#cargar" class="toc-link block pl-4 py-2 text-gray-600 hover:text-brand-fuchsia">2. Cargar un servicio</a>
+                    <a href="#precios" class="toc-link block pl-4 py-2 text-gray-600 hover:text-brand-fuchsia">3. Precios y seña</a>
+                    <a href="#modelo" class="toc-link block pl-4 py-2 text-gray-600 hover:text-brand-fuchsia">4. Por qué este modelo</a>
+                    <a href="#comision-especial" class="toc-link block pl-4 py-2 text-gray-600 hover:text-brand-fuchsia">5. Comisión especial</a>
+                    <a href="#reservas" class="toc-link block pl-4 py-2 text-gray-600 hover:text-brand-fuchsia">6. Gestionar reservas</a>
+                    <a href="#resenas" class="toc-link block pl-4 py-2 text-gray-600 hover:text-brand-fuchsia">7. Reseñas</a>
+                    <a href="#notificaciones" class="toc-link block pl-4 py-2 text-gray-600 hover:text-brand-fuchsia">8. Notificaciones</a>
+                    <a href="#planes" class="toc-link block pl-4 py-2 text-gray-600 hover:text-brand-fuchsia">9. Planes</a>
+                    <a href="#faq" class="toc-link block pl-4 py-2 text-gray-600 hover:text-brand-fuchsia">10. Preguntas frecuentes</a>
+                    <a href="#soporte" class="toc-link block pl-4 py-2 text-gray-600 hover:text-brand-fuchsia">11. Soporte</a>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- ARTÍCULO -->
+        <main class="flex-1 min-w-0 max-w-3xl space-y-16">
+
+            <!-- 1. EMPEZAR -->
+            <section id="empezar">
+                <div class="flex items-center gap-3 mb-5">
+                    <span class="w-9 h-9 rounded-lg bg-brand-fuchsia/10 text-brand-fuchsia flex items-center justify-center font-bold font-title">1</span>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-brand-oxford font-title">Cómo empezar</h2>
+                </div>
+                <p class="text-gray-600 leading-relaxed mb-4">Sumarte a la plataforma es rápido y no requiere conocimientos técnicos. Solo necesitás una cuenta de Google.</p>
+                <ol class="space-y-3">
+                    <li class="flex gap-3"><i class="fa-solid fa-circle-check text-brand-fuchsia mt-1"></i><span class="text-gray-700"><strong>Ingresá al portal</strong> de prestadores y hacé clic en "Acceso Prestador".</span></li>
+                    <li class="flex gap-3"><i class="fa-solid fa-circle-check text-brand-fuchsia mt-1"></i><span class="text-gray-700"><strong>Iniciá sesión con Google.</strong> Tu email se usa como identificador seguro y para contactarte.</span></li>
+                    <li class="flex gap-3"><i class="fa-solid fa-circle-check text-brand-fuchsia mt-1"></i><span class="text-gray-700"><strong>Completá los datos de tu empresa:</strong> nombre, logo, descripción, ubicación y redes.</span></li>
+                </ol>
+            </section>
+
+            <!-- 2. CARGAR -->
+            <section id="cargar">
+                <div class="flex items-center gap-3 mb-5">
+                    <span class="w-9 h-9 rounded-lg bg-brand-fuchsia/10 text-brand-fuchsia flex items-center justify-center font-bold font-title">2</span>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-brand-oxford font-title">Cargar un servicio</h2>
+                </div>
+                <p class="text-gray-600 leading-relaxed mb-4">Desde tu panel, en "Mis Experiencias", podés crear todos tus servicios: tours, hospedaje, gastronomía o transporte.</p>
+                <div class="bg-brand-grayLight rounded-2xl p-6 space-y-3 border border-brand-border">
+                    <p class="font-bold text-brand-oxford mb-2">Datos de cada servicio:</p>
+                    <div class="grid sm:grid-cols-2 gap-3 text-sm text-gray-700">
+                        <div class="flex gap-2"><i class="fa-solid fa-image text-brand-fuchsia mt-0.5"></i> Fotos del servicio</div>
+                        <div class="flex gap-2"><i class="fa-solid fa-tag text-brand-fuchsia mt-0.5"></i> Título y categoría</div>
+                        <div class="flex gap-2"><i class="fa-solid fa-align-left text-brand-fuchsia mt-0.5"></i> Descripción</div>
+                        <div class="flex gap-2"><i class="fa-solid fa-dollar-sign text-brand-fuchsia mt-0.5"></i> Precio de lista</div>
+                        <div class="flex gap-2"><i class="fa-solid fa-clock text-brand-fuchsia mt-0.5"></i> Duración / formato</div>
+                        <div class="flex gap-2"><i class="fa-solid fa-bullhorn text-brand-fuchsia mt-0.5"></i> Cartel de urgencia (opcional)</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. PRECIOS Y SEÑA (DINÁMICO) -->
+            <section id="precios">
+                <div class="flex items-center gap-3 mb-5">
+                    <span class="w-9 h-9 rounded-lg bg-brand-fuchsia/10 text-brand-fuchsia flex items-center justify-center font-bold font-title">3</span>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-brand-oxford font-title">Precios, comisión y seña</h2>
+                </div>
+                <p class="text-gray-600 leading-relaxed mb-4">El turista paga una <strong>seña online</strong> (un porcentaje del total) para asegurar su reserva. Vos cobrás el saldo restante al momento de prestar el servicio. La seña equivale a la comisión de tu plan.</p>
+
+                <div class="bg-gradient-to-br from-brand-grayLight to-white rounded-2xl p-6 border border-brand-border">
+                    <p class="font-bold text-brand-oxford mb-1">Ejemplo en vivo <span class="text-xs font-normal text-gray-400">(según tu plan)</span></p>
+                    <p class="text-xs text-gray-500 mb-5">Plan de referencia: <span id="plan-ref-nombre" class="font-semibold text-brand-fuchsia">cargando...</span> · comisión <span id="plan-ref-comision" class="font-semibold">--</span></p>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3" id="ejemplo-cards">
+                        <div class="bg-white rounded-xl p-4 border border-slate-200">
+                            <p class="text-[9px] uppercase tracking-widest text-gray-400 font-bold mb-1">Precio total</p>
+                            <p class="text-xl font-extrabold text-brand-oxford font-title" id="ej-total">--</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-4 border border-emerald-200">
+                            <p class="text-[9px] uppercase tracking-widest text-emerald-600 font-bold mb-1">Comisión</p>
+                            <p class="text-xl font-extrabold text-emerald-700 font-title" id="ej-comision">--</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-4 border border-brand-fuchsia/30">
+                            <p class="text-[9px] uppercase tracking-widest text-brand-fuchsia font-bold mb-1">Seña online</p>
+                            <p class="text-xl font-extrabold text-brand-fuchsia font-title" id="ej-senia">--</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-4 border border-violet-200">
+                            <p class="text-[9px] uppercase tracking-widest text-violet-600 font-bold mb-1">Saldo destino</p>
+                            <p class="text-xl font-extrabold text-violet-700 font-title" id="ej-saldo">--</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-4"><i class="fa-solid fa-circle-info text-brand-fuchsia mr-1"></i> El turista paga <span id="ej-senia-inline" class="font-bold">--</span> para reservar. Vos cobrás <span id="ej-saldo-inline" class="font-bold">--</span> al prestar el servicio. <strong>Sin no-shows.</strong></p>
+                </div>
+                <p class="text-xs text-gray-400 mt-3 italic">Los valores se actualizan automáticamente con la configuración real de los planes. No es necesario editar este manual cuando cambian precios o comisiones.</p>
+            </section>
+
+            <!-- 4. POR QUÉ ESTE MODELO -->
+            <section id="modelo">
+                <div class="flex items-center gap-3 mb-5">
+                    <span class="w-9 h-9 rounded-lg bg-brand-fuchsia/10 text-brand-fuchsia flex items-center justify-center font-bold font-title">4</span>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-brand-oxford font-title">Por qué este modelo</h2>
+                </div>
+                <p class="text-gray-600 leading-relaxed mb-6">Nuestro modelo combina <strong>suscripción</strong> y <strong>comisión</strong>, y cada parte tiene un propósito claro. No es un costo: es una inversión en visibilidad para vos y en turismo para toda la región.</p>
+
+                <div class="space-y-4">
+                    <!-- Suscripción -->
+                    <div class="bg-brand-grayLight rounded-2xl p-6 border border-brand-border">
+                        <div class="flex items-start gap-4">
+                            <span class="w-11 h-11 rounded-xl bg-brand-fuchsia/10 text-brand-fuchsia flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-crown text-lg"></i></span>
+                            <div>
+                                <p class="font-bold text-brand-oxford mb-1">¿Por qué hay suscripción?</p>
+                                <p class="text-sm text-gray-600 leading-relaxed">Cada plan desbloquea más beneficios dentro de la plataforma: mejor <strong>ubicación y posicionamiento</strong>, <strong>micrositio</strong> propio, <strong>mensajes directos</strong> con turistas, galería de fotos, estadísticas y más herramientas de venta. A mayor plan, más visibilidad y mejores herramientas.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Comisión -->
+                    <div class="bg-brand-grayLight rounded-2xl p-6 border border-brand-border">
+                        <div class="flex items-start gap-4">
+                            <span class="w-11 h-11 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-arrow-trend-down text-lg"></i></span>
+                            <div>
+                                <p class="font-bold text-brand-oxford mb-1">¿Por qué hay comisión, y por qué baja?</p>
+                                <p class="text-sm text-gray-600 leading-relaxed">La comisión es <strong>menor cuanto mayor es el plan que adquirís</strong>. Es decir: a medida que invertís más en tu suscripción, pagás menos comisión y accedés a mejores herramientas de venta y posicionamiento. Premiamos tu compromiso con la plataforma.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 50% publicidad - destacado -->
+                    <div class="bg-gradient-to-br from-brand-oxford to-brand-fuchsiaDark rounded-2xl p-7 text-white">
+                        <div class="flex items-start gap-4">
+                            <span class="w-12 h-12 rounded-xl bg-white/15 flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-bullhorn text-xl"></i></span>
+                            <div>
+                                <p class="text-xs uppercase tracking-widest text-white/70 font-bold mb-1">El corazón del sistema</p>
+                                <p class="font-extrabold text-xl mb-2 font-title">El 50% se reinvierte en promocionar los destinos</p>
+                                <p class="text-sm text-white/90 leading-relaxed">La mitad de cada suscripción se destina a <strong>publicidad programática de los destinos patagónicos a nivel nacional</strong>, segmentada a los públicos de mayor interés. Tu inversión no se queda en una plataforma: vuelve al territorio en forma de turistas reales que descubren la Patagonia y, dentro de ella, tu negocio.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. COMISIÓN ESPECIAL -->
+            <section id="comision-especial">
+                <div class="flex items-center gap-3 mb-5">
+                    <span class="w-9 h-9 rounded-lg bg-brand-fuchsia/10 text-brand-fuchsia flex items-center justify-center font-bold font-title">5</span>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-brand-oxford font-title">Comisión especial por tour</h2>
+                </div>
+                <p class="text-gray-600 leading-relaxed mb-4">¿Querés impulsar un servicio en particular? Podés <strong>subir la comisión</strong> de ese tour por encima de la de tu plan. Cuanto mayor sea la comisión, mayor será el descuento que ve el turista, y más atractivo se vuelve tu servicio en la plataforma.</p>
+                <div class="bg-violet-50 border border-violet-200 rounded-2xl p-6 flex gap-4">
+                    <i class="fa-solid fa-bolt text-violet-600 text-2xl mt-1"></i>
+                    <div>
+                        <p class="font-bold text-violet-800 mb-1">Importante</p>
+                        <p class="text-sm text-violet-700 leading-relaxed">La comisión especial solo puede ser <strong>mayor o igual</strong> a la de tu plan, nunca menor. Si dejás el campo vacío, se usa la comisión normal de tu plan.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. RESERVAS -->
+            <section id="reservas">
+                <div class="flex items-center gap-3 mb-5">
+                    <span class="w-9 h-9 rounded-lg bg-brand-fuchsia/10 text-brand-fuchsia flex items-center justify-center font-bold font-title">6</span>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-brand-oxford font-title">Gestionar reservas</h2>
+                </div>
+                <p class="text-gray-600 leading-relaxed mb-4">En "Gestión de Reservas" ves todas las reservas de tus servicios en tiempo real.</p>
+                <ul class="space-y-3">
+                    <li class="flex gap-3"><i class="fa-solid fa-bell text-brand-fuchsia mt-1"></i><span class="text-gray-700">Recibís una <strong>notificación</strong> cada vez que entra una reserva nueva.</span></li>
+                    <li class="flex gap-3"><i class="fa-solid fa-circle-check text-brand-fuchsia mt-1"></i><span class="text-gray-700">Cuando el turista llega y le cobrás el saldo, marcás la reserva como <strong>"Pagado"</strong>.</span></li>
+                    <li class="flex gap-3"><i class="fa-solid fa-calendar-check text-brand-fuchsia mt-1"></i><span class="text-gray-700">El sistema lleva el registro de cada reserva con su estado.</span></li>
+                </ul>
+            </section>
+
+            <!-- 6. RESEÑAS -->
+            <section id="resenas">
+                <div class="flex items-center gap-3 mb-5">
+                    <span class="w-9 h-9 rounded-lg bg-brand-fuchsia/10 text-brand-fuchsia flex items-center justify-center font-bold font-title">7</span>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-brand-oxford font-title">Reseñas</h2>
+                </div>
+                <p class="text-gray-600 leading-relaxed mb-4">Solo los turistas que reservaron pueden dejar reseñas verificadas. Esto construye confianza real ante futuros clientes.</p>
+                <ul class="space-y-3">
+                    <li class="flex gap-3"><i class="fa-solid fa-reply text-brand-fuchsia mt-1"></i><span class="text-gray-700">Podés <strong>responder</strong> cada reseña desde tu panel.</span></li>
+                    <li class="flex gap-3"><i class="fa-solid fa-star text-brand-fuchsia mt-1"></i><span class="text-gray-700">Las reseñas suman a tu reputación dentro de la red.</span></li>
+                </ul>
+            </section>
+
+            <!-- 7. NOTIFICACIONES -->
+            <section id="notificaciones">
+                <div class="flex items-center gap-3 mb-5">
+                    <span class="w-9 h-9 rounded-lg bg-brand-fuchsia/10 text-brand-fuchsia flex items-center justify-center font-bold font-title">8</span>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-brand-oxford font-title">Notificaciones</h2>
+                </div>
+                <p class="text-gray-600 leading-relaxed">El ícono de campana en tu panel te avisa de reservas nuevas, pagos y novedades. Un número rojo indica cuántas notificaciones sin leer tenés.</p>
+            </section>
+
+            <!-- 8. PLANES (DINÁMICO) -->
+            <section id="planes">
+                <div class="flex items-center gap-3 mb-5">
+                    <span class="w-9 h-9 rounded-lg bg-brand-fuchsia/10 text-brand-fuchsia flex items-center justify-center font-bold font-title">9</span>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-brand-oxford font-title">Planes disponibles</h2>
+                </div>
+                <p class="text-gray-600 leading-relaxed mb-5">Elegí el plan que mejor se adapte a tu negocio. Estos son los planes actuales:</p>
+                <div class="grid sm:grid-cols-3 gap-4" id="planes-container">
+                    <div class="text-center text-gray-400 py-8 col-span-3"><i class="fa-solid fa-circle-notch fa-spin"></i> Cargando planes...</div>
+                </div>
+                <p class="text-center mt-6"><a href="prestadores.html#precios" class="text-brand-fuchsia font-semibold hover:underline">Ver todos los detalles de los planes <i class="fa-solid fa-arrow-right text-xs"></i></a></p>
+            </section>
+
+            <!-- 9. FAQ -->
+            <section id="faq">
+                <div class="flex items-center gap-3 mb-5">
+                    <span class="w-9 h-9 rounded-lg bg-brand-fuchsia/10 text-brand-fuchsia flex items-center justify-center font-bold font-title">10</span>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-brand-oxford font-title">Preguntas frecuentes</h2>
+                </div>
+                <div class="space-y-3" id="faq-list">
+                    <details class="bg-brand-grayLight rounded-xl p-5 border border-brand-border group">
+                        <summary class="font-semibold text-brand-oxford cursor-pointer flex justify-between items-center">¿Tengo que pagar comisión por venta? <i class="fa-solid fa-chevron-down text-brand-fuchsia text-sm group-open:rotate-180 transition-transform"></i></summary>
+                        <p class="text-gray-600 text-sm mt-3 leading-relaxed">La seña que paga el turista equivale a la comisión de tu plan. No hay cargos ocultos: pagás tu suscripción mensual o anual y listo.</p>
+                    </details>
+                    <details class="bg-brand-grayLight rounded-xl p-5 border border-brand-border group">
+                        <summary class="font-semibold text-brand-oxford cursor-pointer flex justify-between items-center">¿Cómo cobro el saldo restante? <i class="fa-solid fa-chevron-down text-brand-fuchsia text-sm group-open:rotate-180 transition-transform"></i></summary>
+                        <p class="text-gray-600 text-sm mt-3 leading-relaxed">El saldo lo cobrás directamente vos al turista cuando presta el servicio, en efectivo o el medio que prefieras. Después marcás la reserva como "Pagado".</p>
+                    </details>
+                    <details class="bg-brand-grayLight rounded-xl p-5 border border-brand-border group">
+                        <summary class="font-semibold text-brand-oxford cursor-pointer flex justify-between items-center">¿Puedo cambiar de plan? <i class="fa-solid fa-chevron-down text-brand-fuchsia text-sm group-open:rotate-180 transition-transform"></i></summary>
+                        <p class="text-gray-600 text-sm mt-3 leading-relaxed">Sí, podés mejorar tu plan en cualquier momento desde tu panel para acceder a más beneficios y visibilidad.</p>
+                    </details>
+                    <details class="bg-brand-grayLight rounded-xl p-5 border border-brand-border group">
+                        <summary class="font-semibold text-brand-oxford cursor-pointer flex justify-between items-center">¿Qué pasa si un turista no se presenta? <i class="fa-solid fa-chevron-down text-brand-fuchsia text-sm group-open:rotate-180 transition-transform"></i></summary>
+                        <p class="text-gray-600 text-sm mt-3 leading-relaxed">La seña ya está pagada, así que el no-show te perjudica mucho menos. La seña funciona como filtro: reservan quienes realmente van a ir.</p>
+                    </details>
+                </div>
+            </section>
+
+            <!-- 10. SOPORTE -->
+            <section id="soporte">
+                <div class="flex items-center gap-3 mb-5">
+                    <span class="w-9 h-9 rounded-lg bg-brand-fuchsia/10 text-brand-fuchsia flex items-center justify-center font-bold font-title">11</span>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-brand-oxford font-title">Soporte</h2>
+                </div>
+                <div class="bg-gradient-to-br from-brand-oxford to-brand-fuchsiaDark rounded-2xl p-8 text-white">
+                    <p class="text-xl font-bold mb-4 font-title">¿Necesitás ayuda?</p>
+                    <div class="space-y-3 text-white/90">
+                        <a href="https://wa.me/5492804356028" target="_blank" rel="noopener" class="flex items-center gap-3 hover:text-white transition-colors"><i class="fa-brands fa-whatsapp text-xl"></i> +54 9 2804 35-6028</a>
+                        <a href="/cdn-cgi/l/email-protection#771f181b1637071603161018191e16120f0712051e1219141e16045914181a" class="flex items-center gap-3 hover:text-white transition-colors"><i class="fa-regular fa-envelope text-xl"></i> <span class="__cf_email__" data-cfemail="9bf3f4f7fadbebfaeffafcf4f5f2fafee3ebfee9f2fef5f8f2fae8b5f8f4f6">[email&#160;protected]</span></a>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- FOOTER -->
+    <div id="patagonia-footer"></div>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="footer.js"></script>
+
+    <script>
+        const firebaseConfig = {
+          apiKey: "AIzaSyDZkeRgN45FkOF8pO2rGxDJA28VZnZ8Ntg",
+          authDomain: "patagonia-experiencias.firebaseapp.com",
+          projectId: "patagonia-experiencias",
+          storageBucket: "patagonia-experiencias.firebasestorage.app",
+          messagingSenderId: "169796366610",
+          appId: "1:169796366610:web:3e2c7e65262933647983cb",
+          measurementId: "G-NF2R0BJG34"
+        };
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const appId = 'patagonia-experiencias-app';
+
+        // El año del footer ahora lo maneja footer.js (footer compartido).
+        var _elYear = document.getElementById('year');
+        if (_elYear) _elYear.textContent = new Date().getFullYear();
+
+        // Fallback de planes (mismos valores que admin) por si falla Firestore
+        const PLANES_FALLBACK = {
+            esencial:    { nombre: 'Plan Esencial',    precioMensual: 50000,  comision: 20, orden: 0, features: 'Visibilidad básica en el directorio\nPerfil con logo y dirección\nSin métricas de rendimiento' },
+            crecimiento: { nombre: 'Plan Crecimiento', precioMensual: 80000,  comision: 20, orden: 1, destacado: true, features: 'Micrositio exclusivo\nPosicionamiento destacado\nGalería de fotos HD\nEstadísticas' },
+            full:        { nombre: 'Publicidad Full',   precioMensual: 120000, comision: 15, orden: 2, features: 'Todo lo del Plan Crecimiento\nBanners rotativos\nPauta en Redes\nRevista Patagonia Magazine' }
+        };
+
+        const fmt = (n) => '$' + Number(n || 0).toLocaleString('es-AR');
+
+        function renderEjemplo(planes) {
+            // Elegir plan de referencia: el destacado o el primero con comisión > 0
+            let ref = null;
+            const arr = Object.values(planes).filter(p => Number(p.precioMensual) > 0).sort((a,b) => (a.orden||0) - (b.orden||0));
+            ref = arr.find(p => p.destacado) || arr.find(p => Number(p.comision) > 0) || arr[0];
+            if (!ref) return;
+
+            const total = 30000; // monto de ejemplo fijo (solo ilustrativo)
+            const comisionPct = Number(ref.comision) || 0;
+            const comisionMonto = Math.round(total * comisionPct / 100);
+            const senia = comisionMonto;          // la seña = comisión
+            const saldo = total - comisionMonto;  // saldo en destino
+
+            document.getElementById('plan-ref-nombre').textContent = ref.nombre || 'Plan';
+            document.getElementById('plan-ref-comision').textContent = comisionPct + '%';
+            document.getElementById('ej-total').textContent = fmt(total);
+            document.getElementById('ej-comision').textContent = fmt(comisionMonto);
+            document.getElementById('ej-senia').textContent = fmt(senia);
+            document.getElementById('ej-saldo').textContent = fmt(saldo);
+            document.getElementById('ej-senia-inline').textContent = fmt(senia);
+            document.getElementById('ej-saldo-inline').textContent = fmt(saldo);
+        }
+
+        function renderPlanes(planes) {
+            const cont = document.getElementById('planes-container');
+            // Solo planes pagos (precio > 0). Cualquier plan en $0 o sin precio
+            // (ej: un plan gratis viejo en Firebase) NO se muestra en el manual.
+            const arr = Object.values(planes).filter(p => Number(p.precioMensual) > 0).sort((a,b) => (a.orden||0) - (b.orden||0));
+            cont.innerHTML = arr.map(p => {
+                const feats = (p.features || '').split('\n').filter(Boolean).slice(0,4);
+                const destacado = p.destacado;
+                return `
+                <div class="rounded-2xl p-5 border ${destacado ? 'border-brand-fuchsia bg-brand-fuchsia/5' : 'border-brand-border bg-white'}">
+                    <p class="font-bold text-brand-oxford font-title">${p.nombre || ''}</p>
+                    <p class="text-2xl font-extrabold text-brand-fuchsia font-title my-2">${fmt(p.precioMensual)}<span class="text-xs text-gray-400 font-normal">/mes</span></p>
+                    <p class="text-[11px] uppercase tracking-widest text-gray-400 font-bold mb-3">Comisión ${Number(p.comision)||40}%</p>
+                    <ul class="space-y-1.5 text-sm text-gray-600">
+                        ${feats.map(f => `<li class="flex gap-2"><i class="fa-solid fa-check text-brand-fuchsia mt-1 text-xs"></i> ${f}</li>`).join('')}
+                    </ul>
+                </div>`;
+            }).join('');
+        }
+
+        // Cargar planes desde Firestore (fuente única de verdad)
+        db.collection('artifacts').doc(appId).collection('public').doc('data').collection('configuracion').doc('planes').get()
+            .then(doc => {
+                const planes = (doc.exists && Object.keys(doc.data()).length) ? doc.data() : PLANES_FALLBACK;
+                renderEjemplo(planes);
+                renderPlanes(planes);
+            })
+            .catch(err => {
+                console.warn('No se pudo cargar planes, usando fallback:', err);
+                renderEjemplo(PLANES_FALLBACK);
+                renderPlanes(PLANES_FALLBACK);
+            });
+
+        // Scroll-spy para resaltar el ítem activo del índice
+        const sections = document.querySelectorAll('section[id]');
+        const tocLinks = document.querySelectorAll('.toc-link');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    tocLinks.forEach(l => l.classList.remove('active'));
+                    const active = document.querySelector(`.toc-link[href="#${entry.target.id}"]`);
+                    if (active) active.classList.add('active');
+                }
+            });
+        }, { rootMargin: '-20% 0px -70% 0px' });
+        sections.forEach(s => observer.observe(s));
+    </script>
+</body>
+</html>

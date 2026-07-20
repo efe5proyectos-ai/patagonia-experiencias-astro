@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Meta Pixel Base · Patagonia Experiencias -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window,document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '1501384968138883');
+      fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=1501384968138883&ev=PageView&noscript=1"/></noscript>
+    <!-- End Meta Pixel -->
+
+    <title>Guías Patagónicas · Patagonia Experiencias</title>
+    <meta name="description" content="Todas nuestras guías digitales de la Patagonia: qué hacer, precios reales y beneficios exclusivos. Descarga inmediata.">
+    <meta property="og:title" content="Guías Patagónicas · Patagonia Experiencias">
+    <meta property="og:description" content="Elegí tu destino. Guías digitales con todo lo que necesitás para viajar distinto.">
+    <meta property="og:type" content="website">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,900&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Firebase (mismo proyecto que la plataforma) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+    <script>
+      tailwind.config = {
+        theme: { extend: {
+          fontFamily: { display: ['Fraunces','serif'], sans: ['Montserrat','sans-serif'] },
+          colors: { brand: { fuchsia:'#E91E63', fuchsiaDark:'#C2185B', oxford:'#16222e', ink:'#0c1318' } }
+        } }
+      }
+    </script>
+    <style>
+      body { font-family:'Montserrat',sans-serif; background:#0c1318; color:#f4f1ec; -webkit-font-smoothing:antialiased; }
+      .font-display { font-family:'Fraunces',serif; }
+      .reveal { opacity:0; transform:translateY(20px); animation:reveal .8s cubic-bezier(.2,.7,.2,1) forwards; }
+      @keyframes reveal { to { opacity:1; transform:none; } }
+      .price-strike { position:relative; }
+      .price-strike::after { content:""; position:absolute; left:-4%; right:-4%; top:52%; height:2px; background:#ff5e8a; transform:rotate(-8deg); }
+      .glass { background:rgba(255,255,255,.04); backdrop-filter:blur(14px); border:1px solid rgba(255,255,255,.09); }
+      .card-guia { transition:transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease; }
+      .card-guia:hover { transform:translateY(-6px); box-shadow:0 18px 40px -12px rgba(233,30,99,.35); }
+      .card-guia:hover .card-img { transform:scale(1.05); }
+      .card-img { transition:transform .5s cubic-bezier(.2,.7,.2,1); }
+    </style>
+</head>
+<body class="selection:bg-brand-fuchsia selection:text-white overflow-x-hidden">
+
+  <header class="relative z-20 border-b border-white/5">
+    <div class="max-w-6xl mx-auto px-5 py-4 flex items-center justify-between">
+      <a href="patagonia-experiencias.html" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 bg-brand-fuchsia rounded-xl flex items-center justify-center text-white shadow-lg shadow-brand-fuchsia/20 group-hover:scale-105 transition-transform">
+          <i class="fa-solid fa-map-location-dot text-lg"></i>
+        </div>
+        <div>
+          <span class="font-sans font-bold text-xl tracking-tight block leading-none text-white">Patagonia<span class="text-brand-fuchsia">Experiencias</span></span>
+          <span class="text-[9px] uppercase tracking-[0.2em] font-bold text-white/70">Guía de Viajeros</span>
+        </div>
+      </a>
+      <a href="patagonia-experiencias.html" class="text-[11px] font-semibold text-white/55 hover:text-white transition-colors flex items-center gap-1.5">
+        Ver excursiones <i class="fa-solid fa-arrow-right text-[9px]"></i>
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero / título de la galería -->
+  <section class="relative z-10 max-w-6xl mx-auto px-5 pt-12 pb-8 text-center">
+    <p class="text-[11px] uppercase tracking-[0.22em] text-brand-fuchsia font-bold mb-3 reveal">Guías digitales</p>
+    <h1 class="font-display text-4xl md:text-5xl font-semibold text-white leading-tight reveal" style="animation-delay:.05s">
+      Elegí tu próxima aventura
+    </h1>
+    <p class="text-sm md:text-base text-white/55 mt-4 max-w-xl mx-auto reveal" style="animation-delay:.12s">
+      Guías inteligentes con qué hacer, precios reales y beneficios exclusivos. Descarga inmediata por email.
+    </p>
+  </section>
+
+  <!-- Loader -->
+  <div id="loader" class="min-h-[40vh] flex flex-col items-center justify-center gap-4 text-white/40">
+    <i class="fa-solid fa-spinner fa-spin text-2xl"></i>
+    <p class="text-sm">Cargando guías...</p>
+  </div>
+
+  <!-- Grilla de guías -->
+  <main id="grid" class="relative z-10 hidden max-w-6xl mx-auto px-5 pb-16">
+    <div id="cards" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+  </main>
+
+  <!-- Estado vacío -->
+  <div id="vacio" class="hidden min-h-[40vh] flex-col items-center justify-center gap-3 text-center px-5">
+    <i class="fa-solid fa-mountain-sun text-3xl text-white/30"></i>
+    <p class="text-sm text-white/50">Pronto vas a encontrar acá nuestras guías.</p>
+  </div>
+
+  <footer class="relative z-10 border-t border-white/10 mt-8 mb-12">
+    <div class="max-w-6xl mx-auto px-5 py-8 flex flex-col items-center gap-3 text-[11px] text-white/40 text-center">
+      <p>&copy; <span id="anio"></span> Patagonia Experiencias — efe5 proyectos srl.</p>
+      <div class="flex items-center gap-4">
+        <a href="terminos.html" class="hover:text-white/70 transition-colors">Términos</a>
+        <a href="privacidad.html" class="hover:text-white/70 transition-colors">Privacidad</a>
+        <a href="https://wa.me/5492804356028" class="hover:text-white/70 transition-colors flex items-center gap-1.5"><i class="fa-brands fa-whatsapp"></i> +54 9 2804 35-6028</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDZkeRgN45FkOF8pO2rGxDJA28VZnZ8Ntg",
+      authDomain: "patagonia-experiencias.firebaseapp.com",
+      projectId: "patagonia-experiencias",
+      storageBucket: "patagonia-experiencias.firebasestorage.app",
+      messagingSenderId: "169796366610",
+      appId: "1:169796366610:web:3e2c7e65262933647983cb",
+      measurementId: "G-NF2R0BJG34"
+    };
+    if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
+    const db = firebase.firestore();
+    const appId = 'patagonia-experiencias-app';
+
+    document.getElementById('anio').textContent = new Date().getFullYear();
+    const fmt = n => '$' + Number(n||0).toLocaleString('es-AR');
+
+    const guiasRef = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('guias');
+
+    function tarjeta(guia){
+      const precioFinal = guia.descuentoPct>0 ? Math.round(guia.precioLista*(1-guia.descuentoPct/100)) : guia.precioLista;
+      const imagenes = Array.isArray(guia.imagenes) ? guia.imagenes : [];
+      const portada = imagenes[0] || '';
+      const slug = guia.slug || guia.id;
+
+      const imgHTML = portada
+        ? `<img src="${portada}" alt="${guia.region||guia.titulo||'Guía'}" loading="lazy" class="card-img w-full h-full object-cover" />`
+        : `<div class="w-full h-full flex items-center justify-center bg-white/5"><i class="fa-solid fa-mountain-sun text-4xl text-white/20"></i></div>`;
+
+      const descuentoBadge = guia.descuentoPct>0
+        ? `<span class="absolute top-3 left-3 bg-brand-fuchsia text-white text-[11px] font-bold px-2.5 py-1 rounded-lg shadow-lg">${guia.descuentoPct}% OFF</span>`
+        : '';
+
+      return `
+        <a href="guias.html?slug=${encodeURIComponent(slug)}"
+           class="card-guia group block glass rounded-3xl overflow-hidden reveal">
+          <div class="relative aspect-[3/4] overflow-hidden">
+            ${imgHTML}
+            ${descuentoBadge}
+            <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/70 to-transparent"></div>
+          </div>
+          <div class="p-5">
+            <p class="text-[10px] uppercase tracking-[0.18em] text-brand-fuchsia font-bold mb-1.5">Guía digital</p>
+            <h2 class="font-display text-xl font-semibold text-white leading-tight mb-3">${guia.region || guia.titulo || 'Guía'}</h2>
+            <div class="flex items-end gap-2 mb-4">
+              ${ guia.descuentoPct>0 ? `<span class="price-strike text-sm text-white/35 font-semibold">${fmt(guia.precioLista)}</span>` : '' }
+              <span class="font-display text-2xl font-semibold text-white leading-none">${fmt(precioFinal)}</span>
+            </div>
+            <span class="w-full bg-brand-fuchsia group-hover:bg-brand-fuchsiaDark text-white text-sm font-bold py-3 rounded-xl flex items-center justify-center gap-2 transition-colors">
+              Ver guía <i class="fa-solid fa-arrow-right text-xs"></i>
+            </span>
+          </div>
+        </a>`;
+    }
+
+    (async function init(){
+      try {
+        const snap = await guiasRef.where('estado','==','Publicada').orderBy('orden','asc').get();
+        if (snap.empty) {
+          document.getElementById('loader').classList.add('hidden');
+          const v = document.getElementById('vacio');
+          v.classList.remove('hidden'); v.classList.add('flex');
+          return;
+        }
+        const cards = document.getElementById('cards');
+        let html = '';
+        let delay = 0;
+        snap.forEach(doc => {
+          const guia = { id: doc.id, ...doc.data() };
+          // delay escalonado para la animación de entrada
+          html += tarjeta(guia).replace('class="card-guia group block glass rounded-3xl overflow-hidden reveal"',
+            `class="card-guia group block glass rounded-3xl overflow-hidden reveal" style="animation-delay:${delay}s"`);
+          delay += 0.07;
+        });
+        cards.innerHTML = html;
+        document.getElementById('loader').classList.add('hidden');
+        document.getElementById('grid').classList.remove('hidden');
+      } catch (e) {
+        console.error(e);
+        document.getElementById('loader').classList.add('hidden');
+        const v = document.getElementById('vacio');
+        v.querySelector('p').textContent = 'Hubo un problema al cargar las guías. Recargá la página.';
+        v.classList.remove('hidden'); v.classList.add('flex');
+      }
+    })();
+  </script>
+</body>
+</html>

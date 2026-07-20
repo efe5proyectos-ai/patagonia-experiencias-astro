@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verificador de páginas · Patagonia Experiencias</title>
+<style>
+  body{font-family:system-ui,sans-serif;background:#111;color:#eee;padding:24px;line-height:1.6;max-width:900px;margin:0 auto}
+  h1{font-size:22px;margin-bottom:4px}
+  .sub{color:#888;font-size:14px;margin-bottom:20px}
+  .box{background:#1c1c20;border-radius:10px;padding:18px;margin-bottom:18px}
+  .ok{color:#4ade80}.fail{color:#f87171}.warn{color:#fbbf24}
+  .big{font-size:30px;font-weight:800;margin:0}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  td{padding:8px;border-bottom:1px solid #2a2a30}
+  td:first-child{width:26px}
+  code{background:#000;padding:2px 6px;border-radius:4px;font-size:13px}
+  textarea{width:100%;height:260px;background:#000;color:#4ade80;border:1px solid #333;border-radius:8px;padding:12px;font-family:monospace;font-size:12px;margin-top:10px}
+  button{background:#E6007E;color:#fff;border:none;padding:11px 18px;border-radius:99px;font-weight:700;cursor:pointer;margin-top:10px}
+</style>
+</head>
+<body>
+<h1>🔍 ¿Qué páginas existen?</h1>
+<div class="sub">Subí este archivo a la <b>raíz</b> de patagoniaexperiencias.com y abrilo. Detecta qué páginas hay y te genera el <code>sitemap.xml</code> con las que encuentre.</div>
+
+<div class="box">
+  <p class="big"><span id="ok" class="ok">0</span> páginas encontradas</p>
+  <p id="estado" style="margin:0;color:#888">Verificando…</p>
+</div>
+
+<div class="box"><table id="tabla"></table></div>
+
+<div class="box">
+  <b>📄 Tu sitemap.xml</b>
+  <div class="sub" style="margin:6px 0 0">Copialo, guardalo como <code>sitemap.xml</code> y subilo a la raíz.</div>
+  <textarea id="sitemap" readonly>Esperando…</textarea>
+  <button onclick="copiar()">Copiar sitemap</button>
+</div>
+
+<script>
+// Candidatas: las páginas conocidas + variantes típicas
+const CANDIDATAS = [
+  ['', '1.0', 'daily'],
+  ['patagonia-experiencias.html', '1.0', 'daily'],
+  ['aike.html', '0.9', 'weekly'],
+  ['guias.html', '0.9', 'weekly'],
+  ['guiadeviajeros.html', '0.8', 'weekly'],
+  ['prestadores.html', '0.7', 'monthly'],
+  ['puerto-madryn.html', '0.8', 'weekly'],
+  ['esquel-trevelin.html', '0.8', 'weekly'],
+  ['generador-destinos.html', '0.5', 'monthly'],
+  ['index.html', '1.0', 'daily'],
+  // guías nuevas (por si las subís acá)
+  ['guias/peninsula-valdes/', '0.9', 'monthly'],
+  ['guias/esquel-trevelin/', '0.9', 'monthly'],
+];
+
+// Estas NO van al sitemap aunque existan (privadas / técnicas)
+const EXCLUIR = ['admin-master.html','dashboard-prestadores.html','pago-confirmado.html'];
+
+const BASE = location.origin + '/';
+const HOY = new Date().toISOString().split('T')[0];
+let ok = 0, hechas = 0, encontradas = [];
+const tabla = document.getElementById('tabla');
+
+CANDIDATAS.forEach(function(c){
+  const url = c[0], prio = c[1], freq = c[2];
+  const tr = tabla.insertRow();
+  fetch(BASE + url, { method: 'GET', cache: 'no-store' })
+    .then(function(r){
+      if (r.ok) {
+        ok++;
+        encontradas.push({url: url, prio: prio, freq: freq});
+        tr.innerHTML = '<td class="ok">✓</td><td><code>/' + (url||'(home)') + '</code></td><td class="ok">existe</td><td style="color:#666">prioridad ' + prio + '</td>';
+      } else {
+        tr.innerHTML = '<td class="fail">✗</td><td><code>/' + (url||'(home)') + '</code></td><td class="fail">' + r.status + '</td><td></td>';
+      }
+      fin();
+    })
+    .catch(function(){
+      tr.innerHTML = '<td class="fail">✗</td><td><code>/' + (url||'(home)') + '</code></td><td class="fail">no existe</td><td></td>';
+      fin();
+    });
+});
+
+function fin(){
+  hechas++;
+  document.getElementById('ok').textContent = ok;
+  if (hechas < CANDIDATAS.length) return;
+
+  document.getElementById('estado').innerHTML = ok
+    ? '<span class="ok">Listo. Abajo tenés el sitemap generado.</span>'
+    : '<span class="fail">No encontré ninguna. ¿Subiste este archivo a la raíz del dominio?</span>';
+
+  // dedupe: si existen index.html Y la raíz, dejamos solo la raíz
+  const tieneRaiz = encontradas.some(function(e){ return e.url === ''; });
+  const lista = encontradas.filter(function(e){
+    if (tieneRaiz && e.url === 'index.html') return false;
+    return !EXCLUIR.includes(e.url);
+  });
+
+  let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+  xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+  lista.forEach(function(e){
+    xml += '  <url>\n';
+    xml += '    <loc>' + BASE + e.url + '</loc>\n';
+    xml += '    <lastmod>' + HOY + '</lastmod>\n';
+    xml += '    <changefreq>' + e.freq + '</changefreq>\n';
+    xml += '    <priority>' + e.prio + '</priority>\n';
+    xml += '  </url>\n';
+  });
+  xml += '</urlset>';
+  document.getElementById('sitemap').value = xml;
+}
+
+function copiar(){
+  const t = document.getElementById('sitemap');
+  t.select(); navigator.clipboard.writeText(t.value);
+  event.target.textContent = '¡Copiado!';
+}
+</script>
+</body>
+</html>

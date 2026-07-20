@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Meta Pixel Base · Patagonia Experiencias -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window,document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '1501384968138883');
+      fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=1501384968138883&ev=PageView&noscript=1"/></noscript>
+    <!-- End Meta Pixel -->
+    <title>Patagonia Experiencias | Portal para Prestadores</title>
+
+    <!-- ============ SEO ============ -->
+    <meta name="description" content="Sumá tu negocio turístico a Patagonia Experiencias. Más visibilidad, reservas online y clientes en la red turística más grande de la Patagonia.">
+    <meta name="keywords" content="prestadores turísticos, sumar negocio turismo, agencias Patagonia, hoteles, excursiones, plataforma turismo Patagonia">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://patagoniaexperiencias.com/prestadores.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Patagonia Experiencias">
+    <meta property="og:title" content="Sumá tu negocio a Patagonia Experiencias">
+    <meta property="og:description" content="Más visibilidad, reservas online y clientes en la red turística más grande de la Patagonia.">
+    <meta property="og:url" content="https://patagoniaexperiencias.com/prestadores.html">
+    <meta property="og:image" content="https://patagoniaexperiencias.com/og-image.jpg">
+    <meta property="og:locale" content="es_AR">
+    <!-- ============ /SEO ============ -->
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            oxford: '#2c3e50',
+                            fuchsia: '#E91E63',
+                            fuchsiaDark: '#C2185B',
+                            snow: '#FDFDFD',
+                            grayLight: '#F3F4F6',
+                            border: '#E5E7EB'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-storage-compat.js"></script>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<style>
+        /* Fix mobile overflow: el halo ::before de plan-card.is-featured se extiende
+           50px fuera de la card, lo que genera scroll horizontal en mobile.
+           overflow-x: hidden en html y body lo evita sin perder el efecto visual. */
+        html, body { overflow-x: hidden; max-width: 100%; }
+        html { scroll-behavior: smooth; background-color: #FDFDFD; color: #2c3e50; }
+        
+        .hero-bg {
+            /* Fallback: mismo degradado del index/hub (oxford → fuchsiaDark → fuchsia)
+               para mantener consistencia visual entre páginas.
+               Cuando el JS cargue heroUrl desde Firestore (config/medios), 
+               se sobrescribe inline con la imagen real del prestador. */
+            background-image: linear-gradient(to bottom right, #2c3e50, #C2185B, #E91E63);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+
+        input[type="file"]::file-selector-button {
+            background-color: #F3F4F6;
+            border: 1px solid #E5E7EB;
+            color: #2c3e50;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-right: 1rem;
+            font-weight: 500;
+        }
+        input[type="file"]::file-selector-button:hover { background-color: #E5E7EB; }
+
+        .custom-scrollbar::-webkit-scrollbar { width: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #F3F4F6; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* === REDISEÑO CARDS DE PLANES === */
+        .plan-card {
+            position: relative;
+            border-radius: 20px;
+            padding: 1.75rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            cursor: pointer;
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            background: white;
+            border: 1px solid #e5e7eb;
+            overflow: hidden;
+        }
+        .plan-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 22px 45px -18px rgba(44, 62, 80, 0.18), 0 12px 24px -12px rgba(0, 0, 0, 0.08);
+        }
+        /* Plan destacado (Más Popular): fucsia con gradiente sutil hacia oscuro */
+        .plan-card.is-featured {
+            background: linear-gradient(160deg, #E91E63 0%, #C2185B 100%);
+            color: #ffffff;
+            border-color: rgba(194, 24, 91, 0.5);
+            transform: translateY(-8px);
+            box-shadow: 0 28px 55px -22px rgba(233, 30, 99, 0.5), 0 0 0 1px rgba(194, 24, 91, 0.25);
+            /* Permitimos que el halo (::before) se desborde fuera de los límites */
+            overflow: visible;
+        }
+        /* Halo radial fucsia claro detrás de la card destacada.
+           Se extiende 50px fuera de los límites en cada lado para crear el efecto
+           de "spotlight". pointer-events:none para que no bloquee clicks. */
+        .plan-card.is-featured::before {
+            content: "";
+            position: absolute;
+            inset: -50px;
+            background: radial-gradient(ellipse at center, rgba(233, 30, 99, 0.18) 0%, rgba(233, 30, 99, 0.08) 35%, transparent 70%);
+            border-radius: 30%;
+            z-index: -1;
+            pointer-events: none;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            opacity: 0.9;
+        }
+        .plan-card.is-featured:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 35px 65px -22px rgba(233, 30, 99, 0.6), 0 0 0 1px rgba(194, 24, 91, 0.35);
+        }
+        .plan-card.is-featured:hover::before {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+        .plan-card .feature-glow {
+            position: absolute;
+            top: -50%;
+            right: -25%;
+            width: 70%;
+            height: 70%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.18), transparent 60%);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .plan-card.is-featured .feature-glow { opacity: 1; }
+
+        /* Badge "Más Popular" — blanco sobre el fondo fucsia gradient */
+        .badge-popular {
+            position: absolute;
+            top: -11px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ffffff;
+            color: #C2185B;
+            font-size: 9px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            padding: 5px 14px;
+            border-radius: 100px;
+            box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.12);
+            white-space: nowrap;
+            z-index: 2;
+        }
+
+        .plan-price-currency { font-size: 1rem; font-weight: 600; opacity: 0.55; vertical-align: top; line-height: 2.2; margin-right: 1px; }
+        .plan-price-value { font-family: 'Inter', system-ui, sans-serif; font-size: 2.5rem; font-weight: 800; letter-spacing: -0.035em; line-height: 1; }
+        .plan-price-period { font-size: 0.8rem; font-weight: 500; opacity: 0.55; margin-left: 4px; }
+        
+        .plan-feature-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 6px 0;
+            font-size: 0.8125rem;
+            line-height: 1.45;
+        }
+        .plan-feature-icon {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            background: rgba(16, 185, 129, 0.12);
+            color: #10b981;
+            font-size: 9px;
+            margin-top: 2px;
+        }
+        /* En la card destacada los iconitos van blancos translúcidos */
+        .plan-card.is-featured .plan-feature-icon {
+            background: rgba(255, 255, 255, 0.22);
+            color: #ffffff;
+        }
+        
+        .plan-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
+            padding: 11px 20px;
+            border-radius: 11px;
+            font-weight: 700;
+            font-size: 0.8125rem;
+            letter-spacing: 0.01em;
+            transition: all 0.22s ease;
+            cursor: pointer;
+            text-decoration: none;
+            border: none;
+        }
+        /* CTA fucsia (default para cards no destacadas) */
+        .plan-cta-primary {
+            background: #E91E63;
+            color: white;
+            box-shadow: 0 8px 18px -6px rgba(233, 30, 99, 0.45);
+        }
+        .plan-cta-primary:hover {
+            background: #C2185B;
+            transform: translateY(-1px);
+            box-shadow: 0 12px 24px -6px rgba(233, 30, 99, 0.55);
+        }
+        /* CTA del plan destacado: azul oxford con texto blanco (contraste fuerte sobre fucsia) */
+        .plan-cta-featured {
+            background: #2c3e50;
+            color: white;
+            box-shadow: 0 8px 18px -6px rgba(0, 0, 0, 0.3);
+        }
+        .plan-cta-featured:hover {
+            background: #1f2c38;
+            transform: translateY(-1px);
+            box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.4);
+        }
+
+        .plan-trust-strip {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 22px;
+            margin-top: 28px;
+            padding: 16px;
+            font-size: 11.5px;
+            color: #64748b;
+            flex-wrap: wrap;
+        }
+        .plan-trust-strip > div { display: flex; align-items: center; gap: 6px; }
+        .plan-trust-strip i { color: #10b981; font-size: 10px; }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-fuchsia selection:text-white">
+    <div id="root"></div>
+
+    <script>
+const {
+  useState,
+  useEffect,
+  useMemo
+} = React;
+const firebaseConfig = {
+  apiKey: "AIzaSyDZkeRgN45FkOF8pO2rGxDJA28VZnZ8Ntg",
+  authDomain: "patagonia-experiencias.firebaseapp.com",
+  projectId: "patagonia-experiencias",
+  storageBucket: "patagonia-experiencias.firebasestorage.app",
+  messagingSenderId: "169796366610",
+  appId: "1:169796366610:web:3e2c7e65262933647983cb",
+  measurementId: "G-NF2R0BJG34"
+};
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+const db = firebase.firestore();
+const auth = firebase.auth();
+const storage = firebase.storage();
+const appId = typeof __app_id !== 'undefined' ? __app_id : 'patagonia-experiencias-app';
+function App() {
+  const [selectedPlan, setSelectedPlan] = useState('crecimiento');
+  const [billingCycle, setBillingCycle] = useState('mensual');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [user, setUser] = useState(null);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [loginError, setLoginError] = useState('');
+  const [heroUrl, setHeroUrl] = useState('');
+  const [promo, setPromo] = useState({
+    activa: false,
+    porcentaje: 0,
+    badge: '',
+    vigenciaHasta: ''
+  });
+  const [showTerminos, setShowTerminos] = useState(false);
+  const handleGoogleLogin = async () => {
+    setLoginError('');
+    setIsLoggingIn(true);
+    try {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      const result = await auth.signInWithPopup(provider);
+      if (result.user && result.user.email) {
+        setFormData(prev => ({
+          ...prev,
+          emailContacto: prev.emailContacto || result.user.email
+        }));
+      }
+    } catch (e) {
+      console.error('Error login Google:', e);
+      if (e.code === 'auth/popup-closed-by-user') {
+        setLoginError('Cerraste la ventana de Google sin confirmar.');
+      } else if (e.code === 'auth/popup-blocked') {
+        setLoginError('Tu navegador bloqueó la ventana. Habilitá popups e intentá de nuevo.');
+      } else {
+        setLoginError('Hubo un problema al iniciar sesión. Probá de nuevo.');
+      }
+    }
+    setIsLoggingIn(false);
+  };
+  const handleLogout = async () => {
+    try {
+      await auth.signOut();
+    } catch (e) {
+      console.warn(e);
+    }
+  };
+  const PLANES_FALLBACK = {
+    esencial: {
+      nombre: 'Plan Esencial',
+      precioMensual: 50000,
+      precioAnual: 40000,
+      comision: 20,
+      descripcionCorta: 'Perfecto para empezar a tener presencia en el directorio digital.',
+      features: 'Visibilidad básica en el directorio\nPerfil con logo y dirección\nSin métricas de rendimiento',
+      orden: 0,
+      destacado: false,
+      urlMensual: '',
+      urlAnual: '',
+      ctaTexto: 'Suscribirme'
+    },
+    crecimiento: {
+      nombre: 'Plan Crecimiento',
+      precioMensual: 80000,
+      precioAnual: 70000,
+      comision: 20,
+      descripcionCorta: 'La opción ideal para destacar y captar la atención del turista.',
+      features: 'Micrositio exclusivo dentro de la app\nPosicionamiento destacado en búsquedas\nGalería de fotos HD\nAcceso a estadísticas de canjes',
+      orden: 1,
+      destacado: true,
+      urlMensual: '',
+      urlAnual: '',
+      ctaTexto: 'Suscribirme'
+    },
+    full: {
+      nombre: 'Publicidad Full',
+      precioMensual: 120000,
+      precioAnual: 100000,
+      comision: 15,
+      descripcionCorta: 'Máxima exposición en todos los canales de Patagonia Experiencias.',
+      features: 'Todo lo del Plan Crecimiento\nBanners rotativos en la Home\nPauta segmentada en nuestras Redes\nPresencia en revista Patagonia Magazine',
+      orden: 2,
+      destacado: false,
+      urlMensual: '',
+      urlAnual: '',
+      ctaTexto: 'Suscribirme'
+    }
+  };
+  const [planesDB, setPlanesDB] = useState(PLANES_FALLBACK);
+  const [planesLoading, setPlanesLoading] = useState(true);
+  const [formData, setFormData] = useState({
+    razonSocial: '',
+    cuit: '',
+    emailContacto: '',
+    telefonoFijo: '',
+    aceptaTerminos: false,
+    aceptaUsoDatos: false,
+    tipoFiscal: '',
+    direccionFiscal: '',
+    nombreFantasia: '',
+    descripcion: '',
+    rubro: '',
+    provincia: '',
+    localidad: '',
+    direccionLocal: '',
+    whatsapp: '',
+    instagram: '',
+    facebook: '',
+    web: '',
+    beneficioDefault: '',
+    nombreBeneficio: '',
+    condicionesBeneficio: ''
+  });
+  const [logoFile, setLogoFile] = useState(null);
+  const [galleryFiles, setGalleryFiles] = useState([]);
+  const isFormValid = useMemo(() => {
+    const camposObligatorios = [formData.nombreFantasia, formData.razonSocial, formData.cuit, formData.emailContacto, formData.telefonoFijo, formData.rubro];
+    const todosLlenos = camposObligatorios.every(v => typeof v === 'string' && v.trim() !== '');
+    const aceptaTodo = formData.aceptaTerminos === true && formData.aceptaUsoDatos === true;
+    return todosLlenos && aceptaTodo;
+  }, [formData]);
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(u => setUser(u));
+    return () => unsubscribe();
+  }, []);
+  useEffect(() => {
+    const cargarPlanes = async () => {
+      try {
+        const docRef = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('configuracion').doc('planes');
+        const snap = await docRef.get();
+        if (snap.exists) {
+          const data = snap.data();
+          if (data._promo && typeof data._promo === 'object') {
+            let activa = !!data._promo.activa;
+            if (activa && data._promo.vigenciaHasta) {
+              const hoyStr = new Date().toISOString().split('T')[0];
+              if (data._promo.vigenciaHasta < hoyStr) activa = false;
+            }
+            setPromo({
+              activa,
+              porcentaje: Number(data._promo.porcentaje) || 0,
+              badge: data._promo.badge || '',
+              vigenciaHasta: data._promo.vigenciaHasta || ''
+            });
+            delete data._promo;
+          }
+          let i = 0;
+          Object.keys(data).forEach(k => {
+            if (typeof data[k].orden !== 'number') data[k].orden = i;
+            if (typeof data[k].destacado !== 'boolean') data[k].destacado = false;
+            if (!data[k].descripcionCorta) data[k].descripcionCorta = '';
+            if (typeof data[k].urlMensual !== 'string') data[k].urlMensual = '';
+            if (typeof data[k].urlAnual !== 'string') data[k].urlAnual = '';
+            if (!data[k].ctaTexto) data[k].ctaTexto = data[k].precioMensual > 0 ? 'Suscribirme' : 'Empezar gratis';
+            i++;
+          });
+          setPlanesDB(data);
+          const keys = Object.keys(data);
+          if (keys.length > 0 && !data[selectedPlan]) {
+            const destacado = keys.find(k => data[k].destacado === true);
+            setSelectedPlan(destacado || keys[0]);
+          }
+        }
+      } catch (err) {
+        console.warn('No se pudieron cargar planes desde Firestore. Usando fallback hardcoded.', err);
+      } finally {
+        setPlanesLoading(false);
+      }
+    };
+    cargarPlanes();
+  }, []);
+  useEffect(() => {
+    let activo = true;
+    db.collection('artifacts').doc(appId).collection('public').doc('data').collection('configuracion').doc('medios').get().then(snap => {
+      if (!activo || !snap.exists) return;
+      const data = snap.data();
+      if (data.heroPrestadores?.url) {
+        setHeroUrl(data.heroPrestadores.url);
+      }
+    }).catch(err => console.warn('No se pudo cargar config/medios. Usando fallback CSS.', err));
+    return () => {
+      activo = false;
+    };
+  }, []);
+  const planesOrdenados = useMemo(() => {
+    return Object.entries(planesDB).map(([key, p]) => ({
+      key,
+      ...p
+    })).sort((a, b) => (a.orden || 0) - (b.orden || 0));
+  }, [planesDB]);
+  const handleChange = e => {
+    const {
+      name,
+      value,
+      type,
+      checked
+    } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+  };
+  const handleSubmit = async e => {
+    e.preventDefault();
+    if (!isFormValid) return;
+    if (!user) {
+      alert("Error: Debes estar conectado al servidor para enviar la solicitud.");
+      return;
+    }
+    setIsSubmitting(true);
+    try {
+      const solicitudRef = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('solicitudes_prestadores');
+      const yaExisteSnap = await solicitudRef.where('userId', '==', user.uid).limit(1).get();
+      if (!yaExisteSnap.empty) {
+        setIsSubmitting(false);
+        alert('Ya existe una solicitud registrada con esta cuenta de Google. Si necesitás modificar tus datos, ingresá a tu panel de prestador. Si creés que es un error, escribinos.');
+        return;
+      }
+      await solicitudRef.doc(user.uid).set({
+        ...formData,
+        plan: selectedPlan,
+        cicloFacturacion: billingCycle,
+        fechaSolicitud: new Date().toISOString(),
+        estado: 'pendiente',
+        userId: user.uid
+      });
+      const perfilRef = db.collection('artifacts').doc(appId).collection('users').doc(user.uid).collection('perfil').doc('datos');
+      await perfilRef.set({
+        ...formData,
+        plan: selectedPlan
+      }, {
+        merge: true
+      });
+      try {
+        const notifRef = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('notificaciones');
+        await notifRef.add({
+          destinatarioUid: 'admin',
+          destinatarioRol: 'admin',
+          tipo: 'nuevo_prestador',
+          titulo: 'Nuevo prestador esperando verificación',
+          mensaje: `${formData.nombreFantasia || 'Sin nombre'} (${formData.emailContacto || user.email}) acaba de registrarse y espera tu aprobación.`,
+          leida: false,
+          fechaCreacion: new Date().toISOString(),
+          metadata: {
+            prestadorUid: user.uid,
+            prestadorEmail: formData.emailContacto || user.email,
+            nombreFantasia: formData.nombreFantasia,
+            cuit: formData.cuit,
+            rubro: formData.rubro
+          }
+        });
+      } catch (notifErr) {
+        console.warn('No se pudo crear la notificación al admin:', notifErr);
+      }
+      try {
+        const MAKE_WEBHOOK_BIENVENIDA = 'https://hook.us2.make.com/cp2fgy5e6u898t3ziy46m1hp2o2yr7xp';
+        fetch(MAKE_WEBHOOK_BIENVENIDA, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            nombreAgencia: formData.nombreFantasia || formData.razonSocial || 'Prestador',
+            email: formData.emailContacto || user.email,
+            rubro: formData.rubro || '',
+            plan: selectedPlan || '',
+            fecha: new Date().toISOString()
+          })
+        }).catch(errHook => {
+          console.warn('No se pudo llamar al webhook de bienvenida:', errHook);
+        });
+      } catch (hookErr) {
+        console.warn('Error preparando el webhook de bienvenida:', hookErr);
+      }
+      setShowSuccess(true);
+      setTimeout(() => {
+        const destino = document.getElementById('registro');
+        if (destino) destino.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });else window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      }, 100);
+    } catch (error) {
+      console.error("Error al enviar solicitud:", error);
+      alert("Hubo un error al procesar tu solicitud. Revisa tu conexión a internet.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+  return React.createElement("div", {
+    className: "min-h-screen flex flex-col font-sans bg-brand-snow text-brand-oxford"
+  }, React.createElement("nav", {
+    className: "fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-brand-border shadow-sm"
+  }, React.createElement("div", {
+    className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex justify-between items-center"
+  }, React.createElement("a", {
+    href: "patagonia-experiencias.html",
+    className: "flex items-center gap-2 hover:opacity-80 transition-opacity"
+  }, React.createElement("div", {
+    className: "w-10 h-10 bg-brand-fuchsia rounded-xl flex items-center justify-center text-white shadow-lg shadow-brand-fuchsia/30"
+  }, React.createElement("i", {
+    className: "fa-solid fa-location-dot text-lg"
+  })), React.createElement("span", {
+    className: "font-bold text-xl tracking-tight"
+  }, "Patagonia", React.createElement("span", {
+    className: "text-brand-fuchsia"
+  }, "Experiencias"))), React.createElement("div", {
+    className: "hidden md:flex gap-8 items-center font-medium text-sm"
+  }, React.createElement("a", {
+    href: "#beneficios",
+    className: "hover:text-brand-fuchsia transition-colors"
+  }, "\xBFPor qu\xE9 unirte?"), React.createElement("a", {
+    href: "#precios",
+    className: "hover:text-brand-fuchsia transition-colors"
+  }, "Planes"), React.createElement("a", {
+    href: "#registro",
+    className: "bg-brand-fuchsia hover:bg-brand-fuchsiaDark text-white px-5 py-2 rounded-full transition-colors font-semibold"
+  }, "Sum\xE1 tu negocio")), React.createElement("a", {
+    href: "#registro",
+    className: "md:hidden bg-brand-fuchsia text-white px-5 py-2 rounded-full text-sm font-semibold shadow-md"
+  }, "Unirse"))), React.createElement("section", {
+    className: "hero-bg pt-32 pb-24 lg:pt-48 lg:pb-32 flex items-center relative mt-16 lg:mt-0 overflow-hidden",
+    style: heroUrl ? {
+      backgroundImage: `linear-gradient(to bottom, rgba(44, 62, 80, 0.4), rgba(44, 62, 80, 0.9)), url('${heroUrl}')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center'
+    } : {}
+  }, React.createElement("div", {
+    className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center"
+  }, promo.activa && promo.porcentaje > 0 ? React.createElement("a", {
+    href: "#precios",
+    className: "inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-amber-400 via-rose-500 to-fuchsia-600 text-white font-bold text-sm md:text-base mb-8 shadow-xl shadow-fuchsia-500/30 animate-fade-in-up hover:scale-105 transition-transform"
+  }, React.createElement("span", {
+    className: "text-lg"
+  }, "\uD83C\uDF89"), promo.badge || `${promo.porcentaje}% OFF`, " \u2014 por tiempo limitado", promo.vigenciaHasta && (() => {
+    const p = promo.vigenciaHasta.split('-');
+    if (p.length === 3) return React.createElement("span", {
+      className: "font-medium opacity-90 hidden sm:inline"
+    }, "\xB7 hasta ", p[2], "/", p[1]);
+    return null;
+  })()) : React.createElement("div", {
+    className: "inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white font-medium text-sm mb-8 animate-fade-in-up"
+  }, React.createElement("i", {
+    className: "fa-solid fa-plane-departure text-brand-fuchsia"
+  }), "La red tur\xEDstica m\xE1s grande del sur"), React.createElement("h1", {
+    className: "text-4xl md:text-6xl lg:text-7xl font-extrabold text-white mb-6 tracking-tight leading-tight max-w-5xl mx-auto"
+  }, "Conecta tu negocio con miles de turistas en ", React.createElement("span", {
+    className: "text-transparent bg-clip-text bg-gradient-to-r from-brand-fuchsia to-pink-400"
+  }, "toda la Patagonia")), React.createElement("p", {
+    className: "text-lg md:text-xl text-gray-200 mb-10 max-w-3xl mx-auto font-light leading-relaxed"
+  }, "Aumenta tu visibilidad masiva, fideliza clientes y haz crecer tus ventas registrando tu comercio en la plataforma l\xEDder de beneficios tur\xEDsticos."), React.createElement("div", {
+    className: "flex flex-col sm:flex-row justify-center gap-4"
+  }, React.createElement("a", {
+    href: "#precios",
+    className: "bg-brand-fuchsia hover:bg-brand-fuchsiaDark text-white px-8 py-4 rounded-full font-bold text-lg shadow-lg shadow-brand-fuchsia/40 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2"
+  }, "Ver Planes y Precios ", React.createElement("i", {
+    className: "fa-solid fa-arrow-right"
+  })), React.createElement("a", {
+    href: "#beneficios",
+    className: "bg-white/10 hover:bg-white/20 text-white backdrop-blur-md border border-white/30 px-8 py-4 rounded-full font-bold text-lg transition-all flex items-center justify-center"
+  }, "Conocer m\xE1s")))), React.createElement("section", {
+    className: "py-16 bg-brand-fuchsia/5 border-b border-brand-border"
+  }, React.createElement("div", {
+    className: "max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
+  }, React.createElement("div", {
+    className: "w-16 h-16 bg-brand-fuchsia text-white rounded-full flex items-center justify-center mx-auto mb-6 text-2xl shadow-lg shadow-brand-fuchsia/30"
+  }, React.createElement("i", {
+    className: "fa-solid fa-handshake-angle"
+  })), React.createElement("h2", {
+    className: "text-2xl md:text-3xl font-extrabold text-brand-oxford mb-4"
+  }, "\xBFQu\xE9 es Patagonia Experiencias?"), React.createElement("p", {
+    className: "text-gray-700 text-lg md:text-xl font-light leading-relaxed"
+  }, "Somos mucho m\xE1s que un directorio. Formar parte de nuestra red es apostar a la ", React.createElement("strong", {
+    className: "font-bold text-brand-fuchsia"
+  }, "reactivaci\xF3n tur\xEDstica de la regi\xF3n"), ", innovando en un sistema que nos beneficia a todos y da una visibilidad masiva tanto a los prestadores locales como a los maravillosos destinos de nuestra Patagonia."))), React.createElement("section", {
+    id: "beneficios",
+    className: "py-16 bg-white border-b border-brand-border"
+  }, React.createElement("div", {
+    className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+  }, React.createElement("div", {
+    className: "grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-brand-border"
+  }, React.createElement("div", {
+    className: "p-6"
+  }, React.createElement("div", {
+    className: "w-14 h-14 bg-brand-grayLight rounded-full flex items-center justify-center mx-auto mb-4 text-brand-fuchsia text-2xl"
+  }, React.createElement("i", {
+    className: "fa-solid fa-eye"
+  })), React.createElement("h3", {
+    className: "text-3xl font-bold text-brand-oxford mb-2"
+  }, "+50k"), React.createElement("p", {
+    className: "text-gray-500 font-medium"
+  }, "Turistas activos al mes")), React.createElement("div", {
+    className: "p-6"
+  }, React.createElement("div", {
+    className: "w-14 h-14 bg-brand-grayLight rounded-full flex items-center justify-center mx-auto mb-4 text-brand-fuchsia text-2xl"
+  }, React.createElement("i", {
+    className: "fa-solid fa-store"
+  })), React.createElement("h3", {
+    className: "text-3xl font-bold text-brand-oxford mb-2"
+  }, "200+"), React.createElement("p", {
+    className: "text-gray-500 font-medium"
+  }, "Comercios adheridos")), React.createElement("div", {
+    className: "p-6"
+  }, React.createElement("div", {
+    className: "w-14 h-14 bg-brand-grayLight rounded-full flex items-center justify-center mx-auto mb-4 text-brand-fuchsia text-2xl"
+  }, React.createElement("i", {
+    className: "fa-solid fa-chart-line"
+  })), React.createElement("h3", {
+    className: "text-3xl font-bold text-brand-oxford mb-2"
+  }, "Dashboard"), React.createElement("p", {
+    className: "text-gray-500 font-medium"
+  }, "Estad\xEDsticas en tiempo real"))))), React.createElement("section", {
+    id: "precios",
+    className: "py-24 bg-brand-grayLight"
+  }, React.createElement("div", {
+    className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+  }, React.createElement("div", {
+    className: "text-center max-w-3xl mx-auto mb-10"
+  }, React.createElement("h2", {
+    className: "text-3xl md:text-4xl font-extrabold text-brand-oxford mb-4 tracking-tight"
+  }, "Membres\xEDas dise\xF1adas para tu crecimiento"), React.createElement("p", {
+    className: "text-gray-600 text-lg"
+  }, "Elige el plan que mejor se adapte a los objetivos de tu negocio. Combin\xE1 una suscripci\xF3n transparente con comisiones por venta que bajan a medida que crece tu plan.")), promo.activa && promo.porcentaje > 0 && React.createElement("div", {
+    className: "max-w-3xl mx-auto mb-10 bg-gradient-to-r from-amber-400 via-rose-500 to-fuchsia-600 text-white rounded-2xl p-6 shadow-xl text-center"
+  }, React.createElement("div", {
+    className: "flex items-center justify-center gap-3 mb-2"
+  }, React.createElement("span", {
+    className: "text-3xl"
+  }, "\uD83C\uDF89"), React.createElement("h3", {
+    className: "text-xl md:text-2xl font-extrabold"
+  }, promo.badge || `${promo.porcentaje}% OFF en todos los planes`)), React.createElement("p", {
+    className: "text-sm text-white/90"
+  }, "Aprovech\xE1 el descuento al suscribirte", promo.vigenciaHasta && (() => {
+    const partes = promo.vigenciaHasta.split('-');
+    if (partes.length === 3) return ` · Hasta el ${partes[2]}/${partes[1]}/${partes[0]}`;
+    return '';
+  })())), React.createElement("div", {
+    className: "max-w-5xl mx-auto mb-14"
+  }, React.createElement("div", {
+    className: "text-center mb-8"
+  }, React.createElement("h3", {
+    className: "text-2xl md:text-3xl font-extrabold text-brand-oxford mb-2 tracking-tight"
+  }, "Un modelo que te devuelve la inversi\xF3n"), React.createElement("p", {
+    className: "text-gray-600"
+  }, "No es solo una suscripci\xF3n. Es una estrategia colectiva para traer m\xE1s turistas a la Patagonia.")), React.createElement("div", {
+    className: "grid md:grid-cols-3 gap-5"
+  }, React.createElement("div", {
+    className: "bg-white rounded-2xl p-6 border border-brand-border shadow-sm"
+  }, React.createElement("div", {
+    className: "w-12 h-12 rounded-xl bg-brand-fuchsia/10 text-brand-fuchsia flex items-center justify-center mb-4"
+  }, React.createElement("i", {
+    className: "fa-solid fa-crown text-lg"
+  })), React.createElement("h4", {
+    className: "font-bold text-brand-oxford mb-2"
+  }, "La suscripci\xF3n te da herramientas"), React.createElement("p", {
+    className: "text-sm text-gray-600 leading-relaxed"
+  }, "Cada plan desbloquea m\xE1s beneficios: mejor ubicaci\xF3n y posicionamiento, micrositio propio, mensajes directos con turistas y herramientas de venta.")), React.createElement("div", {
+    className: "bg-white rounded-2xl p-6 border border-brand-border shadow-sm"
+  }, React.createElement("div", {
+    className: "w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center mb-4"
+  }, React.createElement("i", {
+    className: "fa-solid fa-arrow-trend-down text-lg"
+  })), React.createElement("h4", {
+    className: "font-bold text-brand-oxford mb-2"
+  }, "A mayor plan, menor comisi\xF3n"), React.createElement("p", {
+    className: "text-sm text-gray-600 leading-relaxed"
+  }, "Cuanto m\xE1s invert\xEDs en tu plan, menos comisi\xF3n pag\xE1s y mejores herramientas de venta y posicionamiento obten\xE9s. Premiamos tu compromiso.")), React.createElement("div", {
+    className: "bg-gradient-to-br from-brand-oxford to-brand-fuchsiaDark rounded-2xl p-6 text-white shadow-lg"
+  }, React.createElement("div", {
+    className: "w-12 h-12 rounded-xl bg-white/15 flex items-center justify-center mb-4"
+  }, React.createElement("i", {
+    className: "fa-solid fa-bullhorn text-lg"
+  })), React.createElement("h4", {
+    className: "font-bold mb-2"
+  }, "El 50% vuelve como turistas"), React.createElement("p", {
+    className: "text-sm text-white/90 leading-relaxed"
+  }, "La mitad de cada suscripci\xF3n se reinvierte en publicidad de los destinos patag\xF3nicos a nivel nacional, segmentada a p\xFAblicos de inter\xE9s. Tu inversi\xF3n trae turistas reales a la regi\xF3n.")))), React.createElement("div", {
+    className: "flex justify-center mb-12"
+  }, React.createElement("div", {
+    className: "bg-white p-1.5 rounded-full inline-flex border border-brand-border shadow-sm items-center"
+  }, React.createElement("button", {
+    className: `px-6 py-2.5 rounded-full text-sm font-bold transition-colors ${billingCycle === 'mensual' ? 'bg-brand-oxford text-white shadow-md' : 'text-gray-500 hover:text-brand-oxford'}`,
+    onClick: () => setBillingCycle('mensual')
+  }, "Mensual"), React.createElement("button", {
+    className: `px-6 py-2.5 rounded-full text-sm font-bold transition-colors flex items-center gap-2 ${billingCycle === 'anual' ? 'bg-brand-fuchsia text-white shadow-md' : 'text-gray-500 hover:text-brand-oxford'}`,
+    onClick: () => setBillingCycle('anual')
+  }, "Anual ", React.createElement("span", {
+    className: `text-[10px] uppercase tracking-widest px-2 py-0.5 rounded-full ${billingCycle === 'anual' ? 'bg-white/20' : 'bg-green-100 text-green-700'}`
+  }, "Ahorr\xE1 20%")))), React.createElement("div", {
+    className: `grid grid-cols-1 ${planesOrdenados.length >= 3 ? 'md:grid-cols-3' : planesOrdenados.length === 2 ? 'md:grid-cols-2' : ''} gap-5 max-w-5xl mx-auto items-stretch pt-5`
+  }, planesOrdenados.map(plan => {
+    const esDestacado = plan.destacado === true;
+    const estaSeleccionado = selectedPlan === plan.key;
+    const precioBase = billingCycle === 'anual' ? plan.precioAnual || 0 : plan.precioMensual || 0;
+    const aplicaPromo = promo.activa && promo.porcentaje > 0 && precioBase > 0;
+    const precio = aplicaPromo ? Math.round(precioBase * (1 - promo.porcentaje / 100)) : precioBase;
+    const facturaAnual = (plan.precioAnual || 0) * 12;
+    const facturaAnualConDesc = aplicaPromo ? Math.round(facturaAnual * (1 - promo.porcentaje / 100)) : facturaAnual;
+    const features = (plan.features || '').split('\n').map(f => f.trim()).filter(f => f.length > 0);
+    const urlCTA = billingCycle === 'anual' ? plan.urlAnual : plan.urlMensual;
+    const tieneURL = urlCTA && urlCTA.trim().length > 0;
+    const ctaLabel = plan.ctaTexto || (precio > 0 ? 'Suscribirme' : 'Empezar gratis');
+    const cardClass = `plan-card ${esDestacado ? 'is-featured' : ''}`;
+    const ctaClass = `plan-cta ${esDestacado ? 'plan-cta-featured' : 'plan-cta-primary'}`;
+    const handleCTAClick = e => {
+      if (!tieneURL) {
+        e.preventDefault();
+        setSelectedPlan(plan.key);
+        const target = document.getElementById('registro');
+        if (target) target.scrollIntoView({
+          behavior: 'smooth'
+        });
+      }
+    };
+    return React.createElement("div", {
+      key: plan.key,
+      className: cardClass,
+      onClick: () => setSelectedPlan(plan.key)
+    }, React.createElement("div", {
+      className: "feature-glow"
+    }), esDestacado && React.createElement("div", {
+      className: "badge-popular"
+    }, "M\xE1s Popular"), React.createElement("div", {
+      className: "relative z-10 flex flex-col h-full"
+    }, React.createElement("div", {
+      className: "mb-4"
+    }, React.createElement("div", {
+      className: "flex items-center gap-2 mb-2"
+    }, React.createElement("div", {
+      className: `w-8 h-8 rounded-lg flex items-center justify-center ${esDestacado ? 'bg-white/20 text-white' : 'bg-brand-fuchsia/10 text-brand-fuchsia'}`
+    }, React.createElement("i", {
+      className: `fa-solid text-sm ${precio === 0 ? 'fa-seedling' : esDestacado ? 'fa-rocket' : 'fa-bolt'}`
+    })), React.createElement("h3", {
+      className: `text-base font-extrabold tracking-tight ${esDestacado ? 'text-white' : 'text-brand-oxford'}`
+    }, plan.nombre)), React.createElement("p", {
+      className: `text-xs leading-relaxed min-h-[2rem] ${esDestacado ? 'text-white/80' : 'text-gray-500'}`
+    }, plan.descripcionCorta || '')), React.createElement("div", {
+      className: `mb-4 pb-4 border-b ${esDestacado ? 'border-white/15' : 'border-slate-100'}`
+    }, React.createElement("div", {
+      className: `${esDestacado ? 'text-white' : 'text-brand-oxford'}`
+    }, precio === 0 ? React.createElement("div", {
+      className: "flex items-baseline"
+    }, React.createElement("span", {
+      className: "plan-price-value"
+    }, "Gratis")) : React.createElement(React.Fragment, null, aplicaPromo && React.createElement("p", {
+      className: `text-xs line-through mb-1 ${esDestacado ? 'text-white/60' : 'text-slate-400'}`
+    }, "$", Number(precioBase).toLocaleString('es-AR'), "/mes"), React.createElement("div", {
+      className: "flex items-baseline"
+    }, React.createElement("span", {
+      className: "plan-price-currency"
+    }, "$"), React.createElement("span", {
+      className: "plan-price-value"
+    }, Number(precio).toLocaleString('es-AR')), React.createElement("span", {
+      className: "plan-price-period"
+    }, "/mes")), aplicaPromo && React.createElement("p", {
+      className: `text-[10px] font-bold uppercase tracking-wider mt-1 ${esDestacado ? 'text-amber-200' : 'text-amber-600'}`
+    }, "\uD83C\uDF89 ", promo.badge || `${promo.porcentaje}% OFF`))), billingCycle === 'anual' && precio > 0 && React.createElement("p", {
+      className: `text-[11px] mt-2 font-semibold inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full ${esDestacado ? 'text-white bg-white/20' : 'text-brand-fuchsia bg-brand-fuchsia/10'}`
+    }, React.createElement("i", {
+      className: "fa-solid fa-piggy-bank text-[9px]"
+    }), "$", facturaAnualConDesc.toLocaleString('es-AR'), " anual"), billingCycle === 'mensual' && precio > 0 && plan.precioAnual > 0 && plan.precioAnual < plan.precioMensual && React.createElement("p", {
+      className: `text-[11px] mt-2 ${esDestacado ? 'text-white/80' : 'text-slate-500'}`
+    }, "Anual: ", React.createElement("span", {
+      className: "font-bold"
+    }, "$", (aplicaPromo ? Math.round(plan.precioAnual * (1 - promo.porcentaje / 100)) : plan.precioAnual).toLocaleString('es-AR'), "/mes"))), React.createElement("ul", {
+      className: `mb-5 flex-grow ${esDestacado ? 'text-white/95' : 'text-slate-600'}`
+    }, features.map((feat, i) => React.createElement("li", {
+      key: i,
+      className: "plan-feature-row"
+    }, React.createElement("span", {
+      className: "plan-feature-icon"
+    }, React.createElement("i", {
+      className: "fa-solid fa-check"
+    })), React.createElement("span", null, feat)))), React.createElement("button", {
+      type: "button",
+      onClick: e => {
+        e.stopPropagation();
+        setSelectedPlan(plan.key);
+        const target = document.getElementById('registro');
+        if (target) target.scrollIntoView({
+          behavior: 'smooth'
+        });
+      },
+      className: ctaClass
+    }, ctaLabel, React.createElement("i", {
+      className: "fa-solid fa-arrow-right text-[10px]"
+    })), React.createElement("p", {
+      className: `text-[10px] text-center mt-2.5 ${esDestacado ? 'text-white/70' : 'text-slate-400'}`
+    }, React.createElement("i", {
+      className: "fa-solid fa-arrow-down mr-1"
+    }), "Te pediremos tus datos primero")));
+  })), React.createElement("div", {
+    className: "plan-trust-strip max-w-4xl mx-auto"
+  }, React.createElement("div", null, React.createElement("i", {
+    className: "fa-solid fa-circle-check"
+  }), " Cancel\xE1 cuando quieras"), React.createElement("div", null, React.createElement("i", {
+    className: "fa-solid fa-circle-check"
+  }), " Sin permanencia m\xEDnima"), React.createElement("div", null, React.createElement("i", {
+    className: "fa-solid fa-circle-check"
+  }), " Soporte personalizado"), React.createElement("div", null, React.createElement("i", {
+    className: "fa-solid fa-circle-check"
+  }), " Facturaci\xF3n A o B")))), React.createElement("section", {
+    id: "registro",
+    className: "py-24 bg-white relative"
+  }, React.createElement("div", {
+    className: "max-w-4xl mx-auto px-4 sm:px-6 lg:px-8"
+  }, React.createElement("div", {
+    className: "text-center mb-12"
+  }, React.createElement("h2", {
+    className: "text-3xl font-extrabold text-brand-oxford mb-4"
+  }, "Completa tu Alta Profesional"), React.createElement("p", {
+    className: "text-gray-600"
+  }, "La informaci\xF3n ingresada crear\xE1 tu perfil oficial. Absolutamente todos los campos son requeridos para activar tu cuenta.")), (() => {
+    const pasoActual = showSuccess ? 4 : user ? 3 : 2;
+    const pasos = [{
+      n: 1,
+      lbl: 'Elegí tu plan'
+    }, {
+      n: 2,
+      lbl: 'Identificate'
+    }, {
+      n: 3,
+      lbl: 'Tus datos'
+    }, {
+      n: 4,
+      lbl: 'Pago'
+    }];
+    return React.createElement("div", {
+      className: "max-w-2xl mx-auto mb-12"
+    }, React.createElement("div", {
+      className: "flex items-center justify-between"
+    }, pasos.map((p, i) => {
+      const hecho = p.n < pasoActual;
+      const actual = p.n === pasoActual;
+      return React.createElement(React.Fragment, {
+        key: p.n
+      }, React.createElement("div", {
+        className: "flex flex-col items-center flex-shrink-0"
+      }, React.createElement("div", {
+        className: `w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-colors ${hecho ? 'bg-emerald-500 text-white' : actual ? 'bg-brand-fuchsia text-white ring-4 ring-brand-fuchsia/20' : 'bg-slate-200 text-slate-400'}`
+      }, hecho ? React.createElement("i", {
+        className: "fa-solid fa-check text-xs"
+      }) : p.n), React.createElement("span", {
+        className: `text-[10px] md:text-xs font-semibold mt-2 text-center ${actual ? 'text-brand-fuchsia' : hecho ? 'text-emerald-600' : 'text-slate-400'}`
+      }, p.lbl)), i < pasos.length - 1 && React.createElement("div", {
+        className: `flex-grow h-0.5 mx-1 md:mx-2 -mt-5 ${p.n < pasoActual ? 'bg-emerald-500' : 'bg-slate-200'}`
+      }));
+    })));
+  })(), showSuccess ? (() => {
+    const planElegido = planesDB[selectedPlan] || planesOrdenados.find(p => p.key === selectedPlan) || null;
+    const cicloLabel = billingCycle === 'anual' ? 'Anual' : 'Mensual';
+    const precioBase = planElegido ? billingCycle === 'anual' ? planElegido.precioAnual || 0 : planElegido.precioMensual || 0 : 0;
+    const aplicaPromo = promo.activa && promo.porcentaje > 0 && precioBase > 0;
+    const precioFinal = aplicaPromo ? Math.round(precioBase * (1 - promo.porcentaje / 100)) : precioBase;
+    const urlPago = planElegido ? billingCycle === 'anual' ? planElegido.urlAnual : planElegido.urlMensual : '';
+    const tienePago = urlPago && urlPago.trim().length > 0;
+    const features = planElegido ? (planElegido.features || '').split('\n').map(f => f.trim()).filter(f => f.length > 0) : [];
+    return React.createElement("div", {
+      className: "space-y-6 animate-fade-in-up"
+    }, React.createElement("div", {
+      className: "bg-emerald-50 border border-emerald-200 rounded-2xl p-6 flex items-center gap-4"
+    }, React.createElement("div", {
+      className: "w-14 h-14 bg-emerald-500 rounded-full flex items-center justify-center text-white text-2xl flex-shrink-0"
+    }, React.createElement("i", {
+      className: "fa-solid fa-check"
+    })), React.createElement("div", null, React.createElement("h3", {
+      className: "text-lg font-bold text-emerald-900 mb-0.5"
+    }, "Datos guardados con \xE9xito"), React.createElement("p", {
+      className: "text-sm text-emerald-700"
+    }, user?.email ? `Hola ${user.email}, ` : 'Hola, ', "tu perfil qued\xF3 registrado. Ahora complet\xE1 la suscripci\xF3n."))), !planElegido ? React.createElement("div", {
+      className: "bg-amber-50 border border-amber-200 rounded-2xl p-6 text-center text-amber-800"
+    }, "No encontramos el plan elegido. Refresc\xE1 la p\xE1gina o contactanos.") : precioBase === 0 ? React.createElement("div", {
+      className: "bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200 rounded-3xl p-8 text-center shadow-lg"
+    }, React.createElement("div", {
+      className: "w-16 h-16 bg-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-4 text-white text-3xl"
+    }, React.createElement("i", {
+      className: "fa-solid fa-seedling"
+    })), React.createElement("h3", {
+      className: "text-2xl font-bold text-brand-oxford mb-2"
+    }, "\xA1Listo! Est\xE1s dentro del ", planElegido.nombre), React.createElement("p", {
+      className: "text-gray-600 mb-6 max-w-md mx-auto"
+    }, "Tu plan es gratuito. Tu cuenta ya qued\xF3 pendiente de validaci\xF3n. Te avisaremos por email cuando est\xE9 activa."), React.createElement("a", {
+      href: "dashboard-prestadores.html",
+      className: "inline-block bg-brand-fuchsia hover:bg-brand-fuchsiaDark text-white px-8 py-3 rounded-xl font-bold transition-colors"
+    }, "Ir a mi Panel ", React.createElement("i", {
+      className: "fa-solid fa-arrow-right ml-1 text-xs"
+    }))) : React.createElement("div", {
+      className: "bg-white border-2 border-brand-fuchsia/30 rounded-3xl p-8 shadow-xl"
+    }, React.createElement("div", {
+      className: "text-center mb-6"
+    }, React.createElement("p", {
+      className: "text-[10px] font-bold uppercase tracking-widest text-brand-fuchsia mb-2"
+    }, "\xDAltimo paso"), React.createElement("h3", {
+      className: "text-2xl font-bold text-brand-oxford"
+    }, "Complet\xE1 tu suscripci\xF3n")), React.createElement("div", {
+      className: "bg-slate-50 border border-slate-200 rounded-2xl p-6 mb-5"
+    }, React.createElement("div", {
+      className: "flex items-start justify-between mb-4 pb-4 border-b border-slate-200"
+    }, React.createElement("div", null, React.createElement("p", {
+      className: "text-[10px] font-bold uppercase tracking-widest text-slate-400"
+    }, "Tu plan"), React.createElement("p", {
+      className: "text-xl font-bold text-brand-oxford"
+    }, planElegido.nombre), React.createElement("p", {
+      className: "text-xs font-semibold text-slate-600 mt-0.5"
+    }, React.createElement("i", {
+      className: `fa-solid ${billingCycle === 'anual' ? 'fa-calendar-check text-emerald-500' : 'fa-calendar-day text-slate-400'} mr-1`
+    }), "Facturaci\xF3n ", cicloLabel, billingCycle === 'anual' ? ' (pagás el año por adelantado, precio/mes con descuento)' : ' (pagás mes a mes)'), React.createElement("a", {
+      href: "#precios",
+      onClick: () => setShowSuccess(false),
+      className: "text-[11px] font-bold text-brand-fuchsia hover:underline inline-block mt-1"
+    }, React.createElement("i", {
+      className: "fa-solid fa-arrows-rotate text-[9px]"
+    }), " Cambiar plan o ciclo")), React.createElement("div", {
+      className: "text-right"
+    }, aplicaPromo && React.createElement("p", {
+      className: "text-sm text-slate-400 line-through"
+    }, "$", Number(precioBase).toLocaleString('es-AR')), React.createElement("p", {
+      className: "text-2xl font-extrabold text-brand-fuchsia"
+    }, "$", Number(precioFinal).toLocaleString('es-AR'), React.createElement("span", {
+      className: "text-xs font-medium text-slate-500"
+    }, "/mes")), aplicaPromo && React.createElement("span", {
+      className: "inline-block mt-1 bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider"
+    }, "\uD83C\uDF89 ", promo.badge || `${promo.porcentaje}% OFF`))), features.length > 0 && React.createElement("ul", {
+      className: "space-y-2"
+    }, features.map((feat, i) => React.createElement("li", {
+      key: i,
+      className: "flex items-start gap-2 text-sm text-slate-700"
+    }, React.createElement("i", {
+      className: "fa-solid fa-check text-emerald-500 text-xs mt-1 flex-shrink-0"
+    }), React.createElement("span", null, feat))))), tienePago ? React.createElement("a", {
+      href: urlPago,
+      target: "_blank",
+      rel: "noopener noreferrer",
+      className: "block w-full bg-gradient-to-r from-brand-fuchsia to-pink-600 hover:from-brand-fuchsiaDark hover:to-pink-700 text-white text-center py-4 rounded-2xl font-bold text-base shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
+    }, React.createElement("i", {
+      className: "fa-solid fa-credit-card"
+    }), "Pagar suscripci\xF3n \xB7 $", Number(precioFinal).toLocaleString('es-AR'), "/mes", React.createElement("i", {
+      className: "fa-solid fa-arrow-right text-xs"
+    })) : React.createElement("div", {
+      className: "bg-amber-50 border border-amber-200 rounded-xl p-4 text-center text-sm text-amber-800"
+    }, React.createElement("i", {
+      className: "fa-solid fa-clock mr-1"
+    }), React.createElement("strong", null, "Estamos preparando tu link de pago."), " Te lo enviaremos por email a la brevedad para que actives tu suscripci\xF3n."), React.createElement("p", {
+      className: "text-xs text-center text-slate-500 mt-4 leading-relaxed"
+    }, React.createElement("i", {
+      className: "fa-solid fa-shield-halved text-emerald-500 mr-1"
+    }), "Pago seguro con MercadoPago. Una vez completado, tu cuenta pasar\xE1 a estado ", React.createElement("strong", null, "\"Pendiente de validaci\xF3n\""), " hasta nuestra confirmaci\xF3n final.")), React.createElement("div", {
+      className: "text-center"
+    }, React.createElement("a", {
+      href: "dashboard-prestadores.html",
+      className: "text-sm text-slate-500 hover:text-brand-fuchsia transition-colors"
+    }, "\xBFYa pagaste? ", React.createElement("span", {
+      className: "font-bold underline"
+    }, "Ir al panel"))));
+  })() : !user || user.isAnonymous ? React.createElement("div", {
+    className: "bg-gradient-to-br from-brand-fuchsia/5 to-pink-50 border border-brand-fuchsia/20 rounded-3xl p-12 text-center shadow-lg"
+  }, React.createElement("div", {
+    className: "w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 text-brand-fuchsia text-4xl shadow-md"
+  }, React.createElement("i", {
+    className: "fa-solid fa-user-shield"
+  })), React.createElement("h3", {
+    className: "text-2xl font-bold text-brand-oxford mb-3"
+  }, "Antes de continuar, identificate"), React.createElement("p", {
+    className: "text-gray-600 mb-8 max-w-md mx-auto"
+  }, "Inici\xE1 sesi\xF3n con tu cuenta de Google para que podamos vincular tu registro de manera segura. Despu\xE9s completar\xE1s los datos de tu empresa."), React.createElement("button", {
+    onClick: handleGoogleLogin,
+    disabled: isLoggingIn,
+    className: "bg-white hover:bg-gray-50 border-2 border-brand-border text-brand-oxford px-8 py-4 rounded-2xl font-bold text-base shadow-md hover:shadow-lg transition-all flex items-center gap-3 mx-auto disabled:opacity-50"
+  }, isLoggingIn ? React.createElement(React.Fragment, null, React.createElement("i", {
+    className: "fa-solid fa-circle-notch fa-spin text-brand-fuchsia text-lg"
+  }), " Iniciando sesi\xF3n...") : React.createElement(React.Fragment, null, React.createElement("i", {
+    className: "fa-brands fa-google text-brand-fuchsia text-lg"
+  }), " Iniciar sesi\xF3n con Google")), loginError && React.createElement("div", {
+    className: "mt-6 max-w-md mx-auto bg-rose-50 border border-rose-200 rounded-xl p-4 text-rose-700 text-sm"
+  }, React.createElement("i", {
+    className: "fa-solid fa-triangle-exclamation mr-1"
+  }), " ", loginError), React.createElement("p", {
+    className: "text-xs text-gray-500 mt-8"
+  }, "Tu email se usar\xE1 como identificador y para contactarte.")) : React.createElement(React.Fragment, null, React.createElement("div", {
+    className: "mb-6 bg-emerald-50 border border-emerald-200 rounded-2xl p-4 flex items-center justify-between gap-4"
+  }, React.createElement("div", {
+    className: "flex items-center gap-3"
+  }, React.createElement("div", {
+    className: "w-10 h-10 rounded-full bg-emerald-500 text-white flex items-center justify-center flex-shrink-0"
+  }, React.createElement("i", {
+    className: "fa-solid fa-check"
+  })), React.createElement("div", null, React.createElement("p", {
+    className: "text-sm font-bold text-emerald-800"
+  }, "Sesi\xF3n iniciada"), React.createElement("p", {
+    className: "text-xs text-emerald-700"
+  }, user.email))), React.createElement("button", {
+    onClick: handleLogout,
+    className: "text-xs font-bold text-emerald-700 hover:text-emerald-900 underline"
+  }, "Cambiar de cuenta")), (() => {
+    const planSel = planesDB[selectedPlan] || planesOrdenados.find(p => p.key === selectedPlan) || null;
+    if (!planSel) return null;
+    const cicloLbl = billingCycle === 'anual' ? 'Anual' : 'Mensual';
+    const precioSel = billingCycle === 'anual' ? planSel.precioAnual || 0 : planSel.precioMensual || 0;
+    const promoOn = promo.activa && promo.porcentaje > 0 && precioSel > 0;
+    const precioFin = promoOn ? Math.round(precioSel * (1 - promo.porcentaje / 100)) : precioSel;
+    return React.createElement("div", {
+      className: "mb-6 bg-brand-oxford text-white rounded-2xl p-4 flex items-center justify-between gap-4"
+    }, React.createElement("div", {
+      className: "flex items-center gap-3"
+    }, React.createElement("div", {
+      className: "w-10 h-10 rounded-xl bg-brand-fuchsia flex items-center justify-center flex-shrink-0"
+    }, React.createElement("i", {
+      className: "fa-solid fa-star text-sm"
+    })), React.createElement("div", null, React.createElement("p", {
+      className: "text-[10px] font-bold uppercase tracking-widest text-white/50"
+    }, "Plan elegido"), React.createElement("p", {
+      className: "text-base font-bold"
+    }, planSel.nombre, " ", React.createElement("span", {
+      className: "text-xs font-medium text-white/60"
+    }, "\xB7 ", cicloLbl)))), React.createElement("div", {
+      className: "text-right flex items-center gap-4"
+    }, precioSel > 0 && React.createElement("div", null, promoOn && React.createElement("p", {
+      className: "text-xs text-white/40 line-through"
+    }, "$", Number(precioSel).toLocaleString('es-AR')), React.createElement("p", {
+      className: "text-lg font-extrabold text-brand-fuchsia"
+    }, "$", Number(precioFin).toLocaleString('es-AR'), React.createElement("span", {
+      className: "text-[10px] text-white/50"
+    }, "/mes"))), React.createElement("a", {
+      href: "#precios",
+      className: "text-[11px] font-bold text-white/70 hover:text-white underline whitespace-nowrap"
+    }, "Cambiar")));
+  })(), React.createElement("form", {
+    onSubmit: handleSubmit,
+    className: "space-y-6"
+  }, React.createElement("div", {
+    className: "bg-gradient-to-br from-brand-fuchsia/5 to-pink-50 border border-brand-fuchsia/20 rounded-2xl p-5 flex items-start gap-3"
+  }, React.createElement("div", {
+    className: "w-10 h-10 bg-brand-fuchsia rounded-xl flex items-center justify-center text-white flex-shrink-0"
+  }, React.createElement("i", {
+    className: "fa-solid fa-bolt"
+  })), React.createElement("div", null, React.createElement("p", {
+    className: "text-sm font-bold text-brand-oxford"
+  }, "Registro express en 3 minutos"), React.createElement("p", {
+    className: "text-xs text-slate-600 mt-0.5"
+  }, "Solo necesitamos los datos fiscales esenciales para activar tu cuenta. Despu\xE9s vas a poder completar el resto desde tu panel y ", React.createElement("strong", {
+    className: "text-brand-fuchsia"
+  }, "ganar puntos por cada bloque que completes"), "."))), React.createElement("div", {
+    className: "bg-white rounded-3xl p-8 border border-brand-border shadow-sm"
+  }, React.createElement("h3", {
+    className: "text-xl font-bold text-brand-oxford mb-6 flex items-center gap-3 pb-4 border-b border-brand-grayLight"
+  }, React.createElement("i", {
+    className: "fa-solid fa-building-user text-brand-fuchsia"
+  }), " Informaci\xF3n Fiscal y Comercial"), React.createElement("div", {
+    className: "grid grid-cols-1 md:grid-cols-2 gap-5"
+  }, React.createElement("div", null, React.createElement("label", {
+    className: "block text-sm font-semibold text-gray-700 mb-2"
+  }, "Nombre Fantas\xEDa *"), React.createElement("input", {
+    type: "text",
+    name: "nombreFantasia",
+    value: formData.nombreFantasia,
+    onChange: handleChange,
+    required: true,
+    placeholder: "Ej. Hoster\xEDa Los Glaciares",
+    className: "w-full bg-brand-grayLight border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-brand-fuchsia focus:outline-none transition-all"
+  }), React.createElement("p", {
+    className: "text-xs text-slate-500 mt-1.5"
+  }, "El nombre con el que te conocen los turistas.")), React.createElement("div", null, React.createElement("label", {
+    className: "block text-sm font-semibold text-gray-700 mb-2"
+  }, "Raz\xF3n Social *"), React.createElement("input", {
+    type: "text",
+    name: "razonSocial",
+    value: formData.razonSocial,
+    onChange: handleChange,
+    required: true,
+    placeholder: "Ej. Glaciares Sur SRL",
+    className: "w-full bg-brand-grayLight border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-brand-fuchsia focus:outline-none transition-all"
+  }), React.createElement("p", {
+    className: "text-xs text-slate-500 mt-1.5"
+  }, "El nombre legal que figura en AFIP.")), React.createElement("div", null, React.createElement("label", {
+    className: "block text-sm font-semibold text-gray-700 mb-2"
+  }, "CUIT *"), React.createElement("input", {
+    type: "text",
+    name: "cuit",
+    value: formData.cuit,
+    onChange: handleChange,
+    required: true,
+    placeholder: "20-12345678-9",
+    className: "w-full bg-brand-grayLight border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-brand-fuchsia focus:outline-none transition-all"
+  })), React.createElement("div", null, React.createElement("label", {
+    className: "block text-sm font-semibold text-gray-700 mb-2"
+  }, "Tel\xE9fono / WhatsApp *"), React.createElement("input", {
+    type: "tel",
+    name: "telefonoFijo",
+    value: formData.telefonoFijo,
+    onChange: handleChange,
+    required: true,
+    placeholder: "+54 9 280...",
+    className: "w-full bg-brand-grayLight border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-brand-fuchsia focus:outline-none transition-all"
+  })), React.createElement("div", {
+    className: "md:col-span-2"
+  }, React.createElement("label", {
+    className: "block text-sm font-semibold text-gray-700 mb-2"
+  }, "Email de Contacto *"), React.createElement("input", {
+    type: "email",
+    name: "emailContacto",
+    value: formData.emailContacto,
+    onChange: handleChange,
+    required: true,
+    placeholder: "hola@tuempresa.com",
+    className: "w-full bg-brand-grayLight border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-brand-fuchsia focus:outline-none transition-all"
+  }), React.createElement("p", {
+    className: "text-xs text-slate-500 mt-1.5"
+  }, "Usaremos este email para enviarte el voucher de pago y novedades.")), React.createElement("div", {
+    className: "md:col-span-2"
+  }, React.createElement("label", {
+    className: "block text-sm font-semibold text-gray-700 mb-2"
+  }, "Rubro Principal *"), React.createElement("select", {
+    name: "rubro",
+    value: formData.rubro,
+    onChange: handleChange,
+    required: true,
+    className: "w-full bg-brand-grayLight border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-brand-fuchsia focus:outline-none transition-all text-gray-700 font-medium"
+  }, React.createElement("option", {
+    value: ""
+  }, "Seleccion\xE1 tu actividad principal..."), React.createElement("option", {
+    value: "excursiones"
+  }, "Excursiones / Tours"), React.createElement("option", {
+    value: "alojamiento"
+  }, "Alojamiento"), React.createElement("option", {
+    value: "gastronomia"
+  }, "Gastronom\xEDa"), React.createElement("option", {
+    value: "transporte"
+  }, "Transporte y Alquiler"))))), React.createElement("div", {
+    className: "bg-brand-grayLight rounded-3xl p-8 border border-brand-border flex flex-col gap-6"
+  }, React.createElement("div", null, React.createElement("label", {
+    className: "block text-sm font-bold text-gray-700 mb-2"
+  }, React.createElement("i", {
+    className: "fa-solid fa-scale-balanced mr-1 text-brand-fuchsia"
+  }), " T\xE9rminos y Condiciones"), React.createElement("div", {
+    className: "bg-white p-4 rounded-xl text-xs text-gray-600 h-32 overflow-y-auto mb-4 border border-brand-border custom-scrollbar shadow-inner"
+  }, React.createElement("p", {
+    className: "font-bold mb-2"
+  }, "T\xC9RMINOS Y CONDICIONES DE USO \u2013 PATAGONIA EXPERIENCIAS"), React.createElement("p", {
+    className: "mb-2"
+  }, "Bienvenido a www.patagoniaexperiencias.com (efe5 proyectos srl) (en adelante, el \"Sitio Web\"). Al acceder o utilizar este sitio web, aceptas cumplir con los siguientes T\xE9rminos y Condiciones. Si no est\xE1s de acuerdo con estos t\xE9rminos, por favor no utilices este sitio."), React.createElement("p", {
+    className: "font-bold mb-1"
+  }, "1. OBJETO"), React.createElement("p", {
+    className: "mb-2"
+  }, "El presente Sitio Web tiene como finalidad facilitar informaci\xF3n relacionada con promociones, beneficios, descuentos y reservas ofrecidos por terceros adheridos al programa \"Patagonia Experiencias\". Los usuarios interesados pueden completar formularios de registro para recibir informaci\xF3n o acceder a dichas ofertas."), React.createElement("p", {
+    className: "font-bold mb-1"
+  }, "2. RESPONSABILIDAD DEL USUARIO"), React.createElement("p", {
+    className: "mb-2"
+  }, "El usuario que completa cualquier formulario disponible en el Sitio Web es el \xFAnico responsable de verificar, gestionar y otorgar los beneficios, descuentos u ofertas publicadas. Patagonia Experiencias act\xFAa \xFAnicamente como medio informativo y no interviene directamente en la provisi\xF3n ni en el cumplimiento de dichas promociones. El usuario se compromete a proporcionar informaci\xF3n veraz, actualizada y completa al momento de completar cualquier formulario dentro del Sitio Web."), React.createElement("p", {
+    className: "font-bold mb-1"
+  }, "3. EXENCI\xD3N DE RESPONSABILIDAD"), React.createElement("p", {
+    className: "mb-2"
+  }, "Patagonia Experiencias no se responsabiliza por el incumplimiento total o parcial de las obligaciones derivadas de las promociones, descuentos o beneficios ofrecidos por terceros. Cualquier controversia, reclamo o situaci\xF3n vinculada al incumplimiento de dichas ofertas deber\xE1 resolverse directamente entre el usuario y el tercero responsable de la promoci\xF3n."), React.createElement("p", {
+    className: "font-bold mb-1"
+  }, "4. MODIFICACIONES"), React.createElement("p", null, "Patagonia Experiencias se reserva el derecho de modificar en cualquier momento los presentes T\xE9rminos y Condiciones. Las modificaciones ser\xE1n efectivas desde su publicaci\xF3n en el Sitio Web.")), React.createElement("label", {
+    className: "flex items-start gap-3 cursor-pointer group mb-3"
+  }, React.createElement("div", {
+    className: "relative flex items-start mt-0.5"
+  }, React.createElement("input", {
+    type: "checkbox",
+    name: "aceptaTerminos",
+    checked: formData.aceptaTerminos,
+    onChange: handleChange,
+    required: true,
+    className: "peer sr-only"
+  }), React.createElement("div", {
+    className: "w-6 h-6 border-2 border-brand-oxford rounded bg-white peer-checked:bg-brand-fuchsia peer-checked:border-brand-fuchsia transition-all flex items-center justify-center flex-shrink-0"
+  }, React.createElement("i", {
+    className: "fa-solid fa-check text-white text-sm opacity-0 peer-checked:opacity-100"
+  }))), React.createElement("span", {
+    className: "text-sm text-brand-oxford font-bold leading-snug"
+  }, "He le\xEDdo y acepto los T\xE9rminos y Condiciones como prestador.")), React.createElement("label", {
+    className: "flex items-start gap-3 cursor-pointer group"
+  }, React.createElement("div", {
+    className: "relative flex items-start mt-0.5"
+  }, React.createElement("input", {
+    type: "checkbox",
+    name: "aceptaUsoDatos",
+    checked: formData.aceptaUsoDatos,
+    onChange: handleChange,
+    required: true,
+    className: "peer sr-only"
+  }), React.createElement("div", {
+    className: "w-6 h-6 border-2 border-brand-oxford rounded bg-white peer-checked:bg-brand-fuchsia peer-checked:border-brand-fuchsia transition-all flex items-center justify-center flex-shrink-0"
+  }, React.createElement("i", {
+    className: "fa-solid fa-check text-white text-sm opacity-0 peer-checked:opacity-100"
+  }))), React.createElement("span", {
+    className: "text-sm text-brand-oxford font-bold leading-snug"
+  }, "Autorizo el uso de mis datos para gestionar mi cuenta y enviar comunicaciones relevantes."))), !isFormValid && React.createElement("div", {
+    className: "bg-amber-50 text-amber-700 border border-amber-200 p-4 rounded-xl text-sm font-medium flex items-center gap-2"
+  }, React.createElement("i", {
+    className: "fa-solid fa-circle-info text-amber-500"
+  }), " Complet\xE1 todos los campos obligatorios y acept\xE1 los t\xE9rminos para continuar."), React.createElement("button", {
+    type: "submit",
+    disabled: isSubmitting || !isFormValid,
+    className: "w-full bg-gradient-to-r from-brand-fuchsia to-pink-600 hover:from-brand-fuchsiaDark hover:to-pink-700 disabled:from-gray-400 disabled:to-gray-400 disabled:cursor-not-allowed text-white font-bold py-4 px-8 rounded-xl shadow-lg shadow-brand-fuchsia/30 transition-all flex items-center justify-center gap-2 text-lg"
+  }, isSubmitting ? React.createElement(React.Fragment, null, React.createElement("i", {
+    className: "fa-solid fa-circle-notch fa-spin"
+  }), " Procesando...") : React.createElement(React.Fragment, null, React.createElement("i", {
+    className: "fa-solid fa-credit-card"
+  }), "Continuar al pago", React.createElement("i", {
+    className: "fa-solid fa-arrow-right text-sm"
+  }))), React.createElement("p", {
+    className: "text-xs text-center text-slate-500 leading-relaxed"
+  }, React.createElement("i", {
+    className: "fa-solid fa-shield-halved text-emerald-500 mr-1"
+  }), "Pago seguro v\xEDa MercadoPago. Despu\xE9s del pago vas a poder completar tu perfil desde el panel y ", React.createElement("strong", {
+    className: "text-brand-fuchsia"
+  }, "ganar puntos"), ".")))))), React.createElement("footer", {
+    className: "bg-brand-oxford pt-16 pb-8 border-t-4 border-brand-fuchsia text-gray-300"
+  }, React.createElement("div", {
+    className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+  }, React.createElement("div", {
+    className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12"
+  }, React.createElement("div", {
+    className: "col-span-1 lg:col-span-2"
+  }, React.createElement("a", {
+    href: "patagonia-experiencias.html",
+    className: "flex items-center gap-2 mb-6 hover:opacity-80 transition-opacity"
+  }, React.createElement("div", {
+    className: "w-8 h-8 bg-brand-fuchsia rounded-lg flex items-center justify-center text-white"
+  }, React.createElement("i", {
+    className: "fa-solid fa-location-dot text-sm"
+  })), React.createElement("span", {
+    className: "font-bold text-xl text-white tracking-tight"
+  }, "Patagonia", React.createElement("span", {
+    className: "text-brand-fuchsia"
+  }, "Experiencias"))), React.createElement("p", {
+    className: "text-sm text-gray-400 max-w-sm mb-6 leading-relaxed"
+  }, "Plataforma digital de reservas tur\xEDsticas de la Patagonia. Conectando visitantes con las mejores experiencias locales del sur argentino."), React.createElement("div", {
+    className: "flex gap-4 mb-8"
+  }, React.createElement("a", {
+    href: "https://instagram.com/patagoniapuntos",
+    target: "_blank",
+    rel: "noopener",
+    className: "w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-fuchsia transition-colors"
+  }, React.createElement("i", {
+    className: "fa-brands fa-instagram"
+  })), React.createElement("a", {
+    href: "https://facebook.com/patagoniapuntos/",
+    target: "_blank",
+    rel: "noopener",
+    className: "w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-fuchsia transition-colors"
+  }, React.createElement("i", {
+    className: "fa-brands fa-facebook-f"
+  }))), React.createElement("div", {
+    className: "flex flex-wrap items-center gap-3"
+  }, React.createElement("div", {
+    className: "flex items-center gap-2 bg-white/5 border border-white/10 rounded-lg px-3 py-2"
+  }, React.createElement("i", {
+    className: "fa-solid fa-lock text-emerald-400 text-xs"
+  }), React.createElement("span", {
+    className: "text-[10px] text-gray-300 uppercase tracking-widest font-semibold"
+  }, "Sitio Seguro HTTPS")), React.createElement("div", {
+    className: "flex items-center gap-2 bg-white/5 border border-white/10 rounded-lg px-3 py-2"
+  }, React.createElement("i", {
+    className: "fa-solid fa-credit-card text-blue-300 text-xs"
+  }), React.createElement("span", {
+    className: "text-[10px] text-gray-300 uppercase tracking-widest font-semibold"
+  }, "Pagos con MercadoPago")))), React.createElement("div", null, React.createElement("h4", {
+    className: "text-white font-bold mb-6 uppercase tracking-widest text-xs"
+  }, "Soporte al Prestador"), React.createElement("ul", {
+    className: "space-y-3 text-sm"
+  }, React.createElement("li", null, React.createElement("a", {
+    href: "https://wa.me/5492804356028",
+    target: "_blank",
+    rel: "noopener",
+    className: "hover:text-white transition-colors flex items-center gap-2"
+  }, React.createElement("i", {
+    className: "fa-brands fa-whatsapp text-brand-fuchsia"
+  }), " +54 9 2804 35-6028")), React.createElement("li", null, React.createElement("a", {
+    href: "mailto:hola@patagoniaexperiencias.com",
+    className: "hover:text-white transition-colors flex items-center gap-2 break-all"
+  }, React.createElement("i", {
+    className: "fa-regular fa-envelope text-brand-fuchsia flex-shrink-0"
+  }), " ", React.createElement("span", null, "hola@patagoniaexperiencias.com"))), React.createElement("li", null, React.createElement("a", {
+    href: "manual-prestador.html",
+    className: "hover:text-white transition-colors flex items-center gap-2"
+  }, React.createElement("i", {
+    className: "fa-solid fa-book text-brand-fuchsia"
+  }), " Manual del Prestador")), React.createElement("li", null, React.createElement("a", {
+    href: "ecosistema.html",
+    className: "hover:text-white transition-colors flex items-center gap-2"
+  }, React.createElement("i", {
+    className: "fa-solid fa-circle-info text-brand-fuchsia"
+  }), " Qui\xE9nes somos")))), React.createElement("div", null, React.createElement("h4", {
+    className: "text-white font-bold mb-6 uppercase tracking-widest text-xs"
+  }, "Ecosistema"), React.createElement("ul", {
+    className: "space-y-3 text-sm"
+  }, React.createElement("li", null, React.createElement("a", {
+    href: "patagonia-experiencias.html",
+    className: "flex items-center gap-2 text-gray-300 hover:text-brand-fuchsia transition-colors"
+  }, React.createElement("i", {
+    className: "fa-solid fa-location-dot text-brand-fuchsia text-xs"
+  }), React.createElement("span", null, "Patagonia Experiencias"))), React.createElement("li", null, React.createElement("a", {
+    href: "https://patagoniamagazine.com.ar",
+    target: "_blank",
+    rel: "noopener",
+    className: "flex items-center gap-2 text-gray-300 hover:text-brand-fuchsia transition-colors"
+  }, React.createElement("i", {
+    className: "fa-solid fa-book-open text-brand-fuchsia text-xs"
+  }), React.createElement("span", null, "Patagonia Magazine"), React.createElement("i", {
+    className: "fa-solid fa-arrow-up-right-from-square text-[9px] opacity-60"
+  }))), React.createElement("li", null, React.createElement("a", {
+    href: "https://tienda.patagoniapuntos.com",
+    target: "_blank",
+    rel: "noopener",
+    className: "flex items-center gap-2 text-gray-300 hover:text-brand-fuchsia transition-colors"
+  }, React.createElement("i", {
+    className: "fa-solid fa-coins text-brand-fuchsia text-xs"
+  }), React.createElement("span", null, "Patagonia Puntos"), React.createElement("i", {
+    className: "fa-solid fa-arrow-up-right-from-square text-[9px] opacity-60"
+  })))), React.createElement("h4", {
+    className: "text-white font-bold mt-8 mb-4 uppercase tracking-widest text-xs"
+  }, "Colaboradores"), React.createElement("div", {
+    className: "flex flex-wrap gap-2 items-center"
+  }, React.createElement("div", {
+    className: "bg-white/10 px-2 py-1.5 rounded-lg text-center text-[10px] font-bold border border-white/20"
+  }, "Agencia Chubut Turismo"), React.createElement("div", {
+    className: "bg-white/10 px-2 py-1.5 rounded-lg text-center text-[10px] font-bold border border-white/20"
+  }, "EnTreTur"), React.createElement("div", {
+    className: "bg-white/10 px-2 py-1.5 rounded-lg text-center text-[10px] font-bold border border-white/20"
+  }, "EFE5 Proyectos")))), React.createElement("div", {
+    className: "border-t border-gray-700 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500 font-medium"
+  }, React.createElement("div", {
+    className: "flex flex-col md:flex-row gap-1 md:gap-3 items-center"
+  }, React.createElement("p", null, "\xA9 ", new Date().getFullYear(), " Patagonia Experiencias. Todos los derechos reservados."), React.createElement("p", {
+    className: "text-gray-600"
+  }, "Powered by ", React.createElement("span", {
+    className: "text-gray-400 font-semibold"
+  }, "Octopus"), " & ", React.createElement("span", {
+    className: "text-gray-400 font-semibold"
+  }, "efe5 proyectos"))), React.createElement("div", {
+    className: "flex gap-4"
+  }, React.createElement("button", {
+    type: "button",
+    onClick: () => setShowTerminos(true),
+    className: "hover:text-gray-300 cursor-pointer"
+  }, "T\xE9rminos de Uso"), React.createElement("a", {
+    href: "privacidad.html",
+    className: "hover:text-gray-300"
+  }, "Pol\xEDticas de Privacidad"))))), showTerminos && React.createElement("div", {
+    className: "fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm",
+    onClick: () => setShowTerminos(false)
+  }, React.createElement("div", {
+    className: "bg-white rounded-3xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl",
+    onClick: e => e.stopPropagation()
+  }, React.createElement("div", {
+    className: "flex items-center justify-between p-6 border-b border-brand-border"
+  }, React.createElement("h3", {
+    className: "text-lg font-black text-brand-oxford flex items-center gap-2"
+  }, React.createElement("i", {
+    className: "fa-solid fa-scale-balanced text-brand-fuchsia"
+  }), " T\xE9rminos y Condiciones de Uso"), React.createElement("button", {
+    type: "button",
+    onClick: () => setShowTerminos(false),
+    className: "w-9 h-9 rounded-full hover:bg-brand-grayLight flex items-center justify-center text-gray-500 transition-colors"
+  }, React.createElement("i", {
+    className: "fa-solid fa-xmark"
+  }))), React.createElement("div", {
+    className: "p-6 overflow-y-auto text-sm text-gray-600 custom-scrollbar leading-relaxed"
+  }, React.createElement("p", {
+    className: "font-bold mb-2"
+  }, "T\xC9RMINOS Y CONDICIONES DE USO \u2013 PATAGONIA EXPERIENCIAS"), React.createElement("p", {
+    className: "mb-3"
+  }, "Bienvenido a www.patagoniaexperiencias.com (efe5 proyectos srl) (en adelante, el \"Sitio Web\"). Al acceder o utilizar este sitio web, aceptas cumplir con los siguientes T\xE9rminos y Condiciones. Si no est\xE1s de acuerdo con estos t\xE9rminos, por favor no utilices este sitio."), React.createElement("p", {
+    className: "font-bold mb-1"
+  }, "1. OBJETO"), React.createElement("p", {
+    className: "mb-3"
+  }, "El presente Sitio Web tiene como finalidad facilitar informaci\xF3n relacionada con promociones, beneficios, descuentos y reservas ofrecidos por terceros adheridos al programa \"Patagonia Experiencias\". Los usuarios interesados pueden completar formularios de registro para recibir informaci\xF3n o acceder a dichas ofertas."), React.createElement("p", {
+    className: "font-bold mb-1"
+  }, "2. RESPONSABILIDAD DEL USUARIO"), React.createElement("p", {
+    className: "mb-3"
+  }, "El usuario que completa cualquier formulario disponible en el Sitio Web es el \xFAnico responsable de verificar, gestionar y otorgar los beneficios, descuentos u ofertas publicadas. Patagonia Experiencias act\xFAa \xFAnicamente como medio informativo y no interviene directamente en la provisi\xF3n ni en el cumplimiento de dichas promociones. El usuario se compromete a proporcionar informaci\xF3n veraz, actualizada y completa al momento de completar cualquier formulario dentro del Sitio Web."), React.createElement("p", {
+    className: "font-bold mb-1"
+  }, "3. EXENCI\xD3N DE RESPONSABILIDAD"), React.createElement("p", {
+    className: "mb-3"
+  }, "Patagonia Experiencias no se responsabiliza por el incumplimiento total o parcial de las obligaciones derivadas de las promociones, descuentos o beneficios ofrecidos por terceros. Cualquier controversia, reclamo o situaci\xF3n vinculada al incumplimiento de dichas ofertas deber\xE1 resolverse directamente entre el usuario y el tercero responsable de la promoci\xF3n."), React.createElement("p", {
+    className: "font-bold mb-1"
+  }, "4. MODIFICACIONES"), React.createElement("p", {
+    className: "mb-3"
+  }, "Patagonia Experiencias se reserva el derecho de modificar en cualquier momento los presentes T\xE9rminos y Condiciones. Las modificaciones ser\xE1n efectivas desde su publicaci\xF3n en el Sitio Web.")), React.createElement("div", {
+    className: "p-6 border-t border-brand-border"
+  }, React.createElement("button", {
+    type: "button",
+    onClick: () => setShowTerminos(false),
+    className: "w-full bg-brand-fuchsia hover:bg-brand-fuchsiaDark text-white font-bold py-3 rounded-xl transition-colors"
+  }, "Entendido")))));
+}
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(React.createElement(App, null));
+</script>
+</body>
+</html>

@@ -1,0 +1,1818 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AIKE · Armá tu escapada · Patagonia Experiencias</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth-compat.js"></script>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <style>
+    * { font-family:'Montserrat',sans-serif; -webkit-tap-highlight-color:transparent; }
+    body { background:#0b0b0d; }
+    .bg-app   { background:linear-gradient(168deg,#0b0b0d 0%,#141416 60%,#1b1b1f 100%); }
+    .grad-acc { background:linear-gradient(135deg,#E91E63 0%,#a3123f 100%); }
+    .spine    { background:linear-gradient(180deg,#3a3a42 0%,#17171b 100%); }
+    .fade-up  { animation:fadeUp .45s cubic-bezier(.2,.7,.2,1) both; }
+    .pop      { animation:pop .35s cubic-bezier(.2,.8,.2,1) both; }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
+    @keyframes pop { from{opacity:0;transform:translateY(8px) scale(.98)} to{opacity:1;transform:none} }
+    @keyframes spin { to{transform:rotate(360deg)} }
+    .spin { animation:spin .9s linear infinite; }
+    .typing { display:flex; gap:4px; align-items:center; height:20px; }
+    .typing span { width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,.55); animation:typing 1.2s infinite ease-in-out both; }
+    .typing span:nth-child(2){ animation-delay:.18s; }
+    .typing span:nth-child(3){ animation-delay:.36s; }
+    @keyframes typing { 0%,60%,100%{transform:translateY(0);opacity:.35} 30%{transform:translateY(-5px);opacity:1} }
+    .fade-in-soft { animation:fadeInSoft .4s ease both; }
+    @keyframes fadeInSoft { from{opacity:0;transform:translateY(2px)} to{opacity:1;transform:none} }
+    @media (prefers-reduced-motion: reduce){ .fade-up,.pop,.spin,.typing span,.fade-in-soft{animation:none} }
+    select option { background:#161618; color:#fff; }
+    .sel-wrap { position:relative; }
+    .sel-wrap::after { content:'▾'; position:absolute; right:12px; top:50%; transform:translateY(-50%); color:#8a8a93; font-size:12px; pointer-events:none; }
+    select:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible { outline:2px solid #E91E63; outline-offset:2px; }
+    a { text-decoration:none; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script>
+    /* FIREBASE — config real */
+    const firebaseConfig = (typeof __firebase_config !== 'undefined') ? JSON.parse(__firebase_config) : {
+      apiKey:"AIzaSyDZkeRgN45FkOF8pO2rGxDJA28VZnZ8Ntg", authDomain:"patagonia-experiencias.firebaseapp.com",
+      projectId:"patagonia-experiencias", storageBucket:"patagonia-experiencias.firebasestorage.app",
+      messagingSenderId:"169796366610", appId:"1:169796366610:web:3e2c7e65262933647983cb"
+    };
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    var db = firebase.firestore();
+    var auth = firebase.auth();
+    auth.signInAnonymously().catch(function(e){ console.warn('Auth anónima AIKE:', e); });
+    var APP_ID = (typeof __app_id !== 'undefined') ? __app_id : 'patagonia-experiencias-app';
+    var SESSION_ID = (function(){ try { var s = sessionStorage.getItem('aike_sid'); if(!s){ s = 'sid_' + Date.now().toString(36) + Math.random().toString(36).slice(2,8); sessionStorage.setItem('aike_sid', s); } return s; } catch(_){ return 'sid_' + Date.now().toString(36) + Math.random().toString(36).slice(2,8); } })();
+    function track(tipo, datos){
+      try {
+        var ev = { sessionId: SESSION_ID, tipo: tipo, datos: datos || {}, fecha: new Date().toISOString(), ts: Date.now(), ua: (navigator.userAgent||'').slice(0,120) };
+        var ref = db.collection('artifacts').doc(APP_ID).collection('public').doc('data').collection('aike_eventos');
+        if (auth.currentUser) { ref.add(ev); }
+        else { auth.signInAnonymously().then(function(){ ref.add(ev); }).catch(function(){}); }
+      } catch(e){}
+    }
+
+    /* ===== AJUSTES — editá estas líneas ===== */
+    var AIKE_AVATAR  = '/img/aike.png';                          // subí tu imagen acá (FTP) o pegá la URL de Storage
+    var MAKE_WEBHOOK_URL = 'https://createpaymentlink-3hovjdsoiq-uc.a.run.app';  // mismo webhook de pago del sitio
+    var SOLO_AGENCIAS_HABILITADAS = true;                        // PRODUCCIÓN: solo agencias con escapadasHabilitadoAdmin === true
+    var REGALO_DEMO_TEXTO = '';                                  // PRUEBA: ej 'Una botella de Pinot Noir de Viñas de Nant y Fall'. Dejar vacío en producción.
+    var REGALO_DEMO_INCLUIDO = true;                             // true = de regalo · false = no incluido, se abona en el establecimiento
+    /* El WhatsApp del asesor se lee del admin: configuracion/contacto -> whatsappSoporte */
+    /* El regalo real lo carga cada agencia en su ficha: regaloEscapadaActivo / regaloEscapadaTexto / regaloEscapadaIncluido */
+  </script>
+
+  <script>
+const {
+  useState,
+  useMemo,
+  useEffect,
+  useRef
+} = React;
+
+/* ============================ HELPERS del sitio (replicados identicos) ============================ */
+const slugify = texto => {
+  if (!texto) return '';
+  return texto.toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+};
+const getTourSlug = (tour, allTours) => {
+  if (!tour || !tour.titulo) return tour?.id || '';
+  const baseSlug = slugify(tour.titulo);
+  if (!Array.isArray(allTours) || allTours.length === 0) return baseSlug;
+  const conMismo = allTours.filter(t => slugify(t.titulo) === baseSlug).sort((a, b) => (a.id || '').localeCompare(b.id || ''));
+  const i = conMismo.findIndex(t => t.id === tour.id);
+  return i <= 0 ? baseSlug : baseSlug + '-' + (i + 1);
+};
+
+/* ============================ PRECIOS (replicado del sitio) ============================ */
+let _agenciasGlobal = [];
+let _planesGlobal = {};
+const setDatosCalculoPrecio = (agencias, planes) => {
+  _agenciasGlobal = agencias || [];
+  _planesGlobal = planes || {};
+};
+const calcularPreciosTour = (tour, agencias, planes) => {
+  agencias = agencias || _agenciasGlobal;
+  planes = planes || _planesGlobal;
+  const precioBase = Number(tour?.precio) || 0;
+  const agencia = (agencias || []).find(a => a.id === tour?.proveedorId || a.userId === tour?.proveedorId || a.uid === tour?.proveedorId);
+  let comisionPct = 0;
+  if (agencia) {
+    if (typeof agencia.comisionOverride === 'number' && agencia.comisionOverride >= 0) comisionPct = agencia.comisionOverride;else if (planes && agencia.plan && planes[agencia.plan]) comisionPct = Number(planes[agencia.plan].comision) || 0;
+  }
+  if (tour && typeof tour.comisionExtra === 'number' && tour.comisionExtra >= comisionPct) comisionPct = tour.comisionExtra;
+  const comisionBruta = Math.round(precioBase * comisionPct / 100);
+  let descuentoTurista = 0;
+  const tieneTipoNuevo = typeof tour?.tipoDescuento === 'string' && tour.tipoDescuento !== '';
+  const tipoDesc = tieneTipoNuevo ? tour.tipoDescuento : tour?.precioDescuento ? 'monto' : 'ninguno';
+  const valorDesc = tieneTipoNuevo ? Number(tour?.valorDescuento) || 0 : Number(tour?.precioDescuento) || 0;
+  if (tipoDesc === 'monto') descuentoTurista = valorDesc;else if (tipoDesc === 'porcentaje') descuentoTurista = Math.round(comisionBruta * valorDesc / 100);
+  const precioPreventa = Math.max(0, precioBase - descuentoTurista);
+  const precioReserva = Math.max(0, comisionBruta - descuentoTurista);
+  const saldoDestino = Math.max(0, precioBase - comisionBruta);
+  const ahorroTurista = precioBase - precioPreventa;
+  const descuentoPctReal = precioBase > 0 ? Math.round(ahorroTurista / precioBase * 100) : 0;
+  return {
+    precioBase,
+    comisionPct,
+    comisionBruta,
+    descuentoTurista,
+    precioPreventa,
+    precioReserva,
+    saldoDestino,
+    ahorroTurista,
+    descuentoPctReal
+  };
+};
+
+/* ============================ MOTOR ============================ */
+const ZONAS = [{
+  id: 'esquel_trevelin',
+  nombre: 'Esquel y Trevelin',
+  tipo: 'montana',
+  vibe: 'montaña y bosque',
+  localidades: ['Esquel, Chubut', 'Trevelin, Chubut']
+}, {
+  id: 'comarca_andina',
+  nombre: 'Comarca Andina',
+  tipo: 'montana',
+  vibe: 'bosque y lagos',
+  localidades: ['El Hoyo, Chubut', 'Lago Puelo, Chubut', 'El Bolsón, Río Negro']
+}, {
+  id: 'madryn_valdes',
+  nombre: 'Madryn y Valdés',
+  tipo: 'mar',
+  vibe: 'mar y fauna',
+  localidades: ['Puerto Madryn, Chubut', 'Puerto Pirámides, Chubut']
+}, {
+  id: 'valle_chubut',
+  nombre: 'Valle del Chubut',
+  tipo: 'cultura',
+  vibe: 'cultura galesa',
+  localidades: ['Trelew, Chubut', 'Rawson, Chubut', 'Playa Unión, Chubut', 'Gaiman, Chubut', 'Dolavon, Chubut']
+}, {
+  id: 'comodoro',
+  nombre: 'Comodoro y Sarmiento',
+  tipo: 'estepa',
+  vibe: 'costa y bosque petrificado',
+  localidades: ['Comodoro Rivadavia, Chubut', 'Sarmiento, Chubut']
+}, {
+  id: 'camarones',
+  nombre: 'Camarones',
+  tipo: 'mar',
+  vibe: 'mar y pingüinos',
+  localidades: ['Camarones, Chubut']
+}, {
+  id: 'bariloche',
+  nombre: 'Bariloche',
+  tipo: 'montana',
+  vibe: 'montaña y lagos',
+  localidades: ['San Carlos de Bariloche, Río Negro']
+}, {
+  id: 'calafate_chalten',
+  nombre: 'Calafate y Chaltén',
+  tipo: 'glaciar',
+  vibe: 'glaciares',
+  localidades: ['El Calafate, Santa Cruz', 'El Chaltén, Santa Cruz']
+}];
+const TIPOS = [{
+  id: 'montana',
+  lbl: 'Montaña y bosques',
+  desc: 'Cerros, lagos y senderos',
+  icon: 'fa-mountain-sun'
+}, {
+  id: 'mar',
+  lbl: 'Mar y fauna',
+  desc: 'Ballenas, pingüinos y playas',
+  icon: 'fa-water'
+}, {
+  id: 'estepa',
+  lbl: 'Aventura y meseta',
+  desc: 'Estepa y bosques petrificados',
+  icon: 'fa-binoculars'
+}, {
+  id: 'cultura',
+  lbl: 'Pueblos y cultura',
+  desc: 'Historia galesa y tradiciones',
+  icon: 'fa-landmark-dome'
+}, {
+  id: 'glaciar',
+  lbl: 'Glaciares',
+  desc: 'Hielo eterno y montañas',
+  icon: 'fa-icicles'
+}];
+const PROVINCIAS = [{
+  id: 'chubut',
+  nombre: 'Chubut'
+}, {
+  id: 'rio_negro',
+  nombre: 'Río Negro'
+}, {
+  id: 'neuquen',
+  nombre: 'Neuquén'
+}, {
+  id: 'santa_cruz',
+  nombre: 'Santa Cruz'
+}, {
+  id: 'tierra_fuego',
+  nombre: 'Tierra del Fuego'
+}];
+const REGIONES = [{
+  id: 'peninsula_valdes_madryn',
+  nombre: 'Península Valdés y Madryn',
+  provincia: 'chubut',
+  tipo: 'mar'
+}, {
+  id: 'valle_chubut',
+  nombre: 'Valle del Chubut',
+  provincia: 'chubut',
+  tipo: 'cultura'
+}, {
+  id: 'esquel_trevelin',
+  nombre: 'Esquel y Trevelin',
+  provincia: 'chubut',
+  tipo: 'montana'
+}, {
+  id: 'comarca_andina',
+  nombre: 'Comarca Andina',
+  provincia: 'chubut',
+  tipo: 'montana'
+}, {
+  id: 'meseta_central',
+  nombre: 'Meseta Central',
+  provincia: 'chubut',
+  tipo: 'estepa'
+}, {
+  id: 'comodoro_sarmiento',
+  nombre: 'Comodoro y Sarmiento',
+  provincia: 'chubut',
+  tipo: 'estepa'
+}, {
+  id: 'camarones',
+  nombre: 'Camarones',
+  provincia: 'chubut',
+  tipo: 'mar'
+}, {
+  id: 'bariloche',
+  nombre: 'Bariloche',
+  provincia: 'rio_negro',
+  tipo: 'montana'
+}, {
+  id: 'las_grutas',
+  nombre: 'Las Grutas',
+  provincia: 'rio_negro',
+  tipo: 'mar'
+}, {
+  id: 'san_martin_angostura',
+  nombre: 'San Martín y Villa La Angostura',
+  provincia: 'neuquen',
+  tipo: 'montana'
+}, {
+  id: 'calafate_chalten',
+  nombre: 'Calafate y Chaltén',
+  provincia: 'santa_cruz',
+  tipo: 'glaciar'
+}, {
+  id: 'ushuaia',
+  nombre: 'Ushuaia',
+  provincia: 'tierra_fuego',
+  tipo: 'glaciar'
+}];
+const ZONA_A_REGION = {
+  madryn_valdes: 'peninsula_valdes_madryn',
+  valle_chubut: 'valle_chubut',
+  esquel_trevelin: 'esquel_trevelin',
+  comarca_andina: 'comarca_andina',
+  comodoro: 'comodoro_sarmiento',
+  camarones: 'camarones',
+  bariloche: 'bariloche',
+  calafate_chalten: 'calafate_chalten'
+};
+const ciudadSlug = l => slugify((l || '').split(',')[0]);
+const zonaDe = d => {
+  const k = slugify(d || '');
+  if (k) {
+    const z = ZONAS.find(zz => zz.localidades.some(l => {
+      const c = ciudadSlug(l);
+      return c && (k === c || new RegExp('(^|-)' + c + '(-|$)').test(k));
+    }));
+    if (z) return z;
+  }
+  return {
+    id: 'otros',
+    nombre: 'Otros destinos',
+    tipo: 'otros',
+    vibe: '',
+    localidades: [d]
+  };
+};
+const regionInfo = id => REGIONES.find(r => r.id === id);
+const provNombre = pid => (PROVINCIAS.find(p => p.id === pid) || {}).nombre || '';
+const regionesDe = t => {
+  if (Array.isArray(t.regiones) && t.regiones.length) {
+    const v = t.regiones.filter(id => REGIONES.some(r => r.id === id));
+    if (v.length) return v;
+  }
+  const z = zonaDe(t.destino);
+  const r = ZONA_A_REGION[z.id];
+  return r ? [r] : [];
+};
+const PESO = {
+    par_horas: 2,
+    medio_dia: 3,
+    dia_completo: 6
+  },
+  CAP = 6;
+const pesoDe = t => PESO[t.duracionBloque || 'medio_dia'] || 3;
+const ratingDe = t => Number(t.rating) || 0;
+const likesDe = t => Number(t.likes) || 0;
+const num = v => {
+  const n = Number(v);
+  return isNaN(n) ? 0 : n;
+};
+const dispEn = (t, temp) => !temp || !(t.temporadas || []).length || t.temporadas.includes(temp);
+const matchPerfil = (t, p) => p && (t.perfiles || []).includes(p) ? 1 : 0;
+const pre = t => calcularPreciosTour(t);
+const efectivo = t => pre(t).precioPreventa;
+const ahorroDe = t => pre(t).ahorroTurista;
+function armar(tours, {
+  dias,
+  temporada,
+  perfil,
+  offset = 0
+}) {
+  const elegibles = tours.filter(t => dispEn(t, temporada)).sort((a, b) => matchPerfil(b, perfil) - matchPerfil(a, perfil) || ratingDe(b) - ratingDe(a) || likesDe(b) - likesDe(a) || pesoDe(b) - pesoDe(a));
+  if (!elegibles.length) return {
+    seleccionados: [],
+    opcionales: []
+  };
+  const off = (offset % elegibles.length + elegibles.length) % elegibles.length;
+  const rot = elegibles.slice(off).concat(elegibles.slice(0, off));
+  return {
+    seleccionados: rot.slice(0, dias),
+    opcionales: rot.slice(dias)
+  };
+}
+function respiroDe(acts) {
+  if (!acts || !acts.length) return 'Día libre · sumá una experiencia si querés';
+  const tipos = acts.map(t => t.duracionBloque || 'medio_dia');
+  if (tipos.includes('dia_completo') || acts.reduce((s, t) => s + pesoDe(t), 0) >= 6) return 'Noche libre';
+  if (tipos.includes('medio_dia')) return 'Tarde libre';
+  return 'Resto del día libre';
+}
+function pistasDeTexto(txt) {
+  const s = (txt || '').toLowerCase(),
+    o = {};
+  if (/(famil|nen|chic|hij|niñ)/.test(s)) o.perfil = 'familia';
+  if (/(odio el frío|sin frío|nada de frío|calor)/.test(s)) o.evitarInvierno = true;
+  return o;
+}
+
+/* ============================ UI base ============================ */
+const TEMPORADAS = [{
+  id: 'verano',
+  lbl: 'Verano'
+}, {
+  id: 'otono',
+  lbl: 'Otoño'
+}, {
+  id: 'invierno',
+  lbl: 'Invierno'
+}, {
+  id: 'primavera',
+  lbl: 'Primavera'
+}];
+const PERFILES = [{
+  id: 'familia',
+  lbl: 'En familia'
+}, {
+  id: 'pareja',
+  lbl: 'En pareja'
+}, {
+  id: 'amigos',
+  lbl: 'Con amigos'
+}, {
+  id: 'solo',
+  lbl: 'Solo / a mi aire'
+}];
+const BLOQUE_LBL = {
+  par_horas: 'Un par de horas',
+  medio_dia: 'Medio día',
+  dia_completo: 'Día completo'
+};
+const fmt = n => '$' + (n || 0).toLocaleString('es-AR');
+const stripHtml = s => (s || '').replace(/<br\s*\/?>/gi, '\n').replace(/<\/p>/gi, '\n\n').replace(/<[^>]+>/g, '').replace(/&nbsp;/gi, ' ').replace(/&amp;/gi, '&').replace(/&aacute;/gi, 'á').replace(/&eacute;/gi, 'é').replace(/&iacute;/gi, 'í').replace(/&oacute;/gi, 'ó').replace(/&uacute;/gi, 'ú').replace(/&ntilde;/gi, 'ñ').replace(/\n{3,}/g, '\n\n').trim();
+const idAg = a => a && (a.id || a.userId || a.uid) || null;
+const nombreAg = (a, fallback) => a && (a.nombreFantasia || a.razonSocial || a.nombre) || fallback || 'la agencia';
+const emailAg = a => a && (a.emailContacto || a.email || a.correo) || '';
+/* Agrupa los tours de la zona por proveedor (= una agencia por escapada). Devuelve los proveedores ordenados por inventario. */
+function proveedoresDeZona(toursZona, agencias) {
+  const map = new Map();
+  (toursZona || []).forEach(t => {
+    const pid = t.proveedorId;
+    if (!pid) return;
+    if (!map.has(pid)) map.set(pid, {
+      pid,
+      nombre: t.proveedorNombre || '',
+      tours: []
+    });
+    map.get(pid).tours.push(t);
+  });
+  let arr = [...map.values()];
+  if (SOLO_AGENCIAS_HABILITADAS) arr = arr.filter(p => {
+    const a = (agencias || []).find(a => idAg(a) === p.pid);
+    return a && a.escapadasHabilitadoAdmin === true;
+  });
+  return arr.sort((a, b) => b.tours.length - a.tours.length);
+}
+/* Regalo de cortesía de la agencia (o el demo de prueba si está seteado). */
+function regaloDe(ag) {
+  if (ag && ag.regaloEscapadaActivo && (ag.regaloEscapadaTexto || '').trim()) return {
+    texto: ag.regaloEscapadaTexto.trim(),
+    incluido: ag.regaloEscapadaIncluido !== false
+  };
+  if ((REGALO_DEMO_TEXTO || '').trim()) return {
+    texto: REGALO_DEMO_TEXTO.trim(),
+    incluido: REGALO_DEMO_INCLUIDO !== false
+  };
+  return null;
+}
+
+/* Logo de marca: replica del header del sitio */
+function Logo() {
+  return /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center gap-2.5"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "w-9 h-9 rounded-xl flex items-center justify-center text-white shadow-lg",
+    style: {
+      background: '#E91E63'
+    }
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fa-solid fa-map-location-dot text-base"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "leading-none"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "font-bold text-[15px] tracking-tight block text-white"
+  }, "Patagonia", /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: '#E91E63'
+    }
+  }, "Experiencias")), /*#__PURE__*/React.createElement("span", {
+    className: "text-[8px] uppercase tracking-[0.2em] font-bold text-white/45"
+  }, "Plataforma de Reservas")));
+}
+function AikeAvatar({
+  size = 44
+}) {
+  return /*#__PURE__*/React.createElement("img", {
+    src: AIKE_AVATAR,
+    alt: "AIKE",
+    onError: e => {
+      e.target.style.visibility = 'hidden';
+    },
+    className: "rounded-full object-cover bg-white/[0.07] border border-white/15 shrink-0",
+    style: {
+      width: size,
+      height: size
+    }
+  });
+}
+function Precio({
+  t,
+  personas,
+  vig
+}) {
+  const c = pre(t),
+    p = personas || 1;
+  const pv = c.precioPreventa * p,
+    base = c.precioBase * p,
+    ah = c.ahorroTurista * p;
+  const mostrarDesc = vig !== false && ah > 0;
+  return /*#__PURE__*/React.createElement("div", {
+    className: "text-right whitespace-nowrap"
+  }, mostrarDesc && /*#__PURE__*/React.createElement("p", {
+    className: "text-white/30 text-[11px] line-through leading-none"
+  }, fmt(base)), /*#__PURE__*/React.createElement("p", {
+    className: "text-[#E91E63] font-black text-lg leading-tight"
+  }, fmt(mostrarDesc ? pv : base)), /*#__PURE__*/React.createElement("p", {
+    className: "text-white/35 text-[10px] uppercase tracking-wide"
+  }, p > 1 ? 'total · ' + p + ' pers.' : 'por persona'));
+}
+function Actividad({
+  t,
+  personas,
+  onInfo,
+  onQuitar,
+  dia,
+  dias,
+  onMover,
+  onTomar,
+  vig
+}) {
+  const loc = (t.destino || '').split(',')[0];
+  return /*#__PURE__*/React.createElement("div", {
+    draggable: true,
+    onDragStart: () => onTomar(t.id),
+    className: "rounded-xl bg-white/[0.035] border border-white/10 hover:border-white/25 px-3.5 py-3 transition-colors sm:cursor-grab sm:active:cursor-grabbing"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-start gap-3"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fa-solid fa-grip-vertical text-white/20 text-sm mt-1 hidden sm:block shrink-0",
+    title: "Arrastr\xE1 para cambiar de d\xEDa"
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "flex-1 min-w-0"
+  }, /*#__PURE__*/React.createElement("p", {
+    className: "text-white font-semibold text-[14px] sm:text-[15px] leading-tight"
+  }, t.titulo), /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center gap-1.5 sm:gap-2 mt-1.5 flex-wrap"
+  }, loc && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("span", {
+    className: "text-[9px] sm:text-[10px] uppercase tracking-widest font-bold text-white/35"
+  }, loc), /*#__PURE__*/React.createElement("span", {
+    className: "text-white/15"
+  }, "\xB7")), /*#__PURE__*/React.createElement("span", {
+    className: "text-[9px] sm:text-[10px] uppercase tracking-widest font-light text-white/45"
+  }, BLOQUE_LBL[t.duracionBloque] || 'Medio día'), ratingDe(t) > 0 && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("span", {
+    className: "text-white/15"
+  }, "\xB7"), /*#__PURE__*/React.createElement("span", {
+    className: "text-white/55 text-[11px] font-semibold"
+  }, "\u2605 ", ratingDe(t).toFixed(1))))), /*#__PURE__*/React.createElement(Precio, {
+    t: t,
+    personas: personas,
+    vig: vig
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center gap-2 mt-2.5 flex-wrap"
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: () => onInfo(t),
+    className: "bg-white/[0.06] border border-white/15 text-white text-xs font-bold rounded-lg px-3 py-1.5 hover:border-white/30 transition-colors"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fa-solid fa-circle-info text-[11px] mr-1"
+  }), " Info"), dias > 1 && /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center gap-1"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "text-white/30 text-[10px] uppercase tracking-wider font-bold mr-0.5"
+  }, "D\xEDa"), Array.from({
+    length: dias
+  }, (_, i) => /*#__PURE__*/React.createElement("button", {
+    key: i,
+    onClick: () => {
+      if (i !== dia) onMover(t.id, i);
+    },
+    className: "w-6 h-6 rounded-md text-[11px] font-bold transition-colors " + (i === dia ? "bg-[#E91E63] text-white" : "bg-white/[0.06] border border-white/15 text-white/60 hover:border-white/35")
+  }, i + 1))), /*#__PURE__*/React.createElement("button", {
+    onClick: () => onQuitar(t),
+    className: "ml-auto text-white/40 text-xs font-semibold hover:text-[#E91E63] transition-colors"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fa-solid fa-xmark mr-1"
+  }), "Quitar")));
+}
+function InfoModal({
+  tour,
+  onClose
+}) {
+  if (!tour) return null;
+  const loc = (tour.destino || '').split(',')[0];
+  return /*#__PURE__*/React.createElement("div", {
+    className: "fixed inset-0 z-[60] flex items-end sm:items-center justify-center",
+    onClick: onClose
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "absolute inset-0 bg-black/70 backdrop-blur-sm"
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "relative bg-[#161618] border border-white/12 rounded-t-2xl sm:rounded-2xl w-full sm:max-w-lg max-h-[88vh] overflow-y-auto pop",
+    onClick: e => e.stopPropagation()
+  }, tour.imagen && /*#__PURE__*/React.createElement("img", {
+    src: tour.imagen,
+    alt: tour.titulo,
+    className: "w-full h-48 object-cover rounded-t-2xl",
+    onError: e => {
+      e.target.style.display = 'none';
+    }
+  }), /*#__PURE__*/React.createElement("button", {
+    onClick: onClose,
+    className: "absolute top-3 right-3 w-9 h-9 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-black/70"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fa-solid fa-xmark"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "p-5"
+  }, /*#__PURE__*/React.createElement("p", {
+    className: "text-white font-bold text-lg leading-tight"
+  }, tour.titulo), /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center gap-2 mt-2 flex-wrap"
+  }, loc && /*#__PURE__*/React.createElement("span", {
+    className: "text-[10px] uppercase tracking-widest font-bold text-white/40"
+  }, loc), /*#__PURE__*/React.createElement("span", {
+    className: "text-white/15"
+  }, "\xB7"), /*#__PURE__*/React.createElement("span", {
+    className: "text-[10px] uppercase tracking-widest font-light text-white/45"
+  }, BLOQUE_LBL[tour.duracionBloque] || 'Medio día'), ratingDe(tour) > 0 && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("span", {
+    className: "text-white/15"
+  }, "\xB7"), /*#__PURE__*/React.createElement("span", {
+    className: "text-white/55 text-xs font-semibold"
+  }, "\u2605 ", ratingDe(tour).toFixed(1)))), (() => {
+    const desc = stripHtml(tour.descripcionLarga || tour.descripcion || tour.resenaAdmin || '');
+    return desc ? /*#__PURE__*/React.createElement("p", {
+      className: "text-white/70 text-sm leading-relaxed mt-3 whitespace-pre-line"
+    }, desc) : /*#__PURE__*/React.createElement("p", {
+      className: "text-white/40 text-sm italic mt-3"
+    }, "Esta experiencia todav\xEDa no tiene descripci\xF3n cargada. Si quer\xE9s m\xE1s detalles, escribinos por WhatsApp.");
+  })(), /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center justify-between mt-4 pt-4 border-t border-white/10"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "text-white/40 text-xs uppercase tracking-widest font-bold"
+  }, "Precio por persona"), /*#__PURE__*/React.createElement("span", {
+    className: "text-white font-black text-xl"
+  }, fmt(num(tour.precio)))))));
+}
+function Checkout({
+  resumen,
+  proveedorOk,
+  onClose,
+  onPagar,
+  estado,
+  errorDetalle
+}) {
+  const [d, setD] = useState({
+    nombre: '',
+    email: '',
+    telefono: ''
+  });
+  const valido = d.nombre.trim() && /\S+@\S+\.\S+/.test(d.email) && d.telefono.trim().length >= 6;
+  const inp = "w-full bg-white/[0.05] border border-white/15 rounded-xl px-4 py-3 text-white text-[15px] placeholder-white/30 outline-none focus:border-[#E91E63]";
+  return /*#__PURE__*/React.createElement("div", {
+    className: "fixed inset-0 z-[60] flex items-end sm:items-center justify-center",
+    onClick: estado === 'pagando' ? undefined : onClose
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "absolute inset-0 bg-black/70 backdrop-blur-sm"
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "relative bg-[#161618] border border-white/12 rounded-t-2xl sm:rounded-2xl w-full sm:max-w-md max-h-[90vh] overflow-y-auto pop p-5",
+    onClick: e => e.stopPropagation()
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center justify-between mb-1"
+  }, /*#__PURE__*/React.createElement("p", {
+    className: "text-white font-bold text-lg"
+  }, "Confirm\xE1 tu reserva"), estado !== 'pagando' && /*#__PURE__*/React.createElement("button", {
+    onClick: onClose,
+    className: "w-8 h-8 rounded-full bg-white/[0.06] text-white/70 flex items-center justify-center"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fa-solid fa-xmark"
+  }))), /*#__PURE__*/React.createElement("p", {
+    className: "text-white/50 text-xs mb-4"
+  }, resumen), /*#__PURE__*/React.createElement("div", {
+    className: "space-y-2.5"
+  }, /*#__PURE__*/React.createElement("input", {
+    className: inp,
+    placeholder: "Nombre y apellido",
+    value: d.nombre,
+    onChange: e => setD({
+      ...d,
+      nombre: e.target.value
+    })
+  }), /*#__PURE__*/React.createElement("input", {
+    className: inp,
+    type: "email",
+    placeholder: "Email",
+    value: d.email,
+    onChange: e => setD({
+      ...d,
+      email: e.target.value
+    })
+  }), /*#__PURE__*/React.createElement("input", {
+    className: inp,
+    placeholder: "Tel\xE9fono / WhatsApp",
+    value: d.telefono,
+    onChange: e => setD({
+      ...d,
+      telefono: e.target.value
+    })
+  })), !proveedorOk && /*#__PURE__*/React.createElement("p", {
+    className: "text-amber-400/90 text-[11px] mt-3"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fa-solid fa-triangle-exclamation mr-1"
+  }), " No pudimos identificar la agencia que recibe esta reserva."), estado === 'error' && /*#__PURE__*/React.createElement("p", {
+    className: "text-red-400 text-xs mt-3 break-words"
+  }, errorDetalle || 'No pudimos generar el pago. Probá de nuevo en un momento.'), /*#__PURE__*/React.createElement("button", {
+    disabled: !valido || estado === 'pagando',
+    onClick: () => onPagar(d),
+    className: "mt-4 w-full bg-green-600 text-white font-bold py-3.5 rounded-xl transition-colors " + (!valido || estado === 'pagando' ? "opacity-50 cursor-not-allowed" : "hover:bg-green-700")
+  }, estado === 'pagando' ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("i", {
+    className: "fa-solid fa-circle-notch spin mr-2"
+  }), "Generando pago\u2026") : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("i", {
+    className: "fa-solid fa-lock text-xs mr-2"
+  }), "Ir a pagar la se\xF1a")), /*#__PURE__*/React.createElement("p", {
+    className: "text-white/30 text-[10px] text-center mt-2"
+  }, "Pago seguro con Mercado Pago")));
+}
+function repartir(lista, dias) {
+  const plan = Array.from({
+    length: dias
+  }, (_, i) => ({
+    n: i + 1,
+    acts: []
+  }));
+  lista.forEach((t, i) => {
+    plan[i % dias].acts.push(t);
+  });
+  return plan;
+}
+function Dia({
+  n,
+  acts,
+  personas,
+  dias,
+  onInfo,
+  onQuitar,
+  onMover,
+  onTomar,
+  onSoltar,
+  activo,
+  setActivo,
+  vig
+}) {
+  return /*#__PURE__*/React.createElement("div", {
+    className: "relative pl-10 sm:pl-12 pb-6 fade-up",
+    onDragOver: e => {
+      e.preventDefault();
+      if (activo !== n) setActivo(n);
+    },
+    onDrop: e => {
+      e.preventDefault();
+      onSoltar(n - 1);
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "absolute left-0 top-0 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/[0.08] border border-white/20 flex items-center justify-center"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "text-white font-black text-sm"
+  }, n)), /*#__PURE__*/React.createElement("p", {
+    className: "text-white/30 text-[11px] uppercase tracking-[0.25em] font-bold mb-2.5 pt-1.5"
+  }, "D\xEDa ", n), /*#__PURE__*/React.createElement("div", {
+    className: "rounded-xl transition-all " + (activo === n ? "ring-2 ring-[#E91E63] ring-inset bg-[#E91E63]/[0.05] p-2 -m-0.5" : "")
+  }, acts.length > 0 && /*#__PURE__*/React.createElement("div", {
+    className: "space-y-2"
+  }, acts.map((t, i) => /*#__PURE__*/React.createElement(Actividad, {
+    key: t.id || i,
+    t: t,
+    personas: personas,
+    dia: n - 1,
+    dias: dias,
+    onInfo: onInfo,
+    onQuitar: onQuitar,
+    onMover: onMover,
+    onTomar: onTomar,
+    vig: vig
+  }))), /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center gap-2 mt-2.5 pl-0.5"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fa-regular fa-clock text-white/25 text-xs"
+  }), /*#__PURE__*/React.createElement("span", {
+    className: "text-white/40 text-[12.5px]"
+  }, respiroDe(acts)))));
+}
+function Centro({
+  children
+}) {
+  return /*#__PURE__*/React.createElement("div", {
+    className: "min-h-screen bg-app flex items-center justify-center px-6 text-center"
+  }, children);
+}
+function PieMarca() {
+  return /*#__PURE__*/React.createElement("footer", {
+    className: "border-t border-white/10 mt-4"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "max-w-3xl mx-auto px-4 sm:px-5 py-6 flex flex-col items-center gap-2"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "text-white/30 text-[10px] uppercase tracking-[0.25em] font-bold"
+  }, "Una herramienta de"), /*#__PURE__*/React.createElement(Logo, null)));
+}
+
+/* ============================ DATOS ============================ */
+function useTours() {
+  const [tours, setTours] = useState(null);
+  const [whatsappSoporte, setWhatsappSoporte] = useState('');
+  const [agencias, setAgencias] = useState([]);
+  const [datosListos, setDatosListos] = useState(false);
+  const [error, setError] = useState(null);
+  const [asesorActivo, setAsesorActivo] = useState(true);
+  useEffect(() => {
+    let vivo = true;
+    const data = db.collection('artifacts').doc(APP_ID).collection('public').doc('data');
+    Promise.all([data.collection('solicitudes_prestadores').get().then(s => {
+      const l = [];
+      s.forEach(d => l.push({
+        id: d.id,
+        ...d.data()
+      }));
+      return l;
+    }).catch(() => []), data.collection('configuracion').doc('planes').get().then(s => s.exists ? s.data() || {} : {}).catch(() => ({}))]).then(([ag, planes]) => {
+      if (vivo) {
+        setDatosCalculoPrecio(ag, planes);
+        setAgencias(ag);
+        setDatosListos(true);
+      }
+    });
+    data.collection('tours').get().then(snap => {
+      if (!vivo) return;
+      const l = [];
+      snap.forEach(d => {
+        const t = {
+          id: d.id,
+          ...d.data()
+        };
+        if (t.activo !== false && !t.pausadoPorAdmin) l.push(t);
+      });
+      setTours(l);
+    }).catch(e => {
+      if (vivo) setError(e.message || 'Error al leer las excursiones');
+    });
+    data.collection('configuracion').doc('contacto').get().then(snap => {
+      if (vivo && snap.exists) setWhatsappSoporte((snap.data() || {}).whatsappSoporte || '');
+    }).catch(() => {});
+    data.collection('configuracion').doc('widgets').get().then(snap => {
+      if (vivo && snap.exists) setAsesorActivo((snap.data() || {}).aikeAsesorWhatsapp !== false);
+    }).catch(() => {});
+    return () => {
+      vivo = false;
+    };
+  }, []);
+  return {
+    tours,
+    whatsappSoporte,
+    agencias,
+    datosListos,
+    error,
+    asesorActivo
+  };
+}
+
+/* ============================ INTRO (AIKE) ============================ */
+function Burbuja({
+  children,
+  size,
+  bref,
+  mb = 'mb-5',
+  ms = 750
+}) {
+  const [escribiendo, setEscribiendo] = useState(true);
+  useEffect(() => {
+    setEscribiendo(true);
+    const t = setTimeout(() => setEscribiendo(false), ms);
+    return () => clearTimeout(t);
+  }, []);
+  return /*#__PURE__*/React.createElement("div", {
+    ref: bref,
+    className: "flex items-start gap-3 pop " + mb
+  }, /*#__PURE__*/React.createElement(AikeAvatar, {
+    size: size
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "bg-white/[0.05] border border-white/10 rounded-2xl rounded-tl-sm px-4 py-3 max-w-[85%]"
+  }, /*#__PURE__*/React.createElement("p", {
+    className: "text-white/40 text-[10px] uppercase tracking-[0.25em] font-bold mb-1"
+  }, "AIKE"), escribiendo ? /*#__PURE__*/React.createElement("div", {
+    className: "typing"
+  }, /*#__PURE__*/React.createElement("span", null), /*#__PURE__*/React.createElement("span", null), /*#__PURE__*/React.createElement("span", null)) : /*#__PURE__*/React.createElement("div", {
+    className: "text-white text-[15px] leading-snug font-light fade-in-soft"
+  }, children)));
+}
+function Opcion({
+  children,
+  onClick
+}) {
+  return /*#__PURE__*/React.createElement("button", {
+    onClick: onClick,
+    className: "text-left bg-white/[0.04] border border-white/12 hover:border-white/35 hover:bg-white/[0.07] text-white font-semibold rounded-xl px-4 py-3 text-[15px] transition-colors"
+  }, children);
+}
+function Intro({
+  tiposDisponibles,
+  onListo
+}) {
+  const [paso, setPaso] = useState(0);
+  const [r, setR] = useState({
+    tipo: null,
+    temporada: null,
+    dias: null,
+    personas: null
+  });
+  const set = (k, v) => setR(p => ({
+    ...p,
+    [k]: v
+  }));
+  const ESTACIONES = [{
+    id: 'verano',
+    lbl: 'Verano',
+    desc: 'Dic a Mar',
+    icon: 'fa-sun'
+  }, {
+    id: 'otono',
+    lbl: 'Otoño',
+    desc: 'Mar a Jun',
+    icon: 'fa-leaf'
+  }, {
+    id: 'invierno',
+    lbl: 'Invierno',
+    desc: 'Jun a Sep · nieve',
+    icon: 'fa-snowflake'
+  }, {
+    id: 'primavera',
+    lbl: 'Primavera',
+    desc: 'Sep a Dic',
+    icon: 'fa-seedling'
+  }];
+  const pasos = [{
+    msg: /*#__PURE__*/React.createElement(React.Fragment, null, "\xA1Hola! Soy ", /*#__PURE__*/React.createElement("b", {
+      className: "font-bold text-white"
+    }, "AIKE"), " y te armo una escapada a medida en menos de un minuto. Lo primero: ", /*#__PURE__*/React.createElement("b", {
+      className: "font-bold text-white"
+    }, "\xBFqu\xE9 tipo de experiencia busc\xE1s?")),
+    opciones: [...tiposDisponibles.map(t => ({
+      lbl: /*#__PURE__*/React.createElement("span", {
+        className: "flex items-center gap-3"
+      }, /*#__PURE__*/React.createElement("i", {
+        className: 'fa-solid ' + t.icon + ' text-[#E91E63] w-5 text-center text-lg'
+      }), /*#__PURE__*/React.createElement("span", {
+        className: "font-semibold"
+      }, t.lbl, /*#__PURE__*/React.createElement("span", {
+        className: "text-white/35 font-normal"
+      }, " \xB7 ", t.desc))),
+      val: t.id
+    })), {
+      lbl: /*#__PURE__*/React.createElement("span", {
+        className: "flex items-center gap-3"
+      }, /*#__PURE__*/React.createElement("i", {
+        className: "fa-solid fa-wand-magic-sparkles text-white/45 w-5 text-center text-lg"
+      }), /*#__PURE__*/React.createElement("span", {
+        className: "text-white/70"
+      }, "Sorprendeme")),
+      val: '__auto'
+    }],
+    onPick: v => {
+      set('tipo', v);
+      setPaso(1);
+    }
+  }, {
+    msg: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("b", {
+      className: "font-bold text-white"
+    }, "\xBFEn qu\xE9 \xE9poca"), " pens\xE1s viajar? As\xED te muestro lo mejor de cada temporada."),
+    opciones: ESTACIONES.map(s => ({
+      lbl: /*#__PURE__*/React.createElement("span", {
+        className: "flex items-center gap-3"
+      }, /*#__PURE__*/React.createElement("i", {
+        className: 'fa-solid ' + s.icon + ' text-[#E91E63] w-5 text-center text-lg'
+      }), /*#__PURE__*/React.createElement("span", {
+        className: "font-semibold"
+      }, s.lbl, /*#__PURE__*/React.createElement("span", {
+        className: "text-white/35 font-normal"
+      }, " \xB7 ", s.desc))),
+      val: s.id
+    })),
+    onPick: v => {
+      set('temporada', v);
+      setPaso(2);
+    }
+  }, {
+    msg: /*#__PURE__*/React.createElement(React.Fragment, null, "\xA1Buen\xEDsimo! ", /*#__PURE__*/React.createElement("b", {
+      className: "font-bold text-white"
+    }, "\xBFCu\xE1ntos d\xEDas"), " ten\xE9s para escaparte?"),
+    opciones: [{
+      lbl: '2 días',
+      val: 2
+    }, {
+      lbl: '3 días',
+      val: 3
+    }, {
+      lbl: '4 días',
+      val: 4
+    }],
+    onPick: v => {
+      set('dias', v);
+      setPaso(3);
+    }
+  }, {
+    msg: /*#__PURE__*/React.createElement(React.Fragment, null, "Y lo \xFAltimo para darte el precio: ", /*#__PURE__*/React.createElement("b", {
+      className: "font-bold text-white"
+    }, "\xBFcu\xE1ntos viajan?")),
+    opciones: [{
+      lbl: '1 persona',
+      val: 1
+    }, {
+      lbl: '2 personas',
+      val: 2
+    }, {
+      lbl: '3 personas',
+      val: 3
+    }, {
+      lbl: '4 personas',
+      val: 4
+    }, {
+      lbl: '5 o más',
+      val: 5
+    }],
+    onPick: v => onListo({
+      ...r,
+      personas: v
+    })
+  }];
+  const actual = pasos[paso];
+  return /*#__PURE__*/React.createElement("div", {
+    className: "min-h-screen bg-app flex flex-col"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "max-w-xl w-full mx-auto px-4 sm:px-5 py-6 sm:py-10 flex-1"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center gap-3.5 mb-7 pb-7 border-b border-white/10"
+  }, /*#__PURE__*/React.createElement(AikeAvatar, {
+    size: 60
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "min-w-0"
+  }, /*#__PURE__*/React.createElement("h1", {
+    className: "text-white font-black text-2xl sm:text-3xl leading-none tracking-tight"
+  }, "AIKE"), /*#__PURE__*/React.createElement("p", {
+    className: "text-[#E91E63] text-[11px] sm:text-xs uppercase tracking-[0.2em] font-bold mt-1.5"
+  }, "Tu consultor de viajes"))), /*#__PURE__*/React.createElement("div", {
+    className: "flex gap-1.5 mb-7"
+  }, pasos.map((_, i) => /*#__PURE__*/React.createElement("div", {
+    key: i,
+    className: "h-1 flex-1 rounded-full " + (i < paso ? "bg-white/40" : i === paso ? "grad-acc" : "bg-white/10")
+  }))), /*#__PURE__*/React.createElement(Burbuja, {
+    key: paso
+  }, actual.msg), /*#__PURE__*/React.createElement("div", {
+    className: "grid gap-2.5 fade-up"
+  }, actual.opciones.map((o, i) => /*#__PURE__*/React.createElement(Opcion, {
+    key: i,
+    onClick: () => actual.onPick(o.val)
+  }, o.lbl))), paso > 0 && /*#__PURE__*/React.createElement("button", {
+    onClick: () => setPaso(paso - 1),
+    className: "text-white/40 text-xs font-semibold mt-5 hover:text-white/70"
+  }, "\u2190 Volver")), /*#__PURE__*/React.createElement(PieMarca, null));
+}
+
+/* ============================ RESULTADO ============================ */
+const CUPON_TOTAL = 10 * 60;
+const leerCuponSegs = () => {
+  try {
+    let dl = sessionStorage.getItem('aike_cupon_dl');
+    if (!dl) {
+      dl = String(Date.now() + CUPON_TOTAL * 1000);
+      sessionStorage.setItem('aike_cupon_dl', dl);
+    }
+    return Math.max(0, Math.round((Number(dl) - Date.now()) / 1000));
+  } catch (_) {
+    return CUPON_TOTAL;
+  }
+};
+function ContadorCupon({
+  segs
+}) {
+  const mm = String(Math.floor(Math.max(0, segs) / 60)).padStart(2, '0');
+  const ss = String(Math.max(0, segs) % 60).padStart(2, '0');
+  if (segs <= 0) return /*#__PURE__*/React.createElement("p", {
+    className: "text-white/40 text-[11px] text-center mt-2 flex items-center justify-center gap-1.5"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fa-regular fa-clock"
+  }), " El descuento venci\xF3 \xB7 ahora abon\xE1s la se\xF1a completa");
+  return /*#__PURE__*/React.createElement("p", {
+    className: "text-amber-400 text-[12px] font-semibold text-center mt-2 flex items-center justify-center gap-1.5"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fa-regular fa-clock"
+  }), " Descuento v\xE1lido por ", /*#__PURE__*/React.createElement("span", {
+    className: "tabular-nums font-bold tracking-wide"
+  }, mm, ":", ss));
+}
+function Resultado({
+  tours,
+  agencias,
+  whatsappSoporte,
+  asesorActivo,
+  respuestas,
+  onReiniciar
+}) {
+  const zonasConTours = useMemo(() => {
+    const map = new Map();
+    tours.forEach(t => regionesDe(t).forEach(rid => {
+      const r = regionInfo(rid);
+      if (r && !map.has(r.id)) map.set(r.id, r);
+    }));
+    return [...map.values()];
+  }, [tours]);
+  const zonasDelTipo = useMemo(() => {
+    const t = respuestas.tipo;
+    if (!t || t === '__auto') return zonasConTours;
+    const f = zonasConTours.filter(z => z.tipo === t);
+    return f.length ? f : zonasConTours;
+  }, [respuestas.tipo, zonasConTours]);
+  const zonaInicial = useMemo(() => {
+    let best = null,
+      max = -1;
+    for (const z of zonasDelTipo) {
+      const c = tours.filter(t => regionesDe(t).includes(z.id)).length;
+      if (c > max) {
+        max = c;
+        best = z.id;
+      }
+    }
+    return best;
+  }, [zonasDelTipo, tours]);
+  const [zonaId, setZonaId] = useState(zonaInicial);
+  const [dias, setDias] = useState(respuestas.dias || 2);
+  const [personas, setPersonas] = useState(respuestas.personas || 2);
+  const [temporada, setTemporada] = useState(respuestas.temporada || 'verano');
+  const [propuesta, setPropuesta] = useState(0);
+  const [plan, setPlan] = useState([]);
+  const [dragId, setDragId] = useState(null);
+  const [diaActivo, setDiaActivo] = useState(null);
+  const [infoTour, setInfoTour] = useState(null);
+  const [checkout, setCheckout] = useState(false);
+  const [estadoPago, setEstadoPago] = useState('');
+  const [errorPago, setErrorPago] = useState('');
+  const yendoAPagar = useRef(false);
+  const topRef = useRef(null);
+  const perfil = respuestas.perfil;
+  const zona = zonasConTours.find(z => z.id === zonaId);
+  const provincias = [...new Set(zonasDelTipo.map(z => z.provincia).filter(Boolean))];
+  const provinciaActual = (regionInfo(zonaId) || {}).provincia;
+  const zonasMismaProv = zonasDelTipo.filter(z => z.provincia === provinciaActual);
+  const toursZonaTodos = useMemo(() => tours.filter(t => regionesDe(t).includes(zonaId) && t.escapadaHabilitado === true), [tours, zonaId]);
+  const provs = useMemo(() => proveedoresDeZona(toursZonaTodos, agencias), [toursZonaTodos, agencias]);
+  const anfProv = provs.length ? provs[propuesta % provs.length] : null;
+  const anfAg = useMemo(() => anfProv ? agencias.find(a => idAg(a) === anfProv.pid) : null, [anfProv, agencias]);
+  const toursZona = anfProv ? anfProv.tours : [];
+  const nombreAnf = nombreAg(anfAg, anfProv && anfProv.nombre);
+  const regalo = regaloDe(anfAg);
+  const base = useMemo(() => armar(toursZona, {
+    dias,
+    temporada,
+    perfil,
+    offset: propuesta
+  }), [anfProv, dias, temporada, perfil, propuesta]);
+  useEffect(() => {
+    const ids = base.seleccionados.map(t => t.id);
+    const p = Array.from({
+      length: dias
+    }, () => []);
+    ids.forEach((id, i) => p[i % dias].push(id));
+    setPlan(p);
+    try {
+      track('propuesta_mostrada', {
+        region: zonaId,
+        provincia: (regionInfo(zonaId) || {}).provincia || null,
+        tipo: respuestas.tipo || null,
+        temporada: temporada,
+        dias: dias,
+        personas: personas,
+        cantidad: base.seleccionados.length,
+        experiencias: base.seleccionados.map(function (t) {
+          return {
+            id: t.id,
+            titulo: t.titulo
+          };
+        })
+      });
+    } catch (e) {}
+  }, [zonaId, dias, temporada, propuesta]);
+  useEffect(() => {
+    if (propuesta > 0 && topRef.current) topRef.current.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  }, [propuesta]);
+  const sel = "w-full bg-white/[0.05] border border-white/15 text-white rounded-lg pl-3 pr-7 py-2 text-sm font-semibold appearance-none cursor-pointer hover:border-white/30 transition-colors";
+  if (!zona) return /*#__PURE__*/React.createElement(Centro, null, /*#__PURE__*/React.createElement("div", {
+    className: "w-9 h-9 border-2 border-white/20 border-t-[#E91E63] rounded-full spin mx-auto"
+  }));
+  if (!anfProv) return /*#__PURE__*/React.createElement(Centro, null, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+    className: "text-white font-bold text-lg mb-2"
+  }, "Todav\xEDa no hay escapadas en ", zona.nombre), /*#__PURE__*/React.createElement("p", {
+    className: "text-white/50 text-sm max-w-sm"
+  }, "Ninguna agencia tiene experiencias cargadas para armar una escapada ac\xE1 por ahora. Prob\xE1 otra zona."), /*#__PURE__*/React.createElement("button", {
+    onClick: onReiniciar,
+    className: "mt-5 text-white/70 text-sm font-semibold border border-white/15 rounded-xl px-5 py-2.5 hover:border-white/35"
+  }, "Empezar de nuevo")));
+  const tourDe = id => toursZona.find(t => t.id === id);
+  const idsEnPlan = plan.flat();
+  const idSet = new Set(idsEnPlan);
+  const seleccionados = idsEnPlan.map(tourDe).filter(Boolean);
+  const disponibles = toursZona.filter(t => !idSet.has(t.id) && dispEn(t, temporada));
+  const diasPlan = plan.map((ids, i) => ({
+    n: i + 1,
+    acts: ids.map(tourDe).filter(Boolean)
+  }));
+  const m = seleccionados.reduce((a, t) => {
+    const c = pre(t);
+    return {
+      lista: a.lista + c.precioBase * personas,
+      preventa: a.preventa + c.precioPreventa * personas,
+      ahorro: a.ahorro + c.ahorroTurista * personas,
+      reserva: a.reserva + c.precioReserva * personas,
+      saldo: a.saldo + c.saldoDestino * personas
+    };
+  }, {
+    lista: 0,
+    preventa: 0,
+    ahorro: 0,
+    reserva: 0,
+    saldo: 0
+  });
+  const hayDescuento = m.ahorro > 0;
+  const [cuponSegs, setCuponSegs] = useState(leerCuponSegs);
+  useEffect(() => {
+    const id = setInterval(() => setCuponSegs(leerCuponSegs()), 1000);
+    return () => clearInterval(id);
+  }, []);
+  const cuponVigente = cuponSegs > 0;
+  const dctoVigente = hayDescuento && cuponVigente;
+  const senaAhora = cuponVigente ? m.reserva : m.reserva + m.ahorro;
+  const totalAhora = cuponVigente ? m.preventa : m.lista;
+  const descTotalPct = m.lista > 0 ? Math.round(m.ahorro / m.lista * 100) : 0;
+  const proveedorId = anfProv ? anfProv.pid : null;
+  const proveedorOk = !!proveedorId;
+  const quitar = t => setPlan(p => p.map(arr => arr.filter(x => x !== t.id)));
+  const agregar = t => setPlan(p => {
+    if (p.flat().includes(t.id)) return p;
+    const np = p.map(a => [...a]);
+    if (!np.length) np.push([]);
+    np[0].push(t.id);
+    return np;
+  });
+  const moverA = (id, dia) => setPlan(p => p.map((arr, i) => i === dia ? [...arr.filter(x => x !== id), id] : arr.filter(x => x !== id)));
+  const onTomar = id => setDragId(id);
+  const onSoltar = dia => {
+    if (dragId != null) moverA(dragId, dia);
+    setDragId(null);
+    setDiaActivo(null);
+  };
+  const waNum = (whatsappSoporte || '').replace(/\D/g, '');
+  const waPersonal = (asesorActivo !== false && waNum) ? 'https://wa.me/' + waNum + '?text=' + encodeURIComponent('¡Hola! Estuve armando una escapada en ' + zona.nombre + ' con AIKE y quería una recomendación personalizada.') : null;
+  const procesarPago = async ({
+    nombre,
+    email,
+    telefono
+  }) => {
+    if (estadoPago === 'pagando') return;
+    setEstadoPago('pagando');
+    setErrorPago('');
+    try {
+      if (!auth.currentUser) {
+        await auth.signInAnonymously();
+      }
+      const data = db.collection('artifacts').doc(APP_ID).collection('public').doc('data');
+      const tourIdRef = seleccionados[0] && seleccionados[0].id ? seleccionados[0].id : 'paquete_aike';
+      const tituloPaquete = 'Escapada ' + zona.nombre + ' · ' + seleccionados.length + ' experiencias';
+      const reservaRef = await data.collection('reservas').add({
+        tourId: tourIdRef,
+        tourTitulo: tituloPaquete,
+        tipo: 'paquete_aike',
+        proveedorId: proveedorId,
+        proveedorNombre: nombreAnf,
+        proveedorEmail: emailAg(anfAg),
+        zona: zona.nombre,
+        dias,
+        paxAdultos: personas,
+        paxNinos: 0,
+        items: seleccionados.map(t => ({
+          tourId: t.id,
+          titulo: t.titulo,
+          proveedorId: t.proveedorId || null,
+          proveedorNombre: t.proveedorNombre || null,
+          precio: num(t.precio)
+        })),
+        clienteNombre: nombre,
+        clienteEmail: email,
+        clienteTelefono: telefono,
+        precioLista: m.lista,
+        precioPreventa: totalAhora,
+        precioReserva: senaAhora,
+        saldoDestino: m.saldo,
+        ahorroTurista: dctoVigente ? m.ahorro : 0,
+        descuentoPct: dctoVigente ? descTotalPct : 0,
+        total: totalAhora,
+        estado: 'Pendiente de pago',
+        origen: 'aike',
+        fechaCreacion: new Date().toISOString()
+      });
+      try {
+        track('reserva_creada', {
+          reservaId: reservaRef.id,
+          region: zonaId,
+          provincia: (regionInfo(zonaId) || {}).provincia || null,
+          total: totalAhora,
+          reserva: senaAhora,
+          cantidad: seleccionados.length
+        });
+      } catch (e) {}
+      const baseUrl = window.location.origin;
+      const resp = await fetch(MAKE_WEBHOOK_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          reservaId: reservaRef.id,
+          proveedorId: proveedorId,
+          proveedorEmail: emailAg(anfAg),
+          titulo: 'Reserva escapada AIKE · ' + zona.nombre,
+          descripcionItem: seleccionados.length + ' experiencias · ' + personas + ' persona(s)',
+          precio: senaAhora,
+          cantidad: 1,
+          moneda: 'ARS',
+          precioLista: m.lista,
+          precioPreventa: totalAhora,
+          saldoDestino: m.saldo,
+          ahorroTurista: dctoVigente ? m.ahorro : 0,
+          clienteNombre: nombre,
+          clienteEmail: email,
+          clienteTelefono: telefono,
+          tourTitulo: 'Escapada ' + zona.nombre,
+          proveedorNombre: nombreAnf,
+          back_urls: {
+            success: baseUrl + '/pago-confirmado.html?id=' + reservaRef.id,
+            failure: baseUrl + '/pago-rechazado.html?id=' + reservaRef.id,
+            pending: baseUrl + '/pago-pendiente.html?id=' + reservaRef.id
+          },
+          auto_return: 'approved'
+        })
+      });
+      const txt = await resp.text();
+      let dr = {};
+      try {
+        dr = JSON.parse(txt);
+      } catch (_) {}
+      if (!resp.ok) throw new Error('El servidor de pago respondió ' + resp.status + (txt ? ': ' + txt.slice(0, 200) : ''));
+      if (!dr.url) throw new Error('No se recibió link de pago. ' + (txt ? txt.slice(0, 200) : '(respuesta vacía)'));
+      yendoAPagar.current = true;
+      window.location.href = dr.url;
+    } catch (err) {
+      console.error('Pago AIKE:', err);
+      setEstadoPago('error');
+      setErrorPago(err.message || 'Error desconocido');
+    }
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    className: "min-h-screen bg-app pb-28 sm:pb-10"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "max-w-3xl mx-auto px-4 sm:px-5 py-6 sm:py-12"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex justify-end mb-5"
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: onReiniciar,
+    className: "shrink-0 flex items-center gap-1 text-white/40 text-[10px] uppercase tracking-[0.2em] font-bold hover:text-white/70"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fa-solid fa-rotate-left"
+  }), /*#__PURE__*/React.createElement("span", {
+    className: "hidden sm:inline"
+  }, " Empezar de nuevo"))), /*#__PURE__*/React.createElement(Burbuja, {
+    key: zonaId + '-' + propuesta,
+    size: 48,
+    bref: topRef,
+    mb: "mb-7"
+  }, "Te arm\xE9 ", /*#__PURE__*/React.createElement("b", {
+    className: "font-bold"
+  }, dias, " d\xEDas"), " por ", /*#__PURE__*/React.createElement("b", {
+    className: "font-bold"
+  }, zona.nombre), " para ", /*#__PURE__*/React.createElement("b", {
+    className: "font-bold"
+  }, personas, " ", personas === 1 ? 'persona' : 'personas'), ". Una experiencia por d\xEDa y tiempo para vos. Si te gusta, asegur\xE1 tu lugar \uD83D\uDC47"), /*#__PURE__*/React.createElement("div", {
+    className: "flex flex-col sm:flex-row sm:items-end gap-4 mb-9 p-4 rounded-2xl bg-white/[0.025] border border-white/10"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "grid grid-cols-2 sm:flex gap-3 flex-1"
+  }, provincias.length > 1 && /*#__PURE__*/React.createElement("label", {
+    className: "flex flex-col gap-1.5 col-span-2 sm:col-span-1"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "text-white/40 text-[10px] uppercase tracking-widest font-bold"
+  }, "Provincia"), /*#__PURE__*/React.createElement("div", {
+    className: "sel-wrap"
+  }, /*#__PURE__*/React.createElement("select", {
+    className: sel,
+    value: provinciaActual || '',
+    onChange: e => {
+      const pr = zonasDelTipo.find(z => z.provincia === e.target.value);
+      if (pr) {
+        setZonaId(pr.id);
+        setPropuesta(0);
+      }
+    }
+  }, provincias.map(pid => /*#__PURE__*/React.createElement("option", {
+    key: pid,
+    value: pid
+  }, provNombre(pid)))))), zonasMismaProv.length > 1 && /*#__PURE__*/React.createElement("label", {
+    className: "flex flex-col gap-1.5 col-span-2 sm:col-span-1"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "text-white/40 text-[10px] uppercase tracking-widest font-bold"
+  }, "Zona"), /*#__PURE__*/React.createElement("div", {
+    className: "sel-wrap"
+  }, /*#__PURE__*/React.createElement("select", {
+    className: sel,
+    value: zonaId,
+    onChange: e => {
+      setZonaId(e.target.value);
+      setPropuesta(0);
+    }
+  }, zonasMismaProv.map(z => /*#__PURE__*/React.createElement("option", {
+    key: z.id,
+    value: z.id
+  }, z.nombre))))), /*#__PURE__*/React.createElement("label", {
+    className: "flex flex-col gap-1.5"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "text-white/40 text-[10px] uppercase tracking-widest font-bold"
+  }, "D\xEDas"), /*#__PURE__*/React.createElement("div", {
+    className: "sel-wrap"
+  }, /*#__PURE__*/React.createElement("select", {
+    className: sel,
+    value: dias,
+    onChange: e => setDias(+e.target.value)
+  }, /*#__PURE__*/React.createElement("option", {
+    value: 2
+  }, "2 d\xEDas"), /*#__PURE__*/React.createElement("option", {
+    value: 3
+  }, "3 d\xEDas"), /*#__PURE__*/React.createElement("option", {
+    value: 4
+  }, "4 d\xEDas"), /*#__PURE__*/React.createElement("option", {
+    value: 5
+  }, "5 d\xEDas"), /*#__PURE__*/React.createElement("option", {
+    value: 6
+  }, "6 d\xEDas"), /*#__PURE__*/React.createElement("option", {
+    value: 7
+  }, "7 d\xEDas")))), /*#__PURE__*/React.createElement("label", {
+    className: "flex flex-col gap-1.5"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "text-white/40 text-[10px] uppercase tracking-widest font-bold"
+  }, "Personas"), /*#__PURE__*/React.createElement("div", {
+    className: "sel-wrap"
+  }, /*#__PURE__*/React.createElement("select", {
+    className: sel,
+    value: personas,
+    onChange: e => setPersonas(+e.target.value)
+  }, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => /*#__PURE__*/React.createElement("option", {
+    key: n,
+    value: n
+  }, n))))), /*#__PURE__*/React.createElement("label", {
+    className: "flex flex-col gap-1.5"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "text-white/40 text-[10px] uppercase tracking-widest font-bold"
+  }, "Temporada"), /*#__PURE__*/React.createElement("div", {
+    className: "sel-wrap"
+  }, /*#__PURE__*/React.createElement("select", {
+    className: sel,
+    value: temporada,
+    onChange: e => setTemporada(e.target.value)
+  }, TEMPORADAS.map(t => /*#__PURE__*/React.createElement("option", {
+    key: t.id,
+    value: t.id
+  }, t.lbl)))))), /*#__PURE__*/React.createElement("div", {
+    className: "text-left sm:text-right sm:ml-auto border-t sm:border-t-0 border-white/10 pt-3 sm:pt-0"
+  }, /*#__PURE__*/React.createElement("p", {
+    className: "text-white/40 text-[10px] uppercase tracking-widest font-bold"
+  }, "Precio del paquete \xB7 ", personas, " ", personas === 1 ? 'persona' : 'personas'), dctoVigente && /*#__PURE__*/React.createElement("p", {
+    className: "text-white/45 text-3xl font-light line-through leading-none mt-0.5"
+  }, fmt(m.lista)), /*#__PURE__*/React.createElement("p", {
+    className: "text-white font-black text-3xl leading-none mt-0.5"
+  }, fmt(totalAhora)), dctoVigente ? /*#__PURE__*/React.createElement("p", {
+    className: "text-emerald-400 text-[11px] font-bold mt-1"
+  }, "Ahorr\xE1s ", fmt(m.ahorro), " \xB7 ", descTotalPct, "% OFF") : /*#__PURE__*/React.createElement("p", {
+    className: "text-white/35 text-[11px] mt-1"
+  }, seleccionados.length, " experiencia", seleccionados.length === 1 ? '' : 's'))), /*#__PURE__*/React.createElement("p", {
+    className: "text-white/35 text-[12px] mb-3 flex items-center gap-2"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fa-solid fa-arrows-up-down-left-right text-white/25"
+  }), " Tu itinerario es libre: mov\xE9s las experiencias entre d\xEDas y pod\xE9s dejar d\xEDas sin nada."), /*#__PURE__*/React.createElement("div", {
+    className: "relative"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "absolute left-[15px] sm:left-[17px] top-3 bottom-3 w-[2px] spine rounded-full"
+  }), diasPlan.map(d => /*#__PURE__*/React.createElement(Dia, {
+    key: d.n,
+    n: d.n,
+    acts: d.acts,
+    personas: personas,
+    dias: dias,
+    onInfo: t => {
+      try {
+        track('experiencia_info', {
+          tourId: t.id,
+          titulo: t.titulo,
+          region: zonaId
+        });
+      } catch (e) {}
+      setInfoTour(t);
+    },
+    onQuitar: quitar,
+    onMover: moverA,
+    onTomar: onTomar,
+    onSoltar: onSoltar,
+    activo: diaActivo,
+    setActivo: setDiaActivo,
+    vig: cuponVigente
+  }))), seleccionados.length === 0 && /*#__PURE__*/React.createElement("p", {
+    className: "text-white/45 text-sm italic -mt-2 mb-4"
+  }, "Quitaste todas las experiencias. Sum\xE1 alguna de la lista para armar tu paquete."), disponibles.length > 0 && /*#__PURE__*/React.createElement("div", {
+    className: "mt-2 pt-6 border-t border-white/10"
+  }, /*#__PURE__*/React.createElement("p", {
+    className: "text-white/45 text-[11px] uppercase tracking-widest font-bold mb-1"
+  }, "Sum\xE1 m\xE1s experiencias"), /*#__PURE__*/React.createElement("p", {
+    className: "text-white/35 text-xs mb-3"
+  }, "Se suman al D\xEDa 1 y despu\xE9s las mov\xE9s al d\xEDa que quieras (arrastrando o con el n\xFAmero de d\xEDa)."), /*#__PURE__*/React.createElement("div", {
+    className: "flex flex-wrap gap-2"
+  }, disponibles.map(t => /*#__PURE__*/React.createElement("button", {
+    key: t.id,
+    onClick: () => agregar(t),
+    className: "text-white/80 text-xs font-semibold bg-white/[0.04] border border-white/12 rounded-full pl-3 pr-2 py-1.5 hover:border-[#E91E63] hover:text-white transition-colors flex items-center gap-1.5"
+  }, t.titulo, " ", /*#__PURE__*/React.createElement("span", {
+    className: "text-white/35"
+  }, "\xB7 ", fmt(num(t.precio))), /*#__PURE__*/React.createElement("span", {
+    className: "grad-acc text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px]"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fa-solid fa-plus"
+  })))))), regalo && seleccionados.length > 0 && /*#__PURE__*/React.createElement("div", {
+    className: "mt-9 rounded-2xl p-4 flex items-start gap-3",
+    style: {
+      background: '#E91E63'
+    }
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fa-solid fa-gift text-white text-xl mt-0.5 shrink-0"
+  }), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+    className: "text-[10px] font-bold tracking-widest",
+    style: {
+      color: '#4B1528'
+    }
+  }, "UN REGALO PARA VOS"), /*#__PURE__*/React.createElement("p", {
+    className: "text-white font-semibold text-sm mt-0.5 leading-snug"
+  }, regalo.texto), !regalo.incluido && /*#__PURE__*/React.createElement("p", {
+    className: "text-white/85 text-[11px] mt-1"
+  }, "No incluido en el precio \xB7 se abona en el establecimiento"))), seleccionados.length > 0 && /*#__PURE__*/React.createElement("div", {
+    className: "mt-5 rounded-2xl border border-[#E91E63]/50 bg-[#E91E63]/[0.12] p-5 shadow-xl shadow-[#E91E63]/10"
+  }, dctoVigente ? /*#__PURE__*/React.createElement("p", {
+    className: "text-base font-black flex items-center gap-2 flex-wrap"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-white",
+    style: {
+      background: '#E91E63'
+    }
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fa-solid fa-gift"
+  }), " BONO OBSEQUIO"), /*#__PURE__*/React.createElement("span", {
+    className: "text-amber-400 uppercase tracking-wide text-[13px]"
+  }, "\xB7 Tiempo limitado")) : /*#__PURE__*/React.createElement("p", {
+    className: "text-white font-bold text-base"
+  }, "\xBFTe gust\xF3 esta escapada?"), /*#__PURE__*/React.createElement("p", {
+    className: "text-white/55 text-xs mt-1 mb-4 max-w-md"
+  }, "Asegur\xE1s tu lugar pagando la se\xF1a ahora y el resto lo abon\xE1s en destino. ", dctoVigente && /*#__PURE__*/React.createElement("span", {
+    className: "text-emerald-400 font-semibold"
+  }, "Es precio de preventa, solo reservando ahora.")), /*#__PURE__*/React.createElement("div", {
+    className: "rounded-xl bg-black/25 border border-white/10 divide-y divide-white/10 overflow-hidden"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center justify-between gap-3 px-4 py-3"
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+    className: "text-white/45 text-[10px] uppercase tracking-widest font-bold"
+  }, "Precio del paquete \xB7 ", personas, " ", personas === 1 ? 'persona' : 'personas'), dctoVigente && /*#__PURE__*/React.createElement("p", {
+    className: "text-emerald-400 text-[11px] font-bold mt-1 flex items-center gap-1.5"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fa-solid fa-bolt"
+  }), " Ahorr\xE1s ", fmt(m.ahorro), " \xB7 ", descTotalPct, "% OFF")), /*#__PURE__*/React.createElement("div", {
+    className: "text-right shrink-0"
+  }, dctoVigente && /*#__PURE__*/React.createElement("p", {
+    className: "text-white/45 text-2xl font-light line-through leading-none"
+  }, fmt(m.lista)), /*#__PURE__*/React.createElement("p", {
+    className: "text-white font-black text-2xl leading-none mt-0.5"
+  }, fmt(totalAhora)))), /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center justify-between gap-3 px-4 py-3"
+  }, /*#__PURE__*/React.createElement("p", {
+    className: "text-white/75 text-sm font-semibold"
+  }, "Reserv\xE1s ahora ", /*#__PURE__*/React.createElement("span", {
+    className: "text-white/40 font-normal"
+  }, "\xB7 se\xF1a online")), /*#__PURE__*/React.createElement("p", {
+    className: "text-[#E91E63] font-black text-2xl leading-none shrink-0"
+  }, fmt(senaAhora))), /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center justify-between gap-3 px-4 py-3 bg-white/[0.02]"
+  }, /*#__PURE__*/React.createElement("p", {
+    className: "text-white/75 text-sm font-semibold"
+  }, "Saldo al prestador ", /*#__PURE__*/React.createElement("span", {
+    className: "text-white/40 font-normal"
+  }, "\xB7 en destino")), /*#__PURE__*/React.createElement("p", {
+    className: "text-white font-black text-xl leading-none shrink-0"
+  }, fmt(m.saldo)))), /*#__PURE__*/React.createElement("button", {
+    onClick: () => {
+      try {
+        track('checkout_abierto', {
+          region: zonaId,
+          provincia: (regionInfo(zonaId) || {}).provincia || null,
+          total: totalAhora,
+          reserva: senaAhora,
+          cantidad: seleccionados.length,
+          experiencias: seleccionados.map(function (t) {
+            return {
+              id: t.id,
+              titulo: t.titulo
+            };
+          })
+        });
+      } catch (e) {}
+      setEstadoPago('');
+      setCheckout(true);
+    },
+    className: "mt-4 w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3.5 rounded-xl transition-colors flex items-center justify-center gap-2"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fa-solid fa-lock text-sm"
+  }), " Reservar el paquete \xB7 ", fmt(senaAhora)), /*#__PURE__*/React.createElement(ContadorCupon, {
+    segs: cuponSegs
+  }), /*#__PURE__*/React.createElement("p", {
+    className: "text-white/30 text-[10px] text-center mt-2"
+  }, "Pag\xE1s la se\xF1a ahora \xB7 el resto en destino")), /*#__PURE__*/React.createElement("div", {
+    className: "mt-8 flex flex-col sm:flex-row items-center justify-center gap-3"
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: () => setPropuesta(p => p + 1),
+    className: "w-full sm:w-auto flex items-center justify-center gap-2 text-white text-sm font-bold rounded-xl px-6 py-3 transition-all shadow-lg shadow-[#E91E63]/25 hover:brightness-110",
+    style: {
+      background: '#E91E63'
+    }
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fa-solid fa-rotate"
+  }), " Armar otra propuesta"), /*#__PURE__*/React.createElement("button", {
+    onClick: onReiniciar,
+    className: "w-full sm:w-auto flex items-center justify-center gap-2 text-white/55 text-sm font-semibold border border-white/15 rounded-xl px-6 py-3 hover:border-white/35 hover:text-white transition-colors"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fa-solid fa-arrow-left"
+  }), " Armar otra escapada")), waPersonal && /*#__PURE__*/React.createElement("div", {
+    className: "mt-8 rounded-2xl bg-white/[0.03] border border-white/10 p-4 flex items-start gap-3"
+  }, /*#__PURE__*/React.createElement(AikeAvatar, {
+    size: 40
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "flex-1"
+  }, /*#__PURE__*/React.createElement("p", {
+    className: "text-white font-semibold text-sm"
+  }, "\xBFQuer\xE9s una recomendaci\xF3n m\xE1s personalizada?"), /*#__PURE__*/React.createElement("p", {
+    className: "text-white/45 text-xs mt-0.5 mb-2.5"
+  }, "Contanos qu\xE9 busc\xE1s y un asesor te arma la escapada ideal."), /*#__PURE__*/React.createElement("a", {
+    href: waPersonal,
+    target: "_blank",
+    rel: "noopener",
+    className: "inline-flex items-center gap-2 bg-white/[0.06] border border-white/15 text-white text-xs font-bold rounded-lg px-3.5 py-2 hover:border-white/30 transition-colors"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fa-brands fa-whatsapp text-green-400"
+  }), " Escribir a un asesor")))), /*#__PURE__*/React.createElement(PieMarca, null), /*#__PURE__*/React.createElement("div", {
+    className: "sm:hidden fixed bottom-0 inset-x-0 bg-[#0c0c0e]/95 backdrop-blur border-t border-white/10 px-4 py-3 flex items-center justify-between gap-3"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "leading-none"
+  }, /*#__PURE__*/React.createElement("p", {
+    className: "text-white/40 text-[9px] uppercase tracking-widest font-bold"
+  }, "Reserv\xE1s ahora"), /*#__PURE__*/React.createElement("p", {
+    className: "text-[#E91E63] font-black text-xl"
+  }, fmt(senaAhora))), /*#__PURE__*/React.createElement("div", {
+    className: "text-right leading-none"
+  }, /*#__PURE__*/React.createElement("p", {
+    className: "text-white/40 text-[9px] uppercase tracking-widest font-bold"
+  }, "Saldo en destino"), /*#__PURE__*/React.createElement("p", {
+    className: "text-white/80 font-bold text-base"
+  }, fmt(m.saldo)))), /*#__PURE__*/React.createElement(InfoModal, {
+    tour: infoTour,
+    onClose: () => setInfoTour(null)
+  }), checkout && /*#__PURE__*/React.createElement(Checkout, {
+    resumen: seleccionados.length + ' experiencias · ' + zona.nombre + ' · ' + personas + ' persona(s) · Seña ' + fmt(senaAhora),
+    proveedorOk: proveedorOk,
+    estado: estadoPago,
+    errorDetalle: errorPago,
+    onClose: () => setCheckout(false),
+    onPagar: procesarPago
+  }));
+}
+
+/* ============================ APP ============================ */
+function App() {
+  const {
+    tours,
+    whatsappSoporte,
+    agencias,
+    datosListos,
+    error,
+    asesorActivo
+  } = useTours();
+  const [respuestas, setRespuestas] = useState(null);
+  useEffect(() => {
+    track('sesion_inicio', {});
+  }, []);
+  useEffect(() => {
+    if (respuestas) track('busqueda', {
+      tipo: respuestas.tipo || null,
+      temporada: respuestas.temporada || null,
+      dias: respuestas.dias || null,
+      personas: respuestas.personas || null
+    });
+  }, [respuestas]);
+  const zonasDisponibles = useMemo(() => {
+    if (!tours) return [];
+    const map = new Map();
+    tours.forEach(t => regionesDe(t).forEach(rid => {
+      const r = regionInfo(rid);
+      if (r && !map.has(r.id)) map.set(r.id, r);
+    }));
+    return [...map.values()];
+  }, [tours]);
+  const tiposDisponibles = useMemo(() => {
+    const ids = new Set(zonasDisponibles.map(z => z.tipo));
+    return TIPOS.filter(t => ids.has(t.id));
+  }, [zonasDisponibles]);
+  const aikeDebug = typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('aikedebug');
+  if (aikeDebug && Array.isArray(tours)) {
+    const rows = tours.map(t => ({
+      t,
+      regs: regionesDe(t),
+      prov: (regionInfo(regionesDe(t)[0] || "") || {}).provincia
+    }));
+    const conFlag = tours.filter(t => t.escapadaHabilitado === true).length;
+    return /*#__PURE__*/React.createElement("div", {
+      className: "min-h-screen bg-app p-4 sm:p-8 text-white text-xs"
+    }, /*#__PURE__*/React.createElement("h1", {
+      className: "text-lg font-black mb-1"
+    }, "AIKE \xB7 Diagn\xF3stico"), /*#__PURE__*/React.createElement("p", {
+      className: "text-white/50 mb-4"
+    }, "Total experiencias: ", tours.length, " \xB7 con flag escapadaHabilitado: ", /*#__PURE__*/React.createElement("b", {
+      className: "text-emerald-400"
+    }, conFlag), " \xB7 agencias: ", agencias ? agencias.length : 0), /*#__PURE__*/React.createElement("div", {
+      className: "overflow-x-auto rounded-xl border border-white/10"
+    }, /*#__PURE__*/React.createElement("table", {
+      className: "w-full text-left whitespace-nowrap"
+    }, /*#__PURE__*/React.createElement("thead", {
+      className: "bg-white/10 text-white/60 uppercase tracking-wider text-[10px]"
+    }, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
+      className: "p-2"
+    }, "Experiencia"), /*#__PURE__*/React.createElement("th", {
+      className: "p-2"
+    }, "destino (crudo)"), /*#__PURE__*/React.createElement("th", {
+      className: "p-2"
+    }, "provincia"), /*#__PURE__*/React.createElement("th", {
+      className: "p-2"
+    }, "regiones (AIKE usa)"), /*#__PURE__*/React.createElement("th", {
+      className: "p-2"
+    }, "escapada?"), /*#__PURE__*/React.createElement("th", {
+      className: "p-2"
+    }, "jornada"), /*#__PURE__*/React.createElement("th", {
+      className: "p-2"
+    }, "temporadas"), /*#__PURE__*/React.createElement("th", {
+      className: "p-2"
+    }, "proveedorId"))), /*#__PURE__*/React.createElement("tbody", null, rows.map(({
+      t,
+      regs,
+      prov
+    }, i) => /*#__PURE__*/React.createElement("tr", {
+      key: t.id || i,
+      className: "border-t border-white/5"
+    }, /*#__PURE__*/React.createElement("td", {
+      className: "p-2 font-semibold"
+    }, t.titulo || '(sin título)'), /*#__PURE__*/React.createElement("td", {
+      className: "p-2 text-white/70"
+    }, t.destino || '(vacío)'), /*#__PURE__*/React.createElement("td", {
+      className: "p-2 text-white/70"
+    }, prov ? provNombre(prov) : '—'), /*#__PURE__*/React.createElement("td", {
+      className: "p-2 " + (regs.length ? 'text-emerald-400' : 'text-red-400 font-bold')
+    }, regs.length ? regs.map(id => (regionInfo(id) || {}).nombre || id).join(' · ') : 'SIN REGIÓN'), /*#__PURE__*/React.createElement("td", {
+      className: "p-2 font-bold " + (t.escapadaHabilitado === true ? 'text-emerald-400' : 'text-red-400')
+    }, t.escapadaHabilitado === true ? 'SÍ' : 'no'), /*#__PURE__*/React.createElement("td", {
+      className: "p-2 text-white/60"
+    }, t.duracionBloque || '(vacío)'), /*#__PURE__*/React.createElement("td", {
+      className: "p-2 text-white/60"
+    }, (t.temporadas || []).join(', ') || '(todas)'), /*#__PURE__*/React.createElement("td", {
+      className: "p-2 text-white/40"
+    }, t.proveedorId || '(sin id)')))))), /*#__PURE__*/React.createElement("p", {
+      className: "text-white/40 mt-4"
+    }, "Zonas con experiencias visibles: ", zonasDisponibles.map(z => z.nombre).join(' · ') || 'ninguna'), /*#__PURE__*/React.createElement("p", {
+      className: "text-white/30 mt-1"
+    }, "Rojo en zona = cae en \"otros\" (destino no reconocido). Rojo en escapada = sin el flag. Para volver a la app, sac\xE1 ?aikedebug=1 de la URL."));
+  }
+  if (error) return /*#__PURE__*/React.createElement(Centro, null, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+    className: "text-white font-bold text-lg mb-2"
+  }, "No pudimos cargar las excursiones"), /*#__PURE__*/React.createElement("p", {
+    className: "text-white/50 text-sm max-w-sm"
+  }, error)));
+  if (tours === null || !datosListos) return /*#__PURE__*/React.createElement(Centro, null, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "w-9 h-9 border-2 border-white/20 border-t-[#E91E63] rounded-full spin mx-auto mb-3"
+  }), /*#__PURE__*/React.createElement("p", {
+    className: "text-white/50 text-sm"
+  }, "AIKE est\xE1 despertando\u2026")));
+  if (!zonasDisponibles.length) return /*#__PURE__*/React.createElement(Centro, null, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Logo, null), /*#__PURE__*/React.createElement("p", {
+    className: "text-white/60 text-sm mt-5 max-w-sm"
+  }, "Todav\xEDa no hay excursiones cargadas con destino y jornada. Cargalas en el admin y AIKE va a poder armar escapadas.")));
+  if (!respuestas) return /*#__PURE__*/React.createElement(Intro, {
+    tiposDisponibles: tiposDisponibles,
+    onListo: setRespuestas
+  });
+  return /*#__PURE__*/React.createElement(Resultado, {
+    tours: tours,
+    agencias: agencias,
+    whatsappSoporte: whatsappSoporte,
+    asesorActivo: asesorActivo,
+    respuestas: respuestas,
+    onReiniciar: () => setRespuestas(null)
+  });
+}
+ReactDOM.createRoot(document.getElementById('root')).render(/*#__PURE__*/React.createElement(App, null));
+</script>
+</body>
+</html>

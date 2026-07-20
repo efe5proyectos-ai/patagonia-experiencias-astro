@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Montserrat", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --color-brand-fuchsia: #E91E63;
+  --color-brand-fuchsiaDark: #C2185B;
+  --color-brand-dark: #1f2937;
+  --color-brand-light: #f9fafb;
+  --color-brand-oxford: #2c3e50;
+}
+
+.prose-pe h2 { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.5rem; color: #2c3e50; margin: 2.2rem 0 .8rem; }
+.prose-pe h3 { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.2rem; color: #2c3e50; margin: 1.6rem 0 .6rem; }
+.prose-pe p { margin-bottom: 1.1rem; }
+.prose-pe img { border-radius: 1rem; margin: 1.5rem 0; }
+.prose-pe a { color: #E91E63; font-weight: 600; }
+.prose-pe ul, .prose-pe ol { padding-left: 1.4rem; margin-bottom: 1.1rem; }
+.prose-pe li { margin-bottom: .4rem; list-style: disc; }

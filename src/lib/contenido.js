@@ -78,10 +78,54 @@ export async function obtenerGuias() {
   return crudos.filter((d) => d.activo !== false && d.publicado !== false).map(normalizarGuia);
 }
 
+// ── AGENCIAS Y PLANES (para el cálculo de precios de producción) ──
+async function leerDoc(coleccion, docId) {
+  if (USAR_LOCAL) return null;
+  const url = `${BASE}/${coleccion}/${docId}?key=${API_KEY}`;
+  const res = await fetch(url);
+  if (!res.ok) return null;
+  const json = await res.json();
+  return json.fields ? aplanar(json.fields) : null;
+}
+
+// Réplica EXACTA de calcularPreciosTour de producción (patagonia-experiencias.html)
+function calcularPrecios(tour, agencias, planes) {
+  const precioBase = Number(tour?.precio) || 0;
+  const agencia = (agencias || []).find(
+    (a) => a.id === tour?.proveedorId || a.userId === tour?.proveedorId || a.uid === tour?.proveedorId
+  );
+  let comisionPct = 0;
+  if (agencia) {
+    if (typeof agencia.comisionOverride === 'number' && agencia.comisionOverride >= 0) {
+      comisionPct = agencia.comisionOverride;
+    } else if (planes && agencia.plan && planes[agencia.plan]) {
+      comisionPct = Number(planes[agencia.plan].comision) || 0;
+    }
+  }
+  if (tour && typeof tour.comisionExtra === 'number' && tour.comisionExtra >= comisionPct) {
+    comisionPct = tour.comisionExtra;
+  }
+  const comisionBruta = Math.round((precioBase * comisionPct) / 100);
+  let descuentoTurista = 0;
+  const tieneTipoNuevo = typeof tour?.tipoDescuento === 'string' && tour.tipoDescuento !== '';
+  const tipoDesc = tieneTipoNuevo ? tour.tipoDescuento : tour?.precioDescuento ? 'monto' : 'ninguno';
+  const valorDesc = tieneTipoNuevo ? Number(tour?.valorDescuento) || 0 : Number(tour?.precioDescuento) || 0;
+  if (tipoDesc === 'monto') descuentoTurista = valorDesc;
+  else if (tipoDesc === 'porcentaje') descuentoTurista = Math.round((comisionBruta * valorDesc) / 100);
+  const precioPreventa = Math.max(0, precioBase - descuentoTurista);
+  const precioReserva = Math.max(0, comisionBruta - descuentoTurista);
+  const ahorroTurista = Math.max(0, precioBase - precioPreventa);
+  return { precioLista: precioBase, precioFinal: precioPreventa, sena: precioReserva, ahorro: ahorroTurista };
+}
+
 // ── EXPERIENCIAS (colección: tours) ──
-function normalizarExperiencia(doc) {
-  const precioFinal = doc.precioDescuento || doc.precio || doc.precioLista || null;
+function normalizarExperiencia(doc, agencias, planes) {
+  const calc = calcularPrecios(doc, agencias, planes);
   return {
+    precios: calc,
+    temporada: doc.temporada || doc.etiqueta || '',
+    rating: doc.rating || null,
+    puntos: doc.puntos || null,
     slug: doc.slug || slugificar(doc.titulo || doc.id),
     titulo: doc.titulo,
     descripcion: doc.descripcionLarga || doc.descripcionCorta || '',
@@ -89,8 +133,8 @@ function normalizarExperiencia(doc) {
     regiones: doc.regiones || [],
     categoria: doc.categoria || '',
     duracion: doc.duracion || '',
-    precio: precioFinal,
-    precioLista: doc.precioLista || doc.precio || null,
+    precio: calc.precioFinal || null,
+    precioLista: calc.ahorro > 0 ? calc.precioLista : null,
     imagen: doc.imagenUrl || doc.imagen || (doc.imagenes && doc.imagenes[0]) || '',
     imagenes: doc.imagenes || [],
     proveedor: doc.proveedorNombre || '',
@@ -100,12 +144,14 @@ function normalizarExperiencia(doc) {
 }
 
 export async function obtenerExperiencias() {
-  const remoto = await leerColeccion('tours').catch((e) => {
-    console.warn(`[datos] ${e.message} — usando datos locales`);
-    return null;
-  });
+  const [remoto, agencias, planesDoc] = await Promise.all([
+    leerColeccion('tours').catch((e) => { console.warn(`[datos] ${e.message} — datos locales`); return null; }),
+    leerColeccion('solicitudes_prestadores').catch(() => []),
+    leerDoc('configuracion', 'planes').catch(() => null),
+  ]);
+  const planes = planesDoc || null;
   const crudos = (remoto && remoto.length)
     ? remoto
     : (await import('../data/experiencias.json')).default;
-  return crudos.filter((d) => d.activo !== false).map(normalizarExperiencia);
+  return crudos.filter((d) => d.activo !== false).map((d) => normalizarExperiencia(d, agencias || [], planes));
 }

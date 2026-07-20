@@ -33,7 +33,11 @@ const schema = [
         <img src={exp.imagen} alt={`${exp.titulo} — ${exp.destino}, Patagonia`} width="1600" height="700" class="w-full h-full object-cover" loading="eager" fetchpriority="high" />
         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
         <div class="absolute bottom-0 inset-x-0 max-w-4xl mx-auto px-4 sm:px-6 pb-10">
-          {exp.categoria && <span class="inline-block bg-brand-fuchsia text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-md mb-4">{exp.categoria}</span>}
+          <div class="mb-4 flex flex-wrap gap-2">
+            {exp.temporada && <span class="inline-block bg-brand-fuchsia text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-md"># {exp.temporada}</span>}
+            {exp.categoria && <span class="inline-block bg-white/90 text-brand-oxford text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-md">{exp.categoria}</span>}
+            {exp.rating && <span class="inline-block bg-amber-400 text-slate-900 text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-md">★ {exp.rating}</span>}
+          </div>
           <h1 class="font-sans font-extrabold text-2xl sm:text-4xl text-white leading-tight drop-shadow-lg">{exp.titulo}</h1>
         </div>
       </div>
@@ -47,18 +51,39 @@ const schema = [
         {etiquetaDuracion && <span class="bg-white border border-slate-200 rounded-full px-4 py-2"><i class="fa-regular fa-clock mr-1.5 text-brand-fuchsia"></i>{etiquetaDuracion}</span>}
         {exp.proveedor && <span class="bg-white border border-slate-200 rounded-full px-4 py-2"><i class="fa-solid fa-store mr-1.5 text-brand-fuchsia"></i>{exp.proveedor}</span>}
       </div>
-      {exp.precio && (
-        <p class="mb-8">
-          <span class="font-sans font-extrabold text-4xl text-brand-fuchsia">${exp.precio.toLocaleString('es-AR')}</span>
-          <span class="text-slate-400 text-sm font-bold ml-1">ARS</span>
-          {exp.precioLista && exp.precioLista > exp.precio && <span class="text-slate-400 line-through ml-3">${exp.precioLista.toLocaleString('es-AR')}</span>}
-        </p>
+      {exp.precio > 0 && (
+        <div class="mb-8 max-w-md">
+          {exp.precioLista && exp.precioLista > exp.precio && (
+            <p class="text-slate-400 line-through font-sans font-bold text-xl">${exp.precioLista.toLocaleString('es-AR')}</p>
+          )}
+          <p>
+            <span class="font-sans font-extrabold text-4xl text-brand-fuchsia">${exp.precio.toLocaleString('es-AR')}</span>
+            <span class="text-slate-400 text-sm font-bold ml-1">ARS</span>
+          </p>
+          {exp.precios.ahorro > 0 && (
+            <p class="text-emerald-600 font-sans font-bold text-sm mt-1 uppercase tracking-wide">✦ Ahorrás ${exp.precios.ahorro.toLocaleString('es-AR')}</p>
+          )}
+          {exp.precios.sena > 0 && (
+            <div class="mt-4 bg-brand-fuchsia text-white rounded-xl px-5 py-4 flex items-center justify-between gap-4 shadow-lg shadow-brand-fuchsia/25">
+              <span class="text-[11px] font-black uppercase tracking-widest leading-tight">⚡ Reservalo<br/>hoy con</span>
+              <span class="text-right">
+                <span class="font-sans font-extrabold text-3xl">${exp.precios.sena.toLocaleString('es-AR')}</span>
+                <span class="block text-[10px] font-bold uppercase tracking-widest opacity-80">Seña preventa</span>
+              </span>
+            </div>
+          )}
+          {exp.puntos && (
+            <div class="mt-2 bg-brand-dark text-white rounded-xl px-5 py-2.5 text-center text-xs font-black uppercase tracking-widest">
+              ✦ Sumás +{Number(exp.puntos).toLocaleString('es-AR')} pts
+            </div>
+          )}
+        </div>
       )}
-      <div class="prose-pe text-[17px] leading-relaxed text-slate-700" set:html={exp.descripcion} />
+      <div class="prose-pe text-[17px] leading-relaxed text-slate-700 whitespace-pre-line" set:html={exp.descripcion} />
       <aside class="mt-12 bg-gradient-to-br from-brand-fuchsia to-brand-fuchsiaDark rounded-3xl p-8 text-white shadow-2xl shadow-brand-fuchsia/20">
         <h2 class="font-sans font-extrabold text-2xl mb-2">Reservá esta experiencia</h2>
         <p class="text-white/80 mb-5">Asegurá tu lugar online y sumá Patagonia Puntos.</p>
-        <a href={`https://patagoniaexperiencias.com/#tour-${exp.slug}`} class="inline-flex items-center gap-2 bg-white text-brand-fuchsia font-bold text-sm uppercase tracking-widest px-6 py-3 rounded-full hover:bg-slate-100 transition-all"><i class="fa-solid fa-ticket"></i> Reservar ahora</a>
+        <a href={`/patagonia-experiencias.html#tour/${exp.slug}`} class="inline-flex items-center gap-2 bg-white text-brand-fuchsia font-bold text-sm uppercase tracking-widest px-6 py-3 rounded-full hover:bg-slate-100 transition-all"><i class="fa-solid fa-ticket"></i> Reservar ahora</a>
       </aside>
     </article>
   </main>

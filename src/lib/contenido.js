@@ -123,9 +123,13 @@ function normalizarExperiencia(doc, agencias, planes) {
   const calc = calcularPrecios(doc, agencias, planes);
   return {
     precios: calc,
-    temporada: doc.temporada || doc.etiqueta || '',
-    rating: doc.rating || null,
-    puntos: doc.puntos || null,
+    temporada: doc.temporada || '',
+    etiqueta: doc.etiqueta && doc.etiqueta !== 'Ninguna' ? doc.etiqueta : '',
+    rating: doc.rating || 4.8,
+    likes: Number(doc.likes) || 0,
+    urgencia: doc.urgenciaConfig || null,
+    esGastroReferencia: doc.categoria === 'gastronomia' && doc.tipoGastro === 'referencia',
+    puntos: Number(doc.puntosPorReserva) || 5000,
     slug: doc.slug || slugificar(doc.titulo || doc.id),
     titulo: doc.titulo,
     descripcion: doc.descripcionLarga || doc.descripcionCorta || '',

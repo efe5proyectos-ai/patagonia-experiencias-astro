@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Meta Pixel Base · Patagonia Experiencias -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window,document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '1501384968138883');
+      fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=1501384968138883&ev=PageView&noscript=1"/></noscript>
+    <!-- End Meta Pixel -->
+
+    <title>Guía Patagónica · Patagonia Experiencias</title>
+    <meta name="description" content="La guía definitiva con excursiones, precios reales y beneficios exclusivos. Descarga digital inmediata.">
+    <meta property="og:title" content="Guía Patagónica · Patagonia Experiencias">
+    <meta property="og:description" content="Todo en una guía: qué hacer, cuánto cuesta y cómo ahorrar con beneficios reales.">
+    <meta property="og:type" content="product">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,900&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Firebase (mismo proyecto que la plataforma) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+    <script>
+      tailwind.config = {
+        theme: { extend: {
+          fontFamily: { display: ['Fraunces','serif'], sans: ['Montserrat','sans-serif'] },
+          colors: { brand: { fuchsia:'#E91E63', fuchsiaDark:'#C2185B', oxford:'#16222e', ink:'#0c1318' } }
+        } }
+      }
+    </script>
+    <style>
+      body { font-family:'Montserrat',sans-serif; background:#0c1318; color:#f4f1ec; -webkit-font-smoothing:antialiased; }
+      .font-display { font-family:'Fraunces',serif; }
+      .reveal { opacity:0; transform:translateY(20px); animation:reveal .8s cubic-bezier(.2,.7,.2,1) forwards; }
+      @keyframes reveal { to { opacity:1; transform:none; } }
+      .shimmer { background:linear-gradient(110deg,#E91E63,#ff5e8a 45%,#E91E63 90%); background-size:200% auto; animation:shimmer 4s linear infinite; -webkit-background-clip:text; background-clip:text; color:transparent; }
+      @keyframes shimmer { to { background-position:200% center; } }
+      .pulse-ring { animation:pr 2.4s ease-out infinite; }
+      @keyframes pr { 0%{box-shadow:0 0 0 0 rgba(233,30,99,.5)} 70%{box-shadow:0 0 0 16px rgba(233,30,99,0)} 100%{box-shadow:0 0 0 0 rgba(233,30,99,0)} }
+      .price-strike { position:relative; }
+      .price-strike::after { content:""; position:absolute; left:-4%; right:-4%; top:52%; height:2px; background:#ff5e8a; transform:rotate(-8deg); }
+      .glass { background:rgba(255,255,255,.04); backdrop-filter:blur(14px); border:1px solid rgba(255,255,255,.09); }
+      .stack img { display:block; width:100%; height:auto; }
+    </style>
+</head>
+<body class="selection:bg-brand-fuchsia selection:text-white overflow-x-hidden">
+
+  <header class="relative z-20 border-b border-white/5">
+    <div class="max-w-lg mx-auto px-5 py-4 flex items-center justify-between gap-3">
+      <a href="guiadeviajeros.html" class="text-[11px] font-semibold text-white/55 hover:text-white transition-colors flex items-center gap-1.5 whitespace-nowrap">
+        <i class="fa-solid fa-arrow-left text-[9px]"></i> Volver a las guías
+      </a>
+      <a href="patagonia-experiencias.html" class="flex items-center gap-2 shrink-0 group">
+        <div class="w-8 h-8 bg-brand-fuchsia rounded-lg flex items-center justify-center text-white shadow-lg shadow-brand-fuchsia/20 group-hover:scale-105 transition-transform">
+          <i class="fa-solid fa-map-location-dot text-sm"></i>
+        </div>
+        <span class="font-sans font-bold text-base tracking-tight text-white hidden sm:inline">Patagonia<span class="text-brand-fuchsia">Experiencias</span></span>
+      </a>
+      <a href="patagonia-experiencias.html" class="text-[11px] font-semibold text-white/55 hover:text-white transition-colors flex items-center gap-1.5 whitespace-nowrap">
+        Excursiones <i class="fa-solid fa-arrow-right text-[9px]"></i>
+      </a>
+    </div>
+  </header>
+
+  <div id="loader" class="min-h-[60vh] flex flex-col items-center justify-center gap-4 text-white/40">
+    <i class="fa-solid fa-spinner fa-spin text-2xl"></i>
+    <p class="text-sm">Cargando guía...</p>
+  </div>
+
+  <main id="app" class="relative z-10 hidden"></main>
+
+  <div id="stickybar" class="hidden fixed bottom-0 inset-x-0 z-40 glass border-t border-white/10 px-4 py-3">
+    <div class="max-w-lg mx-auto flex items-center gap-3">
+      <div class="flex-1"><div class="flex items-baseline gap-2" id="sticky-price"></div></div>
+      <button onclick="document.getElementById('checkout').scrollIntoView({behavior:'smooth'})"
+        class="bg-brand-fuchsia hover:bg-brand-fuchsiaDark text-white text-sm font-bold px-5 py-3 rounded-xl flex items-center gap-2 whitespace-nowrap transition-colors">
+        Quiero la guía <i class="fa-solid fa-arrow-down text-xs"></i>
+      </button>
+    </div>
+  </div>
+
+  <footer class="relative z-10 border-t border-white/10 mt-16 mb-24">
+    <div class="max-w-lg mx-auto px-5 py-8 flex flex-col items-center gap-3 text-[11px] text-white/40 text-center">
+      <p>&copy; <span id="anio"></span> Patagonia Experiencias — efe5 proyectos srl.</p>
+      <div class="flex items-center gap-4">
+        <a href="terminos.html" class="hover:text-white/70">Términos</a>
+        <a href="privacidad.html" class="hover:text-white/70">Privacidad</a>
+        <span class="flex items-center gap-1.5"><i class="fa-brands fa-whatsapp text-emerald-400"></i> +54 9 2804 35-6028</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDZkeRgN45FkOF8pO2rGxDJA28VZnZ8Ntg",
+      authDomain: "patagonia-experiencias.firebaseapp.com",
+      projectId: "patagonia-experiencias",
+      storageBucket: "patagonia-experiencias.firebasestorage.app",
+      messagingSenderId: "169796366610",
+      appId: "1:169796366610:web:3e2c7e65262933647983cb",
+      measurementId: "G-NF2R0BJG34"
+    };
+    if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
+    const db = firebase.firestore();
+    const appId = 'patagonia-experiencias-app';
+    const MAKE_WEBHOOK_URL = 'https://createpaymentlink-3hovjdsoiq-uc.a.run.app';
+
+    document.getElementById('anio').textContent = new Date().getFullYear();
+    const fmt = n => '$' + Number(n||0).toLocaleString('es-AR');
+    const params = new URLSearchParams(location.search);
+    const slug = params.get('id') || params.get('slug');
+    const guiasRef = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('guias');
+
+    (async function init(){
+      try {
+        let snap;
+        if (slug) snap = await guiasRef.where('slug','==',slug).where('estado','==','Publicada').limit(1).get();
+        if (!snap || snap.empty) snap = await guiasRef.where('estado','==','Publicada').orderBy('orden','asc').limit(1).get();
+        if (snap.empty) return mostrarVacio();
+        render({ id: snap.docs[0].id, ...snap.docs[0].data() });
+      } catch (e) { console.error(e); mostrarVacio('Hubo un problema al cargar la guía. Recargá la página.'); }
+    })();
+
+    function mostrarVacio(msg){
+      document.getElementById('loader').innerHTML =
+        '<i class="fa-solid fa-mountain-sun text-3xl text-white/30 mb-3"></i><p class="text-sm text-white/50">'+(msg||'Pronto vas a encontrar acá nuestras guías.')+'</p>';
+    }
+    function estrellas(rating){
+      const full=Math.floor(rating), half=(rating-full)>=.5; let s='';
+      for(let i=0;i<5;i++){ if(i<full)s+='<i class="fa-solid fa-star"></i>'; else if(i===full&&half)s+='<i class="fa-solid fa-star-half-stroke"></i>'; else s+='<i class="fa-regular fa-star"></i>'; }
+      return s;
+    }
+
+    function render(guia){
+      const precioFinal = guia.descuentoPct>0 ? Math.round(guia.precioLista*(1-guia.descuentoPct/100)) : guia.precioLista;
+      const ahorro = guia.precioLista - precioFinal;
+      const rating = guia.rating||0, reviews = guia.reviewsCount||0;
+      const imagenes = Array.isArray(guia.imagenes) ? guia.imagenes : [];
+
+      const stackHTML = imagenes.length
+        ? `<div class="stack">${imagenes.map(u=>`<img src="${u}" alt="${guia.region||''}" loading="lazy"/>`).join('')}</div>`
+        : `<div class="px-5 py-16 text-center text-white/30 text-sm">Esta guía todavía no tiene imágenes cargadas.</div>`;
+
+      let urgenciaHTML='';
+      if (guia.urgenciaTipo==='cupos' && guia.cuposRestantes>0)
+        urgenciaHTML=`<div class="flex items-center gap-2 justify-center text-amber-300 text-xs font-semibold bg-amber-400/10 border border-amber-400/20 rounded-lg px-3 py-2 mb-4"><i class="fa-solid fa-fire"></i> ¡Quedan ${guia.cuposRestantes} al precio promocional!</div>`;
+      else if (guia.urgenciaTipo==='tiempo' || guia.urgenciaTipo==='tiempo15')
+        urgenciaHTML=`<div class="flex items-center gap-2 justify-center text-amber-300 text-xs font-semibold bg-amber-400/10 border border-amber-400/20 rounded-lg px-3 py-2 mb-4"><i class="fa-solid fa-clock"></i> Oferta por tiempo limitado · <span id="countdown"></span></div>`;
+
+      const resenas = Array.isArray(guia.resenas) ? guia.resenas : [];
+      const resenasHTML = resenas.length ? `<div class="space-y-3 mb-6">${resenas.slice(0,3).map(r=>`
+        <div class="glass rounded-xl px-4 py-3">
+          <div class="flex items-center gap-2 mb-1.5 text-amber-400 text-[11px]">${estrellas(r.estrellas||5)}</div>
+          <p class="text-white/75 text-[13px] leading-relaxed mb-1.5">"${r.texto}"</p>
+          <p class="text-white/40 text-[11px] font-semibold">— ${r.nombre}</p>
+        </div>`).join('')}</div>` : '';
+
+      document.title = `Guía de ${guia.region} · Patagonia Experiencias`;
+
+      document.getElementById('app').innerHTML = `
+        <div class="max-w-lg mx-auto">
+          ${stackHTML}
+          <section id="checkout" class="px-5 pt-8 pb-6">
+            ${ rating ? `<div class="flex items-center justify-center gap-2 mb-5 reveal">
+              <span class="text-amber-400 text-sm">${estrellas(rating)}</span>
+              <span class="text-white/70 text-sm font-semibold">${rating.toFixed(1)}</span>
+              <span class="text-white/40 text-xs">· ${reviews} valoraciones</span></div>` : '' }
+
+            <div class="glass rounded-3xl p-6 reveal" style="animation-delay:.1s">
+              <p class="text-[11px] uppercase tracking-[0.18em] text-white/40 mb-3 text-center">Acceso digital inmediato</p>
+              <div class="flex items-end justify-center gap-3 mb-1">
+                ${ guia.descuentoPct>0 ? `<span class="price-strike text-lg text-white/35 font-semibold mb-1">${fmt(guia.precioLista)}</span>`:'' }
+                <span class="shimmer font-display text-5xl font-semibold leading-none">${fmt(precioFinal)}</span>
+              </div>
+              ${ guia.descuentoPct>0 ? `<p class="text-center text-emerald-400 text-xs font-bold mb-1">Ahorrás ${fmt(ahorro)} (${guia.descuentoPct}% OFF)</p>`:'' }
+              <p class="text-center text-xs text-white/40 mb-5">Pago único · Te llega por email al instante</p>
+              ${urgenciaHTML}
+              <div class="space-y-3 mb-4">
+                <input id="f-nombre" type="text" placeholder="Tu nombre"
+                  class="w-full bg-white/5 border border-white/12 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/35 outline-none focus:border-brand-fuchsia transition-colors" />
+                <input id="f-email" type="email" inputmode="email" placeholder="Tu email (acá te enviamos la guía)"
+                  class="w-full bg-white/5 border border-white/12 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/35 outline-none focus:border-brand-fuchsia transition-colors" />
+              </div>
+              <button id="btn-comprar"
+                class="w-full bg-brand-fuchsia hover:bg-brand-fuchsiaDark text-white font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2.5 pulse-ring">
+                <i class="fa-solid fa-lock text-xs"></i><span>${guia.ctaTexto || 'Comprar mi guía'}</span>
+              </button>
+              <p id="msg-error" class="hidden text-xs text-rose-300 mt-3 text-center"></p>
+              <div class="mt-5 pt-5 border-t border-white/8">
+                <div class="flex items-center justify-center gap-4 text-white/45 text-xs mb-3">
+                  <span class="flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-emerald-400"></i> Compra protegida</span>
+                  <span class="w-1 h-1 rounded-full bg-white/25"></span>
+                  <span class="flex items-center gap-1.5"><i class="fa-solid fa-lock text-emerald-400"></i> Pago cifrado</span>
+                </div>
+                <div class="flex items-center justify-center gap-3 text-white/55 text-2xl">
+                  <i class="fa-brands fa-cc-visa"></i><i class="fa-brands fa-cc-mastercard"></i><i class="fa-brands fa-cc-amex"></i>
+                  <span class="text-xs font-bold text-sky-400 flex items-center gap-1 border border-sky-400/30 rounded px-2 py-1"><i class="fa-solid fa-circle-check"></i> Mercado Pago</span>
+                </div>
+              </div>
+            </div>
+            ${ resenasHTML ? `<h3 class="text-white/50 text-xs uppercase tracking-widest text-center mt-10 mb-4 reveal">Lo que dicen quienes la compraron</h3>${resenasHTML}` : '' }
+            <div class="grid grid-cols-3 gap-2.5 mt-6">
+              ${[['fa-bolt','Inmediata'],['fa-tags','Precios reales'],['fa-mountain-sun','Local']].map(([ic,t])=>`
+                <div class="glass rounded-xl px-2 py-3 text-center reveal"><i class="fa-solid ${ic} text-brand-fuchsia text-sm mb-1.5"></i><p class="text-white/60 text-[10px] font-semibold">${t}</p></div>`).join('')}
+            </div>
+            <p class="text-center text-white/35 text-[11px] mt-6 leading-relaxed">Al comprar aceptás los <a href="terminos.html" class="underline hover:text-white/60">términos</a>. Uso personal.</p>
+          </section>
+        </div>`;
+
+      document.getElementById('loader').classList.add('hidden');
+      document.getElementById('app').classList.remove('hidden');
+
+      document.getElementById('sticky-price').innerHTML =
+        (guia.descuentoPct>0 ? `<span class="price-strike text-xs text-white/35 font-semibold">${fmt(guia.precioLista)}</span>`:'') +
+        `<span class="text-brand-fuchsia font-display text-xl font-semibold">${fmt(precioFinal)}</span>`;
+      document.getElementById('stickybar').classList.remove('hidden');
+
+      if (guia.urgenciaTipo==='tiempo' || guia.urgenciaTipo==='tiempo15') {
+        const cd=document.getElementById('countdown');
+        let fin;
+        if (guia.urgenciaTipo==='tiempo15') {
+          // Contador corto: 15 minutos desde que el visitante abre la página.
+          fin=new Date(Date.now() + 15*60*1000);
+        } else {
+          // Contador clásico: hasta el final del día (medianoche).
+          fin=new Date(); fin.setHours(23,59,59,999);
+        }
+        setInterval(()=>{ const d=Math.max(0,fin-new Date());
+          const h=String(Math.floor(d/3.6e6)).padStart(2,'0'); const m=String(Math.floor(d%3.6e6/6e4)).padStart(2,'0'); const s=String(Math.floor(d%6e4/1e3)).padStart(2,'0');
+          if(cd) cd.textContent=`${h}:${m}:${s}`; },1000);
+      }
+
+      if (window.fbq) fbq('track','ViewContent',{ content_ids:[guia.slug||guia.id], content_name:guia.region, content_type:'product', value:precioFinal, currency:'ARS' });
+
+      const btn=document.getElementById('btn-comprar'), errEl=document.getElementById('msg-error');
+      const showErr=m=>{ errEl.textContent=m; errEl.classList.remove('hidden'); };
+
+      btn.addEventListener('click', async () => {
+        const nombre=document.getElementById('f-nombre').value.trim();
+        const email=document.getElementById('f-email').value.trim();
+        errEl.classList.add('hidden');
+        if (nombre.length<2) return showErr('Ingresá tu nombre.');
+        if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return showErr('Ingresá un email válido.');
+        btn.disabled=true; btn.classList.remove('pulse-ring');
+        btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i><span class="ml-2">Generando tu pago...</span>';
+        try {
+          const baseUrl=window.location.origin+window.location.pathname.replace(/\/[^\/]*$/, '');
+          const ventaRef=await db.collection('artifacts').doc(appId).collection('public').doc('data').collection('ventas_guias').add({
+            tipoProducto:'guia', guiaId:guia.id, slug:guia.slug||'', region:guia.region, titulo:guia.titulo,
+            precio:precioFinal, precioLista:guia.precioLista, descuentoPct:guia.descuentoPct||0, moneda:'ARS',
+            clienteNombre:nombre, clienteEmail:email.toLowerCase(), linkDrive:guia.linkDrive||'', linkWeb:guia.linkWeb||'',
+            estado:'Pendiente de pago', fechaCreacion:new Date().toISOString()
+          });
+          const ventaId=ventaRef.id;
+          if (window.fbq) fbq('track','InitiateCheckout',{ content_ids:[guia.slug||guia.id], value:precioFinal, currency:'ARS' });
+          const resp=await fetch(MAKE_WEBHOOK_URL,{ method:'POST', headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({
+              tipoProducto:'guia', reservaId:ventaId, guiaId:guia.id, titulo:`Guía de ${guia.region}`,
+              descripcionItem:`Guía digital de ${guia.region} · Patagonia Experiencias`,
+              precio:Number(precioFinal), cantidad:1, moneda:'ARS',
+              clienteNombre:nombre, clienteEmail:email.toLowerCase(), linkDrive:guia.linkDrive||'', linkWeb:guia.linkWeb||'',
+              back_urls:{ success:`${baseUrl}/guia-confirmada.html?id=${ventaId}`, failure:`${baseUrl}/pago-rechazado.html?id=${ventaId}`, pending:`${baseUrl}/pago-pendiente.html?id=${ventaId}` },
+              auto_return:'approved'
+            })
+          });
+          if (!resp.ok) throw new Error('No se pudo generar el link de pago.');
+          const data=await resp.json();
+          if (!data.url) throw new Error('Respuesta inválida del servidor de pago.');
+          btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i><span class="ml-2">Redirigiendo a Mercado Pago...</span>';
+          await new Promise(r=>setTimeout(r,500));
+          window.location.href=data.url;
+        } catch(e){
+          console.error(e);
+          showErr('Hubo un error al procesar tu pago. Probá de nuevo en un momento.');
+          btn.disabled=false; btn.classList.add('pulse-ring');
+          btn.innerHTML='<i class="fa-solid fa-lock text-xs"></i><span>'+(guia.ctaTexto||'Comprar mi guía')+'</span>';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

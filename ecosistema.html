@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Meta Pixel Base · Patagonia Experiencias -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window,document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '1501384968138883');
+      fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=1501384968138883&ev=PageView&noscript=1"/></noscript>
+    <!-- End Meta Pixel -->
+<title>El Ecosistema Patagonia · efe5 proyectos</title>
+<meta name="description" content="Patagonia Magazine + Patagonia Puntos + Patagonia Experiencias. El ecosistema integrado que transforma el turismo en la Patagonia argentina.">
+
+<!-- Open Graph -->
+<meta property="og:title" content="El Ecosistema Patagonia">
+<meta property="og:description" content="Una red integrada de tres productos que transforman el turismo patagónico.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://patagoniaexperiencias.com/ecosistema.html">
+
+<!-- Fuentes modernas -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<!-- Tailwind CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Font Awesome para iconos -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<script>
+tailwind.config = {
+    theme: {
+        extend: {
+            fontFamily: {
+                'sans': ['Geist', 'system-ui', 'sans-serif'],
+                'mono': ['JetBrains Mono', 'monospace'],
+            },
+            colors: {
+                'brand': {
+                    'fuchsia': '#E91E63',
+                    'fuchsiaDark': '#C2185B',
+                    'oxford': '#0a0a0a',
+                    'ink': '#171717',
+                    'subtle': '#737373',
+                    'mute': '#a3a3a3',
+                    'line': '#e5e5e5',
+                    'bg': '#fafafa',
+                }
+            }
+        }
+    }
+}
+</script>
+
+<style>
+    * { -webkit-font-smoothing: antialiased; }
+    body { font-family: 'Geist', system-ui, sans-serif; background: #ffffff; color: #0a0a0a; }
+    
+    /* Grain texture sutil */
+    .grain { position: relative; }
+    .grain::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 1;
+    }
+    
+    /* Animaciones */
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    @keyframes slideRight {
+        from { opacity: 0; transform: translateX(-20px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+    .fade-up { animation: fadeUp 0.8s ease-out both; }
+    .fade-in { animation: fadeIn 1s ease-out both; }
+    .slide-right { animation: slideRight 0.8s ease-out both; }
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-300 { animation-delay: 0.3s; }
+    .delay-400 { animation-delay: 0.4s; }
+    .delay-500 { animation-delay: 0.5s; }
+    
+    /* Scroll suave */
+    html { scroll-behavior: smooth; }
+    
+    /* Gradiente animado */
+    .gradient-text {
+        background: linear-gradient(90deg, #E91E63 0%, #ec4899 50%, #E91E63 100%);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shine 4s linear infinite;
+    }
+    @keyframes shine {
+        to { background-position: 200% center; }
+    }
+    
+    /* Cards hover */
+    .product-card {
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .product-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 24px 48px -12px rgba(0,0,0,0.18);
+    }
+    
+    /* Glow effect en CTAs */
+    .btn-glow {
+        position: relative;
+        overflow: hidden;
+    }
+    .btn-glow::after {
+        content: '';
+        position: absolute;
+        inset: -2px;
+        background: linear-gradient(90deg, #E91E63, #ec4899, #E91E63);
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.3s;
+        filter: blur(8px);
+    }
+    .btn-glow:hover::after { opacity: 0.5; }
+    
+    /* Stat numbers */
+    .stat-num {
+        font-feature-settings: 'tnum' on;
+        letter-spacing: -0.04em;
+    }
+    
+    /* Diagonal stripe en bg */
+    .stripe-bg {
+        background-image: repeating-linear-gradient(
+            -45deg,
+            transparent,
+            transparent 12px,
+            rgba(233, 30, 99, 0.04) 12px,
+            rgba(233, 30, 99, 0.04) 13px
+        );
+    }
+    
+    /* Borde animado paso de la rueda */
+    .step-line {
+        background: linear-gradient(180deg, #E91E63 0%, transparent 100%);
+    }
+    
+    /* Scrollbar custom */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #f5f5f5; }
+    ::-webkit-scrollbar-thumb { background: #d4d4d4; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #a3a3a3; }
+</style>
+</head>
+<body class="bg-white text-brand-oxford overflow-x-hidden">
+
+<!-- ============ NAV ============ -->
+<nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-white/80 border-b border-brand-line">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 py-4 flex items-center justify-between">
+        <a href="index.html" class="flex items-center gap-2 group">
+            <div class="w-8 h-8 bg-brand-fuchsia rounded-lg flex items-center justify-center transition-transform group-hover:rotate-12">
+                <i class="fa-solid fa-location-dot text-white text-sm"></i>
+            </div>
+            <span class="font-bold text-sm tracking-tight">efe5 proyectos</span>
+        </a>
+        <div class="hidden md:flex items-center gap-8 text-sm text-brand-subtle">
+            <a href="#productos" class="hover:text-brand-oxford transition-colors">Productos</a>
+            <a href="#rueda" class="hover:text-brand-oxford transition-colors">Cómo funciona</a>
+            <a href="#numeros" class="hover:text-brand-oxford transition-colors">Tracción</a>
+            <a href="#prestadores" class="hover:text-brand-oxford transition-colors">Prestadores</a>
+            <a href="#partners" class="hover:text-brand-oxford transition-colors">Partners</a>
+        </div>
+        <a href="#contacto" class="text-xs font-semibold bg-brand-oxford text-white px-4 py-2 rounded-full hover:bg-brand-fuchsia transition-colors">
+            Hablemos →
+        </a>
+    </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="pt-32 pb-20 px-6 lg:px-8 relative overflow-hidden">
+    <div class="absolute inset-0 stripe-bg opacity-50"></div>
+    <div class="max-w-7xl mx-auto relative">
+        
+        <!-- Kicker -->
+        <div class="fade-up flex items-center gap-2 mb-8">
+            <span class="inline-block w-8 h-px bg-brand-fuchsia"></span>
+            <span class="text-xs font-mono uppercase tracking-[0.2em] text-brand-fuchsia font-semibold">
+                Proyecto activo · 2026
+            </span>
+        </div>
+        
+        <!-- Headline gigante -->
+        <h1 class="fade-up delay-100 font-bold text-5xl md:text-7xl lg:text-8xl leading-[0.95] tracking-[-0.04em] mb-8 max-w-5xl">
+            El Ecosistema<br>
+            <span class="gradient-text">Patagonia</span>
+        </h1>
+        
+        <p class="fade-up delay-200 text-xl md:text-2xl text-brand-subtle leading-relaxed max-w-3xl mb-12 font-light">
+            Una red integrada de <strong class="text-brand-oxford font-semibold">tres productos</strong> que transforman cómo se viaja, se vende y se experimenta el turismo en la <strong class="text-brand-oxford font-semibold">Patagonia argentina</strong>.
+        </p>
+        
+        <!-- CTAs -->
+        <div class="fade-up delay-300 flex flex-col sm:flex-row gap-3 mb-20">
+            <a href="#productos" class="btn-glow inline-flex items-center gap-2 bg-brand-oxford text-white px-6 py-3.5 rounded-full font-semibold text-sm hover:bg-brand-fuchsia transition-colors">
+                Conocer los productos
+                <i class="fa-solid fa-arrow-down text-xs"></i>
+            </a>
+            <a href="#contacto" class="inline-flex items-center gap-2 border border-brand-line text-brand-oxford px-6 py-3.5 rounded-full font-semibold text-sm hover:border-brand-oxford transition-colors">
+                Hablar con el equipo
+            </a>
+        </div>
+        
+        <!-- Quick stats -->
+        <div class="fade-up delay-400 grid grid-cols-2 md:grid-cols-4 gap-8 pt-12 border-t border-brand-line">
+            <div>
+                <div class="stat-num font-bold text-4xl md:text-5xl text-brand-oxford">+5K</div>
+                <div class="text-xs text-brand-subtle mt-2 font-mono uppercase tracking-wider">Usuarios registrados</div>
+            </div>
+            <div>
+                <div class="stat-num font-bold text-4xl md:text-5xl text-brand-oxford">+200</div>
+                <div class="text-xs text-brand-subtle mt-2 font-mono uppercase tracking-wider">Prestadores adheridos</div>
+            </div>
+            <div>
+                <div class="stat-num font-bold text-4xl md:text-5xl text-brand-oxford">6</div>
+                <div class="text-xs text-brand-subtle mt-2 font-mono uppercase tracking-wider">Provincias patagónicas</div>
+            </div>
+            <div>
+                <div class="stat-num font-bold text-4xl md:text-5xl text-brand-fuchsia">230K</div>
+                <div class="text-xs text-brand-subtle mt-2 font-mono uppercase tracking-wider">Vistas en una sola acción</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ ORIGEN / CONTEXTO ============ -->
+<section class="py-20 px-6 lg:px-8 bg-brand-bg border-y border-brand-line">
+    <div class="max-w-5xl mx-auto">
+        <div class="flex items-center gap-2 mb-6">
+            <span class="inline-block w-8 h-px bg-brand-fuchsia"></span>
+            <span class="text-xs font-mono uppercase tracking-[0.2em] text-brand-fuchsia font-semibold">
+                01 · Origen
+            </span>
+        </div>
+        <h2 class="font-bold text-3xl md:text-5xl leading-tight tracking-[-0.03em] mb-8 max-w-3xl">
+            Nació para resolver lo que el sistema turístico no resolvía.
+        </h2>
+        <div class="grid md:grid-cols-2 gap-8 md:gap-12 text-brand-subtle text-lg leading-relaxed">
+            <p>
+                <strong class="text-brand-oxford">Patagonia Puntos</strong> empezó como una plataforma de beneficios para turistas: descuentos, promociones y experiencias premium en hotelería, gastronomía y excursiones, a cambio de visibilidad para los prestadores adheridos.
+            </p>
+            <p>
+                Funcionó bien. Tan bien, que para escalarlo hacía falta financiamiento. Para mantener <strong class="text-brand-oxford">independencia editorial y operativa</strong> frente al sector público, construimos <strong class="text-brand-oxford">Patagonia Experiencias</strong>: una plataforma de reservas que genera ingresos propios y financia todo el ecosistema. <span class="text-brand-fuchsia font-semibold">Sin condicionamientos.</span>
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ============ 3 PRODUCTOS ============ -->
+<section id="productos" class="py-24 px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+        <div class="flex items-center gap-2 mb-6">
+            <span class="inline-block w-8 h-px bg-brand-fuchsia"></span>
+            <span class="text-xs font-mono uppercase tracking-[0.2em] text-brand-fuchsia font-semibold">
+                02 · Los tres productos
+            </span>
+        </div>
+        <h2 class="font-bold text-3xl md:text-5xl leading-tight tracking-[-0.03em] mb-4 max-w-3xl">
+            Tres productos. Una sola experiencia.
+        </h2>
+        <p class="text-lg text-brand-subtle mb-16 max-w-2xl">
+            Cada uno resuelve un momento distinto del viaje. Juntos, cubren todo el recorrido del turista — desde la inspiración hasta la fidelización.
+        </p>
+        
+        <div class="grid md:grid-cols-3 gap-6">
+            
+            <!-- 1 · MAGAZINE — Inspiración -->
+            <div class="product-card bg-white border border-brand-line rounded-2xl p-8 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-amber-50 rounded-full -translate-y-16 translate-x-16"></div>
+                <div class="relative">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-amber-700 bg-amber-50 px-3 py-1.5 rounded-full">
+                            <span class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span>
+                            Inspiración
+                        </div>
+                        <span class="font-mono text-xs text-brand-mute">01</span>
+                    </div>
+                    <h3 class="font-bold text-2xl mb-2 tracking-tight">Patagonia<br>Magazine</h3>
+                    <p class="text-sm text-brand-subtle mb-6 leading-relaxed">
+                        Revista de turismo y gastronomía en formato impreso y digital. La cara editorial del ecosistema, donde el turista descubre destinos antes de viajar.
+                    </p>
+                    <ul class="space-y-2 text-sm text-brand-ink">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-amber-500 text-xs mt-1.5"></i>
+                            <span>Publicación periódica</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-amber-500 text-xs mt-1.5"></i>
+                            <span>Distribución gratuita</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-amber-500 text-xs mt-1.5"></i>
+                            <span>Contenido editorial premium</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 2 · PATAGONIA EXPERIENCIAS — Reserva -->
+            <div class="product-card bg-white border border-brand-line rounded-2xl p-8 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-slate-100 rounded-full -translate-y-16 translate-x-16"></div>
+                <div class="relative">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-brand-ink bg-slate-100 px-3 py-1.5 rounded-full">
+                            <span class="w-1.5 h-1.5 bg-brand-oxford rounded-full"></span>
+                            Reserva
+                        </div>
+                        <span class="font-mono text-xs text-brand-mute">02</span>
+                    </div>
+                    <h3 class="font-bold text-2xl mb-2 tracking-tight">Patagonia<br>Experiencias</h3>
+                    <p class="text-sm text-brand-subtle mb-6 leading-relaxed">
+                        Plataforma de reservas online de tours, alojamientos y gastronomía. El motor económico del ecosistema: financia al resto y conecta al turista con el operador.
+                    </p>
+                    <ul class="space-y-2 text-sm text-brand-ink">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-brand-oxford text-xs mt-1.5"></i>
+                            <span>Preventa online con comisión transparente</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-brand-oxford text-xs mt-1.5"></i>
+                            <span>Pago seguro con MercadoPago</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-brand-oxford text-xs mt-1.5"></i>
+                            <span>Panel de gestión para prestadores</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 3 · PATAGONIA PUNTOS — Fidelización -->
+            <div class="product-card bg-white border border-brand-line rounded-2xl p-8 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-pink-50 rounded-full -translate-y-16 translate-x-16"></div>
+                <div class="relative">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-brand-fuchsia bg-pink-50 px-3 py-1.5 rounded-full">
+                            <span class="w-1.5 h-1.5 bg-brand-fuchsia rounded-full"></span>
+                            Fidelización
+                        </div>
+                        <span class="font-mono text-xs text-brand-mute">03</span>
+                    </div>
+                    <h3 class="font-bold text-2xl mb-2 tracking-tight">Patagonia<br>Puntos</h3>
+                    <p class="text-sm text-brand-subtle mb-6 leading-relaxed">
+                        Plataforma de beneficios para el turista. Suma puntos visitando productos turísticos con QR y los canjea con prestadores adheridos.
+                    </p>
+                    <ul class="space-y-2 text-sm text-brand-ink">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-brand-fuchsia text-xs mt-1.5"></i>
+                            <span>QR en puntos estratégicos</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-brand-fuchsia text-xs mt-1.5"></i>
+                            <span>+200 prestadores con beneficios</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-brand-fuchsia text-xs mt-1.5"></i>
+                            <span>Encuestas, cumpleaños, referidos</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Producto extra: Guías digitales -->
+        <div class="mt-6 bg-brand-oxford text-white rounded-2xl p-8 md:p-12 grid md:grid-cols-2 gap-8 items-center">
+            <div>
+                <div class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-brand-fuchsia bg-white/5 px-3 py-1.5 rounded-full mb-4">
+                    <span class="w-1.5 h-1.5 bg-brand-fuchsia rounded-full"></span>
+                    Producto complementario
+                </div>
+                <h3 class="font-bold text-3xl mb-3 tracking-tight">Guías digitales descargables</h3>
+                <p class="text-white/70 mb-4 leading-relaxed">
+                    Productos premium pagos que el turista compra antes de viajar. Incluyen recomendaciones, descuentos exclusivos y acceso directo a los tres productos del ecosistema.
+                </p>
+                <p class="text-sm text-white/50 mb-4">
+                    Primera guía disponible: <strong class="text-white">Esquel &amp; Trevelin</strong> — recorrido con rincones, actividades y beneficios de la región andina chubutense.
+                </p>
+                <a href="https://patagoniaexperiencias.com/guiadeviajeros.html" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-brand-fuchsia hover:text-white transition-colors">
+                    Ver guía
+                    <span class="inline-block w-3 h-px bg-brand-fuchsia"></span>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                </a>
+            </div>
+            <div class="flex justify-center md:justify-end">
+                <a href="https://patagoniaexperiencias.com/guiadeviajeros.html" target="_blank" rel="noopener noreferrer" class="relative block hover:scale-105 transition-transform">
+                    <div class="w-48 h-64 bg-gradient-to-br from-brand-fuchsia to-brand-fuchsiaDark rounded-2xl rotate-6 shadow-2xl"></div>
+                    <div class="absolute top-0 left-0 w-48 h-64 bg-white/10 backdrop-blur rounded-2xl -rotate-3 border border-white/20 flex items-center justify-center">
+                        <div class="text-center px-3">
+                            <div class="inline-block text-[10px] font-mono uppercase tracking-wider bg-emerald-500 text-white px-2 py-0.5 rounded-full mb-3">Disponible</div>
+                            <i class="fa-solid fa-book text-3xl mb-2 text-white/40 block"></i>
+                            <div class="text-xs font-mono uppercase tracking-wider text-white/60">PDF</div>
+                            <div class="font-bold text-lg mt-1 leading-tight">Esquel<br>&amp; Trevelin</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ LA RUEDA DEL VIAJERO ============ -->
+<section id="rueda" class="py-24 px-6 lg:px-8 bg-brand-oxford text-white">
+    <div class="max-w-7xl mx-auto">
+        <div class="flex items-center gap-2 mb-6">
+            <span class="inline-block w-8 h-px bg-brand-fuchsia"></span>
+            <span class="text-xs font-mono uppercase tracking-[0.2em] text-brand-fuchsia font-semibold">
+                03 · Recorrido del viajero
+            </span>
+        </div>
+        <h2 class="font-bold text-3xl md:text-5xl leading-tight tracking-[-0.03em] mb-4 max-w-3xl">
+            Una rueda que no se detiene.
+        </h2>
+        <p class="text-lg text-white/60 mb-16 max-w-2xl">
+            Entrás por cualquier punto del ecosistema y quedás dentro. Cada interacción suma valor — al viajero, al prestador y a la región.
+        </p>
+        
+        <div class="grid md:grid-cols-3 gap-8 md:gap-4">
+            
+            <!-- Etapa 1 -->
+            <div class="relative">
+                <div class="flex items-baseline gap-3 mb-4">
+                    <span class="font-mono text-5xl font-bold text-brand-fuchsia">01</span>
+                    <span class="text-xs uppercase tracking-wider text-white/40">Captación</span>
+                </div>
+                <h4 class="font-bold text-xl mb-3">Descubrí el destino</h4>
+                <p class="text-sm text-white/60 leading-relaxed">
+                    Ves una promo en redes desde Córdoba, Buenos Aires o cualquier ciudad. Comprás una guía digital, recibís tus 20.000 puntos de bienvenida y empezás a planear el viaje.
+                </p>
+                <div class="hidden md:block absolute top-8 right-0 w-px h-12 step-line"></div>
+            </div>
+            
+            <!-- Etapa 2 -->
+            <div class="relative">
+                <div class="flex items-baseline gap-3 mb-4">
+                    <span class="font-mono text-5xl font-bold text-brand-fuchsia">02</span>
+                    <span class="text-xs uppercase tracking-wider text-white/40">Reserva</span>
+                </div>
+                <h4 class="font-bold text-xl mb-3">Asegurá tu viaje</h4>
+                <p class="text-sm text-white/60 leading-relaxed">
+                    Reservás tours y alojamientos en Patagonia Experiencias. Pagás solo la preventa online. El saldo lo coordinás directamente con cada operador.
+                </p>
+                <div class="hidden md:block absolute top-8 right-0 w-px h-12 step-line"></div>
+            </div>
+            
+            <!-- Etapa 3 -->
+            <div class="relative">
+                <div class="flex items-baseline gap-3 mb-4">
+                    <span class="font-mono text-5xl font-bold text-brand-fuchsia">03</span>
+                    <span class="text-xs uppercase tracking-wider text-white/40">Llegada</span>
+                </div>
+                <h4 class="font-bold text-xl mb-3">Activá los beneficios</h4>
+                <p class="text-sm text-white/60 leading-relaxed">
+                    Al llegar a la Patagonia accedés a +200 prestadores aliados con descuentos en gastronomía, alojamiento, alquileres, esquí y más.
+                </p>
+            </div>
+            
+            <!-- Etapa 4 -->
+            <div class="relative pt-12">
+                <div class="flex items-baseline gap-3 mb-4">
+                    <span class="font-mono text-5xl font-bold text-brand-fuchsia">04</span>
+                    <span class="text-xs uppercase tracking-wider text-white/40">Recorrido</span>
+                </div>
+                <h4 class="font-bold text-xl mb-3">Sumá puntos viajando</h4>
+                <p class="text-sm text-white/60 leading-relaxed">
+                    En cada producto turístico, museo o atractivo escaneás códigos QR y sumás puntos. Cada municipio decide qué destacar y cuánto valoriza esos puntos.
+                </p>
+                <div class="hidden md:block absolute top-20 right-0 w-px h-12 step-line"></div>
+            </div>
+            
+            <!-- Etapa 5 -->
+            <div class="relative pt-12">
+                <div class="flex items-baseline gap-3 mb-4">
+                    <span class="font-mono text-5xl font-bold text-brand-fuchsia">05</span>
+                    <span class="text-xs uppercase tracking-wider text-white/40">Canje</span>
+                </div>
+                <h4 class="font-bold text-xl mb-3">Convertí puntos en valor</h4>
+                <p class="text-sm text-white/60 leading-relaxed">
+                    Canjeás los puntos acumulados por cenas, cafés, excursiones extra o servicios. Gastás más en destino — y todo queda en la región.
+                </p>
+                <div class="hidden md:block absolute top-20 right-0 w-px h-12 step-line"></div>
+            </div>
+            
+            <!-- Etapa 6 -->
+            <div class="relative pt-12">
+                <div class="flex items-baseline gap-3 mb-4">
+                    <span class="font-mono text-5xl font-bold text-brand-fuchsia">06</span>
+                    <span class="text-xs uppercase tracking-wider text-white/40">Fidelización</span>
+                </div>
+                <h4 class="font-bold text-xl mb-3">Volvé. Y traé más.</h4>
+                <p class="text-sm text-white/60 leading-relaxed">
+                    Encuestas, cumpleaños y referidos siguen sumando puntos después del viaje. Te convertís en embajador del destino.
+                </p>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+<!-- ============ TRACCIÓN / NÚMEROS ============ -->
+<section id="numeros" class="py-24 px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+        <div class="flex items-center gap-2 mb-6">
+            <span class="inline-block w-8 h-px bg-brand-fuchsia"></span>
+            <span class="text-xs font-mono uppercase tracking-[0.2em] text-brand-fuchsia font-semibold">
+                04 · Tracción real
+            </span>
+        </div>
+        <h2 class="font-bold text-3xl md:text-5xl leading-tight tracking-[-0.03em] mb-4 max-w-3xl">
+            No es un plan. Está funcionando.
+        </h2>
+        <p class="text-lg text-brand-subtle mb-16 max-w-2xl">
+            Estos son datos verificables hasta hoy. Sin pauta paga.
+        </p>
+        
+        <div class="grid md:grid-cols-2 gap-6">
+            
+            <!-- Card 1 -->
+            <div class="bg-brand-bg border border-brand-line rounded-2xl p-8">
+                <div class="font-mono text-xs uppercase tracking-wider text-brand-subtle mb-3">Acción única · Parque Thays, Bs As</div>
+                <div class="stat-num font-bold text-6xl md:text-7xl text-brand-fuchsia mb-2">230K</div>
+                <h4 class="font-bold text-lg mb-2">Vistas en un solo reel</h4>
+                <p class="text-sm text-brand-subtle leading-relaxed">
+                    Activación con la influencer Denisse González en la réplica del Patagotitán Mayorum. Sin pauta publicitaria. Solo creatividad y storytelling.
+                </p>
+            </div>
+            
+            <!-- Card 2 -->
+            <div class="bg-brand-bg border border-brand-line rounded-2xl p-8">
+                <div class="font-mono text-xs uppercase tracking-wider text-brand-subtle mb-3">Comunidad activa</div>
+                <div class="stat-num font-bold text-6xl md:text-7xl text-brand-fuchsia mb-2">+5K</div>
+                <h4 class="font-bold text-lg mb-2">Usuarios registrados</h4>
+                <p class="text-sm text-brand-subtle leading-relaxed">
+                    Turistas argentinos que ya están dentro del sistema, sumando puntos y esperando volver a la Patagonia.
+                </p>
+            </div>
+            
+            <!-- Card 3 -->
+            <div class="bg-brand-bg border border-brand-line rounded-2xl p-8">
+                <div class="font-mono text-xs uppercase tracking-wider text-brand-subtle mb-3">Red de prestadores</div>
+                <div class="stat-num font-bold text-6xl md:text-7xl text-brand-fuchsia mb-2">+200</div>
+                <h4 class="font-bold text-lg mb-2">Prestadores adheridos</h4>
+                <p class="text-sm text-brand-subtle leading-relaxed">
+                    Hoteles, restaurantes, agencias de turismo, museos, alquiler de equipos y comercios — todos ofreciendo beneficios reales.
+                </p>
+            </div>
+            
+            <!-- Card 4 -->
+            <div class="bg-brand-bg border border-brand-line rounded-2xl p-8">
+                <div class="font-mono text-xs uppercase tracking-wider text-brand-subtle mb-3">Cobertura territorial</div>
+                <div class="stat-num font-bold text-6xl md:text-7xl text-brand-fuchsia mb-2">6</div>
+                <h4 class="font-bold text-lg mb-2">Provincias en la plataforma</h4>
+                <p class="text-sm text-brand-subtle leading-relaxed">
+                    La Pampa, Río Negro, Neuquén, Chubut, Santa Cruz y Tierra del Fuego. Toda la Patagonia argentina, accesible desde un solo registro.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ LOGOS DE PRESTADORES ADHERIDOS ============ -->
+<!--
+    NOTA PARA MARCELO:
+    Esta grilla está preparada para enchufar los logos reales del PDF de marketing.
+    Cuando subas los logos al hosting (recomendado en /assets/logos/),
+    reemplazá los <div> de placeholder por <img src="/assets/logos/NOMBRE.png" alt="NOMBRE">.
+    El layout es responsivo: 3 cols mobile / 5 cols tablet / 7 cols desktop.
+-->
+<section id="prestadores" class="py-24 px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+        <div class="flex items-center gap-2 mb-6">
+            <span class="inline-block w-8 h-px bg-brand-fuchsia"></span>
+            <span class="text-xs font-mono uppercase tracking-[0.2em] text-brand-fuchsia font-semibold">
+                Red de prestadores
+            </span>
+        </div>
+        <h2 class="font-bold text-3xl md:text-5xl leading-tight tracking-[-0.03em] mb-4 max-w-3xl">
+            Quiénes ya son parte.
+        </h2>
+        <p class="text-lg text-brand-subtle mb-16 max-w-2xl">
+            Hoteles, restaurantes, agencias de turismo, transporte, comercios y experiencias de toda la Patagonia. Algunos de los <strong class="text-brand-oxford">+200 prestadores</strong> adheridos:
+        </p>
+        
+        <!-- Grilla de logos — se autodetecta la cantidad real desde /assets -->
+        <div id="grilla-logos" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-4 md:gap-6 items-center">
+            <!-- Los logos se inyectan por JS: prueba Logo 01.png, 02, 03... y muestra los que existan -->
+        </div>
+        <div id="logos-vacio" class="hidden text-center text-sm text-brand-mute py-8">Próximamente: las empresas del ecosistema.</div>
+
+        <script>
+        (function () {
+            // Rutas candidatas donde pueden estar los logos (usa la primera que funcione).
+            var CARPETAS = ['/assets/logos/', '/assets/', '/img/logos/'];
+            var MAX = 40; // tope de logos a probar (Logo 01 .. Logo 40)
+            var grilla = document.getElementById('grilla-logos');
+            var vacio = document.getElementById('logos-vacio');
+
+            function nombre(i) { return 'Logo ' + (i < 10 ? '0' + i : '' + i) + '.png'; }
+
+            // 1) Detectar qué carpeta anda: probamos "Logo 01.png" en cada una.
+            function detectarCarpeta(cb) {
+                var idx = 0;
+                (function probar() {
+                    if (idx >= CARPETAS.length) { cb(null); return; }
+                    var carpeta = CARPETAS[idx];
+                    var img = new Image();
+                    img.onload = function () { cb(carpeta); };
+                    img.onerror = function () { idx++; probar(); };
+                    img.src = encodeURI(carpeta + nombre(1)) + '?v=' + Date.now();
+                })();
+            }
+
+            // 2) Con la carpeta encontrada, cargar en orden todos los logos que existan.
+            function cargarLogos(carpeta) {
+                var encontrados = [];
+                var pendientes = MAX;
+                function terminar() {
+                    if (encontrados.length === 0) { vacio.classList.remove('hidden'); return; }
+                    encontrados.sort(function (a, b) { return a.i - b.i; });
+                    encontrados.forEach(function (o) {
+                        var cel = document.createElement('div');
+                        cel.className = 'aspect-square flex items-center justify-center bg-white border border-brand-line rounded-xl p-4 hover:border-brand-fuchsia/30 transition-colors grayscale hover:grayscale-0';
+                        var im = document.createElement('img');
+                        im.src = o.url; im.alt = 'Empresa del ecosistema'; im.loading = 'lazy';
+                        im.className = 'max-w-full max-h-full object-contain';
+                        cel.appendChild(im); grilla.appendChild(cel);
+                    });
+                }
+                for (var i = 1; i <= MAX; i++) {
+                    (function (i) {
+                        var url = encodeURI(carpeta + nombre(i));
+                        var img = new Image();
+                        img.onload = function () { encontrados.push({ i: i, url: url }); if (--pendientes === 0) terminar(); };
+                        img.onerror = function () { if (--pendientes === 0) terminar(); };
+                        img.src = url;
+                    })(i);
+                }
+            }
+
+            detectarCarpeta(function (carpeta) {
+                if (!carpeta) { vacio.classList.remove('hidden'); return; }
+                cargarLogos(carpeta);
+            });
+        })();
+        </script>
+
+        <!-- CTA prestadores -->
+        <div class="mt-12 text-center">
+            <p class="text-sm text-brand-subtle mb-4">¿Sos prestador turístico y todavía no formás parte?</p>
+            <a href="prestadores.html" class="inline-flex items-center gap-2 bg-brand-oxford text-white px-6 py-3 rounded-full font-semibold text-sm hover:bg-brand-fuchsia transition-colors">
+                Sumarse al ecosistema
+                <i class="fa-solid fa-arrow-right text-xs"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ============ PARTNERS / B2G ============ -->
+<section id="partners" class="py-24 px-6 lg:px-8 bg-brand-bg border-y border-brand-line">
+    <div class="max-w-7xl mx-auto">
+        <div class="flex items-center gap-2 mb-6">
+            <span class="inline-block w-8 h-px bg-brand-fuchsia"></span>
+            <span class="text-xs font-mono uppercase tracking-[0.2em] text-brand-fuchsia font-semibold">
+                05 · Lo que viene
+            </span>
+        </div>
+        <h2 class="font-bold text-3xl md:text-5xl leading-tight tracking-[-0.03em] mb-12 max-w-3xl">
+            Una red <span class="gradient-text">público-privada</span> en construcción.
+        </h2>
+        
+        <div class="grid md:grid-cols-2 gap-6 mb-12">
+            
+            <!-- Para Municipios -->
+            <div class="bg-white border border-brand-line rounded-2xl p-8">
+                <div class="inline-flex items-center gap-2 mb-6">
+                    <i class="fa-solid fa-building-columns text-brand-fuchsia text-xl"></i>
+                    <span class="text-xs font-mono uppercase tracking-wider text-brand-fuchsia font-semibold">Para municipios</span>
+                </div>
+                <h3 class="font-bold text-2xl mb-4 tracking-tight">Convenios B2G en conversación</h3>
+                <p class="text-brand-subtle leading-relaxed mb-6">
+                    El modelo: cada municipio define qué productos turísticos quiere destacar, se instalan códigos QR en puntos estratégicos y el sistema mide visitas reales, no estimaciones.
+                </p>
+                <ul class="space-y-3 text-sm">
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-arrow-right text-brand-fuchsia mt-1"></i>
+                        <span>Atribución de turistas medible</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-arrow-right text-brand-fuchsia mt-1"></i>
+                        <span>Incentivo económico para visitar lugares menos transitados</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-arrow-right text-brand-fuchsia mt-1"></i>
+                        <span>Datos de comportamiento del visitante</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Para Sponsors -->
+            <div class="bg-white border border-brand-line rounded-2xl p-8">
+                <div class="inline-flex items-center gap-2 mb-6">
+                    <i class="fa-solid fa-handshake text-brand-fuchsia text-xl"></i>
+                    <span class="text-xs font-mono uppercase tracking-wider text-brand-fuchsia font-semibold">Para sponsors</span>
+                </div>
+                <h3 class="font-bold text-2xl mb-4 tracking-tight">Visibilidad con propósito</h3>
+                <p class="text-brand-subtle leading-relaxed mb-6">
+                    Sponsoreá secciones de Patagonia Magazine, campañas en la plataforma o circuitos completos. Audiencia segmentada, turismo cualificado.
+                </p>
+                <ul class="space-y-3 text-sm">
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-arrow-right text-brand-fuchsia mt-1"></i>
+                        <span>Cobertura editorial impresa y digital</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-arrow-right text-brand-fuchsia mt-1"></i>
+                        <span>Activaciones físicas y digitales</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-arrow-right text-brand-fuchsia mt-1"></i>
+                        <span>Métricas reales de engagement</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Alianzas actuales -->
+        <div class="text-center pt-8 border-t border-brand-line">
+            <p class="text-xs font-mono uppercase tracking-wider text-brand-subtle mb-6">
+                Alianzas estratégicas en curso
+            </p>
+            <div class="flex flex-wrap items-center justify-center gap-8 md:gap-12 opacity-70">
+                <div class="font-bold text-brand-subtle">CATCH</div>
+                <div class="w-px h-6 bg-brand-line"></div>
+                <div class="font-bold text-brand-subtle">Municipio de Trelew</div>
+                <div class="w-px h-6 bg-brand-line"></div>
+                <div class="font-bold text-brand-subtle">Chubut</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ CONTACTO ============ -->
+<section id="contacto" class="py-24 px-6 lg:px-8 bg-brand-oxford text-white relative overflow-hidden">
+    <div class="absolute inset-0 grain"></div>
+    <div class="absolute top-0 right-0 w-96 h-96 bg-brand-fuchsia/20 rounded-full blur-3xl"></div>
+    
+    <div class="max-w-5xl mx-auto relative">
+        <div class="flex items-center gap-2 mb-6">
+            <span class="inline-block w-8 h-px bg-brand-fuchsia"></span>
+            <span class="text-xs font-mono uppercase tracking-[0.2em] text-brand-fuchsia font-semibold">
+                06 · Conversemos
+            </span>
+        </div>
+        <h2 class="font-bold text-4xl md:text-6xl leading-[1.05] tracking-[-0.03em] mb-8 max-w-3xl">
+            Si llegaste hasta acá, hay algo que te interesó.
+        </h2>
+        <p class="text-xl text-white/60 mb-12 max-w-2xl leading-relaxed font-light">
+            Sumate como prestador, municipio aliado, sponsor o socio estratégico. El ecosistema crece con quienes lo construyen.
+        </p>
+        
+        <!-- Contacto Marcelo -->
+        <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 mb-8">
+            <div class="grid md:grid-cols-[auto_1fr] gap-6 items-start">
+                <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-brand-fuchsia to-brand-fuchsiaDark flex items-center justify-center text-3xl font-bold flex-shrink-0">
+                    MDK
+                </div>
+                <div>
+                    <div class="text-xs font-mono uppercase tracking-wider text-brand-fuchsia mb-2">Contacto directo</div>
+                    <h3 class="font-bold text-2xl mb-1 tracking-tight">Idea y desarollo digital</h3>
+                    <p class="text-sm text-white/60 mb-6"> Sistema OCTOPUS · efe5 proyectos srl</p>
+                    
+                    <div class="grid sm:grid-cols-2 gap-3">
+                        <a href="https://wa.me/5492804356028?text=Hola%20Marcelo%2C%20vi%20el%20ecosistema%20Patagonia%20y%20me%20gustar%C3%ADa%20conversar." target="_blank" class="group flex items-center gap-3 bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-4 rounded-xl transition-colors">
+                            <i class="fa-brands fa-whatsapp text-2xl"></i>
+                            <div>
+                                <div class="text-xs uppercase tracking-wider opacity-80">WhatsApp</div>
+                                <div class="font-bold text-sm">+54 9 280 468-5866</div>
+                            </div>
+                            <i class="fa-solid fa-arrow-up-right-from-square ml-auto opacity-50 group-hover:opacity-100 transition-opacity text-xs"></i>
+                        </a>
+                        <a href="/cdn-cgi/l/email-protection#c8a0a7a4a988b8a9bca9afa7a6a1a9adb0b8adbaa1ada6aba1a9bbe6aba7a5f7bbbdaaa2adabbcf58ba7a6bbbda4bca9edfaf88daba7bba1bbbcada5a9edfaf898a9bca9afa7a6a1a9" class="group flex items-center gap-3 bg-white/10 hover:bg-white/15 text-white px-5 py-4 rounded-xl transition-colors border border-white/10">
+                            <i class="fa-solid fa-envelope text-2xl"></i>
+                            <div>
+                                <div class="text-xs uppercase tracking-wider opacity-80">Email</div>
+                                <div class="font-bold text-sm"><span class="__cf_email__" data-cfemail="68000704092818091c090f070601090d10180d1a010d060b01091b460b0705">[email&#160;protected]</span></div>
+                            </div>
+                            <i class="fa-solid fa-arrow-up-right-from-square ml-auto opacity-50 group-hover:opacity-100 transition-opacity text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Links a productos -->
+        <div class="grid sm:grid-cols-3 gap-4">
+            <a href="https://patagoniapuntos.com" target="_blank" class="flex items-center justify-between bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl px-5 py-4 transition-colors group">
+                <div>
+                    <div class="text-xs text-white/40 uppercase tracking-wider font-mono">Conocer</div>
+                    <div class="font-bold">Patagonia Puntos</div>
+                </div>
+                <i class="fa-solid fa-arrow-up-right-from-square opacity-40 group-hover:opacity-100 transition-opacity"></i>
+            </a>
+            <a href="patagonia-experiencias.html" class="flex items-center justify-between bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl px-5 py-4 transition-colors group">
+                <div>
+                    <div class="text-xs text-white/40 uppercase tracking-wider font-mono">Reservar</div>
+                    <div class="font-bold">Patagonia Experiencias</div>
+                </div>
+                <i class="fa-solid fa-arrow-up-right-from-square opacity-40 group-hover:opacity-100 transition-opacity"></i>
+            </a>
+            <a href="prestadores.html" class="flex items-center justify-between bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl px-5 py-4 transition-colors group">
+                <div>
+                    <div class="text-xs text-white/40 uppercase tracking-wider font-mono">Sumarse</div>
+                    <div class="font-bold">Soy prestador</div>
+                </div>
+                <i class="fa-solid fa-arrow-up-right-from-square opacity-40 group-hover:opacity-100 transition-opacity"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<div id="patagonia-footer"></div>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="footer.js"></script>
+
+<script>
+// Animaciones on scroll con IntersectionObserver
+document.addEventListener('DOMContentLoaded', () => {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('fade-up');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15 });
+    
+    document.querySelectorAll('section > div > h2, .product-card, [id="numeros"] .bg-brand-bg').forEach(el => {
+        observer.observe(el);
+    });
+});
+</script>
+
+</body>
+</html>

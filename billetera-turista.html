@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Meta Pixel Base · Patagonia Experiencias -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window,document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '1501384968138883');
+      fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=1501384968138883&ev=PageView&noscript=1"/></noscript>
+    <!-- End Meta Pixel -->
+    <title>Mi Billetera | Patagonia Puntos</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { 
+            theme: { 
+                extend: { 
+                    fontFamily: { sans: ['Inter', 'sans-serif'], title: ['Montserrat', 'sans-serif'] }, 
+                    colors: { 
+                        brand: { 
+                            fuchsia: '#E91E63', 
+                            fuchsiaDark: '#C2185B', 
+                            oxford: '#2c3e50',
+                            oxfordDark: '#1a2530',
+                            dark: '#1f2937', 
+                            light: '#f8fafc', 
+                            border: '#e2e8f0' 
+                        } 
+                    } 
+                } 
+            } 
+        }
+    </script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+    <!-- Sprint 28: librerías para generar el voucher PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+        body { 
+            background-color: #f8fafc; 
+            color: #1f2937; 
+            -webkit-font-smoothing: antialiased; 
+            font-family: 'Inter', sans-serif;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .hero-mesh {
+            background: 
+                radial-gradient(at 0% 0%, rgba(233, 30, 99, 0.4) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(194, 24, 91, 0.3) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(44, 62, 80, 0.5) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(26, 37, 48, 0.6) 0px, transparent 50%),
+                linear-gradient(135deg, #1a2530 0%, #2c3e50 50%, #C2185B 100%);
+        }
+
+        .grain::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+            opacity: 0.06;
+            pointer-events: none;
+            mix-blend-mode: overlay;
+        }
+
+        .fade-in { animation: fadeIn 0.5s ease-out forwards; opacity: 0; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+
+        @keyframes pulse-qr {
+            0% { box-shadow: 0 0 0 0 rgba(233, 30, 99, 0.4); }
+            70% { box-shadow: 0 0 0 18px rgba(233, 30, 99, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(233, 30, 99, 0); }
+        }
+        .qr-glow { animation: pulse-qr 2s infinite; }
+
+        @keyframes float-soft { 
+            0%, 100% { transform: translateY(0px); } 
+            50% { transform: translateY(-4px); } 
+        }
+        .float-soft { animation: float-soft 4s ease-in-out infinite; }
+
+        .tab-btn { transition: all 0.25s ease; position: relative; }
+        .tab-btn.active { color: #E91E63; }
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #E91E63, #C2185B);
+            border-radius: 3px 3px 0 0;
+        }
+        .tab-btn:not(.active) { color: #64748b; }
+        .tab-btn:not(.active):hover { color: #1f2937; }
+
+        .btn-tienda {
+            background: linear-gradient(135deg, #1a2530 0%, #2c3e50 50%, #1a2530 100%);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .btn-tienda::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        .btn-tienda:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px -8px rgba(44, 62, 80, 0.4);
+        }
+        .btn-tienda:hover::before { left: 100%; }
+
+        .tour-card { transition: all 0.3s ease; }
+        .tour-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 32px -12px rgba(0, 0, 0, 0.1);
+        }
+
+        .tour-img-fallback {
+            background: linear-gradient(135deg, #2c3e50 0%, #C2185B 100%);
+        }
+
+        .deco-orbs {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0.5;
+            filter: blur(60px);
+        }
+
+        .stat-card { transition: all 0.25s ease; }
+        .stat-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(233, 30, 99, 0.3);
+        }
+    </style>
+</head>
+<body class="selection:bg-brand-fuchsia selection:text-white">
+    <div id="root"></div>
+
+    <script>
+const {
+  useState,
+  useEffect
+} = React;
+const firebaseConfig = {
+  apiKey: "AIzaSyDZkeRgN45FkOF8pO2rGxDJA28VZnZ8Ntg",
+  authDomain: "patagonia-experiencias.firebaseapp.com",
+  projectId: "patagonia-experiencias",
+  storageBucket: "patagonia-experiencias.firebasestorage.app",
+  messagingSenderId: "169796366610",
+  appId: "1:169796366610:web:3e2c7e65262933647983cb"
+};
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+const auth = firebase.auth();
+const db = firebase.firestore();
+const appId = typeof __app_id !== 'undefined' ? __app_id : 'patagonia-experiencias-app';
+function Navbar({
+  user,
+  onLogout
+}) {
+  return React.createElement("nav", {
+    className: "bg-white/80 backdrop-blur-md border-b border-brand-border sticky top-0 z-40 shadow-sm"
+  }, React.createElement("div", {
+    className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex justify-between items-center"
+  }, React.createElement("div", {
+    className: "flex items-center gap-3 cursor-pointer group",
+    onClick: () => window.location.href = 'patagonia-experiencias.html'
+  }, React.createElement("div", {
+    className: "w-10 h-10 bg-gradient-to-br from-brand-fuchsia to-brand-fuchsiaDark rounded-xl flex items-center justify-center text-white shadow-lg shadow-brand-fuchsia/20 group-hover:scale-105 transition-transform"
+  }, React.createElement("i", {
+    className: "fa-solid fa-map-location-dot text-lg"
+  })), React.createElement("span", {
+    className: "font-title font-black text-xl text-brand-dark hidden sm:block tracking-tight"
+  }, "Patagonia", React.createElement("span", {
+    className: "text-brand-fuchsia"
+  }, "Puntos"))), React.createElement("div", {
+    className: "flex items-center gap-4"
+  }, React.createElement("div", {
+    className: "hidden md:flex flex-col text-right"
+  }, React.createElement("span", {
+    className: "text-sm font-bold text-brand-dark"
+  }, user?.nombre || 'Turista'), React.createElement("span", {
+    className: "text-[10px] uppercase tracking-widest font-bold text-brand-fuchsia"
+  }, user?.nivel || 'Explorador')), React.createElement("div", {
+    className: "w-10 h-10 rounded-full bg-gradient-to-br from-slate-100 to-slate-200 border-2 border-white shadow-md overflow-hidden flex items-center justify-center text-slate-500"
+  }, user?.photoURL ? React.createElement("img", {
+    src: user.photoURL,
+    alt: "",
+    className: "w-full h-full object-cover"
+  }) : React.createElement("i", {
+    className: "fa-solid fa-user text-lg"
+  })), React.createElement("button", {
+    onClick: onLogout,
+    className: "w-10 h-10 flex items-center justify-center text-slate-400 hover:text-rose-500 hover:bg-rose-50 rounded-full transition-colors",
+    title: "Cerrar Sesi\xF3n"
+  }, React.createElement("i", {
+    className: "fa-solid fa-arrow-right-from-bracket"
+  })))));
+}
+function QRModal({
+  user,
+  onClose
+}) {
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=${encodeURIComponent(user?.uid || '000000')}`;
+  return React.createElement("div", {
+    className: "fixed inset-0 z-[100] bg-black/70 backdrop-blur-md flex justify-center items-center p-4 fade-in"
+  }, React.createElement("div", {
+    className: "bg-white rounded-[2rem] w-full max-w-sm shadow-2xl relative overflow-hidden flex flex-col items-center p-8"
+  }, React.createElement("div", {
+    className: "deco-orbs w-64 h-64 bg-brand-fuchsia/30 -top-20 -right-20 rounded-full"
+  }), React.createElement("div", {
+    className: "deco-orbs w-48 h-48 bg-brand-oxford/20 -bottom-10 -left-10 rounded-full"
+  }), React.createElement("button", {
+    onClick: onClose,
+    className: "absolute top-4 right-4 w-9 h-9 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 transition-colors z-10"
+  }, React.createElement("i", {
+    className: "fa-solid fa-xmark"
+  })), React.createElement("div", {
+    className: "relative z-10 flex flex-col items-center w-full"
+  }, React.createElement("div", {
+    className: "w-16 h-16 bg-gradient-to-br from-brand-fuchsia to-brand-fuchsiaDark text-white rounded-2xl flex items-center justify-center mb-4 qr-glow shadow-lg"
+  }, React.createElement("i", {
+    className: "fa-solid fa-id-card text-2xl"
+  })), React.createElement("h3", {
+    className: "font-title font-black text-2xl text-brand-dark mb-1"
+  }, "Mi ID Cliente"), React.createElement("p", {
+    className: "text-xs font-bold uppercase tracking-widest text-slate-500 mb-6 text-center leading-relaxed px-2"
+  }, "Mostralo al prestador en caso de reclamo o consulta sobre un tour."), React.createElement("div", {
+    className: "bg-white p-5 rounded-3xl border-2 border-dashed border-brand-fuchsia/30 mb-6 shadow-inner"
+  }, React.createElement("img", {
+    src: qrUrl,
+    alt: "C\xF3digo QR Personal",
+    className: "w-52 h-52"
+  })), React.createElement("div", {
+    className: "text-center w-full bg-gradient-to-r from-slate-50 to-slate-100 py-3 px-4 rounded-xl border border-slate-200"
+  }, React.createElement("p", {
+    className: "text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-0.5"
+  }, "ID de Cliente"), React.createElement("p", {
+    className: "font-mono font-bold text-base text-brand-dark tracking-widest"
+  }, user?.uid || 'USR-000000')))));
+}
+function HeroCard({
+  user,
+  totalPuntos,
+  onShowQR
+}) {
+  return React.createElement("div", {
+    className: "relative rounded-[2rem] overflow-hidden hero-mesh grain shadow-2xl mb-8 fade-in"
+  }, React.createElement("div", {
+    className: "deco-orbs w-72 h-72 bg-brand-fuchsia/40 top-0 right-0"
+  }), React.createElement("div", {
+    className: "deco-orbs w-96 h-96 bg-brand-oxford/30 bottom-0 left-0"
+  }), React.createElement("div", {
+    className: "relative z-10 p-8 md:p-12 grid md:grid-cols-5 gap-8 items-center"
+  }, React.createElement("div", {
+    className: "md:col-span-3"
+  }, React.createElement("div", {
+    className: "flex items-center gap-2 mb-3"
+  }, React.createElement("div", {
+    className: "w-2 h-2 bg-brand-fuchsia rounded-full animate-pulse"
+  }), React.createElement("p", {
+    className: "text-white/70 font-bold uppercase tracking-[0.2em] text-[10px]"
+  }, "Tus puntos acumulados")), React.createElement("div", {
+    className: "flex items-baseline gap-3 mb-3 float-soft"
+  }, React.createElement("h1", {
+    className: "font-title font-black text-6xl md:text-8xl text-white tracking-tighter leading-none"
+  }, totalPuntos.toLocaleString('es-AR')), React.createElement("span", {
+    className: "text-lg md:text-xl font-bold text-brand-fuchsia uppercase tracking-widest"
+  }, "PTS")), React.createElement("div", {
+    className: "inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 px-3 py-2 rounded-lg"
+  }, React.createElement("i", {
+    className: "fa-regular fa-clock text-brand-fuchsia text-xs"
+  }), React.createElement("p", {
+    className: "text-[11px] text-white/80 font-medium"
+  }, "Tus nuevos puntos pueden tardar hasta ", React.createElement("span", {
+    className: "font-bold text-white"
+  }, "24 hs h\xE1biles"), " en impactar"))), React.createElement("div", {
+    className: "md:col-span-2"
+  }, React.createElement("button", {
+    onClick: onShowQR,
+    className: "group w-full glass rounded-3xl p-6 hover:bg-white/15 transition-all duration-300 text-left"
+  }, React.createElement("div", {
+    className: "flex items-center gap-4 mb-3"
+  }, React.createElement("div", {
+    className: "w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-brand-fuchsia shadow-xl group-hover:scale-105 transition-transform qr-glow"
+  }, React.createElement("i", {
+    className: "fa-solid fa-id-card text-2xl"
+  })), React.createElement("div", null, React.createElement("p", {
+    className: "text-[10px] font-bold uppercase tracking-widest text-white/60"
+  }, "Mi ID"), React.createElement("p", {
+    className: "font-title font-black text-xl text-white"
+  }, "Cliente"))), React.createElement("div", {
+    className: "flex items-center justify-between text-xs"
+  }, React.createElement("span", {
+    className: "text-white/70"
+  }, "Ver QR para reclamos"), React.createElement("i", {
+    className: "fa-solid fa-arrow-right text-white/60 group-hover:translate-x-1 group-hover:text-white transition-all"
+  }))))));
+}
+function TabMisPuntos({
+  totalPuntos,
+  totalTours
+}) {
+  return React.createElement("div", {
+    className: "space-y-8 fade-in delay-200"
+  }, React.createElement("div", null, React.createElement("div", {
+    className: "flex items-center gap-2 mb-2"
+  }, React.createElement("div", {
+    className: "w-1 h-6 bg-gradient-to-b from-brand-fuchsia to-brand-fuchsiaDark rounded-full"
+  }), React.createElement("h2", {
+    className: "font-title font-black text-2xl text-brand-dark"
+  }, "Resumen de mi cuenta")), React.createElement("p", {
+    className: "text-sm text-slate-500 ml-3"
+  }, "Estado actual de tus puntos y tours contratados.")), React.createElement("div", {
+    className: "grid grid-cols-1 md:grid-cols-2 gap-4"
+  }, React.createElement("div", {
+    className: "stat-card bg-white rounded-2xl p-6 border border-slate-100 shadow-sm"
+  }, React.createElement("div", {
+    className: "flex items-center gap-3 mb-3"
+  }, React.createElement("div", {
+    className: "w-10 h-10 rounded-xl bg-gradient-to-br from-brand-fuchsia to-brand-fuchsiaDark flex items-center justify-center text-white"
+  }, React.createElement("i", {
+    className: "fa-solid fa-coins"
+  })), React.createElement("p", {
+    className: "text-[10px] font-bold uppercase tracking-widest text-slate-500"
+  }, "Total acumulado")), React.createElement("p", {
+    className: "font-title font-black text-3xl text-brand-dark"
+  }, totalPuntos.toLocaleString('es-AR'), React.createElement("span", {
+    className: "text-sm text-slate-400 ml-1"
+  }, "pts"))), React.createElement("div", {
+    className: "stat-card bg-white rounded-2xl p-6 border border-slate-100 shadow-sm"
+  }, React.createElement("div", {
+    className: "flex items-center gap-3 mb-3"
+  }, React.createElement("div", {
+    className: "w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white"
+  }, React.createElement("i", {
+    className: "fa-solid fa-suitcase-rolling"
+  })), React.createElement("p", {
+    className: "text-[10px] font-bold uppercase tracking-widest text-slate-500"
+  }, "Tours contratados")), React.createElement("p", {
+    className: "font-title font-black text-3xl text-brand-dark"
+  }, totalTours, React.createElement("span", {
+    className: "text-sm text-slate-400 ml-1"
+  }, totalTours === 1 ? 'tour' : 'tours')))), React.createElement("div", {
+    className: "bg-gradient-to-br from-blue-50 to-slate-50 rounded-2xl p-6 border border-blue-100"
+  }, React.createElement("div", {
+    className: "flex items-start gap-4"
+  }, React.createElement("div", {
+    className: "flex-shrink-0 w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center"
+  }, React.createElement("i", {
+    className: "fa-solid fa-info"
+  })), React.createElement("div", {
+    className: "flex-1"
+  }, React.createElement("h3", {
+    className: "font-bold text-brand-dark text-base mb-2"
+  }, "\xBFC\xF3mo funcionan tus puntos?"), React.createElement("ul", {
+    className: "text-sm text-slate-600 space-y-1.5 leading-relaxed"
+  }, React.createElement("li", {
+    className: "flex items-start gap-2"
+  }, React.createElement("i", {
+    className: "fa-solid fa-check text-emerald-500 text-xs mt-1"
+  }), React.createElement("span", null, "Por cada tour que contrat\xE1s en ", React.createElement("strong", null, "Patagonia Experiencias"), ", sum\xE1s puntos autom\xE1ticamente.")), React.createElement("li", {
+    className: "flex items-start gap-2"
+  }, React.createElement("i", {
+    className: "fa-solid fa-check text-emerald-500 text-xs mt-1"
+  }), React.createElement("span", null, "Los puntos se sincronizan con tu cuenta en la ", React.createElement("strong", null, "tienda oficial"), " donde pod\xE9s canjearlos por beneficios.")), React.createElement("li", {
+    className: "flex items-start gap-2"
+  }, React.createElement("i", {
+    className: "fa-solid fa-check text-emerald-500 text-xs mt-1"
+  }), React.createElement("span", null, "En la pesta\xF1a ", React.createElement("strong", null, "Mis Tours"), " ten\xE9s el historial completo y los datos del prestador para cualquier consulta.")))))), React.createElement("div", {
+    className: "bg-gradient-to-br from-slate-50 to-white rounded-3xl p-8 border border-slate-100 shadow-sm fade-in delay-400"
+  }, React.createElement("div", {
+    className: "flex flex-col md:flex-row items-center gap-6"
+  }, React.createElement("div", {
+    className: "flex-shrink-0 w-20 h-20 bg-gradient-to-br from-brand-fuchsia/10 to-brand-fuchsia/5 rounded-2xl flex items-center justify-center"
+  }, React.createElement("i", {
+    className: "fa-solid fa-gift text-3xl text-brand-fuchsia"
+  })), React.createElement("div", {
+    className: "flex-1 text-center md:text-left"
+  }, React.createElement("h3", {
+    className: "font-title font-black text-xl text-brand-dark mb-1"
+  }, "Canje\xE1 tus puntos"), React.createElement("p", {
+    className: "text-sm text-slate-500 leading-relaxed"
+  }, "Acced\xE9 al cat\xE1logo completo de beneficios en la tienda oficial. Descuentos, experiencias y m\xE1s.")), React.createElement("a", {
+    href: "https://tienda.patagoniapuntos.com",
+    target: "_blank",
+    rel: "noopener noreferrer",
+    className: "btn-tienda inline-flex items-center justify-center gap-3 text-white px-8 py-4 rounded-2xl font-bold uppercase tracking-widest text-sm shadow-lg whitespace-nowrap"
+  }, "Ir a la Tienda Oficial", React.createElement("i", {
+    className: "fa-solid fa-arrow-up-right-from-square text-xs"
+  })))));
+}
+async function descargarVoucherDeReserva(reserva) {
+  try {
+    if (typeof window.generarVoucherPDF !== 'function') {
+      alert('No se pudo cargar el generador de PDF. Refrescá la página.');
+      return;
+    }
+    let perfilOperador = {};
+    if (reserva.proveedorId) {
+      try {
+        const opSnap = await db.collection('artifacts').doc(appId).collection('public').doc('data').collection('solicitudes_prestadores').doc(reserva.proveedorId).get();
+        if (opSnap.exists) perfilOperador = opSnap.data();
+      } catch (e) {
+        console.warn('No se pudo cargar perfil operador:', e);
+      }
+    }
+    await window.generarVoucherPDF(reserva, perfilOperador);
+  } catch (err) {
+    console.error('Error descargando voucher:', err);
+    alert('No pudimos generar tu voucher. Por favor intentá de nuevo.');
+  }
+}
+window.descargarVoucherDeReserva = descargarVoucherDeReserva;
+function TourCard({
+  tour,
+  yaResenado
+}) {
+  const formatearFecha = fechaStr => {
+    if (!fechaStr) return '—';
+    try {
+      const opciones = {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      };
+      return new Date(fechaStr + 'T12:00:00').toLocaleDateString('es-AR', opciones);
+    } catch (e) {
+      return fechaStr;
+    }
+  };
+  const fmt = n => Number(n || 0).toLocaleString('es-AR');
+  const fechaTour = tour.fechaExcursion ? new Date(tour.fechaExcursion + 'T12:00:00') : null;
+  const hoy = new Date();
+  hoy.setHours(0, 0, 0, 0);
+  const yaPaso = fechaTour && fechaTour < hoy;
+  const badge = yaPaso ? {
+    bg: 'bg-emerald-50',
+    text: 'text-emerald-700',
+    icon: 'fa-check-circle',
+    label: 'Realizado'
+  } : {
+    bg: 'bg-amber-50',
+    text: 'text-amber-700',
+    icon: 'fa-clock',
+    label: 'Próximamente'
+  };
+  const totalPax = (tour.paxAdultos || 0) + (tour.paxNinos || 0);
+  const puntos = Number(tour.puntosSumados) || 0;
+  const wppLimpio = (tour._proveedorWhatsapp || '').replace(/\D/g, '');
+  const whatsappLink = wppLimpio ? `https://wa.me/${wppLimpio}?text=${encodeURIComponent(`Hola, soy cliente de Patagonia Puntos. Te escribo por la reserva ${tour.id} (${tour.tourTitulo}).`)}` : null;
+  const telLink = wppLimpio ? `tel:+${wppLimpio}` : null;
+  return React.createElement("div", {
+    className: "tour-card bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden"
+  }, React.createElement("div", {
+    className: "grid md:grid-cols-12 gap-0"
+  }, React.createElement("div", {
+    className: "md:col-span-4 relative h-48 md:h-auto tour-img-fallback"
+  }, tour._proveedorLogo && React.createElement("img", {
+    src: tour._proveedorLogo,
+    alt: tour.proveedorNombre,
+    className: "w-full h-full object-cover",
+    onError: e => {
+      e.target.style.display = 'none';
+    }
+  }), React.createElement("div", {
+    className: "absolute top-3 left-3"
+  }, React.createElement("span", {
+    className: `inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${badge.bg} ${badge.text}`
+  }, React.createElement("i", {
+    className: `fa-solid ${badge.icon} text-[9px]`
+  }), badge.label)), !tour._proveedorLogo && React.createElement("div", {
+    className: "absolute inset-0 flex items-center justify-center p-4"
+  }, React.createElement("p", {
+    className: "text-white/90 font-title font-black text-lg text-center drop-shadow-md"
+  }, tour.proveedorNombre || 'Prestador'))), React.createElement("div", {
+    className: "md:col-span-8 p-5 md:p-6 flex flex-col"
+  }, React.createElement("div", {
+    className: "mb-4"
+  }, React.createElement("p", {
+    className: "text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest mb-1"
+  }, tour.id), React.createElement("h3", {
+    className: "font-title font-black text-lg md:text-xl text-brand-dark leading-tight mb-1"
+  }, tour.tourTitulo), React.createElement("p", {
+    className: "text-sm font-semibold text-brand-fuchsia"
+  }, React.createElement("i", {
+    className: "fa-solid fa-store opacity-70 mr-1.5 text-xs"
+  }), tour.proveedorNombre)), React.createElement("div", {
+    className: "grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4 pb-4 border-b border-slate-100"
+  }, React.createElement("div", null, React.createElement("p", {
+    className: "text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-0.5"
+  }, "Fecha"), React.createElement("p", {
+    className: "text-xs font-bold text-slate-700"
+  }, formatearFecha(tour.fechaExcursion))), React.createElement("div", null, React.createElement("p", {
+    className: "text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-0.5"
+  }, "Pasajeros"), React.createElement("p", {
+    className: "text-xs font-bold text-slate-700"
+  }, totalPax, " ", totalPax === 1 ? 'persona' : 'personas')), React.createElement("div", null, React.createElement("p", {
+    className: "text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-0.5"
+  }, "Pagado"), React.createElement("p", {
+    className: "text-xs font-bold text-slate-700"
+  }, "$", fmt(tour.precioReserva || tour.total))), React.createElement("div", null, React.createElement("p", {
+    className: "text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-0.5"
+  }, "Puntos"), React.createElement("p", {
+    className: "text-xs font-bold text-brand-fuchsia"
+  }, "+", fmt(puntos), " pts"))), React.createElement("div", {
+    className: "mb-4"
+  }, React.createElement("p", {
+    className: "text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2"
+  }, React.createElement("i", {
+    className: "fa-solid fa-headset mr-1"
+  }), " Contacto del prestador"), React.createElement("div", {
+    className: "flex flex-wrap gap-2"
+  }, telLink && React.createElement("a", {
+    href: telLink,
+    className: "inline-flex items-center gap-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-lg text-xs font-medium text-slate-700 transition-colors"
+  }, React.createElement("i", {
+    className: "fa-solid fa-phone text-slate-500"
+  }), "Llamar"), tour._proveedorEmail && React.createElement("a", {
+    href: `mailto:${tour._proveedorEmail}`,
+    className: "inline-flex items-center gap-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-lg text-xs font-medium text-slate-700 transition-colors"
+  }, React.createElement("i", {
+    className: "fa-solid fa-envelope text-slate-500"
+  }), React.createElement("span", {
+    className: "truncate max-w-[180px]"
+  }, tour._proveedorEmail)), whatsappLink && React.createElement("a", {
+    href: whatsappLink,
+    target: "_blank",
+    rel: "noopener noreferrer",
+    className: "inline-flex items-center gap-2 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 px-3 py-1.5 rounded-lg text-xs font-bold text-emerald-700 transition-colors"
+  }, React.createElement("i", {
+    className: "fa-brands fa-whatsapp"
+  }), "WhatsApp"), !telLink && !tour._proveedorEmail && !whatsappLink && React.createElement("p", {
+    className: "text-xs text-slate-400 italic"
+  }, "Datos de contacto no disponibles"))), React.createElement("div", {
+    className: "mb-4 flex flex-wrap gap-2"
+  }, React.createElement("button", {
+    onClick: () => descargarVoucherDeReserva(tour),
+    className: "inline-flex items-center gap-2 bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 text-white px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-all shadow-sm hover:shadow-md"
+  }, React.createElement("i", {
+    className: "fa-solid fa-file-pdf"
+  }), "Voucher PDF"), yaPaso && !yaResenado && React.createElement("a", {
+    href: `patagonia-experiencias.html?resenar=${encodeURIComponent(tour.tourId || '')}&reservaId=${encodeURIComponent(tour.id)}`,
+    className: "inline-flex items-center gap-2 bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 text-white px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-all shadow-sm hover:shadow-md"
+  }, React.createElement("i", {
+    className: "fa-solid fa-star"
+  }), "Calificar"), yaPaso && yaResenado && React.createElement("span", {
+    className: "inline-flex items-center gap-2 bg-emerald-50 border border-emerald-200 text-emerald-700 px-3 py-2 rounded-lg text-xs font-bold uppercase tracking-widest"
+  }, React.createElement("i", {
+    className: "fa-solid fa-check-circle"
+  }), "Rese\xF1a publicada")), React.createElement("div", {
+    className: "mt-auto"
+  }, React.createElement("a", {
+    href: "patagonia-experiencias.html",
+    className: "inline-flex items-center gap-2 text-sm font-bold text-brand-fuchsia hover:text-brand-fuchsiaDark transition-colors"
+  }, "Ver m\xE1s excursiones", React.createElement("i", {
+    className: "fa-solid fa-arrow-right text-xs"
+  }))))));
+}
+function TabMisTours({
+  tours,
+  loading,
+  reservasResenadas
+}) {
+  if (loading) {
+    return React.createElement("div", {
+      className: "text-center py-20 fade-in"
+    }, React.createElement("i", {
+      className: "fa-solid fa-circle-notch fa-spin text-3xl text-brand-fuchsia mb-3"
+    }), React.createElement("p", {
+      className: "text-xs uppercase tracking-widest font-bold text-slate-400"
+    }, "Cargando tus tours"));
+  }
+  if (tours.length === 0) {
+    return React.createElement("div", {
+      className: "text-center py-20 bg-white rounded-3xl border border-dashed border-slate-300 fade-in delay-200"
+    }, React.createElement("div", {
+      className: "w-16 h-16 mx-auto mb-4 bg-slate-100 rounded-full flex items-center justify-center"
+    }, React.createElement("i", {
+      className: "fa-solid fa-suitcase-rolling text-2xl text-slate-400"
+    })), React.createElement("h3", {
+      className: "text-xl font-bold text-brand-dark mb-2"
+    }, "A\xFAn no contrataste ning\xFAn tour"), React.createElement("p", {
+      className: "text-sm text-slate-500 mb-6"
+    }, "Empez\xE1 a sumar puntos contratando excursiones en Patagonia Experiencias."), React.createElement("a", {
+      href: "patagonia-experiencias.html",
+      className: "inline-flex items-center gap-2 bg-brand-fuchsia hover:bg-brand-fuchsiaDark text-white px-6 py-3 rounded-xl text-sm font-bold uppercase tracking-widest shadow-md transition-colors"
+    }, React.createElement("i", {
+      className: "fa-solid fa-magnifying-glass"
+    }), "Buscar Aventuras"));
+  }
+  return React.createElement("div", {
+    className: "space-y-6 fade-in delay-200"
+  }, React.createElement("div", null, React.createElement("div", {
+    className: "flex items-center gap-2 mb-2"
+  }, React.createElement("div", {
+    className: "w-1 h-6 bg-gradient-to-b from-brand-fuchsia to-brand-fuchsiaDark rounded-full"
+  }), React.createElement("h2", {
+    className: "font-title font-black text-2xl text-brand-dark"
+  }, "Mis tours contratados")), React.createElement("p", {
+    className: "text-sm text-slate-500 ml-3"
+  }, "Historial de excursiones con pago confirmado en Patagonia Experiencias.")), React.createElement("div", {
+    className: "space-y-4"
+  }, tours.map(tour => React.createElement(TourCard, {
+    key: tour.id,
+    tour: tour,
+    yaResenado: reservasResenadas?.has(tour.id) || false
+  }))));
+}
+function App() {
+  const [authState, setAuthState] = useState('loading');
+  const [user, setUser] = useState(null);
+  const [tours, setTours] = useState([]);
+  const [toursLoading, setToursLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('puntos');
+  const [showQR, setShowQR] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+  useEffect(() => {
+    const unsub = auth.onAuthStateChanged(async currentUser => {
+      if (!currentUser) {
+        setAuthState('logged_out');
+        return;
+      }
+      try {
+        const perfilRef = db.collection('artifacts').doc(appId).collection('users').doc(currentUser.uid).collection('perfil').doc('datos');
+        const perfilSnap = await perfilRef.get();
+        const perfilData = perfilSnap.exists ? perfilSnap.data() : {};
+        setUser({
+          uid: currentUser.uid,
+          email: currentUser.email,
+          nombre: perfilData.nombre || currentUser.displayName || 'Turista',
+          nivel: perfilData.nivel || 'Explorador',
+          photoURL: currentUser.photoURL
+        });
+        setAuthState('logged_in');
+      } catch (err) {
+        console.error('Error cargando perfil:', err);
+        setUser({
+          uid: currentUser.uid,
+          email: currentUser.email,
+          nombre: currentUser.displayName || 'Turista',
+          nivel: 'Explorador',
+          photoURL: currentUser.photoURL
+        });
+        setAuthState('logged_in');
+      }
+    });
+    return () => unsub();
+  }, []);
+  useEffect(() => {
+    if (authState !== 'logged_in' || !user?.email) return;
+    setToursLoading(true);
+    const userEmail = user.email.toLowerCase().trim();
+    const unsub = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('reservas').onSnapshot(async snap => {
+      try {
+        const reservasUsuario = [];
+        snap.forEach(doc => {
+          const data = doc.data();
+          const emailReserva = (data.clienteEmail || '').toLowerCase().trim();
+          if (data.estado === 'Pagado' && emailReserva === userEmail) {
+            reservasUsuario.push({
+              id: doc.id,
+              ...data
+            });
+          }
+        });
+        if (reservasUsuario.length === 0) {
+          setTours([]);
+          setToursLoading(false);
+          return;
+        }
+        const proveedorIds = [...new Set(reservasUsuario.map(r => r.proveedorId).filter(id => id && id !== 'agencia_demo' && id !== 'general'))];
+        const prestadoresMap = {};
+        await Promise.all(proveedorIds.map(async pid => {
+          try {
+            const presRef = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('solicitudes_prestadores').doc(String(pid));
+            const presSnap = await presRef.get();
+            if (presSnap.exists) {
+              const presData = presSnap.data();
+              prestadoresMap[pid] = {
+                email: presData.emailContacto || '',
+                whatsapp: presData.whatsapp || '',
+                logo: presData.logoUrl || ''
+              };
+            }
+          } catch (e) {
+            console.warn(`No se pudo cargar prestador ${pid}:`, e?.message);
+          }
+        }));
+        const toursEnriquecidos = reservasUsuario.map(r => ({
+          ...r,
+          _proveedorEmail: prestadoresMap[r.proveedorId]?.email || '',
+          _proveedorWhatsapp: prestadoresMap[r.proveedorId]?.whatsapp || '',
+          _proveedorLogo: prestadoresMap[r.proveedorId]?.logo || ''
+        })).sort((a, b) => {
+          const fA = a.fechaExcursion || a.fechaCreacion || '';
+          const fB = b.fechaExcursion || b.fechaCreacion || '';
+          return fB.localeCompare(fA);
+        });
+        setTours(toursEnriquecidos);
+        setToursLoading(false);
+      } catch (err) {
+        console.error('Error procesando reservas:', err);
+        setTours([]);
+        setToursLoading(false);
+        setErrorMsg('Hubo un problema al cargar tus tours.');
+      }
+    }, err => {
+      console.error('Error suscribiendo a reservas:', err);
+      setTours([]);
+      setToursLoading(false);
+      setErrorMsg('No pudimos acceder a tus reservas. Verificá tu conexión.');
+    });
+    return () => unsub();
+  }, [authState, user?.email]);
+  const [reservasResenadas, setReservasResenadas] = useState(new Set());
+  useEffect(() => {
+    if (authState !== 'logged_in' || !user?.email) return;
+    const userEmail = user.email.toLowerCase().trim();
+    const unsub = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('resenas').onSnapshot(snap => {
+      const ids = new Set();
+      snap.forEach(doc => {
+        const data = doc.data();
+        const mismaPorUid = user.uid && data.usuarioId === user.uid;
+        const mismaPorEmail = (data.usuarioEmail || '').toLowerCase().trim() === userEmail;
+        if ((mismaPorUid || mismaPorEmail) && data.reservaId) {
+          ids.add(data.reservaId);
+        }
+      });
+      setReservasResenadas(ids);
+    }, err => {
+      console.warn('No se pudieron cargar reseñas del usuario:', err?.message);
+    });
+    return () => unsub();
+  }, [authState, user?.email, user?.uid]);
+  const handleLogout = async () => {
+    try {
+      await auth.signOut();
+    } catch (e) {
+      console.warn('Error en signOut:', e?.message);
+    }
+    window.location.href = 'index.html';
+  };
+  const handleLogin = async () => {
+    try {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      await auth.signInWithPopup(provider);
+    } catch (e) {
+      console.error('Error login:', e);
+      setErrorMsg('No se pudo iniciar sesión. Intentá de nuevo.');
+    }
+  };
+  const totalPuntos = tours.reduce((acc, t) => acc + (Number(t.puntosSumados) || 0), 0);
+  if (authState === 'loading') {
+    return React.createElement("div", {
+      className: "min-h-screen flex items-center justify-center bg-slate-50"
+    }, React.createElement("div", {
+      className: "text-center"
+    }, React.createElement("i", {
+      className: "fa-solid fa-circle-notch fa-spin text-4xl text-brand-fuchsia mb-3"
+    }), React.createElement("p", {
+      className: "text-xs uppercase tracking-widest font-bold text-slate-400"
+    }, "Cargando tu billetera")));
+  }
+  if (authState === 'logged_out') {
+    return React.createElement("div", {
+      className: "min-h-screen flex items-center justify-center bg-slate-50 p-6"
+    }, React.createElement("div", {
+      className: "bg-white rounded-3xl shadow-xl border border-slate-100 max-w-md w-full p-8 text-center"
+    }, React.createElement("div", {
+      className: "w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-brand-fuchsia to-brand-fuchsiaDark rounded-2xl flex items-center justify-center text-white shadow-lg"
+    }, React.createElement("i", {
+      className: "fa-solid fa-wallet text-2xl"
+    })), React.createElement("h1", {
+      className: "font-title font-black text-2xl text-brand-dark mb-2"
+    }, "Mi Billetera"), React.createElement("p", {
+      className: "text-sm text-slate-500 mb-6 leading-relaxed"
+    }, "Inici\xE1 sesi\xF3n con tu cuenta Google para ver tus puntos y tours contratados."), React.createElement("button", {
+      onClick: handleLogin,
+      className: "w-full bg-white border border-slate-300 hover:border-brand-fuchsia hover:bg-slate-50 text-slate-700 font-bold py-3.5 rounded-xl flex items-center justify-center gap-3 transition-all shadow-sm mb-3"
+    }, React.createElement("i", {
+      className: "fa-brands fa-google text-brand-fuchsia text-lg"
+    }), "Continuar con Google"), errorMsg && React.createElement("p", {
+      className: "text-xs text-rose-600 font-bold mt-3"
+    }, React.createElement("i", {
+      className: "fa-solid fa-triangle-exclamation mr-1"
+    }), " ", errorMsg), React.createElement("a", {
+      href: "index.html",
+      className: "text-xs text-slate-400 hover:text-slate-600 mt-4 inline-block"
+    }, "\u2190 Volver al inicio")));
+  }
+  return React.createElement("div", {
+    className: "min-h-screen flex flex-col relative"
+  }, React.createElement("div", {
+    className: "deco-orbs w-96 h-96 bg-brand-fuchsia/5 fixed top-20 -right-20 -z-10"
+  }), React.createElement("div", {
+    className: "deco-orbs w-96 h-96 bg-brand-oxford/5 fixed bottom-20 -left-20 -z-10"
+  }), React.createElement(Navbar, {
+    user: user,
+    onLogout: handleLogout
+  }), showQR && React.createElement(QRModal, {
+    user: user,
+    onClose: () => setShowQR(false)
+  }), React.createElement("main", {
+    className: "flex-grow max-w-6xl mx-auto w-full px-4 sm:px-6 py-8 md:py-12"
+  }, React.createElement(HeroCard, {
+    user: user,
+    totalPuntos: totalPuntos,
+    onShowQR: () => setShowQR(true)
+  }), errorMsg && React.createElement("div", {
+    className: "mb-6 bg-rose-50 border border-rose-200 text-rose-700 text-sm px-4 py-3 rounded-xl"
+  }, React.createElement("i", {
+    className: "fa-solid fa-triangle-exclamation mr-2"
+  }), errorMsg), React.createElement("div", {
+    className: "flex border-b border-slate-200 mb-8 fade-in delay-100"
+  }, React.createElement("button", {
+    onClick: () => setActiveTab('puntos'),
+    className: `tab-btn flex-1 md:flex-none md:px-8 py-4 font-bold text-sm uppercase tracking-widest flex items-center justify-center gap-2 ${activeTab === 'puntos' ? 'active' : ''}`
+  }, React.createElement("i", {
+    className: "fa-solid fa-coins"
+  }), " Mis Puntos"), React.createElement("button", {
+    onClick: () => setActiveTab('tours'),
+    className: `tab-btn flex-1 md:flex-none md:px-8 py-4 font-bold text-sm uppercase tracking-widest flex items-center justify-center gap-2 ${activeTab === 'tours' ? 'active' : ''}`
+  }, React.createElement("i", {
+    className: "fa-solid fa-suitcase-rolling"
+  }), " Mis Tours", tours.length > 0 && React.createElement("span", {
+    className: "ml-1 inline-flex items-center justify-center w-5 h-5 bg-brand-fuchsia text-white text-[10px] font-bold rounded-full"
+  }, tours.length))), React.createElement("div", null, activeTab === 'puntos' && React.createElement(TabMisPuntos, {
+    totalPuntos: totalPuntos,
+    totalTours: tours.length
+  }), activeTab === 'tours' && React.createElement(TabMisTours, {
+    tours: tours,
+    loading: toursLoading,
+    reservasResenadas: reservasResenadas
+  }))), React.createElement("footer", {
+    className: "mt-auto border-t border-slate-200 bg-white/80 backdrop-blur-sm py-6"
+  }, React.createElement("div", {
+    className: "max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest"
+  }, React.createElement("p", null, "\xA9 ", new Date().getFullYear(), " Patagonia Puntos."), React.createElement("div", {
+    className: "flex items-center gap-2 text-brand-fuchsia"
+  }, React.createElement("i", {
+    className: "fa-solid fa-bolt"
+  }), " Powered by OCTOPUS & efe5 proyectos"))));
+}
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(React.createElement(App, null));
+</script>
+    <!-- Sprint 28: voucher-generator (debe ir después del JSX para que window.db ya esté disponible) -->
+    <script src="voucher-generator.js"></script>
+</body>
+</html>

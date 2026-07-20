@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Meta Pixel Base · Patagonia Experiencias -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window,document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '1501384968138883');
+      fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=1501384968138883&ev=PageView&noscript=1"/></noscript>
+    <!-- End Meta Pixel -->
+    <title>Pago Rechazado · Patagonia Experiencias</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Playfair+Display:wght@800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #fef2f2 0%, #fff7ed 100%); min-height: 100vh; }
+        .font-title { font-family: 'Playfair Display', serif; }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen flex items-center justify-center p-6">
+        <div class="bg-white rounded-3xl shadow-2xl border border-slate-200 max-w-md w-full p-8 text-center">
+            <!-- Logo Patagonia Experiencias (con fallback defensivo) -->
+            <img 
+                src="./logo-patagonia-experiencias.png" 
+                alt="Patagonia Experiencias"
+                class="h-20 object-contain mx-auto mb-6"
+                onerror="this.onerror=null; this.src='./logo-patagonia-puntos.png'; this.onerror=function(){this.style.display='none';};"
+            />
+            <div class="w-20 h-20 mx-auto bg-rose-100 rounded-full flex items-center justify-center mb-4">
+                <i class="fa-solid fa-circle-xmark text-3xl text-rose-500"></i>
+            </div>
+            <h1 class="font-title text-2xl font-black text-slate-800 mb-2">Pago no procesado</h1>
+            <p class="text-sm text-slate-600 mb-6">El pago no se pudo completar. No te preocupes, no se descontó nada de tu cuenta. Probá nuevamente o coordiná directamente con el prestador.</p>
+            <div class="flex flex-col gap-2">
+                <a href="./patagonia-experiencias.html" class="bg-slate-800 hover:bg-slate-900 text-white px-6 py-3 rounded-xl text-sm font-bold transition-colors">
+                    <i class="fa-solid fa-rotate-left mr-1"></i> Intentar de nuevo
+                </a>
+                <a href="./patagonia-experiencias.html" class="text-xs text-slate-500 hover:text-slate-700 mt-2">
+                    Volver al inicio
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

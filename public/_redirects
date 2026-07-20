@@ -13,5 +13,8 @@ https://panel.patagoniaexperiencias.com/* https://patagoniaexperiencias.com/dash
 https://catchubut.patagoniaexperiencias.com/* https://patagoniaexperiencias.com/preregistro 301
 https://cattdf.patagoniaexperiencias.com/* https://patagoniaexperiencias.com/preregistrotdf 301
 
-# ── Redirecciones de /guias/ viejas → páginas nuevas ─────────
-# (pendiente: se completan con el listado de la carpeta guias/)
+# ── Redirecciones de /guias/ viejas → páginas equivalentes ───
+# (las landings viejas de Ferozo; conservan lo ya indexado)
+/guias/esquel-trevelin/* /esquel-trevelin 301
+/guias/peninsula-valdes/* /puerto-madryn 301
+/guias/valle/* /valle-del-chubut 301

@@ -8,6 +8,8 @@
   --color-brand-dark: #1f2937;
   --color-brand-light: #f9fafb;
   --color-brand-oxford: #2c3e50;
+  --color-brand-snow: #FDFDFD;
+  --color-brand-border: #E5E7EB;
 }
 
 .prose-pe h2 { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.5rem; color: #2c3e50; margin: 2.2rem 0 .8rem; }

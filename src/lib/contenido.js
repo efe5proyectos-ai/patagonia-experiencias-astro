@@ -159,3 +159,15 @@ export async function obtenerExperiencias() {
     : (await import('../data/experiencias.json')).default;
   return crudos.filter((d) => d.activo !== false).map((d) => normalizarExperiencia(d, agencias || [], planes));
 }
+
+
+// ── MEDIOS DEL HUB (carrusel del derivador) ──
+export async function obtenerMediosHub() {
+  const data = await leerDoc('configuracion', 'medios').catch(() => null);
+  const items = data?.hub?.items;
+  if (!Array.isArray(items)) return { items: [], intervaloMs: 8000 };
+  const normalizados = items
+    .map((it) => ({ tipo: it.tipo || it.type || 'image', url: it.url, videoId: it.videoId || null }))
+    .filter((it) => it.url || it.videoId);
+  return { items: normalizados, intervaloMs: Number(data?.hub?.intervaloMs) >= 2000 ? Number(data.hub.intervaloMs) : 8000 };
+}

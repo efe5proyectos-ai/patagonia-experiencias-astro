@@ -1,0 +1,5 @@
+[
+  { "slug": "esquel-trevelin", "titulo": "Guía de Viajeros: Esquel & Trevelin", "subtitulo": "Bosques milenarios, La Trochita y los secretos de la cordillera chubutense.", "region": "Cordillera", "imagenes": ["https://patagoniaexperiencias.com/img/esquel-trevelin.jpg"], "linkWeb": "https://patagoniaexperiencias.com/esquel-trevelin-guia", "linkDrive": "", "rating": 4.9, "reviewsCount": 37, "orden": 0, "estado": "Publicado" },
+  { "slug": "puerto-madryn", "titulo": "Guía de Viajeros: Puerto Madryn", "subtitulo": "Ballenas, Península Valdés y el mar patagónico.", "region": "Costa", "imagenes": ["https://patagoniaexperiencias.com/img/ballenas.jpg"], "linkWeb": "https://patagoniaexperiencias.com/puerto-madryn", "rating": 4.8, "reviewsCount": 21, "orden": 1, "estado": "Publicado" },
+  { "slug": "valle-del-chubut", "titulo": "Guía de Viajeros: Valle del Chubut", "subtitulo": "La Huella Galesa, casas de té y el campo de tulipanes.", "region": "Valle", "imagenes": ["https://patagoniaexperiencias.com/img/huella-galesa.jpg"], "linkWeb": "https://patagoniaexperiencias.com/valle-del-chubut", "rating": 4.9, "reviewsCount": 18, "orden": 2, "estado": "Publicado" }
+]

@@ -171,3 +171,35 @@ export async function obtenerMediosHub() {
     .filter((it) => it.url || it.videoId);
   return { items: normalizados, intervaloMs: Number(data?.hub?.intervaloMs) >= 2000 ? Number(data.hub.intervaloMs) : 8000 };
 }
+
+
+// ── GUÍAS DIGITALES (colección: guias) — liberadas como contenido ──
+function normalizarGuiaDigital(doc) {
+  return {
+    slug: doc.slug || slugificar(doc.titulo || doc.id),
+    titulo: doc.titulo || '',
+    subtitulo: doc.subtitulo || '',
+    region: doc.region || '',
+    imagen: (Array.isArray(doc.imagenes) && doc.imagenes[0]) || '',
+    linkWeb: doc.linkWeb || '',
+    linkDrive: doc.linkDrive || '',
+    rating: Number(doc.rating) || null,
+    reviews: Number(doc.reviewsCount) || 0,
+    orden: Number(doc.orden) || 0,
+    estado: doc.estado || '',
+  };
+}
+
+export async function obtenerGuiasDigitales() {
+  const remoto = await leerColeccion('guias').catch((e) => {
+    console.warn(`[datos] guias: ${e.message} — datos locales`);
+    return null;
+  });
+  const crudos = (remoto && remoto.length)
+    ? remoto
+    : (await import('../data/guias-digitales.json')).default;
+  return crudos
+    .map(normalizarGuiaDigital)
+    .filter((g) => g.estado !== 'Borrador' && (g.linkWeb || g.linkDrive))
+    .sort((a, b) => a.orden - b.orden);
+}

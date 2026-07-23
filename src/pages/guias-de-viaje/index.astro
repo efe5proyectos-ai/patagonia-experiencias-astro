@@ -1,0 +1,58 @@
+---
+// Landing de GUÍAS DE VIAJE GRATUITAS — liberadas como contenido del ecosistema.
+// Lee la colección `guias` de Firestore en cada build: cargar una guía en el
+// admin (estado ≠ Borrador) la publica acá automáticamente.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { obtenerGuiasDigitales } from '../../lib/contenido.js';
+const guias = await obtenerGuiasDigitales();
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Guías de viaje gratuitas de la Patagonia',
+  itemListElement: guias.map((g, i) => ({
+    '@type': 'ListItem', position: i + 1, name: g.titulo, url: g.linkWeb || undefined,
+  })),
+};
+---
+<BaseLayout titulo="Guías de viaje gratuitas de la Patagonia" descripcion="Descargá y leé gratis nuestras guías de viajeros: Esquel y Trevelin, Puerto Madryn, el Valle del Chubut y más. Secretos locales, temporadas y consejos para planificar tu viaje." schema={schema}>
+  <main>
+    <section class="bg-brand-dark text-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+        <p class="text-brand-fuchsia text-xs font-black uppercase tracking-[0.3em] mb-4"><i class="fa-solid fa-book-open mr-2"></i>Contenido liberado</p>
+        <h1 class="font-sans font-extrabold text-3xl sm:text-5xl leading-tight mb-4">Guías de viaje <span class="text-brand-fuchsia">gratis</span></h1>
+        <p class="text-white/60 max-w-2xl mx-auto">Las escribimos con años de recorrer la Patagonia. Ahora son tuyas, sin costo: leelas, guardalas y viví las experiencias con nuestros prestadores locales.</p>
+      </div>
+    </section>
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {guias.map((g) => (
+          <article class="group bg-white border border-slate-200 rounded-2xl overflow-hidden flex flex-col shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+            {g.imagen && (
+              <div class="relative h-56 overflow-hidden">
+                <img src={g.imagen} alt={`${g.titulo} — guía gratuita`} loading="lazy" width="600" height="420" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                {g.region && <span class="absolute top-4 left-4 bg-brand-fuchsia text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-md shadow-sm">{g.region}</span>}
+                <span class="absolute top-4 right-4 bg-emerald-500 text-white text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-md shadow-sm"><i class="fa-solid fa-gift mr-1"></i>Gratis</span>
+              </div>
+            )}
+            <div class="p-6 flex flex-col flex-grow">
+              <h2 class="font-sans font-bold text-lg leading-snug mb-1 group-hover:text-brand-fuchsia transition-colors">{g.titulo}</h2>
+              {g.subtitulo && <p class="text-sm text-slate-500 mb-4">{g.subtitulo}</p>}
+              {g.rating && (
+                <p class="text-xs text-slate-400 font-bold mb-4"><span class="text-yellow-500">★</span> {g.rating.toFixed(1)}{g.reviews > 0 && ` · ${g.reviews} valoraciones`}</p>
+              )}
+              <div class="mt-auto flex flex-col gap-2">
+                {g.linkWeb && <a href={g.linkWeb} class="w-full text-center bg-brand-fuchsia hover:bg-brand-fuchsiaDark text-white font-bold text-sm uppercase tracking-widest px-5 py-3 rounded-full transition-colors"><i class="fa-solid fa-book-open mr-2"></i>Leer la guía gratis</a>}
+                {g.linkDrive && <a href={g.linkDrive} target="_blank" rel="noopener noreferrer" class="w-full text-center bg-white border border-slate-300 hover:border-brand-fuchsia text-slate-600 hover:text-brand-fuchsia font-bold text-xs uppercase tracking-widest px-5 py-2.5 rounded-full transition-colors"><i class="fa-solid fa-download mr-2"></i>Descargar</a>}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+      <aside class="mt-14 bg-gradient-to-br from-brand-fuchsia to-brand-fuchsiaDark rounded-3xl p-8 text-white text-center shadow-2xl shadow-brand-fuchsia/20">
+        <h2 class="font-sans font-extrabold text-2xl mb-2">¿Listo para vivirlo en persona?</h2>
+        <p class="text-white/80 mb-5 max-w-xl mx-auto">Las guías te muestran el camino; nuestros prestadores locales te llevan. Reservá con seña online y sumá Patagonia Puntos.</p>
+        <a href="/experiencias/" class="inline-flex items-center gap-2 bg-white text-brand-fuchsia font-bold text-sm uppercase tracking-widest px-8 py-3.5 rounded-full hover:bg-slate-100 transition-all"><i class="fa-solid fa-ticket"></i> Ver experiencias</a>
+      </aside>
+    </section>
+  </main>
+</BaseLayout>

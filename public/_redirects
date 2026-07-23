@@ -21,3 +21,5 @@ https://cattdf.patagoniaexperiencias.com/* https://patagoniaexperiencias.com/pre
 # ── Guías liberadas (23/07/2026): la vieja landing de venta duerme;
 #    sus links históricos aterrizan en la landing gratuita ──
 /guias.html /guias-de-viaje/ 301
+/guiadeviajeros.html /guias-de-viaje/ 301
+/guiadeviajeros /guias-de-viaje/ 301

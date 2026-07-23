@@ -9,7 +9,6 @@ https://www.patagoniaexperiencias.com/* https://patagoniaexperiencias.com/:splat
 /octopus / 301
 
 # Subdominios históricos de campañas
-https://panel.patagoniaexperiencias.com/* https://patagoniaexperiencias.com/dashboard-prestadores.html 301
 https://catchubut.patagoniaexperiencias.com/* https://patagoniaexperiencias.com/preregistro 301
 https://cattdf.patagoniaexperiencias.com/* https://patagoniaexperiencias.com/preregistrotdf 301
 
@@ -18,3 +17,7 @@ https://cattdf.patagoniaexperiencias.com/* https://patagoniaexperiencias.com/pre
 /guias/esquel-trevelin/* /esquel-trevelin 301
 /guias/peninsula-valdes/* /puerto-madryn 301
 /guias/valle/* /valle-del-chubut 301
+
+# ── Guías liberadas (23/07/2026): la vieja landing de venta duerme;
+#    sus links históricos aterrizan en la landing gratuita ──
+/guias.html /guias-de-viaje/ 301

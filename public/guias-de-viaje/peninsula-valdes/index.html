@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>Patagonia Secreta · Península Valdés &amp; el Valle 2026</title>
+<meta name="description" content="Patagonia Secreta · Península Valdés y el Valle 2026 · La guía inteligente de los que viajan distinto.">
+<meta name="theme-color" content="#1A1A1A">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Patagonia Secreta · Península Valdés &amp; el Valle 2026">
+<meta property="og:description" content="La guía inteligente de los que viajan distinto. Anfitriones, 4 estaciones, 12 secretos lugareños.">
+<meta property="og:image" content="imagenes/01_portada_ballena_amanecer.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<script>
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+  document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init','1501384968138883'); fbq('track','PageView');
+  fbq('trackCustom','ViewGuiaPeninsula');
+</script>
+
+<style>
+  :root{
+    --f:#E6007E; --f-l:#ff6bb5;
+    --ink:#1A1A1A; --ink-2:#111113;
+    --paper:#faf8f9; --white:#fff;
+    --tx:#2c2c33; --mut:#7a7a85; --line:#e9e5e7;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:auto}
+  html.nav-ok{scroll-behavior:smooth}
+  body{font-family:'Montserrat',sans-serif;background:var(--ink);color:var(--tx);line-height:1.68;-webkit-font-smoothing:antialiased}
+  .wrap{width:100%;background:var(--paper);overflow-x:hidden}
+  /* el contenido se centra por dentro, no el contenedor */
+  .inner{max-width:760px;margin:0 auto}
+
+  .prog{position:fixed;top:0;left:0;height:3px;background:var(--f);width:0;z-index:200}
+
+
+  /* RESERVAS */
+  .book{background:var(--ink);color:#fff}
+  .book .lbl{color:var(--f-l)}
+  .book h2.t{color:#fff}
+  .bk{display:flex;align-items:center;gap:14px;padding:17px 0;border-bottom:1px solid rgba(255,255,255,.12);text-decoration:none}
+  .bk:last-of-type{border:none}
+  .bk .ic{width:42px;height:42px;border-radius:11px;background:rgba(230,0,126,.16);border:1px solid rgba(230,0,126,.35);display:grid;place-items:center;font-size:19px;flex-shrink:0}
+  .bk .bd{flex:1}
+  .bk .nm{font-size:16px;font-weight:800;color:#fff;line-height:1.25}
+  .bk .mt{font-size:11.5px;color:rgba(255,255,255,.55);font-weight:600;margin-top:2px}
+  .bk .go{font-size:11px;font-weight:800;color:var(--f-l);white-space:nowrap;letter-spacing:.08em;text-transform:uppercase}
+
+  /* ═══ IMÁGENES ═══ */
+  img{display:block;max-width:100%;height:auto;background:#1f1f24}
+  /* alto reservado: la página no se mueve cuando las fotos terminan de cargar */
+  .it-img img{aspect-ratio:3/2}
+  .gal img{aspect-ratio:4/5}
+  .band img{aspect-ratio:16/9}
+  .cover-img img,.shero-img img{position:absolute;inset:0}
+
+  /* portada full-bleed */
+  .cover{padding:0!important;min-height:88vh;display:flex;flex-direction:column;justify-content:flex-end}
+  .cover-img{position:absolute;inset:0;z-index:0}
+  .cover-img img{width:100%;height:100%;object-fit:cover;opacity:1}
+  .cover-img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(26,26,26,.30) 0%,rgba(26,26,26,.05) 30%,rgba(26,26,26,.60) 68%,rgba(26,26,26,.94) 92%,#1A1A1A 100%)}
+  .cover-in{position:relative;z-index:3;padding:0 26px 60px}
+  .cover .ed{position:absolute;top:34px;left:26px;z-index:3}
+
+  /* hero de estación con foto */
+  .shero{padding:0!important;min-height:56vh;display:flex;flex-direction:column;justify-content:flex-end}
+  .shero-img{position:absolute;inset:0;z-index:0}
+  .shero-img img{width:100%;height:100%;object-fit:cover;opacity:1}
+  .shero-img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(26,26,26,.25) 0%,rgba(26,26,26,.10) 35%,rgba(26,26,26,.70) 75%,rgba(26,26,26,.96) 100%)}
+  .shero-in{position:relative;z-index:3;padding:0 26px 44px}
+
+  /* foto dentro de item */
+  .it-img{margin:0 -26px 16px;position:relative;background:#1a1a1a}
+  .it-img img{width:100%;aspect-ratio:3/2;object-fit:cover}
+  .it-img .cap{position:absolute;left:26px;bottom:12px;color:#fff;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;text-shadow:0 1px 8px rgba(0,0,0,.8)}
+  .it-img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 62%,rgba(0,0,0,.55))}
+
+  /* foto ancha de sección */
+  .band{margin:0;position:relative;background:#1a1a1a}
+  .band img{width:100%;aspect-ratio:16/9;object-fit:cover}
+  .band .cap{position:absolute;left:26px;bottom:16px;color:#fff;z-index:2}
+  .band .cap b{display:block;font-size:17px;font-weight:800;letter-spacing:-.01em}
+  .band .cap span{font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--f-l)}
+  .band::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 52%,rgba(0,0,0,.72))}
+
+  /* galería deslizable (móvil) */
+  .gal{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin:0 -26px;padding:0 26px 4px}
+  .gal::-webkit-scrollbar{display:none}
+  .gal figure{flex:0 0 76%;scroll-snap-align:center;margin:0;position:relative}
+  .gal img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:12px}
+  .gal figcaption{position:absolute;left:12px;bottom:12px;right:12px;color:#fff;font-size:11.5px;font-weight:700;text-shadow:0 1px 8px rgba(0,0,0,.9);z-index:2}
+  .gal figure::after{content:"";position:absolute;inset:0;border-radius:12px;background:linear-gradient(180deg,transparent 55%,rgba(0,0,0,.65))}
+  .swipe-h{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);margin-bottom:10px}
+  @media(min-width:640px){ .gal figure{flex:0 0 44%} }
+
+  /* foto en secretos */
+  .secrets .band{margin:0 -26px 30px}
+
+  /* NAV */
+  .nav{position:sticky;top:0;z-index:100;background:rgba(26,26,26,.97);backdrop-filter:blur(8px);padding:14px 20px;display:flex;align-items:center;gap:14px;border-bottom:1px solid rgba(255,255,255,.08)}
+  .nav .bm{font-size:11px;font-weight:800;letter-spacing:.24em;color:#fff;text-transform:uppercase}
+  .nav .ix{margin-left:auto;background:none;border:1px solid rgba(255,255,255,.25);color:#fff;font-family:inherit;font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:8px 15px;border-radius:99px;cursor:pointer}
+  .menu{position:fixed;inset:0;background:var(--ink);z-index:150;padding:70px 26px;display:none;overflow-y:auto}
+  .menu.on{display:block}
+  .menu .x{position:absolute;top:20px;right:22px;background:none;border:none;color:#fff;font-size:30px;cursor:pointer;line-height:1}
+  .menu h3{color:var(--f);font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;margin-bottom:24px}
+  .menu a{display:block;color:#fff;text-decoration:none;padding:15px 0;border-bottom:1px solid rgba(255,255,255,.1);font-size:19px;font-weight:700}
+  .menu a span{display:block;font-size:11px;font-weight:600;color:var(--mut);letter-spacing:.14em;text-transform:uppercase;margin-bottom:3px}
+
+  /* PORTADA */
+  .cover{background:var(--ink);color:#fff;padding:76px 26px 66px;position:relative;overflow:hidden}
+  .cover::after{content:"";position:absolute;bottom:0;left:0;right:0;height:170px;background:linear-gradient(180deg,transparent,rgba(230,0,126,.22))}
+  .cover .ed{font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:rgba(255,255,255,.75);margin-bottom:34px;text-shadow:0 1px 10px rgba(0,0,0,.8)}
+  .cover h1{font-size:52px;font-weight:900;line-height:.95;letter-spacing:-.035em;margin-bottom:16px;position:relative;z-index:2;text-shadow:0 2px 24px rgba(0,0,0,.7)}
+  .cover h1 em{font-style:normal;color:var(--f)}
+  .cover .st{font-size:12.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--f-l);font-weight:700;position:relative;z-index:2}
+  .cover .rule{width:52px;height:2px;background:var(--f);margin:30px 0 26px;position:relative;z-index:2}
+  .cover .cl{font-size:16px;color:rgba(255,255,255,.82);font-weight:400;position:relative;z-index:2;max-width:400px;text-shadow:0 1px 12px rgba(0,0,0,.8)}
+
+  /* MANIFIESTO */
+  .man{background:var(--white);padding:60px 26px}
+  .man h2{font-size:33px;font-weight:800;line-height:1.14;letter-spacing:-.025em;color:var(--ink);margin-bottom:26px}
+  .man p{margin-bottom:17px;font-size:16px}
+  .man p.big{font-size:19px;font-weight:600;color:var(--ink)}
+
+  /* SECCIÓN GENÉRICA */
+  section{padding:56px 26px;scroll-margin-top:64px}
+  .lbl{font-size:10px;font-weight:800;letter-spacing:.26em;text-transform:uppercase;color:var(--f);margin-bottom:16px}
+  h2.t{font-size:31px;font-weight:800;line-height:1.13;letter-spacing:-.025em;color:var(--ink);margin-bottom:12px}
+  .sub{font-size:15px;color:var(--mut);margin-bottom:30px}
+
+  /* SELECTOR ESTACIONES */
+  .seasons{background:var(--white);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .sgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:8px}
+  .sc{display:block;text-decoration:none;border:1px solid var(--line);border-radius:14px;padding:20px 17px;background:var(--paper);transition:.2s}
+  .sc:hover{border-color:var(--f);transform:translateY(-2px)}
+  .sc .m{font-size:9.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--mut)}
+  .sc .n{font-size:21px;font-weight:900;color:var(--ink);letter-spacing:-.02em;margin:5px 0 3px}
+  .sc .d{font-size:12.5px;color:var(--f);font-weight:600}
+
+  /* HERO ESTACIÓN */
+  .shero{background:var(--ink);color:#fff;padding:62px 26px;position:relative;overflow:hidden}
+  .shero::after{content:"";position:absolute;top:-60px;right:-60px;width:230px;height:230px;background:radial-gradient(circle,rgba(230,0,126,.3),transparent 68%)}
+  .shero .m{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--f-l);font-weight:700;margin-bottom:16px}
+  .shero h2{font-size:56px;font-weight:900;letter-spacing:-.04em;line-height:.92;margin-bottom:10px;position:relative;z-index:2;text-shadow:0 2px 24px rgba(0,0,0,.7)}
+  .shero .d{font-size:17px;color:rgba(255,255,255,.85);font-weight:400;position:relative;z-index:2;text-shadow:0 1px 12px rgba(0,0,0,.8)}
+
+  /* ENSAYO */
+  .essay{background:var(--white);padding:56px 26px}
+  .essay h3{font-size:31px;font-weight:800;line-height:1.15;letter-spacing:-.025em;color:var(--ink);margin-bottom:22px}
+  .essay .rule{width:44px;height:2px;background:var(--f);margin-bottom:24px}
+  .essay p{margin-bottom:17px;font-size:16px}
+  .essay p:first-of-type{font-size:18px;font-weight:600;color:var(--ink)}
+
+  /* ITEM NUMERADO */
+  .it{border-top:1px solid var(--line);padding:24px 0}
+  .it:last-of-type{border-bottom:1px solid var(--line)}
+  .it .n{font-size:11px;font-weight:900;color:var(--f);letter-spacing:.1em;margin-bottom:7px}
+  .it h4{font-size:19px;font-weight:800;color:var(--ink);letter-spacing:-.015em;margin-bottom:8px;line-height:1.25}
+  .it .pl{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);margin-bottom:8px}
+  .it .pl b{color:var(--f)}
+  .it p{font-size:14.8px;margin-bottom:12px}
+  .it .lk{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--f);text-decoration:none;border:1px solid var(--f);padding:9px 15px;border-radius:99px;margin:4px 6px 0 0}
+  .it .lk.fill{background:var(--f);color:#fff}
+  .it .lk.map{color:var(--mut);border-color:var(--line)}
+
+  /* LUZ (fotografiar) */
+  .light{background:var(--ink);color:#fff;border-radius:10px;padding:11px 14px;margin-bottom:12px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+  .light b{color:var(--f-l)}
+
+  /* SECRETOS */
+  .secrets{background:var(--ink);color:#fff}
+  .secrets .lbl{color:var(--f-l)}
+  .secrets h2.t{color:#fff}
+  .secrets .rule{width:44px;height:2px;background:var(--f);margin:22px 0 26px}
+  .sx{border-left:2px solid var(--f);padding:4px 0 4px 20px;margin-bottom:26px}
+  .sx .n{font-size:11px;font-weight:900;color:var(--f);letter-spacing:.14em;margin-bottom:8px}
+  .sx p{font-size:15px;color:rgba(255,255,255,.8);margin:0}
+  .sx strong{color:#fff}
+
+  /* CIERRE ESTACIÓN */
+  .close{background:var(--white);padding:52px 26px;text-align:left;border-top:1px solid var(--line)}
+  .close .l{font-size:10px;font-weight:800;letter-spacing:.26em;text-transform:uppercase;color:var(--mut);margin-bottom:14px}
+  .close h3{font-size:32px;font-weight:800;letter-spacing:-.03em;color:var(--ink);margin-bottom:16px;line-height:1.1}
+  .close p{font-size:16px;color:var(--tx)}
+  .close .next{display:inline-flex;align-items:center;gap:8px;margin-top:26px;font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--f);text-decoration:none}
+
+  /* BENEFICIOS */
+  .ben{background:var(--paper)}
+  .bl{display:flex;gap:15px;padding:19px 0;border-bottom:1px solid var(--line);text-decoration:none}
+  .bl:hover h4{color:var(--f)}
+  .bl:last-child{border:none}
+  .bl .n{font-size:11px;font-weight:900;color:var(--f);flex-shrink:0;padding-top:3px;width:22px}
+  .bl h4{font-size:16.5px;font-weight:800;color:var(--ink);margin-bottom:4px}
+  .bl p{font-size:14px;color:var(--mut);margin:0}
+
+  /* PASOS */
+  .step{display:flex;gap:16px;margin-bottom:24px}
+  .step .n{width:38px;height:38px;border-radius:50%;background:var(--f);color:#fff;display:grid;place-items:center;font-weight:900;font-size:13px;flex-shrink:0}
+  .step h4{font-size:17px;font-weight:800;color:var(--ink);margin-bottom:4px}
+  .step p{font-size:14.5px;margin:0}
+
+  /* ANFITRIONES */
+  .allies{background:var(--white)}
+  .cat{font-size:10px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--f);margin:28px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+  .ally{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);text-decoration:none}
+  .ally:last-child{border:none}
+  .ally .nm{font-size:15px;font-weight:700;color:var(--ink)}
+  .ally .bf{margin-left:auto;font-size:11px;font-weight:800;color:var(--f);white-space:nowrap}
+
+  /* AIKE */
+  .aike{background:var(--ink);color:#fff;position:relative;overflow:hidden}
+  .aike::after{content:"";position:absolute;bottom:-70px;left:-50px;width:240px;height:240px;background:radial-gradient(circle,rgba(230,0,126,.28),transparent 68%)}
+  .aike .lbl{color:var(--f-l)}
+  .aike h2.t{color:#fff;position:relative;z-index:2}
+  .aike p{color:rgba(255,255,255,.75);font-size:16px;position:relative;z-index:2;margin-bottom:24px}
+  .aike strong{color:#fff}
+  .btn{display:inline-block;background:var(--f);color:#fff;text-decoration:none;font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:16px 30px;border-radius:99px;position:relative;z-index:2}
+  .btn.w{background:#fff;color:var(--ink)}
+
+  /* CIERRE FINAL */
+  .final{background:linear-gradient(165deg,var(--ink) 0%,#2b0618 55%,var(--f) 145%);color:#fff;padding:66px 26px;text-align:center}
+  .final h2{font-size:34px;font-weight:900;letter-spacing:-.03em;line-height:1.08;margin-bottom:16px}
+  .final p{color:rgba(255,255,255,.72);margin-bottom:26px;font-size:16px}
+  .final .pts{font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--f-l);margin-top:18px}
+
+  footer{background:var(--ink-2);color:var(--mut);padding:44px 26px;text-align:center;font-size:12px;line-height:2}
+  footer b{color:#fff;letter-spacing:.2em;font-size:11px}
+
+  .todo{background:#fffbe6;border:1px solid #f0d98a;border-radius:10px;padding:14px 16px;font-size:13px;color:#7a5c00;margin-top:20px}
+  .todo b{color:#5c4500}
+
+
+  /* ════════ DESKTOP ════════ */
+  @media(min-width:900px){
+    body{font-size:17px}
+
+    /* portada a pantalla completa */
+    .cover{min-height:100vh}
+    .cover-in{max-width:1100px;margin:0 auto;width:100%;padding:0 60px 90px}
+    .cover .ed{left:60px;top:44px}
+    .cover h1{font-size:96px;line-height:.92}
+    .cover .cl{font-size:20px;max-width:520px}
+
+    /* nav */
+    .nav{padding:18px 60px}
+
+    /* heroes de estación */
+    .shero{min-height:62vh}
+    .shero-in{max-width:1100px;margin:0 auto;width:100%;padding:0 60px 60px}
+    .shero h2{font-size:112px}
+    .shero .d{font-size:22px}
+
+    /* secciones: contenido centrado y ancho cómodo */
+    section, .essay, .man, .close{padding-left:60px;padding-right:60px}
+    section > *, .essay > *, .man > *, .close > *{max-width:760px;margin-left:auto;margin-right:auto}
+    .man h2, .essay h3, .close h3{font-size:44px}
+    h2.t{font-size:40px}
+    section{padding-top:80px;padding-bottom:80px}
+    .essay, .man{padding-top:80px;padding-bottom:80px}
+
+    /* estaciones en 4 columnas */
+    .sgrid{grid-template-columns:repeat(4,1fr);max-width:1100px}
+    .seasons > *{max-width:1100px}
+
+    /* experiencias en 2 columnas */
+    .cols{display:grid;grid-template-columns:1fr 1fr;gap:0 44px;max-width:1100px;margin:0 auto}
+    .cols .it{border-top:none;border-bottom:1px solid var(--line)}
+
+    /* foto dentro de item: sin sangrado */
+    .it-img{margin:0 0 16px;border-radius:12px;overflow:hidden}
+
+    /* galería: las 3 fotos a la vez, sin scroll */
+    .gal{overflow:visible;margin:0 auto;padding:0;max-width:1100px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .gal figure{flex:none}
+    .swipe-h{display:none}
+
+    /* bandas anchas */
+    .band img{aspect-ratio:21/9;max-height:520px}
+    .band .cap{left:60px;bottom:30px}
+    .band .cap b{font-size:26px}
+
+    /* secretos en 2 columnas */
+    .secrets .sxgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 44px;max-width:1100px;margin:0 auto}
+
+    /* anfitriones y reservas en 2 columnas */
+    .allygrid{display:grid;grid-template-columns:1fr 1fr;gap:0 50px;max-width:1100px;margin:0 auto}
+    .allies > .lbl, .allies > h2, .allies > .sub, .allies > .btn{max-width:1100px}
+    .book > *{max-width:1100px}
+    .bkgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 44px;max-width:1100px;margin:0 auto}
+
+    .final h2{font-size:52px}
+    .final{padding:110px 60px}
+  }
+
+  @media(min-width:1400px){
+    .cover h1{font-size:112px}
+    .shero h2{font-size:130px}
+  }
+
+  @media(max-width:480px){
+    .cover h1{font-size:42px}
+    .shero h2{font-size:44px}
+    .man h2,.essay h3,.close h3{font-size:27px}
+    h2.t{font-size:26px}
+    .sgrid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<script>
+  // Evita que el navegador restaure la posición y que la página "salte" al cargar
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  if (!location.hash) window.scrollTo(0, 0);
+</script>
+<div class="prog" id="prog"></div>
+
+<div class="wrap">
+
+  <!-- NAV -->
+  <div class="nav">
+    <div class="bm">Valdés &amp; el Valle</div>
+    <button class="ix" onclick="document.getElementById('menu').classList.add('on')">Índice</button>
+  </div>
+  <div class="menu" id="menu">
+    <button class="x" onclick="this.parentNode.classList.remove('on')">×</button>
+    <h3>Índice</h3>
+    <a href="#trelew" onclick="cerrar()"><span>El punto 0</span>Trelew</a>
+    <a href="#otono" onclick="cerrar()"><span>Marzo — Mayo</span>Otoño</a>
+    <a href="#invierno" onclick="cerrar()"><span>Junio — Agosto</span>Invierno</a>
+    <a href="#primavera" onclick="cerrar()"><span>Sep — Noviembre</span>Primavera</a>
+    <a href="#verano" onclick="cerrar()"><span>Dic — Febrero</span>Verano</a>
+    <a href="#reservar" onclick="cerrar()"><span>Patagonia Experiencias</span>Reservar excursiones</a>
+    <a href="#aliados" onclick="cerrar()"><span>Patagonia Puntos</span>Los 58 beneficios</a>
+    <a href="#cierre" onclick="cerrar()"><span>60 segundos</span>Activación</a>
+  </div>
+
+  <!-- PORTADA -->
+  <div class="cover">
+    <div class="cover-img"><img src="img/00-portada.jpg?v=2" alt="Ballena franca austral en Península Valdés al amanecer" fetchpriority="high"></div>
+    <div class="ed">Patagonia Magazine · 2026</div>
+    <div class="cover-in">
+      <h1>PENÍNSULA<br><em>VALDÉS</em><br>&amp; EL VALLE</h1>
+      <div class="st">Patagonia Secreta · 2026</div>
+      <div class="rule"></div>
+      <div class="cl">La guía inteligente de los que viajan distinto.</div>
+    </div>
+  </div>
+
+  <!-- MANIFIESTO -->
+  <div class="man">
+    <h2>Una guía para leer el mar, no solo para mirarlo.</h2>
+    <p class="big">Esta guía no es para turistas.</p>
+    <p>Es para quienes entienden que a Península Valdés no se le gana con un fin de semana ni con una lista de lugares marcados en el mapa.</p>
+    <p>Acá la naturaleza no se adapta a tu agenda: tenés que adaptarte vos. Las ballenas llegan cuando quieren y se van cuando quieren. Las orcas cazan con la marea alta o no cazan. El viento decide si el barco sale.</p>
+    <p>En estas páginas vas a encontrar lo que vale la pena hacer, ordenado por la única lógica que respeta este territorio: <strong>la de las estaciones</strong>.</p>
+    <p>Porque Valdés cambia cuatro veces al año. Y cada vez, te muestra un animal distinto.</p>
+  </div>
+  <div class="band"><img src="img/81-manifiesto.jpg?v=2" alt="Península Valdés desde el aire" loading="lazy"><div class="cap"><span>Patrimonio de la Humanidad</span><b>Península Valdés</b></div></div>
+
+  <!-- PUNTO 0 -->
+  <section class="seasons" style="background:var(--ink);color:#fff">
+    <div class="lbl">Empezá por acá</div>
+    <h2 class="t" style="color:#fff">Trelew es el punto 0.</h2>
+    <div class="sub" style="color:rgba(255,255,255,.6)">Aeropuerto, museo, historia. Y el centro exacto de todo el mapa.</div>
+    <a class="sc" href="#trelew" style="background:transparent;border-color:rgba(255,255,255,.2)">
+      <div class="m" style="color:var(--f-l)">La ciudad base</div>
+      <div class="n" style="color:#fff">TRELEW</div>
+      <div class="d">Valdés 110 km · Punta Tombo 120 km · Gaiman 15 km</div>
+    </a>
+  </section>
+
+  <!-- ESTACIONES -->
+  <section class="seasons">
+    <div class="lbl">Índice</div>
+    <h2 class="t">Cuatro estaciones, cuatro penínsulas.</h2>
+    <div class="sub">Tocá cualquier estación para ir.</div>
+    <div class="sgrid">
+      <a class="sc" href="#otono"><div class="m">Marzo — Mayo</div><div class="n">OTOÑO</div><div class="d">La temporada de las orcas</div></a>
+      <a class="sc" href="#invierno"><div class="m">Junio — Agosto</div><div class="n">INVIERNO</div><div class="d">Vuelven las ballenas</div></a>
+      <a class="sc" href="#primavera"><div class="m">Sep — Noviembre</div><div class="n">PRIMAVERA</div><div class="d">Todo, al mismo tiempo</div></a>
+      <a class="sc" href="#verano"><div class="m">Dic — Febrero</div><div class="n">VERANO</div><div class="d">El mar por dentro</div></a>
+    </div>
+  </section>
+
+  <!-- BENEFICIOS -->
+  <section class="ben">
+    <div class="lbl">Brújula · Beneficios</div>
+    <h2 class="t">58 beneficios se desbloquean con esta guía.</h2>
+    <div class="sub"><strong>58 beneficios reales</strong> en Madryn, Pirámides, Trelew, Gaiman y Rawson. Activables al toque.</div>
+    <a class="bl" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6641/checkout" target="_blank" rel="noopener" style="text-decoration:none"><div class="n">01</div><div><h4>25% off · Orcas Aventuras</h4><p>Excursiones en Puerto Madryn. El descuento más alto de la red.</p></div></a>
+    <a class="bl" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6807/checkout" target="_blank" rel="noopener" style="text-decoration:none"><div class="n">02</div><div><h4>20% off · Snorkel con lobos · Lobo Larsen</h4><p>Meterte al agua con los lobos marinos, con beneficio de socio.</p></div></a>
+    <a class="bl" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6789/checkout" target="_blank" rel="noopener" style="text-decoration:none"><div class="n">03</div><div><h4>15% off · Avistaje de ballenas · Peke Sosa</h4><p>La navegación desde Puerto Pirámides.</p></div></a>
+    <a class="bl" href="https://tienda.patagoniapuntos.com/preview/client/prizes/7540/checkout" target="_blank" rel="noopener" style="text-decoration:none"><div class="n">04</div><div><h4>25% off · Alquiler HERTZ</h4><p>Trelew. Para hacer la península a tu ritmo.</p></div></a>
+    <a class="bl" href="https://tienda.patagoniapuntos.com/preview/client/prizes/7249/checkout" target="_blank" rel="noopener" style="text-decoration:none"><div class="n">05</div><div><h4>20% off · Temporada Pingüinos · Calew Travel</h4><p>Punta Tombo desde Trelew, su base natural.</p></div></a>
+    <a class="btn" href="https://tienda.patagoniapuntos.com" target="_blank" rel="noopener" style="margin-top:22px">Ver los 58 beneficios →</a>
+  </section>
+
+  <!-- BRÚJULA -->
+  <section>
+    <div class="lbl">Brújula · Cómo funciona</div>
+    <h2 class="t">Tu acceso digital al destino.</h2>
+    <div class="sub">Tres pasos. Sesenta segundos.</div>
+    <div class="step"><div class="n">01</div><div><h4>Registrate</h4><p>Creá tu cuenta y recibís 20.000 puntos de bienvenida.</p></div></div>
+    <div class="step"><div class="n">02</div><div><h4>Sumás en cada experiencia</h4><p>Cada prestador de la red tiene su QR. Lo escaneás y los puntos aparecen automáticamente.</p></div></div>
+    <div class="step"><div class="n">03</div><div><h4>Canjeás por experiencias</h4><p>Descuentos, upgrades, navegaciones, degustaciones. Solo para socios.</p></div></div>
+    <a class="btn" href="https://tienda.patagoniapuntos.com" target="_blank" rel="noopener">Abrí tu sistema de beneficios</a>
+  </section>
+
+  <!-- ══════════ TRELEW · PUNTO 0 ══════════ -->
+  <div class="shero" id="trelew">
+    <div class="shero-img"><img src="img/01-trelew-hero.jpg?v=2" alt="El Patagotitan en el MEF, Trelew" loading="lazy"></div>
+    <div class="shero-in">
+      <div class="m">El punto 0</div>
+      <h2>TRELEW</h2>
+      <div class="d">Donde terminaban las vías</div>
+    </div>
+  </div>
+
+  <div class="essay">
+    <h3>La ciudad que nació para ser el centro de todo.</h3>
+    <div class="rule"></div>
+    <p>En 1886, acá no había nada. Solo el punto exacto donde se terminaban los rieles.</p>
+    <p>El Ferrocarril Central del Chubut avanzaba desde el valle hacia el mar, y donde se detuvo la última vía nació un asentamiento al que llamaron, sin ceremonia, <strong>«Punta de Rieles»</strong>. Después se formalizó con el nombre que lleva hoy: <strong>Trelew</strong> —<em>tre</em>, pueblo; <em>lew</em>, por Lewis Jones, el galés que impulsó la colonia—. Pueblo de Luis.</p>
+    <p>Ciento cuarenta años después, la lógica no cambió: <strong>Trelew sigue siendo el punto donde todo converge</strong>. Tiene el aeropuerto más activo de la provincia. Está a una hora y media de Península Valdés, a dos horas de Punta Tombo, a veinte minutos de Rawson y a un paso de Gaiman. Es la segunda ciudad de Chubut y el nudo real del que salen todos los caminos.</p>
+    <p>Pero Trelew no es solo un lugar de paso. Es la ciudad donde se guarda <strong>el animal más grande que caminó la Tierra</strong> — y donde entendés, antes de ir a ver un pingüino, por qué esta costa es lo que es.</p>
+    <p>Y la vieja estación del ferrocarril —esa misma <em>punta de rieles</em>— sigue en pie: hoy es el <strong>Museo Pueblo de Luis</strong>, Monumento Histórico Nacional.</p>
+    <p>Empezá acá. Todo lo demás se ordena solo.</p>
+  </div>
+
+  <section>
+    <div class="lbl">Qué vivir</div>
+    <h2 class="t">Tres experiencias que valen el viaje.</h2>
+
+    <div class="cols">
+    <div class="it">
+      <div class="n">01</div>
+      <div class="it-img"><img src="img/10-mef-patagotitan.jpg?v=2" alt="El Patagotitan mayorum · MEF Trelew" loading="lazy"><span class="cap">El Patagotitan mayorum · MEF Trelew</span></div>
+      <h4>MEF · El museo del dinosaurio más grande del mundo</h4>
+      <div class="pl">Av. Fontana 140 · <b>Unidad asociada al CONICET</b></div>
+      <p>No es un museo de provincia: es <strong>uno de los centros paleontológicos más importantes del mundo</strong>, con más de 17.000 fósiles y científicos del CONICET trabajando puertas adentro.</p>
+      <p>Acá está el <strong>Patagotitan mayorum</strong>: el dinosaurio más grande jamás encontrado. Sus restos los desenterró este mismo museo en 2014, en una estancia a 260 km de acá. Un solo fémur mide <strong>2,4 metros y pesa 850 kilos</strong>.</p>
+      <p>La visita es un viaje al revés en el tiempo: arranca hace 10.000 años, con los primeros humanos de la Patagonia, y retrocede hasta el origen de la vida.</p>
+      <a class="lk fill" href="https://patagoniaexperiencias.com/patagonia-experiencias.html?q=Trelew+MEF+museo" target="_blank" rel="noopener">Ver excursiones →</a>
+      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Museo%20Egidio%20Feruglio%20Trelew" target="_blank" rel="noopener">📍 Cómo llegar</a>
+      <a class="lk" href="https://tienda.patagoniapuntos.com/preview/client/prizes/7540/checkout" target="_blank" rel="noopener">🎁 25% off Alquiler HERTZ →</a>
+    </div>
+
+    <div class="it">
+      <div class="n">02</div>
+      <div class="it-img"><img src="img/11-punta-tombo.jpg?v=2" alt="Medio millón de pingüinos · Punta Tombo" loading="lazy"><span class="cap">Medio millón de pingüinos · Punta Tombo</span></div>
+      <h4>Punta Tombo · desde su base natural</h4>
+      <div class="pl">120 km · <b>2 horas</b> · septiembre a abril</div>
+      <p>Acá está el dato que casi nadie te dice: <strong>Punta Tombo está más cerca de Trelew que de Puerto Madryn</strong> (120 km contra 180). Si venís por los pingüinos, esta es tu base — y te ahorrás dos horas de ruta.</p>
+      <p>Más de medio millón de pingüinos de Magallanes: la colonia continental más grande del planeta. Caminás entre los nidos y te cruzan a centímetros. Es su casa: ellos tienen prioridad de paso.</p>
+      <a class="lk fill" href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/pinguinera-punta-tombo" target="_blank" rel="noopener">Reservar Punta Tombo · 10 h →</a>
+      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Punta%20Tombo%20Chubut" target="_blank" rel="noopener">📍 Cómo llegar</a>
+      <a class="lk" href="https://tienda.patagoniapuntos.com/preview/client/prizes/7249/checkout" target="_blank" rel="noopener">🎁 20% off Calew Travel →</a>
+    </div>
+
+    <div class="it">
+      <div class="n">03</div>
+      <div class="it-img"><img src="img/12-capilla-moriah.jpg?v=2" alt="Capilla Moriah y el cementerio de los pioneros galeses" loading="lazy"><span class="cap">Capilla Moriah · 1880</span></div>
+      <h4>Capilla Moriah · donde está enterrado Lewis Jones</h4>
+      <div class="pl">1880 · <b>Más vieja que la ciudad</b></div>
+      <p>Acá cierra la historia que abrió esta guía.</p>
+      <p>La capilla se levantó en <strong>1880</strong>, seis años antes de que Trelew existiera como ciudad. Es <strong>la institución cultural más antigua de la provincia</strong>, y sobrevivió a la gran inundación de 1899 que se llevó a las dos capillas galesas anteriores.</p>
+      <p>Pero lo que hay que ver está afuera. En el cementerio del predio descansan <strong>38 de los primeros colonos que llegaron en el velero Mimosa</strong> — y entre ellos, <strong>Lewis Jones</strong>. El galés que impulsó la colonia. El hombre por el que esta ciudad se llama <em>Tre-lew</em>: el pueblo de Luis.</p>
+      <p>Los galeses cruzaron el Atlántico buscando libertad de culto. La capilla fue templo, pero también escuela, tribunal y sala de reuniones. Todo empezó en estas cuatro paredes de ladrillo, en medio de la nada.</p>
+      <div class="dato" style="font-size:13px;color:var(--mut);border-top:1px dashed var(--line);padding-top:9px;margin-top:10px">🕐 Visitas: <b style="color:var(--f)">martes 16-19 h · jueves y sábados 10-12 h</b> · Monumento Histórico Provincial</div>
+      <a class="lk fill" href="https://patagoniaexperiencias.com/patagonia-experiencias.html?q=Trelew+capillas+galesas" target="_blank" rel="noopener">Ver circuito galés →</a>
+      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Capilla%20Moriah%20Trelew" target="_blank" rel="noopener">📍 Cómo llegar</a>
+    </div>
+    </div>
+  </section>
+
+  <section class="secrets">
+    <div class="lbl">El hilo que nadie te cuenta</div>
+    <h2 class="t">Del gigante al pingüino.</h2>
+    <div class="rule"></div>
+    <div class="band"><img src="img/80-gigante-pinguino.jpg?v=2" alt="Del Patagotitan al pingüino" loading="lazy"><div class="cap"><span>El hilo</span><b>Cien millones de años, la misma costa</b></div></div>
+    <div class="sx">
+      <p>Hacé el <strong>MEF a la mañana y Punta Tombo al día siguiente</strong>, en ese orden. No es capricho.</p>
+      <p style="margin-top:12px">En el museo entendés que esta misma costa fue mar hace 100 millones de años, que estos gigantes caminaron esta estepa, y que la Patagonia es una máquina de conservar vida —viva o fósil— como pocos lugares del planeta.</p>
+      <p style="margin-top:12px">Al día siguiente, cuando estés parado entre <strong>medio millón de pingüinos</strong>, no vas a estar mirando una postal: vas a estar mirando <strong>el último capítulo de la misma historia</strong>. El Patagotitan se extinguió. El pingüino sigue acá, haciendo el mismo viaje cada septiembre desde hace milenios.</p>
+      <p style="margin-top:12px">Es la mejor forma de entender esta costa. Y sale de Trelew.</p>
+    </div>
+  </section>
+
+  <section style="background:var(--white)">
+    <div class="lbl">Trelew · Todo el año</div>
+    <h2 class="t">Qué comer.</h2>
+    <div class="sub">La despensa del valle.</div>
+
+    <div class="cols">
+    <div class="it">
+      <div class="n">01</div>
+      <div class="pl">Trelew · <b>15% off</b></div>
+      <h4>Primitivos Alto Asador</h4>
+      <p>El cordero patagónico como corresponde: lento, al asador. Trelew fue —y sigue siendo— el mayor centro de acopio de lana de Chubut. Donde hay ovejas, hay cordero.</p>
+      <a class="lk fill" href="https://tienda.patagoniapuntos.com/preview/client/prizes/7385/checkout" target="_blank" rel="noopener">15% off →</a>
+    </div>
+    <div class="it">
+      <div class="n">02</div>
+      <div class="pl">Trelew · <b>2x1</b></div>
+      <h4>La Casona del Río</h4>
+      <p>Una casona sobre el río, en el corazón del valle. El 2x1 es de los beneficios más fuertes de la red.</p>
+      <a class="lk fill" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6358/checkout" target="_blank" rel="noopener">2x1 →</a>
+    </div>
+    <div class="it">
+      <div class="n">03</div>
+      <div class="pl">Trelew · <b>20% off</b></div>
+      <h4>Génesis · Cenas</h4>
+      <p>Cocina de valle con producto local: cerezas, miel, quesos y vino patagónico, todo producido a menos de treinta kilómetros de tu mesa.</p>
+      <a class="lk fill" href="https://tienda.patagoniapuntos.com/preview/client/prizes/9132/checkout" target="_blank" rel="noopener">20% off →</a>
+    </div>
+    </div>
+    
+  </section>
+
+  <section>
+    <div class="lbl">Qué fotografiar</div>
+    <h2 class="t">Tres spots, tres luces.</h2>
+    <div class="sub">Coordenadas exactas, hora óptima, recomendación técnica.</div>
+
+    <div class="swipe-h">Deslizá →</div>
+    <div class="gal"><figure><img src="img/60-patagotitan-ruta3.jpg?v=2" alt="El Patagotitan · Ruta 3" loading="lazy"><figcaption>El Patagotitan · Ruta 3</figcaption></figure><figure><img src="img/61-plaza-trelew.jpg?v=2" alt="Plaza Independencia · hora azul" loading="lazy"><figcaption>Plaza Independencia · hora azul</figcaption></figure><figure><img src="img/62-capilla-moriah-cementerio.jpg?v=2" alt="Cementerio de la Capilla Moriah" loading="lazy"><figcaption>Capilla Moriah · el cementerio</figcaption></figure></div>
+
+    <div class="cols">
+    <div class="it">
+      <div class="n">01</div>
+      <h4>El Patagotitan de la Ruta 3</h4>
+      <div class="light">Mejor luz · <b>Atardecer</b> · silueta contra el cielo</div>
+      <p>En el acceso norte hay una réplica a tamaño real: <strong>40 metros de largo, 20 de alto, 15 toneladas</strong>. Fotografiala con el sol bajo por detrás, en contraluz, y poné una persona en el cuadro. Sin la escala humana, nadie te va a creer el tamaño.</p>
+      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=r%C3%A9plica%20Patagotitan%20acceso%20norte%20Trelew" target="_blank" rel="noopener">Ver mapa exacto →</a>
+    </div>
+
+    <div class="it">
+      <div class="n">02</div>
+      <h4>Plaza Independencia · el Kiosco del Centenario</h4>
+      <div class="light">Mejor luz · <b>Hora azul</b> · 20 min después del atardecer</div>
+      <p>El kiosco es de <strong>1910</strong> y la plaza está rodeada de edificios galeses originales. En la hora azul, con las luces cálidas encendidas contra el cielo profundo, la ciudad parece otra época. Trípode o apoyá el celular: la luz es poca.</p>
+      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Plaza%20Independencia%20Trelew" target="_blank" rel="noopener">Ver mapa exacto →</a>
+    </div>
+
+    <div class="it">
+      <div class="n">03</div>
+      <h4>Capilla Moriah · el cementerio de los pioneros</h4>
+      <div class="light">Mejor luz · <b>Última hora de la tarde</b> · sol rasante</div>
+      <p>Ladrillo austero, lápidas con apellidos galeses, la estepa alrededor. Con el sol bajo, las sombras de las cruces se alargan sobre el pasto seco. Blanco y negro, si podés. No hace falta más.</p>
+      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Capilla%20Moriah%20Trelew" target="_blank" rel="noopener">Ver mapa exacto →</a>
+    </div>
+    </div>
+  </section>
+
+  <section class="secrets">
+    <div class="lbl">Lo que no sale en Maps</div>
+    <h2 class="t">Tres secretos que solo conocen los locales.</h2>
+    <div class="rule"></div>
+
+    <div class="sxgrid">
+    <div class="sx">
+      <div class="n">N°13</div>
+      <p><strong>Trelew es la base más barata y más cómoda de la comarca.</strong> Tiene el aeropuerto más activo de Chubut, más hotelería que Pirámides, precios de ciudad y no de balneario — y está en el medio de todo: <strong>Valdés a 110 km, Punta Tombo a 120, Gaiman a 15, Rawson a 20</strong>. El que hace base acá maneja menos y gasta menos.</p>
+    </div>
+    <div class="sx">
+      <div class="n">N°14</div>
+      <p><strong>El MEF cambia de horario según la estación.</strong> De septiembre a marzo abre de 9 a 20; de abril a agosto, de 10 a 18. Parece un detalle, pero en invierno el museo cierra <strong>dos horas antes</strong> y mucha gente llega tarde después de volver de la península. Si venís en invierno, hacé el MEF <em>antes</em> de salir a la costa, no después.</p>
+    </div>
+    <div class="sx">
+      <div class="n">N°15</div>
+      <p><strong>Punta Tombo se hace desde Trelew, no desde Madryn.</strong> Son <strong>60 km menos</strong> de ida y 60 de vuelta: dos horas de ruta que te ahorrás. Casi todas las excursiones salen de Madryn porque ahí está el turista, no porque sea lo lógico. Si los pingüinos son tu prioridad, dormí en Trelew.</p>
+    </div>
+    </div>
+  </section>
+
+  <div class="close">
+    <div class="l">Fin · Trelew</div>
+    <h3>Punta de rieles.</h3>
+    <p>Trelew no se puso en el medio: <em>el medio se armó alrededor de Trelew</em>. Nació donde se terminaban las vías y donde empezaba todo lo demás. Ciento cuarenta años después, sigue siendo el mejor lugar para empezar.</p>
+    <a class="next" href="#otono">Las estaciones →</a>
+  </div>
+
+  <!-- ══════════ OTOÑO ══════════ -->
+  <div class="shero" id="otono">
+    <div class="shero-img"><img src="img/02-otono-hero.jpg?v=2" alt="Orca varándose en Punta Norte" loading="lazy"></div>
+    <div class="shero-in">
+      <div class="m">Marzo — Mayo</div>
+      <h2>OTOÑO</h2>
+      <div class="d">La temporada de las orcas</div>
+    </div>
+  </div>
+
+  <div class="essay">
+    <h3>El único lugar del mundo donde pasa esto.</h3>
+    <div class="rule"></div>
+    <p>Hay una escena que solo ocurre en Punta Norte, y solo en otoño.</p>
+    <p>Una orca de seis toneladas se lanza contra la playa —a propósito—, se vara sobre el canto rodado, atrapa un lobo marino y se sacude de vuelta al agua con la ola siguiente. No lo hace ninguna otra población de orcas del planeta. Es una técnica de caza aprendida, que las madres le enseñan a sus crías durante años, y que se transmite hace generaciones en esta playa y en ninguna otra.</p>
+    <p>El otoño en Valdés es esto: menos gente, menos ballenas, y un evento de la naturaleza que no tiene equivalente en el mundo. También es la estación en que el mar está más transparente, en que los pingüinos se despiden hasta abril, y en que la estepa se pone dorada y los guanacos bajan a la costa.</p>
+    <p>Es la estación de los que ya vinieron una vez. Los que vuelven buscando otra cosa.</p>
+  </div>
+
+  <section>
+    <div class="lbl">Qué vivir</div>
+    <h2 class="t">Tres experiencias que valen el viaje.</h2>
+
+    <div class="cols">
+    <div class="it">
+      <div class="n">01</div>
+      <div class="it-img"><img src="img/20-orcas-punta-norte.jpg?v=2" alt="El varamiento · Punta Norte" loading="lazy"><span class="cap">El varamiento · Punta Norte</span></div>
+      <h4>El varamiento de las orcas · Punta Norte</h4>
+      <p>El evento más impresionante de la Patagonia costera. No está garantizado: depende de la marea, de la temporada y de la paciencia. Los que las ven son los que se quedan.</p>
+      <a class="lk fill" href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/peninsula-valdes" target="_blank" rel="noopener">Reservar Península Valdés · 10 h →</a>
+      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Punta%20Norte%20Pen%C3%ADnsula%20Vald%C3%A9s" target="_blank" rel="noopener">📍 Cómo llegar</a>
+      <a class="lk" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6641/checkout" target="_blank" rel="noopener">🎁 25% off Orcas Aventuras →</a>
+    </div>
+
+    <div class="it">
+      <div class="n">02</div>
+      <div class="it-img"><img src="img/21-lobos-snorkel.jpg?v=2" alt="Lobos marinos · Puerto Madryn" loading="lazy"><span class="cap">Lobos marinos · Puerto Madryn</span></div>
+      <h4>Buceo y snorkel con lobos marinos</h4>
+      <p>El otoño trae la mejor visibilidad del año bajo el agua. Los lobos marinos de un pelo son curiosos: se acercan solos, giran alrededor tuyo, te muerden las aletas. Puerto Madryn es la Capital Nacional del Buceo.</p>
+      <a class="lk fill" href="https://patagoniaexperiencias.com/patagonia-experiencias.html?q=buceo+lobos+marinos" target="_blank" rel="noopener">Ver excursiones →</a>
+      <a class="lk" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6521/checkout" target="_blank" rel="noopener">🎁 20% off Buceo Scuba Duba →</a>
+    </div>
+
+    <div class="it">
+      <div class="n">03</div>
+      <div class="it-img"><img src="img/22-pinguinos-otono.jpg?v=2" alt="Los últimos pichones · Punta Tombo" loading="lazy"><span class="cap">Los últimos pichones · Punta Tombo</span></div>
+      <h4>Los últimos pingüinos · Punta Tombo</h4>
+      <p>Hasta mediados de abril quedan los pichones del año, ya emplumados, aprendiendo a nadar antes de irse al mar. Menos gente que en verano, y una colonia que se vacía de a poco.</p>
+      <a class="lk fill" href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/pinguinera-punta-tombo" target="_blank" rel="noopener">Reservar Punta Tombo · 10 h →</a>
+      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Punta%20Tombo%20Chubut" target="_blank" rel="noopener">📍 Cómo llegar</a>
+      <a class="lk" href="https://tienda.patagoniapuntos.com/preview/client/prizes/7249/checkout" target="_blank" rel="noopener">🎁 20% off Calew Travel →</a>
+    </div>
+    </div>
+  </section>
+
+  <section style="background:var(--white)">
+    <div class="lbl">Otoño · Marzo — Mayo</div>
+    <h2 class="t">Qué comer.</h2>
+    <div class="sub">El mar y la estepa, sin intermediarios.</div>
+
+    <div class="cols">
+<div class="it">
+      <div class="n">01</div>
+      <div class="pl">Puerto Pirámides · <b>15% off</b></div>
+      <h4>Mar, Calma & Phira</h4>
+      <p><em style="color:var(--f);font-style:normal;font-weight:700">Después de las orcas de Punta Norte.</em> Volvés de Punta Norte con viento, frío y horas de ripio encima. Pocas mesas, mucho mar: el pueblo tiene menos de 500 habitantes, así que reservá.</p>
+      <a class="lk fill" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6552/checkout" target="_blank" rel="noopener">15% off →</a>
+    </div>
+    <div class="it">
+      <div class="n">02</div>
+      <div class="pl">Puerto Madryn · <b>15% off</b></div>
+      <h4>Cafeto</h4>
+      <p><em style="color:var(--f);font-style:normal;font-weight:700">Después de el buceo.</em> Salís del agua con hambre de verdad. Madryn es puerto: los langostinos y los mariscos salen del mar que acabás de bucear. Y para el after, Negui tiene 2x1 en tragos.</p>
+      <a class="lk fill" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6513/checkout" target="_blank" rel="noopener">15% off →</a>
+    </div>
+    <div class="it">
+      <div class="n">03</div>
+      <div class="pl">Trelew · <b>15% off</b></div>
+      <h4>Primitivos Alto Asador</h4>
+      <p><em style="color:var(--f);font-style:normal;font-weight:700">Después de Punta Tombo.</em> Punta Tombo se hace desde Trelew, y se vuelve a Trelew. Cordero patagónico al asador, lento, después de un día entero entre pingüinos.</p>
+      <a class="lk fill" href="https://tienda.patagoniapuntos.com/preview/client/prizes/7385/checkout" target="_blank" rel="noopener">15% off →</a>
+    </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="lbl">Qué fotografiar</div>
+    <h2 class="t">Tres spots, tres luces.</h2>
+    <div class="sub">Coordenadas exactas, hora óptima, recomendación técnica.</div>
+
+    <div class="swipe-h">Deslizá →</div>
+    <div class="gal"><figure><img src="img/63-orca-tele.jpg?v=2" alt="Punta Norte · marea alta" loading="lazy"><figcaption>Punta Norte · marea alta</figcaption></figure><figure><img src="img/64-guanacos-contraluz.jpg?v=2" alt="Guanacos a contraluz · la estepa" loading="lazy"><figcaption>Guanacos a contraluz · la estepa</figcaption></figure><figure><img src="img/65-loberia-atardecer.jpg?v=2" alt="Punta Pirámide · el atardecer" loading="lazy"><figcaption>Punta Pirámide · el atardecer</figcaption></figure></div>
+
+    <div class="cols">
+    <div class="it">
+      <div class="n">01</div>
+      <h4>Punta Norte · el varamiento</h4>
+      <div class="light">Mejor luz · <b>3 h antes y 3 h después de la marea alta</b></div>
+      <p>No es una cuestión de luz sino de marea: el varamiento ocurre en torno a la pleamar. Teleobjetivo largo (300 mm mínimo), velocidad alta (1/1000), y paciencia. Con marea baja, no vayas.</p>
+      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Punta%20Norte%20Pen%C3%ADnsula%20Vald%C3%A9s" target="_blank" rel="noopener">Ver mapa exacto →</a>
+    </div>
+
+    <div class="it">
+      <div class="n">02</div>
+      <h4>La estepa · guanacos a contraluz</h4>
+      <div class="light">Mejor luz · <b>18:30 — 19:30</b> · última luz de otoño</div>
+      <p>El polvo dorado en el aire, las sombras largas, las siluetas recortadas. Es la foto que nadie espera traerse de Valdés y la que más te van a preguntar. Teleobjetivo, medí sobre el cielo.</p>
+      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Istmo%20Carlos%20Ameghino%20Pen%C3%ADnsula%20Vald%C3%A9s" target="_blank" rel="noopener">Ver mapa exacto →</a>
+    </div>
+
+    <div class="it">
+      <div class="n">03</div>
+      <h4>Punta Pirámide · la lobería</h4>
+      <div class="light">Mejor luz · <b>Atardecer</b> · el mejor de la península</div>
+      <p>A 5 km del pueblo, por ripio. Casi nadie sube, y es el mejor atardecer de toda Valdés. Angular para el paisaje, tele para los lobos.</p>
+      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Lober%C3%ADa%20Punta%20Pir%C3%A1mide%20Puerto%20Pir%C3%A1mides" target="_blank" rel="noopener">Ver mapa exacto →</a>
+    </div>
+    </div>
+  </section>
+
+  <section class="secrets">
+    <div class="lbl">Lo que no sale en Maps</div>
+    <h2 class="t">Tres secretos que solo conocen los locales.</h2>
+    <div class="rule"></div>
+
+    <div class="sxgrid">
+    <div class="sx">
+      <div class="n">N°01</div>
+      <p>Para las orcas en Punta Norte, el que llega y se va en veinte minutos <strong>no ve nada</strong>. Los que las ven se ubican en el mirador <strong>tres horas antes de la marea alta</strong> y se quedan hasta tres horas después. Llevá termo, sándwich y abrigo: es una espera larga y ventosa. Con marea baja, directamente no vayas.</p>
+    </div>
+    <div class="sx">
+      <div class="n">N°02</div>
+      <p>La península es <strong>un circuito circular</strong>: por el camino que pasaste, no volvés. Por eso arrancar por el norte o por el sur no es un detalle — y depende de la marea del día. Preguntale al guardafauna del Centro de Visitantes del Istmo por dónde conviene salir <em>ese</em> día. Diez minutos que te cambian el viaje entero.</p>
+    </div>
+    <div class="sx">
+      <div class="n">N°03</div>
+      <p>Punta Loma está a <strong>17 km de Madryn</strong> y casi nadie va. Todo el mundo maneja 100 km para ver lobos marinos dentro de la península, teniendo una lobería importante a veinte minutos de la ciudad. En otoño, con el mar transparente, es el mejor lugar para el primer snorkel.</p>
+    </div>
+    </div>
+  </section>
+
+  <div class="close">
+    <div class="l">Fin · Marzo — Mayo</div>
+    <h3>El mar sin testigos.</h3>
+    <p>En otoño, Valdés se queda sola. Se van las ballenas, se van los pingüinos, se van los turistas. Y justo entonces aparecen las orcas. La Patagonia premia a los que llegan cuando ya no hay nadie.</p>
+    <a class="next" href="#invierno">Invierno →</a>
+  </div>
+
+  <!-- ══════════ INVIERNO ══════════ -->
+  <div class="shero" id="invierno">
+    <div class="shero-img"><img src="img/03-invierno-hero.jpg?v=2" alt="Ballena franca austral en el Golfo Nuevo" loading="lazy"></div>
+    <div class="shero-in">
+      <div class="m">Junio — Agosto</div>
+      <h2>INVIERNO</h2>
+      <div class="d">Vuelven las ballenas</div>
+    </div>
+  </div>
+
+  <div class="essay">
+    <h3>Cuarenta toneladas entran al golfo.</h3>
+    <div class="rule"></div>
+    <p>En junio, algo cambia en el agua.</p>
+    <p>Las primeras ballenas francas australes entran al Golfo Nuevo después de un viaje de miles de kilómetros desde sus zonas de alimentación en el sur. Vienen a parir. Vienen a criar. Vienen a estar tranquilas en un mar que las protege, y que es la razón por la que Península Valdés es Patrimonio de la Humanidad.</p>
+    <p>El invierno acá no es de nieve: es de mar. Y tiene un privilegio que casi ningún lugar del mundo puede ofrecer: en <strong>Playa El Doradillo</strong>, a diecisiete kilómetros de Puerto Madryn, las ballenas se acercan a pocos metros de la orilla. Sin barco. Sin excursión. Sin pagar un peso. Solo hay que saber a qué hora ir.</p>
+    <p>Es la estación de los que quieren la Patagonia sin multitud. Menos gente, más ballenas, y un silencio que solo rompe el soplido.</p>
+  </div>
+
+  <section>
+    <div class="lbl">Qué vivir</div>
+    <h2 class="t">Tres experiencias que valen el viaje.</h2>
+
+    <div class="cols">
+    <div class="it">
+      <div class="n">01</div>
+      <div class="it-img"><img src="img/30-avistaje-piramides.jpg?v=2" alt="Avistaje embarcado · Puerto Pirámides" loading="lazy"><span class="cap">Avistaje embarcado · Puerto Pirámides</span></div>
+      <h4>Avistaje embarcado · Puerto Pirámides</h4>
+      <p>El único punto de embarque autorizado del área protegida. Las lanchas entran al mar con tractores desde la playa. En minutos estás al lado de una ballena de cuarenta toneladas — y escuchás su respiración antes de verla. No las persiguen: ellas se acercan.</p>
+      <a class="lk fill" href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/solo-ballenas-tour-y-traslados-a-peninsula-valdes" target="_blank" rel="noopener">Reservar Solo Ballenas · 8 h →</a>
+      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Puerto%20Pir%C3%A1mides%20Chubut" target="_blank" rel="noopener">📍 Cómo llegar</a>
+      <a class="lk" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6789/checkout" target="_blank" rel="noopener">🎁 15% off Avistaje Peke Sosa →</a>
+    </div>
+
+    <div class="it">
+      <div class="n">02</div>
+      <div class="it-img"><img src="img/31-el-doradillo.jpg?v=2" alt="Ballenas desde la orilla · El Doradillo" loading="lazy"><span class="cap">Ballenas desde la orilla · El Doradillo</span></div>
+      <h4>Ballenas desde la costa · El Doradillo</h4>
+      <p>Uno de los poquísimos lugares del planeta donde una ballena de cuarenta toneladas pasa a metros de la orilla. Es gratis, es a veinte minutos de Madryn, y podés volver todas las veces que quieras. La clave está en el secreto N°04.</p>
+      <a class="lk fill" href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/el-doradillo-avistaje-costero-ballena-franca-austral" target="_blank" rel="noopener">Reservar El Doradillo · 3 h →</a>
+      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Playa%20El%20Doradillo%20Puerto%20Madryn" target="_blank" rel="noopener">📍 Cómo llegar</a>
+    </div>
+
+    <div class="it">
+      <div class="n">03</div>
+      <div class="it-img"><img src="img/32-elefantes-marinos.jpg?v=2" alt="Elefantes marinos · Caleta Valdés" loading="lazy"><span class="cap">Elefantes marinos · Caleta Valdés</span></div>
+      <h4>Los elefantes marinos llegan · Caleta Valdés</h4>
+      <p>Desde julio empiezan a ocupar las playas. Los machos adultos superan los <strong>3.000 kilos</strong> y su rugido se escucha desde las pasarelas de los acantilados. Es la única colonia continental de elefantes marinos del mundo.</p>
+      <a class="lk fill" href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/peninsula-valdes" target="_blank" rel="noopener">Reservar Península Valdés · 10 h →</a>
+    </div>
+    </div>
+  </section>
+
+  <section style="background:var(--white)">
+    <div class="lbl">Invierno · Junio — Agosto</div>
+    <h2 class="t">Qué comer.</h2>
+    <div class="sub">Plato hondo, mar afuera.</div>
+
+    <div class="cols">
+<div class="it">
+      <div class="n">01</div>
+      <div class="pl">Puerto Pirámides · <b>15% off</b></div>
+      <h4>Mar, Calma & Phira</h4>
+      <p><em style="color:var(--f);font-style:normal;font-weight:700">Después de el avistaje.</em> Bajás del gomón con la cara mojada y las manos frías. Comer frente al Golfo Nuevo, con la ballena todavía en la cabeza, es parte de la experiencia.</p>
+      <a class="lk fill" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6552/checkout" target="_blank" rel="noopener">15% off →</a>
+    </div>
+    <div class="it">
+      <div class="n">02</div>
+      <div class="pl">Puerto Madryn · <b>15% off</b></div>
+      <h4>Platos destacados</h4>
+      <p><em style="color:var(--f);font-style:normal;font-weight:700">Después de El Doradillo.</em> Volvés del amanecer con las ballenas a metros. Es temprano y hace frío: el desayuno o el almuerzo en Madryn, a veinte minutos de la playa.</p>
+      <a class="lk fill" href="https://tienda.patagoniapuntos.com/preview/client/prizes/17726/checkout" target="_blank" rel="noopener">15% off →</a>
+    </div>
+    <div class="it">
+      <div class="n">03</div>
+      <div class="pl">Gaiman · <b>15% off</b></div>
+      <h4>Salón de Té Ty Cymraeg</h4>
+      <p><em style="color:var(--f);font-style:normal;font-weight:700">Después de el día del Valle.</em> El ritual de las cinco en pleno invierno patagónico: torta negra galesa —receta de 1865—, scones y la ventana empañada. <strong>No almuerces antes</strong>: un té galés reemplaza una comida entera.</p>
+      <a class="lk fill" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6645/checkout" target="_blank" rel="noopener">15% off →</a>
+    </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="lbl">Qué fotografiar</div>
+    <h2 class="t">Tres spots, tres luces.</h2>
+    <div class="sub">Coordenadas exactas, hora óptima, recomendación técnica.</div>
+
+    <div class="swipe-h">Deslizá →</div>
+    <div class="gal"><figure><img src="img/66-soplido-amanecer.jpg?v=2" alt="El soplido al amanecer" loading="lazy"><figcaption>El soplido al amanecer</figcaption></figure><figure><img src="img/67-navegacion-manana.jpg?v=2" alt="Primera navegación" loading="lazy"><figcaption>Primera navegación</figcaption></figure><figure><img src="img/68-acantilados-caleta.jpg?v=2" alt="Caleta Valdés · 16:00" loading="lazy"><figcaption>Caleta Valdés · 16:00</figcaption></figure></div>
+
+    <div class="cols">
+    <div class="it">
+      <div class="n">01</div>
+      <h4>El Doradillo · el soplido a contraluz</h4>
+      <div class="light">Mejor luz · <b>Amanecer + marea alta</b> · la foto de Madryn</div>
+      <p>El sol sale sobre el Golfo Nuevo. Si coincide con marea alta, tenés ballenas a metros, el vapor del soplido iluminado por detrás y la playa vacía. Medí sobre el cielo y dejá la ballena en silueta. Es <em>la</em> foto.</p>
+      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Playa%20El%20Doradillo%20Puerto%20Madryn" target="_blank" rel="noopener">Ver mapa exacto →</a>
+    </div>
+
+    <div class="it">
+      <div class="n">02</div>
+      <h4>Puerto Pirámides · primera navegación</h4>
+      <div class="light">Mejor luz · <b>Primera salida de la mañana</b></div>
+      <p>Mar más calmo, luz frontal limpia, menos gente. Las salidas del mediodía tienen más viento, más olas y peor luz. Velocidad alta: la ballena aparece sin aviso. Protegé la cámara del agua salada.</p>
+      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Puerto%20Pir%C3%A1mides%20Chubut" target="_blank" rel="noopener">Ver mapa exacto →</a>
+    </div>
+
+    <div class="it">
+      <div class="n">03</div>
+      <h4>Caleta Valdés · los acantilados</h4>
+      <div class="light">Mejor luz · <b>16:00</b> · sol de costado, invierno</div>
+      <p>El sol bajo del invierno entra de lado, marca el relieve de los acantilados y hace brillar el lomo mojado de los elefantes marinos. Angular para la escala, tele para el detalle.</p>
+      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Caleta%20Vald%C3%A9s%20Chubut" target="_blank" rel="noopener">Ver mapa exacto →</a>
+    </div>
+    </div>
+  </section>
+
+  <section class="secrets">
+    <div class="lbl">Lo que no sale en Maps</div>
+    <h2 class="t">Tres secretos que solo conocen los locales.</h2>
+    <div class="rule"></div>
+
+    <div class="sxgrid">
+    <div class="sx">
+      <div class="n">N°04</div>
+      <p><strong>El Doradillo se mira con la tabla de mareas en la mano.</strong> Las ballenas se acercan a la costa con la <strong>marea alta</strong>. Si vas con marea baja ves un mar vacío y te volvés convencido de que tuviste mala suerte. No fue suerte: fue el horario. Consultá la tabla del día antes de salir de Madryn.</p>
+    </div>
+    <div class="sx">
+      <div class="n">N°05</div>
+      <p><strong>El viento decide, no el pronóstico.</strong> Las salidas embarcadas se confirman <strong>la tarde anterior</strong>, según el viento. Por eso conviene reservar el avistaje con margen de días: si un día no sale, tenés otro. El que viene por veinticuatro horas se juega todo a una sola carta — y muchas veces pierde.</p>
+    </div>
+    <div class="sx">
+      <div class="n">N°06</div>
+      <p><strong>Hacé base en Pirámides, no en Madryn.</strong> Si venís principalmente por las ballenas, dormir en Puerto Pirámides te ahorra <strong>200 km de manejo por día</strong> y te permite tomar la primera navegación de la mañana —la de mar más calmo— sin madrugar dos horas antes. El pueblo tiene menos de 500 habitantes: reservá con tiempo.</p>
+    </div>
+    </div>
+  </section>
+
+  <div class="close">
+    <div class="l">Fin · Junio — Agosto</div>
+    <h3>El soplido en el silencio.</h3>
+    <p>El invierno en Valdés no se escucha: se respira. Cuarenta toneladas de animal sacan aire a veinte metros tuyo, y ese sonido —grave, húmedo, antiguo— no se parece a nada. Vení abrigado. Vení temprano. Vení con la tabla de mareas.</p>
+    <a class="next" href="#primavera">Primavera →</a>
+  </div>
+
+  <!-- ══════════ PRIMAVERA ══════════ -->
+  <div class="shero" id="primavera">
+    <div class="shero-img"><img src="img/04-primavera-hero.jpg?v=2" alt="Ballena con cría y campo de tulipanes" loading="lazy"></div>
+    <div class="shero-in">
+      <div class="m">Septiembre — Noviembre</div>
+      <h2>PRIMAVERA</h2>
+      <div class="d">Todo, al mismo tiempo</div>
+    </div>
+  </div>
+
+  <div class="essay">
+    <h3>La ventana de oro.</h3>
+    <div class="rule"></div>
+    <p>Si podés elegir una sola vez en tu vida cuándo venir a Península Valdés, vení ahora.</p>
+    <p>Entre fines de septiembre y mediados de noviembre ocurre algo que no pasa en ninguna otra época: <strong>coinciden todas las especies</strong>. Las ballenas están en su pico, con las crías ya nacidas jugando al lado de las madres. Los pingüinos vuelven a Punta Tombo por cientos de miles. Los elefantes marinos están pariendo. Y las orcas reaparecen en octubre y noviembre.</p>
+    <p>Todo. En el mismo viaje. En la misma semana.</p>
+    <p>Y desde 2026 hay algo más: en el km 82 de la Ruta 25, en el pueblo de <strong>28 de Julio</strong>, florece por primera vez un campo de tulipanes —de la misma familia que el mítico campo de Trevelin—. Por el clima costero, acá florecen <strong>antes</strong>: en septiembre. Es decir, en plena temporada de ballenas.</p>
+    <p>Ballenas a la mañana, tulipanes a la tarde. Hasta este año, imposible.</p>
+  </div>
+
+  <section>
+    <div class="lbl">Qué vivir</div>
+    <h2 class="t">Tres experiencias que valen el viaje.</h2>
+
+    <div class="cols">
+    <div class="it">
+      <div class="n">01</div>
+      <div class="it-img"><img src="img/40-ballena-cria.jpg?v=2" alt="Ballena con cría · Golfo Nuevo" loading="lazy"><span class="cap">Ballena con cría · Golfo Nuevo</span></div>
+      <h4>Ballenas con crías · el pico de la temporada</h4>
+      <p>Septiembre, octubre y noviembre son el momento máximo. Las crías ya nacieron y juegan alrededor de la madre, saltan, golpean el agua con la cola. Una ballena adulta puede acercarse al barco por curiosidad.</p>
+      <a class="lk fill" href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/solo-ballenas-tour-y-traslados-a-peninsula-valdes" target="_blank" rel="noopener">Reservar Solo Ballenas · 8 h →</a>
+      <a class="lk" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6789/checkout" target="_blank" rel="noopener">🎁 15% off Avistaje Peke Sosa →</a>
+    </div>
+
+    <div class="it">
+      <div class="n">02</div>
+      <div class="it-img"><img src="img/41-tulipanes.jpg?v=2" alt="Tulipanes de Tir Halen · 28 de Julio" loading="lazy"><span class="cap">Tulipanes de Tir Halen · 28 de Julio</span></div>
+      <h4>Tulipanes de Tir Halen · 28 de Julio</h4>
+      <p>La primicia de la temporada: el <strong>segundo campo de tulipanes de Chubut</strong>, a orillas del río, abriendo por primera vez. Hectáreas de color encendido en pleno valle patagónico, en el mismo viaje que las ballenas.</p>
+      <a class="lk fill" href="https://patagoniaexperiencias.com/patagonia-experiencias.html?q=tulipanes" target="_blank" rel="noopener">Ver excursión →</a>
+      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=28%20de%20Julio%20Chubut%20Ruta%2025" target="_blank" rel="noopener">📍 Cómo llegar</a>
+    </div>
+
+    <div class="it">
+      <div class="n">03</div>
+      <div class="it-img"><img src="img/42-pinguinos-llegan.jpg?v=2" alt="Vuelven los pingüinos · Punta Tombo" loading="lazy"><span class="cap">Vuelven los pingüinos · Punta Tombo</span></div>
+      <h4>Vuelven los pingüinos · Punta Tombo</h4>
+      <p>Desde mediados de septiembre llegan más de medio millón. Primero los machos, a reclamar el nido del año anterior. Después las hembras. Caminás entre ellos por senderos y te cruzan a centímetros: es su casa, ellos tienen prioridad de paso.</p>
+      <a class="lk fill" href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/pinguinera-punta-tombo" target="_blank" rel="noopener">Reservar Punta Tombo · 10 h →</a>
+      <a class="lk" href="https://tienda.patagoniapuntos.com/preview/client/prizes/7249/checkout" target="_blank" rel="noopener">🎁 20% off Calew Travel →</a>
+    </div>
+    </div>
+  </section>
+
+  <section style="background:var(--white)">
+    <div class="lbl">Primavera · Septiembre — Noviembre</div>
+    <h2 class="t">Qué comer.</h2>
+    <div class="sub">La cocina del valle que despierta.</div>
+
+    <div class="cols">
+<div class="it">
+      <div class="n">01</div>
+      <div class="pl">Puerto Madryn · <b>15% off</b></div>
+      <h4>Platos destacados</h4>
+      <p><em style="color:var(--f);font-style:normal;font-weight:700">Después de las ballenas.</em> La temporada alta del marisco coincide con la de las ballenas. Reservá: en octubre Madryn se llena.</p>
+      <a class="lk fill" href="https://tienda.patagoniapuntos.com/preview/client/prizes/17726/checkout" target="_blank" rel="noopener">15% off →</a>
+    </div>
+    <div class="it">
+      <div class="n">02</div>
+      <div class="pl">Gaiman · <b>15% off</b></div>
+      <h4>Salón de Té Ty Cymraeg</h4>
+      <p><em style="color:var(--f);font-style:normal;font-weight:700">Después de los tulipanes.</em> 28 de Julio y Gaiman están sobre la misma ruta. Tulipanes a la mañana, té galés a la tarde: es el circuito del Valle, y se hace en un día.</p>
+      <a class="lk fill" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6645/checkout" target="_blank" rel="noopener">15% off →</a>
+    </div>
+    <div class="it">
+      <div class="n">03</div>
+      <div class="pl">Trelew · <b>20% off</b></div>
+      <h4>Génesis · Cenas</h4>
+      <p><em style="color:var(--f);font-style:normal;font-weight:700">Después de Punta Tombo.</em> Volvés a Trelew después de diez horas entre pingüinos. Cocina de valle con producto local: cerezas, miel, quesos y vino de a treinta kilómetros de tu mesa.</p>
+      <a class="lk fill" href="https://tienda.patagoniapuntos.com/preview/client/prizes/9132/checkout" target="_blank" rel="noopener">20% off →</a>
+    </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="lbl">Qué fotografiar</div>
+    <h2 class="t">Tres spots, tres luces.</h2>
+    <div class="sub">Coordenadas exactas, hora óptima, recomendación técnica.</div>
+
+    <div class="swipe-h">Deslizá →</div>
+    <div class="gal"><figure><img src="img/69-tulipanes-manana.jpg?v=2" alt="Tulipanes · 7:30 sin viento" loading="lazy"><figcaption>Tulipanes · 7:30 sin viento</figcaption></figure><figure><img src="img/70-pinguino-ras.jpg?v=2" alt="Pingüinos a ras del suelo" loading="lazy"><figcaption>Pingüinos a ras del suelo</figcaption></figure><figure><img src="img/71-salto-ballena.jpg?v=2" alt="El salto · desde el barco" loading="lazy"><figcaption>El salto · desde el barco</figcaption></figure></div>
+
+    <div class="cols">
+    <div class="it">
+      <div class="n">01</div>
+      <h4>Campo de tulipanes · 28 de Julio</h4>
+      <div class="light">Mejor luz · <b>7:30 — 9:00</b> · mañana sin viento</div>
+      <p>El viento patagónico se levanta a media mañana y agita las flores: las fotos salen movidas. Para nitidez, hay que llegar con el primer sol. Un 35 mm o 50 mm fijo, y el campo desde abajo para que el color llene el cuadro.</p>
+      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=28%20de%20Julio%20Chubut" target="_blank" rel="noopener">Ver mapa exacto →</a>
+    </div>
+
+    <div class="it">
+      <div class="n">02</div>
+      <h4>Punta Tombo · a ras del suelo</h4>
+      <div class="light">Mejor luz · <b>Media mañana</b> · contraluz cálido</div>
+      <p>El error que comete todo el mundo: fotografiar los pingüinos <em>desde arriba</em>. Poné la cámara o el celular <strong>en el piso</strong>, a la altura de ellos. Cambia todo. Con el sol de costado, el borde de las plumas se ilumina.</p>
+      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Punta%20Tombo%20Chubut" target="_blank" rel="noopener">Ver mapa exacto →</a>
+    </div>
+
+    <div class="it">
+      <div class="n">03</div>
+      <h4>El salto de la ballena · desde el barco</h4>
+      <div class="light">Mejor luz · <b>Primera navegación</b> · mar calmo</div>
+      <p>Un salto dura menos de dos segundos. No mires por el visor: mirá el agua y esperá el movimiento. Ráfaga, 1/1600, y enfoque continuo. La foto que todos quieren y casi nadie saca.</p>
+      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Puerto%20Pir%C3%A1mides%20Chubut" target="_blank" rel="noopener">Ver mapa exacto →</a>
+    </div>
+    </div>
+  </section>
+
+  <section class="secrets">
+    <div class="lbl">Lo que no sale en Maps</div>
+    <h2 class="t">Tres secretos que solo conocen los locales.</h2>
+    <div class="rule"></div>
+
+    <div class="sxgrid">
+    <div class="sx">
+      <div class="n">N°07</div>
+      <p><strong>La entrada te sirve para dos días.</strong> Casi nadie lo sabe: si vas a recorrer la península en dos jornadas, <strong>pedí que te sellen la entrada antes de salir el primer día</strong>. Al día siguiente entrás sin volver a pagar. Consultalo en el Centro de Visitantes del Istmo. En primavera —cuando hay tanto para ver que un día no alcanza— este dato vale doble.</p>
+    </div>
+    <div class="sx">
+      <div class="n">N°08</div>
+      <p><strong>Salí al amanecer.</strong> Son 400 km de ripio a 60 km/h máximo. El que sale tarde termina manejando de noche por ripio con guanacos cruzando. Los que salen con el primer sol <strong>ven más animales</strong> —la fauna está activa al amanecer— y vuelven con luz. La diferencia entre un buen día y un mal día en Valdés se decide a las 6 de la mañana.</p>
+    </div>
+    <div class="sx">
+      <div class="n">N°09</div>
+      <p><strong>Los tulipanes de 28 de Julio florecen antes que los de Trevelin.</strong> El clima costero adelanta el ciclo: mientras la cordillera todavía espera, el valle ya está en flor. Eso significa que en <strong>septiembre</strong> podés ver ballenas a la mañana y tulipanes a la tarde. Es la única ventana del país donde eso es posible — y es nueva.</p>
+    </div>
+    </div>
+  </section>
+
+  <div class="close">
+    <div class="l">Fin · Septiembre — Noviembre</div>
+    <h3>La estación que lo tiene todo.</h3>
+    <p>La primavera en Valdés es breve y desbordada. Todo pasa a la vez y nada espera: las crías crecen rápido, los tulipanes abren y cierran en semanas, las orcas van y vienen. Si venís ahora, vas a necesitar más días de los que pensabas. Traélos.</p>
+    <a class="next" href="#verano">Verano →</a>
+  </div>
+
+  <!-- ══════════ VERANO ══════════ -->
+  <div class="shero" id="verano">
+    <div class="shero-img"><img src="img/05-verano-hero.jpg?v=2" alt="Toninas overas en Playa Unión" loading="lazy"></div>
+    <div class="shero-in">
+      <div class="m">Diciembre — Febrero</div>
+      <h2>VERANO</h2>
+      <div class="d">El mar por dentro</div>
+    </div>
+  </div>
+
+  <div class="essay">
+    <h3>Cuando las ballenas se van, empieza otra cosa.</h3>
+    <div class="rule"></div>
+    <p>En diciembre el golfo se vacía. Las últimas ballenas se van al sur y Valdés parece, por un momento, un lugar más.</p>
+    <p>No lo es. Simplemente cambia de eje: el verano no se mira desde la costa, <strong>se mira desde adentro del agua</strong>. Puerto Madryn es la Capital Nacional del Buceo, y de diciembre a marzo el mar se calienta lo suficiente para que meterse deje de ser una hazaña. Snorkel con lobos marinos que se te acercan a jugar. Bautismos submarinos. Kayak al amanecer.</p>
+    <p>Es también la temporada de las <strong>toninas overas</strong> en Rawson: delfines blancos y negros, chiquitos, que corren en la proa de las lanchas por puro juego. Y de los pichones de pingüino en Punta Tombo, gordos y torpes, aprendiendo a nadar.</p>
+    <p>Y cuando el sol finalmente baja —tarde, muy tarde—, aparece lo que casi ninguna guía menciona: dentro de la península <strong>no hay contaminación lumínica</strong>. La Vía Láctea cruza el cielo entera.</p>
+  </div>
+
+  <section>
+    <div class="lbl">Qué vivir</div>
+    <h2 class="t">Tres experiencias que valen el viaje.</h2>
+
+    <div class="cols">
+    <div class="it">
+      <div class="n">01</div>
+      <div class="it-img"><img src="img/50-toninas.jpg?v=2" alt="Toninas overas · Rawson" loading="lazy"><span class="cap">Toninas overas · Rawson</span></div>
+      <h4>Toninas overas · Rawson</h4>
+      <p>Delfines blancos y negros que se acercan solos a la lancha y corren en la proa. No están amaestrados: es juego. Salen del puerto de Rawson, temprano, cuando el mar está calmo.</p>
+      <a class="lk fill" href="https://patagoniaexperiencias.com/patagonia-experiencias.html?q=toninas+Rawson" target="_blank" rel="noopener">Ver avistaje →</a>
+      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Puerto%20de%20Rawson%20Chubut" target="_blank" rel="noopener">📍 Cómo llegar</a>
+      <a class="lk" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6844/checkout" target="_blank" rel="noopener">🎁 15% off Estación Marítima →</a>
+    </div>
+
+    <div class="it">
+      <div class="n">02</div>
+      <div class="it-img"><img src="img/51-snorkel-verano.jpg?v=2" alt="Snorkel con lobos · Puerto Madryn" loading="lazy"><span class="cap">Snorkel con lobos · Puerto Madryn</span></div>
+      <h4>Snorkel con lobos marinos · Puerto Madryn</h4>
+      <p>Te metés al agua y son ellos los que se acercan: giran, te miran a los ojos, te muerden las aletas. Una de las experiencias de fauna más intensas de la Patagonia, y no hace falta saber bucear.</p>
+      <a class="lk fill" href="https://patagoniaexperiencias.com/patagonia-experiencias.html?q=snorkel+lobos+marinos" target="_blank" rel="noopener">Ver excursiones →</a>
+      <a class="lk" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6807/checkout" target="_blank" rel="noopener">🎁 20% off Lobo Larsen →</a>
+    </div>
+
+    <div class="it">
+      <div class="n">03</div>
+      <div class="it-img"><img src="img/52-pichones.jpg?v=2" alt="Los pichones · Punta Tombo" loading="lazy"><span class="cap">Los pichones · Punta Tombo</span></div>
+      <h4>Los pichones de Punta Tombo</h4>
+      <p>Diciembre y enero: los pichones ya nacieron, están enormes y cubiertos de plumón. En febrero mudan la pluma y aprenden a nadar. La colonia está en su punto máximo de actividad y ruido.</p>
+      <a class="lk fill" href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/pinguinera-punta-tombo" target="_blank" rel="noopener">Reservar Punta Tombo · 10 h →</a>
+      <a class="lk" href="https://tienda.patagoniapuntos.com/preview/client/prizes/7249/checkout" target="_blank" rel="noopener">🎁 20% off Calew Travel →</a>
+    </div>
+    </div>
+  </section>
+
+  <section style="background:var(--white)">
+    <div class="lbl">Verano · Diciembre — Febrero</div>
+    <h2 class="t">Qué comer.</h2>
+    <div class="sub">Los días largos del golfo.</div>
+
+    <div class="cols">
+<div class="it">
+      <div class="n">01</div>
+      <div class="pl">Trelew · <b>2x1</b></div>
+      <h4>La Casona del Río</h4>
+      <p><em style="color:var(--f);font-style:normal;font-weight:700">Después de las toninas de Rawson.</em> Rawson está a veinte minutos de Trelew: es la mesa natural después del avistaje. Una casona sobre el río, y un 2x1 que es de los beneficios más fuertes de la red.</p>
+      <a class="lk fill" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6358/checkout" target="_blank" rel="noopener">2x1 →</a>
+    </div>
+    <div class="it">
+      <div class="n">02</div>
+      <div class="pl">Puerto Madryn · <b>15% off</b></div>
+      <h4>Patagonia Café & Restaurant</h4>
+      <p><em style="color:var(--f);font-style:normal;font-weight:700">Después de el snorkel.</em> Con días que terminan pasadas las 21, las cenas se corren y las mesas salen afuera. Con el golfo enfrente.</p>
+      <a class="lk fill" href="https://tienda.patagoniapuntos.com/preview/client/prizes/8133/checkout" target="_blank" rel="noopener">15% off →</a>
+    </div>
+    <div class="it">
+      <div class="n">03</div>
+      <div class="pl">Trelew · <b>25% off</b></div>
+      <h4>BurgerMAGIC</h4>
+      <p><em style="color:var(--f);font-style:normal;font-weight:700">Después de Punta Tombo.</em> Diez horas de ruta, ripio y pingüinos. Lo que pide el cuerpo al volver. Y si venís con chicos, SuperMAGIC tiene 30% off en juegos.</p>
+      <a class="lk fill" href="https://tienda.patagoniapuntos.com/preview/client/prizes/3546/checkout" target="_blank" rel="noopener">25% off →</a>
+    </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="lbl">Qué fotografiar</div>
+    <h2 class="t">Tres spots, tres luces.</h2>
+    <div class="sub">Coordenadas exactas, hora óptima, recomendación técnica.</div>
+
+    <div class="swipe-h">Deslizá →</div>
+    <div class="gal"><figure><img src="img/72-toninas-proa.jpg?v=2" alt="Toninas en la proa" loading="lazy"><figcaption>Toninas en la proa</figcaption></figure><figure><img src="img/73-pardelas-atardecer.jpg?v=2" alt="Punta Pardelas · hora azul" loading="lazy"><figcaption>Punta Pardelas · hora azul</figcaption></figure><figure><img src="img/74-via-lactea.jpg?v=2" alt="Vía Láctea · luna nueva" loading="lazy"><figcaption>Vía Láctea · luna nueva</figcaption></figure></div>
+
+    <div class="cols">
+    <div class="it">
+      <div class="n">01</div>
+      <h4>Toninas en la proa · Rawson</h4>
+      <div class="light">Mejor luz · <b>Primera salida</b> · mar espejado</div>
+      <p>Son rápidas y chiquitas. Velocidad altísima (1/2000), ráfaga, y enfocá el agua delante de la proa: van a salir de ahí. Polarizador para cortar el reflejo del mar.</p>
+      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Puerto%20de%20Rawson%20Chubut" target="_blank" rel="noopener">Ver mapa exacto →</a>
+    </div>
+
+    <div class="it">
+      <div class="n">02</div>
+      <h4>Punta Pardelas · el atardecer que nadie fotografía</h4>
+      <div class="light">Mejor luz · <b>20:30 — 21:30</b> · atardecer largo de verano</div>
+      <p>A 16 km de Pirámides. Es donde va la gente de la zona: agua transparente para snorkel y un atardecer sin nadie. Angular, y esperá la hora azul: veinticinco minutos después de que baja el sol.</p>
+      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Punta%20Pardelas%20Pen%C3%ADnsula%20Vald%C3%A9s" target="_blank" rel="noopener">Ver mapa exacto →</a>
+    </div>
+
+    <div class="it">
+      <div class="n">03</div>
+      <h4>La Vía Láctea sobre la península</h4>
+      <div class="light">Mejor luz · <b>Luna nueva</b> · 00:30 — 03:00</div>
+      <p>Dentro del área protegida no hay contaminación lumínica. Trípode robusto, angular f/2.8 o más luminoso, ISO 3200, exposición de 25 segundos. Llevá linterna roja, agua y abrigo: en la estepa la noche baja mucho aunque sea verano.</p>
+      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Istmo%20Carlos%20Ameghino%20Pen%C3%ADnsula%20Vald%C3%A9s" target="_blank" rel="noopener">Ver mapa exacto →</a>
+    </div>
+    </div>
+  </section>
+
+  <section class="secrets">
+    <div class="lbl">Lo que no sale en Maps</div>
+    <h2 class="t">Tres secretos que solo conocen los locales.</h2>
+    <div class="rule"></div>
+
+    <div class="sxgrid">
+    <div class="sx">
+      <div class="n">N°10</div>
+      <p><strong>Punta Pardelas es el secreto de los locales.</strong> A 16 km de Pirámides, es donde va la gente de la zona a hacer snorkel y a ver el atardecer, lejos del circuito turístico. Un poco más allá, <strong>Playa Colombo</strong> tiene restingas patagónicas y, con suerte, ballenas rezagadas en diciembre.</p>
+    </div>
+    <div class="sx">
+      <div class="n">N°11</div>
+      <p><strong>Nafta y efectivo se cargan en Madryn, no en Pirámides.</strong> El pueblo tiene <strong>una sola</strong> estación de servicio y en temporada alta —o sea, ahora— no siempre hay combustible. Varios comercios tampoco tienen posnet, y la señal es intermitente. Salí con el tanque lleno, con efectivo, y con los mapas descargados offline: el wifi del Centro de Visitantes del Istmo es el último que vas a ver.</p>
+    </div>
+    <div class="sx">
+      <div class="n">N°12</div>
+      <p><strong>Los puntos de visita cierran a las 20 h.</strong> El ingreso a la península está abierto las 24 horas, <strong>pero los puntos no</strong>: Punta Norte, Caleta Valdés, Isla de los Pájaros y el Centro de Visitantes abren de 8 a 20. En verano el sol se va pasadas las 21 y te confunde: parece temprano, pero los accesos ya cerraron. Planificá el circuito al revés, desde la hora de cierre.</p>
+    </div>
+    </div>
+  </section>
+
+  <div class="close">
+    <div class="l">Fin · Diciembre — Febrero</div>
+    <h3>El mar por dentro.</h3>
+    <p>El verano en Valdés es la estación de los que se meten. Al agua, al ripio, a la noche. Las ballenas ya no están, pero el mar sigue lleno — y por primera vez en el año, está lo bastante tibio como para conocerlo desde adentro.</p>
+    <a class="next" href="#aliados">Los anfitriones →</a>
+  </div>
+
+
+  <!-- RESERVAR -->
+  <section class="book" id="reservar">
+    <div class="lbl">Patagonia Experiencias</div>
+    <h2 class="t">Reservá tus excursiones.</h2>
+    <div class="sub" style="color:rgba(255,255,255,.6)">Las excursiones de la guía, reservables ahora. Precio online, cupo confirmado.</div><div class="bkgrid">
+
+    <a class="bk" href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/peninsula-valdes" target="_blank" rel="noopener">
+      <div class="ic">🐋</div>
+      <div class="bd"><div class="nm">Península Valdés · día completo</div><div class="mt">10 horas · el circuito entero</div></div>
+      <div class="go">Reservar →</div>
+    </a>
+    <a class="bk" href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/solo-ballenas-tour-y-traslados-a-peninsula-valdes" target="_blank" rel="noopener">
+      <div class="ic">🌊</div>
+      <div class="bd"><div class="nm">Solo Ballenas · con traslados</div><div class="mt">8 horas · directo al avistaje</div></div>
+      <div class="go">Reservar →</div>
+    </a>
+    <a class="bk" href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/pinguinera-punta-tombo" target="_blank" rel="noopener">
+      <div class="ic">🐧</div>
+      <div class="bd"><div class="nm">Pingüinera de Punta Tombo</div><div class="mt">10 horas · septiembre a abril</div></div>
+      <div class="go">Reservar →</div>
+    </a>
+    <a class="bk" href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/el-doradillo-avistaje-costero-ballena-franca-austral" target="_blank" rel="noopener">
+      <div class="ic">🌅</div>
+      <div class="bd"><div class="nm">El Doradillo · avistaje costero</div><div class="mt">3 horas · ballenas desde la orilla</div></div>
+      <div class="go">Reservar →</div>
+    </a></div>
+
+    <a class="btn" href="https://patagoniaexperiencias.com/patagonia-experiencias.html" target="_blank" rel="noopener" style="margin-top:26px">Ver todas las excursiones →</a>
+  </section>
+
+  <!-- ANFITRIONES -->
+  <section class="allies" id="aliados">
+    <div class="lbl">Patagonia Puntos · Tu red en la costa</div>
+    <h2 class="t">58 anfitriones te esperan.</h2>
+    <div class="sub">Tocá cada uno para activarlo. El beneficio queda listo al escanear el QR en el lugar.</div>
+
+    <div class="allygrid">
+<div class="cat">Trelew · El punto 0 · Alojamiento</div>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6451/checkout" target="_blank" rel="noopener"><span class="nm">Hotel Galicia</span><span class="bf">25% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/7438/checkout" target="_blank" rel="noopener"><span class="nm">Hotel Cheltum</span><span class="bf">20% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6770/checkout" target="_blank" rel="noopener"><span class="nm">Aloha Patagonia</span><span class="bf">4x3 →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/5956/checkout" target="_blank" rel="noopener"><span class="nm">Casa de Paula</span><span class="bf">4x3 →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6358/checkout" target="_blank" rel="noopener"><span class="nm">La Casona del Río</span><span class="bf">2x1 →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/7517/checkout" target="_blank" rel="noopener"><span class="nm">La Casona del Río (10 pax)</span><span class="bf">10% off →</span></a>
+    <div class="cat">Trelew · Gastronomía</div>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/7385/checkout" target="_blank" rel="noopener"><span class="nm">Primitivos Alto Asador</span><span class="bf">15% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/9132/checkout" target="_blank" rel="noopener"><span class="nm">Génesis · Cenas</span><span class="bf">20% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6360/checkout" target="_blank" rel="noopener"><span class="nm">JYGLO BAR · Almuerzos y cenas</span><span class="bf">20% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/3548/checkout" target="_blank" rel="noopener"><span class="nm">JYGLO BAR · Pinta</span><span class="bf">Gratis →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/8133/checkout" target="_blank" rel="noopener"><span class="nm">Patagonia Café & Restaurant</span><span class="bf">15% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/3546/checkout" target="_blank" rel="noopener"><span class="nm">BurgerMAGIC · Hamburguesas</span><span class="bf">25% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/4130/checkout" target="_blank" rel="noopener"><span class="nm">BurgerMAGIC · Tragos</span><span class="bf">2x1 →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/7516/checkout" target="_blank" rel="noopener"><span class="nm">POTATO · Papas fritas</span><span class="bf">20% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/7515/checkout" target="_blank" rel="noopener"><span class="nm">Pasta YA · Delivery</span><span class="bf">20% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6768/checkout" target="_blank" rel="noopener"><span class="nm">Maximino · Turistas Felices</span><span class="bf">20% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6571/checkout" target="_blank" rel="noopener"><span class="nm">Descuento Eufórico</span><span class="bf">15% off →</span></a>
+    <div class="cat">Trelew · Movilidad y excursiones</div>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/7540/checkout" target="_blank" rel="noopener"><span class="nm">HERTZ · Alquiler</span><span class="bf">25% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6361/checkout" target="_blank" rel="noopener"><span class="nm">Localiza Rent a Car</span><span class="bf">10% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6579/checkout" target="_blank" rel="noopener"><span class="nm">Dubrovnik Rent a Car</span><span class="bf">20% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6572/checkout" target="_blank" rel="noopener"><span class="nm">Servicio de Traslado</span><span class="bf">15% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/7249/checkout" target="_blank" rel="noopener"><span class="nm">Calew Travel · Temporada Pingüinos</span><span class="bf">20% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/7484/checkout" target="_blank" rel="noopener"><span class="nm">Nievemar Tours</span><span class="bf">15% off →</span></a>
+    <div class="cat">Trelew · Con chicos</div>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/5989/checkout" target="_blank" rel="noopener"><span class="nm">SuperMAGIC · Juegos</span><span class="bf">30% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/7340/checkout" target="_blank" rel="noopener"><span class="nm">SuperMAGIC · Cumpleaños</span><span class="bf">25% off →</span></a>
+    <div class="cat">Puerto Madryn · Alojamiento</div>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6560/checkout" target="_blank" rel="noopener"><span class="nm">Parry Smart Hotel</span><span class="bf">30% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6526/checkout" target="_blank" rel="noopener"><span class="nm">Hotel Península Valdés</span><span class="bf">20% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6791/checkout" target="_blank" rel="noopener"><span class="nm">Costa Patagónica</span><span class="bf">15% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6696/checkout" target="_blank" rel="noopener"><span class="nm">Vacaciones La Posada</span><span class="bf">15% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6524/checkout" target="_blank" rel="noopener"><span class="nm">Complejo El Puente (3+ noches)</span><span class="bf">15% off →</span></a>
+    <div class="cat">Puerto Madryn · Mar y buceo</div>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6807/checkout" target="_blank" rel="noopener"><span class="nm">Lobo Larsen · Snorkel lobos</span><span class="bf">20% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6521/checkout" target="_blank" rel="noopener"><span class="nm">Scuba Duba · Buceo lobos</span><span class="bf">20% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6790/checkout" target="_blank" rel="noopener"><span class="nm">Aquatours Buceo · Snorkeling</span><span class="bf">20% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6528/checkout" target="_blank" rel="noopener"><span class="nm">Abramar · Snorkeling lobos</span><span class="bf">15% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6766/checkout" target="_blank" rel="noopener"><span class="nm">NapraClub · Kayak</span><span class="bf">15% off →</span></a>
+    <div class="cat">Puerto Madryn · Excursiones</div>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6641/checkout" target="_blank" rel="noopener"><span class="nm">Orcas Aventuras</span><span class="bf">25% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6465/checkout" target="_blank" rel="noopener"><span class="nm">Animal Travel</span><span class="bf">20% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/8247/checkout" target="_blank" rel="noopener"><span class="nm">Huinca Travel · Recorrido & Aventuras</span><span class="bf">20% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/7106/checkout" target="_blank" rel="noopener"><span class="nm">Flamenco Tour</span><span class="bf">20% / 10% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6517/checkout" target="_blank" rel="noopener"><span class="nm">Sussanich Turismo · Terrestres</span><span class="bf">15% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6692/checkout" target="_blank" rel="noopener"><span class="nm">Forastero Tour</span><span class="bf">15% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6506/checkout" target="_blank" rel="noopener"><span class="nm">Den Dulk Viajes y Turismo</span><span class="bf">15% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/8246/checkout" target="_blank" rel="noopener"><span class="nm">Whales Rent a Car</span><span class="bf">15% off →</span></a>
+    <div class="cat">Puerto Madryn · Gastronomía y compras</div>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6513/checkout" target="_blank" rel="noopener"><span class="nm">Cafeto</span><span class="bf">15% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6555/checkout" target="_blank" rel="noopener"><span class="nm">Negui Drinks RestoBar · Tragos</span><span class="bf">2x1 →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/17726/checkout" target="_blank" rel="noopener"><span class="nm">Platos destacados</span><span class="bf">15% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/7514/checkout" target="_blank" rel="noopener"><span class="nm">SAOS Artesanías</span><span class="bf">15% off →</span></a>
+    <div class="cat">Puerto Pirámides</div>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6789/checkout" target="_blank" rel="noopener"><span class="nm">Peke Sosa · Avistaje de Ballenas</span><span class="bf">15% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6553/checkout" target="_blank" rel="noopener"><span class="nm">Hostería Ecológica del Nómade</span><span class="bf">20% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6554/checkout" target="_blank" rel="noopener"><span class="nm">Almar Hospedajes</span><span class="bf">15% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6552/checkout" target="_blank" rel="noopener"><span class="nm">Mar, Calma & Phira</span><span class="bf">15% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/7030/checkout" target="_blank" rel="noopener"><span class="nm">Transfer Madryn/Pirámides · Claudia Borio</span><span class="bf">20% off →</span></a>
+    <div class="cat">Gaiman · El valle galés</div>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6645/checkout" target="_blank" rel="noopener"><span class="nm">Salón de Té Ty Cymraeg</span><span class="bf">15% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6507/checkout" target="_blank" rel="noopener"><span class="nm">Café Maldwyn</span><span class="bf">15% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6392/checkout" target="_blank" rel="noopener"><span class="nm">Frutos de la Angostura</span><span class="bf">15% off →</span></a>
+    <div class="cat">Rawson · Playa Unión</div>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6844/checkout" target="_blank" rel="noopener"><span class="nm">Estación Marítima · Avistaje Delfín Patagónico</span><span class="bf">15% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6394/checkout" target="_blank" rel="noopener"><span class="nm">Estoa Diving</span><span class="bf">15% off →</span></a>
+    <a class="ally" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6765/checkout" target="_blank" rel="noopener"><span class="nm">Cabalgatas con amigos</span><span class="bf">4x3 →</span></a>
+
+    </div>
+
+    <a class="btn" href="https://tienda.patagoniapuntos.com" target="_blank" rel="noopener" style="margin-top:26px">Registrate y activá los 58 →</a>
+  </section>
+
+  <div class="band"><img src="img/82-aike.jpg?v=2" alt="Viajeros en la Patagonia" loading="lazy"><div class="cap"><span>Tu escapada</span><b>Armala en 2 minutos</b></div></div>
+
+  <!-- AIKE -->
+  <section class="aike">
+    <div class="lbl">AIKE · Tu consultor de escapada</div>
+    <h2 class="t">¿Vas a Valdés y el Valle? Armá tu escapada en 2 minutos.</h2>
+    <p><strong>AIKE es el asistente turístico 24/7 de Patagonia Experiencias.</strong> Le contás qué días tenés y qué te gusta, y te arma el itinerario completo con todo lo de esta guía: cuándo ir, qué reservar y cómo moverte.</p>
+    <p style="margin-bottom:26px">La diferencia: AIKE <strong>sabe en qué mes estás</strong>. No te va a ofrecer ballenas en febrero ni pingüinos en julio.</p>
+    <a class="btn" href="https://patagoniaexperiencias.com/aike" target="_blank" rel="noopener">Consultá con AIKE →</a>
+  </section>
+
+  <!-- CIERRE -->
+  <div class="final" id="cierre">
+    <h2>Sesenta segundos para activar todo.</h2>
+    <p>Tocá el botón, creá tu cuenta y los beneficios quedan activos al instante.</p>
+    <a class="btn w" href="https://tienda.patagoniapuntos.com" target="_blank" rel="noopener">Empezá tu viaje →</a>
+    <div class="pts">20.000 puntos de bienvenida</div>
+  </div>
+
+  <div class="close" style="text-align:center">
+    <h3>Ya no sos turista, sos parte de algo.</h3>
+    <p>Nos vemos del otro lado del mapa.</p>
+  </div>
+
+  <footer>
+    <b>PATAGONIA PUNTOS</b><br>
+    El equipo editorial · Península Valdés · Puerto Madryn · El Valle · 2026<br>
+    Magazine te inspira · Experiencias lo reserva · Puntos te devuelve
+  </footer>
+
+</div>
+
+<script>
+function cerrar(){ document.getElementById('menu').classList.remove('on'); }
+(function(){
+  // el smooth-scroll se prende recién cuando ya cargó todo
+  window.addEventListener('load', function(){
+    if (!location.hash) window.scrollTo(0, 0);
+    setTimeout(function(){ document.documentElement.classList.add('nav-ok'); }, 200);
+  });
+
+  var p = document.getElementById('prog');
+  window.addEventListener('scroll', function(){
+    var h = document.documentElement;
+    p.style.width = ((h.scrollTop||document.body.scrollTop)/((h.scrollHeight||document.body.scrollHeight)-h.clientHeight)*100) + '%';
+  }, {passive:true});
+
+  if (typeof fbq !== 'function') return;
+  var vistas = {};
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        var id = e.target.id;
+        if (e.isIntersecting && id && !vistas[id]) {
+          vistas[id] = 1;
+          fbq('trackCustom','VerEstacion',{estacion:id});
+        }
+      });
+    }, {threshold:.4});
+    ['trelew','otono','invierno','primavera','verano','reservar','aliados','cierre'].forEach(function(id){
+      var el = document.getElementById(id); if (el) io.observe(el);
+    });
+  }
+  document.querySelectorAll('a[href*="patagoniaexperiencias.com"], a[href*="patagoniapuntos"]').forEach(function(a){
+    a.addEventListener('click', function(){
+      var q='';
+      try { q = decodeURIComponent(new URL(a.href).searchParams.get('q')||'').replace(/\+/g,' '); } catch(e){}
+      if (/aike/i.test(a.href)) { fbq('trackCustom','ClicAIKE',{guia:'peninsula'}); return; }
+      // Reserva de excursión = la conversión que factura
+      var t = a.href.match(/#tour\/([a-z0-9\-]+)/i);
+      if (t) {
+        fbq('trackCustom','ClicReserva',{tour:t[1],guia:'peninsula'});
+        fbq('track','InitiateCheckout',{content_name:t[1],content_category:'excursion'});
+        return;
+      }
+      if (/puntos/i.test(a.href)) { fbq('track','Lead',{content_name:'Patagonia Puntos'}); return; }
+      if (q) fbq('track','Search',{search_string:q});
+    });
+  });
+})();
+</script>
+</body>
+</html>

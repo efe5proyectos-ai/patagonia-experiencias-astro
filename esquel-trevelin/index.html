@@ -1,0 +1,2269 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="description" content="Patagonia Secreta · Esquel y Trevelin 2026 · La guia inteligente de los que viajan distinto.">
+<meta name="theme-color" content="#1A1A1A">
+<title>Patagonia Secreta · Esquel & Trevelin 2026</title>
+
+<!-- Open Graph para WhatsApp/redes -->
+<meta property="og:title" content="Patagonia Secreta · Esquel & Trevelin 2026">
+<meta property="og:description" content="La guia inteligente de los que viajan distinto. 18 anfitriones, 4 estaciones, 12 secretos lugareños.">
+<meta property="og:image" content="imagenes/01_portada_futalaufquen_amanecer.png">
+<meta property="og:type" content="website">
+
+<!-- Tipografias -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --negro: #1A1A1A;
+    --blanco: #FAFAF7;
+    --verde-lenga: #3D5A40;
+    --naranja-oxido: #C76F3D;
+    --gris-tenue: #8A8A85;
+    --gris-claro: #E8E8E3;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    font-family: 'Lora', Georgia, serif;
+    color: var(--negro);
+    background: var(--blanco);
+    line-height: 1.6;
+    font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+
+/* ===========================
+   NAV STICKY MOVIL
+   =========================== */
+.nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(250, 250, 247, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--gris-claro);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+.nav-brand {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: -0.01em;
+}
+.nav-menu-btn {
+    background: transparent;
+    border: 1px solid var(--gris-tenue);
+    color: var(--negro);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+.nav-menu-btn:hover { background: var(--negro); color: var(--blanco); border-color: var(--negro); }
+
+.nav-menu {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--negro);
+    color: var(--blanco);
+    z-index: 200;
+    padding: 24px;
+    display: none;
+    flex-direction: column;
+}
+.nav-menu.open { display: flex; }
+.nav-menu-close {
+    align-self: flex-end;
+    background: transparent;
+    border: none;
+    color: var(--blanco);
+    font-size: 32px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 4px 8px;
+}
+.nav-menu-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 24px;
+}
+.nav-menu-list a {
+    color: var(--blanco);
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+.nav-menu-list a span {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 14px;
+    color: var(--gris-tenue);
+}
+
+/* ===========================
+   HERO PORTADA
+   =========================== */
+.hero {
+    height: 100vh;
+    min-height: 600px;
+    background-image: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.6) 100%), url('imagenes/01_portada_futalaufquen_amanecer.png');
+    background-size: cover;
+    background-position: center;
+    color: var(--blanco);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 32px 24px;
+}
+.hero-tag {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+.hero-titulo {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: clamp(40px, 12vw, 72px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+}
+.hero-subtitulo {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: clamp(18px, 4vw, 24px);
+    margin-bottom: 24px;
+}
+.hero-tagline {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    opacity: 0.9;
+    max-width: 280px;
+}
+.hero hr {
+    border: none;
+    height: 1px;
+    background: rgba(255,255,255,0.5);
+    width: 60px;
+    margin: 16px 0;
+}
+
+/* ===========================
+   BLOQUE GENERICO
+   =========================== */
+.bloque {
+    padding: 64px 24px;
+    max-width: 720px;
+    margin: 0 auto;
+}
+.bloque-tag {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+}
+.bloque-h2 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: clamp(28px, 7vw, 40px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--negro);
+    margin-bottom: 16px;
+}
+.bloque-h2.light { color: var(--blanco); }
+.bloque-intro {
+    font-style: italic;
+    color: var(--gris-tenue);
+    font-size: 16px;
+    margin-bottom: 32px;
+    max-width: 600px;
+}
+
+.separador {
+    border: none;
+    height: 2px;
+    width: 40px;
+    margin: 16px 0 24px 0;
+}
+
+/* ===========================
+   MANIFIESTO
+   =========================== */
+.manifiesto {
+    padding: 80px 24px;
+    background: var(--blanco);
+}
+.manifiesto h2 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: clamp(32px, 9vw, 48px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
+    max-width: 720px;
+}
+.manifiesto-cuerpo {
+    max-width: 600px;
+}
+.manifiesto-cuerpo p {
+    margin-bottom: 16px;
+    font-size: 17px;
+}
+.manifiesto-lead {
+    font-style: italic;
+    font-size: 20px !important;
+    color: var(--negro);
+    margin-bottom: 24px !important;
+}
+
+/* ===========================
+   INDICE
+   =========================== */
+.indice {
+    background: var(--gris-claro);
+    padding: 64px 0;
+}
+.indice .bloque { padding: 0 24px; }
+.indice-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-top: 40px;
+}
+@media (min-width: 600px) {
+    .indice-grid { grid-template-columns: 1fr 1fr; }
+}
+.indice-card {
+    display: flex;
+    gap: 16px;
+    align-items: stretch;
+    text-decoration: none;
+    color: var(--negro);
+    background: var(--blanco);
+    padding: 16px;
+    border-radius: 4px;
+    transition: transform 0.2s;
+}
+.indice-card:hover { transform: translateY(-2px); }
+.indice-img {
+    flex: 0 0 100px;
+    aspect-ratio: 3/4;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--gris-claro);
+    border-radius: 2px;
+}
+.indice-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+}
+.indice-meses {
+    font-family: 'Poppins', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--gris-tenue);
+    text-transform: uppercase;
+}
+.indice-nombre {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 1;
+    margin: 4px 0;
+}
+.indice-lema {
+    font-style: italic;
+    font-size: 14px;
+    color: var(--verde-lenga);
+}
+
+/* ===========================
+   COMO FUNCIONA / BENEFICIOS
+   =========================== */
+.como-funciona-pasos {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin-top: 32px;
+}
+.paso {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+}
+.paso-num {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    color: var(--verde-lenga);
+    line-height: 1;
+    flex: 0 0 auto;
+}
+.paso-content h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    margin-bottom: 6px;
+}
+.paso-content p {
+    color: var(--gris-tenue);
+    font-size: 15px;
+}
+
+.beneficios-lista {
+    margin-top: 32px;
+    margin-bottom: 32px;
+}
+.beneficio {
+    display: flex;
+    gap: 12px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--gris-claro);
+}
+.beneficio:last-child { border-bottom: none; }
+.beneficio-num {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    color: var(--naranja-oxido);
+    font-size: 16px;
+    flex: 0 0 28px;
+}
+.beneficio-text h4 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+.beneficio-text p {
+    color: var(--gris-tenue);
+    font-size: 14px;
+}
+
+/* ===========================
+   CTA GRANDE - ACTIVACION
+   =========================== */
+.cta-master {
+    background: var(--negro);
+    color: var(--blanco);
+    padding: 64px 24px;
+    text-align: center;
+}
+.cta-master .bloque-tag { color: var(--naranja-oxido); }
+.cta-master h2 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: clamp(32px, 9vw, 48px);
+    line-height: 1.1;
+    margin-bottom: 24px;
+}
+.cta-master p {
+    color: var(--gris-claro);
+    margin-bottom: 32px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.cta-grande {
+    display: inline-block;
+    background: var(--naranja-oxido);
+    color: var(--blanco);
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    padding: 18px 32px;
+    border-radius: 999px;
+    letter-spacing: 0.02em;
+    transition: transform 0.2s, background 0.2s;
+}
+.cta-grande:hover { transform: scale(1.03); background: #b25c2a; }
+
+/* ===========================
+   APERTURA DE ESTACION
+   =========================== */
+.estacion {
+    --color-acento: var(--naranja-oxido);
+}
+.apertura-est {
+    height: 70vh;
+    min-height: 480px;
+    background-size: cover;
+    background-position: center;
+    color: var(--blanco);
+    display: flex;
+    align-items: flex-end;
+    padding: 32px 24px;
+    position: relative;
+}
+.apertura-est::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.7) 100%);
+}
+.apertura-overlay { position: relative; z-index: 1; }
+.apertura-meses {
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+}
+.apertura-titulo {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: clamp(48px, 14vw, 80px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin: 12px 0;
+}
+.apertura-lema {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: clamp(18px, 4.5vw, 26px);
+}
+
+/* ===========================
+   EDITORIAL DE ESTACION
+   =========================== */
+.editorial-cuerpo p {
+    margin-bottom: 16px;
+    font-size: 17px;
+}
+.editorial-lead {
+    font-style: italic;
+    font-size: 20px !important;
+    color: var(--negro);
+    margin-bottom: 24px !important;
+}
+
+/* ===========================
+   GRID DE ACTIVIDADES
+   =========================== */
+.grid-actividades {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin-top: 32px;
+}
+@media (min-width: 720px) {
+    .grid-actividades {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+    }
+}
+.card-actividad {
+    background: var(--blanco);
+    border: 1px solid var(--gris-claro);
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+.card-img {
+    aspect-ratio: 4/3;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--gris-claro);
+    position: relative;
+}
+.card-num {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    background: var(--blanco);
+    color: var(--color-acento);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 4px 10px;
+    border-radius: 999px;
+}
+.card-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+.card-body h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    margin-bottom: 8px;
+    line-height: 1.2;
+}
+.card-body p {
+    color: var(--gris-tenue);
+    font-size: 15px;
+    margin-bottom: 20px;
+    flex: 1;
+}
+
+/* ===========================
+   POSTAL FULL-BLEED
+   =========================== */
+.postal {
+    aspect-ratio: 9/16;
+    max-height: 90vh;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--gris-claro);
+    position: relative;
+}
+@media (min-width: 720px) {
+    .postal { aspect-ratio: 16/9; }
+}
+.postal-tag {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    color: var(--blanco);
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    background: rgba(0,0,0,0.5);
+    padding: 6px 12px;
+    border-radius: 999px;
+}
+
+/* ===========================
+   QUE COMER
+   =========================== */
+.lista-comer {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 24px;
+}
+.item-comer {
+    display: flex;
+    gap: 12px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--gris-claro);
+}
+.item-comer:last-child { border-bottom: none; }
+.item-num {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    flex: 0 0 28px;
+}
+.item-content { flex: 1; }
+.item-content h4 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 17px;
+    margin-bottom: 4px;
+}
+.item-meta {
+    font-style: italic;
+    color: var(--gris-tenue);
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+.item-desc {
+    color: var(--negro);
+    margin-bottom: 12px;
+    font-size: 15px;
+}
+
+/* ===========================
+   QUE FOTOGRAFIAR
+   =========================== */
+.lista-fotos {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin-top: 24px;
+}
+.item-foto {
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--gris-claro);
+}
+.item-foto:last-child { border-bottom: none; }
+.foto-header {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+.foto-num {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1;
+}
+.foto-header h4 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 17px;
+    margin-bottom: 4px;
+}
+.foto-luz {
+    font-family: 'Poppins', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+}
+.foto-tip {
+    font-size: 15px;
+    margin-bottom: 16px;
+    color: var(--negro);
+}
+
+/* ===========================
+   SECRETOS
+   =========================== */
+.secretos {
+    background: var(--negro);
+    color: var(--blanco);
+    margin: 0;
+    max-width: none;
+    padding: 80px 24px;
+}
+.secretos .bloque-h2 { color: var(--blanco); }
+.lista-secretos {
+    margin-top: 40px;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.secreto {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.secreto:last-child { border-bottom: none; }
+.secreto-num {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    font-size: 28px;
+    color: var(--naranja-oxido);
+    flex: 0 0 60px;
+    line-height: 1;
+}
+.secreto p {
+    font-style: italic;
+    color: var(--gris-claro);
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* ===========================
+   CIERRE ESTACIONAL
+   =========================== */
+.cierre-est .bloque-h2 { font-size: clamp(28px, 8vw, 36px); }
+.cierre-texto {
+    font-style: italic;
+    color: var(--gris-tenue);
+    font-size: 17px;
+    margin-bottom: 32px;
+    max-width: 600px;
+}
+.siguiente {
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid var(--gris-claro);
+}
+.siguiente-label {
+    font-family: 'Poppins', sans-serif;
+    font-size: 11px;
+    color: var(--gris-tenue);
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+}
+.siguiente-link {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--negro);
+    text-decoration: none;
+}
+.siguiente-link:hover { color: var(--naranja-oxido); }
+
+/* ===========================
+   ALIADOS
+   =========================== */
+.aliados {
+    background: var(--gris-claro);
+    padding: 64px 0;
+}
+.aliados-content {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+.grupo-aliados {
+    margin-bottom: 40px;
+}
+.grupo-titulo {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.05em;
+    padding-bottom: 8px;
+    border-bottom: 2px solid;
+    margin-bottom: 16px;
+}
+.grupo-items {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.aliado-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: var(--blanco);
+    border-radius: 4px;
+    text-decoration: none;
+    color: var(--negro);
+    transition: transform 0.15s, box-shadow 0.15s;
+    min-height: 64px;
+}
+.aliado-card:active { transform: scale(0.98); }
+.aliado-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+.aliado-info h4 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    margin-bottom: 2px;
+}
+.aliado-beneficio {
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+}
+.aliado-arrow {
+    font-size: 20px;
+    color: var(--gris-tenue);
+}
+
+/* ===========================
+   BOTONES
+   =========================== */
+.btn-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--negro);
+    color: var(--blanco);
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    padding: 12px 18px;
+    border-radius: 999px;
+    letter-spacing: 0.05em;
+    align-self: flex-start;
+    transition: background 0.2s;
+}
+.btn-cta:hover { background: var(--naranja-oxido); }
+.btn-cta .arrow { transition: transform 0.2s; }
+.btn-cta:hover .arrow { transform: translateX(4px); }
+
+.btn-mini {
+    display: inline-flex;
+    align-items: center;
+    color: var(--negro);
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--negro);
+}
+.btn-mini:hover { color: var(--naranja-oxido); border-color: var(--naranja-oxido); }
+
+/* ===========================
+   FOOTER
+   =========================== */
+.footer {
+    background: var(--negro);
+    color: var(--blanco);
+    padding: 48px 24px;
+    text-align: center;
+}
+.footer h2 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: clamp(24px, 6vw, 32px);
+    line-height: 1.1;
+    margin-bottom: 16px;
+}
+.footer .footer-italic {
+    font-style: italic;
+    color: var(--naranja-oxido);
+    margin-bottom: 32px;
+    font-size: 16px;
+}
+.footer-meta {
+    color: var(--gris-tenue);
+    font-size: 13px;
+    margin-top: 32px;
+    line-height: 1.8;
+}
+.footer-meta strong {
+    font-family: 'Poppins', sans-serif;
+    color: var(--blanco);
+    letter-spacing: 0.05em;
+}
+
+/* ===========================
+   MAPA MAESTRO
+   =========================== */
+.mapa {
+    padding: 48px 24px;
+    background: var(--gris-claro);
+}
+.mapa-card {
+    max-width: 720px;
+    margin: 0 auto;
+    background: var(--blanco);
+    border-radius: 8px;
+    padding: 32px 24px;
+    text-align: center;
+}
+.mapa-card h2 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: clamp(24px, 6vw, 32px);
+    margin-bottom: 8px;
+}
+.mapa-card p {
+    color: var(--gris-tenue);
+    margin-bottom: 24px;
+}
+</style>
+</head>
+<body>
+
+<!-- ===========================
+     NAV STICKY
+     =========================== -->
+<nav class="nav">
+    <div class="nav-brand">ESQUEL & TREVELIN</div>
+    <button class="nav-menu-btn" onclick="document.getElementById('menu').classList.add('open')">Indice</button>
+</nav>
+
+<div class="nav-menu" id="menu">
+    <button class="nav-menu-close" onclick="document.getElementById('menu').classList.remove('open')">×</button>
+    <div class="nav-menu-list">
+        <a href="#otono" onclick="document.getElementById('menu').classList.remove('open')">Otoño <span>Mar - May</span></a>
+        <a href="#invierno" onclick="document.getElementById('menu').classList.remove('open')">Invierno <span>Jun - Ago</span></a>
+        <a href="#primavera" onclick="document.getElementById('menu').classList.remove('open')">Primavera <span>Sep - Nov</span></a>
+        <a href="#verano" onclick="document.getElementById('menu').classList.remove('open')">Verano <span>Dic - Feb</span></a>
+        <a href="#aliados" onclick="document.getElementById('menu').classList.remove('open')">18 Anfitriones <span>Reservas</span></a>
+        <a href="#cierre" onclick="document.getElementById('menu').classList.remove('open')">Activacion <span>60 segundos</span></a>
+    </div>
+</div>
+
+<!-- ===========================
+     HERO PORTADA
+     =========================== -->
+<section class="hero">
+    <p class="hero-tag">PATAGONIA MAGAZINE · 2026</p>
+    <div>
+        <h1 class="hero-titulo">ESQUEL<br>& TREVELIN</h1>
+        <p class="hero-subtitulo">Patagonia Secreta · 2026</p>
+        <hr>
+        <p class="hero-tagline">La guia inteligente de los que viajan distinto.</p>
+    </div>
+</section>
+
+<!-- ===========================
+     MANIFIESTO
+     =========================== -->
+<section class="manifiesto">
+    <h2>Una guia para habitar<br>la Patagonia,<br>no solo visitarla.</h2>
+    <div class="manifiesto-cuerpo">
+        <p class="manifiesto-lead">Esta guia no es para turistas.</p>
+        <p>Es para quienes entienden que un destino no se conquista en cuatro dias, ni se agota en una lista de lugares marcados con chinche en un mapa.</p>
+        <p>En estas paginas vas a encontrar lo que vale la pena hacer, ordenado por la unica logica que respeta este territorio: la de las estaciones.</p>
+        <p>Porque la Patagonia cambia cuatro veces al año. Y cada vez, te pide algo distinto.</p>
+    </div>
+</section>
+
+<!-- ===========================
+     INDICE 4 ESTACIONES
+     =========================== -->
+<section class="indice">
+    <div class="bloque" style="padding-top:0; padding-bottom: 0;">
+        <p class="bloque-tag" style="color: #C76F3D">INDICE</p>
+        <h2 class="bloque-h2">Cuatro estaciones,<br>cuatro Patagonias.</h2>
+        <p class="bloque-intro">Toca cualquier estacion para ir.</p>
+        <div class="indice-grid">
+            <a href="#otono" class="indice-card">
+                <div class="indice-img" style="background-image: url('imagenes/02_indice_otono.png')"></div>
+                <div class="indice-info">
+                    <p class="indice-meses">Marzo - Mayo</p>
+                    <p class="indice-nombre">OTOÑO</p>
+                    <p class="indice-lema">El bosque que arde</p>
+                </div>
+            </a>
+            <a href="#invierno" class="indice-card">
+                <div class="indice-img" style="background-image: url('imagenes/03_indice_invierno.png')"></div>
+                <div class="indice-info">
+                    <p class="indice-meses">Junio - Agosto</p>
+                    <p class="indice-nombre">INVIERNO</p>
+                    <p class="indice-lema">El silencio blanco</p>
+                </div>
+            </a>
+            <a href="#primavera" class="indice-card">
+                <div class="indice-img" style="background-image: url('imagenes/04_indice_primavera.png')"></div>
+                <div class="indice-info">
+                    <p class="indice-meses">Sep - Noviembre</p>
+                    <p class="indice-nombre">PRIMAVERA</p>
+                    <p class="indice-lema">El despertar floral</p>
+                </div>
+            </a>
+            <a href="#verano" class="indice-card">
+                <div class="indice-img" style="background-image: url('imagenes/05_indice_verano.png')"></div>
+                <div class="indice-info">
+                    <p class="indice-meses">Dic - Febrero</p>
+                    <p class="indice-nombre">VERANO</p>
+                    <p class="indice-lema">El cielo profundo</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ===========================
+     MAPA MAESTRO
+     =========================== -->
+<section class="mapa">
+    <div class="mapa-card">
+        <p class="bloque-tag" style="color: #3D5A40">SUMA PUNTOS</p>
+        <h2>Plataforma de beneficios.</h2>
+        <p>Los puntos clave en una sola pantalla.</p>
+        <a href="https://tienda.patagoniapuntos.com" class="cta-grande" target="_blank" rel="noopener">
+            Abri tu sistema de beneficios
+        </a>
+    </div>
+</section>
+
+<!-- ===========================
+     COMO FUNCIONA
+     =========================== -->
+<section class="bloque">
+    <p class="bloque-tag" style="color: var(--verde-lenga)">BRUJULA · COMO FUNCIONA</p>
+    <h2 class="bloque-h2">Tu acceso digital al destino.</h2>
+    <p class="bloque-intro">Tres pasos. Sesenta segundos.</p>
+    <div class="como-funciona-pasos">
+        <div class="paso">
+            <div class="paso-num">01</div>
+            <div class="paso-content">
+                <h3>Registrate</h3>
+                <p>Toca el boton de la siguiente seccion y crea tu cuenta. Recibis 20.000 puntos de bienvenida.</p>
+            </div>
+        </div>
+        <div class="paso">
+            <div class="paso-num">02</div>
+            <div class="paso-content">
+                <h3>Sumas en cada experiencia</h3>
+                <p>Cada prestador de la red tiene su QR. Lo escaneas y los puntos aparecen en tu cuenta automaticamentes.</p>
+            </div>
+        </div>
+        <div class="paso">
+            <div class="paso-num">03</div>
+            <div class="paso-content">
+                <h3>Canjea por experiencias</h3>
+                <p>Descuentos, upgrades, degustaciones, navegaciones. Solo para socios.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===========================
+     BENEFICIOS DESTACADOS
+     =========================== -->
+<section class="bloque">
+    <p class="bloque-tag" style="color: var(--naranja-oxido)">BRUJULA · BENEFICIOS</p>
+    <h2 class="bloque-h2">Lo que se desbloquea<br>con esta guia.</h2>
+    <p class="bloque-intro">Cinco beneficios reales, activables al toque.</p>
+    <div class="beneficios-lista">
+        <div class="beneficio">
+            <span class="beneficio-num">01</span>
+            <div class="beneficio-text">
+                <h4>25% off Hertz Esquel</h4>
+                <p>Aplicable unicamente contratacion en la web, via online.</p>
+            </div>
+        </div>
+        <div class="beneficio">
+            <span class="beneficio-num">02</span>
+            <div class="beneficio-text">
+                <h4>20% off Limits Adventure</h4>
+                <p>Excursiones, alquiler de equipo, pesca con mosca, trekking guiado.</p>
+            </div>
+        </div>
+        <div class="beneficio">
+            <span class="beneficio-num">03</span>
+            <div class="beneficio-text">
+                <h4>20% off Meraki Sur</h4>
+                <p>Trekking, cabalgatas y travesias con raquetas en invierno.</p>
+            </div>
+        </div>
+        <div class="beneficio">
+            <span class="beneficio-num">04</span>
+            <div class="beneficio-text">
+                <h4>2x1 Viñas Nant y Fall</h4>
+                <p>Visita guiada al viñedo + degustacion de Pinot Noir de altura.</p>
+            </div>
+        </div>
+        <div class="beneficio">
+            <span class="beneficio-num">05</span>
+            <div class="beneficio-text">
+                <h4>15% off Destileria Elder</h4>
+                <p>Degustacion de gin patagonico con maridaje incluido.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===========================
+     ESTACIONES (4)
+     =========================== -->
+
+    <section id="otono" class="estacion" style="--color-acento: #C76F3D">
+
+        <!-- Apertura full-bleed -->
+        <div class="apertura-est" style="background-image: url('imagenes/06_otono_apertura_lengas.png')">
+            <div class="apertura-overlay">
+                <p class="apertura-meses">MARZO - MAYO</p>
+                <h2 class="apertura-titulo">OTOÑO</h2>
+                <p class="apertura-lema">El bosque que arde</p>
+            </div>
+        </div>
+
+        <!-- Editorial -->
+        <div class="bloque editorial">
+            <p class="bloque-tag" style="color: #C76F3D">MARZO - MAYO</p>
+            <h2 class="bloque-h2">
+                La estacion que<br>
+                nadie te cuenta.
+            </h2>
+            <hr class="separador" style="background: #C76F3D">
+            <div class="editorial-cuerpo">
+                <p class="editorial-lead">Hay una conspiracion silenciosa entre los locales de Esquel y Trevelin: nadie habla del otoño. Lo guardan para ellos, como se guarda la receta de una tarta o el nombre del rio donde mejor pican las truchas.</p>
+<p class="">Entre fines de marzo y mediados de mayo, los bosques de lenga atraviesan una transformacion que en cualquier otra parte del mundo seria motivo de peregrinacion masiva: las hojas pasan del verde al amarillo, del amarillo al naranja, del naranja a un rojo profundo, casi vinoso. Las montañas se encienden. Las multitudes se van.</p>
+<p class="">Es la mejor estacion para fotografiar. La mejor para caminar. La mejor para comer despacio. Y, paradojicamente, la temporada con menos turistas. Si tuvieramos que recomendarte una sola estacion para tu primer viaje a la Patagonia cordillerana, seria esta.</p>
+
+            </div>
+        </div>
+
+        <!-- Que vivir -->
+        <div class="bloque">
+            <p class="bloque-tag" style="color: #C76F3D">QUE VIVIR</p>
+            <h2 class="bloque-h2">
+                Tres experiencias<br>
+                que valen el viaje.
+            </h2>
+            <div class="grid-actividades">
+                
+        <article class="card-actividad">
+            <div class="card-img" style="background-image: url('imagenes/07_otono_alerce_abuelo.jpg')">
+                <span class="card-num">01</span>
+            </div>
+            <div class="card-body">
+                <h3>Trekking al Alerce Abuelo</h3>
+                <p>La caminata clasica al arbol de mas de 2.600 años cambia por completo en otoño: el sendero se cubre de hojas, los musgos brillan con la humedad y el bosque suena distinto. PN Los Alerces.</p>
+                <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#prestador/merakisur" class="btn-cta" target="_blank" rel="noopener">
+                    RESERVÁ CON MERAKI
+                    <span class="arrow">→</span>
+                </a>
+                <a href="https://www.google.com/maps/search/?api=1&query=Alerce%20Abuelo%20Parque%20Nacional%20Los%20Alerces%20Chubut" class="btn-mini" target="_blank" rel="noopener" style="margin-top:10px;display:inline-flex">
+                    📍 Cómo llegar
+                </a>
+            </div>
+        </article>
+        
+        <article class="card-actividad">
+            <div class="card-img" style="background-image: url('imagenes/08_otono_trochita.jpg')">
+                <span class="card-num">02</span>
+            </div>
+            <div class="card-body">
+                <h3>La Trochita en pleno color</h3>
+                <p>El Viejo Expreso Patagonico atraviesa la estepa cuando los alamos al borde de la via estan en su pico de color. Salidas desde Esquel.</p>
+                <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#prestador/merakisur" class="btn-cta" target="_blank" rel="noopener">
+                    RESERVÁ CON MERAKI
+                    <span class="arrow">→</span>
+                </a>
+                <a href="https://www.google.com/maps/search/?api=1&query=Estaci%C3%B3n%20La%20Trochita%20Esquel" class="btn-mini" target="_blank" rel="noopener" style="margin-top:10px;display:inline-flex">
+                    📍 Cómo llegar
+                </a>
+            </div>
+        </article>
+        
+        <article class="card-actividad">
+            <div class="card-img" style="background-image: url('imagenes/09_otono_caballos_estepa.jpg')">
+                <span class="card-num">03</span>
+            </div>
+            <div class="card-body">
+                <h3>Cabalgata con Meraki Sur</h3>
+                <p>Travesia de un dia con guias locales por valles en color y antiguos puestos de avanzada. Patagonia Puntos: 20% off.</p>
+                <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#prestador/merakisur" class="btn-cta" target="_blank" rel="noopener">
+                    RESERVÁ CON MERAKI
+                    <span class="arrow">→</span>
+                </a>
+            </div>
+        </article>
+        
+            </div>
+        </div>
+
+        <!-- Postal full-bleed -->
+        <div class="postal" style="background-image: url('imagenes/10_otono_postal_trochita_alamos.png')">
+            <span class="postal-tag">OTOÑO · Marzo - Mayo</span>
+        </div>
+
+        <!-- Que comer -->
+        <div class="bloque">
+            <p class="bloque-tag" style="color: #C76F3D">QUE COMER</p>
+            <h2 class="bloque-h2">
+                La cocina del<br>
+                fuego lento.
+            </h2>
+            <p class="bloque-intro">El otoño patagonico es la estacion de las cocciones largas. El cordero deja de ser un plato de verano para volverse un ritual intimo, hecho a fuego lento. Aparecen los hongos del bosque, las cazuelas, los ahumados. Y los clasicos de Esquel siguen, fieles, año tras año.</p>
+            <div class="lista-comer">
+                
+        <article class="item-comer">
+            <span class="item-num" style="color: #C76F3D">01</span>
+            <div class="item-content">
+                <h4>Pulperia de Don Chiquino</h4>
+                <p class="item-meta">Esquel · Clasico</p>
+                <p class="item-desc">El cordero patagonico al asador con parrillada abundante. Una institucion de Esquel, sin reservas, sin protocolos. Solo fuego lento y mesas largas.</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=Pulper%C3%ADa%20Don%20Chiquino%20Esquel" class="btn-mini" target="_blank" rel="noopener">
+                    Como llegar →
+                </a>
+            </div>
+        </article>
+        
+        <article class="item-comer">
+            <span class="item-num" style="color: #C76F3D">02</span>
+            <div class="item-content">
+                <h4>Confiteria Maria Castaña</h4>
+                <p class="item-meta">Esquel · Clasico</p>
+                <p class="item-desc">El cafe de la tarde en Esquel desde hace decadas. Tortas, masas finas y un punto de encuentro generacional. Cordillera adentro, tradicion afuera.</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=Confiter%C3%ADa%20Mar%C3%ADa%20Casta%C3%B1a%20Esquel" class="btn-mini" target="_blank" rel="noopener">
+                    Como llegar →
+                </a>
+            </div>
+        </article>
+        
+        <article class="item-comer">
+            <span class="item-num" style="color: #C76F3D">03</span>
+            <div class="item-content">
+                <h4>Destileria Elder</h4>
+                <p class="item-meta">Esquel · Patagonia Puntos 15% off</p>
+                <p class="item-desc">Gin patagonico destilado con botanicos del valle (rosa mosqueta, calafate, tomillo de montaña). Degustacion guiada con maridajes locales.</p>
+                <a href="https://tienda.patagoniapuntos.com" class="btn-mini" target="_blank" rel="noopener">
+                    15% off Elder →
+                </a>
+            </div>
+        </article>
+        
+            </div>
+        </div>
+
+        <!-- Que fotografiar -->
+        <div class="bloque">
+            <p class="bloque-tag" style="color: #C76F3D">QUE FOTOGRAFIAR</p>
+            <h2 class="bloque-h2">
+                Tres spots,<br>
+                tres luces.
+            </h2>
+            <p class="bloque-intro">Coordenadas exactas, hora optima, recomendacion tecnica.</p>
+            <div class="lista-fotos">
+                
+        <article class="item-foto">
+            <div class="foto-header">
+                <span class="foto-num" style="color: #C76F3D">01</span>
+                <div>
+                    <h4>Mirador del Lago Futalaufquen</h4>
+                    <p class="foto-luz" style="color: #C76F3D">MEJOR LUZ · 18:30 - 19:30 · ATARDECER OTOÑAL</p>
+                </div>
+            </div>
+            <p class="foto-tip">El espejo del lago refleja las laderas en color. Llega 30 minutos antes para encontrar el angulo. Tripode recomendado.</p>
+            <a href="https://www.google.com/maps/search/?api=1&query=Lago%20Futalaufquen%20Parque%20Nacional%20Los%20Alerces" class="btn-mini" target="_blank" rel="noopener">
+                Ver mapa exacto →
+            </a>
+        </article>
+        
+        <article class="item-foto">
+            <div class="foto-header">
+                <span class="foto-num" style="color: #C76F3D">02</span>
+                <div>
+                    <h4>Pasarela del Rio Arrayanes</h4>
+                    <p class="foto-luz" style="color: #C76F3D">MEJOR LUZ · 9:00 - 10:30 · MAÑANA</p>
+                </div>
+            </div>
+            <p class="foto-tip">La luz lateral de la mañana atraviesa los troncos rojos de los arrayanes. Lente angular, ISO bajo.</p>
+            <a href="https://www.google.com/maps/search/?api=1&query=Pasarela%20R%C3%ADo%20Arrayanes%20Parque%20Nacional%20Los%20Alerces" class="btn-mini" target="_blank" rel="noopener">
+                Ver mapa exacto →
+            </a>
+        </article>
+        
+        <article class="item-foto">
+            <div class="foto-header">
+                <span class="foto-num" style="color: #C76F3D">03</span>
+                <div>
+                    <h4>Curva de la Ruta 71, km 33</h4>
+                    <p class="foto-luz" style="color: #C76F3D">MEJOR LUZ · 17:00 · LUZ DORADA DE FIN DE TARDE</p>
+                </div>
+            </div>
+            <p class="foto-tip">La ruta que atraviesa el parque tiene una curva exacta donde las lengas forman un tunel rojo. Estacionar en la banquina y caminar 50 metros.</p>
+            <a href="https://www.google.com/maps/search/?api=1&query=Ruta%20Provincial%2071%20Lago%20Futalaufquen%20Parque%20Nacional%20Los%20Alerces" class="btn-mini" target="_blank" rel="noopener">
+                Ver mapa exacto →
+            </a>
+        </article>
+        
+            </div>
+        </div>
+
+        <!-- Secretos del baqueano -->
+        <div class="bloque secretos">
+            <p class="bloque-tag" style="color: #C76F3D">LO QUE NO SALE EN MAPS</p>
+            <h2 class="bloque-h2 light">
+                Tres secretos<br>
+                que solo conocen<br>
+                los locales.
+            </h2>
+            <hr class="separador" style="background: #C76F3D">
+            <div class="lista-secretos">
+                
+        <div class="secreto">
+            <span class="secreto-num">N°01</span>
+            <p>El sendero al Cerro Currumahuida tiene un mirador a los 40 minutos de caminata que la mayoria no conoce. Se llega siguiendo una marca de pintura roja sobre una roca, a la izquierda del camino principal. Lleva agua y un sandwich: vas a querer quedarte.</p>
+        </div>
+        
+        <div class="secreto">
+            <span class="secreto-num">N°02</span>
+            <p>En el Valle 16 de Octubre, entre Trevelin y la frontera, hay rutas vecinales con paisajes en color que casi nadie recorre. Salir temprano un sabado o domingo, sin GPS apurado, es una de las mejores formas de conocer la zona.</p>
+        </div>
+        
+        <div class="secreto">
+            <span class="secreto-num">N°03</span>
+            <p>La hora azul (los 25 minutos posteriores al atardecer) sobre el Lago Verde es uno de los espectaculos cromaticos mas subestimados de la Patagonia. No hay miradores oficiales: hay que estacionar en la entrada del sendero al Cinco Saltos y caminar 800 metros.</p>
+        </div>
+        
+            </div>
+        </div>
+
+        <!-- Cierre estacional -->
+        <div class="bloque cierre-est">
+            <p class="bloque-tag" style="color: #C76F3D">FIN · MARZO - MAYO</p>
+            <h2 class="bloque-h2">El bosque desnudo.</h2>
+            <p class="cierre-texto">En otoño, la Patagonia se desnuda y se viste a la vez. Pierde verde, gana fuego. Pierde turistas, gana intimidad. Si pudimos convencerte de venir entre marzo y mayo, ya hicimos parte de nuestro trabajo. El resto lo hace el bosque.</p>
+            <div class="siguiente">
+                <p class="siguiente-label">SIGUE</p>
+                <a href="#invierno" class="siguiente-link">Invierno →</a>
+            </div>
+        </div>
+
+    </section>
+    
+    <section id="invierno" class="estacion" style="--color-acento: #3D5A40">
+
+        <!-- Apertura full-bleed -->
+        <div class="apertura-est" style="background-image: url('imagenes/12_invierno_apertura_esquiador.jpg')">
+            <div class="apertura-overlay">
+                <p class="apertura-meses">JUNIO - AGOSTO</p>
+                <h2 class="apertura-titulo">INVIERNO</h2>
+                <p class="apertura-lema">El silencio blanco</p>
+            </div>
+        </div>
+
+        <!-- Editorial -->
+        <div class="bloque editorial">
+            <p class="bloque-tag" style="color: #3D5A40">JUNIO - AGOSTO</p>
+            <h2 class="bloque-h2">
+                Donde la nieve en polvo es perfecta<br>
+                y nadie te empuja.
+            </h2>
+            <hr class="separador" style="background: #3D5A40">
+            <div class="editorial-cuerpo">
+                <p class="editorial-lead">Bariloche tiene marketing. Las Leñas tiene reputacion. La Hoya tiene algo mas raro y mas valioso: nieve en polvo de altisima calidad y la ausencia casi absoluta de la multitud que arruina cualquier centro de esqui del mundo.</p>
+<p class="">El invierno en Esquel y Trevelin no es una temporada de adrenalina apurada. Es una temporada de lentitud bien entendida: dias cortos en los que se esquia hasta las 16, y luego se vuelve al pueblo a tomar un te con torta, encender un fuego, leer un libro. La cordillera enseña a desacelerar.</p>
+<p class="">Si nunca esquiaste en la Patagonia argentina sin gente, este es el momento.</p>
+
+            </div>
+        </div>
+
+        <!-- Que vivir -->
+        <div class="bloque">
+            <p class="bloque-tag" style="color: #3D5A40">QUE VIVIR</p>
+            <h2 class="bloque-h2">
+                Tres experiencias<br>
+                que valen el viaje.
+            </h2>
+            <div class="grid-actividades">
+                
+        <article class="card-actividad">
+            <div class="card-img" style="background-image: url('imagenes/13_invierno_la_hoya_pistas.jpg')">
+                <span class="card-num">01</span>
+            </div>
+            <div class="card-body">
+                <h3>Centro La Hoya, 22 pistas</h3>
+                <p>8 pistas para principiantes, 10 intermedias, 4 expertas. Snowpark y zonas off-piste habilitadas. Vistas al Futalaufquen desde la cumbre.</p>
+                <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#prestador/limits-adventure" class="btn-cta" target="_blank" rel="noopener">
+                    PASES LA HOYA
+                    <span class="arrow">→</span>
+                </a>
+            </div>
+        </article>
+        
+        <article class="card-actividad">
+            <div class="card-img" style="background-image: url('imagenes/14_invierno_raquetas_bosque.jpg')">
+                <span class="card-num">02</span>
+            </div>
+            <div class="card-body">
+                <h3>Equipo y guias con Limits Adventure</h3>
+                <p>Alquiler completo de equipo de esqui, snowboard y raquetas. Guias certificados para off-piste. Patagonia Puntos: 20% off.</p>
+                <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#prestador/limits-adventure" class="btn-cta" target="_blank" rel="noopener">
+                    20% OFF LIMITS
+                    <span class="arrow">→</span>
+                </a>
+            </div>
+        </article>
+        
+        <article class="card-actividad">
+            <div class="card-img" style="background-image: url('imagenes/15_invierno_spa_termas.png')">
+                <span class="card-num">03</span>
+            </div>
+            <div class="card-body">
+                <h3>Travesia con raquetas - Meraki Sur</h3>
+                <p>Travesias guiadas con raquetas por bosques nevados absolutamente vacios. Algunos sectores del PN Los Alerces solo accesibles asi. Patagonia Puntos: 20% off.</p>
+                <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#prestador/merakisur" class="btn-cta" target="_blank" rel="noopener">
+                    20% OFF MERAKI
+                    <span class="arrow">→</span>
+                </a>
+            </div>
+        </article>
+        
+            </div>
+        </div>
+
+        <!-- Postal full-bleed -->
+        <div class="postal" style="background-image: url('imagenes/16_invierno_postal_lahoya_amanecer.jpg')">
+            <span class="postal-tag">INVIERNO · Junio - Agosto</span>
+        </div>
+
+        <!-- Que comer -->
+        <div class="bloque">
+            <p class="bloque-tag" style="color: #3D5A40">QUE COMER</p>
+            <h2 class="bloque-h2">
+                Plato hondo,<br>
+                fuego adentro.
+            </h2>
+            <p class="bloque-intro">El invierno cordillerano es la estacion de las cocciones lentas, los guisos, los chocolates calientes. Y en Trevelin, las casas de te galesas se vuelven un ritual obligado: un te cargado a las cinco de la tarde, con la ventana cubierta de vapor y la cordillera nevada del otro lado.</p>
+            <div class="lista-comer">
+                
+        <article class="item-comer">
+            <span class="item-num" style="color: #3D5A40">01</span>
+            <div class="item-content">
+                <h4>Hotel Cumbres Blancas</h4>
+                <p class="item-meta">Esquel · Patagonia Puntos 4x3 invierno</p>
+                <p class="item-desc">Restaurante con cocina patagonica, salon con hogar a leña. Beneficio de invierno: cuatro noches al precio de tres.</p>
+                <a href="https://tienda.patagoniapuntos.com" class="btn-mini" target="_blank" rel="noopener">
+                    4x3 invierno →
+                </a>
+            </div>
+        </article>
+        
+        <article class="item-comer">
+            <span class="item-num" style="color: #3D5A40">02</span>
+            <div class="item-content">
+                <h4>Pulperia de Don Chiquino</h4>
+                <p class="item-meta">Esquel · Clasico</p>
+                <p class="item-desc">El cordero al asador en la temporada de fuego adentro. Parrillada abundante, mesa larga, sin protocolo. La Esquel autentica.</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=Pulper%C3%ADa%20Don%20Chiquino%20Esquel" class="btn-mini" target="_blank" rel="noopener">
+                    Como llegar →
+                </a>
+            </div>
+        </article>
+        
+        <article class="item-comer">
+            <span class="item-num" style="color: #3D5A40">03</span>
+            <div class="item-content">
+                <h4>Casas de te galesas</h4>
+                <p class="item-meta">Trevelin · Tradicion</p>
+                <p class="item-desc">El te galés de la tarde con torta negra y scones es una experiencia patagonica esencial. Tres casas de te abiertas en el centro de Trevelin. Reservar con anticipacion.</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=casa%20de%20te%20Trevelin%20Chubut" class="btn-mini" target="_blank" rel="noopener">
+                    Casas de te →
+                </a>
+            </div>
+        </article>
+        
+            </div>
+        </div>
+
+        <!-- Que fotografiar -->
+        <div class="bloque">
+            <p class="bloque-tag" style="color: #3D5A40">QUE FOTOGRAFIAR</p>
+            <h2 class="bloque-h2">
+                Tres spots,<br>
+                tres luces.
+            </h2>
+            <p class="bloque-intro">Coordenadas exactas, hora optima, recomendacion tecnica.</p>
+            <div class="lista-fotos">
+                
+        <article class="item-foto">
+            <div class="foto-header">
+                <span class="foto-num" style="color: #3D5A40">01</span>
+                <div>
+                    <h4>Cumbre de La Hoya</h4>
+                    <p class="foto-luz" style="color: #3D5A40">MEJOR LUZ · 8:30 · PRIMER VIAJE DEL TELESILLA</p>
+                </div>
+            </div>
+            <p class="foto-tip">La luz baja del invierno crea sombras largas sobre la nieve. Filtro UV obligatorio. Cuidado con la bateria: el frio la consume rapido.</p>
+            <a href="https://www.google.com/maps/search/?api=1&query=Centro%20de%20esqu%C3%AD%20La%20Hoya%20Esquel" class="btn-mini" target="_blank" rel="noopener">
+                Ver mapa exacto →
+            </a>
+        </article>
+        
+        <article class="item-foto">
+            <div class="foto-header">
+                <span class="foto-num" style="color: #3D5A40">02</span>
+                <div>
+                    <h4>Lago Futalaufquen helado en sus orillas</h4>
+                    <p class="foto-luz" style="color: #3D5A40">MEJOR LUZ · 16:00 · LUZ DORADA INVERNAL</p>
+                </div>
+            </div>
+            <p class="foto-tip">En julio y agosto, las orillas del lago se congelan. El contraste entre el hielo cristalino y el azul profundo del centro del lago es magnetico.</p>
+            <a href="https://www.google.com/maps/search/?api=1&query=Lago%20Futalaufquen%20Parque%20Nacional%20Los%20Alerces" class="btn-mini" target="_blank" rel="noopener">
+                Ver mapa exacto →
+            </a>
+        </article>
+        
+        <article class="item-foto">
+            <div class="foto-header">
+                <span class="foto-num" style="color: #3D5A40">03</span>
+                <div>
+                    <h4>Calles centrales de Trevelin</h4>
+                    <p class="foto-luz" style="color: #3D5A40">MEJOR LUZ · 18:00 - 18:30 · HORA AZUL DE INVIERNO</p>
+                </div>
+            </div>
+            <p class="foto-tip">Las ventanas iluminadas por dentro contra el azul profundo del cielo crean una estetica casi pictorica. Caminar las calles centrales es la sesion.</p>
+            <a href="https://www.google.com/maps/search/?api=1&query=Plaza%20Coronel%20Fontana%20Trevelin" class="btn-mini" target="_blank" rel="noopener">
+                Ver mapa exacto →
+            </a>
+        </article>
+        
+            </div>
+        </div>
+
+        <!-- Secretos del baqueano -->
+        <div class="bloque secretos">
+            <p class="bloque-tag" style="color: #C76F3D">LO QUE NO SALE EN MAPS</p>
+            <h2 class="bloque-h2 light">
+                Tres secretos<br>
+                que solo conocen<br>
+                los locales.
+            </h2>
+            <hr class="separador" style="background: #C76F3D">
+            <div class="lista-secretos">
+                
+        <div class="secreto">
+            <span class="secreto-num">N°04</span>
+            <p>Hay un sector de bosque en La Hoya, fuera de pista pero perfectamente accesible para esquiadores intermedios, donde se entra por la izquierda del telesilla 3 y se sale a la base. Pedile a tu instructor de Limits Adventure que te guie la primera vez.</p>
+        </div>
+        
+        <div class="secreto">
+            <span class="secreto-num">N°05</span>
+            <p>Las panaderias del centro de Esquel sacan su mejor produccion temprano. A las 7:30 de la mañana, en pleno invierno, el aire huele a pan recien hecho. Caminar el centro a esa hora, antes de que arranquen los autos, es uno de los pequeños lujos de la cordillera.</p>
+        </div>
+        
+        <div class="secreto">
+            <span class="secreto-num">N°06</span>
+            <p>Si te toca un dia de viento blanco y La Hoya cierra, el plan B no es quedarte en el hotel: manejá hasta el Lago Rosario o recorré las casas de te de Trevelin con tiempo. El invierno cordillerano premia a quien sabe leer el clima.</p>
+        </div>
+        
+            </div>
+        </div>
+
+        <!-- Cierre estacional -->
+        <div class="bloque cierre-est">
+            <p class="bloque-tag" style="color: #3D5A40">FIN · JUNIO - AGOSTO</p>
+            <h2 class="bloque-h2">El esqueleto de la cordillera.</h2>
+            <p class="cierre-texto">En invierno, la Patagonia no se esconde: se vuelve mas honesta. Sin las hojas que disfrazan la geografia, las montañas muestran su esqueleto. Sin el ruido del verano, el silencio se vuelve protagonista. Veni preparado: el frio no perdona, pero recompensa.</p>
+            <div class="siguiente">
+                <p class="siguiente-label">SIGUE</p>
+                <a href="#primavera" class="siguiente-link">Primavera →</a>
+            </div>
+        </div>
+
+    </section>
+    
+    <section id="primavera" class="estacion" style="--color-acento: #3D5A40">
+
+        <!-- Apertura full-bleed -->
+        <div class="apertura-est" style="background-image: url('imagenes/17_primavera_apertura_tulipanes.jpg')">
+            <div class="apertura-overlay">
+                <p class="apertura-meses">SEPTIEMBRE - NOVIEMBRE</p>
+                <h2 class="apertura-titulo">PRIMAVERA</h2>
+                <p class="apertura-lema">El despertar floral</p>
+            </div>
+        </div>
+
+        <!-- Editorial -->
+        <div class="bloque editorial">
+            <p class="bloque-tag" style="color: #3D5A40">SEPTIEMBRE - NOVIEMBRE</p>
+            <h2 class="bloque-h2">
+                La Patagonia<br>
+                que florece.
+            </h2>
+            <hr class="separador" style="background: #3D5A40">
+            <div class="editorial-cuerpo">
+                <p class="editorial-lead">Pocas estaciones tienen un protagonista tan claro: en primavera, todo Esquel y Trevelin gira alrededor de los tulipanes. El Campo de Tulipanes de Trevelin convierte el pequeño valle gales en uno de los espectaculos botanicos mas sorprendentes de America del Sur. Hectareas enteras de color encendido bajo cumbres todavia nevadas.</p>
+<p class="">Pero la primavera es mucho mas que tulipanes. Es la estacion del deshielo, cuando los rios vienen cargados y los lagos suben sus niveles. Es el momento exacto en que los alerces sueltan sus brotes nuevos, los animales bajan de las altas cumbres y la estepa, brevemente, se viste de verde.</p>
+<p class="">Y es tambien la estacion de la herencia galesa: el Draig Goch, el dragon rojo de Trevelin, lanza sus llamaradas al atardecer. Las viñas de Nant y Fall empiezan su ciclo. Los molinos historicos abren sus puertas. La Patagonia muestra su otra cara, la europea, la que cruzo el Atlantico en 1865.</p>
+
+            </div>
+        </div>
+
+        <!-- Que vivir -->
+        <div class="bloque">
+            <p class="bloque-tag" style="color: #3D5A40">QUE VIVIR</p>
+            <h2 class="bloque-h2">
+                Tres experiencias<br>
+                que valen el viaje.
+            </h2>
+            <div class="grid-actividades">
+                
+        <article class="card-actividad">
+            <div class="card-img" style="background-image: url('imagenes/18_primavera_festival_tulipanes.jpg')">
+                <span class="card-num">01</span>
+            </div>
+            <div class="card-body">
+                <h3>Campo de Tulipanes Trevelin</h3>
+                <p>Hectareas de tulipanes en plena floracion bajo cordillera nevada. Recorridos por los campos, gastronomia de temporada y una de las postales mas iconicas del año.</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=Campo%20de%20Tulipanes%20Trevelin%20Chubut" class="btn-cta" target="_blank" rel="noopener">
+                    COMO LLEGAR
+                    <span class="arrow">→</span>
+                </a>
+            </div>
+        </article>
+        
+        <article class="card-actividad">
+            <div class="card-img" style="background-image: url('imagenes/19_primavera_cabalgata_estepa_florida.jpg')">
+                <span class="card-num">02</span>
+            </div>
+            <div class="card-body">
+                <h3>El Draig Goch en Trevelin</h3>
+                <p>Escultura de 4,5 metros del dragon rojo gales, simbolo de la herencia. Lanza llamaradas todos los dias a las 18 y 20 horas. Plaza Coronel Fontana, frente a Informes Turisticos.</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=Draig%20Goch%20Trevelin%20Chubut" class="btn-cta" target="_blank" rel="noopener">
+                    COMO LLEGAR + HORARIOS
+                    <span class="arrow">→</span>
+                </a>
+            </div>
+        </article>
+        
+        <article class="card-actividad">
+            <div class="card-img" style="background-image: url('imagenes/20_primavera_vinedo_nant_y_fall.jpg')">
+                <span class="card-num">03</span>
+            </div>
+            <div class="card-body">
+                <h3>Viñas Nant y Fall</h3>
+                <p>Visita guiada al viñedo, explicacion del proceso y degustacion de Pinot Noir de altura. Patagonia Puntos: 2x1 en visitas guiadas.</p>
+                <a href="https://tienda.patagoniapuntos.com" class="btn-cta" target="_blank" rel="noopener">
+                    2X1 NANT Y FALL
+                    <span class="arrow">→</span>
+                </a>
+            </div>
+        </article>
+        
+            </div>
+        </div>
+
+        <!-- Postal full-bleed -->
+        <div class="postal" style="background-image: url('imagenes/21_primavera_postal_dron_tulipanes.jpg')">
+            <span class="postal-tag">PRIMAVERA · Septiembre - Noviembre</span>
+        </div>
+
+        <!-- Peonias -->
+        <div class="bloque">
+            <p class="bloque-tag" style="color: #3D5A40">FLOR DE CONTRAESTACION</p>
+            <h2 class="bloque-h2">Las peonias que<br>florecen al reves.</h2>
+            <p class="bloque-intro" style="max-width:640px">Mientras el hemisferio norte guarda sus jardines, Trevelin florece. Entre noviembre y diciembre, los campos de peonias se cubren de flor y se cortan a mano para viajar al otro lado del mundo: es una de las pocas regiones del planeta que las produce a contraestacion. Un lujo silencioso, justo cuando nadie las espera.</p>
+        </div>
+
+
+        <!-- Que comer -->
+        <div class="bloque">
+            <p class="bloque-tag" style="color: #3D5A40">QUE COMER</p>
+            <h2 class="bloque-h2">
+                La cocina<br>
+                del deshielo.
+            </h2>
+            <p class="bloque-intro">En primavera, la cocina se livianece. Los corderos del invierno dejan paso a las truchas frescas. Los hongos secos a los brotes verdes silvestres. La carta de los lugares serios incorpora flores comestibles, hierbas del bosque y los primeros vegetales de las huertas locales. Y el vino patagonico de Nant y Fall vuelve a ser protagonista.</p>
+            <div class="lista-comer">
+                
+        <article class="item-comer">
+            <span class="item-num" style="color: #3D5A40">01</span>
+            <div class="item-content">
+                <h4>Museo Molino Nant-Fach</h4>
+                <p class="item-meta">Trevelin · Patagonia Puntos 15% off</p>
+                <p class="item-desc">El molino harinero historico de los colonos galeses funcionando. Visita guiada con productos elaborados con harinas tradicionales del lugar.</p>
+                <a href="https://tienda.patagoniapuntos.com" class="btn-mini" target="_blank" rel="noopener">
+                    15% off Molino →
+                </a>
+            </div>
+        </article>
+        
+        <article class="item-comer">
+            <span class="item-num" style="color: #3D5A40">02</span>
+            <div class="item-content">
+                <h4>Diucon Viajes</h4>
+                <p class="item-meta">Esquel · Patagonia Puntos 15% off</p>
+                <p class="item-desc">Excursiones terrestres a las viñas, los molinos, las casas de te y el Draig Goch. La forma comoda de recorrer la Trevelin galesa en un solo dia.</p>
+                <a href="https://tienda.patagoniapuntos.com" class="btn-mini" target="_blank" rel="noopener">
+                    15% off Diucon →
+                </a>
+            </div>
+        </article>
+        
+        <article class="item-comer">
+            <span class="item-num" style="color: #3D5A40">03</span>
+            <div class="item-content">
+                <h4>Confiteria Maria Castaña</h4>
+                <p class="item-meta">Esquel · Clasico</p>
+                <p class="item-desc">Para el cafe de media tarde despues de un dia entre tulipanes y viñedos. Tortas, masas finas, tradicion intacta de Esquel.</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=Confiter%C3%ADa%20Mar%C3%ADa%20Casta%C3%B1a%20Esquel" class="btn-mini" target="_blank" rel="noopener">
+                    Como llegar →
+                </a>
+            </div>
+        </article>
+        
+            </div>
+        </div>
+
+        <!-- Que fotografiar -->
+        <div class="bloque">
+            <p class="bloque-tag" style="color: #3D5A40">QUE FOTOGRAFIAR</p>
+            <h2 class="bloque-h2">
+                Tres spots,<br>
+                tres luces.
+            </h2>
+            <p class="bloque-intro">Coordenadas exactas, hora optima, recomendacion tecnica.</p>
+            <div class="lista-fotos">
+                
+        <article class="item-foto">
+            <div class="foto-header">
+                <span class="foto-num" style="color: #3D5A40">01</span>
+                <div>
+                    <h4>Campo de Tulipanes - vista aerea</h4>
+                    <p class="foto-luz" style="color: #3D5A40">MEJOR LUZ · 7:30 - 9:00 · MAÑANA SIN VIENTO</p>
+                </div>
+            </div>
+            <p class="foto-tip">El viento patagonico se levanta a media mañana y agita las flores. Para fotos nitidas, hay que llegar con el primer sol. Lente 35mm o 50mm fijo.</p>
+            <a href="https://www.google.com/maps/search/?api=1&query=Campo%20de%20Tulipanes%20Trevelin%20Chubut" class="btn-mini" target="_blank" rel="noopener">
+                Ver mapa exacto →
+            </a>
+        </article>
+        
+        <article class="item-foto">
+            <div class="foto-header">
+                <span class="foto-num" style="color: #3D5A40">02</span>
+                <div>
+                    <h4>Estancia Leleque al atardecer</h4>
+                    <p class="foto-luz" style="color: #3D5A40">MEJOR LUZ · 19:30 - 20:30 · ATARDECER LARGO DE PRIMAVERA</p>
+                </div>
+            </div>
+            <p class="foto-tip">La estepa en flor con los puestos de la estancia recortados contra el sol bajo. Composicion clasica con tercio inferior de tierra, dos tercios de cielo.</p>
+            <a href="https://www.google.com/maps/search/?api=1&query=Museo%20Leleque%20Chubut" class="btn-mini" target="_blank" rel="noopener">
+                Ver mapa exacto →
+            </a>
+        </article>
+        
+        <article class="item-foto">
+            <div class="foto-header">
+                <span class="foto-num" style="color: #3D5A40">03</span>
+                <div>
+                    <h4>Lago Verde con cordillera nevada</h4>
+                    <p class="foto-luz" style="color: #3D5A40">MEJOR LUZ · 11:00 · LUZ ALTA, COLOR SATURADO</p>
+                </div>
+            </div>
+            <p class="foto-tip">El contraste entre el verde del bosque ya brotado, el celeste del lago y el blanco de las cumbres todavia con nieve es la postal definitiva de la primavera patagonica.</p>
+            <a href="https://www.google.com/maps/search/?api=1&query=Lago%20Verde%20Parque%20Nacional%20Los%20Alerces" class="btn-mini" target="_blank" rel="noopener">
+                Ver mapa exacto →
+            </a>
+        </article>
+        
+            </div>
+        </div>
+
+        <!-- Secretos del baqueano -->
+        <div class="bloque secretos">
+            <p class="bloque-tag" style="color: #C76F3D">LO QUE NO SALE EN MAPS</p>
+            <h2 class="bloque-h2 light">
+                Tres secretos<br>
+                que solo conocen<br>
+                los locales.
+            </h2>
+            <hr class="separador" style="background: #C76F3D">
+            <div class="lista-secretos">
+                
+        <div class="secreto">
+            <span class="secreto-num">N°07</span>
+            <p>El Campo de Tulipanes tiene mejor luz de fotografia entre las 7 y las 8:30 de la mañana, antes de que se levante el viento del valle. Los locales lo saben: por eso los pocos turistas tempranos se llevan las mejores postales.</p>
+        </div>
+        
+        <div class="secreto">
+            <span class="secreto-num">N°08</span>
+            <p>La pesca con mosca empieza en noviembre. La primera semana, los rios estan vacios y las truchas, hambrientas despues del invierno. Los guias de Limits Adventure le llaman 'la semana magica'.</p>
+        </div>
+        
+        <div class="secreto">
+            <span class="secreto-num">N°09</span>
+            <p>El Draig Goch lanza sus llamaradas a las 18 y a las 20 horas todos los dias. Pero lo que casi nadie sabe es que el momento mas fotogenico es a las 20, cuando empieza a caer la noche y el fuego contrasta con el cielo azul profundo. Llegá 10 minutos antes.</p>
+        </div>
+        
+            </div>
+        </div>
+
+        <!-- Cierre estacional -->
+        <div class="bloque cierre-est">
+            <p class="bloque-tag" style="color: #3D5A40">FIN · SEPTIEMBRE - NOVIEMBRE</p>
+            <h2 class="bloque-h2">Una estacion fugaz.</h2>
+            <p class="cierre-texto">La primavera patagonica dura poco y todo en ella sucede rapido. Los tulipanes abren y cierran en pocas semanas. El deshielo se completa en menos de un mes. Las flores silvestres no esperan. Veni con la camara cargada, los oidos abiertos y el calendario flexible: cada dia cambia.</p>
+            <div class="siguiente">
+                <p class="siguiente-label">SIGUE</p>
+                <a href="#verano" class="siguiente-link">Verano →</a>
+            </div>
+        </div>
+
+    </section>
+    
+    <section id="verano" class="estacion" style="--color-acento: #C76F3D">
+
+        <!-- Apertura full-bleed -->
+        <div class="apertura-est" style="background-image: url('imagenes/22_verano_apertura_via_lactea.png')">
+            <div class="apertura-overlay">
+                <p class="apertura-meses">DICIEMBRE - FEBRERO</p>
+                <h2 class="apertura-titulo">VERANO</h2>
+                <p class="apertura-lema">El cielo profundo</p>
+            </div>
+        </div>
+
+        <!-- Editorial -->
+        <div class="bloque editorial">
+            <p class="bloque-tag" style="color: #C76F3D">DICIEMBRE - FEBRERO</p>
+            <h2 class="bloque-h2">
+                21 horas de luz,<br>
+                una hora de cielo perfecto.
+            </h2>
+            <hr class="separador" style="background: #C76F3D">
+            <div class="editorial-cuerpo">
+                <p class="editorial-lead">El verano patagonico es famoso por una razon: la luz. Dias que empiezan a las 5:30 de la mañana y terminan despues de las 22. Atardeceres que duran tres horas. Lagos que se vuelven turquesa, cumbres que pierden la ultima nieve, rios cargados de truchas adultas. Es la temporada mas popular y, por lo tanto, la que mas exige planificar.</p>
+<p class="">Pero el verano tambien esconde algo que casi ninguna guia menciona: el cielo nocturno. Cuando el sol finalmente se va, alrededor de las 23, la Patagonia se transforma en uno de los mejores cielos para observacion astronomica del hemisferio sur. Sin contaminacion luminica, con aire seco en la estepa, con la Via Lactea cruzando el cenit.</p>
+<p class="">Si reservas con tiempo (y los aliados de Patagonia Puntos te dan acceso prioritario), el verano puede ser tan intimo como cualquier otra estacion. Si no reservas, vas a hacer cola en todos lados.</p>
+
+            </div>
+        </div>
+
+        <!-- Que vivir -->
+        <div class="bloque">
+            <p class="bloque-tag" style="color: #C76F3D">QUE VIVIR</p>
+            <h2 class="bloque-h2">
+                Tres experiencias<br>
+                que valen el viaje.
+            </h2>
+            <div class="grid-actividades">
+                
+        <article class="card-actividad">
+            <div class="card-img" style="background-image: url('imagenes/23_verano_glaciar_torrecillas.png')">
+                <span class="card-num">01</span>
+            </div>
+            <div class="card-body">
+                <h3>Navegacion al Glaciar Torrecillas</h3>
+                <p>La excursion lacustre mas iconica del Parque Nacional Los Alerces, con Chubut Explorers. Combina lago Menendez con caminata al frente del glaciar. Patagonia Puntos: 15% off.</p>
+                <a href="https://tienda.patagoniapuntos.com" class="btn-cta" target="_blank" rel="noopener">
+                    15% OFF CHUBUT EXP
+                    <span class="arrow">→</span>
+                </a>
+            </div>
+        </article>
+        
+        <article class="card-actividad">
+            <div class="card-img" style="background-image: url('imagenes/24_verano_pesca_mosca.png')">
+                <span class="card-num">02</span>
+            </div>
+            <div class="card-body">
+                <h3>Pesca con mosca - Limits Adventure</h3>
+                <p>Temporada optima de noviembre a abril. Truchas arcoiris y marron de talla excepcional en el Futaleufu. Catch &amp; release. Patagonia Puntos: 20% off.</p>
+                <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#prestador/limits-adventure" class="btn-cta" target="_blank" rel="noopener">
+                    20% OFF LIMITS
+                    <span class="arrow">→</span>
+                </a>
+            </div>
+        </article>
+        
+        <article class="card-actividad">
+            <div class="card-img" style="background-image: url('imagenes/25_verano_telescopio_estrellas.png')">
+                <span class="card-num">03</span>
+            </div>
+            <div class="card-body">
+                <h3>Trekking con Somos Senderos</h3>
+                <p>Senderos guiados por toda la cordillera de Esquel: cumbres, miradores, lagos escondidos. Programas de medio dia y dia completo. Patagonia Puntos: 3x2.</p>
+                <a href="https://tienda.patagoniapuntos.com" class="btn-cta" target="_blank" rel="noopener">
+                    3X2 SENDEROS
+                    <span class="arrow">→</span>
+                </a>
+            </div>
+        </article>
+        
+            </div>
+        </div>
+
+        <!-- Postal full-bleed -->
+        <div class="postal" style="background-image: url('imagenes/26_verano_postal_pescador_futaleufu.png')">
+            <span class="postal-tag">VERANO · Diciembre - Febrero</span>
+        </div>
+
+        <!-- Que comer -->
+        <div class="bloque">
+            <p class="bloque-tag" style="color: #C76F3D">QUE COMER</p>
+            <h2 class="bloque-h2">
+                La cocina de<br>
+                los dias largos.
+            </h2>
+            <p class="bloque-intro">Con dias que duran 16 horas de luz, el verano patagonico inventa su propia rutina gastronomica: desayunos largos, almuerzos tardios al aire libre, cenas que empiezan a las 22 cuando recien baja el sol. Las parrillas se trasladan a los jardines. El gin patagonico reemplaza al vino caliente. Y los clasicos de Esquel siguen, fieles, año tras año.</p>
+            <div class="lista-comer">
+                
+        <article class="item-comer">
+            <span class="item-num" style="color: #C76F3D">01</span>
+            <div class="item-content">
+                <h4>Destileria Elder · Degustacion</h4>
+                <p class="item-meta">Esquel · Patagonia Puntos 15% off</p>
+                <p class="item-desc">Tres expresiones de gin patagonico (rosa mosqueta, calafate, tomillo de montaña) maridadas con tonicos artesanales y snacks de la region.</p>
+                <a href="https://tienda.patagoniapuntos.com" class="btn-mini" target="_blank" rel="noopener">
+                    15% off Elder →
+                </a>
+            </div>
+        </article>
+        
+        <article class="item-comer">
+            <span class="item-num" style="color: #C76F3D">02</span>
+            <div class="item-content">
+                <h4>Pulperia de Don Chiquino</h4>
+                <p class="item-meta">Esquel · Clasico</p>
+                <p class="item-desc">El cordero al asador y la parrillada abundante, en plena temporada de fuego al aire libre. Sin reservas, sin protocolo. Solo Esquel y su cordillera.</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=Pulper%C3%ADa%20Don%20Chiquino%20Esquel" class="btn-mini" target="_blank" rel="noopener">
+                    Como llegar →
+                </a>
+            </div>
+        </article>
+        
+        <article class="item-comer">
+            <span class="item-num" style="color: #C76F3D">03</span>
+            <div class="item-content">
+                <h4>Confiteria Maria Castaña</h4>
+                <p class="item-meta">Esquel · Clasico</p>
+                <p class="item-desc">El cafe de la tarde despues de un dia largo de excursion. Tortas, masas, conversacion. Una pausa generacional en el centro de Esquel.</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=Confiter%C3%ADa%20Mar%C3%ADa%20Casta%C3%B1a%20Esquel" class="btn-mini" target="_blank" rel="noopener">
+                    Como llegar →
+                </a>
+            </div>
+        </article>
+        
+            </div>
+        </div>
+
+        <!-- Que fotografiar -->
+        <div class="bloque">
+            <p class="bloque-tag" style="color: #C76F3D">QUE FOTOGRAFIAR</p>
+            <h2 class="bloque-h2">
+                Tres spots,<br>
+                tres luces.
+            </h2>
+            <p class="bloque-intro">Coordenadas exactas, hora optima, recomendacion tecnica.</p>
+            <div class="lista-fotos">
+                
+        <article class="item-foto">
+            <div class="foto-header">
+                <span class="foto-num" style="color: #C76F3D">01</span>
+                <div>
+                    <h4>Glaciar Torrecillas desde la pasarela final</h4>
+                    <p class="foto-luz" style="color: #C76F3D">MEJOR LUZ · 13:00 - 14:00 · SOL ALTO</p>
+                </div>
+            </div>
+            <p class="foto-tip">El hielo glaciar refleja el azul mas profundo cuando el sol esta alto. Lente 24-70 ideal. Polarizador recomendado.</p>
+            <a href="https://www.google.com/maps/search/?api=1&query=Glaciar%20Torrecillas%20Parque%20Nacional%20Los%20Alerces" class="btn-mini" target="_blank" rel="noopener">
+                Ver mapa exacto →
+            </a>
+        </article>
+        
+        <article class="item-foto">
+            <div class="foto-header">
+                <span class="foto-num" style="color: #C76F3D">02</span>
+                <div>
+                    <h4>Rio Futaleufu en su curva del km 12</h4>
+                    <p class="foto-luz" style="color: #C76F3D">MEJOR LUZ · 20:30 · ATARDECER LARGO DE VERANO</p>
+                </div>
+            </div>
+            <p class="foto-tip">Una curva poco transitada del rio donde el agua es mas turquesa y las montañas crean reflejo perfecto. Acceso por sendero corto desde la ruta.</p>
+            <a href="https://www.google.com/maps/search/?api=1&query=R%C3%ADo%20Futaleuf%C3%BA%20Trevelin%20Chubut" class="btn-mini" target="_blank" rel="noopener">
+                Ver mapa exacto →
+            </a>
+        </article>
+        
+        <article class="item-foto">
+            <div class="foto-header">
+                <span class="foto-num" style="color: #C76F3D">03</span>
+                <div>
+                    <h4>Via Lactea sobre Piedra Parada</h4>
+                    <p class="foto-luz" style="color: #C76F3D">MEJOR LUZ · NUEVA LUNA · 0:30 - 3:00</p>
+                </div>
+            </div>
+            <p class="foto-tip">La mejor astrofotografia de la Patagonia argentina. Tripode robusto, lente angular f/2.8 o mas luminoso, ISO 3200, exposicion 25 segundos.</p>
+            <a href="https://www.google.com/maps/search/?api=1&query=Piedra%20Parada%20Chubut" class="btn-mini" target="_blank" rel="noopener">
+                Ver mapa exacto →
+            </a>
+        </article>
+        
+            </div>
+        </div>
+
+        <!-- Secretos del baqueano -->
+        <div class="bloque secretos">
+            <p class="bloque-tag" style="color: #C76F3D">LO QUE NO SALE EN MAPS</p>
+            <h2 class="bloque-h2 light">
+                Tres secretos<br>
+                que solo conocen<br>
+                los locales.
+            </h2>
+            <hr class="separador" style="background: #C76F3D">
+            <div class="lista-secretos">
+                
+        <div class="secreto">
+            <span class="secreto-num">N°10</span>
+            <p>Hay una playa de arena negra volcanica al borde del lago Futalaufquen, casi imposible de encontrar sin guia local. Se accede por un sendero no señalizado a la altura del km 18 del camino de la costa. Ideal para nadar (con valor: el agua esta helada todo el año).</p>
+        </div>
+        
+        <div class="secreto">
+            <span class="secreto-num">N°11</span>
+            <p>Los pescadores con mosca mas serios pescan al amanecer, no al atardecer, en pleno verano. Entre las 5:30 y las 8:00, las eclosiones son menores pero los peces estan mas confiados. Si pedis con anticipacion, los guias de Limits Adventure te llevan a un sector reservado a esa hora.</p>
+        </div>
+        
+        <div class="secreto">
+            <span class="secreto-num">N°12</span>
+            <p>Piedra Parada es uno de los mejores lugares para astrofotografia de la Argentina. Para mejores resultados: nueva luna, ir en pareja o grupo (es zona despoblada), llevar agua, tripode robusto y termo con cafe. La Via Lactea aparece en el cenit alrededor de la 1 de la mañana.</p>
+        </div>
+        
+            </div>
+        </div>
+
+        <!-- Cierre estacional -->
+        <div class="bloque cierre-est">
+            <p class="bloque-tag" style="color: #C76F3D">FIN · DICIEMBRE - FEBRERO</p>
+            <h2 class="bloque-h2">El exceso luminoso.</h2>
+            <p class="cierre-texto">El verano es la estacion del exceso luminoso. Mas sol, mas actividad, mas gente, mas ruido. Pero tambien mas posibilidades, mas caminos abiertos, mas cielo. Si elegiste venir en temporada alta, hiciste bien: la Patagonia en verano es inolvidable. Solo recorda que la mejor manera de disfrutarla es planificandola con anticipacion. Esta guia es tu mapa.</p>
+            <div class="siguiente">
+                <p class="siguiente-label">FINAL</p>
+                <a href="#cierre" class="siguiente-link">Cierre y activacion →</a>
+            </div>
+        </div>
+
+    </section>
+    
+
+<!-- ===========================
+     ALIADOS - DIRECTORIO
+     =========================== -->
+<section id="aliados" class="aliados">
+    <div class="aliados-content">
+        <p class="bloque-tag" style="color: #1A1A1A">TU RED EN LA CORDILLERA</p>
+        <h2 class="bloque-h2">18 aliados<br>que te esperan.</h2>
+        <p class="bloque-intro">Toca cada link para reservar. Beneficio activo al escanear el QR en el lugar.</p>
+        
+        <div class="grupo-aliados">
+            <h3 class="grupo-titulo" style="color: #1A1A1A; border-color: #1A1A1A">MOVILIDAD</h3>
+            <div class="grupo-items">
+        
+                <a href="https://tienda.patagoniapuntos.com" class="aliado-card" target="_blank" rel="noopener">
+                    <div class="aliado-info">
+                        <h4>Hertz Esquel</h4>
+                        <p class="aliado-beneficio" style="color: #C76F3D">25% off</p>
+                    </div>
+                    <span class="aliado-arrow">→</span>
+                </a>
+            
+            </div>
+        </div>
+        
+        <div class="grupo-aliados">
+            <h3 class="grupo-titulo" style="color: #3D5A40; border-color: #3D5A40">ALOJAMIENTO ESQUEL</h3>
+            <div class="grupo-items">
+        
+                <a href="https://tienda.patagoniapuntos.com" class="aliado-card" target="_blank" rel="noopener">
+                    <div class="aliado-info">
+                        <h4>Hotel Cumbres Blancas</h4>
+                        <p class="aliado-beneficio" style="color: #C76F3D">4x3 invierno</p>
+                    </div>
+                    <span class="aliado-arrow">→</span>
+                </a>
+            
+                <a href="https://tienda.patagoniapuntos.com" class="aliado-card" target="_blank" rel="noopener">
+                    <div class="aliado-info">
+                        <h4>Alvear Suites</h4>
+                        <p class="aliado-beneficio" style="color: #C76F3D">4x3</p>
+                    </div>
+                    <span class="aliado-arrow">→</span>
+                </a>
+            
+                <a href="https://tienda.patagoniapuntos.com" class="aliado-card" target="_blank" rel="noopener">
+                    <div class="aliado-info">
+                        <h4>Hosteria La Chacra</h4>
+                        <p class="aliado-beneficio" style="color: #C76F3D">4x3</p>
+                    </div>
+                    <span class="aliado-arrow">→</span>
+                </a>
+            
+                <a href="https://tienda.patagoniapuntos.com" class="aliado-card" target="_blank" rel="noopener">
+                    <div class="aliado-info">
+                        <h4>Aires Andinos Cabañas</h4>
+                        <p class="aliado-beneficio" style="color: #C76F3D">4x3</p>
+                    </div>
+                    <span class="aliado-arrow">→</span>
+                </a>
+            
+                <a href="https://tienda.patagoniapuntos.com" class="aliado-card" target="_blank" rel="noopener">
+                    <div class="aliado-info">
+                        <h4>Esquel Apart</h4>
+                        <p class="aliado-beneficio" style="color: #C76F3D">20% off</p>
+                    </div>
+                    <span class="aliado-arrow">→</span>
+                </a>
+            
+                <a href="https://tienda.patagoniapuntos.com" class="aliado-card" target="_blank" rel="noopener">
+                    <div class="aliado-info">
+                        <h4>Los Alerces Patagonia Apart</h4>
+                        <p class="aliado-beneficio" style="color: #C76F3D">15% off</p>
+                    </div>
+                    <span class="aliado-arrow">→</span>
+                </a>
+            
+                <a href="https://tienda.patagoniapuntos.com" class="aliado-card" target="_blank" rel="noopener">
+                    <div class="aliado-info">
+                        <h4>El Apego</h4>
+                        <p class="aliado-beneficio" style="color: #C76F3D">15% off</p>
+                    </div>
+                    <span class="aliado-arrow">→</span>
+                </a>
+            
+            </div>
+        </div>
+        
+        <div class="grupo-aliados">
+            <h3 class="grupo-titulo" style="color: #3D5A40; border-color: #3D5A40">ALOJAMIENTO TREVELIN</h3>
+            <div class="grupo-items">
+        
+                <a href="https://tienda.patagoniapuntos.com" class="aliado-card" target="_blank" rel="noopener">
+                    <div class="aliado-info">
+                        <h4>La Portada</h4>
+                        <p class="aliado-beneficio" style="color: #C76F3D">15% off</p>
+                    </div>
+                    <span class="aliado-arrow">→</span>
+                </a>
+            
+                <a href="https://tienda.patagoniapuntos.com" class="aliado-card" target="_blank" rel="noopener">
+                    <div class="aliado-info">
+                        <h4>Cabañas Buena Vista</h4>
+                        <p class="aliado-beneficio" style="color: #C76F3D">4x3</p>
+                    </div>
+                    <span class="aliado-arrow">→</span>
+                </a>
+            
+            </div>
+        </div>
+        
+        <div class="grupo-aliados">
+            <h3 class="grupo-titulo" style="color: #C76F3D; border-color: #C76F3D">AVENTURA Y EXCURSIONES</h3>
+            <div class="grupo-items">
+        
+                <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#prestador/merakisur" class="aliado-card" target="_blank" rel="noopener">
+                    <div class="aliado-info">
+                        <h4>Meraki Sur</h4>
+                        <p class="aliado-beneficio" style="color: #C76F3D">20% off</p>
+                    </div>
+                    <span class="aliado-arrow">→</span>
+                </a>
+            
+                <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#prestador/limits-adventure" class="aliado-card" target="_blank" rel="noopener">
+                    <div class="aliado-info">
+                        <h4>Limits Adventure</h4>
+                        <p class="aliado-beneficio" style="color: #C76F3D">20% off</p>
+                    </div>
+                    <span class="aliado-arrow">→</span>
+                </a>
+            
+                <a href="https://tienda.patagoniapuntos.com" class="aliado-card" target="_blank" rel="noopener">
+                    <div class="aliado-info">
+                        <h4>Chubut Explorers</h4>
+                        <p class="aliado-beneficio" style="color: #C76F3D">15% off</p>
+                    </div>
+                    <span class="aliado-arrow">→</span>
+                </a>
+            
+                <a href="https://tienda.patagoniapuntos.com" class="aliado-card" target="_blank" rel="noopener">
+                    <div class="aliado-info">
+                        <h4>Diucon Viajes</h4>
+                        <p class="aliado-beneficio" style="color: #C76F3D">15% off</p>
+                    </div>
+                    <span class="aliado-arrow">→</span>
+                </a>
+            
+                <a href="https://tienda.patagoniapuntos.com" class="aliado-card" target="_blank" rel="noopener">
+                    <div class="aliado-info">
+                        <h4>GLAXIAR</h4>
+                        <p class="aliado-beneficio" style="color: #C76F3D">15% off</p>
+                    </div>
+                    <span class="aliado-arrow">→</span>
+                </a>
+            
+                <a href="https://tienda.patagoniapuntos.com" class="aliado-card" target="_blank" rel="noopener">
+                    <div class="aliado-info">
+                        <h4>Somos Senderos</h4>
+                        <p class="aliado-beneficio" style="color: #C76F3D">3x2</p>
+                    </div>
+                    <span class="aliado-arrow">→</span>
+                </a>
+            
+            </div>
+        </div>
+        
+        <div class="grupo-aliados">
+            <h3 class="grupo-titulo" style="color: #1A1A1A; border-color: #1A1A1A">GASTRONOMIA Y CULTURA</h3>
+            <div class="grupo-items">
+        
+                <a href="https://tienda.patagoniapuntos.com" class="aliado-card" target="_blank" rel="noopener">
+                    <div class="aliado-info">
+                        <h4>Destileria Elder</h4>
+                        <p class="aliado-beneficio" style="color: #C76F3D">15% off</p>
+                    </div>
+                    <span class="aliado-arrow">→</span>
+                </a>
+            
+                <a href="https://tienda.patagoniapuntos.com" class="aliado-card" target="_blank" rel="noopener">
+                    <div class="aliado-info">
+                        <h4>Viñas Nant y Fall</h4>
+                        <p class="aliado-beneficio" style="color: #C76F3D">2x1 visita</p>
+                    </div>
+                    <span class="aliado-arrow">→</span>
+                </a>
+            
+                <a href="https://tienda.patagoniapuntos.com" class="aliado-card" target="_blank" rel="noopener">
+                    <div class="aliado-info">
+                        <h4>Museo Molino Nant-Fach</h4>
+                        <p class="aliado-beneficio" style="color: #C76F3D">15% off</p>
+                    </div>
+                    <span class="aliado-arrow">→</span>
+                </a>
+            
+            </div>
+        </div>
+        
+    </div>
+</section>
+
+<!-- ===========================
+     AIKE · CONSULTOR DE ESCAPADA
+     =========================== -->
+<section id="aike" style="background:#141414;color:#EFEEEA;padding:90px 24px;text-align:center">
+    <p style="color:#FF4DAE;font-weight:700;letter-spacing:.16em;font-size:.78rem;margin:0 0 18px">AIKE · TU CONSULTOR DE ESCAPADA</p>
+    <h2 style="font-size:clamp(1.9rem,5vw,2.9rem);line-height:1.08;margin:0 0 20px;font-weight:800">¿Vas a Esquel y Trevelin?<br>Armá tu escapada en 2 minutos.</h2>
+    <p style="max-width:580px;margin:0 auto 34px;opacity:.85;line-height:1.6">AIKE es el asistente turístico 24/7 de Patagonia Experiencias. Le contás qué días tenés y qué te gusta, y te arma el itinerario completo con todo lo de esta guía: cuándo ir, qué reservar y cómo moverte.</p>
+    <a href="https://patagoniaexperiencias.com" target="_blank" rel="noopener" style="display:inline-block;background:#E6007E;color:#fff;padding:17px 34px;border-radius:999px;font-weight:700;text-decoration:none;font-size:1.02rem">Consultá con AIKE →</a>
+</section>
+
+<!-- ===========================
+     ACTIVACION MASTER
+     =========================== -->
+<section id="cierre" class="cta-master">
+    <p class="bloque-tag">EMPEZA TU VIAJE</p>
+    <h2>Sesenta segundos<br>para activar todo.</h2>
+    <p>Toca el boton, crea tu cuenta y los 5 beneficios quedan activos al instante.<br>20.000 puntos de bienvenida.</p>
+    <a href="https://tienda.patagoniapuntos.com" class="cta-grande" target="_blank" rel="noopener">
+        Empeza tu viaje →
+    </a>
+</section>
+
+<!-- ===========================
+     FOOTER / DESPEDIDA
+     =========================== -->
+<footer class="footer">
+    <h2>Ya no sos turista,<br>sos parte de algo.</h2>
+    <p class="footer-italic">Nos vemos del otro lado del mapa.</p>
+    <div class="footer-meta">
+        <strong>PATAGONIA PUNTOS</strong><br>
+        El equipo editorial · Esquel · Trevelin · 2026<br>
+        En colaboracion con Agencia de Turismo Chubut
+    </div>
+</footer>
+
+<script>
+// Cerrar menu al tocar fuera o tecla Escape
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        document.getElementById('menu').classList.remove('open');
+    }
+});
+
+// Lazy loading de imagenes background (Intersection Observer)
+const lazyBackgrounds = document.querySelectorAll('[style*="background-image"]');
+if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { rootMargin: '200px' });
+    lazyBackgrounds.forEach(function(el) { observer.observe(el); });
+}
+</script>
+
+</body>
+</html>

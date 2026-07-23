@@ -14,9 +14,9 @@ https://cattdf.patagoniaexperiencias.com/* https://patagoniaexperiencias.com/pre
 
 # ── Redirecciones de /guias/ viejas → páginas equivalentes ───
 # (las landings viejas de Ferozo; conservan lo ya indexado)
-/guias/esquel-trevelin/* /esquel-trevelin 301
-/guias/peninsula-valdes/* /puerto-madryn 301
-/guias/valle/* /valle-del-chubut 301
+/guias/esquel-trevelin/* /guias-de-viaje/esquel-trevelin/ 301
+/guias/peninsula-valdes/* /guias-de-viaje/peninsula-valdes/ 301
+/guias/valle/* /guias-de-viaje/valle/ 301
 
 # ── Guías liberadas (23/07/2026): la vieja landing de venta duerme;
 #    sus links históricos aterrizan en la landing gratuita ──

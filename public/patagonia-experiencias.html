@@ -1258,11 +1258,45 @@ const limpiarTextoWord = valor => {
   s = s.replace(/\u00A0/g, ' ').replace(/[ \t]{2,}/g, ' ').replace(/\n{3,}/g, '\n\n').trim();
   return s;
 };
-const calcularPreciosTour = (tour, agencias, planes) => {
+
+// Sprint temporadas (23/07/2026): precio vigente según el MES de la fecha de reserva.
+const resolverPrecioVigente = (tour, fechaRef) => {
+  const base = Number(tour?.precio) || 0;
+  let precioAdulto = base;
+  let temporadaNombre = null;
+  let precioNinoTemporada = null;
+  try {
+    let d = fechaRef ? new Date(String(fechaRef).length === 10 ? fechaRef + 'T12:00:00' : fechaRef) : new Date();
+    if (isNaN(d.getTime())) d = new Date();
+    const mes = d.getMonth() + 1;
+    const temps = Array.isArray(tour?.temporadasPrecio) ? tour.temporadasPrecio : [];
+    const t = temps.find(tp => tp && Array.isArray(tp.meses) && tp.meses.map(Number).includes(mes) && Number(tp.precio) > 0);
+    if (t) {
+      precioAdulto = Number(t.precio);
+      temporadaNombre = t.nombre || null;
+      precioNinoTemporada = Number(t.precioNino) > 0 ? Number(t.precioNino) : null;
+    }
+  } catch (e) {}
+  const politica = tour?.politicaNinos || '100';
+  let precioNino = null;
+  if (precioNinoTemporada != null) {
+    precioNino = precioNinoTemporada;
+  } else if (politica === 'manual') {
+    precioNino = Number(tour?.precioNino) > 0 ? Number(tour.precioNino) : null;
+  }
+  return {
+    precioAdulto,
+    precioNino,
+    temporadaNombre,
+    etiquetaNino: tour?.etiquetaNino || ''
+  };
+};
+const calcularPreciosTour = (tour, agencias, planes, fechaRef) => {
   // Si no se pasan, usamos los module-scoped
   agencias = agencias || _agenciasGlobal;
   planes = planes || _planesGlobal;
-  const precioBase = Number(tour?.precio) || 0;
+  const _vigente = resolverPrecioVigente(tour, fechaRef);
+  const precioBase = _vigente.precioAdulto || Number(tour?.precio) || 0;
 
   // 1. Encontrar la agencia del tour.
   // Sprint 28 fix: el proveedorId puede ser el id del documento (legacy)
@@ -3502,7 +3536,15 @@ function TourDetailPage({
   //   '100' = niños pagan igual que adulto (default)
   // El paxFactor es el "equivalente en adultos" (ej: 2 adultos + 1 niño al 50% = 2.5)
   const politicaNinos = tour.politicaNinos || '100';
-  const factorNino = Number(politicaNinos) / 100;
+  const _vigCheckout = resolverPrecioVigente(tour, fecha);
+  let factorNino;
+  if (_vigCheckout.precioNino != null && _vigCheckout.precioAdulto > 0) {
+    factorNino = _vigCheckout.precioNino / _vigCheckout.precioAdulto;
+  } else if (politicaNinos === 'manual') {
+    factorNino = 1;
+  } else {
+    factorNino = Number(politicaNinos) / 100;
+  }
   const paxFactor = viajeros.adultos + viajeros.ninos * factorNino;
   let noches = 1;
   if (tour.categoria === 'alojamiento' && fecha && fechaSalida) {
@@ -3529,7 +3571,7 @@ function TourDetailPage({
   //   precioSaldoDestinoUnitario: lo que paga al operador en destino (siempre precioLista - comisión)
   //   ahorroUnitario:           cuánto ahorra el turista (precioLista - preventa)
   //   descuentoPctReal:         % de descuento sobre precio total para mostrar en el botón "-10%"
-  const _calcTour = calcularPreciosTour(tour);
+  const _calcTour = calcularPreciosTour(tour, null, null, fecha);
   // FIX bug: la condición vieja exigía precioPreventa < precioBase, pero si NO hay descuento
   // ambos son iguales y se caía al CASO 3 (sin reserva online).
   // Lo correcto: si hay COMISIÓN > 0, ya tenemos modelo nuevo, sin importar si hay descuento.
@@ -4933,7 +4975,8 @@ function TourDetailPage({
     className: "mb-5 bg-slate-50 p-5 rounded-2xl border border-slate-100 text-center shadow-inner"
   }, (() => {
     // CASO 1: modelo nuevo con comisión calculada (PRIORITARIO)
-    const calc = calcularPreciosTour(tour);
+    const calc = calcularPreciosTour(tour, null, null, fecha);
+    const _vigSidebar = resolverPrecioVigente(tour, fecha);
     if (calc.comisionPct > 0 && calc.precioPreventa > 0 && calc.precioPreventa < calc.precioBase) {
       return /*#__PURE__*/React.createElement("div", {
         className: "flex flex-col gap-1 items-center"
@@ -4951,7 +4994,15 @@ function TourDetailPage({
         className: "text-4xl font-title font-black text-brand-fuchsia leading-none"
       }, "$", calc.precioPreventa.toLocaleString('es-AR')), /*#__PURE__*/React.createElement("span", {
         className: "text-[9px] text-slate-400 font-bold uppercase mt-2"
-      }, tour.categoria === 'alojamiento' ? '/ noche · por unidad' : '/ pers.'));
+      }, tour.categoria === 'alojamiento' ? '/ noche · por unidad' : '/ pers.'), typeof _vigSidebar !== 'undefined' && _vigSidebar.temporadaNombre && /*#__PURE__*/React.createElement("span", {
+        className: "text-[9px] font-black uppercase tracking-widest bg-sky-50 text-sky-600 border border-sky-200 px-2 py-1 rounded-md mt-1"
+      }, /*#__PURE__*/React.createElement("i", {
+        className: "fa-solid fa-snowflake mr-1"
+      }), "Precio temporada: ", _vigSidebar.temporadaNombre), typeof _vigSidebar !== 'undefined' && _vigSidebar.precioNino != null && /*#__PURE__*/React.createElement("span", {
+        className: "text-[9px] font-bold uppercase tracking-wide text-amber-600 mt-1"
+      }, /*#__PURE__*/React.createElement("i", {
+        className: "fa-solid fa-child mr-1"
+      }), "Menores", _vigSidebar.etiquetaNino ? ' (' + _vigSidebar.etiquetaNino + ')' : '', ": $", _vigSidebar.precioNino.toLocaleString('es-AR')));
     }
     // CASO 2: tour viejo con precioDescuento manual
     if (tour.precioDescuento && Number(tour.precioDescuento) > 0 && Number(tour.precioDescuento) < Number(tour.precio)) {
@@ -4971,7 +5022,15 @@ function TourDetailPage({
         className: "text-4xl font-title font-black text-brand-fuchsia leading-none"
       }, "$", Number(tour.precioDescuento).toLocaleString('es-AR')), /*#__PURE__*/React.createElement("span", {
         className: "text-[9px] text-slate-400 font-bold uppercase mt-2"
-      }, tour.categoria === 'alojamiento' ? '/ noche · por unidad' : '/ pers.'));
+      }, tour.categoria === 'alojamiento' ? '/ noche · por unidad' : '/ pers.'), typeof _vigSidebar !== 'undefined' && _vigSidebar.temporadaNombre && /*#__PURE__*/React.createElement("span", {
+        className: "text-[9px] font-black uppercase tracking-widest bg-sky-50 text-sky-600 border border-sky-200 px-2 py-1 rounded-md mt-1"
+      }, /*#__PURE__*/React.createElement("i", {
+        className: "fa-solid fa-snowflake mr-1"
+      }), "Precio temporada: ", _vigSidebar.temporadaNombre), typeof _vigSidebar !== 'undefined' && _vigSidebar.precioNino != null && /*#__PURE__*/React.createElement("span", {
+        className: "text-[9px] font-bold uppercase tracking-wide text-amber-600 mt-1"
+      }, /*#__PURE__*/React.createElement("i", {
+        className: "fa-solid fa-child mr-1"
+      }), "Menores", _vigSidebar.etiquetaNino ? ' (' + _vigSidebar.etiquetaNino + ')' : '', ": $", _vigSidebar.precioNino.toLocaleString('es-AR')));
     }
     // CASO 3: precio plano
     return /*#__PURE__*/React.createElement("div", {
@@ -5114,7 +5173,15 @@ function TourDetailPage({
     className: "text-[9px] text-amber-600 font-bold mt-0.5 uppercase tracking-wide"
   }, /*#__PURE__*/React.createElement("i", {
     className: "fa-solid fa-tag mr-0.5"
-  }), " Pagan 50%")), /*#__PURE__*/React.createElement("div", {
+  }), " Pagan 50%"), (() => {
+    const v = resolverPrecioVigente(tour, fecha);
+    if (v.precioNino == null) return null;
+    return /*#__PURE__*/React.createElement("p", {
+      className: "text-[9px] text-amber-600 font-bold mt-0.5 uppercase tracking-wide"
+    }, /*#__PURE__*/React.createElement("i", {
+      className: "fa-solid fa-tag mr-0.5"
+    }), " $", v.precioNino.toLocaleString('es-AR'), " c/u", v.etiquetaNino ? ' · ' + v.etiquetaNino : '');
+  })()), /*#__PURE__*/React.createElement("div", {
     className: "flex items-center gap-3"
   }, /*#__PURE__*/React.createElement("button", {
     onClick: () => setViajeros(v => ({

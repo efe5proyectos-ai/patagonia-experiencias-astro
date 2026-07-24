@@ -1,58 +1,120 @@
 ---
-// Landing de GUÍAS DE VIAJE GRATUITAS — liberadas como contenido del ecosistema.
-// Lee la colección `guias` de Firestore en cada build: cargar una guía en el
-// admin (estado ≠ Borrador) la publica acá automáticamente.
+// GUÍAS DE VIAJE GRATUITAS — catálogo minimalista claro, escalable.
+// Lee la colección `guias` de Firestore en cada build. Buscador y filtros
+// por región en vivo (vanilla JS, sin dependencias): listo para crecer
+// a muchas guías de distintas ciudades y provincias.
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { obtenerGuiasDigitales } from '../../lib/contenido.js';
 const guias = await obtenerGuiasDigitales();
+const regiones = [...new Set(guias.map((g) => g.region).filter(Boolean))].sort();
 const schema = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
   name: 'Guías de viaje gratuitas de la Patagonia',
+  numberOfItems: guias.length,
   itemListElement: guias.map((g, i) => ({
     '@type': 'ListItem', position: i + 1, name: g.titulo, url: g.linkWeb || undefined,
   })),
 };
 ---
-<BaseLayout titulo="Guías de viaje gratuitas de la Patagonia" descripcion="Descargá y leé gratis nuestras guías de viajeros: Esquel y Trevelin, Puerto Madryn, el Valle del Chubut y más. Secretos locales, temporadas y consejos para planificar tu viaje." schema={schema}>
-  <main>
-    <section class="bg-brand-dark text-white">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
-        <p class="text-brand-fuchsia text-xs font-black uppercase tracking-[0.3em] mb-4"><i class="fa-solid fa-book-open mr-2"></i>Contenido liberado</p>
-        <h1 class="font-sans font-extrabold text-3xl sm:text-5xl leading-tight mb-4">Guías de viaje <span class="text-brand-fuchsia">gratis</span></h1>
-        <p class="text-white/60 max-w-2xl mx-auto">Las escribimos con años de recorrer la Patagonia. Ahora son tuyas, sin costo: leelas, guardalas y viví las experiencias con nuestros prestadores locales.</p>
-      </div>
+<BaseLayout titulo="Guías de viaje gratuitas de la Patagonia" descripcion="Leé gratis nuestras guías de viajeros: Esquel y Trevelin, Puerto Madryn, el Valle del Chubut y cada vez más destinos. Secretos locales, temporadas y consejos para planificar tu viaje." schema={schema}>
+  <main class="bg-white">
+
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-10">
+      <p class="text-brand-fuchsia text-xs font-black uppercase tracking-[0.3em] mb-4">Biblioteca de viaje · Gratis</p>
+      <h1 class="font-sans font-extrabold text-4xl sm:text-6xl leading-[1.05] tracking-tight text-brand-oxford max-w-3xl">
+        Guías escritas<br />recorriendo <span class="text-brand-fuchsia">la Patagonia</span>
+      </h1>
+      <p class="text-slate-500 max-w-xl mt-5 text-lg leading-relaxed">Secretos locales, temporadas exactas y consejos de quienes viven acá. Elegí tu destino y empezá a leer — sin costo, sin registro.</p>
     </section>
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-6">
+      <div class="flex flex-col md:flex-row md:items-center gap-3">
+        <div class="relative flex-1 max-w-xl">
+          <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"></i>
+          <input id="buscador-guias" type="text" placeholder="Buscá por destino, ciudad o región…" autocomplete="off"
+            class="w-full bg-slate-50 border border-slate-200 rounded-full pl-11 pr-5 py-3.5 text-[15px] outline-none focus:bg-white focus:border-brand-fuchsia focus:ring-2 focus:ring-brand-fuchsia/20 transition-all" />
+        </div>
+        <div id="chips-region" class="flex flex-wrap items-center gap-2">
+          <button data-region="" class="chip-region activo text-[11px] font-bold uppercase tracking-widest px-4 py-2 rounded-full border transition-all">Todas</button>
+          {regiones.map((r) => (
+            <button data-region={r} class="chip-region text-[11px] font-bold uppercase tracking-widest px-4 py-2 rounded-full border transition-all">{r}</button>
+          ))}
+        </div>
+      </div>
+      <p id="contador-guias" class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-4">{guias.length} {guias.length === 1 ? 'guía disponible' : 'guías disponibles'}</p>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+      <div id="grilla-guias" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10">
         {guias.map((g) => (
-          <article class="group bg-white border border-slate-200 rounded-2xl overflow-hidden flex flex-col shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-            {g.imagen && (
-              <div class="relative h-56 overflow-hidden">
-                <img src={g.imagen} alt={`${g.titulo} — guía gratuita`} loading="lazy" width="600" height="420" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                {g.region && <span class="absolute top-4 left-4 bg-brand-fuchsia text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-md shadow-sm">{g.region}</span>}
-                <span class="absolute top-4 right-4 bg-emerald-500 text-white text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-md shadow-sm"><i class="fa-solid fa-gift mr-1"></i>Gratis</span>
-              </div>
-            )}
-            <div class="p-6 flex flex-col flex-grow">
-              <h2 class="font-sans font-bold text-lg leading-snug mb-1 group-hover:text-brand-fuchsia transition-colors">{g.titulo}</h2>
-              {g.subtitulo && <p class="text-sm text-slate-500 mb-4">{g.subtitulo}</p>}
-              {g.rating && (
-                <p class="text-xs text-slate-400 font-bold mb-4"><span class="text-yellow-500">★</span> {g.rating.toFixed(1)}{g.reviews > 0 && ` · ${g.reviews} valoraciones`}</p>
-              )}
-              <div class="mt-auto flex flex-col gap-2">
-                {g.linkWeb && <a href={g.linkWeb} class="w-full text-center bg-brand-fuchsia hover:bg-brand-fuchsiaDark text-white font-bold text-sm uppercase tracking-widest px-5 py-3 rounded-full transition-colors"><i class="fa-solid fa-book-open mr-2"></i>Leer la guía gratis</a>}
-                {g.linkDrive && <a href={g.linkDrive} target="_blank" rel="noopener noreferrer" class="w-full text-center bg-white border border-slate-300 hover:border-brand-fuchsia text-slate-600 hover:text-brand-fuchsia font-bold text-xs uppercase tracking-widest px-5 py-2.5 rounded-full transition-colors"><i class="fa-solid fa-download mr-2"></i>Descargar</a>}
-              </div>
+          <a href={g.linkWeb || g.linkDrive} class="tarjeta-guia group block"
+             data-texto={`${g.titulo} ${g.subtitulo} ${g.region}`.toLowerCase()}
+             data-region={g.region}>
+            <div class="relative aspect-[3/4] overflow-hidden rounded-xl bg-slate-100 shadow-sm group-hover:shadow-2xl group-hover:shadow-slate-300/60 group-hover:-translate-y-1.5 transition-all duration-300">
+              {g.imagen
+                ? <img src={g.imagen} alt={`${g.titulo} — guía gratuita`} loading="lazy" width="480" height="640" class="w-full h-full object-cover object-top" />
+                : <div class="w-full h-full flex items-center justify-center text-slate-300 text-4xl"><i class="fa-solid fa-book"></i></div>}
+              <span class="absolute top-3 right-3 bg-white/95 backdrop-blur text-emerald-600 text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full shadow-sm">Gratis</span>
             </div>
-          </article>
+            <div class="pt-4">
+              {g.region && <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-1">{g.region}</p>}
+              <h2 class="font-sans font-bold text-[15px] sm:text-base leading-snug text-brand-oxford group-hover:text-brand-fuchsia transition-colors">{g.titulo}</h2>
+              {g.rating && <p class="text-[11px] text-slate-400 font-bold mt-1.5"><span class="text-amber-400">★</span> {g.rating.toFixed(1)}{g.reviews > 0 && ` · ${g.reviews}`}</p>}
+              <p class="inline-flex items-center gap-1.5 text-[11px] font-black uppercase tracking-widest text-brand-fuchsia mt-2.5">Leer gratis <i class="fa-solid fa-arrow-right text-[9px] group-hover:translate-x-1 transition-transform"></i></p>
+            </div>
+          </a>
         ))}
       </div>
-      <aside class="mt-14 bg-gradient-to-br from-brand-fuchsia to-brand-fuchsiaDark rounded-3xl p-8 text-white text-center shadow-2xl shadow-brand-fuchsia/20">
-        <h2 class="font-sans font-extrabold text-2xl mb-2">¿Listo para vivirlo en persona?</h2>
-        <p class="text-white/80 mb-5 max-w-xl mx-auto">Las guías te muestran el camino; nuestros prestadores locales te llevan. Reservá con seña online y sumá Patagonia Puntos.</p>
-        <a href="/experiencias/" class="inline-flex items-center gap-2 bg-white text-brand-fuchsia font-bold text-sm uppercase tracking-widest px-8 py-3.5 rounded-full hover:bg-slate-100 transition-all"><i class="fa-solid fa-ticket"></i> Ver experiencias</a>
+      <div id="sin-resultados" class="hidden text-center py-20">
+        <i class="fa-solid fa-magnifying-glass-minus text-3xl text-slate-200 mb-4 block"></i>
+        <p class="text-slate-400 font-medium">No encontramos guías con esa búsqueda.</p>
+        <p class="text-slate-300 text-sm mt-1">Estamos escribiendo nuevas todo el tiempo — probá con otra región.</p>
+      </div>
+
+      <aside class="mt-20 border-t border-slate-100 pt-14 text-center">
+        <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-3">¿Listo para vivirlo en persona?</h2>
+        <p class="text-slate-500 mb-7 max-w-xl mx-auto">Las guías te muestran el camino; nuestros prestadores locales te llevan. Reservá con seña online y sumá Patagonia Puntos.</p>
+        <a href="/experiencias/" class="inline-flex items-center gap-2 bg-brand-fuchsia hover:bg-brand-fuchsiaDark text-white font-bold text-sm uppercase tracking-widest px-9 py-4 rounded-full shadow-lg shadow-brand-fuchsia/25 transition-all"><i class="fa-solid fa-ticket"></i> Ver experiencias</a>
       </aside>
     </section>
   </main>
+
+  <style is:global>
+    .chip-region { background: #fff; border-color: #e2e8f0; color: #94a3b8; }
+    .chip-region:hover { border-color: #E91E63; color: #E91E63; }
+    .chip-region.activo { background: #E91E63; border-color: #E91E63; color: #fff; }
+  </style>
+
+  <script is:inline>
+    (function () {
+      const input = document.getElementById('buscador-guias');
+      const chips = Array.from(document.querySelectorAll('.chip-region'));
+      const tarjetas = Array.from(document.querySelectorAll('.tarjeta-guia'));
+      const contador = document.getElementById('contador-guias');
+      const vacio = document.getElementById('sin-resultados');
+      let region = '';
+      function filtrar() {
+        const q = (input.value || '').toLowerCase().trim();
+        let visibles = 0;
+        tarjetas.forEach(function (t) {
+          const okTexto = !q || (t.dataset.texto || '').includes(q);
+          const okRegion = !region || t.dataset.region === region;
+          const mostrar = okTexto && okRegion;
+          t.style.display = mostrar ? '' : 'none';
+          if (mostrar) visibles++;
+        });
+        contador.textContent = visibles + (visibles === 1 ? ' guía disponible' : ' guías disponibles');
+        vacio.classList.toggle('hidden', visibles > 0);
+      }
+      input.addEventListener('input', filtrar);
+      chips.forEach(function (c) {
+        c.addEventListener('click', function () {
+          region = c.dataset.region || '';
+          chips.forEach(function (x) { x.classList.toggle('activo', x === c); });
+          filtrar();
+        });
+      });
+    })();
+  </script>
 </BaseLayout>

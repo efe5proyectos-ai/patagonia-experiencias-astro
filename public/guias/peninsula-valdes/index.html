@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <title>Patagonia Secreta · Península Valdés &amp; el Valle 2026</title>
-    <link rel="canonical" href="https://patagoniaexperiencias.com/guias-de-viaje/peninsula-valdes/">
+    <link rel="canonical" href="https://patagoniaexperiencias.com/guias/peninsula-valdes/">
 <meta name="description" content="Patagonia Secreta · Península Valdés y el Valle 2026 · La guía inteligente de los que viajan distinto.">
 <meta name="theme-color" content="#FAFAF7">
 <meta property="og:type" content="website">
@@ -453,6 +453,23 @@
   @media(max-width:480px){
     .sgrid{grid-template-columns:1fr}
   }
+
+  /* ═══ LINKS INLINE (beneficios y tours embebidos en el texto) ═══ */
+  /* Heredado de .btn-mini de Esquel: sin azul de hipervínculo, integrado al texto */
+  .lk, .lk.fill, .lk.map {
+    display:inline-flex; align-items:center; gap:5px;
+    font-family:'Poppins',sans-serif; font-weight:600; font-size:14px;
+    color:var(--negro); text-decoration:none;
+    border-bottom:1px solid var(--color-acento);
+    padding-bottom:1px; transition:color .2s,border-color .2s;
+    line-height:1.3;
+  }
+  .lk:hover, .lk.fill:hover, .lk.map:hover {
+    color:var(--color-acento); border-bottom-color:var(--negro);
+  }
+  /* el de "Cómo llegar" (map) un poco más tenue, como dato secundario */
+  .lk.map { color:var(--gris-tenue); border-bottom-color:var(--gris-claro); font-weight:500; }
+  .lk.map:hover { color:var(--color-acento); border-bottom-color:var(--color-acento); }
 </style>
 </head>
 <body>
@@ -590,8 +607,8 @@
       <p>Acá está el <strong>Patagotitan mayorum</strong>: el dinosaurio más grande jamás encontrado. Sus restos los desenterró este mismo museo en 2014, en una estancia a 260 km de acá. Un solo fémur mide <strong>2,4 metros y pesa 850 kilos</strong>.</p>
       <p>La visita es un viaje al revés en el tiempo: arranca hace 10.000 años, con los primeros humanos de la Patagonia, y retrocede hasta el origen de la vida.</p>
       <a class="lk fill" href="https://patagoniaexperiencias.com/patagonia-experiencias.html?q=Trelew+MEF+museo" target="_blank" rel="noopener">Ver excursiones →</a>
-      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Museo%20Egidio%20Feruglio%20Trelew" target="_blank" rel="noopener">📍 Cómo llegar</a>
-      <a class="lk" href="https://tienda.patagoniapuntos.com/preview/client/prizes/7540/checkout" target="_blank" rel="noopener">🎁 25% off Alquiler HERTZ →</a>
+      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Museo%20Egidio%20Feruglio%20Trelew" target="_blank" rel="noopener">Cómo llegar</a>
+      <a class="lk" href="https://tienda.patagoniapuntos.com/preview/client/prizes/7540/checkout" target="_blank" rel="noopener">25% off Alquiler HERTZ →</a>
     </div>
 
     <div class="it">
@@ -602,8 +619,8 @@
       <p>Acá está el dato que casi nadie te dice: <strong>Punta Tombo está más cerca de Trelew que de Puerto Madryn</strong> (120 km contra 180). Si venís por los pingüinos, esta es tu base — y te ahorrás dos horas de ruta.</p>
       <p>Más de medio millón de pingüinos de Magallanes: la colonia continental más grande del planeta. Caminás entre los nidos y te cruzan a centímetros. Es su casa: ellos tienen prioridad de paso.</p>
       <a class="lk fill" href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/pinguinera-punta-tombo" target="_blank" rel="noopener">Reservar Punta Tombo · 10 h →</a>
-      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Punta%20Tombo%20Chubut" target="_blank" rel="noopener">📍 Cómo llegar</a>
-      <a class="lk" href="https://tienda.patagoniapuntos.com/preview/client/prizes/7249/checkout" target="_blank" rel="noopener">🎁 20% off Calew Travel →</a>
+      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Punta%20Tombo%20Chubut" target="_blank" rel="noopener">Cómo llegar</a>
+      <a class="lk" href="https://tienda.patagoniapuntos.com/preview/client/prizes/7249/checkout" target="_blank" rel="noopener">20% off Calew Travel →</a>
     </div>
 
     <div class="it">
@@ -615,9 +632,9 @@
       <p>La capilla se levantó en <strong>1880</strong>, seis años antes de que Trelew existiera como ciudad. Es <strong>la institución cultural más antigua de la provincia</strong>, y sobrevivió a la gran inundación de 1899 que se llevó a las dos capillas galesas anteriores.</p>
       <p>Pero lo que hay que ver está afuera. En el cementerio del predio descansan <strong>38 de los primeros colonos que llegaron en el velero Mimosa</strong> — y entre ellos, <strong>Lewis Jones</strong>. El galés que impulsó la colonia. El hombre por el que esta ciudad se llama <em>Tre-lew</em>: el pueblo de Luis.</p>
       <p>Los galeses cruzaron el Atlántico buscando libertad de culto. La capilla fue templo, pero también escuela, tribunal y sala de reuniones. Todo empezó en estas cuatro paredes de ladrillo, en medio de la nada.</p>
-      <div class="dato" style="font-size:13px;color:var(--mut);border-top:1px dashed var(--line);padding-top:9px;margin-top:10px">🕐 Visitas: <b style="color:var(--f)">martes 16-19 h · jueves y sábados 10-12 h</b> · Monumento Histórico Provincial</div>
+      <div class="dato" style="font-size:13px;color:var(--mut);border-top:1px dashed var(--line);padding-top:9px;margin-top:10px">Visitas: <b style="color:var(--f)">martes 16-19 h · jueves y sábados 10-12 h</b> · Monumento Histórico Provincial</div>
       <a class="lk fill" href="https://patagoniaexperiencias.com/patagonia-experiencias.html?q=Trelew+capillas+galesas" target="_blank" rel="noopener">Ver circuito galés →</a>
-      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Capilla%20Moriah%20Trelew" target="_blank" rel="noopener">📍 Cómo llegar</a>
+      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Capilla%20Moriah%20Trelew" target="_blank" rel="noopener">Cómo llegar</a>
     </div>
     </div>
   </section>
@@ -759,8 +776,8 @@
       <h4>El varamiento de las orcas · Punta Norte</h4>
       <p>El evento más impresionante de la Patagonia costera. No está garantizado: depende de la marea, de la temporada y de la paciencia. Los que las ven son los que se quedan.</p>
       <a class="lk fill" href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/peninsula-valdes" target="_blank" rel="noopener">Reservar Península Valdés · 10 h →</a>
-      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Punta%20Norte%20Pen%C3%ADnsula%20Vald%C3%A9s" target="_blank" rel="noopener">📍 Cómo llegar</a>
-      <a class="lk" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6641/checkout" target="_blank" rel="noopener">🎁 25% off Orcas Aventuras →</a>
+      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Punta%20Norte%20Pen%C3%ADnsula%20Vald%C3%A9s" target="_blank" rel="noopener">Cómo llegar</a>
+      <a class="lk" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6641/checkout" target="_blank" rel="noopener">25% off Orcas Aventuras →</a>
     </div>
 
     <div class="it">
@@ -769,7 +786,7 @@
       <h4>Buceo y snorkel con lobos marinos</h4>
       <p>El otoño trae la mejor visibilidad del año bajo el agua. Los lobos marinos de un pelo son curiosos: se acercan solos, giran alrededor tuyo, te muerden las aletas. Puerto Madryn es la Capital Nacional del Buceo.</p>
       <a class="lk fill" href="https://patagoniaexperiencias.com/patagonia-experiencias.html?q=buceo+lobos+marinos" target="_blank" rel="noopener">Ver excursiones →</a>
-      <a class="lk" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6521/checkout" target="_blank" rel="noopener">🎁 20% off Buceo Scuba Duba →</a>
+      <a class="lk" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6521/checkout" target="_blank" rel="noopener">20% off Buceo Scuba Duba →</a>
     </div>
 
     <div class="it">
@@ -778,8 +795,8 @@
       <h4>Los últimos pingüinos · Punta Tombo</h4>
       <p>Hasta mediados de abril quedan los pichones del año, ya emplumados, aprendiendo a nadar antes de irse al mar. Menos gente que en verano, y una colonia que se vacía de a poco.</p>
       <a class="lk fill" href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/pinguinera-punta-tombo" target="_blank" rel="noopener">Reservar Punta Tombo · 10 h →</a>
-      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Punta%20Tombo%20Chubut" target="_blank" rel="noopener">📍 Cómo llegar</a>
-      <a class="lk" href="https://tienda.patagoniapuntos.com/preview/client/prizes/7249/checkout" target="_blank" rel="noopener">🎁 20% off Calew Travel →</a>
+      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Punta%20Tombo%20Chubut" target="_blank" rel="noopener">Cómo llegar</a>
+      <a class="lk" href="https://tienda.patagoniapuntos.com/preview/client/prizes/7249/checkout" target="_blank" rel="noopener">20% off Calew Travel →</a>
     </div>
     </div>
   </section>
@@ -907,8 +924,8 @@
       <h4>Avistaje embarcado · Puerto Pirámides</h4>
       <p>El único punto de embarque autorizado del área protegida. Las lanchas entran al mar con tractores desde la playa. En minutos estás al lado de una ballena de cuarenta toneladas — y escuchás su respiración antes de verla. No las persiguen: ellas se acercan.</p>
       <a class="lk fill" href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/solo-ballenas-tour-y-traslados-a-peninsula-valdes" target="_blank" rel="noopener">Reservar Solo Ballenas · 8 h →</a>
-      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Puerto%20Pir%C3%A1mides%20Chubut" target="_blank" rel="noopener">📍 Cómo llegar</a>
-      <a class="lk" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6789/checkout" target="_blank" rel="noopener">🎁 15% off Avistaje Peke Sosa →</a>
+      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Puerto%20Pir%C3%A1mides%20Chubut" target="_blank" rel="noopener">Cómo llegar</a>
+      <a class="lk" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6789/checkout" target="_blank" rel="noopener">15% off Avistaje Peke Sosa →</a>
     </div>
 
     <div class="it">
@@ -917,7 +934,7 @@
       <h4>Ballenas desde la costa · El Doradillo</h4>
       <p>Uno de los poquísimos lugares del planeta donde una ballena de cuarenta toneladas pasa a metros de la orilla. Es gratis, es a veinte minutos de Madryn, y podés volver todas las veces que quieras. La clave está en el secreto N°04.</p>
       <a class="lk fill" href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/el-doradillo-avistaje-costero-ballena-franca-austral" target="_blank" rel="noopener">Reservar El Doradillo · 3 h →</a>
-      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Playa%20El%20Doradillo%20Puerto%20Madryn" target="_blank" rel="noopener">📍 Cómo llegar</a>
+      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Playa%20El%20Doradillo%20Puerto%20Madryn" target="_blank" rel="noopener">Cómo llegar</a>
     </div>
 
     <div class="it">
@@ -1054,7 +1071,7 @@
       <h4>Ballenas con crías · el pico de la temporada</h4>
       <p>Septiembre, octubre y noviembre son el momento máximo. Las crías ya nacieron y juegan alrededor de la madre, saltan, golpean el agua con la cola. Una ballena adulta puede acercarse al barco por curiosidad.</p>
       <a class="lk fill" href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/solo-ballenas-tour-y-traslados-a-peninsula-valdes" target="_blank" rel="noopener">Reservar Solo Ballenas · 8 h →</a>
-      <a class="lk" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6789/checkout" target="_blank" rel="noopener">🎁 15% off Avistaje Peke Sosa →</a>
+      <a class="lk" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6789/checkout" target="_blank" rel="noopener">15% off Avistaje Peke Sosa →</a>
     </div>
 
     <div class="it">
@@ -1063,7 +1080,7 @@
       <h4>Tulipanes de Tir Halen · 28 de Julio</h4>
       <p>La primicia de la temporada: el <strong>segundo campo de tulipanes de Chubut</strong>, a orillas del río, abriendo por primera vez. Hectáreas de color encendido en pleno valle patagónico, en el mismo viaje que las ballenas.</p>
       <a class="lk fill" href="https://patagoniaexperiencias.com/patagonia-experiencias.html?q=tulipanes" target="_blank" rel="noopener">Ver excursión →</a>
-      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=28%20de%20Julio%20Chubut%20Ruta%2025" target="_blank" rel="noopener">📍 Cómo llegar</a>
+      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=28%20de%20Julio%20Chubut%20Ruta%2025" target="_blank" rel="noopener">Cómo llegar</a>
     </div>
 
     <div class="it">
@@ -1072,7 +1089,7 @@
       <h4>Vuelven los pingüinos · Punta Tombo</h4>
       <p>Desde mediados de septiembre llegan más de medio millón. Primero los machos, a reclamar el nido del año anterior. Después las hembras. Caminás entre ellos por senderos y te cruzan a centímetros: es su casa, ellos tienen prioridad de paso.</p>
       <a class="lk fill" href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/pinguinera-punta-tombo" target="_blank" rel="noopener">Reservar Punta Tombo · 10 h →</a>
-      <a class="lk" href="https://tienda.patagoniapuntos.com/preview/client/prizes/7249/checkout" target="_blank" rel="noopener">🎁 20% off Calew Travel →</a>
+      <a class="lk" href="https://tienda.patagoniapuntos.com/preview/client/prizes/7249/checkout" target="_blank" rel="noopener">20% off Calew Travel →</a>
     </div>
     </div>
   </section>
@@ -1200,8 +1217,8 @@
       <h4>Toninas overas · Rawson</h4>
       <p>Delfines blancos y negros que se acercan solos a la lancha y corren en la proa. No están amaestrados: es juego. Salen del puerto de Rawson, temprano, cuando el mar está calmo.</p>
       <a class="lk fill" href="https://patagoniaexperiencias.com/patagonia-experiencias.html?q=toninas+Rawson" target="_blank" rel="noopener">Ver avistaje →</a>
-      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Puerto%20de%20Rawson%20Chubut" target="_blank" rel="noopener">📍 Cómo llegar</a>
-      <a class="lk" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6844/checkout" target="_blank" rel="noopener">🎁 15% off Estación Marítima →</a>
+      <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Puerto%20de%20Rawson%20Chubut" target="_blank" rel="noopener">Cómo llegar</a>
+      <a class="lk" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6844/checkout" target="_blank" rel="noopener">15% off Estación Marítima →</a>
     </div>
 
     <div class="it">
@@ -1210,7 +1227,7 @@
       <h4>Snorkel con lobos marinos · Puerto Madryn</h4>
       <p>Te metés al agua y son ellos los que se acercan: giran, te miran a los ojos, te muerden las aletas. Una de las experiencias de fauna más intensas de la Patagonia, y no hace falta saber bucear.</p>
       <a class="lk fill" href="https://patagoniaexperiencias.com/patagonia-experiencias.html?q=snorkel+lobos+marinos" target="_blank" rel="noopener">Ver excursiones →</a>
-      <a class="lk" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6807/checkout" target="_blank" rel="noopener">🎁 20% off Lobo Larsen →</a>
+      <a class="lk" href="https://tienda.patagoniapuntos.com/preview/client/prizes/6807/checkout" target="_blank" rel="noopener">20% off Lobo Larsen →</a>
     </div>
 
     <div class="it">
@@ -1219,7 +1236,7 @@
       <h4>Los pichones de Punta Tombo</h4>
       <p>Diciembre y enero: los pichones ya nacieron, están enormes y cubiertos de plumón. En febrero mudan la pluma y aprenden a nadar. La colonia está en su punto máximo de actividad y ruido.</p>
       <a class="lk fill" href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/pinguinera-punta-tombo" target="_blank" rel="noopener">Reservar Punta Tombo · 10 h →</a>
-      <a class="lk" href="https://tienda.patagoniapuntos.com/preview/client/prizes/7249/checkout" target="_blank" rel="noopener">🎁 20% off Calew Travel →</a>
+      <a class="lk" href="https://tienda.patagoniapuntos.com/preview/client/prizes/7249/checkout" target="_blank" rel="noopener">20% off Calew Travel →</a>
     </div>
     </div>
   </section>
@@ -1325,22 +1342,22 @@
     <div class="sub" style="color:rgba(255,255,255,.6)">Las excursiones de la guía, reservables ahora. Precio online, cupo confirmado.</div><div class="bkgrid">
 
     <a class="bk" href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/peninsula-valdes" target="_blank" rel="noopener">
-      <div class="ic">🐋</div>
+      <div class="ic"></div>
       <div class="bd"><div class="nm">Península Valdés · día completo</div><div class="mt">10 horas · el circuito entero</div></div>
       <div class="go">Reservar →</div>
     </a>
     <a class="bk" href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/solo-ballenas-tour-y-traslados-a-peninsula-valdes" target="_blank" rel="noopener">
-      <div class="ic">🌊</div>
+      <div class="ic"></div>
       <div class="bd"><div class="nm">Solo Ballenas · con traslados</div><div class="mt">8 horas · directo al avistaje</div></div>
       <div class="go">Reservar →</div>
     </a>
     <a class="bk" href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/pinguinera-punta-tombo" target="_blank" rel="noopener">
-      <div class="ic">🐧</div>
+      <div class="ic"></div>
       <div class="bd"><div class="nm">Pingüinera de Punta Tombo</div><div class="mt">10 horas · septiembre a abril</div></div>
       <div class="go">Reservar →</div>
     </a>
     <a class="bk" href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/el-doradillo-avistaje-costero-ballena-franca-austral" target="_blank" rel="noopener">
-      <div class="ic">🌅</div>
+      <div class="ic"></div>
       <div class="bd"><div class="nm">El Doradillo · avistaje costero</div><div class="mt">3 horas · ballenas desde la orilla</div></div>
       <div class="go">Reservar →</div>
     </a></div>

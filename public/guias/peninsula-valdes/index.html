@@ -1522,7 +1522,7 @@ function cerrar(){ document.getElementById('menu').classList.remove('on'); }
         fbq('track','InitiateCheckout',{content_name:t[1],content_category:'excursion'});
         return;
       }
-      if (/puntos/i.test(a.href)) { fbq('track','Lead',{content_name:'Patagonia Puntos'}); return; }
+      if (/puntos/i.test(a.href)) { fbq('track','Lead',{content_name:'Patagonia Experiencias'}); return; }
       if (q) fbq('track','Search',{search_string:q});
     });
   });

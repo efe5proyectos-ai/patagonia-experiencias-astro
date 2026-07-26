@@ -537,7 +537,7 @@ function App() {
       });
       try {
         const notifRef = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('notificaciones');
-        await notifRef.add({
+        await notifRef.doc('nuevo_prestador_' + user.uid).set({
           destinatarioUid: 'admin',
           destinatarioRol: 'admin',
           tipo: 'nuevo_prestador',

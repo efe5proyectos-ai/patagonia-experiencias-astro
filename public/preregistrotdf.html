@@ -546,6 +546,28 @@ $("preForm").addEventListener("submit", async function(ev){
     return;
   }
 
+  // 4.b) Correo de bienvenida — mismo webhook de Make que el registro normal.
+  // Fire-and-forget: si el webhook falla, el registro NO se interrumpe.
+  // Se envían origen/campaña/bonificación para poder personalizar el correo de convenio en Make.
+  try {
+    const MAKE_WEBHOOK_BIENVENIDA = "https://hook.us2.make.com/cp2fgy5e6u898t3ziy46m1hp2o2yr7xp";
+    fetch(MAKE_WEBHOOK_BIENVENIDA, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        nombreAgencia: empresa || "Prestador",
+        email: emailAuth,
+        rubro: $("rubro").value || "",
+        plan: BENEFICIO.plan || "",
+        origen: "cattdf",
+        campania: BENEFICIO.campania || "",
+        bonificado: true,
+        mesesBonificados: BENEFICIO.mesesBonificados || 0,
+        fecha: new Date().toISOString()
+      })
+    }).catch(function (errHook) { console.warn("No se pudo llamar al webhook de bienvenida:", errHook); });
+  } catch (hookErr) { console.warn("Error preparando el webhook de bienvenida:", hookErr); }
+
   // 5) Listo → al panel del prestador, ya con la sesión iniciada
   irAlPanel();
 });

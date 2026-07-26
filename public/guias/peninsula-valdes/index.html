@@ -1472,7 +1472,7 @@
   </div>
 
   <footer>
-    <b>PATAGONIA PUNTOS</b><br>
+    <b>PATAGONIA EXPERIENCIAS</b><br>
     El equipo editorial · Península Valdés · Puerto Madryn · El Valle · 2026<br>
     Magazine te inspira · Experiencias lo reserva · Puntos te devuelve
   </footer>
@@ -1522,7 +1522,7 @@ function cerrar(){ document.getElementById('menu').classList.remove('on'); }
         fbq('track','InitiateCheckout',{content_name:t[1],content_category:'excursion'});
         return;
       }
-      if (/puntos/i.test(a.href)) { fbq('track','Lead',{content_name:'Patagonia Experiencias'}); return; }
+      if (/puntos/i.test(a.href)) { fbq('track','Lead',{content_name:'Patagonia Puntos'}); return; }
       if (q) fbq('track','Search',{search_string:q});
     });
   });

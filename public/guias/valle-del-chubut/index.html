@@ -263,10 +263,26 @@
   }
   @media(max-width:600px){.hero h1{font-size:58px}}
   @media(max-width:480px){.citymenu{grid-template-columns:1fr}.sgrid{grid-template-columns:1fr}}
+
+  /* ═══ MENÚ DE NAV (faltaba) + identidad bandera galesa ═══ */
+  :root{ --gales-rojo:#C8102E; --gales-verde:#3D5A40; }
+  .nav-in{gap:12px}
+  .nav .brand{margin-right:auto;white-space:nowrap}
+  .nav .menu{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;margin-left:auto}
+  .nav .menu::-webkit-scrollbar{display:none}
+  .nav .menu a{font-family:'Poppins',sans-serif;font-size:12.5px;font-weight:600;color:var(--gris-tenue);padding:7px 13px;white-space:nowrap;border-radius:2px;transition:.15s}
+  .nav .menu a:hover{color:var(--negro);background:var(--gris-claro)}
+  /* la marca Huella(rojo galés) Galesa(verde galés) */
+  .nav .brand b{color:var(--gales-rojo)}
+  /* dragón: acento inicial de la huella en la landing */
+  .hero .kicker{color:var(--gales-rojo)}
+  .menu-sec .lbl,.federal .lbl,.corr .lbl{color:var(--gales-verde)}
+  .stop.star .dot{background:var(--gales-rojo);box-shadow:0 0 0 5px rgba(200,16,46,.15)}
+  .stop .dot{border-color:var(--gales-verde)}
 </style></head>
 <body>
 <div class="prog" id="prog"></div>
-<nav class="nav"><div class="nav-in"><a href="#top" class="brand">Huella<b>Galesa</b></a><div class="menu">
+<nav class="nav"><div class="nav-in"><a href="#top" class="brand">Huella<b style="color:var(--gales-verde)">Galesa</b></a><div class="menu">
 <a href="#rawson">Rawson</a>
 <a href="#trelew">Trelew</a>
 <a href="#gaiman">Gaiman</a>

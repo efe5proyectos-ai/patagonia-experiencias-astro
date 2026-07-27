@@ -263,10 +263,14 @@
   }
   @media(max-width:600px){.hero h1{font-size:58px}}
   @media(max-width:480px){.citymenu{grid-template-columns:1fr}.sgrid{grid-template-columns:1fr}}
+
+  /* ═══ identidad bandera galesa (común a toda la Huella) ═══ */
+  :root{ --gales-rojo:#C8102E; --gales-verde:#3D5A40; }
+  .nav .brand b{color:var(--gales-rojo)}
 </style></head>
 <body>
 <div class="prog" id="prog"></div>
-<nav class="nav"><div class="nav-in"><a class="back" href="../">Volver al Valle</a><span class="brand">Huella<b>Galesa</b></span></div></nav>
+<nav class="nav"><div class="nav-in"><a class="back" href="../">Volver al Valle</a><span class="brand">Huella<b style="color:var(--gales-verde)">Galesa</b></span></div></nav>
 <header class="hero"><div class="hero-img"><img src="../img/trelew-hero.jpg" alt="Trelew" fetchpriority="high"></div>
   <div class="hero-in"><div class="kicker">El epicentro del Valle del Chubut</div><h1>Trelew</h1>
     <div class="sig">Del galés: tre (pueblo) + lew (por Lewis Jones). El Pueblo de Luis.</div><span class="km">Kilómetro 0 del corredor · El epicentro del Valle</span>

@@ -263,10 +263,14 @@
   }
   @media(max-width:600px){.hero h1{font-size:58px}}
   @media(max-width:480px){.citymenu{grid-template-columns:1fr}.sgrid{grid-template-columns:1fr}}
+
+  /* ═══ identidad bandera galesa (común a toda la Huella) ═══ */
+  :root{ --gales-rojo:#C8102E; --gales-verde:#3D5A40; }
+  .nav .brand b{color:var(--gales-rojo)}
 </style></head>
 <body>
 <div class="prog" id="prog"></div>
-<nav class="nav"><div class="nav-in"><a class="back" href="../">Volver al Valle</a><span class="brand">Huella<b>Galesa</b></span></div></nav>
+<nav class="nav"><div class="nav-in"><a class="back" href="../">Volver al Valle</a><span class="brand">Huella<b style="color:var(--gales-verde)">Galesa</b></span></div></nav>
 <header class="hero"><div class="hero-img"><img src="../img/28julio-hero.jpg" alt="28 de Julio" fetchpriority="high"></div>
   <div class="hero-in"><div class="kicker">La chacra viva · El fin de la huella</div><h1>28 de Julio</h1>
     <div class="sig">La fecha exacta del desembarco galés: 28 de julio de 1865.</div><span class="km">46 km al oeste de Trelew · La chacra viva</span>

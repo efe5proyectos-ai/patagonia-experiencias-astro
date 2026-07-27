@@ -1258,45 +1258,11 @@ const limpiarTextoWord = valor => {
   s = s.replace(/\u00A0/g, ' ').replace(/[ \t]{2,}/g, ' ').replace(/\n{3,}/g, '\n\n').trim();
   return s;
 };
-
-// Sprint temporadas (23/07/2026): precio vigente según el MES de la fecha de reserva.
-const resolverPrecioVigente = (tour, fechaRef) => {
-  const base = Number(tour?.precio) || 0;
-  let precioAdulto = base;
-  let temporadaNombre = null;
-  let precioNinoTemporada = null;
-  try {
-    let d = fechaRef ? new Date(String(fechaRef).length === 10 ? fechaRef + 'T12:00:00' : fechaRef) : new Date();
-    if (isNaN(d.getTime())) d = new Date();
-    const mes = d.getMonth() + 1;
-    const temps = Array.isArray(tour?.temporadasPrecio) ? tour.temporadasPrecio : [];
-    const t = temps.find(tp => tp && Array.isArray(tp.meses) && tp.meses.map(Number).includes(mes) && Number(tp.precio) > 0);
-    if (t) {
-      precioAdulto = Number(t.precio);
-      temporadaNombre = t.nombre || null;
-      precioNinoTemporada = Number(t.precioNino) > 0 ? Number(t.precioNino) : null;
-    }
-  } catch (e) {}
-  const politica = tour?.politicaNinos || '100';
-  let precioNino = null;
-  if (precioNinoTemporada != null) {
-    precioNino = precioNinoTemporada;
-  } else if (politica === 'manual') {
-    precioNino = Number(tour?.precioNino) > 0 ? Number(tour.precioNino) : null;
-  }
-  return {
-    precioAdulto,
-    precioNino,
-    temporadaNombre,
-    etiquetaNino: tour?.etiquetaNino || ''
-  };
-};
-const calcularPreciosTour = (tour, agencias, planes, fechaRef) => {
+const calcularPreciosTour = (tour, agencias, planes) => {
   // Si no se pasan, usamos los module-scoped
   agencias = agencias || _agenciasGlobal;
   planes = planes || _planesGlobal;
-  const _vigente = resolverPrecioVigente(tour, fechaRef);
-  const precioBase = _vigente.precioAdulto || Number(tour?.precio) || 0;
+  const precioBase = Number(tour?.precio) || 0;
 
   // 1. Encontrar la agencia del tour.
   // Sprint 28 fix: el proveedorId puede ser el id del documento (legacy)
@@ -2270,6 +2236,7 @@ function Navbar({
   onVerRevista
 }) {
   const [langOpen, setLangOpen] = useState(false);
+  const [menuMovil, setMenuMovil] = useState(false); // Menú hamburguesa móvil (24/07/2026)
   return /*#__PURE__*/React.createElement("nav", {
     className: `fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-md py-3 border-b border-slate-200' : 'bg-gradient-to-b from-slate-900/80 to-transparent py-6'}`
   }, /*#__PURE__*/React.createElement("div", {
@@ -2351,6 +2318,42 @@ function Navbar({
     className: `hidden md:flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full transition-all hover-magenta ${scrolled ? 'text-slate-500 hover:bg-brand-fuchsia/5' : 'text-white/90 hover:bg-white/10'}`
   }, /*#__PURE__*/React.createElement("i", {
     className: "fa-solid fa-store"
+  }), " Soy Prestador"), /*#__PURE__*/React.createElement("button", {
+    onClick: () => setMenuMovil(!menuMovil),
+    "aria-label": "Abrir menú",
+    "aria-expanded": menuMovil,
+    className: `md:hidden w-10 h-10 flex items-center justify-center rounded-full border transition-all ${scrolled ? 'border-slate-200 text-slate-600 hover:border-brand-fuchsia hover:text-brand-fuchsia' : 'border-white/30 text-white hover:bg-white/10'}`
+  }, /*#__PURE__*/React.createElement("i", {
+    className: `fa-solid ${menuMovil ? 'fa-xmark' : 'fa-bars'} text-lg`
+  })))), menuMovil && /*#__PURE__*/React.createElement("div", {
+    className: "md:hidden absolute top-full left-0 right-0 bg-white border-t border-slate-100 shadow-2xl"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "max-w-7xl mx-auto px-4 py-2 flex flex-col"
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: () => {
+      setMenuMovil(false);
+      onVerRevista();
+    },
+    className: "flex items-center gap-3 py-3.5 px-2 text-sm font-bold uppercase tracking-widest text-slate-600 border-b border-slate-50 text-left active:text-brand-fuchsia"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fa-solid fa-newspaper w-5 text-center text-brand-fuchsia"
+  }), " Revista"), /*#__PURE__*/React.createElement("a", {
+    href: "/guias-de-viaje/",
+    className: "flex items-center gap-3 py-3.5 px-2 text-sm font-bold uppercase tracking-widest text-slate-600 border-b border-slate-50 active:text-brand-fuchsia"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fa-solid fa-book-open w-5 text-center text-brand-fuchsia"
+  }), " Guía de Viajeros"), /*#__PURE__*/React.createElement("a", {
+    href: "https://tienda.patagoniapuntos.com",
+    target: "_blank",
+    rel: "noopener noreferrer",
+    className: "flex items-center gap-3 py-3.5 px-2 text-sm font-bold uppercase tracking-widest text-slate-600 border-b border-slate-50 active:text-brand-fuchsia"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fa-solid fa-coins w-5 text-center text-brand-fuchsia"
+  }), " Suma Puntos"), /*#__PURE__*/React.createElement("a", {
+    href: "prestadores.html",
+    className: "flex items-center gap-3 py-3.5 px-2 text-sm font-bold uppercase tracking-widest text-slate-600 active:text-brand-fuchsia"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fa-solid fa-store w-5 text-center text-brand-fuchsia"
   }), " Soy Prestador"))));
 }
 
@@ -3536,15 +3539,7 @@ function TourDetailPage({
   //   '100' = niños pagan igual que adulto (default)
   // El paxFactor es el "equivalente en adultos" (ej: 2 adultos + 1 niño al 50% = 2.5)
   const politicaNinos = tour.politicaNinos || '100';
-  const _vigCheckout = resolverPrecioVigente(tour, fecha);
-  let factorNino;
-  if (_vigCheckout.precioNino != null && _vigCheckout.precioAdulto > 0) {
-    factorNino = _vigCheckout.precioNino / _vigCheckout.precioAdulto;
-  } else if (politicaNinos === 'manual') {
-    factorNino = 1;
-  } else {
-    factorNino = Number(politicaNinos) / 100;
-  }
+  const factorNino = Number(politicaNinos) / 100;
   const paxFactor = viajeros.adultos + viajeros.ninos * factorNino;
   let noches = 1;
   if (tour.categoria === 'alojamiento' && fecha && fechaSalida) {
@@ -3571,7 +3566,7 @@ function TourDetailPage({
   //   precioSaldoDestinoUnitario: lo que paga al operador en destino (siempre precioLista - comisión)
   //   ahorroUnitario:           cuánto ahorra el turista (precioLista - preventa)
   //   descuentoPctReal:         % de descuento sobre precio total para mostrar en el botón "-10%"
-  const _calcTour = calcularPreciosTour(tour, null, null, fecha);
+  const _calcTour = calcularPreciosTour(tour);
   // FIX bug: la condición vieja exigía precioPreventa < precioBase, pero si NO hay descuento
   // ambos son iguales y se caía al CASO 3 (sin reserva online).
   // Lo correcto: si hay COMISIÓN > 0, ya tenemos modelo nuevo, sin importar si hay descuento.
@@ -4975,8 +4970,7 @@ function TourDetailPage({
     className: "mb-5 bg-slate-50 p-5 rounded-2xl border border-slate-100 text-center shadow-inner"
   }, (() => {
     // CASO 1: modelo nuevo con comisión calculada (PRIORITARIO)
-    const calc = calcularPreciosTour(tour, null, null, fecha);
-    const _vigSidebar = resolverPrecioVigente(tour, fecha);
+    const calc = calcularPreciosTour(tour);
     if (calc.comisionPct > 0 && calc.precioPreventa > 0 && calc.precioPreventa < calc.precioBase) {
       return /*#__PURE__*/React.createElement("div", {
         className: "flex flex-col gap-1 items-center"
@@ -4994,15 +4988,7 @@ function TourDetailPage({
         className: "text-4xl font-title font-black text-brand-fuchsia leading-none"
       }, "$", calc.precioPreventa.toLocaleString('es-AR')), /*#__PURE__*/React.createElement("span", {
         className: "text-[9px] text-slate-400 font-bold uppercase mt-2"
-      }, tour.categoria === 'alojamiento' ? '/ noche · por unidad' : '/ pers.'), typeof _vigSidebar !== 'undefined' && _vigSidebar.temporadaNombre && /*#__PURE__*/React.createElement("span", {
-        className: "text-[9px] font-black uppercase tracking-widest bg-sky-50 text-sky-600 border border-sky-200 px-2 py-1 rounded-md mt-1"
-      }, /*#__PURE__*/React.createElement("i", {
-        className: "fa-solid fa-snowflake mr-1"
-      }), "Precio temporada: ", _vigSidebar.temporadaNombre), typeof _vigSidebar !== 'undefined' && _vigSidebar.precioNino != null && /*#__PURE__*/React.createElement("span", {
-        className: "text-[9px] font-bold uppercase tracking-wide text-amber-600 mt-1"
-      }, /*#__PURE__*/React.createElement("i", {
-        className: "fa-solid fa-child mr-1"
-      }), "Menores", _vigSidebar.etiquetaNino ? ' (' + _vigSidebar.etiquetaNino + ')' : '', ": $", _vigSidebar.precioNino.toLocaleString('es-AR')));
+      }, tour.categoria === 'alojamiento' ? '/ noche · por unidad' : '/ pers.'));
     }
     // CASO 2: tour viejo con precioDescuento manual
     if (tour.precioDescuento && Number(tour.precioDescuento) > 0 && Number(tour.precioDescuento) < Number(tour.precio)) {
@@ -5022,15 +5008,7 @@ function TourDetailPage({
         className: "text-4xl font-title font-black text-brand-fuchsia leading-none"
       }, "$", Number(tour.precioDescuento).toLocaleString('es-AR')), /*#__PURE__*/React.createElement("span", {
         className: "text-[9px] text-slate-400 font-bold uppercase mt-2"
-      }, tour.categoria === 'alojamiento' ? '/ noche · por unidad' : '/ pers.'), typeof _vigSidebar !== 'undefined' && _vigSidebar.temporadaNombre && /*#__PURE__*/React.createElement("span", {
-        className: "text-[9px] font-black uppercase tracking-widest bg-sky-50 text-sky-600 border border-sky-200 px-2 py-1 rounded-md mt-1"
-      }, /*#__PURE__*/React.createElement("i", {
-        className: "fa-solid fa-snowflake mr-1"
-      }), "Precio temporada: ", _vigSidebar.temporadaNombre), typeof _vigSidebar !== 'undefined' && _vigSidebar.precioNino != null && /*#__PURE__*/React.createElement("span", {
-        className: "text-[9px] font-bold uppercase tracking-wide text-amber-600 mt-1"
-      }, /*#__PURE__*/React.createElement("i", {
-        className: "fa-solid fa-child mr-1"
-      }), "Menores", _vigSidebar.etiquetaNino ? ' (' + _vigSidebar.etiquetaNino + ')' : '', ": $", _vigSidebar.precioNino.toLocaleString('es-AR')));
+      }, tour.categoria === 'alojamiento' ? '/ noche · por unidad' : '/ pers.'));
     }
     // CASO 3: precio plano
     return /*#__PURE__*/React.createElement("div", {
@@ -5173,15 +5151,7 @@ function TourDetailPage({
     className: "text-[9px] text-amber-600 font-bold mt-0.5 uppercase tracking-wide"
   }, /*#__PURE__*/React.createElement("i", {
     className: "fa-solid fa-tag mr-0.5"
-  }), " Pagan 50%"), (() => {
-    const v = resolverPrecioVigente(tour, fecha);
-    if (v.precioNino == null) return null;
-    return /*#__PURE__*/React.createElement("p", {
-      className: "text-[9px] text-amber-600 font-bold mt-0.5 uppercase tracking-wide"
-    }, /*#__PURE__*/React.createElement("i", {
-      className: "fa-solid fa-tag mr-0.5"
-    }), " $", v.precioNino.toLocaleString('es-AR'), " c/u", v.etiquetaNino ? ' · ' + v.etiquetaNino : '');
-  })()), /*#__PURE__*/React.createElement("div", {
+  }), " Pagan 50%")), /*#__PURE__*/React.createElement("div", {
     className: "flex items-center gap-3"
   }, /*#__PURE__*/React.createElement("button", {
     onClick: () => setViajeros(v => ({

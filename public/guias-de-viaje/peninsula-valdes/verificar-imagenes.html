@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verificador de imágenes · Guía Península</title>
+<style>
+  body{font-family:system-ui,sans-serif;background:#111;color:#eee;padding:24px;line-height:1.6}
+  h1{font-size:22px;margin-bottom:6px}
+  .sub{color:#888;font-size:14px;margin-bottom:20px}
+  .box{background:#1c1c20;border-radius:10px;padding:16px;margin-bottom:18px}
+  .ok{color:#4ade80}.fail{color:#f87171}
+  .big{font-size:30px;font-weight:800;margin:0}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  td{padding:7px 8px;border-bottom:1px solid #2a2a30}
+  td:first-child{width:26px}
+  code{background:#000;padding:2px 6px;border-radius:4px;font-size:13px}
+  .thumb{width:52px;height:34px;object-fit:cover;border-radius:4px;background:#000}
+  .copiar{background:#E6007E;color:#fff;border:none;padding:10px 16px;border-radius:99px;font-weight:700;cursor:pointer;margin-top:10px}
+</style>
+</head>
+<body>
+<h1>🔍 Verificador de imágenes</h1>
+<div class="sub">Subí este archivo a <code>/viajeros/peninsula/</code>, al lado de la guía. Abrilo y te dice cuáles faltan.</div>
+
+<div class="box">
+  <p class="big"><span id="ok" class="ok">0</span> / <span id="tot">39</span> cargadas</p>
+  <p id="resumen" style="margin:0;color:#888">Verificando…</p>
+</div>
+
+<div class="box" id="faltan-box" style="display:none">
+  <b class="fail">❌ FALTAN estos archivos:</b>
+  <div id="faltan" style="margin-top:10px;font-family:monospace;font-size:13px;line-height:1.9"></div>
+  <button class="copiar" onclick="copiar()">Copiar la lista</button>
+</div>
+
+<div class="box">
+  <table id="tabla"></table>
+</div>
+
+<script>
+const IMGS = ["00-portada.jpg","01-trelew-hero.jpg","02-otono-hero.jpg","03-invierno-hero.jpg","04-primavera-hero.jpg","05-verano-hero.jpg","10-mef-patagotitan.jpg","11-punta-tombo.jpg","12-capilla-moriah.jpg","20-orcas-punta-norte.jpg","21-lobos-snorkel.jpg","22-pinguinos-otono.jpg","30-avistaje-piramides.jpg","31-el-doradillo.jpg","32-elefantes-marinos.jpg","40-ballena-cria.jpg","41-tulipanes.jpg","42-pinguinos-llegan.jpg","50-toninas.jpg","51-snorkel-verano.jpg","52-pichones.jpg","60-patagotitan-ruta3.jpg","61-plaza-trelew.jpg","62-capilla-moriah-cementerio.jpg","63-orca-tele.jpg","64-guanacos-contraluz.jpg","65-loberia-atardecer.jpg","66-soplido-amanecer.jpg","67-navegacion-manana.jpg","68-acantilados-caleta.jpg","69-tulipanes-manana.jpg","70-pinguino-ras.jpg","71-salto-ballena.jpg","72-toninas-proa.jpg","73-pardelas-atardecer.jpg","74-via-lactea.jpg","80-gigante-pinguino.jpg","81-manifiesto.jpg","82-aike.jpg"];
+
+let ok = 0, faltan = [], hechas = 0;
+const tabla = document.getElementById('tabla');
+document.getElementById('tot').textContent = IMGS.length;
+
+IMGS.forEach(function(f){
+  const tr = tabla.insertRow();
+  const im = new Image();
+  im.onload = function(){
+    ok++;
+    tr.innerHTML = '<td class="ok">✓</td><td><img class="thumb" src="img/'+f+'"></td><td><code>'+f+'</code></td><td style="color:#666">'+im.naturalWidth+'×'+im.naturalHeight+'</td>';
+    fin();
+  };
+  im.onerror = function(){
+    faltan.push(f);
+    tr.innerHTML = '<td class="fail">✗</td><td></td><td><code class="fail">'+f+'</code></td><td class="fail">NO ENCONTRADA</td>';
+    fin();
+  };
+  im.src = 'img/' + f + '?v=' + Date.now();
+});
+
+function fin(){
+  hechas++;
+  document.getElementById('ok').textContent = ok;
+  if (hechas < IMGS.length) return;
+  const r = document.getElementById('resumen');
+  if (faltan.length === 0) {
+    r.innerHTML = '<span class="ok">🎉 ¡Están todas! La guía tiene que verse perfecta.</span>';
+  } else {
+    r.innerHTML = '<span class="fail">Faltan ' + faltan.length + '. Revisá el nombre exacto (mayúsculas, guiones, .jpg) y que estén en la carpeta <code>img/</code>.</span>';
+    document.getElementById('faltan-box').style.display = 'block';
+    document.getElementById('faltan').innerHTML = faltan.join('<br>');
+  }
+}
+function copiar(){
+  navigator.clipboard.writeText(faltan.join('\n'));
+  event.target.textContent = '¡Copiado!';
+}
+</script>
+</body>
+</html>

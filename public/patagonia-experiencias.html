@@ -4964,11 +4964,18 @@ function TourDetailPage({
     className: "fa-brands fa-youtube text-red-500"
   }), " Video de la Experiencia"), /*#__PURE__*/React.createElement("div", {
     className: "aspect-video w-full rounded-2xl overflow-hidden shadow-lg border border-slate-200 bg-slate-100"
-  }, /*#__PURE__*/React.createElement("iframe", {
-    src: tour.videoYoutube.replace("watch?v=", "embed/"),
-    className: "w-full h-full",
-    allowFullScreen: true
-  })))), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/(() => {
+    const url = (tour.videoYoutube || '').trim();
+    const m = url.match(/(?:youtu\.be\/|[?&]v=|\/embed\/|\/shorts\/)([a-zA-Z0-9_-]{11})/);
+    const vid = m ? m[1] : null;
+    if (!vid) return null;
+    return /*#__PURE__*/React.createElement("iframe", {
+      src: `https://www.youtube.com/embed/${vid}?rel=0&modestbranding=1&iv_load_policy=3&color=white`,
+      className: "w-full h-full",
+      allowFullScreen: true,
+      loading: "lazy"
+    });
+  })()))), /*#__PURE__*/React.createElement("div", {
     className: "lg:col-span-1"
   }, /*#__PURE__*/React.createElement("div", {
     className: "bg-white border border-slate-200 rounded-[2rem] p-6 shadow-2xl sticky top-28"

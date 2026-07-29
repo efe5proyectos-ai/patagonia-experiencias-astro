@@ -1,0 +1,20 @@
+# ── Portado del .htaccess de producción ──────────────────────
+# (HTTPS forzado y URLs limpias .html las maneja Cloudflare Pages solo)
+
+# www → sin www (unificar dominio canónico)
+https://www.patagoniaexperiencias.com/* https://patagoniaexperiencias.com/:splat 301
+
+# Links viejos /octopus/ → raíz
+/octopus/* /:splat 301
+/octopus / 301
+
+# Subdominios históricos de campañas
+https://catchubut.patagoniaexperiencias.com/* https://patagoniaexperiencias.com/preregistro 301
+https://cattdf.patagoniaexperiencias.com/* https://patagoniaexperiencias.com/preregistrotdf 301
+
+# ── Guías liberadas: las landings VIEJAS de venta (Ferozo) aterrizan en el
+#    catálogo gratuito nuevo. NO afecta a las guías en /guias-de-viaje/{ciudad}/
+#    (esas se sirven solas desde public/guias-de-viaje/, sin redirect). ──
+/guias.html /guias-de-viaje/ 301
+/guiadeviajeros.html /guias-de-viaje/ 301
+/guiadeviajeros /guias-de-viaje/ 301

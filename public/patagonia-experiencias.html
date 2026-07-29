@@ -624,7 +624,26 @@ window.PETrack = PETrack;
 // pudieron quedar cacheados en proveedorNombre de tours viejos, para que
 // el cliente nunca vea "Cargando..." como nombre de la agencia.
 const PLACEHOLDERS_PROVEEDOR = ['', 'cargando...', 'cargando', 'una agencia'];
-const nombreProveedorPublico = n => n && !PLACEHOLDERS_PROVEEDOR.includes(String(n).trim().toLowerCase()) ? n : 'Agencia Local';
+const nombreProveedorPublico = tourOrName => {
+  // (28/07/2026) Cerebro único del nombre del operador. Acepta el tour
+  // completo (preferido) o un string (retrocompatible). Prioridad:
+  // nombre de fantasía → razón social → nombre del tour → 'Agencia Local'.
+  const esPlaceholder = v => !v || PLACEHOLDERS_PROVEEDOR.includes(String(v).trim().toLowerCase());
+  if (tourOrName && typeof tourOrName === 'object') {
+    const tour = tourOrName;
+    const pid = tour.proveedorId;
+    const ags = typeof _agenciasGlobal !== 'undefined' && _agenciasGlobal ? _agenciasGlobal : [];
+    const ag = ags.find(a => a && (a.id === pid || a.userId === pid || a.uid === pid));
+    if (ag) {
+      const f = (ag.nombreFantasia || '').trim();
+      if (f) return f;
+      const r = (ag.razonSocial || '').trim();
+      if (r) return r;
+    }
+    return esPlaceholder(tour.proveedorNombre) ? 'Agencia Local' : tour.proveedorNombre;
+  }
+  return esPlaceholder(tourOrName) ? 'Agencia Local' : tourOrName;
+};
 
 // =========================================================================
 // Sprint 17: SLUGS Y URLs DIRECTAS
@@ -1443,9 +1462,8 @@ const marcarLikeLocal = tourId => {
 };
 // Suma el contador inicial del admin + el contador incremental real
 const totalLikes = tour => {
-  const inicial = Number(tour?.likes) || 0;
-  const reales = Number(tour?.likesReales) || 0;
-  return inicial + reales;
+  // (28/07/2026) Solo likes REALES: se elimina la base ficticia tour.likes.
+  return Number(tour?.likesReales) || 0;
 };
 // Incrementa el contador real en Firestore (atómico). No bloquea si falla.
 const sumarLikeFirestore = async tourId => {
@@ -1659,17 +1677,11 @@ const calcularRatingTour = (tour, resenasReales = null) => {
     };
   }
 
-  // 3. Sin reseñas reales: si admin cargó rating manual, ese tiene prioridad (compatibilidad)
-  if (typeof tour?.rating === 'number' && tour.rating > 0) {
-    return {
-      valor: Number(tour.rating.toFixed(1)),
-      basadoEnReales: false,
-      cantidadResenas: 0,
-      esNuevo: false
-    };
-  }
+  // 3. (28/07/2026) El rating manual ficticio ya NO se muestra: sin reseñas
+  //     reales aprobadas, el tour/operador es NUEVO. Saca las calificaciones
+  //     inventadas de la etapa de siembra sin tocar Firestore.
 
-  // 4. Sin reseñas reales y sin rating manual → tour NUEVO
+  // 4. Sin reseñas reales → tour NUEVO
   return {
     valor: null,
     basadoEnReales: false,
@@ -3119,7 +3131,7 @@ function TourCard({
     className: "text-[10px] text-brand-fuchsia font-bold uppercase tracking-widest mb-1.5 flex items-center gap-1 hover:text-brand-fuchsiaDark transition-colors w-max"
   }, /*#__PURE__*/React.createElement("i", {
     className: "fa-solid fa-store opacity-70"
-  }), " ", nombreProveedorPublico(tour.proveedorNombre)), /*#__PURE__*/React.createElement("div", {
+  }), " ", nombreProveedorPublico(tour)), /*#__PURE__*/React.createElement("div", {
     className: "flex justify-between items-start gap-3"
   }, /*#__PURE__*/React.createElement("h3", {
     className: "font-title font-bold text-brand-dark text-[15px] leading-tight line-clamp-2 group-hover-magenta transition-colors"
@@ -3646,7 +3658,7 @@ function TourDetailPage({
   // generateStableRandom ya divide el tiempo en bloques de 15 min,
   // así que el número se mantiene durante toda una sesión típica
   // y cambia automáticamente cada cuarto de hora.
-  const personasViendo = useMemo(() => generateStableRandom(tour.id, 'pv', 3, 18), [tour.id]);
+
   const similarTours = useMemo(() => {
     // Sprint pulido: orden determinístico por rating (no random).
     // Así los "tours similares" siempre son los mismos para el mismo tour,
@@ -4686,7 +4698,7 @@ function TourDetailPage({
     className: "text-[10px] text-brand-fuchsia font-bold uppercase tracking-widest mb-2 flex items-center gap-1.5 w-max hover:text-brand-fuchsiaDark cursor-pointer transition-colors"
   }, /*#__PURE__*/React.createElement("i", {
     className: "fa-solid fa-store opacity-70"
-  }), " Operado por ", nombreProveedorPublico(tour.proveedorNombre)), _prestadorTour && _prestadorTour.numeroHabilitacion && (() => {
+  }), " Operado por ", nombreProveedorPublico(tour)), _prestadorTour && _prestadorTour.numeroHabilitacion && (() => {
     const tiposHab = {
       agencia_viajes: 'Legajo Agencia de Viajes',
       registro_provincial: 'Registro Prov. de Turismo',
@@ -4963,10 +4975,6 @@ function TourDetailPage({
   }, pasoCheckout === 0 && /*#__PURE__*/React.createElement("div", {
     className: "animate-fadeIn"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "bg-brand-fuchsia text-white px-3 py-2.5 rounded-lg text-[10px] font-bold flex items-center gap-2 mb-5 uppercase tracking-widest shadow-md shadow-brand-fuchsia/20"
-  }, /*#__PURE__*/React.createElement("i", {
-    className: "fa-solid fa-fire text-white animate-pulse"
-  }), " ", personasViendo, " personas están viendo esto"), /*#__PURE__*/React.createElement("div", {
     className: "mb-5 bg-slate-50 p-5 rounded-2xl border border-slate-100 text-center shadow-inner"
   }, (() => {
     // CASO 1: modelo nuevo con comisión calculada (PRIORITARIO)
@@ -5495,7 +5503,7 @@ function TourDetailPage({
     className: "text-xl font-title font-black text-brand-dark mb-2"
   }, "¡Compra Exitosa!"), /*#__PURE__*/React.createElement("p", {
     className: "text-slate-500 text-xs mb-6 font-medium leading-relaxed px-2"
-  }, "Tu lugar está asegurado. Le enviamos automáticamente tus datos a ", /*#__PURE__*/React.createElement("strong", null, nombreProveedorPublico(tour.proveedorNombre)), " y tus vouchers a: ", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("strong", {
+  }, "Tu lugar está asegurado. Le enviamos automáticamente tus datos a ", /*#__PURE__*/React.createElement("strong", null, nombreProveedorPublico(tour)), " y tus vouchers a: ", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("strong", {
     className: "text-brand-fuchsia mt-2 block bg-brand-fuchsia/5 py-1.5 rounded-md border border-brand-fuchsia/20"
   }, email || 'tu correo')), /*#__PURE__*/React.createElement("div", {
     className: "bg-brand-fuchsia/5 border border-brand-fuchsia/20 p-3 rounded-lg mb-6 text-left flex items-start gap-2 text-[10px] text-slate-600 font-medium"
@@ -5509,7 +5517,7 @@ function TourDetailPage({
     className: "text-xl font-title font-black text-brand-dark mb-2"
   }, "¡Reserva Solicitada!"), /*#__PURE__*/React.createElement("p", {
     className: "text-slate-500 text-xs mb-5 font-medium leading-relaxed px-2"
-  }, "Le enviamos tus datos a ", /*#__PURE__*/React.createElement("strong", null, nombreProveedorPublico(tour.proveedorNombre)), ". Se comunicarán a la brevedad con vos para reconfirmar la disponibilidad y coordinar el pago en destino."), /*#__PURE__*/React.createElement("div", {
+  }, "Le enviamos tus datos a ", /*#__PURE__*/React.createElement("strong", null, nombreProveedorPublico(tour)), ". Se comunicarán a la brevedad con vos para reconfirmar la disponibilidad y coordinar el pago en destino."), /*#__PURE__*/React.createElement("div", {
     className: "bg-slate-50 border border-slate-200 p-3 rounded-lg mb-6 text-center"
   }, /*#__PURE__*/React.createElement("p", {
     className: "text-[10px] font-bold text-slate-600 uppercase tracking-widest"
@@ -5788,7 +5796,16 @@ function MicrositeView({
   // Match por nombreFantasia (case-insensitive). Si el tour viejo tenía un
   // nombre que no matchea ningún prestador real (ej: tours mock con
   // proveedorNombre inventado), usamos los fallbacks para no romper la UI.
-  const providerData = (agencias || []).find(a => (a.nombreFantasia || '').trim().toLowerCase() === (providerName || '').trim().toLowerCase());
+  const _pnNorm = (providerName || '').trim().toLowerCase();
+  const providerData = (agencias || []).find(a => {
+    if (!a) return false;
+    const f = (a.nombreFantasia || '').trim().toLowerCase();
+    const r = (a.razonSocial || '').trim().toLowerCase();
+    if (f && f === _pnNorm || r && r === _pnNorm) return true;
+    return (providerTours || []).some(t => t && t.proveedorId && (a.id === t.proveedorId || a.userId === t.proveedorId || a.uid === t.proveedorId));
+  });
+  // (28/07/2026) Nombre comercial real para el encabezado del micrositio.
+  const nombreMostrarOperador = providerData ? (providerData.nombreFantasia || '').trim() || (providerData.razonSocial || '').trim() || providerName : providerName;
 
   // Fallbacks suaves cuando no hay datos reales
   // Sprint pulido: si no hay portada cargada, usamos null para mostrar
@@ -5856,7 +5873,7 @@ function MicrositeView({
     className: "min-w-0"
   }, /*#__PURE__*/React.createElement("h1", {
     className: "text-3xl font-title font-black text-brand-dark mb-1 truncate"
-  }, providerName), /*#__PURE__*/React.createElement("div", {
+  }, nombreMostrarOperador), /*#__PURE__*/React.createElement("div", {
     className: "flex items-center justify-center md:justify-start gap-2 text-sm font-bold text-slate-500 flex-wrap"
   }, promedioRating ? /*#__PURE__*/React.createElement("span", {
     className: "flex items-center gap-1"

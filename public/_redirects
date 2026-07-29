@@ -12,8 +12,23 @@ https://www.patagoniaexperiencias.com/* https://patagoniaexperiencias.com/:splat
 https://catchubut.patagoniaexperiencias.com/* https://patagoniaexperiencias.com/preregistro 301
 https://cattdf.patagoniaexperiencias.com/* https://patagoniaexperiencias.com/preregistrotdf 301
 
+# ── Redirecciones de /guias/ viejas → páginas equivalentes ───
+# (las landings viejas de Ferozo; conservan lo ya indexado)
+/guias/esquel-trevelin/* /guias-de-viaje/esquel-trevelin/ 301
+/guias/peninsula-valdes/* /guias-de-viaje/peninsula-valdes/ 301
+/guias/valle/* /guias-de-viaje/valle/ 301
+
 # ── Guías liberadas (23/07/2026): la vieja landing de venta duerme;
 #    sus links históricos aterrizan en la landing gratuita ──
 /guias.html /guias-de-viaje/ 301
 /guiadeviajeros.html /guias-de-viaje/ 301
 /guiadeviajeros /guias-de-viaje/ 301
+
+# ── Accesos a los paneles (viven en Ferozo, no en Cloudflare) ──
+#    Sin esto, pedir estas URLs en el dominio raíz cae en el derivador
+#    de Astro (que no tiene estos archivos) → el usuario ve la home
+#    en vez de su panel. Redirigimos a los subdominios reales.
+/dashboard-prestadores.html  https://panel.patagoniaexperiencias.com  301
+/dashboard-prestadores       https://panel.patagoniaexperiencias.com  301
+/admin-master.html           https://gestion.patagoniaexperiencias.com  301
+/admin-master                https://gestion.patagoniaexperiencias.com  301

@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <!-- ===========================================================
-     PATAGONIA EXPERIENCIAS · build v4 · 2026-07-30
+     PATAGONIA EXPERIENCIAS · build v5 · 2026-07-30
      Incluye:
        · Muro de logos en marquee a color (2 filas) + /assets/prestadores/
        · Catálogo GEO_PROVINCIAS + resolverGeo() (unifica "pto madryn" etc)
        · BarraGeo variante 'hero' (tira bajo el buscador)
        · BarraGeo variante 'panel' (ciudades + categorías, solo en resultados)
        · FIX $NaN en checkout: politicaNinos 'manual' + guardas anti-NaN
+       · FIX Leaflet _leaflet_pos: encuadre sin animación + guarda de DOM
      Para confirmar en el navegador: abrí la consola y buscá [PE BUILD].
      =========================================================== -->
 <html lang="es">
@@ -6486,13 +6487,23 @@ function ArticleMapSection({
       });
       bounds.push([art.lat, art.lng]);
     });
-    if (bounds.length === 1) {
-      mapInstanceRef.current.setView(bounds[0], 9);
-    } else if (bounds.length > 1) {
-      mapInstanceRef.current.fitBounds(bounds, {
-        padding: [50, 50],
-        maxZoom: 8
-      });
+    const _mapa = mapInstanceRef.current;
+    const _cont = _mapa && _mapa.getContainer && _mapa.getContainer();
+    if (!_cont || !_cont.isConnected) return;
+    try {
+      if (bounds.length === 1) {
+        _mapa.setView(bounds[0], 9, {
+          animate: false
+        });
+      } else if (bounds.length > 1) {
+        _mapa.fitBounds(bounds, {
+          padding: [50, 50],
+          maxZoom: 8,
+          animate: false
+        });
+      }
+    } catch (e) {
+      console.debug('Leaflet encuadre omitido (mapa no disponible):', e && e.message);
     }
   }, [firmaArticulos]);
   return React.createElement("section", {
@@ -9020,9 +9031,9 @@ function App() {
 window.PE_BUILD = {
   version: 'v4',
   fecha: '2026-07-30',
-  cambios: ['logos-marquee', 'geo-catalogo', 'filtro-hero', 'fix-nan-checkout']
+  cambios: ['logos-marquee', 'geo-catalogo', 'filtro-hero', 'fix-nan-checkout', 'fix-leaflet']
 };
-console.log('%c[PE BUILD] v4 · 2026-07-30 · logos-marquee + geo-catalogo + filtro-hero + fix-nan-checkout', 'background:#E91E63;color:#fff;font-weight:bold;padding:3px 8px;border-radius:4px');
+console.log('%c[PE BUILD] v5 · 2026-07-30 · +fix-nan-checkout +fix-leaflet', 'background:#E91E63;color:#fff;font-weight:bold;padding:3px 8px;border-radius:4px');
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(React.createElement(App, null));
 </script>

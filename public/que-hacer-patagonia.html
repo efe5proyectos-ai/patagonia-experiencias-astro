@@ -2557,6 +2557,8 @@ const CONFIG = {
   urlPrestadores: 'https://patagoniaexperiencias.com/prestadores.html',
   whatsapp      : 'https://wa.me/5492804356028',
   baseExcursion : 'https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/',
+  // Feed de oferta. Vacío = usa lo que está escrito en el archivo.
+  feedOferta: '',
   fotosBase : '',        // ej: '/assets/actividades/'  → busca <id>.jpg
   fotosExt  : '.jpg',
   anio: new Date().getFullYear()
@@ -2765,52 +2767,8 @@ let ACTIVIDADES = [
     "s": "solo-ballenas-tour-y-traslados-a-peninsula-valdes"
    }
   ],
-  "dest": 1,
-  "img": ""
- },
- {
-  "id": "ballenas-costero",
-  "nombre": "Avistaje costero de ballenas, sin barco",
-  "cat": "fauna",
-  "meses": [
-   0,
-   0,
-   0,
-   0,
-   0,
-   1,
-   1,
-   1,
-   2,
-   2,
-   1,
-   1
-  ],
-  "lugares": [
-   {
-    "l": "El Doradillo",
-    "p": "chubut"
-   },
-   {
-    "l": "Puerto Madryn",
-    "p": "chubut"
-   }
-  ],
-  "dato": "En El Doradillo el agua profunda llega casi hasta la orilla: se ven madres con cría desde la playa y es gratis.",
-  "exc": [
-   {
-    "t": "El Doradillo · Avistaje costero",
-    "op": "Forastero tour",
-    "s": "el-doradillo-avistaje-costero-ballena-franca-austral"
-   },
-   {
-    "t": "Doradillo",
-    "op": "Sussanich Turismo",
-    "s": "doradillo"
-   }
-  ],
-  "dest": 1,
-  "img": ""
+  "img": "",
+  "rank": 1
  },
  {
   "id": "pinguineras",
@@ -2869,211 +2827,18 @@ let ACTIVIDADES = [
     "s": "punta-tombo"
    }
   ],
-  "dest": 1,
-  "img": ""
+  "img": "",
+  "rank": 2
  },
  {
-  "id": "orcas",
-  "nombre": "Avistaje de orcas",
-  "cat": "fauna",
-  "meses": [
-   1,
-   1,
-   2,
-   2,
-   0,
-   0,
-   0,
-   0,
-   1,
-   1,
-   1,
-   1
-  ],
-  "lugares": [
-   {
-    "l": "Punta Norte",
-    "p": "chubut"
-   },
-   {
-    "l": "Caleta Valdés",
-    "p": "chubut"
-   }
-  ],
-  "dato": "El varamiento intencional para cazar lobitos se da sobre todo en marzo y abril, y depende de la tabla de mareas.",
-  "exc": [
-   {
-    "t": "Península Valdés",
-    "op": "Sussanich Turismo",
-    "s": "peninsula-valdes"
-   }
-  ],
-  "dest": 1,
-  "img": ""
- },
- {
-  "id": "loberias",
-  "nombre": "Loberías y elefanterías",
-  "cat": "fauna",
-  "meses": [
-   2,
-   2,
-   1,
-   1,
-   1,
-   1,
-   1,
-   1,
-   2,
-   2,
-   2,
-   1
-  ],
-  "lugares": [
-   {
-    "l": "Punta Loma",
-    "p": "chubut"
-   },
-   {
-    "l": "Punta Pirámide",
-    "p": "chubut"
-   },
-   {
-    "l": "Punta Bermeja",
-    "p": "rionegro"
-   },
-   {
-    "l": "Cabo Blanco",
-    "p": "santacruz"
-   },
-   {
-    "l": "Punta León",
-    "p": "chubut"
-   }
-  ],
-  "dato": "La única colonia continental de elefante marino del mundo está en Península Valdés.",
-  "exc": [
-   {
-    "t": "Punta Loma con City Tour",
-    "op": "Sussanich Turismo",
-    "s": "punta-loma-con-city-tour"
-   }
-  ],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "toninas",
-  "nombre": "Avistaje de toninas overas",
-  "cat": "fauna",
+  "id": "perito-moreno",
+  "nombre": "Glaciar Perito Moreno",
+  "cat": "parques",
   "meses": [
    2,
    2,
    2,
-   1,
-   1,
-   1,
-   1,
-   1,
-   1,
-   1,
-   1,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Playa Unión",
-    "p": "chubut"
-   },
-   {
-    "l": "Rawson",
-    "p": "chubut"
-   },
-   {
-    "l": "Puerto Deseado",
-    "p": "santacruz"
-   },
-   {
-    "l": "Las Grutas",
-    "p": "rionegro"
-   }
-  ],
-  "dato": "Salen a las 8 de la mañana desde Rawson porque el mar está más quieto y se ve mejor.",
-  "exc": [
-   {
-    "t": "Valle inferior",
-    "op": "Sussanich Turismo",
-    "s": "valle-inferior"
-   }
-  ],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "birdwatching",
-  "nombre": "Avistaje de aves",
-  "cat": "fauna",
-  "meses": [
    2,
-   2,
-   2,
-   1,
-   0,
-   0,
-   0,
-   0,
-   1,
-   2,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "San Antonio Oeste",
-    "p": "rionegro"
-   },
-   {
-    "l": "Península Valdés",
-    "p": "chubut"
-   },
-   {
-    "l": "Río Gallegos",
-    "p": "santacruz"
-   },
-   {
-    "l": "Lihué Calel",
-    "p": "lapampa"
-   },
-   {
-    "l": "El Cóndor",
-    "p": "rionegro"
-   }
-  ],
-  "dato": "La costa patagónica es escala obligada de las aves playeras que bajan del Ártico. El playero rojizo hace 15.000 km.",
-  "exc": [
-   {
-    "t": "Punta Loma con City Tour",
-    "op": "Sussanich Turismo",
-    "s": "punta-loma-con-city-tour"
-   },
-   {
-    "t": "Tour Valle Inferior del Río Chubut",
-    "op": "Forastero tour",
-    "s": "tour-valle-inferior-rio-chubut"
-   }
-  ],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "condores",
-  "nombre": "Avistaje de cóndores",
-  "cat": "fauna",
-  "meses": [
-   1,
-   1,
-   1,
-   1,
    1,
    1,
    1,
@@ -3085,192 +2850,111 @@ let ACTIVIDADES = [
   ],
   "lugares": [
    {
-    "l": "Piedra Parada",
-    "p": "chubut"
-   },
-   {
-    "l": "Esquel",
-    "p": "chubut"
-   },
-   {
-    "l": "Parque Patagonia",
-    "p": "santacruz"
-   },
-   {
-    "l": "Bariloche",
-    "p": "rionegro"
-   }
-  ],
-  "dato": "Aparece cuando el sol ya calentó las paredes de roca y se arman las térmicas, no al amanecer.",
-  "exc": [
-   {
-    "t": "Piedra Parada",
-    "op": "MerakiSur",
-    "s": "piedra-parada"
-   },
-   {
-    "t": "Panorámicas de Esquel",
-    "op": "MerakiSur",
-    "s": "panoramicas-de-esquel"
-   }
-  ],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "safari-estepa",
-  "nombre": "Safari fotográfico de estepa",
-  "cat": "fauna",
-  "meses": [
-   2,
-   1,
-   1,
-   1,
-   1,
-   1,
-   1,
-   1,
-   1,
-   1,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Península Valdés",
-    "p": "chubut"
-   },
-   {
-    "l": "Parque Patagonia",
-    "p": "santacruz"
-   },
-   {
-    "l": "Lihué Calel",
-    "p": "lapampa"
-   },
-   {
-    "l": "Punta Tombo",
-    "p": "chubut"
-   }
-  ],
-  "dato": "Guanacos, choiques, maras y zorros. Los chulengos nacen entre noviembre y enero.",
-  "exc": [
-   {
-    "t": "Península Valdés",
-    "op": "Sussanich Turismo",
-    "s": "peninsula-valdes"
-   },
-   {
-    "t": "Punta Tombo",
-    "op": "Sussanich Turismo",
-    "s": "punta-tombo"
-   }
-  ],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "puma",
-  "nombre": "Avistaje de puma",
-  "cat": "fauna",
-  "meses": [
-   1,
-   1,
-   1,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   1,
-   1
-  ],
-  "lugares": [
-   {
-    "l": "Parque Patagonia",
-    "p": "santacruz"
-   },
-   {
-    "l": "Cañadón Pinturas",
+    "l": "El Calafate",
     "p": "santacruz"
    }
   ],
-  "dato": "En invierno el pasto está bajo y hay menos horas de sol fuerte: es cuando más se lo llega a ver. Siempre con guía.",
+  "dato": "Es uno de los pocos glaciares del mundo en equilibrio. Las pasarelas tienen varios kilómetros y distintos niveles de dificultad.",
   "exc": [],
-  "dest": 0,
-  "img": ""
+  "img": "",
+  "rank": 3
  },
  {
-  "id": "brama-ciervo",
-  "nombre": "Brama del ciervo colorado",
-  "cat": "fauna",
+  "id": "esqui",
+  "nombre": "Esquí alpino y snowboard",
+  "cat": "nieve",
   "meses": [
    0,
    0,
+   0,
+   0,
+   1,
+   2,
    2,
    2,
    1,
-   0,
-   0,
-   0,
-   0,
    0,
    0,
    0
   ],
   "lugares": [
    {
-    "l": "Parque Luro",
-    "p": "lapampa"
+    "l": "Cerro Catedral",
+    "p": "rionegro"
    },
    {
-    "l": "Villa La Angostura",
+    "l": "Chapelco",
     "p": "neuquen"
    },
    {
-    "l": "Bariloche",
-    "p": "rionegro"
-   }
-  ],
-  "dato": "Los machos braman al atardecer y se escucha a kilómetros. Es de las pocas experiencias de fauna que se hace de noche.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "loros-barranqueros",
-  "nombre": "Colonia de loros barranqueros",
-  "cat": "fauna",
-  "meses": [
-   2,
-   1,
-   1,
-   0,
-   0,
-   0,
-   0,
-   0,
-   1,
-   2,
-   2,
-   2
-  ],
-  "lugares": [
+    "l": "Caviahue",
+    "p": "neuquen"
+   },
    {
-    "l": "Balneario El Cóndor",
+    "l": "La Hoya",
+    "p": "chubut"
+   },
+   {
+    "l": "Cerro Castor",
+    "p": "tdf"
+   },
+   {
+    "l": "Cerro Perito Moreno",
     "p": "rionegro"
    },
    {
-    "l": "Viedma",
-    "p": "rionegro"
+    "l": "Batea Mahuida",
+    "p": "neuquen"
    }
   ],
-  "dato": "Es la colonia de loros barranqueros más grande del mundo: decenas de miles de nidos en varios kilómetros de acantilado.",
+  "dato": "Cerro Castor es el centro de esquí más austral del mundo y el que tiene la temporada más larga del país.",
   "exc": [],
-  "dest": 0,
-  "img": ""
+  "img": "",
+  "rank": 4
+ },
+ {
+  "id": "ballenas-costero",
+  "nombre": "Avistaje costero de ballenas, sin barco",
+  "cat": "fauna",
+  "meses": [
+   0,
+   0,
+   0,
+   0,
+   0,
+   1,
+   1,
+   1,
+   2,
+   2,
+   1,
+   1
+  ],
+  "lugares": [
+   {
+    "l": "El Doradillo",
+    "p": "chubut"
+   },
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   }
+  ],
+  "dato": "En El Doradillo el agua profunda llega casi hasta la orilla: se ven madres con cría desde la playa y es gratis.",
+  "exc": [
+   {
+    "t": "El Doradillo · Avistaje costero",
+    "op": "Forastero tour",
+    "s": "el-doradillo-avistaje-costero-ballena-franca-austral"
+   },
+   {
+    "t": "Doradillo",
+    "op": "Sussanich Turismo",
+    "s": "doradillo"
+   }
+  ],
+  "img": "",
+  "rank": 5
  },
  {
   "id": "beagle",
@@ -3304,8 +2988,37 @@ let ACTIVIDADES = [
     "s": "sabores-del-beagle"
    }
   ],
-  "dest": 1,
-  "img": ""
+  "img": "",
+  "rank": 6
+ },
+ {
+  "id": "fitz-roy",
+  "nombre": "Trekking al Fitz Roy y Cerro Torre",
+  "cat": "trekking",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "El Chaltén",
+    "p": "santacruz"
+   }
+  ],
+  "dato": "El Chaltén es la capital nacional del trekking y casi todos los senderos salen del pueblo, sin necesidad de transporte.",
+  "exc": [],
+  "img": "",
+  "rank": 7
  },
  {
   "id": "nav-glaciares",
@@ -3351,335 +3064,45 @@ let ACTIVIDADES = [
     "s": "parque-nacional-los-alerces-full-day"
    }
   ],
-  "dest": 1,
-  "img": ""
+  "img": "",
+  "rank": 8
  },
  {
-  "id": "ria-deseado",
-  "nombre": "Navegación por la Ría Deseado",
-  "cat": "nautica",
+  "id": "minitrekking",
+  "nombre": "Trekking sobre glaciar",
+  "cat": "trekking",
   "meses": [
    2,
    2,
    2,
    1,
+   1,
    0,
    0,
    0,
    0,
    1,
    2,
-   2,
    2
   ],
   "lugares": [
    {
-    "l": "Puerto Deseado",
+    "l": "El Calafate",
     "p": "santacruz"
-   }
-  ],
-  "dato": "Único estuario del país donde el mar entra en el cauce de un río seco. Toninas, cormoranes y la Isla Pingüino.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "nav-lacustre",
-  "nombre": "Navegación lacustre y cruce de lagos",
-  "cat": "nautica",
-  "meses": [
-   2,
-   2,
-   1,
-   1,
-   1,
-   1,
-   1,
-   1,
-   2,
-   2,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Bariloche",
-    "p": "rionegro"
-   },
-   {
-    "l": "Villa La Angostura",
-    "p": "neuquen"
-   },
-   {
-    "l": "Los Alerces",
-    "p": "chubut"
-   },
-   {
-    "l": "Puerto Blest",
-    "p": "rionegro"
-   }
-  ],
-  "dato": "Isla Victoria y el Bosque de Arrayanes solo se llegan navegando.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "kayak-mar",
-  "nombre": "Kayak de mar",
-  "cat": "nautica",
-  "meses": [
-   2,
-   2,
-   2,
-   1,
-   1,
-   0,
-   0,
-   0,
-   0,
-   1,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Puerto Madryn",
-    "p": "chubut"
-   },
-   {
-    "l": "Puerto Pirámides",
-    "p": "chubut"
    },
    {
     "l": "Ushuaia",
     "p": "tdf"
    },
    {
-    "l": "Bariloche",
-    "p": "rionegro"
-   },
-   {
-    "l": "Las Grutas",
-    "p": "rionegro"
+    "l": "El Chaltén",
+    "p": "santacruz"
    }
   ],
-  "dato": "En Golfo Nuevo es común que los delfines oscuros se acerquen solos al kayak.",
+  "dato": "El minitrekking sobre el Perito Moreno tiene tope de edad y no requiere experiencia. Se camina con grampones.",
   "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "sup",
-  "nombre": "Stand up paddle",
-  "cat": "nautica",
-  "meses": [
-   2,
-   2,
-   2,
-   1,
-   0,
-   0,
-   0,
-   0,
-   0,
-   1,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Puerto Madryn",
-    "p": "chubut"
-   },
-   {
-    "l": "Playa Unión",
-    "p": "chubut"
-   },
-   {
-    "l": "Las Grutas",
-    "p": "rionegro"
-   },
-   {
-    "l": "Bariloche",
-    "p": "rionegro"
-   }
-  ],
-  "dato": "Conviene salir temprano: en la Patagonia el viento se levanta cerca del mediodía.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "cruce-andino",
-  "nombre": "Cruce Andino a Chile",
-  "cat": "nautica",
-  "meses": [
-   2,
-   2,
-   1,
-   1,
-   1,
-   1,
-   1,
-   1,
-   2,
-   2,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Bariloche",
-    "p": "rionegro"
-   },
-   {
-    "l": "Puerto Blest",
-    "p": "rionegro"
-   }
-  ],
-  "dato": "Combinación de lagos y buses entre Bariloche y Puerto Varas en un día. Requiere documentación para salir del país.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "buceo-bautismo",
-  "nombre": "Buceo bautismo",
-  "cat": "buceo",
-  "meses": [
-   2,
-   2,
-   2,
-   1,
-   1,
-   0,
-   0,
-   0,
-   0,
-   1,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Puerto Madryn",
-    "p": "chubut"
-   },
-   {
-    "l": "Puerto Pirámides",
-    "p": "chubut"
-   }
-  ],
-  "dato": "Puerto Madryn es la capital nacional del buceo. El bautismo no requiere experiencia previa.",
-  "exc": [],
-  "dest": 1,
-  "img": ""
- },
- {
-  "id": "snorkel-lobos",
-  "nombre": "Snorkel con lobos marinos",
-  "cat": "buceo",
-  "meses": [
-   2,
-   2,
-   2,
-   1,
-   1,
-   0,
-   0,
-   0,
-   0,
-   1,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Punta Loma",
-    "p": "chubut"
-   },
-   {
-    "l": "Puerto Madryn",
-    "p": "chubut"
-   }
-  ],
-  "dato": "Los juveniles se acercan solos y mordisquean las aletas. Es la actividad de contacto con fauna más buscada del golfo.",
-  "exc": [
-   {
-    "t": "Punta Loma con City Tour",
-    "op": "Sussanich Turismo",
-    "s": "punta-loma-con-city-tour"
-   }
-  ],
-  "dest": 1,
-  "img": ""
- },
- {
-  "id": "buceo-naufragios",
-  "nombre": "Buceo en naufragios y parques submarinos",
-  "cat": "buceo",
-  "meses": [
-   2,
-   2,
-   2,
-   1,
-   1,
-   0,
-   0,
-   0,
-   0,
-   1,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Puerto Madryn",
-    "p": "chubut"
-   },
-   {
-    "l": "Golfo Nuevo",
-    "p": "chubut"
-   }
-  ],
-  "dato": "El Golfo Nuevo tiene barcos hundidos a propósito como parque submarino, a profundidades para buzos certificados.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "buceo-lagos",
-  "nombre": "Buceo en lagos andinos",
-  "cat": "buceo",
-  "meses": [
-   2,
-   2,
-   1,
-   1,
-   0,
-   0,
-   0,
-   0,
-   0,
-   1,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Bariloche",
-    "p": "rionegro"
-   },
-   {
-    "l": "Villa La Angostura",
-    "p": "neuquen"
-   }
-  ],
-  "dato": "Agua dulce muy fría y visibilidad alta. Se bucea con traje seco casi todo el año.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
+  "img": "",
+  "rank": 9
  },
  {
   "id": "trekking-media",
@@ -3746,1762 +3169,69 @@ let ACTIVIDADES = [
     "s": "parque-nacional-los-alerces-full-day"
    }
   ],
-  "dest": 1,
-  "img": ""
+  "img": "",
+  "rank": 10
  },
  {
-  "id": "fitz-roy",
-  "nombre": "Trekking al Fitz Roy y Cerro Torre",
-  "cat": "trekking",
+  "id": "orcas",
+  "nombre": "Avistaje de orcas",
+  "cat": "fauna",
   "meses": [
-   2,
-   2,
-   2,
-   1,
-   1,
-   0,
-   0,
-   0,
-   0,
-   1,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "El Chaltén",
-    "p": "santacruz"
-   }
-  ],
-  "dato": "El Chaltén es la capital nacional del trekking y casi todos los senderos salen del pueblo, sin necesidad de transporte.",
-  "exc": [],
-  "dest": 1,
-  "img": ""
- },
- {
-  "id": "minitrekking",
-  "nombre": "Trekking sobre glaciar",
-  "cat": "trekking",
-  "meses": [
-   2,
-   2,
-   2,
-   1,
-   1,
-   0,
-   0,
-   0,
-   0,
-   1,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "El Calafate",
-    "p": "santacruz"
-   },
-   {
-    "l": "Ushuaia",
-    "p": "tdf"
-   },
-   {
-    "l": "El Chaltén",
-    "p": "santacruz"
-   }
-  ],
-  "dato": "El minitrekking sobre el Perito Moreno tiene tope de edad y no requiere experiencia. Se camina con grampones.",
-  "exc": [],
-  "dest": 1,
-  "img": ""
- },
- {
-  "id": "alta-montana",
-  "nombre": "Ascensiones de alta montaña",
-  "cat": "trekking",
-  "meses": [
-   2,
-   2,
-   1,
-   1,
-   0,
-   0,
-   0,
-   0,
-   0,
-   0,
-   1,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Lanín",
-    "p": "neuquen"
-   },
-   {
-    "l": "Tronador",
-    "p": "rionegro"
-   },
-   {
-    "l": "Esquel",
-    "p": "chubut"
-   }
-  ],
-  "dato": "El Lanín se sube en dos o tres días con guía habilitado y registro previo en el parque.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "refugios",
-  "nombre": "Travesías de refugio en refugio",
-  "cat": "trekking",
-  "meses": [
-   2,
-   2,
-   1,
-   1,
-   0,
-   0,
-   0,
-   0,
-   0,
-   1,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Bariloche",
-    "p": "rionegro"
-   },
-   {
-    "l": "Esquel",
-    "p": "chubut"
-   },
-   {
-    "l": "El Bolsón",
-    "p": "rionegro"
-   }
-  ],
-  "dato": "La red de refugios de Bariloche permite armar travesías de tres a cinco días sin cargar carpa.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "escalada",
-  "nombre": "Escalada en roca",
-  "cat": "trekking",
-  "meses": [
-   2,
-   2,
-   2,
-   2,
-   1,
-   0,
-   0,
-   0,
-   0,
-   1,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Piedra Parada",
-    "p": "chubut"
-   },
-   {
-    "l": "Bariloche",
-    "p": "rionegro"
-   },
-   {
-    "l": "Los Molles",
-    "p": "neuquen"
-   },
-   {
-    "l": "El Chaltén",
-    "p": "santacruz"
-   }
-  ],
-  "dato": "El Cañadón de la Buitrera, en Piedra Parada, es uno de los sitios de escalada deportiva más importantes del país.",
-  "exc": [
-   {
-    "t": "Piedra Parada",
-    "op": "MerakiSur",
-    "s": "piedra-parada"
-   }
-  ],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "bosque-alerces",
-  "nombre": "Caminata entre alerces milenarios",
-  "cat": "trekking",
-  "meses": [
-   2,
-   2,
-   2,
-   1,
-   1,
-   0,
-   0,
-   0,
-   0,
-   1,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Los Alerces",
-    "p": "chubut"
-   },
-   {
-    "l": "Esquel",
-    "p": "chubut"
-   }
-  ],
-  "dato": "El Alerzal Milenario tiene ejemplares de más de 2.600 años. Se llega navegando y después caminando.",
-  "exc": [
-   {
-    "t": "Parque Nacional Los Alerces Full Day",
-    "op": "MerakiSur",
-    "s": "parque-nacional-los-alerces-full-day"
-   }
-  ],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "esqui",
-  "nombre": "Esquí alpino y snowboard",
-  "cat": "nieve",
-  "meses": [
-   0,
-   0,
-   0,
-   0,
-   1,
-   2,
-   2,
-   2,
-   1,
-   0,
-   0,
-   0
-  ],
-  "lugares": [
-   {
-    "l": "Cerro Catedral",
-    "p": "rionegro"
-   },
-   {
-    "l": "Chapelco",
-    "p": "neuquen"
-   },
-   {
-    "l": "Caviahue",
-    "p": "neuquen"
-   },
-   {
-    "l": "La Hoya",
-    "p": "chubut"
-   },
-   {
-    "l": "Cerro Castor",
-    "p": "tdf"
-   },
-   {
-    "l": "Cerro Perito Moreno",
-    "p": "rionegro"
-   },
-   {
-    "l": "Batea Mahuida",
-    "p": "neuquen"
-   }
-  ],
-  "dato": "Cerro Castor es el centro de esquí más austral del mundo y el que tiene la temporada más larga del país.",
-  "exc": [],
-  "dest": 1,
-  "img": ""
- },
- {
-  "id": "esqui-fondo",
-  "nombre": "Esquí de fondo y travesía",
-  "cat": "nieve",
-  "meses": [
-   0,
-   0,
-   0,
-   0,
-   1,
-   2,
-   2,
-   2,
-   1,
-   0,
-   0,
-   0
-  ],
-  "lugares": [
-   {
-    "l": "Ushuaia",
-    "p": "tdf"
-   },
-   {
-    "l": "Chapelco",
-    "p": "neuquen"
-   },
-   {
-    "l": "Caviahue",
-    "p": "neuquen"
-   }
-  ],
-  "dato": "El valle de Tierra Mayor, en Ushuaia, concentra los centros invernales de fondo del país.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "trineo-perros",
-  "nombre": "Trineo con perros",
-  "cat": "nieve",
-  "meses": [
-   0,
-   0,
-   0,
-   0,
-   1,
-   2,
-   2,
-   2,
-   1,
-   0,
-   0,
-   0
-  ],
-  "lugares": [
-   {
-    "l": "Ushuaia",
-    "p": "tdf"
-   },
-   {
-    "l": "Bariloche",
-    "p": "rionegro"
-   },
-   {
-    "l": "Caviahue",
-    "p": "neuquen"
-   }
-  ],
-  "dato": "Se hace con huskies siberianos y alaskan. En Ushuaia es de las actividades más pedidas de la temporada.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "motos-nieve",
-  "nombre": "Motos de nieve",
-  "cat": "nieve",
-  "meses": [
-   0,
-   0,
-   0,
-   0,
-   1,
-   2,
-   2,
-   2,
-   1,
-   0,
-   0,
-   0
-  ],
-  "lugares": [
-   {
-    "l": "Ushuaia",
-    "p": "tdf"
-   },
-   {
-    "l": "Bariloche",
-    "p": "rionegro"
-   },
-   {
-    "l": "La Hoya",
-    "p": "chubut"
-   },
-   {
-    "l": "Chapelco",
-    "p": "neuquen"
-   }
-  ],
-  "dato": "No requiere experiencia previa y se hace en circuitos cerrados con guía.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "raquetas",
-  "nombre": "Caminata con raquetas",
-  "cat": "nieve",
-  "meses": [
-   0,
-   0,
-   0,
-   0,
-   1,
-   2,
-   2,
-   2,
-   1,
-   0,
-   0,
-   0
-  ],
-  "lugares": [
-   {
-    "l": "Ushuaia",
-    "p": "tdf"
-   },
-   {
-    "l": "Bariloche",
-    "p": "rionegro"
-   },
-   {
-    "l": "Esquel",
-    "p": "chubut"
-   },
-   {
-    "l": "Villa La Angostura",
-    "p": "neuquen"
-   }
-  ],
-  "dato": "Es la forma más accesible de entrar al bosque nevado: no hace falta saber esquiar.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "rafting",
-  "nombre": "Rafting",
-  "cat": "aventura",
-  "meses": [
-   2,
-   2,
-   2,
-   1,
-   1,
-   0,
-   0,
-   0,
-   0,
-   1,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Río Manso",
-    "p": "rionegro"
-   },
-   {
-    "l": "Río Aluminé",
-    "p": "neuquen"
-   },
-   {
-    "l": "Río Corcovado",
-    "p": "chubut"
-   },
-   {
-    "l": "Río Limay",
-    "p": "neuquen"
-   }
-  ],
-  "dato": "El Manso a la Frontera tiene rápidos clase III y IV. El Limay es el tramo apto para familias.",
-  "exc": [],
-  "dest": 1,
-  "img": ""
- },
- {
-  "id": "canopy",
-  "nombre": "Canopy y tirolesa",
-  "cat": "aventura",
-  "meses": [
-   2,
-   2,
-   2,
-   1,
-   1,
-   0,
-   0,
-   0,
-   0,
-   1,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Bariloche",
-    "p": "rionegro"
-   },
-   {
-    "l": "Villa La Angostura",
-    "p": "neuquen"
-   },
-   {
-    "l": "El Bolsón",
-    "p": "rionegro"
-   },
-   {
-    "l": "Esquel",
-    "p": "chubut"
-   }
-  ],
-  "dato": "Circuitos de cables entre coihues, aptos desde los 6 o 7 años según el operador.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "parapente",
-  "nombre": "Parapente y vuelo biplaza",
-  "cat": "aventura",
-  "meses": [
-   2,
-   2,
-   2,
-   1,
-   1,
-   0,
-   0,
-   0,
-   0,
-   1,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Bariloche",
-    "p": "rionegro"
-   },
-   {
-    "l": "Esquel",
-    "p": "chubut"
-   },
-   {
-    "l": "Villa La Angostura",
-    "p": "neuquen"
-   }
-  ],
-  "dato": "Se vuela con instructor y depende del viento: se confirma el mismo día.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "rappel",
-  "nombre": "Rappel y tirolesa en cañadón",
-  "cat": "aventura",
-  "meses": [
-   2,
-   2,
-   2,
-   2,
-   1,
-   0,
-   0,
-   0,
-   0,
-   1,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Piedra Parada",
-    "p": "chubut"
-   },
-   {
-    "l": "Cañadón de la Buitrera",
-    "p": "chubut"
-   }
-  ],
-  "dato": "Las paredes del cañadón son de ignimbrita volcánica y superan los 100 metros.",
-  "exc": [
-   {
-    "t": "Piedra Parada",
-    "op": "MerakiSur",
-    "s": "piedra-parada"
-   }
-  ],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "sandboard",
-  "nombre": "Sandboard en dunas",
-  "cat": "aventura",
-  "meses": [
-   2,
-   2,
-   2,
-   1,
-   1,
-   0,
-   0,
-   0,
-   0,
-   1,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Puerto Madryn",
-    "p": "chubut"
-   },
-   {
-    "l": "Las Grutas",
-    "p": "rionegro"
-   }
-  ],
-  "dato": "Se hace en los médanos costeros y suele combinarse con travesía 4x4.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "kayak-rio",
-  "nombre": "Kayak y packrafting de río",
-  "cat": "aventura",
-  "meses": [
-   2,
-   2,
-   2,
-   1,
-   1,
-   0,
-   0,
-   0,
-   0,
-   1,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Río Aluminé",
-    "p": "neuquen"
-   },
-   {
-    "l": "Río Manso",
-    "p": "rionegro"
-   },
-   {
-    "l": "Los Alerces",
-    "p": "chubut"
-   }
-  ],
-  "dato": "Requiere nociones básicas. Varios operadores dan el curso introductorio en el día.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "kite",
-  "nombre": "Kitesurf y windsurf",
-  "cat": "viento",
-  "meses": [
-   2,
-   2,
-   2,
-   1,
-   1,
-   0,
-   0,
-   0,
-   0,
-   1,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Puerto Madryn",
-    "p": "chubut"
-   },
-   {
-    "l": "Dina Huapi",
-    "p": "rionegro"
-   },
-   {
-    "l": "Las Grutas",
-    "p": "rionegro"
-   },
-   {
-    "l": "Playa Unión",
-    "p": "chubut"
-   }
-  ],
-  "dato": "El viento patagónico, que para todo lo demás es un problema, acá es el recurso.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "surf",
-  "nombre": "Surf",
-  "cat": "viento",
-  "meses": [
-   2,
-   2,
-   2,
-   1,
-   0,
-   0,
-   0,
-   0,
-   0,
-   1,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Playa Unión",
-    "p": "chubut"
-   },
-   {
-    "l": "Las Grutas",
-    "p": "rionegro"
-   },
-   {
-    "l": "Puerto Madryn",
-    "p": "chubut"
-   }
-  ],
-  "dato": "Agua fría todo el año: se entra con traje de 4/3 mm como mínimo.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "mosca",
-  "nombre": "Pesca con mosca",
-  "cat": "pesca",
-  "meses": [
-   2,
-   2,
-   2,
-   2,
-   1,
-   0,
-   0,
-   0,
-   1,
-   2,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Junín de los Andes",
-    "p": "neuquen"
-   },
-   {
-    "l": "Aluminé",
-    "p": "neuquen"
-   },
-   {
-    "l": "Esquel",
-    "p": "chubut"
-   },
-   {
-    "l": "Corcovado",
-    "p": "chubut"
-   },
-   {
-    "l": "Río Grande",
-    "p": "tdf"
-   },
-   {
-    "l": "Bariloche",
-    "p": "rionegro"
-   },
-   {
-    "l": "Los Antiguos",
-    "p": "santacruz"
-   }
-  ],
-  "dato": "La temporada general va de noviembre a abril. Junín de los Andes se promociona como capital nacional de la trucha.",
-  "exc": [],
-  "dest": 1,
-  "img": ""
- },
- {
-  "id": "pesca-embarcada",
-  "nombre": "Pesca embarcada de mar",
-  "cat": "pesca",
-  "meses": [
-   2,
-   2,
-   2,
-   1,
-   1,
-   1,
-   1,
-   1,
-   1,
-   1,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Rawson",
-    "p": "chubut"
-   },
-   {
-    "l": "Puerto Deseado",
-    "p": "santacruz"
-   },
-   {
-    "l": "Las Grutas",
-    "p": "rionegro"
-   },
-   {
-    "l": "Camarones",
-    "p": "chubut"
-   }
-  ],
-  "dato": "Salidas de medio día en busca de pez gallo, salmón de mar y meros.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "steelhead",
-  "nombre": "Pesca de trucha steelhead",
-  "cat": "pesca",
-  "meses": [
-   2,
-   2,
-   1,
-   1,
-   0,
-   0,
-   0,
-   0,
-   0,
-   0,
-   1,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Río Grande",
-    "p": "tdf"
-   },
-   {
-    "l": "Tolhuin",
-    "p": "tdf"
-   }
-  ],
-  "dato": "El río Grande es considerado el mejor río de steelhead del mundo. Los cupos se reservan con un año de anticipación.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "travesias-4x4",
-  "nombre": "Travesías 4x4",
-  "cat": "motor",
-  "meses": [
-   2,
-   2,
-   2,
-   2,
-   1,
-   1,
-   1,
-   1,
-   2,
-   2,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Península Valdés",
-    "p": "chubut"
-   },
-   {
-    "l": "Ushuaia",
-    "p": "tdf"
-   },
-   {
-    "l": "Esquel",
-    "p": "chubut"
-   },
-   {
-    "l": "El Chaltén",
-    "p": "santacruz"
-   },
-   {
-    "l": "Bariloche",
-    "p": "rionegro"
-   }
-  ],
-  "dato": "Es la forma de llegar a lugares donde no entra el micro ni el auto de alquiler.",
-  "exc": [
-   {
-    "t": "Lagos Off Road",
-    "op": "Noelia Ferrario",
-    "s": "lagos-off-road"
-   }
-  ],
-  "dest": 1,
-  "img": ""
- },
- {
-  "id": "cuatriciclos",
-  "nombre": "Cuatriciclos y UTV",
-  "cat": "motor",
-  "meses": [
-   2,
-   2,
-   2,
-   1,
-   1,
-   0,
-   0,
-   0,
-   0,
-   1,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Puerto Madryn",
-    "p": "chubut"
-   },
-   {
-    "l": "Las Grutas",
-    "p": "rionegro"
-   },
-   {
-    "l": "Ushuaia",
-    "p": "tdf"
-   }
-  ],
-  "dato": "Circuitos guiados en médanos y estepa. Se maneja con licencia y casco provisto.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "mtb",
-  "nombre": "Mountain bike",
-  "cat": "bici",
-  "meses": [
-   2,
-   2,
-   2,
-   2,
-   1,
-   1,
-   0,
-   0,
-   1,
-   2,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Bariloche",
-    "p": "rionegro"
-   },
-   {
-    "l": "El Bolsón",
-    "p": "rionegro"
-   },
-   {
-    "l": "Esquel",
-    "p": "chubut"
-   },
-   {
-    "l": "Trevelin",
-    "p": "chubut"
-   },
-   {
-    "l": "Ushuaia",
-    "p": "tdf"
-   },
-   {
-    "l": "Villa La Angostura",
-    "p": "neuquen"
-   }
-  ],
-  "dato": "Bariloche tiene senderos señalizados de todos los niveles y bike park en el Catedral en verano.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "cicloturismo",
-  "nombre": "Cicloturismo por la Ruta 40",
-  "cat": "bici",
-  "meses": [
-   2,
-   2,
-   2,
-   1,
-   1,
-   0,
-   0,
-   0,
-   0,
-   1,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Bariloche",
-    "p": "rionegro"
-   },
-   {
-    "l": "El Bolsón",
-    "p": "rionegro"
-   },
-   {
-    "l": "Esquel",
-    "p": "chubut"
-   },
-   {
-    "l": "Los Antiguos",
-    "p": "santacruz"
-   },
-   {
-    "l": "El Chaltén",
-    "p": "santacruz"
-   }
-  ],
-  "dato": "El viento define todo: casi todos la hacen de norte a sur para tenerlo de espalda.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "circuito-bici",
-  "nombre": "Circuitos de un día en bici",
-  "cat": "bici",
-  "meses": [
-   2,
-   2,
-   2,
-   1,
-   1,
-   0,
-   0,
-   0,
-   0,
-   1,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Bariloche",
-    "p": "rionegro"
-   },
-   {
-    "l": "Trevelin",
-    "p": "chubut"
-   },
-   {
-    "l": "Gaiman",
-    "p": "chubut"
-   },
-   {
-    "l": "Villa La Angostura",
-    "p": "neuquen"
-   }
-  ],
-  "dato": "El Circuito Chico de Bariloche son 27 km con bicisenda en buena parte del recorrido.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "cabalgatas",
-  "nombre": "Cabalgatas",
-  "cat": "rural",
-  "meses": [
-   2,
-   2,
-   2,
-   2,
-   1,
-   1,
-   1,
-   1,
-   2,
-   2,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Esquel",
-    "p": "chubut"
-   },
-   {
-    "l": "Trevelin",
-    "p": "chubut"
-   },
-   {
-    "l": "Bariloche",
-    "p": "rionegro"
-   },
-   {
-    "l": "El Bolsón",
-    "p": "rionegro"
-   },
-   {
-    "l": "Ushuaia",
-    "p": "tdf"
-   },
-   {
-    "l": "El Chaltén",
-    "p": "santacruz"
-   },
-   {
-    "l": "Lihué Calel",
-    "p": "lapampa"
-   }
-  ],
-  "dato": "De un par de horas a travesías de varios días con arreo. No hace falta experiencia para las salidas cortas.",
-  "exc": [
-   {
-    "t": "Cabalgatas Familiares",
-    "op": "MerakiSur",
-    "s": "cabalgatas-familiares"
-   }
-  ],
-  "dest": 1,
-  "img": ""
- },
- {
-  "id": "estancias",
-  "nombre": "Día de campo en estancia",
-  "cat": "rural",
-  "meses": [
-   2,
-   2,
-   2,
-   2,
-   1,
-   1,
    1,
    1,
    2,
    2,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Santa Cruz",
-    "p": "santacruz"
-   },
-   {
-    "l": "Esquel",
-    "p": "chubut"
-   },
-   {
-    "l": "Río Grande",
-    "p": "tdf"
-   },
-   {
-    "l": "Parque Luro",
-    "p": "lapampa"
-   },
-   {
-    "l": "Bariloche",
-    "p": "rionegro"
-   }
-  ],
-  "dato": "Asado de cordero al asador, demostración de perros ovejeros y recorrida por el casco histórico.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "esquila",
-  "nombre": "Esquila y trabajo rural",
-  "cat": "rural",
-  "meses": [
-   2,
-   2,
-   0,
-   0,
-   0,
-   0,
    0,
    0,
    0,
-   1,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Santa Cruz",
-    "p": "santacruz"
-   },
-   {
-    "l": "Chubut",
-    "p": "chubut"
-   },
-   {
-    "l": "Río Grande",
-    "p": "tdf"
-   }
-  ],
-  "dato": "La esquila se hace entre noviembre y enero. Muchas estancias la abren a visitantes en esa ventana.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "turismo-ancestral",
-  "nombre": "Turismo con comunidades originarias",
-  "cat": "rural",
-  "meses": [
-   2,
-   2,
-   2,
-   2,
-   1,
-   1,
-   1,
-   1,
-   2,
-   2,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Lago Rosario",
-    "p": "chubut"
-   },
-   {
-    "l": "Sierra Colorada",
-    "p": "chubut"
-   },
-   {
-    "l": "Villa Pehuenia",
-    "p": "neuquen"
-   },
-   {
-    "l": "Bariloche",
-    "p": "rionegro"
-   }
-  ],
-  "dato": "Gestionado por las propias comunidades mapuche y tehuelche: relato, comida y territorio contados por ellos.",
-  "exc": [
-   {
-    "t": "Turismo Ancestral · Sierra Colorada · Lago Rosario",
-    "op": "MerakiSur",
-    "s": "turismo-ancestral-sierra-colorada-lago-rosario"
-   }
-  ],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "mef",
-  "nombre": "Museo Egidio Feruglio",
-  "cat": "paleo",
-  "meses": [
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Trelew",
-    "p": "chubut"
-   }
-  ],
-  "dato": "Uno de los museos paleontológicos más importantes de Sudamérica. Ahí se presentó el Patagotitan, el dinosaurio más grande hallado.",
-  "exc": [
-   {
-    "t": "Tour Valle Inferior del Río Chubut",
-    "op": "Forastero tour",
-    "s": "tour-valle-inferior-rio-chubut"
-   },
-   {
-    "t": "Valle inferior",
-    "op": "Sussanich Turismo",
-    "s": "valle-inferior"
-   }
-  ],
-  "dest": 1,
-  "img": ""
- },
- {
-  "id": "bryn-gwyn",
-  "nombre": "Parque Paleontológico Bryn Gwyn",
-  "cat": "paleo",
-  "meses": [
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Gaiman",
-    "p": "chubut"
-   }
-  ],
-  "dato": "Se camina por una barranca que es un corte de 40 millones de años, con fósiles marinos in situ.",
-  "exc": [
-   {
-    "t": "Tour Valle Inferior del Río Chubut",
-    "op": "Forastero tour",
-    "s": "tour-valle-inferior-rio-chubut"
-   }
-  ],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "bosques-petrificados",
-  "nombre": "Bosques petrificados",
-  "cat": "paleo",
-  "meses": [
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Sarmiento",
-    "p": "chubut"
-   },
-   {
-    "l": "Jaramillo",
-    "p": "santacruz"
-   },
-   {
-    "l": "Puerto Deseado",
-    "p": "santacruz"
-   }
-  ],
-  "dato": "Troncos de araucaria de 65 millones de años tirados en la estepa. El de Sarmiento se recorre a pie en una hora.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "dinos-neuquen",
-  "nombre": "Ruta de los dinosaurios",
-  "cat": "paleo",
-  "meses": [
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Plaza Huincul",
-    "p": "neuquen"
-   },
-   {
-    "l": "Villa El Chocón",
-    "p": "neuquen"
-   },
-   {
-    "l": "Lago Barreales",
-    "p": "neuquen"
-   }
-  ],
-  "dato": "Neuquén concentra los hallazgos de los dinosaurios más grandes del mundo: Argentinosaurus y Giganotosaurus.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "ruta-galesa",
-  "nombre": "Ruta galesa: capillas y casas de té",
-  "cat": "cultura",
-  "meses": [
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Gaiman",
-    "p": "chubut"
-   },
-   {
-    "l": "Trevelin",
-    "p": "chubut"
-   },
-   {
-    "l": "Trelew",
-    "p": "chubut"
-   },
-   {
-    "l": "Dolavon",
-    "p": "chubut"
-   }
-  ],
-  "dato": "La colonia galesa llegó en 1865. Quedan capillas, el idioma vivo y el eisteddfod, que es un certamen de poesía y canto.",
-  "exc": [
-   {
-    "t": "Tour Valle Inferior del Río Chubut",
-    "op": "Forastero tour",
-    "s": "tour-valle-inferior-rio-chubut"
-   },
-   {
-    "t": "Valle inferior",
-    "op": "Sussanich Turismo",
-    "s": "valle-inferior"
-   }
-  ],
-  "dest": 1,
-  "img": ""
- },
- {
-  "id": "cueva-manos",
-  "nombre": "Cueva de las Manos",
-  "cat": "cultura",
-  "meses": [
-   2,
-   2,
-   2,
-   2,
-   1,
-   1,
-   1,
-   1,
-   2,
-   2,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Perito Moreno",
-    "p": "santacruz"
-   },
-   {
-    "l": "Cañadón Pinturas",
-    "p": "santacruz"
-   }
-  ],
-  "dato": "Patrimonio de la Humanidad. Las pinturas más antiguas tienen unos 9.300 años.",
-  "exc": [],
-  "dest": 1,
-  "img": ""
- },
- {
-  "id": "museos-ciudad",
-  "nombre": "Museos y centros de interpretación",
-  "cat": "cultura",
-  "meses": [
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Puerto Madryn",
-    "p": "chubut"
-   },
-   {
-    "l": "Ushuaia",
-    "p": "tdf"
-   },
-   {
-    "l": "Trelew",
-    "p": "chubut"
-   },
-   {
-    "l": "Bariloche",
-    "p": "rionegro"
-   },
-   {
-    "l": "Río Gallegos",
-    "p": "santacruz"
-   }
-  ],
-  "dato": "El Ecocentro de Madryn y el Museo del Presidio de Ushuaia son los dos que nadie debería saltearse.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "punta-cuevas",
-  "nombre": "Punta Cuevas y el desembarco galés",
-  "cat": "cultura",
-  "meses": [
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Puerto Madryn",
-    "p": "chubut"
-   }
-  ],
-  "dato": "Donde desembarcaron los galeses del Mimosa en 1865 y vivieron en cuevas los primeros meses.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "fiestas",
-  "nombre": "Fiestas populares y celebraciones",
-  "cat": "cultura",
-  "meses": [
-   2,
-   2,
-   1,
-   1,
-   0,
    0,
    1,
    1,
-   2,
-   2,
    1,
    1
   ],
   "lugares": [
    {
-    "l": "Trelew",
+    "l": "Punta Norte",
     "p": "chubut"
    },
    {
-    "l": "Gaiman",
-    "p": "chubut"
-   },
-   {
-    "l": "Esquel",
-    "p": "chubut"
-   },
-   {
-    "l": "Bariloche",
-    "p": "rionegro"
-   },
-   {
-    "l": "El Bolsón",
-    "p": "rionegro"
-   }
-  ],
-  "dato": "Eisteddfod galés en octubre, Fiesta Nacional del Esquí en agosto, Fiesta del Lúpulo en El Bolsón en febrero.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "casas-te",
-  "nombre": "Casas de té galés",
-  "cat": "gastro",
-  "meses": [
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Gaiman",
-    "p": "chubut"
-   },
-   {
-    "l": "Trevelin",
-    "p": "chubut"
-   },
-   {
-    "l": "Trelew",
+    "l": "Caleta Valdés",
     "p": "chubut"
    }
   ],
-  "dato": "La torta negra galesa se hace con meses de anticipación. Una mesa alcanza para dos personas con hambre.",
+  "dato": "El varamiento intencional para cazar lobitos se da sobre todo en marzo y abril, y depende de la tabla de mareas.",
   "exc": [
    {
-    "t": "Tour Valle Inferior del Río Chubut",
-    "op": "Forastero tour",
-    "s": "tour-valle-inferior-rio-chubut"
+    "t": "Península Valdés",
+    "op": "Sussanich Turismo",
+    "s": "peninsula-valdes"
    }
   ],
-  "dest": 1,
-  "img": ""
+  "img": "",
+  "rank": 11
  },
  {
-  "id": "cordero",
-  "nombre": "Cordero patagónico al asador",
-  "cat": "gastro",
+  "id": "snorkel-lobos",
+  "nombre": "Snorkel con lobos marinos",
+  "cat": "buceo",
   "meses": [
    2,
    2,
    2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
    2,
    2
   ],
   "lugares": [
    {
-    "l": "Esquel",
-    "p": "chubut"
-   },
-   {
-    "l": "Bariloche",
-    "p": "rionegro"
-   },
-   {
-    "l": "El Calafate",
-    "p": "santacruz"
-   },
-   {
-    "l": "Ushuaia",
-    "p": "tdf"
-   },
-   {
-    "l": "Trelew",
-    "p": "chubut"
-   }
-  ],
-  "dato": "Se cocina cruzado al palo entre tres y cinco horas. Es el plato que define la mesa patagónica.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "cervecerias",
-  "nombre": "Cervecerías artesanales",
-  "cat": "gastro",
-  "meses": [
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Bariloche",
-    "p": "rionegro"
-   },
-   {
-    "l": "El Bolsón",
-    "p": "rionegro"
-   },
-   {
-    "l": "Ushuaia",
-    "p": "tdf"
-   },
-   {
-    "l": "Esquel",
+    "l": "Punta Loma",
     "p": "chubut"
    },
    {
@@ -5509,558 +3239,16 @@ let ACTIVIDADES = [
     "p": "chubut"
    }
   ],
-  "dato": "El lúpulo de El Bolsón abastece a buena parte de la industria cervecera del país.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "chocolate",
-  "nombre": "Ruta del chocolate",
-  "cat": "gastro",
-  "meses": [
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Bariloche",
-    "p": "rionegro"
-   },
-   {
-    "l": "El Bolsón",
-    "p": "rionegro"
-   },
-   {
-    "l": "Villa La Angostura",
-    "p": "neuquen"
-   }
-  ],
-  "dato": "La calle Mitre de Bariloche concentra las chocolaterías históricas. La Fiesta del Chocolate es en Semana Santa.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "bodegas",
-  "nombre": "Bodegas y enoturismo",
-  "cat": "gastro",
-  "meses": [
-   2,
-   2,
-   2,
-   2,
-   1,
-   1,
-   1,
-   1,
-   2,
-   2,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "San Patricio del Chañar",
-    "p": "neuquen"
-   },
-   {
-    "l": "Alto Valle",
-    "p": "rionegro"
-   },
-   {
-    "l": "Trevelin",
-    "p": "chubut"
-   },
-   {
-    "l": "Sarmiento",
-    "p": "chubut"
-   }
-  ],
-  "dato": "La Patagonia es la frontera sur del vino argentino: pinot noir y malbec de clima frío.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "mariscos",
-  "nombre": "Mariscos y pesca artesanal",
-  "cat": "gastro",
-  "meses": [
-   2,
-   2,
-   2,
-   2,
-   1,
-   1,
-   1,
-   1,
-   2,
-   2,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Puerto Madryn",
-    "p": "chubut"
-   },
-   {
-    "l": "Rawson",
-    "p": "chubut"
-   },
-   {
-    "l": "Camarones",
-    "p": "chubut"
-   },
-   {
-    "l": "Puerto Deseado",
-    "p": "santacruz"
-   },
-   {
-    "l": "Ushuaia",
-    "p": "tdf"
-   }
-  ],
-  "dato": "Vieiras, mejillones y langostinos del golfo. En Camarones el salmón de mar es el plato de la casa.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "playas-calidas",
-  "nombre": "Playas de aguas templadas",
-  "cat": "playa",
-  "meses": [
-   2,
-   2,
-   2,
-   1,
-   0,
-   0,
-   0,
-   0,
-   0,
-   1,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Las Grutas",
-    "p": "rionegro"
-   },
-   {
-    "l": "Playas Doradas",
-    "p": "rionegro"
-   },
-   {
-    "l": "El Cóndor",
-    "p": "rionegro"
-   }
-  ],
-  "dato": "Las Grutas tiene el agua más cálida de la costa atlántica argentina por el efecto de las mareas en el golfo.",
-  "exc": [],
-  "dest": 1,
-  "img": ""
- },
- {
-  "id": "playas-patagonicas",
-  "nombre": "Playas y balnearios patagónicos",
-  "cat": "playa",
-  "meses": [
-   2,
-   2,
-   2,
-   1,
-   0,
-   0,
-   0,
-   0,
-   0,
-   1,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Playa Unión",
-    "p": "chubut"
-   },
-   {
-    "l": "Puerto Madryn",
-    "p": "chubut"
-   },
-   {
-    "l": "Camarones",
-    "p": "chubut"
-   },
-   {
-    "l": "Monte León",
-    "p": "santacruz"
-   }
-  ],
-  "dato": "Agua fría, viento a la tarde y muy poca gente. La Patagonia costera es playa de mañana.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "termas",
-  "nombre": "Termas y bienestar",
-  "cat": "termas",
-  "meses": [
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Copahue",
-    "p": "neuquen"
-   },
-   {
-    "l": "Caviahue",
-    "p": "neuquen"
-   },
-   {
-    "l": "Villa Pehuenia",
-    "p": "neuquen"
-   }
-  ],
-  "dato": "Copahue tiene uno de los complejos termales más completos de Sudamérica, con barros y algas volcánicas.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "astroturismo",
-  "nombre": "Astroturismo y cielos oscuros",
-  "cat": "astro",
-  "meses": [
-   2,
-   2,
-   1,
-   1,
-   1,
-   1,
-   1,
-   1,
-   2,
-   2,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Península Valdés",
-    "p": "chubut"
-   },
-   {
-    "l": "Parque Patagonia",
-    "p": "santacruz"
-   },
-   {
-    "l": "Lihué Calel",
-    "p": "lapampa"
-   },
-   {
-    "l": "El Chaltén",
-    "p": "santacruz"
-   },
-   {
-    "l": "Sarmiento",
-    "p": "chubut"
-   }
-  ],
-  "dato": "La meseta patagónica tiene algunos de los cielos con menos contaminación lumínica del hemisferio sur.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "trochita",
-  "nombre": "La Trochita, el Viejo Expreso Patagónico",
-  "cat": "tren",
-  "meses": [
-   2,
-   2,
-   1,
-   1,
-   1,
-   1,
-   1,
-   1,
-   2,
-   2,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Esquel",
-    "p": "chubut"
-   },
-   {
-    "l": "El Maitén",
-    "p": "chubut"
-   },
-   {
-    "l": "Nahuel Pan",
-    "p": "chubut"
-   }
-  ],
-  "dato": "Trocha angosta de 75 cm y locomotoras a vapor de 1922. Es Monumento Histórico Nacional.",
+  "dato": "Los juveniles se acercan solos y mordisquean las aletas. Es la actividad de contacto con fauna más buscada del golfo.",
   "exc": [
    {
-    "t": "Panorámicas de Esquel",
-    "op": "MerakiSur",
-    "s": "panoramicas-de-esquel"
+    "t": "Punta Loma con City Tour",
+    "op": "Sussanich Turismo",
+    "s": "punta-loma-con-city-tour"
    }
   ],
-  "dest": 1,
-  "img": ""
- },
- {
-  "id": "tren-fin-mundo",
-  "nombre": "Tren del Fin del Mundo",
-  "cat": "tren",
-  "meses": [
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Ushuaia",
-    "p": "tdf"
-   }
-  ],
-  "dato": "Recorre el trazado que usaban los presos del penal para buscar leña. Entra al Parque Nacional Tierra del Fuego.",
-  "exc": [
-   {
-    "t": "Parque Nacional Tierra del Fuego",
-    "op": "Noelia Ferrario",
-    "s": "parque-nacional-tierra-del-fuego"
-   }
-  ],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "tren-patagonico",
-  "nombre": "Tren Patagónico Viedma–Bariloche",
-  "cat": "tren",
-  "meses": [
-   2,
-   2,
-   1,
-   1,
-   1,
-   1,
-   1,
-   1,
-   2,
-   2,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Viedma",
-    "p": "rionegro"
-   },
-   {
-    "l": "Bariloche",
-    "p": "rionegro"
-   }
-  ],
-  "dato": "Cruza la provincia de punta a punta en una noche y lleva autos. Es de los últimos trenes de larga distancia del país.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "ruta-40",
-  "nombre": "Ruta 40 patagónica",
-  "cat": "rutas",
-  "meses": [
-   2,
-   2,
-   2,
-   2,
-   1,
-   1,
-   1,
-   1,
-   2,
-   2,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Bariloche",
-    "p": "rionegro"
-   },
-   {
-    "l": "Esquel",
-    "p": "chubut"
-   },
-   {
-    "l": "Perito Moreno",
-    "p": "santacruz"
-   },
-   {
-    "l": "El Chaltén",
-    "p": "santacruz"
-   },
-   {
-    "l": "El Calafate",
-    "p": "santacruz"
-   }
-  ],
-  "dato": "El tramo patagónico son más de 2.000 km. Hay que planificar la carga de combustible: hay etapas de 300 km sin nada.",
-  "exc": [],
-  "dest": 1,
-  "img": ""
- },
- {
-  "id": "siete-lagos",
-  "nombre": "Camino de los Siete Lagos",
-  "cat": "rutas",
-  "meses": [
-   2,
-   2,
-   2,
-   1,
-   1,
-   0,
-   0,
-   0,
-   0,
-   1,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Villa La Angostura",
-    "p": "neuquen"
-   },
-   {
-    "l": "San Martín de los Andes",
-    "p": "neuquen"
-   }
-  ],
-  "dato": "Son 110 km asfaltados entre Angostura y San Martín. En invierno puede cerrarse por nieve.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "circuito-chico",
-  "nombre": "Circuito Chico",
-  "cat": "rutas",
-  "meses": [
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Bariloche",
-    "p": "rionegro"
-   }
-  ],
-  "dato": "El clásico de Bariloche: 60 km con los miradores del Nahuel Huapi. Se puede hacer en auto, en bici o en bus.",
-  "exc": [],
-  "dest": 0,
-  "img": ""
- },
- {
-  "id": "ruta-azul",
-  "nombre": "Ruta Azul y costa chubutense",
-  "cat": "rutas",
-  "meses": [
-   2,
-   2,
-   2,
-   2,
-   1,
-   1,
-   1,
-   1,
-   2,
-   2,
-   2,
-   2
-  ],
-  "lugares": [
-   {
-    "l": "Puerto Madryn",
-    "p": "chubut"
-   },
-   {
-    "l": "Rawson",
-    "p": "chubut"
-   },
-   {
-    "l": "Camarones",
-    "p": "chubut"
-   },
-   {
-    "l": "Comodoro Rivadavia",
-    "p": "chubut"
-   }
-  ],
-  "dato": "Une la costa de Chubut de norte a sur pasando por pingüineras, loberías y pueblos de pescadores.",
-  "exc": [
-   {
-    "t": "Dique Florentino Ameghino",
-    "op": "Forastero tour",
-    "s": "dique-florentino-ameghino-lugar-de-ensueno"
-   }
-  ],
-  "dest": 0,
-  "img": ""
+  "img": "",
+  "rank": 12
  },
  {
   "id": "parques-nacionales",
@@ -6135,13 +3323,13 @@ let ACTIVIDADES = [
     "s": "parque-nacional-tierra-del-fuego"
    }
   ],
-  "dest": 1,
-  "img": ""
+  "img": "",
+  "rank": 13
  },
  {
-  "id": "perito-moreno",
-  "nombre": "Glaciar Perito Moreno",
-  "cat": "parques",
+  "id": "cueva-manos",
+  "nombre": "Cueva de las Manos",
+  "cat": "cultura",
   "meses": [
    2,
    2,
@@ -6158,14 +3346,2828 @@ let ACTIVIDADES = [
   ],
   "lugares": [
    {
+    "l": "Perito Moreno",
+    "p": "santacruz"
+   },
+   {
+    "l": "Cañadón Pinturas",
+    "p": "santacruz"
+   }
+  ],
+  "dato": "Patrimonio de la Humanidad. Las pinturas más antiguas tienen unos 9.300 años.",
+  "exc": [],
+  "img": "",
+  "rank": 14
+ },
+ {
+  "id": "mef",
+  "nombre": "Museo Egidio Feruglio",
+  "cat": "paleo",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Trelew",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Uno de los museos paleontológicos más importantes de Sudamérica. Ahí se presentó el Patagotitan, el dinosaurio más grande hallado.",
+  "exc": [
+   {
+    "t": "Tour Valle Inferior del Río Chubut",
+    "op": "Forastero tour",
+    "s": "tour-valle-inferior-rio-chubut"
+   },
+   {
+    "t": "Valle inferior",
+    "op": "Sussanich Turismo",
+    "s": "valle-inferior"
+   }
+  ],
+  "img": "",
+  "rank": 15
+ },
+ {
+  "id": "trochita",
+  "nombre": "La Trochita, el Viejo Expreso Patagónico",
+  "cat": "tren",
+  "meses": [
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   },
+   {
+    "l": "El Maitén",
+    "p": "chubut"
+   },
+   {
+    "l": "Nahuel Pan",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Trocha angosta de 75 cm y locomotoras a vapor de 1922. Es Monumento Histórico Nacional.",
+  "exc": [
+   {
+    "t": "Panorámicas de Esquel",
+    "op": "MerakiSur",
+    "s": "panoramicas-de-esquel"
+   }
+  ],
+  "img": "",
+  "rank": 16
+ },
+ {
+  "id": "ruta-40",
+  "nombre": "Ruta 40 patagónica",
+  "cat": "rutas",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   },
+   {
+    "l": "Perito Moreno",
+    "p": "santacruz"
+   },
+   {
+    "l": "El Chaltén",
+    "p": "santacruz"
+   },
+   {
     "l": "El Calafate",
     "p": "santacruz"
    }
   ],
-  "dato": "Es uno de los pocos glaciares del mundo en equilibrio. Las pasarelas tienen varios kilómetros y distintos niveles de dificultad.",
+  "dato": "El tramo patagónico son más de 2.000 km. Hay que planificar la carga de combustible: hay etapas de 300 km sin nada.",
   "exc": [],
-  "dest": 1,
-  "img": ""
+  "img": "",
+  "rank": 17
+ },
+ {
+  "id": "casas-te",
+  "nombre": "Casas de té galés",
+  "cat": "gastro",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Gaiman",
+    "p": "chubut"
+   },
+   {
+    "l": "Trevelin",
+    "p": "chubut"
+   },
+   {
+    "l": "Trelew",
+    "p": "chubut"
+   }
+  ],
+  "dato": "La torta negra galesa se hace con meses de anticipación. Una mesa alcanza para dos personas con hambre.",
+  "exc": [
+   {
+    "t": "Tour Valle Inferior del Río Chubut",
+    "op": "Forastero tour",
+    "s": "tour-valle-inferior-rio-chubut"
+   }
+  ],
+  "img": "",
+  "rank": 18
+ },
+ {
+  "id": "travesias-4x4",
+  "nombre": "Travesías 4x4",
+  "cat": "motor",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Península Valdés",
+    "p": "chubut"
+   },
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   },
+   {
+    "l": "El Chaltén",
+    "p": "santacruz"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "Es la forma de llegar a lugares donde no entra el micro ni el auto de alquiler.",
+  "exc": [
+   {
+    "t": "Lagos Off Road",
+    "op": "Noelia Ferrario",
+    "s": "lagos-off-road"
+   }
+  ],
+  "img": "",
+  "rank": 19
+ },
+ {
+  "id": "rafting",
+  "nombre": "Rafting",
+  "cat": "aventura",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Río Manso",
+    "p": "rionegro"
+   },
+   {
+    "l": "Río Aluminé",
+    "p": "neuquen"
+   },
+   {
+    "l": "Río Corcovado",
+    "p": "chubut"
+   },
+   {
+    "l": "Río Limay",
+    "p": "neuquen"
+   }
+  ],
+  "dato": "El Manso a la Frontera tiene rápidos clase III y IV. El Limay es el tramo apto para familias.",
+  "exc": [],
+  "img": "",
+  "rank": 20
+ },
+ {
+  "id": "buceo-bautismo",
+  "nombre": "Buceo bautismo",
+  "cat": "buceo",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   },
+   {
+    "l": "Puerto Pirámides",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Puerto Madryn es la capital nacional del buceo. El bautismo no requiere experiencia previa.",
+  "exc": [],
+  "img": "",
+  "rank": 21
+ },
+ {
+  "id": "mosca",
+  "nombre": "Pesca con mosca",
+  "cat": "pesca",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   1,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Junín de los Andes",
+    "p": "neuquen"
+   },
+   {
+    "l": "Aluminé",
+    "p": "neuquen"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   },
+   {
+    "l": "Corcovado",
+    "p": "chubut"
+   },
+   {
+    "l": "Río Grande",
+    "p": "tdf"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Los Antiguos",
+    "p": "santacruz"
+   }
+  ],
+  "dato": "La temporada general va de noviembre a abril. Junín de los Andes se promociona como capital nacional de la trucha.",
+  "exc": [],
+  "img": "",
+  "rank": 22
+ },
+ {
+  "id": "cabalgatas",
+  "nombre": "Cabalgatas",
+  "cat": "rural",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   },
+   {
+    "l": "Trevelin",
+    "p": "chubut"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "El Bolsón",
+    "p": "rionegro"
+   },
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   },
+   {
+    "l": "El Chaltén",
+    "p": "santacruz"
+   },
+   {
+    "l": "Lihué Calel",
+    "p": "lapampa"
+   }
+  ],
+  "dato": "De un par de horas a travesías de varios días con arreo. No hace falta experiencia para las salidas cortas.",
+  "exc": [
+   {
+    "t": "Cabalgatas Familiares",
+    "op": "MerakiSur",
+    "s": "cabalgatas-familiares"
+   }
+  ],
+  "img": "",
+  "rank": 23
+ },
+ {
+  "id": "loberias",
+  "nombre": "Loberías y elefanterías",
+  "cat": "fauna",
+  "meses": [
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   1
+  ],
+  "lugares": [
+   {
+    "l": "Punta Loma",
+    "p": "chubut"
+   },
+   {
+    "l": "Punta Pirámide",
+    "p": "chubut"
+   },
+   {
+    "l": "Punta Bermeja",
+    "p": "rionegro"
+   },
+   {
+    "l": "Cabo Blanco",
+    "p": "santacruz"
+   },
+   {
+    "l": "Punta León",
+    "p": "chubut"
+   }
+  ],
+  "dato": "La única colonia continental de elefante marino del mundo está en Península Valdés.",
+  "exc": [
+   {
+    "t": "Punta Loma con City Tour",
+    "op": "Sussanich Turismo",
+    "s": "punta-loma-con-city-tour"
+   }
+  ],
+  "img": "",
+  "rank": 24
+ },
+ {
+  "id": "playas-calidas",
+  "nombre": "Playas de aguas templadas",
+  "cat": "playa",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   0,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Las Grutas",
+    "p": "rionegro"
+   },
+   {
+    "l": "Playas Doradas",
+    "p": "rionegro"
+   },
+   {
+    "l": "El Cóndor",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "Las Grutas tiene el agua más cálida de la costa atlántica argentina por el efecto de las mareas en el golfo.",
+  "exc": [],
+  "img": "",
+  "rank": 25
+ },
+ {
+  "id": "toninas",
+  "nombre": "Avistaje de toninas overas",
+  "cat": "fauna",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Playa Unión",
+    "p": "chubut"
+   },
+   {
+    "l": "Rawson",
+    "p": "chubut"
+   },
+   {
+    "l": "Puerto Deseado",
+    "p": "santacruz"
+   },
+   {
+    "l": "Las Grutas",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "Salen a las 8 de la mañana desde Rawson porque el mar está más quieto y se ve mejor.",
+  "exc": [
+   {
+    "t": "Valle inferior",
+    "op": "Sussanich Turismo",
+    "s": "valle-inferior"
+   }
+  ],
+  "img": "",
+  "rank": 26
+ },
+ {
+  "id": "birdwatching",
+  "nombre": "Avistaje de aves",
+  "cat": "fauna",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "San Antonio Oeste",
+    "p": "rionegro"
+   },
+   {
+    "l": "Península Valdés",
+    "p": "chubut"
+   },
+   {
+    "l": "Río Gallegos",
+    "p": "santacruz"
+   },
+   {
+    "l": "Lihué Calel",
+    "p": "lapampa"
+   },
+   {
+    "l": "El Cóndor",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "La costa patagónica es escala obligada de las aves playeras que bajan del Ártico. El playero rojizo hace 15.000 km.",
+  "exc": [
+   {
+    "t": "Punta Loma con City Tour",
+    "op": "Sussanich Turismo",
+    "s": "punta-loma-con-city-tour"
+   },
+   {
+    "t": "Tour Valle Inferior del Río Chubut",
+    "op": "Forastero tour",
+    "s": "tour-valle-inferior-rio-chubut"
+   }
+  ],
+  "img": "",
+  "rank": 27
+ },
+ {
+  "id": "condores",
+  "nombre": "Avistaje de cóndores",
+  "cat": "fauna",
+  "meses": [
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Piedra Parada",
+    "p": "chubut"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   },
+   {
+    "l": "Parque Patagonia",
+    "p": "santacruz"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "Aparece cuando el sol ya calentó las paredes de roca y se arman las térmicas, no al amanecer.",
+  "exc": [
+   {
+    "t": "Piedra Parada",
+    "op": "MerakiSur",
+    "s": "piedra-parada"
+   },
+   {
+    "t": "Panorámicas de Esquel",
+    "op": "MerakiSur",
+    "s": "panoramicas-de-esquel"
+   }
+  ],
+  "img": "",
+  "rank": 28
+ },
+ {
+  "id": "safari-estepa",
+  "nombre": "Safari fotográfico de estepa",
+  "cat": "fauna",
+  "meses": [
+   2,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Península Valdés",
+    "p": "chubut"
+   },
+   {
+    "l": "Parque Patagonia",
+    "p": "santacruz"
+   },
+   {
+    "l": "Lihué Calel",
+    "p": "lapampa"
+   },
+   {
+    "l": "Punta Tombo",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Guanacos, choiques, maras y zorros. Los chulengos nacen entre noviembre y enero.",
+  "exc": [
+   {
+    "t": "Península Valdés",
+    "op": "Sussanich Turismo",
+    "s": "peninsula-valdes"
+   },
+   {
+    "t": "Punta Tombo",
+    "op": "Sussanich Turismo",
+    "s": "punta-tombo"
+   }
+  ],
+  "img": "",
+  "rank": 29
+ },
+ {
+  "id": "puma",
+  "nombre": "Avistaje de puma",
+  "cat": "fauna",
+  "meses": [
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   1,
+   1
+  ],
+  "lugares": [
+   {
+    "l": "Parque Patagonia",
+    "p": "santacruz"
+   },
+   {
+    "l": "Cañadón Pinturas",
+    "p": "santacruz"
+   }
+  ],
+  "dato": "En invierno el pasto está bajo y hay menos horas de sol fuerte: es cuando más se lo llega a ver. Siempre con guía.",
+  "exc": [],
+  "img": "",
+  "rank": 30
+ },
+ {
+  "id": "brama-ciervo",
+  "nombre": "Brama del ciervo colorado",
+  "cat": "fauna",
+  "meses": [
+   0,
+   0,
+   2,
+   2,
+   1,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0
+  ],
+  "lugares": [
+   {
+    "l": "Parque Luro",
+    "p": "lapampa"
+   },
+   {
+    "l": "Villa La Angostura",
+    "p": "neuquen"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "Los machos braman al atardecer y se escucha a kilómetros. Es de las pocas experiencias de fauna que se hace de noche.",
+  "exc": [],
+  "img": "",
+  "rank": 31
+ },
+ {
+  "id": "loros-barranqueros",
+  "nombre": "Colonia de loros barranqueros",
+  "cat": "fauna",
+  "meses": [
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Balneario El Cóndor",
+    "p": "rionegro"
+   },
+   {
+    "l": "Viedma",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "Es la colonia de loros barranqueros más grande del mundo: decenas de miles de nidos en varios kilómetros de acantilado.",
+  "exc": [],
+  "img": "",
+  "rank": 32
+ },
+ {
+  "id": "ria-deseado",
+  "nombre": "Navegación por la Ría Deseado",
+  "cat": "nautica",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Puerto Deseado",
+    "p": "santacruz"
+   }
+  ],
+  "dato": "Único estuario del país donde el mar entra en el cauce de un río seco. Toninas, cormoranes y la Isla Pingüino.",
+  "exc": [],
+  "img": "",
+  "rank": 33
+ },
+ {
+  "id": "nav-lacustre",
+  "nombre": "Navegación lacustre y cruce de lagos",
+  "cat": "nautica",
+  "meses": [
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Villa La Angostura",
+    "p": "neuquen"
+   },
+   {
+    "l": "Los Alerces",
+    "p": "chubut"
+   },
+   {
+    "l": "Puerto Blest",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "Isla Victoria y el Bosque de Arrayanes solo se llegan navegando.",
+  "exc": [],
+  "img": "",
+  "rank": 34
+ },
+ {
+  "id": "kayak-mar",
+  "nombre": "Kayak de mar",
+  "cat": "nautica",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   },
+   {
+    "l": "Puerto Pirámides",
+    "p": "chubut"
+   },
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Las Grutas",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "En Golfo Nuevo es común que los delfines oscuros se acerquen solos al kayak.",
+  "exc": [],
+  "img": "",
+  "rank": 35
+ },
+ {
+  "id": "sup",
+  "nombre": "Stand up paddle",
+  "cat": "nautica",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   0,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   },
+   {
+    "l": "Playa Unión",
+    "p": "chubut"
+   },
+   {
+    "l": "Las Grutas",
+    "p": "rionegro"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "Conviene salir temprano: en la Patagonia el viento se levanta cerca del mediodía.",
+  "exc": [],
+  "img": "",
+  "rank": 36
+ },
+ {
+  "id": "cruce-andino",
+  "nombre": "Cruce Andino a Chile",
+  "cat": "nautica",
+  "meses": [
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Puerto Blest",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "Combinación de lagos y buses entre Bariloche y Puerto Varas en un día. Requiere documentación para salir del país.",
+  "exc": [],
+  "img": "",
+  "rank": 37
+ },
+ {
+  "id": "buceo-naufragios",
+  "nombre": "Buceo en naufragios y parques submarinos",
+  "cat": "buceo",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   },
+   {
+    "l": "Golfo Nuevo",
+    "p": "chubut"
+   }
+  ],
+  "dato": "El Golfo Nuevo tiene barcos hundidos a propósito como parque submarino, a profundidades para buzos certificados.",
+  "exc": [],
+  "img": "",
+  "rank": 38
+ },
+ {
+  "id": "buceo-lagos",
+  "nombre": "Buceo en lagos andinos",
+  "cat": "buceo",
+  "meses": [
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Villa La Angostura",
+    "p": "neuquen"
+   }
+  ],
+  "dato": "Agua dulce muy fría y visibilidad alta. Se bucea con traje seco casi todo el año.",
+  "exc": [],
+  "img": "",
+  "rank": 39
+ },
+ {
+  "id": "alta-montana",
+  "nombre": "Ascensiones de alta montaña",
+  "cat": "trekking",
+  "meses": [
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Lanín",
+    "p": "neuquen"
+   },
+   {
+    "l": "Tronador",
+    "p": "rionegro"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   }
+  ],
+  "dato": "El Lanín se sube en dos o tres días con guía habilitado y registro previo en el parque.",
+  "exc": [],
+  "img": "",
+  "rank": 40
+ },
+ {
+  "id": "refugios",
+  "nombre": "Travesías de refugio en refugio",
+  "cat": "trekking",
+  "meses": [
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   },
+   {
+    "l": "El Bolsón",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "La red de refugios de Bariloche permite armar travesías de tres a cinco días sin cargar carpa.",
+  "exc": [],
+  "img": "",
+  "rank": 41
+ },
+ {
+  "id": "escalada",
+  "nombre": "Escalada en roca",
+  "cat": "trekking",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Piedra Parada",
+    "p": "chubut"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Los Molles",
+    "p": "neuquen"
+   },
+   {
+    "l": "El Chaltén",
+    "p": "santacruz"
+   }
+  ],
+  "dato": "El Cañadón de la Buitrera, en Piedra Parada, es uno de los sitios de escalada deportiva más importantes del país.",
+  "exc": [
+   {
+    "t": "Piedra Parada",
+    "op": "MerakiSur",
+    "s": "piedra-parada"
+   }
+  ],
+  "img": "",
+  "rank": 42
+ },
+ {
+  "id": "bosque-alerces",
+  "nombre": "Caminata entre alerces milenarios",
+  "cat": "trekking",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Los Alerces",
+    "p": "chubut"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   }
+  ],
+  "dato": "El Alerzal Milenario tiene ejemplares de más de 2.600 años. Se llega navegando y después caminando.",
+  "exc": [
+   {
+    "t": "Parque Nacional Los Alerces Full Day",
+    "op": "MerakiSur",
+    "s": "parque-nacional-los-alerces-full-day"
+   }
+  ],
+  "img": "",
+  "rank": 43
+ },
+ {
+  "id": "esqui-fondo",
+  "nombre": "Esquí de fondo y travesía",
+  "cat": "nieve",
+  "meses": [
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2,
+   2,
+   1,
+   0,
+   0,
+   0
+  ],
+  "lugares": [
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   },
+   {
+    "l": "Chapelco",
+    "p": "neuquen"
+   },
+   {
+    "l": "Caviahue",
+    "p": "neuquen"
+   }
+  ],
+  "dato": "El valle de Tierra Mayor, en Ushuaia, concentra los centros invernales de fondo del país.",
+  "exc": [],
+  "img": "",
+  "rank": 44
+ },
+ {
+  "id": "trineo-perros",
+  "nombre": "Trineo con perros",
+  "cat": "nieve",
+  "meses": [
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2,
+   2,
+   1,
+   0,
+   0,
+   0
+  ],
+  "lugares": [
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Caviahue",
+    "p": "neuquen"
+   }
+  ],
+  "dato": "Se hace con huskies siberianos y alaskan. En Ushuaia es de las actividades más pedidas de la temporada.",
+  "exc": [],
+  "img": "",
+  "rank": 45
+ },
+ {
+  "id": "motos-nieve",
+  "nombre": "Motos de nieve",
+  "cat": "nieve",
+  "meses": [
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2,
+   2,
+   1,
+   0,
+   0,
+   0
+  ],
+  "lugares": [
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "La Hoya",
+    "p": "chubut"
+   },
+   {
+    "l": "Chapelco",
+    "p": "neuquen"
+   }
+  ],
+  "dato": "No requiere experiencia previa y se hace en circuitos cerrados con guía.",
+  "exc": [],
+  "img": "",
+  "rank": 46
+ },
+ {
+  "id": "raquetas",
+  "nombre": "Caminata con raquetas",
+  "cat": "nieve",
+  "meses": [
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2,
+   2,
+   1,
+   0,
+   0,
+   0
+  ],
+  "lugares": [
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   },
+   {
+    "l": "Villa La Angostura",
+    "p": "neuquen"
+   }
+  ],
+  "dato": "Es la forma más accesible de entrar al bosque nevado: no hace falta saber esquiar.",
+  "exc": [],
+  "img": "",
+  "rank": 47
+ },
+ {
+  "id": "canopy",
+  "nombre": "Canopy y tirolesa",
+  "cat": "aventura",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Villa La Angostura",
+    "p": "neuquen"
+   },
+   {
+    "l": "El Bolsón",
+    "p": "rionegro"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Circuitos de cables entre coihues, aptos desde los 6 o 7 años según el operador.",
+  "exc": [],
+  "img": "",
+  "rank": 48
+ },
+ {
+  "id": "parapente",
+  "nombre": "Parapente y vuelo biplaza",
+  "cat": "aventura",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   },
+   {
+    "l": "Villa La Angostura",
+    "p": "neuquen"
+   }
+  ],
+  "dato": "Se vuela con instructor y depende del viento: se confirma el mismo día.",
+  "exc": [],
+  "img": "",
+  "rank": 49
+ },
+ {
+  "id": "rappel",
+  "nombre": "Rappel y tirolesa en cañadón",
+  "cat": "aventura",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Piedra Parada",
+    "p": "chubut"
+   },
+   {
+    "l": "Cañadón de la Buitrera",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Las paredes del cañadón son de ignimbrita volcánica y superan los 100 metros.",
+  "exc": [
+   {
+    "t": "Piedra Parada",
+    "op": "MerakiSur",
+    "s": "piedra-parada"
+   }
+  ],
+  "img": "",
+  "rank": 50
+ },
+ {
+  "id": "sandboard",
+  "nombre": "Sandboard en dunas",
+  "cat": "aventura",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   },
+   {
+    "l": "Las Grutas",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "Se hace en los médanos costeros y suele combinarse con travesía 4x4.",
+  "exc": [],
+  "img": "",
+  "rank": 51
+ },
+ {
+  "id": "kayak-rio",
+  "nombre": "Kayak y packrafting de río",
+  "cat": "aventura",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Río Aluminé",
+    "p": "neuquen"
+   },
+   {
+    "l": "Río Manso",
+    "p": "rionegro"
+   },
+   {
+    "l": "Los Alerces",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Requiere nociones básicas. Varios operadores dan el curso introductorio en el día.",
+  "exc": [],
+  "img": "",
+  "rank": 52
+ },
+ {
+  "id": "kite",
+  "nombre": "Kitesurf y windsurf",
+  "cat": "viento",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   },
+   {
+    "l": "Dina Huapi",
+    "p": "rionegro"
+   },
+   {
+    "l": "Las Grutas",
+    "p": "rionegro"
+   },
+   {
+    "l": "Playa Unión",
+    "p": "chubut"
+   }
+  ],
+  "dato": "El viento patagónico, que para todo lo demás es un problema, acá es el recurso.",
+  "exc": [],
+  "img": "",
+  "rank": 53
+ },
+ {
+  "id": "surf",
+  "nombre": "Surf",
+  "cat": "viento",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   0,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Playa Unión",
+    "p": "chubut"
+   },
+   {
+    "l": "Las Grutas",
+    "p": "rionegro"
+   },
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Agua fría todo el año: se entra con traje de 4/3 mm como mínimo.",
+  "exc": [],
+  "img": "",
+  "rank": 54
+ },
+ {
+  "id": "pesca-embarcada",
+  "nombre": "Pesca embarcada de mar",
+  "cat": "pesca",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Rawson",
+    "p": "chubut"
+   },
+   {
+    "l": "Puerto Deseado",
+    "p": "santacruz"
+   },
+   {
+    "l": "Las Grutas",
+    "p": "rionegro"
+   },
+   {
+    "l": "Camarones",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Salidas de medio día en busca de pez gallo, salmón de mar y meros.",
+  "exc": [],
+  "img": "",
+  "rank": 55
+ },
+ {
+  "id": "steelhead",
+  "nombre": "Pesca de trucha steelhead",
+  "cat": "pesca",
+  "meses": [
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Río Grande",
+    "p": "tdf"
+   },
+   {
+    "l": "Tolhuin",
+    "p": "tdf"
+   }
+  ],
+  "dato": "El río Grande es considerado el mejor río de steelhead del mundo. Los cupos se reservan con un año de anticipación.",
+  "exc": [],
+  "img": "",
+  "rank": 56
+ },
+ {
+  "id": "cuatriciclos",
+  "nombre": "Cuatriciclos y UTV",
+  "cat": "motor",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   },
+   {
+    "l": "Las Grutas",
+    "p": "rionegro"
+   },
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   }
+  ],
+  "dato": "Circuitos guiados en médanos y estepa. Se maneja con licencia y casco provisto.",
+  "exc": [],
+  "img": "",
+  "rank": 57
+ },
+ {
+  "id": "mtb",
+  "nombre": "Mountain bike",
+  "cat": "bici",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   1,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "El Bolsón",
+    "p": "rionegro"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   },
+   {
+    "l": "Trevelin",
+    "p": "chubut"
+   },
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   },
+   {
+    "l": "Villa La Angostura",
+    "p": "neuquen"
+   }
+  ],
+  "dato": "Bariloche tiene senderos señalizados de todos los niveles y bike park en el Catedral en verano.",
+  "exc": [],
+  "img": "",
+  "rank": 58
+ },
+ {
+  "id": "cicloturismo",
+  "nombre": "Cicloturismo por la Ruta 40",
+  "cat": "bici",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "El Bolsón",
+    "p": "rionegro"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   },
+   {
+    "l": "Los Antiguos",
+    "p": "santacruz"
+   },
+   {
+    "l": "El Chaltén",
+    "p": "santacruz"
+   }
+  ],
+  "dato": "El viento define todo: casi todos la hacen de norte a sur para tenerlo de espalda.",
+  "exc": [],
+  "img": "",
+  "rank": 59
+ },
+ {
+  "id": "circuito-bici",
+  "nombre": "Circuitos de un día en bici",
+  "cat": "bici",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Trevelin",
+    "p": "chubut"
+   },
+   {
+    "l": "Gaiman",
+    "p": "chubut"
+   },
+   {
+    "l": "Villa La Angostura",
+    "p": "neuquen"
+   }
+  ],
+  "dato": "El Circuito Chico de Bariloche son 27 km con bicisenda en buena parte del recorrido.",
+  "exc": [],
+  "img": "",
+  "rank": 60
+ },
+ {
+  "id": "estancias",
+  "nombre": "Día de campo en estancia",
+  "cat": "rural",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Santa Cruz",
+    "p": "santacruz"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   },
+   {
+    "l": "Río Grande",
+    "p": "tdf"
+   },
+   {
+    "l": "Parque Luro",
+    "p": "lapampa"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "Asado de cordero al asador, demostración de perros ovejeros y recorrida por el casco histórico.",
+  "exc": [],
+  "img": "",
+  "rank": 61
+ },
+ {
+  "id": "esquila",
+  "nombre": "Esquila y trabajo rural",
+  "cat": "rural",
+  "meses": [
+   2,
+   2,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Santa Cruz",
+    "p": "santacruz"
+   },
+   {
+    "l": "Chubut",
+    "p": "chubut"
+   },
+   {
+    "l": "Río Grande",
+    "p": "tdf"
+   }
+  ],
+  "dato": "La esquila se hace entre noviembre y enero. Muchas estancias la abren a visitantes en esa ventana.",
+  "exc": [],
+  "img": "",
+  "rank": 62
+ },
+ {
+  "id": "turismo-ancestral",
+  "nombre": "Turismo con comunidades originarias",
+  "cat": "rural",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Lago Rosario",
+    "p": "chubut"
+   },
+   {
+    "l": "Sierra Colorada",
+    "p": "chubut"
+   },
+   {
+    "l": "Villa Pehuenia",
+    "p": "neuquen"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "Gestionado por las propias comunidades mapuche y tehuelche: relato, comida y territorio contados por ellos.",
+  "exc": [
+   {
+    "t": "Turismo Ancestral · Sierra Colorada · Lago Rosario",
+    "op": "MerakiSur",
+    "s": "turismo-ancestral-sierra-colorada-lago-rosario"
+   }
+  ],
+  "img": "",
+  "rank": 63
+ },
+ {
+  "id": "bryn-gwyn",
+  "nombre": "Parque Paleontológico Bryn Gwyn",
+  "cat": "paleo",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Gaiman",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Se camina por una barranca que es un corte de 40 millones de años, con fósiles marinos in situ.",
+  "exc": [
+   {
+    "t": "Tour Valle Inferior del Río Chubut",
+    "op": "Forastero tour",
+    "s": "tour-valle-inferior-rio-chubut"
+   }
+  ],
+  "img": "",
+  "rank": 64
+ },
+ {
+  "id": "bosques-petrificados",
+  "nombre": "Bosques petrificados",
+  "cat": "paleo",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Sarmiento",
+    "p": "chubut"
+   },
+   {
+    "l": "Jaramillo",
+    "p": "santacruz"
+   },
+   {
+    "l": "Puerto Deseado",
+    "p": "santacruz"
+   }
+  ],
+  "dato": "Troncos de araucaria de 65 millones de años tirados en la estepa. El de Sarmiento se recorre a pie en una hora.",
+  "exc": [],
+  "img": "",
+  "rank": 65
+ },
+ {
+  "id": "dinos-neuquen",
+  "nombre": "Ruta de los dinosaurios",
+  "cat": "paleo",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Plaza Huincul",
+    "p": "neuquen"
+   },
+   {
+    "l": "Villa El Chocón",
+    "p": "neuquen"
+   },
+   {
+    "l": "Lago Barreales",
+    "p": "neuquen"
+   }
+  ],
+  "dato": "Neuquén concentra los hallazgos de los dinosaurios más grandes del mundo: Argentinosaurus y Giganotosaurus.",
+  "exc": [],
+  "img": "",
+  "rank": 66
+ },
+ {
+  "id": "ruta-galesa",
+  "nombre": "Ruta galesa: capillas y casas de té",
+  "cat": "cultura",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Gaiman",
+    "p": "chubut"
+   },
+   {
+    "l": "Trevelin",
+    "p": "chubut"
+   },
+   {
+    "l": "Trelew",
+    "p": "chubut"
+   },
+   {
+    "l": "Dolavon",
+    "p": "chubut"
+   }
+  ],
+  "dato": "La colonia galesa llegó en 1865. Quedan capillas, el idioma vivo y el eisteddfod, que es un certamen de poesía y canto.",
+  "exc": [
+   {
+    "t": "Tour Valle Inferior del Río Chubut",
+    "op": "Forastero tour",
+    "s": "tour-valle-inferior-rio-chubut"
+   },
+   {
+    "t": "Valle inferior",
+    "op": "Sussanich Turismo",
+    "s": "valle-inferior"
+   }
+  ],
+  "img": "",
+  "rank": 67
+ },
+ {
+  "id": "museos-ciudad",
+  "nombre": "Museos y centros de interpretación",
+  "cat": "cultura",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   },
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   },
+   {
+    "l": "Trelew",
+    "p": "chubut"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Río Gallegos",
+    "p": "santacruz"
+   }
+  ],
+  "dato": "El Ecocentro de Madryn y el Museo del Presidio de Ushuaia son los dos que nadie debería saltearse.",
+  "exc": [],
+  "img": "",
+  "rank": 68
+ },
+ {
+  "id": "punta-cuevas",
+  "nombre": "Punta Cuevas y el desembarco galés",
+  "cat": "cultura",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Donde desembarcaron los galeses del Mimosa en 1865 y vivieron en cuevas los primeros meses.",
+  "exc": [],
+  "img": "",
+  "rank": 69
+ },
+ {
+  "id": "fiestas",
+  "nombre": "Fiestas populares y celebraciones",
+  "cat": "cultura",
+  "meses": [
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   1,
+   1,
+   2,
+   2,
+   1,
+   1
+  ],
+  "lugares": [
+   {
+    "l": "Trelew",
+    "p": "chubut"
+   },
+   {
+    "l": "Gaiman",
+    "p": "chubut"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "El Bolsón",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "Eisteddfod galés en octubre, Fiesta Nacional del Esquí en agosto, Fiesta del Lúpulo en El Bolsón en febrero.",
+  "exc": [],
+  "img": "",
+  "rank": 70
+ },
+ {
+  "id": "cordero",
+  "nombre": "Cordero patagónico al asador",
+  "cat": "gastro",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "El Calafate",
+    "p": "santacruz"
+   },
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   },
+   {
+    "l": "Trelew",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Se cocina cruzado al palo entre tres y cinco horas. Es el plato que define la mesa patagónica.",
+  "exc": [],
+  "img": "",
+  "rank": 71
+ },
+ {
+  "id": "cervecerias",
+  "nombre": "Cervecerías artesanales",
+  "cat": "gastro",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "El Bolsón",
+    "p": "rionegro"
+   },
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   },
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   }
+  ],
+  "dato": "El lúpulo de El Bolsón abastece a buena parte de la industria cervecera del país.",
+  "exc": [],
+  "img": "",
+  "rank": 72
+ },
+ {
+  "id": "chocolate",
+  "nombre": "Ruta del chocolate",
+  "cat": "gastro",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "El Bolsón",
+    "p": "rionegro"
+   },
+   {
+    "l": "Villa La Angostura",
+    "p": "neuquen"
+   }
+  ],
+  "dato": "La calle Mitre de Bariloche concentra las chocolaterías históricas. La Fiesta del Chocolate es en Semana Santa.",
+  "exc": [],
+  "img": "",
+  "rank": 73
+ },
+ {
+  "id": "bodegas",
+  "nombre": "Bodegas y enoturismo",
+  "cat": "gastro",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "San Patricio del Chañar",
+    "p": "neuquen"
+   },
+   {
+    "l": "Alto Valle",
+    "p": "rionegro"
+   },
+   {
+    "l": "Trevelin",
+    "p": "chubut"
+   },
+   {
+    "l": "Sarmiento",
+    "p": "chubut"
+   }
+  ],
+  "dato": "La Patagonia es la frontera sur del vino argentino: pinot noir y malbec de clima frío.",
+  "exc": [],
+  "img": "",
+  "rank": 74
+ },
+ {
+  "id": "mariscos",
+  "nombre": "Mariscos y pesca artesanal",
+  "cat": "gastro",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   },
+   {
+    "l": "Rawson",
+    "p": "chubut"
+   },
+   {
+    "l": "Camarones",
+    "p": "chubut"
+   },
+   {
+    "l": "Puerto Deseado",
+    "p": "santacruz"
+   },
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   }
+  ],
+  "dato": "Vieiras, mejillones y langostinos del golfo. En Camarones el salmón de mar es el plato de la casa.",
+  "exc": [],
+  "img": "",
+  "rank": 75
+ },
+ {
+  "id": "playas-patagonicas",
+  "nombre": "Playas y balnearios patagónicos",
+  "cat": "playa",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   0,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Playa Unión",
+    "p": "chubut"
+   },
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   },
+   {
+    "l": "Camarones",
+    "p": "chubut"
+   },
+   {
+    "l": "Monte León",
+    "p": "santacruz"
+   }
+  ],
+  "dato": "Agua fría, viento a la tarde y muy poca gente. La Patagonia costera es playa de mañana.",
+  "exc": [],
+  "img": "",
+  "rank": 76
+ },
+ {
+  "id": "termas",
+  "nombre": "Termas y bienestar",
+  "cat": "termas",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Copahue",
+    "p": "neuquen"
+   },
+   {
+    "l": "Caviahue",
+    "p": "neuquen"
+   },
+   {
+    "l": "Villa Pehuenia",
+    "p": "neuquen"
+   }
+  ],
+  "dato": "Copahue tiene uno de los complejos termales más completos de Sudamérica, con barros y algas volcánicas.",
+  "exc": [],
+  "img": "",
+  "rank": 77
+ },
+ {
+  "id": "astroturismo",
+  "nombre": "Astroturismo y cielos oscuros",
+  "cat": "astro",
+  "meses": [
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Península Valdés",
+    "p": "chubut"
+   },
+   {
+    "l": "Parque Patagonia",
+    "p": "santacruz"
+   },
+   {
+    "l": "Lihué Calel",
+    "p": "lapampa"
+   },
+   {
+    "l": "El Chaltén",
+    "p": "santacruz"
+   },
+   {
+    "l": "Sarmiento",
+    "p": "chubut"
+   }
+  ],
+  "dato": "La meseta patagónica tiene algunos de los cielos con menos contaminación lumínica del hemisferio sur.",
+  "exc": [],
+  "img": "",
+  "rank": 78
+ },
+ {
+  "id": "tren-fin-mundo",
+  "nombre": "Tren del Fin del Mundo",
+  "cat": "tren",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   }
+  ],
+  "dato": "Recorre el trazado que usaban los presos del penal para buscar leña. Entra al Parque Nacional Tierra del Fuego.",
+  "exc": [
+   {
+    "t": "Parque Nacional Tierra del Fuego",
+    "op": "Noelia Ferrario",
+    "s": "parque-nacional-tierra-del-fuego"
+   }
+  ],
+  "img": "",
+  "rank": 79
+ },
+ {
+  "id": "tren-patagonico",
+  "nombre": "Tren Patagónico Viedma–Bariloche",
+  "cat": "tren",
+  "meses": [
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Viedma",
+    "p": "rionegro"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "Cruza la provincia de punta a punta en una noche y lleva autos. Es de los últimos trenes de larga distancia del país.",
+  "exc": [],
+  "img": "",
+  "rank": 80
+ },
+ {
+  "id": "siete-lagos",
+  "nombre": "Camino de los Siete Lagos",
+  "cat": "rutas",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Villa La Angostura",
+    "p": "neuquen"
+   },
+   {
+    "l": "San Martín de los Andes",
+    "p": "neuquen"
+   }
+  ],
+  "dato": "Son 110 km asfaltados entre Angostura y San Martín. En invierno puede cerrarse por nieve.",
+  "exc": [],
+  "img": "",
+  "rank": 81
+ },
+ {
+  "id": "circuito-chico",
+  "nombre": "Circuito Chico",
+  "cat": "rutas",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "El clásico de Bariloche: 60 km con los miradores del Nahuel Huapi. Se puede hacer en auto, en bici o en bus.",
+  "exc": [],
+  "img": "",
+  "rank": 82
+ },
+ {
+  "id": "ruta-azul",
+  "nombre": "Ruta Azul y costa chubutense",
+  "cat": "rutas",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   },
+   {
+    "l": "Rawson",
+    "p": "chubut"
+   },
+   {
+    "l": "Camarones",
+    "p": "chubut"
+   },
+   {
+    "l": "Comodoro Rivadavia",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Une la costa de Chubut de norte a sur pasando por pingüineras, loberías y pueblos de pescadores.",
+  "exc": [
+   {
+    "t": "Dique Florentino Ameghino",
+    "op": "Forastero tour",
+    "s": "dique-florentino-ameghino-lugar-de-ensueno"
+   }
+  ],
+  "img": "",
+  "rank": 83
  },
  {
   "id": "peninsula-valdes-area",
@@ -6203,8 +6205,8 @@ let ACTIVIDADES = [
     "s": "peninsula-valdes"
    }
   ],
-  "dest": 0,
-  "img": ""
+  "img": "",
+  "rank": 84
  },
  {
   "id": "dique-ameghino",
@@ -6242,8 +6244,8 @@ let ACTIVIDADES = [
     "s": "dique-florentino-ameghino-lugar-de-ensueno"
    }
   ],
-  "dest": 0,
-  "img": ""
+  "img": "",
+  "rank": 85
  }
 ];
 </script>
@@ -6255,14 +6257,26 @@ let ACTIVIDADES = [
   .no-scrollbar::-webkit-scrollbar{display:none}
   .no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
   .cinta,.cinta-lbl{display:grid;grid-template-columns:repeat(12,1fr);gap:3px}
-  .celda{height:10px;border-radius:2px;background:#e9ecf1}
-  .celda.n1{background:#aeb8c6}
+  .celda{height:13px;border-radius:3px;background:#e9ecf1}
+  .celda.n1{background:#F48FB1}
   .celda.n2{background:var(--fx)}
-  .cinta-lbl span{font-size:8px;font-weight:700;letter-spacing:-.03em;text-align:center;color:#9aa5b4;line-height:14px;border-radius:3px}
+  .cinta-lbl span{font-size:10px;font-weight:700;letter-spacing:-.02em;text-align:center;color:#64748b;line-height:16px;border-radius:4px}
   .cinta-lbl span.on{color:#fff;background:#0b1220}
+  .sw{width:15px;height:9px;border-radius:2px;display:inline-block}
+  .sw0{background:#e9ecf1}.sw1{background:#F48FB1}.sw2{background:var(--fx)}
+  .ref{display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:10px;font-weight:600;color:#64748b}
+  .ref span.it{display:flex;align-items:center;gap:5px}
+  .flecha{position:absolute;top:82px;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;
+          background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);color:#fff;display:flex;
+          align-items:center;justify-content:center;z-index:5;transition:background .2s,opacity .2s;backdrop-filter:blur(6px)}
+  .flecha:hover{background:rgba(255,255,255,.3)}
+  .flecha[disabled]{opacity:.2;pointer-events:none}
+  .flecha.izq{left:8px}.flecha.der{right:8px}
+  #pedido{scroll-behavior:smooth;scroll-snap-type:x mandatory}
+  #pedido>button{scroll-snap-align:start}
   .pill{display:inline-block;font-family:'Montserrat',sans-serif;font-size:8.5px;letter-spacing:.1em;font-weight:700;padding:3px 7px;border-radius:5px}
   .pill.alta{background:var(--fx);color:#fff}
-  .pill.si{background:#eef1f5;color:#475569}
+  .pill.si{background:#FCE4EC;color:#AD1457}
   .pill.no{background:#f5f7f9;color:#9aa5b4}
   .tarjeta{background:#fff;border:1px solid #eceff3;border-radius:18px;box-shadow:0 1px 2px rgba(15,23,42,.04),0 8px 24px -18px rgba(15,23,42,.35)}
   .datos{border-top:1px solid #f1f4f8}
@@ -6272,7 +6286,9 @@ let ACTIVIDADES = [
   .datos dd{font-size:12.5px;color:#334155;line-height:1.45}
   .datos dd b{font-weight:600;color:#0b1220}
   .placa{position:relative;overflow:hidden;color:#fff;display:flex;align-items:center;justify-content:center}
-  .placa i{font-size:1.9em;opacity:.9}
+  .placa .ico{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+              fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;opacity:.95}
+  .ico-cat{width:20px;height:20px;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;display:block}
   .placa img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
   .logo{position:relative;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;
         border-radius:7px;overflow:hidden;background:#0b1220;color:#fff;font-family:'Montserrat',sans-serif;
@@ -6308,9 +6324,11 @@ let ACTIVIDADES = [
     <a id="btnFauna" href="#" class="chip ftt text-[9px] font-semibold text-slate-200 hover:text-white border border-white/15 hover:border-white/40 px-3 py-1.5 rounded-full transition-colors">CALENDARIO DE FAUNA</a>
   </div>
   <div class="border-t border-white/[.08]">
-    <div class="max-w-5xl mx-auto flex items-center gap-2 px-4 py-2">
-      <button id="btnHoy" class="chip shrink-0 ftt text-[9px] font-semibold bg-brand-fuchsia px-2.5 py-1.5 rounded-full">AHORA</button>
-      <div id="meses" class="flex gap-1 overflow-x-auto no-scrollbar py-0.5"></div>
+    <div class="max-w-5xl mx-auto px-2.5 pt-2 pb-2.5">
+      <div id="meses" class="grid grid-cols-12 gap-1"></div>
+      <div class="flex justify-end mt-1.5 px-1">
+        <button id="btnHoy" class="ftt text-[8px] font-semibold text-slate-400 hover:text-white transition-colors">VOLVER A HOY</button>
+      </div>
     </div>
   </div>
 </header>
@@ -6354,7 +6372,11 @@ let ACTIVIDADES = [
       <h2 class="ft font-bold text-white text-[14px]">Lo más pedido</h2>
       <span class="ftt text-[9px] font-semibold text-slate-500">EMPEZÁ POR ACÁ</span>
     </div>
-    <div id="pedido" class="flex gap-2.5 overflow-x-auto no-scrollbar px-4 pb-1"></div>
+    <div class="relative">
+      <div id="pedido" class="flex gap-2.5 overflow-x-auto no-scrollbar px-4 pb-1"></div>
+      <button id="pedPrev" class="flecha izq" aria-label="Anterior"><i class="fa-solid fa-chevron-left text-[11px]"></i></button>
+      <button id="pedNext" class="flecha der" aria-label="Siguiente"><i class="fa-solid fa-chevron-right text-[11px]"></i></button>
+    </div>
   </div>
 </section>
 
@@ -6370,17 +6392,26 @@ let ACTIVIDADES = [
     </div>
     <div id="panelFiltros" class="hidden pt-3.5 space-y-3.5">
       <div><span class="lblf">PROVINCIA</span><div class="flex gap-1.5 overflow-x-auto no-scrollbar" id="fProv"></div></div>
-      <div id="wrapLoc"><span class="lblf">DESTINO</span><div class="flex gap-1.5 overflow-x-auto no-scrollbar" id="fLoc"></div></div>
-      <div><span class="lblf">CATEGORÍA</span><div class="flex gap-1.5 overflow-x-auto no-scrollbar pb-0.5" id="fCat"></div></div>
+      <div id="gLoc">
+        <span class="lblf">DESTINO</span>
+        <div class="flex flex-wrap gap-1.5" id="fLoc"></div>
+        <button id="verTodos" class="mt-2 text-[10.5px] font-semibold text-brand-fuchsia"></button>
+      </div>
+      <div id="gCat"><span class="lblf">CATEGORÍA</span><div class="flex flex-wrap gap-1.5" id="fCat"></div></div>
       <button onclick="limpiarFiltros()" class="text-[11px] font-semibold text-brand-fuchsia">Limpiar todo</button>
     </div>
   </div>
 </div>
 
 <main class="max-w-5xl mx-auto px-4 py-6 pb-28">
-  <div id="grillaCat" class="hidden"></div>
-  <div id="grillaLoc" class="hidden"></div>
-  <h2 id="tituloLista" class="ftt text-[9px] font-semibold text-slate-500 mb-3"></h2>
+  <div class="flex items-center justify-between gap-4 flex-wrap mb-3.5">
+    <h2 id="tituloLista" class="ftt text-[9px] font-semibold text-slate-500"></h2>
+    <div class="ref">
+      <span class="it"><i class="sw sw2"></i>Temporada alta</span>
+      <span class="it"><i class="sw sw1"></i>Temporada media</span>
+      <span class="it"><i class="sw sw0"></i>No se hace</span>
+    </div>
+  </div>
   <div id="lista" class="space-y-2.5"></div>
   <div id="fueraWrap" class="mt-8">
     <button id="btnFuera" class="w-full flex items-center justify-between text-left px-4 py-3.5 bg-white border border-brand-line rounded-2xl">
@@ -7387,23 +7418,182 @@ let ACTIVIDADES = [
 <script>
 const HOY=new Date().getMonth();
 let mesSel=HOY, modo='lugar', provSel='todas', locSel='todas', catSel='todas', texto='', verFuera=false, panel=false, abierta=null;
+let todosLosDestinos=false;
+var carAuto=null, carPausa=0;
+
+function abrirPanel(foco){
+  panel=true;
+  document.getElementById('panelFiltros').classList.remove('hidden');
+  fijarOffset(); render(); irALaBarra();
+  var g=document.getElementById(foco);
+  if(g){ g.style.transition='background .5s'; g.style.background='#fff6fa';
+         setTimeout(function(){ g.style.background=''; },1400); }
+}
+function irALaBarra(){
+  var b=document.getElementById('barraFiltros');
+  var y=b.getBoundingClientRect().top+window.pageYOffset-document.getElementById('cab').offsetHeight-6;
+  if(window.pageYOffset>y+4||window.pageYOffset<y-260) window.scrollTo({top:y,behavior:'smooth'});
+}
+function irAlPrincipio(){
+  var m=document.querySelector('main');
+  var off=document.getElementById('cab').offsetHeight+document.getElementById('barraFiltros').offsetHeight;
+  var y=m.getBoundingClientRect().top+window.pageYOffset-off-10;
+  if(window.pageYOffset>y+4) window.scrollTo({top:y,behavior:'smooth'});
+}
+function carScroll(d){
+  var c=document.getElementById('pedido');
+  var paso=(c.firstElementChild?c.firstElementChild.offsetWidth:132)+10;
+  c.scrollBy({left:d*paso*2,behavior:'smooth'});
+}
+function carEstado(){
+  var c=document.getElementById('pedido'), fin=c.scrollWidth-c.clientWidth-4;
+  document.getElementById('pedPrev').disabled=c.scrollLeft<=2;
+  document.getElementById('pedNext').disabled=c.scrollLeft>=fin;
+}
+function carIniciar(){
+  var c=document.getElementById('pedido');
+  document.getElementById('pedPrev').onclick=function(){ carPausa=Date.now(); carScroll(-1); };
+  document.getElementById('pedNext').onclick=function(){ carPausa=Date.now(); carScroll(1); };
+  c.addEventListener('scroll',carEstado,{passive:true});
+  ['pointerdown','touchstart','wheel'].forEach(function(e){ c.addEventListener(e,function(){carPausa=Date.now();},{passive:true}); });
+  carEstado();
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  clearInterval(carAuto);
+  carAuto=setInterval(function(){
+    if(Date.now()-carPausa<9000||document.hidden) return;
+    var fin=c.scrollWidth-c.clientWidth-4;
+    if(c.scrollLeft>=fin) c.scrollTo({left:0,behavior:'smooth'}); else carScroll(1);
+  },4500);
+}
 
 /* PRESTADORES · nombre de fantasía y logo. La clave es el campo "op" de cada
    excursión. ⚠️ "Noelia Ferrario" es el nombre de contacto: reemplazar por el
    nombre de fantasía del comercio. */
 const LOGOS_BASE='/assets/prestadores/';
 const PRESTADORES={
-  'Sussanich Turismo':{nombre:'Sussanich Turismo',logo:'sussanich.png'},
-  'Forastero tour'   :{nombre:'Forastero Tour',   logo:'forastero.png'},
-  'MerakiSur'        :{nombre:'MerakiSur',        logo:'merakisur.png'},
-  'Noelia Ferrario'  :{nombre:'Noelia Ferrario',  logo:'noelia-ferrario.png'}
+  'Sussanich Turismo':{nombre:'Sussanich Turismo',logo:'sussanich.png',      plan:'base',traccion:50},
+  'Forastero tour'   :{nombre:'Forastero Tour',   logo:'forastero.png',      plan:'base',traccion:50},
+  'MerakiSur'        :{nombre:'MerakiSur',        logo:'merakisur.png',      plan:'base',traccion:50},
+  'Noelia Ferrario'  :{nombre:'Noelia Ferrario',  logo:'noelia-ferrario.png',plan:'base',traccion:50}
 };
 function nombreOp(op){ return (PRESTADORES[op]||{}).nombre||op; }
+
+/* =====================================================================
+   MOTOR DE OFERTA — planes, tracción y rotación
+   Hoy hay 4 prestadores. Cuando sean cientos, esto es lo que decide
+   cuáles se muestran en cada etiqueta y garantiza que todos roten.
+
+   Cómo elige, en orden:
+   1. Descarta los que estén marcados activo:false.
+   2. Calcula un peso = peso del plan × (1 + tracción/100).
+   3. Sortea sin reemplazo con ese peso hasta llegar a MAX_PRESTADORES.
+      No es un ranking fijo: el de plan más alto sale más veces, pero
+      ninguno queda nunca en cero. Eso es lo que sostiene la suscripción.
+   4. Ordena los elegidos por plan para que el mejor quede primero.
+
+   La selección se cachea por etiqueta durante la visita, así la tarjeta
+   y la ficha de la misma especie muestran siempre los mismos.
+   ===================================================================== */
+const PLANES = {
+  // peso · cuánto más aparece frente a los otros
+  // sello · etiqueta visible. Vacío = no muestra nada.
+  premium : { peso: 6,   sello: 'DESTACADO' },
+  pro     : { peso: 3,   sello: '' },
+  base    : { peso: 1,   sello: '' },
+  free    : { peso: 0.4, sello: '' }
+};
+const MAX_PRESTADORES = 3;
+
+function datosOp(op){ return PRESTADORES[op] || {}; }
+function planDe(op){ return PLANES[datosOp(op).plan] || PLANES.base; }
+
+function elegirPonderado(items, max){
+  const out = [], pool = items.slice();
+  while (out.length < max && pool.length){
+    let tot = 0;
+    pool.forEach(function(x){ tot += x._peso; });
+    let r = Math.random() * tot, i = 0;
+    for (; i < pool.length; i++){ r -= pool[i]._peso; if (r <= 0) break; }
+    if (i >= pool.length) i = pool.length - 1;
+    out.push(pool.splice(i,1)[0]);
+  }
+  return out;
+}
+
+const _cacheOferta = {};
+function ofertaDe(item){
+  if (_cacheOferta[item.id]) return _cacheOferta[item.id];
+  const todas = (item.exc||[]).filter(function(e){ return datosOp(e.op).activo !== false; });
+  todas.forEach(function(e){
+    const t = datosOp(e.op).traccion;
+    e._peso = planDe(e.op).peso * (1 + (typeof t === 'number' ? t : 50) / 100);
+  });
+  const ver = todas.length <= MAX_PRESTADORES ? todas.slice()
+                                              : elegirPonderado(todas, MAX_PRESTADORES);
+  ver.sort(function(a,b){ return planDe(b.op).peso - planDe(a.op).peso; });
+  const r = { ver: ver, total: todas.length, resto: Math.max(0, todas.length - ver.length) };
+  _cacheOferta[item.id] = r;
+  return r;
+}
+
+/* Feed externo. Cuando la plataforma exporte la oferta, esto la mezcla
+   sin tocar el HTML. Formato esperado:
+   { "prestadores": { "clave": {nombre,logo,base,plan,traccion,activo} },
+     "oferta":      { "id-de-etiqueta": [ {t,op,s} ] } }              */
+function cargarFeed(coleccion, alTerminar){
+  if (!CONFIG.feedOferta) return;
+  fetch(CONFIG.feedOferta, { cache:'no-cache' })
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .then(function(d){
+      if (!d) return;
+      if (d.prestadores) Object.keys(d.prestadores).forEach(function(k){
+        PRESTADORES[k] = Object.assign({}, PRESTADORES[k], d.prestadores[k]);
+      });
+      if (d.oferta) coleccion.forEach(function(it){
+        if (d.oferta[it.id]) it.exc = d.oferta[it.id];
+      });
+      Object.keys(_cacheOferta).forEach(function(k){ delete _cacheOferta[k]; });
+      if (alTerminar) alTerminar();
+    })
+    .catch(function(){ /* si el feed falla, sigue andando con lo que está en el archivo */ });
+}
 function logoHTML(op,px){
   var P=PRESTADORES[op]||{}, n=nombreOp(op);
   var ini=n.split(/[\s.]+/).filter(Boolean).slice(0,2).map(function(w){return w.charAt(0);}).join('').toUpperCase();
   return '<span class="logo" style="width:'+px+'px;height:'+px+'px;font-size:'+Math.round(px*0.36)+'px" title="'+n+'">'
     +ini+(P.logo?'<img src="'+LOGOS_BASE+P.logo+'" alt="'+n+'" loading="lazy" onerror="this.remove()">':'')+'</span>';
+}
+
+/* =====================================================================
+   ICONOGRAFÍA DE CATEGORÍAS
+   Set propio, trazo de 2.4 sobre lienzo 48×48, remates redondeados.
+   Línea y no relleno: a tamaño grande el glifo macizo se ve pesado.
+   Para sumar una categoría, agregá acá su dibujo con la misma clave.
+   ===================================================================== */
+const ICO = {
+ fauna:'<rect x="7" y="16" width="13" height="24" rx="5"/><rect x="28" y="16" width="13" height="24" rx="5"/><path d="M20 26h8"/><path d="M10 16v-5a3 3 0 0 1 3-3h1a3 3 0 0 1 3 3v5"/><path d="M31 16v-5a3 3 0 0 1 3-3h1a3 3 0 0 1 3 3v5"/>',
+ nautica:'<path d="M24 6v26"/><path d="M24 11l11 21H24z"/><path d="M21 17L11 32h10z"/><path d="M7 36h34l-5 7H12z"/>',
+ buceo:'<rect x="7" y="14" width="26" height="16" rx="5"/><path d="M20 14v16"/><path d="M7 20H3M33 20h4"/><path d="M40 11v16a6 6 0 0 1-6 6h-3"/>',
+ trekking:'<path d="M4 39l11-19 6 10 7-13 12 22z"/><path d="M4 39h40"/><path d="M25 22l3 5h-6z"/>',
+ nieve:'<path d="M24 5v38M9 14l30 20M39 14L9 34"/><path d="M20 10l4-4 4 4M20 38l4 4 4-4"/>',
+ aventura:'<path d="M27 4L11 27h10l-3 17 17-24H24z"/>',
+ viento:'<path d="M4 17h21a5 5 0 1 0-5-6"/><path d="M4 26h27a5 5 0 1 1-5 6"/><path d="M4 35h14"/>',
+ pesca:'<path d="M7 41L35 11"/><path d="M35 11v14a7 7 0 0 1-14 0"/><path d="M21 25l-4 4M21 25l4 4"/>',
+ motor:'<path d="M5 31v-6l5-9h16l8 9h9v6"/><circle cx="14" cy="34" r="4"/><circle cx="34" cy="34" r="4"/><path d="M18 34h12"/>',
+ bici:'<circle cx="12" cy="31" r="8"/><circle cx="36" cy="31" r="8"/><path d="M12 31l9-13h9l6 13"/><path d="M21 18h10"/>',
+ rural:'<path d="M14 43V27a10 10 0 0 1 20 0v16"/><path d="M14 43h6M28 43h6"/><path d="M18 24v3M30 24v3"/>',
+ paleo:'<path d="M24 41a17 17 0 1 1 17-17 13 13 0 0 1-13 13 9.5 9.5 0 0 1-9.5-9.5 6.5 6.5 0 0 1 6.5-6.5 4.5 4.5 0 0 1 4.5 4.5"/>',
+ cultura:'<path d="M5 19L24 8l19 11"/><path d="M9 19v18M19 19v18M29 19v18M39 19v18"/><path d="M4 41h40"/>',
+ gastro:'<path d="M9 6v10M15 6v10M21 6v10"/><path d="M9 16h12a6 6 0 0 1-6 6v20"/><path d="M37 6c3 4 4 9 4 13s-2 6-4 6v17"/>',
+ playa:'<circle cx="24" cy="15" r="7"/><path d="M24 3v3M11 15H8M40 15h-3M14 5l2 2M34 25l2 2M34 5l-2 2"/><path d="M4 35c4-3 8-3 12 0s8 3 12 0 8-3 12 0"/><path d="M4 42c4-3 8-3 12 0s8 3 12 0 8-3 12 0"/>',
+ termas:'<path d="M15 21c0-4 4-5 4-9M24 21c0-4 4-5 4-9M33 21c0-4 4-5 4-9"/><path d="M6 28h36v6a8 8 0 0 1-8 8H14a8 8 0 0 1-8-8z"/>',
+ astro:'<circle cx="10" cy="34" r="2.5"/><circle cx="22" cy="22" r="2.5"/><circle cx="34" cy="30" r="2.5"/><circle cx="40" cy="11" r="2.5"/><circle cx="16" cy="11" r="2"/><path d="M12 32l8-8M24 24l8 5M35 27l4-13M20 20l-3-7"/>',
+ tren:'<rect x="10" y="9" width="28" height="23" rx="4"/><path d="M10 20h28"/><circle cx="18" cy="37" r="3"/><circle cx="30" cy="37" r="3"/><path d="M5 43h38"/><path d="M15 32l-4 5M33 32l4 5"/>',
+ rutas:'<path d="M15 44L20 4M33 44L28 4"/><path d="M24 9v5M24 21v5M24 33v5"/>',
+ parques:'<path d="M39 7C20 7 10 18 10 30a12 12 0 0 0 12 12c12 0 17-15 17-35z"/><path d="M14 42C21 30 29 22 37 16"/>'
+};
+function svgIco(cat, ancho){
+  return '<svg class="ico" viewBox="0 0 48 48" style="width:'+ancho+'" aria-hidden="true">'+(ICO[cat]||'')+'</svg>';
 }
 
 const CATD={}; CATS.forEach(function(c){CATD[c.id]=c;});
@@ -7430,7 +7620,7 @@ function prosa(m){
   return t.length===1?t[0]:t.slice(0,-1).join(', ')+' y '+t.slice(-1);
 }
 function proximo(a){ for(var k=1;k<=12;k++){var i=(mesSel+k)%12; if(a.meses[i]>0) return i;} return null; }
-function opsDe(a){ var o=[]; (a.exc||[]).forEach(function(e){ if(o.indexOf(e.op)<0)o.push(e.op); }); return o; }
+function opsDe(a){ var o=[]; ofertaDe(a).ver.forEach(function(e){ if(o.indexOf(e.op)<0)o.push(e.op); }); return o; }
 
 function filtrar(){
   return ACTIVIDADES.filter(function(a){
@@ -7446,8 +7636,8 @@ function filtrar(){
 }
 function placa(a,cls,tam){
   var c=CATD[a.cat];
-  return '<div class="placa '+cls+'" style="background:'+c.color+';font-size:'+tam+'">'
-    +'<i class="fa-solid '+c.ico+'"></i>'
+  return '<div class="placa '+cls+'" style="background:'+c.color+'">'
+    +svgIco(a.cat,tam)
     +(a.img?'<img src="'+a.img+'" alt="'+a.nombre+'" loading="lazy" decoding="async" onerror="this.remove()">':'')+'</div>';
 }
 function cinta(a){
@@ -7457,16 +7647,18 @@ function cinta(a){
 }
 function card(a,off){
   var n=a.meses[mesSel]||0, p=proximo(a), c=CATD[a.cat];
-  var pill=n===2?'<span class="pill alta">TEMPORADA ALTA</span>':n===1?'<span class="pill si">SE HACE AHORA</span>'
+  var pill=n===2?'<span class="pill alta">TEMPORADA ALTA</span>':n===1?'<span class="pill si">TEMPORADA MEDIA</span>'
     :'<span class="pill no">VUELVE EN '+(p!==null?MESES[p].toUpperCase():'—')+'</span>';
   var lug=locsDe(a), prv=provsDe(a).map(function(x){return PROVD[x];});
   var don=lug.slice(0,4).join(', ')+(lug.length>4?' y '+(lug.length-4)+' más':'')+' <span class="text-slate-400">· '+prv.join(', ')+'</span>';
-  var ops=opsDe(a), k=(a.exc||[]).length;
+  var of=ofertaDe(a), ops=opsDe(a), k=of.total;
   var con=k?'<span class="logo-fila">'+ops.map(function(o){return logoHTML(o,22);}).join('')+'</span>'
-          +'<b>'+ops.map(nombreOp).join(', ')+'</b> <span class="text-slate-400">· '+k+(k===1?' excursión':' excursiones')+'</span>'
+          +'<b>'+ops.map(nombreOp).join(', ')+'</b>'
+          +(of.resto?' <span class="text-slate-400">y '+of.resto+' más</span>':'')
+          +' <span class="text-slate-400">· '+k+(k===1?' excursión':' excursiones')+'</span>'
           :'<span class="text-slate-400">Todavía sin prestador en el catálogo</span>';
   return '<article class="fade-in tarjeta overflow-hidden cursor-pointer '+(off?'apagado':'')+'" onclick="abrirFicha(\''+a.id+'\')">'
-   +'<div class="flex gap-3.5 p-4 pb-3.5">'+placa(a,'w-[74px] h-[74px] shrink-0 rounded-xl','19px')
+   +'<div class="flex gap-3.5 p-4 pb-3.5">'+placa(a,'w-[74px] h-[74px] shrink-0 rounded-xl','44%')
    +'<div class="min-w-0 flex-1"><div class="flex items-start justify-between gap-3">'
    +'<h3 class="ft font-bold text-[16px] leading-[1.15] text-brand-night">'+a.nombre+'</h3>'
    +'<i class="fa-solid fa-arrow-right text-slate-300 text-[11px] mt-1 shrink-0"></i></div>'
@@ -7482,23 +7674,19 @@ function card(a,off){
 function render(){
   document.querySelectorAll('.mes-btn').forEach(function(b){
     var on=+b.dataset.mes===mesSel;
-    b.className='mes-btn chip text-[11px] font-semibold px-2.5 py-1.5 rounded-full transition-colors '+(on?'bg-white text-brand-night':'text-slate-400 hover:text-white');
+    b.className='mes-btn py-2 rounded-lg text-center transition-colors '+(on?'bg-white text-brand-night':'text-slate-400 hover:bg-white/10 hover:text-white');
   });
   var claseOn='p-4 rounded-2xl border transition-colors bg-white text-brand-night border-white text-left';
   var claseOff='p-4 rounded-2xl border transition-colors bg-white/[.04] text-white border-white/15 hover:border-white/40 text-left';
   document.getElementById('mLugar').className=(modo==='lugar'?claseOn:claseOff);
   document.getElementById('mAct').className=(modo==='actividad'?claseOn:claseOff);
-  document.getElementById('grillaLoc').classList.toggle('hidden', modo!=='lugar');
-  document.getElementById('grillaCat').classList.toggle('hidden', modo!=='actividad');
-  document.getElementById('wrapLoc').classList.toggle('hidden', modo!=='lugar');
-
   chipsProv(); chipsLoc(); chipsCat();
-  if(modo==='lugar') grillaLocalidades(); else grillaCategorias();
 
   var base=filtrar();
-  var hoy=base.filter(function(a){return a.meses[mesSel]>0;}).sort(function(x,y){
-    return (y.meses[mesSel]-x.meses[mesSel])||((x.dest?0:1)-(y.dest?0:1))||x.nombre.localeCompare(y.nombre,'es');});
-  var off=base.filter(function(a){return a.meses[mesSel]===0;}).sort(function(x,y){return x.nombre.localeCompare(y.nombre,'es');});
+  // Manda la importancia comercial. La temporada se lee en la etiqueta y en la cinta.
+  var porRank=function(x,y){ return (x.rank||999)-(y.rank||999); };
+  var hoy=base.filter(function(a){return a.meses[mesSel]>0;}).sort(porRank);
+  var off=base.filter(function(a){return a.meses[mesSel]===0;}).sort(porRank);
 
   document.getElementById('titSel').textContent =
     locSel!=='todas'?locSel : catSel!=='todas'?CATD[catSel].lbl : provSel!=='todas'?PROVD[provSel] : MESES[mesSel];
@@ -7530,77 +7718,54 @@ function render(){
 }
 
 function renderPedido(){
-  var d=ACTIVIDADES.filter(function(a){return a.dest;});
+  var d=ACTIVIDADES.filter(function(a){return (a.rank||999)<=12;}).sort(function(x,y){return x.rank-y.rank;});
   document.getElementById('pedido').innerHTML=d.map(function(a){
     var n=a.meses[mesSel]||0,p=proximo(a);
     var e=n===2?'<span class="ftt text-[8px] font-semibold text-brand-fuchsia">TEMPORADA ALTA</span>'
-      :n===1?'<span class="ftt text-[8px] font-semibold text-slate-300">SE HACE AHORA</span>'
+      :n===1?'<span class="ftt text-[8px] font-semibold text-slate-300">TEMPORADA MEDIA</span>'
       :'<span class="ftt text-[8px] font-semibold text-slate-600">VUELVE EN '+(p!==null?MESES[p].slice(0,3).toUpperCase():'—')+'</span>';
     return '<button onclick="abrirFicha(\''+a.id+'\')" class="shrink-0 w-[132px] text-left '+(n===0?'apagado':'')+'">'
-      +placa(a,'w-full aspect-[4/5] rounded-2xl mb-2.5','34px')
+      +placa(a,'w-full aspect-[4/5] rounded-2xl mb-2.5','40%')
       +'<p class="ft font-bold text-white text-[12.5px] leading-[1.25] line2 mb-1.5">'+a.nombre+'</p>'+e+'</button>';
   }).join('');
+  carEstado();
 }
-function grillaCategorias(){
-  var g=document.getElementById('grillaCat');
-  g.innerHTML='<span class="lblf">ELEGÍ QUÉ QUERÉS HACER</span><div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-8">'
-   +CATS.map(function(c){
-      var n=ACTIVIDADES.filter(function(a){return a.cat===c.id&&(provSel==='todas'||provsDe(a).indexOf(provSel)>=0);}).length;
-      if(!n) return '';
-      var on=catSel===c.id;
-      return '<button onclick="setCat(\''+c.id+'\')" class="text-left p-3 rounded-2xl border transition-colors '
-        +(on?'bg-brand-night text-white border-brand-night':'bg-white border-brand-line hover:border-slate-300')+'">'
-        +'<i class="fa-solid '+c.ico+' text-[13px] mb-2 block" style="color:'+(on?'#fff':c.color)+'"></i>'
-        +'<span class="ft font-bold text-[12px] leading-tight block">'+c.lbl+'</span>'
-        +'<span class="text-[10px] '+(on?'text-white/60':'text-slate-400')+' block mt-0.5">'+n+'</span></button>';
-    }).join('')+'</div>';
-}
-function grillaLocalidades(){
-  var g=document.getElementById('grillaLoc');
-  var mapa={};
-  ACTIVIDADES.forEach(function(a){
-    if(catSel!=='todas'&&a.cat!==catSel) return;
-    a.lugares.forEach(function(x){
-      if(provSel!=='todas'&&x.p!==provSel) return;
-      if(!mapa[x.l]) mapa[x.l]={p:x.p,n:0};
-      mapa[x.l].n++;
-    });
-  });
-  var arr=Object.keys(mapa).sort(function(a,b){ return mapa[b].n-mapa[a].n || a.localeCompare(b,'es'); });
-  g.innerHTML='<span class="lblf">ELEGÍ DÓNDE ESTÁS · '+arr.length+' DESTINOS</span><div class="flex flex-wrap gap-1.5 mb-8">'
-   +arr.map(function(l){
-      var on=locSel===l;
-      return '<button onclick="setLoc(\''+l.replace(/'/g,"\\'")+'\')" class="chip text-[11.5px] font-semibold px-3 py-2 rounded-xl border transition-colors '
-       +(on?'bg-brand-night text-white border-brand-night':'bg-white text-slate-700 border-brand-line hover:border-slate-300')+'">'
-       +l+' <span class="'+(on?'text-white/50':'text-slate-400')+'">'+mapa[l].n+'</span></button>';
-    }).join('')+'</div>';
-}
-function setCat(c){ catSel=(catSel===c?'todas':c); render(); }
-function setLoc(l){ locSel=(locSel===l?'todas':l); render(); }
+function setCat(c){ catSel=(catSel===c?'todas':c); render(); irAlPrincipio(); }
+function setLoc(l){ locSel=(locSel===l?'todas':l); render(); irAlPrincipio(); }
 
 function chipsProv(){
   document.getElementById('fProv').innerHTML=[{id:'todas',lbl:'Toda la Patagonia'}].concat(PROVINCIAS).map(function(p){
     var on=provSel===p.id;
-    return '<button onclick="provSel=\''+p.id+'\';locSel=\'todas\';render()" class="chip text-[11px] font-semibold px-3 py-1.5 rounded-full border transition-colors '
+    return '<button onclick="provSel=\''+p.id+'\';locSel=\'todas\';render();irAlPrincipio()" class="chip text-[11px] font-semibold px-3 py-1.5 rounded-full border transition-colors '
      +(on?'bg-brand-oxford text-white border-brand-oxford':'bg-white text-slate-600 border-brand-line')+'">'+p.lbl+'</button>';
   }).join('');
 }
 function chipsLoc(){
   var m={};
-  ACTIVIDADES.forEach(function(a){ a.lugares.forEach(function(x){
-    if(provSel!=='todas'&&x.p!==provSel) return; m[x.l]=(m[x.l]||0)+1; }); });
-  var arr=Object.keys(m).sort(function(a,b){return m[b]-m[a];}).slice(0,20);
+  ACTIVIDADES.forEach(function(a){
+    if(catSel!=='todas'&&a.cat!==catSel) return;
+    a.lugares.forEach(function(x){
+      if(provSel!=='todas'&&x.p!==provSel) return; m[x.l]=(m[x.l]||0)+1; }); });
+  var todos=Object.keys(m).sort(function(a,b){ return m[b]-m[a]||a.localeCompare(b,'es'); });
+  var arr=todosLosDestinos?todos:todos.slice(0,24);
   document.getElementById('fLoc').innerHTML=['todas'].concat(arr).map(function(l){
     var on=locSel===l;
     return '<button onclick="setLoc(\''+l.replace(/'/g,"\\'")+'\')" class="chip text-[11px] font-semibold px-3 py-1.5 rounded-full border transition-colors '
-     +(on?'bg-brand-oxford text-white border-brand-oxford':'bg-white text-slate-600 border-brand-line')+'">'+(l==='todas'?'Todos':l)+'</button>';
+     +(on?'bg-brand-oxford text-white border-brand-oxford':'bg-white text-slate-600 border-brand-line')+'">'
+     +(l==='todas'?'Todos':l+' <span class="'+(on?'text-white/50':'text-slate-400')+'">'+m[l]+'</span>')+'</button>';
   }).join('');
+  var v=document.getElementById('verTodos');
+  if(todos.length<=24){ v.classList.add('hidden'); }
+  else { v.classList.remove('hidden');
+         v.textContent=todosLosDestinos?'Ver menos':'Ver los '+todos.length+' destinos'; }
 }
 function chipsCat(){
   document.getElementById('fCat').innerHTML=[{id:'todas',lbl:'Todas'}].concat(CATS).map(function(c){
     var on=catSel===c.id;
+    var n=c.id==='todas'?ACTIVIDADES.length:ACTIVIDADES.filter(function(a){return a.cat===c.id;}).length;
     return '<button onclick="setCat(\''+c.id+'\')" class="chip text-[11px] font-semibold px-3 py-1.5 rounded-full border transition-colors '
-     +(on?'bg-brand-oxford text-white border-brand-oxford':'bg-white text-slate-600 border-brand-line')+'">'+c.lbl+'</button>';
+     +(on?'bg-brand-oxford text-white border-brand-oxford':'bg-white text-slate-600 border-brand-line')+'">'
+     +c.lbl+' <span class="'+(on?'text-white/50':'text-slate-400')+'">'+n+'</span></button>';
   }).join('');
 }
 function limpiarFiltros(){ provSel='todas'; locSel='todas'; catSel='todas'; texto=''; document.getElementById('buscar').value=''; render(); }
@@ -7612,15 +7777,20 @@ function abrirFicha(id){
   var est=n===2?'Ahora es temporada alta':n===1?'Se hace en '+MESES[mesSel].toLowerCase()
     :'En '+MESES[mesSel].toLowerCase()+' no se hace. Vuelve en '+(p!==null?MESES[p].toLowerCase():'—')+'.';
   var lug=a.lugares.map(function(x){return '<span class="inline-block text-[11.5px] font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-700 mr-1.5 mb-1.5">'+x.l+' <span class="text-slate-400">'+PROVD[x.p]+'</span></span>';}).join('');
-  var exc=(a.exc||[]).map(function(e){
+  var of=ofertaDe(a);
+  var exc=of.ver.map(function(e){
     return '<a href="'+CONFIG.baseExcursion+e.s+'" target="_blank" rel="noopener" class="flex items-center gap-3 px-4 py-3.5 border-b border-slate-100 last:border-0 hover:bg-slate-50">'
      +logoHTML(e.op,38)
      +'<span class="min-w-0 flex-1"><span class="block ft font-bold text-[13px] leading-tight text-brand-night mb-0.5">'+e.t+'</span>'
-     +'<span class="block text-[11px] text-slate-500">'+nombreOp(e.op)+'</span></span>'
+     +'<span class="block text-[11px] text-slate-500">'+nombreOp(e.op)
+     +(planDe(e.op).sello?' <span class="ftt text-[7.5px] font-bold text-brand-fuchsia ml-1">'+planDe(e.op).sello+'</span>':'')
+     +'</span></span>'
      +'<i class="fa-solid fa-arrow-right text-brand-fuchsia text-[11px]"></i></a>';
   }).join('');
+  if (of.resto) exc += '<a href="'+CONFIG.urlApp+'" target="_blank" rel="noopener" class="block text-center text-[11.5px] font-semibold text-slate-500 hover:text-brand-night py-3 border-t border-slate-100">Hay '
+     +of.resto+(of.resto===1?' prestador más':' prestadores más')+' para esta actividad · Ver todos</a>';
   document.getElementById('fichaBody').innerHTML='<div class="pt-1">'
-   +placa(a,'w-full aspect-[16/9] rounded-2xl mb-5','54px')
+   +placa(a,'w-full aspect-[16/9] rounded-2xl mb-5','24%')
    +'<p class="ftt text-[9px] font-semibold mb-2" style="color:'+c.color+'">'+c.lbl.toUpperCase()+'</p>'
    +'<h2 class="ft font-black text-[23px] leading-[1.1] text-brand-night mb-4">'+a.nombre+'</h2>'
    +'<div class="bg-slate-50 rounded-2xl p-4 mb-5"><p class="ftt text-[9px] font-semibold text-slate-400 mb-3">TEMPORADA</p>'
@@ -7667,19 +7837,25 @@ function init(){
     im.onload=function(){im.classList.remove('hidden');document.getElementById('logoTxt').classList.add('hidden');};
     im.src=CONFIG.logoUrl; }
   var cm=document.getElementById('meses');
-  cm.innerHTML=MESES.map(function(m,i){return '<button data-mes="'+i+'" class="mes-btn chip text-[11px] font-semibold px-2.5 py-1.5 rounded-full transition-colors">'+m.slice(0,3)+'</button>';}).join('');
-  cm.querySelectorAll('.mes-btn').forEach(function(b){ b.onclick=function(){ mesSel=+b.dataset.mes; verFuera=false; render();
-    b.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'}); }; });
-  document.getElementById('btnHoy').onclick=function(){ mesSel=HOY; render(); };
-  document.getElementById('mLugar').onclick=function(){ modo='lugar'; render(); };
-  document.getElementById('mAct').onclick=function(){ modo='actividad'; render(); };
+  cm.innerHTML=MESES.map(function(m,i){
+    return '<button data-mes="'+i+'" class="mes-btn py-2 rounded-lg text-center transition-colors" '
+      +'style="font-family:Montserrat,sans-serif;font-weight:800;letter-spacing:-.02em;font-size:clamp(10px,3.1vw,14px)">'
+      +m.slice(0,3).toUpperCase()+'</button>';}).join('');
+  cm.querySelectorAll('.mes-btn').forEach(function(b){ b.onclick=function(){ mesSel=+b.dataset.mes; verFuera=false; render(); irAlPrincipio(); }; });
+  document.getElementById('btnHoy').onclick=function(){ mesSel=HOY; render(); irAlPrincipio(); };
+  document.getElementById('mLugar').onclick=function(){ modo='lugar'; abrirPanel('gLoc'); };
+  document.getElementById('mAct').onclick=function(){ modo='actividad'; abrirPanel('gCat'); };
   document.getElementById('buscar').oninput=function(e){ texto=e.target.value.toLowerCase().trim(); render(); };
-  document.getElementById('btnFiltros').onclick=function(){ panel=!panel;
-    document.getElementById('panelFiltros').classList.toggle('hidden',!panel); fijarOffset(); };
+  document.getElementById('btnFiltros').onclick=function(){
+    panel=!panel;
+    document.getElementById('panelFiltros').classList.toggle('hidden',!panel);
+    fijarOffset(); if(panel) irALaBarra();
+  };
+  document.getElementById('verTodos').onclick=function(){ todosLosDestinos=!todosLosDestinos; render(); };
   document.getElementById('btnFuera').onclick=function(){ verFuera=!verFuera; render(); };
   window.addEventListener('resize',fijarOffset);
-  fijarOffset(); render();
-  var b=document.querySelector('.mes-btn[data-mes="'+mesSel+'"]'); if(b) b.scrollIntoView({inline:'center',block:'nearest'});
+  fijarOffset(); render(); carIniciar();
+  cargarFeed(ACTIVIDADES, render);
 }
 init();
 </script>

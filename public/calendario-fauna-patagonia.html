@@ -54,6 +54,10 @@ const CONFIG = {
   // y con el <link rel="canonical"> del <head>. Si cambia uno, cambian los dos.
   urlCanonica   : 'https://patagoniaexperiencias.com/calendario-fauna.html',
 
+  // Feed de oferta. Vacío = usa lo que está escrito en el archivo.
+  // Cuando la plataforma exporte la oferta, poné acá la URL del JSON.
+  feedOferta    : '',
+
   urlActividades: 'https://patagoniaexperiencias.com/que-hacer-patagonia.html',
   urlApp        : 'https://patagoniaexperiencias.com/patagonia-experiencias.html',
   urlExcursiones: 'https://patagoniaexperiencias.com/patagonia-experiencias.html',
@@ -100,16 +104,98 @@ const PROVINCIAS = [
             comercio, nunca el nombre de la persona de contacto.
    logo   · archivo dentro de /assets/prestadores/
    base   · ciudad de salida, para el filtro "Salidas desde"
+   plan   · premium | pro | base | free. Define cuánto rota (ver PLANES).
+   traccion · 0 a 100. Cómo viene rindiendo. Sube o baja dentro del plan.
+   activo · false lo saca de circulación sin borrarlo.
    ===================================================================== */
 const LOGOS_BASE = '/assets/prestadores/';
 const PRESTADORES = {
-  'Sussanich Turismo': { nombre:'Sussanich Turismo', logo:'sussanich.png',       base:'Puerto Pirámides' },
-  'Forastero tour'   : { nombre:'Forastero Tour',    logo:'forastero.png',       base:'Puerto Madryn' },
-  'MerakiSur'        : { nombre:'MerakiSur',         logo:'merakisur.png',       base:'Esquel' },
+  'Sussanich Turismo': { nombre:'Sussanich Turismo', logo:'sussanich.png',       base:'Puerto Pirámides', plan:'base', traccion:50 },
+  'Forastero tour'   : { nombre:'Forastero Tour',    logo:'forastero.png',       base:'Puerto Madryn',    plan:'base', traccion:50 },
+  'MerakiSur'        : { nombre:'MerakiSur',         logo:'merakisur.png',       base:'Esquel',           plan:'base', traccion:50 },
   // ⚠️ COMPLETAR: "Noelia Ferrario" es el nombre de contacto, no el del comercio.
-  // Poné acá el nombre de fantasía y se corrige en toda la página de una vez.
-  'Noelia Ferrario'  : { nombre:'Noelia Ferrario',   logo:'noelia-ferrario.png', base:'Ushuaia' }
+  'Noelia Ferrario'  : { nombre:'Noelia Ferrario',   logo:'noelia-ferrario.png', base:'Ushuaia',          plan:'base', traccion:50 }
 };
+
+/* =====================================================================
+   MOTOR DE OFERTA — planes, tracción y rotación
+   Hoy hay 4 prestadores. Cuando sean cientos, esto es lo que decide
+   cuáles se muestran en cada etiqueta y garantiza que todos roten.
+
+   Cómo elige, en orden:
+   1. Descarta los que estén marcados activo:false.
+   2. Calcula un peso = peso del plan × (1 + tracción/100).
+   3. Sortea sin reemplazo con ese peso hasta llegar a MAX_PRESTADORES.
+      No es un ranking fijo: el de plan más alto sale más veces, pero
+      ninguno queda nunca en cero. Eso es lo que sostiene la suscripción.
+   4. Ordena los elegidos por plan para que el mejor quede primero.
+
+   La selección se cachea por etiqueta durante la visita, así la tarjeta
+   y la ficha de la misma especie muestran siempre los mismos.
+   ===================================================================== */
+const PLANES = {
+  // peso · cuánto más aparece frente a los otros
+  // sello · etiqueta visible. Vacío = no muestra nada.
+  premium : { peso: 6,   sello: 'DESTACADO' },
+  pro     : { peso: 3,   sello: '' },
+  base    : { peso: 1,   sello: '' },
+  free    : { peso: 0.4, sello: '' }
+};
+const MAX_PRESTADORES = 3;
+
+function datosOp(op){ return PRESTADORES[op] || {}; }
+function planDe(op){ return PLANES[datosOp(op).plan] || PLANES.base; }
+
+function elegirPonderado(items, max){
+  const out = [], pool = items.slice();
+  while (out.length < max && pool.length){
+    let tot = 0;
+    pool.forEach(function(x){ tot += x._peso; });
+    let r = Math.random() * tot, i = 0;
+    for (; i < pool.length; i++){ r -= pool[i]._peso; if (r <= 0) break; }
+    if (i >= pool.length) i = pool.length - 1;
+    out.push(pool.splice(i,1)[0]);
+  }
+  return out;
+}
+
+const _cacheOferta = {};
+function ofertaDe(item){
+  if (_cacheOferta[item.id]) return _cacheOferta[item.id];
+  const todas = (item.exc||[]).filter(function(e){ return datosOp(e.op).activo !== false; });
+  todas.forEach(function(e){
+    const t = datosOp(e.op).traccion;
+    e._peso = planDe(e.op).peso * (1 + (typeof t === 'number' ? t : 50) / 100);
+  });
+  const ver = todas.length <= MAX_PRESTADORES ? todas.slice()
+                                              : elegirPonderado(todas, MAX_PRESTADORES);
+  ver.sort(function(a,b){ return planDe(b.op).peso - planDe(a.op).peso; });
+  const r = { ver: ver, total: todas.length, resto: Math.max(0, todas.length - ver.length) };
+  _cacheOferta[item.id] = r;
+  return r;
+}
+
+/* Feed externo. Cuando la plataforma exporte la oferta, esto la mezcla
+   sin tocar el HTML. Formato esperado:
+   { "prestadores": { "clave": {nombre,logo,base,plan,traccion,activo} },
+     "oferta":      { "id-de-etiqueta": [ {t,op,s} ] } }              */
+function cargarFeed(coleccion, alTerminar){
+  if (!CONFIG.feedOferta) return;
+  fetch(CONFIG.feedOferta, { cache:'no-cache' })
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .then(function(d){
+      if (!d) return;
+      if (d.prestadores) Object.keys(d.prestadores).forEach(function(k){
+        PRESTADORES[k] = Object.assign({}, PRESTADORES[k], d.prestadores[k]);
+      });
+      if (d.oferta) coleccion.forEach(function(it){
+        if (d.oferta[it.id]) it.exc = d.oferta[it.id];
+      });
+      Object.keys(_cacheOferta).forEach(function(k){ delete _cacheOferta[k]; });
+      if (alTerminar) alTerminar();
+    })
+    .catch(function(){ /* si el feed falla, sigue andando con lo que está en el archivo */ });
+}
 
 const AMBIENTES = [
   { id:'mar',     lbl:'Mar y costa',      color:'#0e6f80' },
@@ -1773,6 +1859,7 @@ function init(){
   if (editando) document.getElementById('editBar').classList.remove('hidden');
   render();
   carIniciar();
+  cargarFeed(FAUNA, render);
 }
 // La barra de filtros se pega justo debajo del header, sea cual sea su alto real.
 /* Al cambiar de mes o de filtro, si el usuario está scrolleado abajo
@@ -1798,7 +1885,7 @@ function lblProv(ids){
                   .filter(Boolean).join(' · ');
 }
 function urlExc(slug){ return CONFIG.baseExcursion + slug; }
-function nExc(s){ return (s.exc||[]).length; }
+function nExc(s){ return ofertaDe(s).total; }
 function prosaMeses(meses){
   const on = meses.map(function(v,i){ return v>0?i:-1; }).filter(function(i){ return i>=0; });
   if (on.length===12) return 'Se ve todo el año';
@@ -1815,7 +1902,7 @@ function prosaMeses(meses){
 }
 function salidasDe(s){
   const out = [];
-  (s.exc||[]).forEach(function(e){
+  ofertaDe(s).ver.forEach(function(e){
     const c = (PRESTADORES[e.op]||{}).base;
     if (c && out.indexOf(c)===-1) out.push(c);
   });
@@ -1835,9 +1922,10 @@ function logoHTML(op, px){
     + '</span>';
 }
 
+/* Prestadores que se muestran: los que devolvió el motor, ya rotados. */
 function prestadoresDe(s){
   const out = [];
-  (s.exc||[]).forEach(function(e){ if (out.indexOf(e.op)===-1) out.push(e.op); });
+  ofertaDe(s).ver.forEach(function(e){ if (out.indexOf(e.op)===-1) out.push(e.op); });
   return out;
 }
 
@@ -2008,10 +2096,12 @@ function cardHTML(s, off){
   const cuando = prosaMeses(s.meses).replace(/^Se ve /,'') + '. <b>Mejor: '+s.mejor+'</b>';
   const donde  = s.zonas + ' <span class="text-slate-400">· '+lblProv(s.prov)+'</span>';
 
-  const ops = prestadoresDe(s), sal = salidasDe(s), k = nExc(s);
+  const of = ofertaDe(s), ops = prestadoresDe(s), sal = salidasDe(s), k = of.total;
   const conQuien = k
     ? '<span class="logo-fila">'+ops.map(function(o){ return logoHTML(o,22); }).join('')+'</span>'
-      + '<b>'+ops.map(nombreOp).join(', ')+'</b> <span class="text-slate-400">· '+k+(k===1?' excursión':' excursiones')
+      + '<b>'+ops.map(nombreOp).join(', ')+'</b>'
+      + (of.resto ? ' <span class="text-slate-400">y '+of.resto+' más</span>' : '')
+      + ' <span class="text-slate-400">· '+k+(k===1?' excursión':' excursiones')
       + (sal.length ? ' · sale desde '+sal.join(' y ') : '')+'</span>'
     : '<span class="text-slate-400">Todavía sin prestador en el catálogo</span>';
 
@@ -2054,8 +2144,8 @@ function cerrarFicha(){
 document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&abierta) cerrarFicha(); });
 
 function bloqueExcursiones(s){
-  const lista = s.exc||[];
-  if (!lista.length){
+  const of = ofertaDe(s), lista = of.ver;
+  if (!of.total){
     return '<div class="mb-3">'
       + '<p class="ftt text-[9px] font-semibold text-slate-400 mb-2">CÓMO IR A VERLA</p>'
       + '<p class="text-[12.5px] text-slate-500 leading-relaxed mb-3">Todavía no hay una excursión del catálogo para esta especie. Escribinos y armamos la salida con un prestador habilitado.</p>'
@@ -2067,14 +2157,20 @@ function bloqueExcursiones(s){
       + logoHTML(e.op, 38)
       + '<span class="min-w-0 flex-1">'
       +   '<span class="block ft font-bold text-[13px] leading-tight text-brand-night mb-0.5">'+e.t+'</span>'
-      +   '<span class="block text-[11px] text-slate-500">'+nombreOp(e.op)+'</span>'
+      +   '<span class="block text-[11px] text-slate-500">'+nombreOp(e.op)
+      +     (planDe(e.op).sello?' <span class="ftt text-[7.5px] font-bold text-brand-fuchsia ml-1">'+planDe(e.op).sello+'</span>':'')
+      +   '</span>'
       + '</span>'
       + '<i class="fa-solid fa-arrow-right text-brand-fuchsia text-[11px] shrink-0"></i></a>';
   }).join('');
+  const pie = of.resto
+    ? '<a href="'+CONFIG.urlApp+'" target="_blank" rel="noopener" class="block text-center text-[11.5px] font-semibold text-slate-500 hover:text-brand-night py-3">Hay '
+      + of.resto+(of.resto===1?' prestador más':' prestadores más')+' para esta experiencia · Ver todos</a>'
+    : '';
   return '<div class="mb-3">'
     + '<p class="ftt text-[9px] font-semibold text-slate-400 mb-2">CÓMO IR A VERLA</p>'
     + '<div class="border border-brand-line rounded-2xl overflow-hidden">'+filas+'</div>'
-    + '</div>';
+    + pie + '</div>';
 }
 
 function fichaHTML(s){

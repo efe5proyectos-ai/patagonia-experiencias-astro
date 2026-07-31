@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ===========================================================
-     PATAGONIA EXPERIENCIAS · build v5 · 2026-07-30
+     PATAGONIA EXPERIENCIAS · build v8 · 2026-07-30
      Incluye:
        · Muro de logos en marquee a color (2 filas) + /assets/prestadores/
        · Catálogo GEO_PROVINCIAS + resolverGeo() (unifica "pto madryn" etc)
@@ -8,6 +8,11 @@
        · BarraGeo variante 'panel' (ciudades + categorías, solo en resultados)
        · FIX $NaN en checkout: politicaNinos 'manual' + guardas anti-NaN
        · FIX Leaflet _leaflet_pos: encuadre sin animación + guarda de DOM
+       · PEDiag.auditar() / PEDiag.reparar() — auditoría del campo viejo precioDescuento
+       · FRENO_DESCUENTO_ACTIVO = false (interruptor, apagado; no altera nada)
+       · PEDiag.temporadas() — mide el hueco de temporadasPrecio (no leído por el sitio)
+     La fórmula de comisiones (calcularPreciosTour) NO fue modificada en ninguna
+     de estas versiones: es byte a byte idéntica a la original.
      Para confirmar en el navegador: abrí la consola y buscá [PE BUILD].
      =========================================================== -->
 <html lang="es">
@@ -560,6 +565,8 @@ if (!firebase.apps.length) {
 const auth = firebase.auth();
 const db = firebase.firestore();
 const appId = 'patagonia-experiencias-app';
+const FRENO_DESCUENTO_ACTIVO = false;
+const FRENO_DESCUENTO_UMBRAL = 40;
 const PETrack = function () {
   const KEY = 'pe_session_id';
   const START = 'pe_session_start';
@@ -1732,6 +1739,9 @@ const setDatosCalculoPrecio = (agencias, planes) => {
   _agenciasGlobal = agencias || [];
   _planesGlobal = planes || {};
 };
+const setToursDiagnostico = tours => {
+  window._toursGlobal = tours || [];
+};
 const PERMISOS_FALLBACK = {
   recibirReservasOnline: true,
   modalidadConsultar: true,
@@ -1824,6 +1834,183 @@ const calcularPreciosTour = (tour, agencias, planes) => {
     miGananciaNeta,
     fuenteComision
   };
+};
+window.PEDiag = window.PEDiag || {};
+window.PEDiag._analizar = function (t) {
+  const precio = Number(t.precio) || 0;
+  const pd = Number(t.precioDescuento) || 0;
+  const tieneTipoNuevo = typeof t.tipoDescuento === 'string' && t.tipoDescuento !== '';
+  const c = calcularPreciosTour(t);
+  const casoNuevo = c.comisionPct > 0 && c.precioReserva > 0;
+  const dtoViejo = pd > 0 && pd < precio;
+  const caso = casoNuevo ? '1 OK' : dtoViejo ? '2 ROTO' : '3 sin dto';
+  let muestra, enDestino;
+  if (casoNuevo) {
+    muestra = c.precioPreventa;
+    enDestino = c.saldoDestino;
+  } else if (dtoViejo) {
+    muestra = pd;
+    enDestino = 0;
+  } else {
+    muestra = precio;
+    enDestino = 0;
+  }
+  const dtoPct = precio > 0 ? Math.round((precio - muestra) / precio * 100) : 0;
+  const cLimpio = calcularPreciosTour(Object.assign({}, t, {
+    tipoDescuento: t.tipoDescuento || 'ninguno',
+    valorDescuento: tieneTipoNuevo ? t.valorDescuento : 0
+  }));
+  const okNuevo = cLimpio.comisionPct > 0 && cLimpio.precioReserva > 0;
+  return {
+    id: t.id,
+    titulo: (t.titulo || '').slice(0, 30),
+    prestador: (t.proveedorNombre || '').slice(0, 18),
+    CASO: caso,
+    precio: precio,
+    'campo viejo': pd || '',
+    'viejo % precio': precio > 0 && pd ? Math.round(pd / precio * 100) + '%' : '',
+    'tipoDescuento': t.tipoDescuento || '(vacío)',
+    'MUESTRA HOY': muestra,
+    'dto HOY': dtoPct + '%',
+    'DEBERIA mostrar': okNuevo ? cLimpio.precioPreventa : precio,
+    'deberia dto': okNuevo ? cLimpio.descuentoPctReal + '%' : '0%',
+    'en destino': enDestino,
+    'comision %': c.comisionPct,
+    'fuente comision': c.fuenteComision,
+    _peligroso: caso === '2 ROTO' || dtoPct >= 40
+  };
+};
+window.PEDiag.temporadas = function (mes) {
+  const tours = window._toursGlobal || [];
+  if (!tours.length) {
+    console.warn('[PEDiag] Todavía no cargaron los tours.');
+    return;
+  }
+  const mesActual = mes || new Date().getMonth() + 1;
+  const NOMBRE_MES = ['', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+  const conTemporadas = tours.filter(t => Array.isArray(t.temporadasPrecio) && t.temporadasPrecio.length > 0);
+  if (!conTemporadas.length) {
+    console.log('[PEDiag] Ningún tour tiene precios por temporada cargados. Sin impacto.');
+    return [];
+  }
+  const filas = conTemporadas.map(t => {
+    const base = Number(t.precio) || 0;
+    const vigente = t.temporadasPrecio.find(tp => Array.isArray(tp.meses) && tp.meses.map(Number).includes(mesActual));
+    const precioTemp = vigente ? Number(vigente.precio) || 0 : null;
+    const dif = precioTemp !== null ? precioTemp - base : 0;
+    return {
+      id: t.id,
+      titulo: (t.titulo || '').slice(0, 30),
+      prestador: (t.proveedorNombre || '').slice(0, 18),
+      'precio base (SE COBRA)': base,
+      'temporada vigente': vigente ? vigente.nombre : '(ninguna este mes)',
+      'precio temporada (SE IGNORA)': precioTemp !== null ? precioTemp : '',
+      'diferencia': dif,
+      'temporadas cargadas': t.temporadasPrecio.map(tp => tp.nombre + ' [' + (tp.meses || []).join(',') + '] $' + tp.precio).join(' | ')
+    };
+  });
+  const afectados = filas.filter(f => f.diferencia !== 0);
+  const totalDif = afectados.reduce((s, f) => s + f.diferencia, 0);
+  console.log('%c=== PRECIOS POR TEMPORADA — mes ' + mesActual + ' (' + NOMBRE_MES[mesActual] + ') ===', 'background:#0F172A;color:#fff;font-weight:bold;padding:4px 10px');
+  console.log('tours con temporadas cargadas : ' + conTemporadas.length);
+  console.log('%ccon precio distinto ESTE MES  : ' + afectados.length, 'color:#E91E63;font-weight:bold');
+  if (afectados.length) {
+    console.log('%cdiferencia total por 1 pax    : $' + totalDif.toLocaleString('es-AR'), 'color:#E91E63;font-weight:bold');
+    console.log('%cEl sitio está cobrando el precio BASE en todos estos casos.', 'color:#E91E63');
+    console.table(afectados);
+  }
+  console.log('\n--- todos los que tienen temporadas ---');
+  console.table(filas);
+  return filas;
+};
+window.PEDiag.auditar = function () {
+  const tours = window._toursGlobal || [];
+  if (!tours.length) {
+    console.warn('[PEDiag] Todavía no cargaron los tours. Esperá y reintentá.');
+    return;
+  }
+  const filas = tours.map(window.PEDiag._analizar);
+  const rotos = filas.filter(f => f._peligroso);
+  const conCampoViejo = filas.filter(f => f['campo viejo'] !== '');
+  console.log('%c=== AUDITORÍA DE DESCUENTOS ===', 'background:#0F172A;color:#fff;font-weight:bold;padding:4px 10px');
+  console.log('tours totales              : ' + filas.length);
+  console.log('con campo viejo cargado    : ' + conCampoViejo.length);
+  console.log('%cROTOS (a reparar)          : ' + rotos.length, 'color:#E91E63;font-weight:bold');
+  if (rotos.length) {
+    console.log('%c\n--- TOURS ROTOS ---', 'color:#E91E63;font-weight:bold');
+    console.table(rotos.map(f => {
+      const o = Object.assign({}, f);
+      delete o._peligroso;
+      return o;
+    }));
+    const porPrest = {};
+    rotos.forEach(f => {
+      porPrest[f.prestador] = (porPrest[f.prestador] || 0) + 1;
+    });
+    console.log('por prestador:', porPrest);
+    console.log('IDs para copiar:', rotos.map(f => f.id).join(', '));
+  } else {
+    console.log('%cNingún tour roto.', 'color:#10B981;font-weight:bold');
+  }
+  console.log('\n--- TODOS ---');
+  console.table(filas.map(f => {
+    const o = Object.assign({}, f);
+    delete o._peligroso;
+    return o;
+  }));
+  return {
+    filas,
+    rotos
+  };
+};
+window.PEDiag.reparar = function (confirmacion) {
+  const tours = window._toursGlobal || [];
+  const rotos = tours.map(t => ({
+    t: t,
+    d: window.PEDiag._analizar(t)
+  })).filter(x => x.d._peligroso);
+  if (!rotos.length) {
+    console.log('[PEDiag] No hay nada que reparar.');
+    return;
+  }
+  const plan = rotos.map(x => ({
+    id: x.d.id,
+    titulo: x.d.titulo,
+    prestador: x.d.prestador,
+    'ANTES muestra': x.d['MUESTRA HOY'],
+    'ANTES dto': x.d['dto HOY'],
+    'DESPUES muestra': x.d['DEBERIA mostrar'],
+    'DESPUES dto': x.d['deberia dto'],
+    'escribe tipoDescuento': 'ninguno',
+    'borra precioDescuento': x.d['campo viejo']
+  }));
+  if (confirmacion !== 'CONFIRMO') {
+    console.log('%c=== SIMULACRO · no se escribió nada ===', 'background:#F59E0B;color:#fff;font-weight:bold;padding:4px 10px');
+    console.table(plan);
+    console.log('%cSi estás de acuerdo, ejecutá:  PEDiag.reparar("CONFIRMO")', 'color:#E91E63;font-weight:bold');
+    return plan;
+  }
+  console.log('%c=== REPARANDO ' + rotos.length + ' TOURS ===', 'background:#E91E63;color:#fff;font-weight:bold;padding:4px 10px');
+  const ref = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('tours');
+  let ok = 0,
+    fallo = 0;
+  const tareas = rotos.map(x => ref.doc(String(x.d.id)).update({
+    tipoDescuento: 'ninguno',
+    valorDescuento: 0,
+    precioDescuento: null,
+    reparadoPor: 'PEDiag',
+    reparadoEn: new Date().toISOString()
+  }).then(() => {
+    ok++;
+    console.log('  ok  ' + x.d.id + '  ' + x.d.titulo);
+  }).catch(e => {
+    fallo++;
+    console.error('  ERROR ' + x.d.id + ':', e.message);
+  }));
+  return Promise.all(tareas).then(() => {
+    console.log('%creparados: ' + ok + ' | fallidos: ' + fallo, 'font-weight:bold');
+    console.log('Recargá la página y volvé a correr PEDiag.auditar() para confirmar.');
+  });
 };
 const ScoringEngine = {
   haversine: function (lat1, lng1, lat2, lng2) {
@@ -3828,6 +4015,13 @@ function TourDetailPage({
     precioReservaUnitario = Number(tour.precioDescuento);
     precioSaldoDestinoUnitario = 0;
     descuentoPctReal = precioCompletoUnitario > 0 ? Math.round((precioCompletoUnitario - precioPreventaUnitario) / precioCompletoUnitario * 100) : 0;
+    if (FRENO_DESCUENTO_ACTIVO && descuentoPctReal >= FRENO_DESCUENTO_UMBRAL) {
+      console.warn('[FRENO] Tour ' + tour.id + ' (' + (tour.proveedorNombre || '') + '): descuento de ' + descuentoPctReal + '% generado por el campo viejo precioDescuento=' + tour.precioDescuento + '. Se muestra precio de lista. Corregilo con PEDiag.reparar().');
+      precioPreventaUnitario = precioCompletoUnitario;
+      precioReservaUnitario = precioCompletoUnitario;
+      precioSaldoDestinoUnitario = 0;
+      descuentoPctReal = 0;
+    }
   } else {
     precioPreventaUnitario = precioCompletoUnitario;
     precioReservaUnitario = precioCompletoUnitario;
@@ -8529,6 +8723,7 @@ function App() {
         };
       });
       setToursDB(listWithStableRandoms);
+      setToursDiagnostico(listWithStableRandoms);
       setIsLoading(false);
     }, error => {
       console.warn("No se pudieron cargar los tours.");
@@ -9031,9 +9226,9 @@ function App() {
 window.PE_BUILD = {
   version: 'v4',
   fecha: '2026-07-30',
-  cambios: ['logos-marquee', 'geo-catalogo', 'filtro-hero', 'fix-nan-checkout', 'fix-leaflet']
+  cambios: ['logos-marquee', 'geo-catalogo', 'filtro-hero', 'fix-nan-checkout', 'fix-leaflet', 'pediag-auditoria', 'pediag-temporadas']
 };
-console.log('%c[PE BUILD] v5 · 2026-07-30 · +fix-nan-checkout +fix-leaflet', 'background:#E91E63;color:#fff;font-weight:bold;padding:3px 8px;border-radius:4px');
+console.log('%c[PE BUILD] v8 · 2026-07-30 · +PEDiag.auditar() +reparar() +temporadas()', 'background:#E91E63;color:#fff;font-weight:bold;padding:3px 8px;border-radius:4px');
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(React.createElement(App, null));
 </script>

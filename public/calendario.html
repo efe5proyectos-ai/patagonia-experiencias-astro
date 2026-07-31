@@ -1,0 +1,2202 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Calendario de fauna de la Patagonia: qué animal ver cada mes</title>
+<meta name="description" content="Ballenas, pingüinos, orcas, guanacos y 29 especies más: en qué mes se ve cada una en Chubut, La Pampa, Neuquén, Río Negro, Santa Cruz y Tierra del Fuego, y con qué excursión ir a buscarla.">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="author" content="Patagonia Experiencias">
+<link rel="canonical" href="https://patagoniaexperiencias.com/calendario-fauna.html">
+<meta name="theme-color" content="#0b1220">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Patagonia Experiencias">
+<meta property="og:title" content="Calendario de fauna de la Patagonia: qué animal ver cada mes">
+<meta property="og:description" content="Ballenas, pingüinos, orcas, guanacos y 29 especies más. En qué mes, en qué lugar y con qué excursión.">
+<meta property="og:url" content="https://patagoniaexperiencias.com/calendario-fauna.html">
+<meta property="og:image" content="https://patagoniaexperiencias.com/og-default.jpg">
+<meta property="og:locale" content="es_AR">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: { extend: {
+    fontFamily: { sans:['Inter','sans-serif'], title:['Montserrat','sans-serif'] },
+    colors: { brand: {
+      fuchsia:'#E91E63', fuchsiaDark:'#C2185B',
+      night:'#0b1220', dark:'#0f172a', oxford:'#1e293b',
+      bg:'#f6f7f9', line:'#e8ebf0'
+    }}
+  }}
+}
+</script>
+
+<!-- =====================================================================
+     CONFIGURACIÓN — TOCAR SOLO ESTO PARA CAMBIOS RÁPIDOS
+     URLs verificadas contra patagoniaexperiencias.com
+     ===================================================================== -->
+<script>
+const CONFIG = {
+  // Poné acá la URL del logo real (PNG o SVG transparente, alto ~80px).
+  // Vacío o archivo inexistente = se muestra el lockup tipográfico.
+  logoUrl: '',
+
+  // REGLA DE RUTEO — no cambiar sin motivo:
+  // El index (patagoniaexperiencias.com/) es solo para el que llega por primera vez.
+  // El logo y los tours entran SIEMPRE a la app interna, para no desviar la info.
+  // ⚠️ Tiene que coincidir con el nombre real del archivo al subirlo por FTP
+  // y con el <link rel="canonical"> del <head>. Si cambia uno, cambian los dos.
+  urlCanonica   : 'https://patagoniaexperiencias.com/calendario-fauna.html',
+
+  urlApp        : 'https://patagoniaexperiencias.com/patagonia-experiencias.html',
+  urlExcursiones: 'https://patagoniaexperiencias.com/patagonia-experiencias.html',
+  urlBeneficios : 'https://tienda.patagoniapuntos.com',
+  urlMagazine   : 'https://patagoniaexperiencias.com/guias/',
+  urlGuias      : 'https://patagoniaexperiencias.com/guias-de-viaje/',
+  urlPrestadores: 'https://patagoniaexperiencias.com/prestadores.html',
+  whatsapp      : 'https://wa.me/5492804356028',
+  instagram     : 'https://www.instagram.com/patagoniaexperienciasok',
+
+  // Deep link interno a la ficha de un tour: app + #tour/<slug>.
+  // El slug es slugify(titulo) — el mismo que genera el sitio.
+  baseExcursion : 'https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/',
+
+  // FOTOS · Opción A (la más rápida): subí las imágenes a una carpeta con el
+  // nombre del id de cada especie (ballena-franca.jpg, guanaco.jpg, …) y poné
+  // acá la carpeta. Se asignan solas. Si un archivo no existe, queda la placa.
+  fotosBase : '',            // ej: '/assets/fauna/'
+  fotosExt  : '.jpg',
+
+  titulo : 'Calendario de fauna de la Patagonia',
+  bajada : 'Qué se puede ver, en qué mes, en qué lugar y con qué excursión ir a buscarlo. De La Pampa a Tierra del Fuego.',
+  cierre : 'No te vendemos la excursión y chau. Te acompañamos para que disfrutes más y mejor.',
+  anio   : new Date().getFullYear()
+};
+
+// Escala del campo "meses": 0 = no se ve · 1 = se puede ver · 2 = temporada pico
+const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const MESES_MIN = ['EN','FE','MR','AB','MY','JN','JL','AG','SE','OC','NO','DI'];
+
+const PROVINCIAS = [
+  { id:'chubut',    lbl:'Chubut' },
+  { id:'lapampa',   lbl:'La Pampa' },
+  { id:'neuquen',   lbl:'Neuquén' },
+  { id:'rionegro',  lbl:'Río Negro' },
+  { id:'santacruz', lbl:'Santa Cruz' },
+  { id:'tdf',       lbl:'Tierra del Fuego' }
+];
+
+/* Ciudad desde la que sale cada prestador. Responde "¿desde dónde puedo ir?".
+   ⚠️ VERIFICAR contra la ficha de cada prestador antes de publicar. */
+const SALIDAS = {
+  'Sussanich Turismo': 'Puerto Pirámides',
+  'Forastero tour'   : 'Puerto Madryn',
+  'MerakiSur'        : 'Esquel',
+  'Noelia Ferrario'  : 'Ushuaia'
+};
+
+const AMBIENTES = [
+  { id:'mar',     lbl:'Mar y costa',      color:'#0e6f80' },
+  { id:'estepa',  lbl:'Estepa',           color:'#9a6112' },
+  { id:'bosque',  lbl:'Bosque y montaña', color:'#1f6b46' },
+  { id:'lagunas', lbl:'Lagunas',          color:'#4c4a9c' }
+];
+
+/* =====================================================================
+   FOTOS · Opción B: cargá acá las URLs, una por especie, sin tocar el array.
+   Lo que pongas acá pisa a fotosBase. Descomentá y completá.
+   Medida recomendada: 1200×675 (16:9). JPG o WebP, menos de 200 kb.
+   ===================================================================== */
+const FOTOS = {
+  // 'ballena-franca'     : 'https://patagoniaexperiencias.com/assets/fauna/ballena-franca.jpg',
+  // 'pinguino-magallanes': 'https://patagoniaexperiencias.com/assets/fauna/pinguino.jpg',
+};
+
+/* =====================================================================
+   DATOS DE FAUNA — ACÁ SE EDITA EL CALENDARIO
+   id        · identificador único (sin espacios)
+   nombre    · nombre común
+   cientifico· nombre científico
+   img       · URL de la foto (1200×675). Vacío = placa + ícono.
+   ico       · ícono geométrico de respaldo. Ver lista en ICONOS.
+   foco      · punto de la foto que nunca se recorta. Por defecto '50% 50%'.
+               Si el animal queda cortado, movelo: '50% 35%' sube el encuadre.
+   dest      · 0 = no destacada · 1 a 12 = orden en "Los más buscados"
+   amb       · 'mar' | 'estepa' | 'bosque' | 'lagunas'
+   prov      · array de provincias donde se ve
+   zonas     · lugares concretos de avistaje
+   meses     · 12 valores: 0 no se ve · 1 se ve · 2 pico
+   mejor     · texto corto del mejor momento
+   dato      · el dato que el turista no sabe
+   nota      · etiqueta opcional (ej: 'Especie introducida')
+   exc       · excursiones reales del catálogo:
+               { t: título, op: prestador, s: slug de la ficha de producto }
+               Si queda vacío, la ficha manda al catálogo completo.
+   ===================================================================== */
+let FAUNA = [
+  { id:'ballena-franca', nombre:'Ballena franca austral', cientifico:'Eubalaena australis', img:'', ico:'ballena', dest:1, amb:'mar',
+    prov:['chubut'], zonas:'Península Valdés, Puerto Pirámides, El Doradillo, Golfo San José',
+    meses:[0,0,0,0,0,1,1,1,2,2,1,1], mejor:'Septiembre y octubre',
+    dato:'En El Doradillo se ven desde la playa, sin barco: el agua profunda llega casi hasta la orilla.',
+    exc:[
+      { t:'El Doradillo · Avistaje costero de ballena franca', op:'Forastero tour', s:'el-doradillo-avistaje-costero-ballena-franca-austral' },
+      { t:'Solo Ballenas · Tour y traslados a Península Valdés', op:'Forastero tour', s:'solo-ballenas-tour-y-traslados-a-peninsula-valdes' },
+      { t:'Doradillo', op:'Sussanich Turismo', s:'doradillo' },
+      { t:'Península Valdés', op:'Sussanich Turismo', s:'peninsula-valdes' }
+    ]},
+
+  { id:'pinguino-magallanes', nombre:'Pingüino de Magallanes', cientifico:'Spheniscus magellanicus', img:'', ico:'pinguino', dest:2, amb:'mar',
+    prov:['chubut','santacruz','tdf'], zonas:'Punta Tombo, Cabo Dos Bahías, Isla Escondida, Estancia San Lorenzo, Cabo Vírgenes, Monte León, Isla Martillo',
+    meses:[2,1,1,1,0,0,0,0,1,2,2,2], mejor:'Noviembre a enero',
+    dato:'Llegan en septiembre, ponen los huevos en octubre y los pichones nacen en noviembre. En febrero mudan las plumas y se quedan quietos en tierra.',
+    exc:[
+      { t:'Pingüinera Punta Tombo', op:'Forastero tour', s:'pinguinera-punta-tombo' },
+      { t:'Punta Tombo', op:'Sussanich Turismo', s:'punta-tombo' }
+    ]},
+
+  { id:'orca', nombre:'Orca', cientifico:'Orcinus orca', img:'', ico:'delfin', dest:3, amb:'mar',
+    prov:['chubut'], zonas:'Punta Norte y Caleta Valdés, Península Valdés',
+    meses:[1,1,2,2,0,0,0,0,1,1,1,1], mejor:'Marzo y abril',
+    dato:'Punta Norte es uno de los dos lugares del mundo donde las orcas se varan a propósito para cazar lobitos. Depende de la marea: hay que ir con horario de tabla, no a cualquier hora.',
+    exc:[
+      { t:'Península Valdés', op:'Sussanich Turismo', s:'peninsula-valdes' }
+    ]},
+
+  { id:'lobo-marino', nombre:'Lobo marino de un pelo', cientifico:'Otaria flavescens', img:'', ico:'pinnipedo', dest:4, amb:'mar',
+    prov:['chubut','rionegro','santacruz'], zonas:'Punta Loma, Punta Pirámide, Punta León, Punta Bermeja, Isla de los Pájaros',
+    meses:[2,2,1,1,1,1,1,1,1,1,1,2], mejor:'Diciembre a febrero',
+    dato:'Están todo el año, pero en diciembre y enero nacen las crías y la lobería se llena de sonido.',
+    exc:[
+      { t:'Punta Loma con City Tour', op:'Sussanich Turismo', s:'punta-loma-con-city-tour' },
+      { t:'Península Valdés', op:'Sussanich Turismo', s:'peninsula-valdes' }
+    ]},
+
+  { id:'elefante-marino', nombre:'Elefante marino del sur', cientifico:'Mirounga leonina', img:'', ico:'pinnipedo', dest:5, amb:'mar',
+    prov:['chubut'], zonas:'Punta Delgada, Caleta Valdés, Península Valdés',
+    meses:[1,1,1,0,0,0,0,1,2,2,2,1], mejor:'Septiembre a noviembre',
+    dato:'La única colonia continental del mundo está en Península Valdés. Un macho adulto pesa lo mismo que una camioneta.',
+    exc:[
+      { t:'Península Valdés', op:'Sussanich Turismo', s:'peninsula-valdes' }
+    ]},
+
+  { id:'tonina-overa', nombre:'Tonina overa', cientifico:'Cephalorhynchus commersonii', img:'', ico:'delfin', dest:6, amb:'mar',
+    prov:['chubut','santacruz','rionegro'], zonas:'Playa Unión y Rawson, Camarones, Puerto Deseado, Bahía San Antonio',
+    meses:[2,2,2,1,1,1,1,1,1,1,1,2], mejor:'Diciembre a marzo',
+    dato:'Blanca y negra, del tamaño de un chico. Sale a las 8 de la mañana desde Rawson porque el mar está más quieto y se ve mejor.',
+    exc:[
+      { t:'Valle inferior', op:'Sussanich Turismo', s:'valle-inferior' }
+    ]},
+
+  { id:'delfin-oscuro', nombre:'Delfín oscuro', cientifico:'Lagenorhynchus obscurus', img:'', ico:'delfin', dest:7, amb:'mar',
+    prov:['chubut'], zonas:'Golfo Nuevo, Golfo San José, Punta Loma',
+    meses:[2,2,2,1,0,0,0,0,0,0,0,2], mejor:'Diciembre a marzo',
+    dato:'Andan en grupos grandes y son los que más saltan y giran. Suelen acercarse solos a la embarcación.',
+    exc:[
+      { t:'Punta Loma con City Tour', op:'Sussanich Turismo', s:'punta-loma-con-city-tour' },
+      { t:'Península Valdés', op:'Sussanich Turismo', s:'peninsula-valdes' }
+    ]},
+
+  { id:'guanaco', nombre:'Guanaco', cientifico:'Lama guanicoe', img:'', ico:'camelido', dest:8, amb:'estepa',
+    prov:['chubut','lapampa','neuquen','rionegro','santacruz','tdf'], zonas:'Toda la estepa, Península Valdés, Cabo Dos Bahías, Lihué Calel, Parque Patagonia',
+    meses:[2,1,1,1,1,1,1,1,1,1,2,2], mejor:'Noviembre a enero, cuando nacen los chulengos',
+    dato:'El chulengo camina a los 15 minutos de nacer. Si ves uno solo parado en una loma mirando fijo, es el centinela del grupo.',
+    exc:[
+      { t:'Península Valdés', op:'Sussanich Turismo', s:'peninsula-valdes' },
+      { t:'Punta Tombo', op:'Sussanich Turismo', s:'punta-tombo' },
+      { t:'Piedra Parada', op:'MerakiSur', s:'piedra-parada' }
+    ]},
+
+  { id:'choique', nombre:'Choique o ñandú petiso', cientifico:'Rhea pennata', img:'', ico:'ratite', dest:9, amb:'estepa',
+    prov:['chubut','lapampa','neuquen','rionegro','santacruz','tdf'], zonas:'Estepa patagónica, Península Valdés, Punta Tombo, Lihué Calel, rutas de meseta',
+    meses:[2,1,1,1,1,1,1,1,1,1,2,2], mejor:'Noviembre a enero',
+    dato:'El macho arma el nido, empolla los huevos de varias hembras y cría solo a los pichones. No hay que confundirlo con el ñandú del norte: el choique es más chico y es el de la Patagonia.',
+    exc:[
+      { t:'Península Valdés', op:'Sussanich Turismo', s:'peninsula-valdes' },
+      { t:'Punta Tombo', op:'Sussanich Turismo', s:'punta-tombo' }
+    ]},
+
+  { id:'condor', nombre:'Cóndor andino', cientifico:'Vultur gryphus', img:'', ico:'aveVuelo', dest:10, amb:'bosque',
+    prov:['neuquen','rionegro','chubut','santacruz'], zonas:'Cañadones y cornisas de cordillera, Piedra Parada, Esquel, Parque Patagonia',
+    meses:[1,1,1,1,1,1,1,1,2,2,2,2], mejor:'Primavera y verano, a media mañana',
+    dato:'Necesita corrientes de aire caliente para volar: por eso aparece cuando el sol ya calentó las paredes de roca, no al amanecer.',
+    exc:[
+      { t:'Piedra Parada', op:'MerakiSur', s:'piedra-parada' },
+      { t:'Panorámicas de Esquel', op:'MerakiSur', s:'panoramicas-de-esquel' }
+    ]},
+
+  { id:'ballena-sei', nombre:'Ballena sei', cientifico:'Balaenoptera borealis', img:'', ico:'ballena', dest:11, amb:'mar',
+    prov:['chubut'], zonas:'Península Valdés, Camarones, Golfo San Jorge',
+    meses:[2,2,2,1,0,0,0,0,0,0,0,1], mejor:'Enero a marzo',
+    dato:'Es la segunda ballena más rápida del mar y hace unos años casi no se registraba acá. Hoy el norte de Chubut es uno de los pocos lugares del mundo donde se concentra en verano.',
+    exc:[
+      { t:'Península Valdés', op:'Sussanich Turismo', s:'peninsula-valdes' }
+    ]},
+
+  { id:'huemul', nombre:'Huemul', cientifico:'Hippocamelus bisulcus', img:'', ico:'ciervo', dest:12, amb:'bosque',
+    prov:['rionegro','chubut','santacruz','neuquen'], zonas:'Los Alerces, Nahuel Huapi, Parque Patagonia, Los Glaciares',
+    meses:[1,1,1,1,1,1,1,1,1,1,1,1], mejor:'Todo el año, con mucha suerte',
+    dato:'Está en el escudo nacional y quedan menos de 2.000 en el mundo. Si lo ves, hay que reportarlo al guardaparque: sirve para el monitoreo.',
+    exc:[
+      { t:'Parque Nacional Los Alerces Full Day', op:'MerakiSur', s:'parque-nacional-los-alerces-full-day' }
+    ]},
+
+  { id:'loro-barranquero', nombre:'Loro barranquero', cientifico:'Cyanoliseus patagonus', img:'', ico:'loro', dest:0, amb:'estepa',
+    prov:['rionegro','lapampa','neuquen','chubut'], zonas:'Balneario El Cóndor (Río Negro), barrancas del río Colorado, Lihué Calel, acantilados de meseta',
+    meses:[2,1,1,0,0,0,0,0,1,2,2,2], mejor:'Noviembre a enero',
+    dato:'La colonia del Balneario El Cóndor es la más grande del mundo: decenas de miles de nidos excavados en un acantilado de varios kilómetros. Al atardecer vuelven todos juntos y el ruido tapa al del mar.',
+    exc:[]},
+
+  { id:'vizcacha', nombre:'Vizcacha', cientifico:'Lagostomus maximus', img:'', ico:'roedor', dest:0, amb:'estepa',
+    prov:['lapampa','rionegro','neuquen'], zonas:'Caldenal pampeano, Lihué Calel, Parque Luro, campos del norte patagónico',
+    meses:[1,1,1,1,1,1,1,1,1,1,1,1], mejor:'Todo el año, al atardecer y de noche',
+    dato:'Vive en vizcacheras subterráneas comunales que pueden tener décadas de uso. Junta huesos, palos y cualquier cosa que brille y la amontona en la entrada.',
+    exc:[]},
+
+  { id:'cauquenes', nombre:'Cauquenes', cientifico:'Chloephaga picta y otras', img:'', ico:'anatida', dest:0, amb:'lagunas',
+    prov:['lapampa','rionegro','santacruz','tdf','chubut'], zonas:'Lagunas y campos de La Pampa y Río Negro en invierno, estepa de Santa Cruz y Tierra del Fuego en verano',
+    meses:[1,1,1,2,2,2,2,2,1,1,1,1], mejor:'Otoño e invierno en La Pampa, primavera en el sur',
+    dato:'Cría en el sur y sube a pasar el invierno al norte patagónico. El cauquén colorado está en peligro crítico: quedan unos pocos cientos y su caza está prohibida en todo el país.',
+    exc:[]},
+
+  { id:'ballena-jorobada', nombre:'Ballena jorobada', cientifico:'Megaptera novaeangliae', img:'', ico:'ballena', dest:0, amb:'mar',
+    prov:['chubut','santacruz'], zonas:'Golfo Nuevo, plataforma patagónica',
+    meses:[0,0,1,1,1,1,1,1,0,0,0,0], mejor:'Otoño', nota:'Avistajes esporádicos',
+    dato:'No tiene temporada fija en la Patagonia: aparece de paso. Si la ves saltando entera fuera del agua, es ella.',
+    exc:[
+      { t:'Península Valdés', op:'Sussanich Turismo', s:'peninsula-valdes' }
+    ]},
+
+  { id:'delfin-austral', nombre:'Delfín austral', cientifico:'Lagenorhynchus australis', img:'', ico:'delfin', dest:0, amb:'mar',
+    prov:['santacruz','tdf'], zonas:'Ría Deseado, canales fueguinos, Canal Beagle',
+    meses:[2,2,1,1,1,1,1,1,1,1,1,2], mejor:'Verano',
+    dato:'Es de los delfines menos vistos del país: vive casi siempre en canales cerrados y aguas frías del sur.',
+    exc:[
+      { t:'Sabores del Beagle', op:'Noelia Ferrario', s:'sabores-del-beagle' }
+    ]},
+
+  { id:'pinguino-penacho', nombre:'Pingüino de penacho amarillo', cientifico:'Eudyptes chrysocome', img:'', ico:'pinguino', dest:0, amb:'mar',
+    prov:['santacruz'], zonas:'Isla Pingüino, Puerto Deseado',
+    meses:[2,2,1,1,0,0,0,0,0,1,2,2], mejor:'Noviembre a febrero',
+    dato:'Es la única colonia accesible del continente. Se llega solo por navegación y depende del viento.',
+    exc:[]},
+
+  { id:'pinguino-papua', nombre:'Pingüino papúa', cientifico:'Pygoscelis papua', img:'', ico:'pinguino', dest:0, amb:'mar',
+    prov:['tdf'], zonas:'Isla Martillo, Canal Beagle',
+    meses:[2,2,1,1,0,0,0,0,0,1,2,2], mejor:'Noviembre a febrero',
+    dato:'Convive con el de Magallanes en la misma isla. Es el del pico naranja y la mancha blanca sobre el ojo.',
+    exc:[]},
+
+  { id:'cormoran-imperial', nombre:'Cormorán imperial', cientifico:'Leucocarbo atriceps', img:'', ico:'aveParada', dest:0, amb:'mar',
+    prov:['chubut','santacruz','tdf'], zonas:'Punta Loma, Punta Tombo, Isla de los Pájaros, Ría Deseado, Canal Beagle',
+    meses:[1,1,1,1,1,1,1,1,1,2,2,2], mejor:'Octubre a enero',
+    dato:'Bucea más de 50 metros para pescar. En primavera la cara se le pone naranja intenso: es época reproductiva.',
+    exc:[
+      { t:'Punta Loma con City Tour', op:'Sussanich Turismo', s:'punta-loma-con-city-tour' },
+      { t:'Sabores del Beagle', op:'Noelia Ferrario', s:'sabores-del-beagle' }
+    ]},
+
+  { id:'albatros', nombre:'Albatros y petreles', cientifico:'Thalassarche melanophris y otros', img:'', ico:'aveVuelo', dest:0, amb:'mar',
+    prov:['chubut','santacruz','tdf'], zonas:'Canal Beagle, mar abierto frente a Madryn y Puerto Deseado',
+    meses:[1,1,1,2,2,2,2,2,1,1,1,1], mejor:'Otoño e invierno',
+    dato:'El albatros de ceja negra abre casi dos metros y medio de alas y puede pasar años sin tocar tierra.',
+    exc:[
+      { t:'Sabores del Beagle', op:'Noelia Ferrario', s:'sabores-del-beagle' }
+    ]},
+
+  { id:'aves-playeras', nombre:'Aves playeras migratorias', cientifico:'Calidris canutus rufa y otras', img:'', ico:'zancuda', dest:0, amb:'mar',
+    prov:['chubut','rionegro','santacruz'], zonas:'San Antonio Oeste, Península Valdés, Río Gallegos, Playa Unión',
+    meses:[2,2,2,1,0,0,0,0,1,2,2,1], mejor:'Octubre y noviembre, febrero y marzo',
+    dato:'El playero rojizo hace 15.000 km desde el Ártico hasta acá. Se para a comer en la costa patagónica y sigue viaje.',
+    exc:[
+      { t:'Punta Loma con City Tour', op:'Sussanich Turismo', s:'punta-loma-con-city-tour' },
+      { t:'Valle inferior', op:'Sussanich Turismo', s:'valle-inferior' }
+    ]},
+
+  { id:'flamenco', nombre:'Flamenco austral', cientifico:'Phoenicopterus chilensis', img:'', ico:'zancuda', dest:0, amb:'lagunas',
+    prov:['chubut','lapampa','neuquen','rionegro','santacruz'], zonas:'Laguna Cacique Chiquichano, salitrales y lagunas de La Pampa, lagunas de meseta, bahías costeras',
+    meses:[2,2,1,1,1,1,1,1,1,2,2,2], mejor:'Primavera y verano',
+    dato:'El rosa se lo dan los crustáceos que filtra del barro. Los juveniles son grises y tardan años en teñirse.',
+    exc:[
+      { t:'Tour Valle Inferior del Río Chubut', op:'Forastero tour', s:'tour-valle-inferior-rio-chubut' },
+      { t:'Dique Florentino Ameghino', op:'Forastero tour', s:'dique-florentino-ameghino-lugar-de-ensueno' }
+    ]},
+
+  { id:'maca-tobiano', nombre:'Macá tobiano', cientifico:'Podiceps gallardoi', img:'', ico:'anatida', dest:0, amb:'lagunas',
+    prov:['santacruz'], zonas:'Mesetas de Santa Cruz, Parque Patagonia, estuario del río Santa Cruz en invierno',
+    meses:[2,2,1,0,0,0,0,0,0,1,2,2], mejor:'Noviembre a febrero',
+    dato:'Existe solamente en Santa Cruz y no llega a las 800 parejas. Verlo es de las cosas más difíciles que se pueden hacer en la Patagonia.',
+    exc:[]},
+
+  { id:'mara', nombre:'Mara patagónica', cientifico:'Dolichotis patagonum', img:'', ico:'roedor', dest:0, amb:'estepa',
+    prov:['chubut','lapampa','rionegro','santacruz'], zonas:'Península Valdés, meseta chubutense, Punta Tombo, Lihué Calel',
+    meses:[1,1,1,1,1,1,1,1,1,1,1,1], mejor:'Todo el año, temprano o al atardecer',
+    dato:'Parece una liebre con patas de ciervo y solo existe en Argentina. Forma pareja de por vida.',
+    exc:[
+      { t:'Península Valdés', op:'Sussanich Turismo', s:'peninsula-valdes' },
+      { t:'Punta Tombo', op:'Sussanich Turismo', s:'punta-tombo' }
+    ]},
+
+  { id:'zorro', nombre:'Zorro colorado y zorro gris', cientifico:'Lycalopex culpaeus / L. griseus', img:'', ico:'canido', dest:0, amb:'estepa',
+    prov:['chubut','lapampa','neuquen','rionegro','santacruz','tdf'], zonas:'Toda la Patagonia, del caldenal pampeano a la cordillera y la costa',
+    meses:[1,1,1,1,1,1,1,1,1,1,1,1], mejor:'Todo el año, al amanecer y al atardecer',
+    dato:'El colorado es el segundo cánido más grande de Sudamérica. Nunca hay que darle comida: pierde el miedo y termina atropellado en la ruta.',
+    exc:[
+      { t:'Península Valdés', op:'Sussanich Turismo', s:'peninsula-valdes' },
+      { t:'Piedra Parada', op:'MerakiSur', s:'piedra-parada' }
+    ]},
+
+  { id:'puma', nombre:'Puma', cientifico:'Puma concolor', img:'', ico:'felino', dest:0, amb:'estepa',
+    prov:['santacruz','chubut','lapampa','neuquen'], zonas:'Parque Patagonia, Cañadón Pinturas, Lihué Calel, estancias de meseta',
+    meses:[1,1,1,2,2,2,2,2,2,2,1,1], mejor:'Abril a octubre',
+    dato:'En invierno el pasto está bajo y hay menos horas de sol fuerte: es cuando más se lo llega a ver. Siempre con guía habilitado.',
+    exc:[]},
+
+  { id:'piche', nombre:'Piche patagónico', cientifico:'Zaedyus pichiy', img:'', ico:'armadillo', dest:0, amb:'estepa',
+    prov:['chubut','lapampa','neuquen','rionegro','santacruz'], zonas:'Estepa, caldenal y matorral, banquinas de rutas de meseta',
+    meses:[2,2,1,1,0,0,0,0,1,2,2,2], mejor:'Primavera y verano',
+    dato:'Es el único armadillo que hiberna. En pleno invierno está bajo tierra y no se lo ve.',
+    exc:[
+      { t:'Península Valdés', op:'Sussanich Turismo', s:'peninsula-valdes' },
+      { t:'Piedra Parada', op:'MerakiSur', s:'piedra-parada' }
+    ]},
+
+  { id:'pudu', nombre:'Pudú', cientifico:'Pudu puda', img:'', ico:'ciervo', dest:0, amb:'bosque',
+    prov:['rionegro','neuquen','chubut'], zonas:'Bosque húmedo de Nahuel Huapi, Lanín y Los Alerces',
+    meses:[1,1,1,1,1,1,1,1,1,1,1,1], mejor:'Todo el año, muy esquivo',
+    dato:'Es el ciervo más chico del mundo: 40 cm de alto. Se mueve en el sotobosque cerrado y casi nunca se deja ver.',
+    exc:[
+      { t:'Parque Nacional Los Alerces Full Day', op:'MerakiSur', s:'parque-nacional-los-alerces-full-day' }
+    ]},
+
+  { id:'huillin', nombre:'Huillín', cientifico:'Lontra provocax', img:'', ico:'nutria', dest:0, amb:'bosque',
+    prov:['rionegro','neuquen','chubut','tdf'], zonas:'Lagos andinos, Nahuel Huapi, Canal Beagle',
+    meses:[1,1,1,1,1,1,1,1,1,1,1,1], mejor:'Todo el año, temprano a la mañana',
+    dato:'Nutria autóctona en peligro. Se la confunde con el visón, que es introducido y justamente una de las causas de que al huillín le vaya mal.',
+    exc:[
+      { t:'Parque Nacional Los Alerces Full Day', op:'MerakiSur', s:'parque-nacional-los-alerces-full-day' },
+      { t:'Lagos Off Road', op:'Noelia Ferrario', s:'lagos-off-road' }
+    ]},
+
+  { id:'carpintero', nombre:'Carpintero magallánico', cientifico:'Campephilus magellanicus', img:'', ico:'aveParada', dest:0, amb:'bosque',
+    prov:['chubut','rionegro','neuquen','tdf'], zonas:'Bosques de lenga y coihue, Los Alerces, Tierra del Fuego',
+    meses:[1,1,1,1,1,1,1,1,2,2,2,1], mejor:'Primavera',
+    dato:'Es el carpintero más grande de Sudamérica. Se lo escucha antes de verlo: dos golpes secos y espaciados contra el tronco.',
+    exc:[
+      { t:'Parque Nacional Los Alerces Full Day', op:'MerakiSur', s:'parque-nacional-los-alerces-full-day' },
+      { t:'Trekking Laguna Esmeralda', op:'Noelia Ferrario', s:'trekking-laguna-esmeralda' }
+    ]},
+
+  { id:'ciervo-colorado', nombre:'Ciervo colorado en brama', cientifico:'Cervus elaphus', img:'', ico:'ciervo', dest:0, amb:'bosque',
+    prov:['lapampa','neuquen','rionegro','chubut'], zonas:'Reserva Provincial Parque Luro (La Pampa), parques y estancias de la cordillera neuquina y rionegrina',
+    meses:[0,0,2,2,1,0,0,0,0,0,0,0], mejor:'Marzo y abril', nota:'Especie introducida',
+    dato:'En otoño los machos braman para marcar territorio y se escucha a kilómetros. Parque Luro, en La Pampa, es el lugar clásico del país para escucharla: se hace al atardecer y de noche, con guía.',
+    exc:[]},
+
+  { id:'castor', nombre:'Castor', cientifico:'Castor canadensis', img:'', ico:'roedor', dest:0, amb:'bosque',
+    prov:['tdf'], zonas:'Ríos y turbales de Tierra del Fuego',
+    meses:[2,2,1,1,1,1,1,1,1,1,2,2], mejor:'Verano, al atardecer', nota:'Especie introducida',
+    dato:'Lo trajeron en 1946 para hacer peletería y hoy es la principal plaga del bosque fueguino. Las represas se ven desde la ruta.',
+    exc:[
+      { t:'Parque Nacional Tierra del Fuego', op:'Noelia Ferrario', s:'parque-nacional-tierra-del-fuego' },
+      { t:'Lagos Off Road', op:'Noelia Ferrario', s:'lagos-off-road' }
+    ]}
+];
+</script>
+
+<style>
+  :root { --fx:#E91E63; --fxd:#C2185B; --night:#0b1220; --ox:#1e293b; }
+  html { -webkit-text-size-adjust:100%; }
+  body { font-family:'Inter',sans-serif; background:#f6f7f9; color:#0f172a; letter-spacing:-0.005em; }
+  .ft { font-family:'Montserrat',sans-serif; letter-spacing:-0.02em; }
+  .ftt { font-family:'Montserrat',sans-serif; letter-spacing:0.14em; }
+  .no-scrollbar::-webkit-scrollbar { display:none; }
+  .no-scrollbar { -ms-overflow-style:none; scrollbar-width:none; }
+
+  .cinta, .cinta-lbl { display:grid; grid-template-columns:repeat(12,1fr); gap:3px; }
+  .celda { height:10px; border-radius:2px; background:#e9ecf1; }
+  .celda.n1 { background:#aeb8c6; }
+  .celda.n2 { background:var(--fx); }
+  .cinta-lbl span { font-size:8px; font-weight:700; letter-spacing:-.03em; text-align:center;
+                    color:#9aa5b4; line-height:14px; border-radius:3px; }
+  .cinta-lbl span.on { color:#fff; background:#0b1220; }
+  .cinta-lg .celda { height:32px; border-radius:4px; }
+  .cinta-lg .cinta-lbl span { font-size:9px; line-height:16px; }
+  .edit .cinta-lg .celda { cursor:pointer; }
+
+  .pill { display:inline-block; font-family:'Montserrat',sans-serif; font-size:8.5px;
+          letter-spacing:.1em; font-weight:700; padding:3px 7px; border-radius:5px; }
+  .pill.pico { background:var(--fx); color:#fff; }
+  .pill.si   { background:#eef1f5; color:#475569; }
+  .pill.no   { background:#f5f7f9; color:#9aa5b4; }
+
+  .datos { border-top:1px solid #f1f4f8; }
+  .datos > div { display:grid; grid-template-columns:62px 1fr; gap:10px; padding:8px 16px; align-items:baseline; }
+  .datos > div + div { border-top:1px solid #f7f9fb; }
+  .datos dt { font-family:'Montserrat',sans-serif; font-size:8px; letter-spacing:.12em;
+              font-weight:700; color:#9aa5b4; }
+  .datos dd { font-size:12.5px; color:#334155; line-height:1.45; }
+  .datos dd b { font-weight:600; color:#0b1220; }
+
+  .lblf { font-family:'Montserrat',sans-serif; font-size:8px; letter-spacing:.14em;
+          font-weight:700; color:#9aa5b4; display:block; margin-bottom:6px; }
+
+  .placa { color:#fff; }
+  .placa .patron { position:absolute; inset:0; display:block; opacity:.22; }
+  .placa .patron svg { width:100%; height:100%; display:block; }
+  .placa .bicho-wrap { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; }
+  .placa .bicho { width:58%; height:58%; opacity:.95; filter:drop-shadow(0 1px 3px rgba(0,0,0,.22)); }
+
+  .tarjeta { background:#fff; border:1px solid #eceff3; border-radius:18px;
+             box-shadow:0 1px 2px rgba(15,23,42,.04), 0 8px 24px -18px rgba(15,23,42,.35); }
+  .apagado { opacity:.5; }
+  .sheet { transition:transform .3s cubic-bezier(.32,.72,0,1); }
+  .fade-in { animation:fi .28s ease both; }
+  @keyframes fi { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
+  @media (prefers-reduced-motion:reduce){ *{animation:none!important;transition:none!important} }
+
+  :focus-visible { outline:2px solid var(--fx); outline-offset:2px; border-radius:8px; }
+  .chip { white-space:nowrap; }
+  .safe-b { padding-bottom:env(safe-area-inset-bottom); }
+  .line1 { display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; overflow:hidden; }
+  .line2 { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+</style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "Organization",
+   "@id": "https://patagoniaexperiencias.com/#org",
+   "name": "Patagonia Experiencias",
+   "legalName": "efe5 proyectos SRL",
+   "url": "https://patagoniaexperiencias.com/",
+   "areaServed": "Patagonia Argentina",
+   "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Trelew",
+    "addressRegion": "Chubut",
+    "addressCountry": "AR"
+   },
+   "sameAs": [
+    "https://www.instagram.com/patagoniaexperienciasok"
+   ]
+  },
+  {
+   "@type": "WebPage",
+   "@id": "https://patagoniaexperiencias.com/calendario-fauna.html#page",
+   "url": "https://patagoniaexperiencias.com/calendario-fauna.html",
+   "name": "Calendario de fauna de la Patagonia",
+   "description": "Qué fauna se ve cada mes en Chubut, La Pampa, Neuquén, Río Negro, Santa Cruz y Tierra del Fuego, y con qué excursión ir a buscarla.",
+   "inLanguage": "es-AR",
+   "isPartOf": {
+    "@id": "https://patagoniaexperiencias.com/#org"
+   },
+   "about": {
+    "@type": "Thing",
+    "name": "Fauna de la Patagonia Argentina"
+   }
+  },
+  {
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "Inicio",
+     "item": "https://patagoniaexperiencias.com/"
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "Guías",
+     "item": "https://patagoniaexperiencias.com/guias/"
+    },
+    {
+     "@type": "ListItem",
+     "position": 3,
+     "name": "Calendario de fauna",
+     "item": "https://patagoniaexperiencias.com/calendario-fauna.html"
+    }
+   ]
+  },
+  {
+   "@type": "FAQPage",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "¿Cuál es la mejor época para ver fauna en la Patagonia?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "No hay una sola: cada especie tiene su ventana. Entre septiembre y diciembre coinciden la ballena franca austral, el pingüino de Magallanes, el elefante marino y los nacimientos de guanaco, y es el período con más especies activas a la vez. En verano aparecen la ballena sei, los delfines y los pingüinos de penacho amarillo y papúa. En otoño e invierno se suman las orcas de Punta Norte, la brama del ciervo colorado, los cauquenes en La Pampa y la mejor época para intentar el puma."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "¿Qué fauna se puede ver en invierno en la Patagonia?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Bastante más de lo que se cree. En invierno hay ballena franca austral en Península Valdés y El Doradillo, lobos marinos, tonina overa, guanaco, choique, cóndor andino, huemul, zorros, albatros y petreles, y es el mejor momento del año para el puma en la meseta y para los cauquenes en La Pampa y Río Negro."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "¿Cuándo se ven ballenas en Puerto Madryn y Península Valdés?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "La ballena franca austral se ve de junio a diciembre, con el pico entre septiembre y octubre. En El Doradillo se avistan desde la playa, sin embarcación, porque el agua profunda llega casi hasta la orilla. La ballena sei es distinta: se concentra en verano, de enero a marzo."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "¿Cuándo hay pingüinos en Punta Tombo?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "El pingüino de Magallanes está en Punta Tombo de septiembre a abril. Llegan en septiembre, ponen los huevos en octubre y los pichones nacen en noviembre. El mejor momento para verlos con actividad es de noviembre a enero. En febrero mudan las plumas y se quedan quietos en tierra."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "¿Cuándo se pueden ver orcas en Punta Norte?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Las orcas están en Península Valdés de enero a abril y de septiembre a diciembre. El varamiento intencional para cazar lobitos, que es lo que hace único a Punta Norte, se da sobre todo en marzo y abril, y depende de la marea: hay que ir con la tabla en la mano, no a cualquier hora."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "¿Qué provincias abarca el calendario?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Las seis de la región: Chubut, La Pampa, Neuquén, Río Negro, Santa Cruz y Tierra del Fuego. Los meses de presencia en Chubut siguen el Calendario de Fauna del Ministerio de Turismo y Áreas Protegidas del Chubut; el resto de la región y la marca de temporada pico son un agregado de Patagonia Experiencias."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "¿Dónde se ve el loro barranquero?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "La colonia del Balneario El Cóndor, en Río Negro, es la más grande del mundo: decenas de miles de nidos excavados en un acantilado de varios kilómetros. Se ve de septiembre a marzo, con el pico entre noviembre y enero. Al atardecer vuelven todos juntos y el ruido tapa al del mar."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "¿Cuándo es la brama del ciervo colorado?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "En marzo y abril. Los machos braman para marcar territorio y se escucha a kilómetros. Parque Luro, en La Pampa, es el lugar clásico del país para escucharla: se hace al atardecer y de noche, con guía. Es una especie introducida."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "¿Estas fechas garantizan el avistaje?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "No. La fauna se mueve por clima, mareas y disponibilidad de alimento, así que las fechas son orientativas y ninguna excursión puede garantizar un avistaje. Conviene confirmar siempre con el prestador habilitado antes de viajar."
+     }
+    }
+   ]
+  },
+  {
+   "@type": "ItemList",
+   "name": "Fauna de la Patagonia por temporada",
+   "numberOfItems": 33,
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "Ballena franca austral",
+     "url": "https://patagoniaexperiencias.com/calendario-fauna.html#ficha-ballena-franca",
+     "item": {
+      "@type": "Taxon",
+      "name": "Ballena franca austral",
+      "alternateName": "Eubalaena australis",
+      "taxonRank": "species",
+      "description": "Se ve de junio a diciembre. Mejor momento: Septiembre y octubre. Dónde: Península Valdés, Puerto Pirámides, El Doradillo, Golfo San José."
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "Pingüino de Magallanes",
+     "url": "https://patagoniaexperiencias.com/calendario-fauna.html#ficha-pinguino-magallanes",
+     "item": {
+      "@type": "Taxon",
+      "name": "Pingüino de Magallanes",
+      "alternateName": "Spheniscus magellanicus",
+      "taxonRank": "species",
+      "description": "Se ve de septiembre a abril. Mejor momento: Noviembre a enero. Dónde: Punta Tombo, Cabo Dos Bahías, Isla Escondida, Estancia San Lorenzo, Cabo Vírgenes, Monte León, Isla Martillo."
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 3,
+     "name": "Orca",
+     "url": "https://patagoniaexperiencias.com/calendario-fauna.html#ficha-orca",
+     "item": {
+      "@type": "Taxon",
+      "name": "Orca",
+      "alternateName": "Orcinus orca",
+      "taxonRank": "species",
+      "description": "Se ve de septiembre a abril. Mejor momento: Marzo y abril. Dónde: Punta Norte y Caleta Valdés, Península Valdés."
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 4,
+     "name": "Lobo marino de un pelo",
+     "url": "https://patagoniaexperiencias.com/calendario-fauna.html#ficha-lobo-marino",
+     "item": {
+      "@type": "Taxon",
+      "name": "Lobo marino de un pelo",
+      "alternateName": "Otaria flavescens",
+      "taxonRank": "species",
+      "description": "Se ve todo el año. Mejor momento: Diciembre a febrero. Dónde: Punta Loma, Punta Pirámide, Punta León, Punta Bermeja, Isla de los Pájaros."
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 5,
+     "name": "Elefante marino del sur",
+     "url": "https://patagoniaexperiencias.com/calendario-fauna.html#ficha-elefante-marino",
+     "item": {
+      "@type": "Taxon",
+      "name": "Elefante marino del sur",
+      "alternateName": "Mirounga leonina",
+      "taxonRank": "species",
+      "description": "Se ve de agosto a marzo. Mejor momento: Septiembre a noviembre. Dónde: Punta Delgada, Caleta Valdés, Península Valdés."
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 6,
+     "name": "Tonina overa",
+     "url": "https://patagoniaexperiencias.com/calendario-fauna.html#ficha-tonina-overa",
+     "item": {
+      "@type": "Taxon",
+      "name": "Tonina overa",
+      "alternateName": "Cephalorhynchus commersonii",
+      "taxonRank": "species",
+      "description": "Se ve todo el año. Mejor momento: Diciembre a marzo. Dónde: Playa Unión y Rawson, Camarones, Puerto Deseado, Bahía San Antonio."
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 7,
+     "name": "Delfín oscuro",
+     "url": "https://patagoniaexperiencias.com/calendario-fauna.html#ficha-delfin-oscuro",
+     "item": {
+      "@type": "Taxon",
+      "name": "Delfín oscuro",
+      "alternateName": "Lagenorhynchus obscurus",
+      "taxonRank": "species",
+      "description": "Se ve de diciembre a abril. Mejor momento: Diciembre a marzo. Dónde: Golfo Nuevo, Golfo San José, Punta Loma."
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 8,
+     "name": "Guanaco",
+     "url": "https://patagoniaexperiencias.com/calendario-fauna.html#ficha-guanaco",
+     "item": {
+      "@type": "Taxon",
+      "name": "Guanaco",
+      "alternateName": "Lama guanicoe",
+      "taxonRank": "species",
+      "description": "Se ve todo el año. Mejor momento: Noviembre a enero, cuando nacen los chulengos. Dónde: Toda la estepa, Península Valdés, Cabo Dos Bahías, Lihué Calel, Parque Patagonia."
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 9,
+     "name": "Choique o ñandú petiso",
+     "url": "https://patagoniaexperiencias.com/calendario-fauna.html#ficha-choique",
+     "item": {
+      "@type": "Taxon",
+      "name": "Choique o ñandú petiso",
+      "alternateName": "Rhea pennata",
+      "taxonRank": "species",
+      "description": "Se ve todo el año. Mejor momento: Noviembre a enero. Dónde: Estepa patagónica, Península Valdés, Punta Tombo, Lihué Calel, rutas de meseta."
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 10,
+     "name": "Cóndor andino",
+     "url": "https://patagoniaexperiencias.com/calendario-fauna.html#ficha-condor",
+     "item": {
+      "@type": "Taxon",
+      "name": "Cóndor andino",
+      "alternateName": "Vultur gryphus",
+      "taxonRank": "species",
+      "description": "Se ve todo el año. Mejor momento: Primavera y verano, a media mañana. Dónde: Cañadones y cornisas de cordillera, Piedra Parada, Esquel, Parque Patagonia."
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 11,
+     "name": "Ballena sei",
+     "url": "https://patagoniaexperiencias.com/calendario-fauna.html#ficha-ballena-sei",
+     "item": {
+      "@type": "Taxon",
+      "name": "Ballena sei",
+      "alternateName": "Balaenoptera borealis",
+      "taxonRank": "species",
+      "description": "Se ve de diciembre a abril. Mejor momento: Enero a marzo. Dónde: Península Valdés, Camarones, Golfo San Jorge."
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 12,
+     "name": "Huemul",
+     "url": "https://patagoniaexperiencias.com/calendario-fauna.html#ficha-huemul",
+     "item": {
+      "@type": "Taxon",
+      "name": "Huemul",
+      "alternateName": "Hippocamelus bisulcus",
+      "taxonRank": "species",
+      "description": "Se ve todo el año. Mejor momento: Todo el año, con mucha suerte. Dónde: Los Alerces, Nahuel Huapi, Parque Patagonia, Los Glaciares."
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 13,
+     "name": "Loro barranquero",
+     "url": "https://patagoniaexperiencias.com/calendario-fauna.html#ficha-loro-barranquero",
+     "item": {
+      "@type": "Taxon",
+      "name": "Loro barranquero",
+      "alternateName": "Cyanoliseus patagonus",
+      "taxonRank": "species",
+      "description": "Se ve de septiembre a marzo. Mejor momento: Noviembre a enero. Dónde: Balneario El Cóndor (Río Negro), barrancas del río Colorado, Lihué Calel, acantilados de meseta."
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 14,
+     "name": "Vizcacha",
+     "url": "https://patagoniaexperiencias.com/calendario-fauna.html#ficha-vizcacha",
+     "item": {
+      "@type": "Taxon",
+      "name": "Vizcacha",
+      "alternateName": "Lagostomus maximus",
+      "taxonRank": "species",
+      "description": "Se ve todo el año. Mejor momento: Todo el año, al atardecer y de noche. Dónde: Caldenal pampeano, Lihué Calel, Parque Luro, campos del norte patagónico."
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 15,
+     "name": "Cauquenes",
+     "url": "https://patagoniaexperiencias.com/calendario-fauna.html#ficha-cauquenes",
+     "item": {
+      "@type": "Taxon",
+      "name": "Cauquenes",
+      "alternateName": "Chloephaga picta y otras",
+      "taxonRank": "species",
+      "description": "Se ve todo el año. Mejor momento: Otoño e invierno en La Pampa, primavera en el sur. Dónde: Lagunas y campos de La Pampa y Río Negro en invierno, estepa de Santa Cruz y Tierra del Fuego en verano."
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 16,
+     "name": "Ballena jorobada",
+     "url": "https://patagoniaexperiencias.com/calendario-fauna.html#ficha-ballena-jorobada",
+     "item": {
+      "@type": "Taxon",
+      "name": "Ballena jorobada",
+      "alternateName": "Megaptera novaeangliae",
+      "taxonRank": "species",
+      "description": "Se ve de marzo a agosto. Mejor momento: Otoño. Dónde: Golfo Nuevo, plataforma patagónica."
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 17,
+     "name": "Delfín austral",
+     "url": "https://patagoniaexperiencias.com/calendario-fauna.html#ficha-delfin-austral",
+     "item": {
+      "@type": "Taxon",
+      "name": "Delfín austral",
+      "alternateName": "Lagenorhynchus australis",
+      "taxonRank": "species",
+      "description": "Se ve todo el año. Mejor momento: Verano. Dónde: Ría Deseado, canales fueguinos, Canal Beagle."
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 18,
+     "name": "Pingüino de penacho amarillo",
+     "url": "https://patagoniaexperiencias.com/calendario-fauna.html#ficha-pinguino-penacho",
+     "item": {
+      "@type": "Taxon",
+      "name": "Pingüino de penacho amarillo",
+      "alternateName": "Eudyptes chrysocome",
+      "taxonRank": "species",
+      "description": "Se ve de octubre a abril. Mejor momento: Noviembre a febrero. Dónde: Isla Pingüino, Puerto Deseado."
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 19,
+     "name": "Pingüino papúa",
+     "url": "https://patagoniaexperiencias.com/calendario-fauna.html#ficha-pinguino-papua",
+     "item": {
+      "@type": "Taxon",
+      "name": "Pingüino papúa",
+      "alternateName": "Pygoscelis papua",
+      "taxonRank": "species",
+      "description": "Se ve de octubre a abril. Mejor momento: Noviembre a febrero. Dónde: Isla Martillo, Canal Beagle."
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 20,
+     "name": "Cormorán imperial",
+     "url": "https://patagoniaexperiencias.com/calendario-fauna.html#ficha-cormoran-imperial",
+     "item": {
+      "@type": "Taxon",
+      "name": "Cormorán imperial",
+      "alternateName": "Leucocarbo atriceps",
+      "taxonRank": "species",
+      "description": "Se ve todo el año. Mejor momento: Octubre a enero. Dónde: Punta Loma, Punta Tombo, Isla de los Pájaros, Ría Deseado, Canal Beagle."
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 21,
+     "name": "Albatros y petreles",
+     "url": "https://patagoniaexperiencias.com/calendario-fauna.html#ficha-albatros",
+     "item": {
+      "@type": "Taxon",
+      "name": "Albatros y petreles",
+      "alternateName": "Thalassarche melanophris y otros",
+      "taxonRank": "species",
+      "description": "Se ve todo el año. Mejor momento: Otoño e invierno. Dónde: Canal Beagle, mar abierto frente a Madryn y Puerto Deseado."
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 22,
+     "name": "Aves playeras migratorias",
+     "url": "https://patagoniaexperiencias.com/calendario-fauna.html#ficha-aves-playeras",
+     "item": {
+      "@type": "Taxon",
+      "name": "Aves playeras migratorias",
+      "alternateName": "Calidris canutus rufa y otras",
+      "taxonRank": "species",
+      "description": "Se ve de septiembre a abril. Mejor momento: Octubre y noviembre, febrero y marzo. Dónde: San Antonio Oeste, Península Valdés, Río Gallegos, Playa Unión."
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 23,
+     "name": "Flamenco austral",
+     "url": "https://patagoniaexperiencias.com/calendario-fauna.html#ficha-flamenco",
+     "item": {
+      "@type": "Taxon",
+      "name": "Flamenco austral",
+      "alternateName": "Phoenicopterus chilensis",
+      "taxonRank": "species",
+      "description": "Se ve todo el año. Mejor momento: Primavera y verano. Dónde: Laguna Cacique Chiquichano, salitrales y lagunas de La Pampa, lagunas de meseta, bahías costeras."
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 24,
+     "name": "Macá tobiano",
+     "url": "https://patagoniaexperiencias.com/calendario-fauna.html#ficha-maca-tobiano",
+     "item": {
+      "@type": "Taxon",
+      "name": "Macá tobiano",
+      "alternateName": "Podiceps gallardoi",
+      "taxonRank": "species",
+      "description": "Se ve de octubre a marzo. Mejor momento: Noviembre a febrero. Dónde: Mesetas de Santa Cruz, Parque Patagonia, estuario del río Santa Cruz en invierno."
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 25,
+     "name": "Mara patagónica",
+     "url": "https://patagoniaexperiencias.com/calendario-fauna.html#ficha-mara",
+     "item": {
+      "@type": "Taxon",
+      "name": "Mara patagónica",
+      "alternateName": "Dolichotis patagonum",
+      "taxonRank": "species",
+      "description": "Se ve todo el año. Mejor momento: Todo el año, temprano o al atardecer. Dónde: Península Valdés, meseta chubutense, Punta Tombo, Lihué Calel."
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 26,
+     "name": "Zorro colorado y zorro gris",
+     "url": "https://patagoniaexperiencias.com/calendario-fauna.html#ficha-zorro",
+     "item": {
+      "@type": "Taxon",
+      "name": "Zorro colorado y zorro gris",
+      "alternateName": "Lycalopex culpaeus / L. griseus",
+      "taxonRank": "species",
+      "description": "Se ve todo el año. Mejor momento: Todo el año, al amanecer y al atardecer. Dónde: Toda la Patagonia, del caldenal pampeano a la cordillera y la costa."
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 27,
+     "name": "Puma",
+     "url": "https://patagoniaexperiencias.com/calendario-fauna.html#ficha-puma",
+     "item": {
+      "@type": "Taxon",
+      "name": "Puma",
+      "alternateName": "Puma concolor",
+      "taxonRank": "species",
+      "description": "Se ve todo el año. Mejor momento: Abril a octubre. Dónde: Parque Patagonia, Cañadón Pinturas, Lihué Calel, estancias de meseta."
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 28,
+     "name": "Piche patagónico",
+     "url": "https://patagoniaexperiencias.com/calendario-fauna.html#ficha-piche",
+     "item": {
+      "@type": "Taxon",
+      "name": "Piche patagónico",
+      "alternateName": "Zaedyus pichiy",
+      "taxonRank": "species",
+      "description": "Se ve de septiembre a abril. Mejor momento: Primavera y verano. Dónde: Estepa, caldenal y matorral, banquinas de rutas de meseta."
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 29,
+     "name": "Pudú",
+     "url": "https://patagoniaexperiencias.com/calendario-fauna.html#ficha-pudu",
+     "item": {
+      "@type": "Taxon",
+      "name": "Pudú",
+      "alternateName": "Pudu puda",
+      "taxonRank": "species",
+      "description": "Se ve todo el año. Mejor momento: Todo el año, muy esquivo. Dónde: Bosque húmedo de Nahuel Huapi, Lanín y Los Alerces."
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 30,
+     "name": "Huillín",
+     "url": "https://patagoniaexperiencias.com/calendario-fauna.html#ficha-huillin",
+     "item": {
+      "@type": "Taxon",
+      "name": "Huillín",
+      "alternateName": "Lontra provocax",
+      "taxonRank": "species",
+      "description": "Se ve todo el año. Mejor momento: Todo el año, temprano a la mañana. Dónde: Lagos andinos, Nahuel Huapi, Canal Beagle."
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 31,
+     "name": "Carpintero magallánico",
+     "url": "https://patagoniaexperiencias.com/calendario-fauna.html#ficha-carpintero",
+     "item": {
+      "@type": "Taxon",
+      "name": "Carpintero magallánico",
+      "alternateName": "Campephilus magellanicus",
+      "taxonRank": "species",
+      "description": "Se ve todo el año. Mejor momento: Primavera. Dónde: Bosques de lenga y coihue, Los Alerces, Tierra del Fuego."
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 32,
+     "name": "Ciervo colorado en brama",
+     "url": "https://patagoniaexperiencias.com/calendario-fauna.html#ficha-ciervo-colorado",
+     "item": {
+      "@type": "Taxon",
+      "name": "Ciervo colorado en brama",
+      "alternateName": "Cervus elaphus",
+      "taxonRank": "species",
+      "description": "Se ve de marzo a mayo. Mejor momento: Marzo y abril. Dónde: Reserva Provincial Parque Luro (La Pampa), parques y estancias de la cordillera neuquina y rionegrina."
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 33,
+     "name": "Castor",
+     "url": "https://patagoniaexperiencias.com/calendario-fauna.html#ficha-castor",
+     "item": {
+      "@type": "Taxon",
+      "name": "Castor",
+      "alternateName": "Castor canadensis",
+      "taxonRank": "species",
+      "description": "Se ve todo el año. Mejor momento: Verano, al atardecer. Dónde: Ríos y turbales de Tierra del Fuego."
+     }
+    }
+   ]
+  }
+ ]
+}
+</script>
+</head>
+
+<body class="antialiased">
+
+<!-- ======================= HEADER ======================= -->
+<header id="cab" class="sticky top-0 z-40 bg-brand-night text-white">
+  <div class="max-w-5xl mx-auto px-4 h-[58px] flex items-center justify-between gap-3">
+    <a href="#" id="logoLink" class="flex items-center gap-2.5 min-w-0 group">
+      <img id="logoImg" src="" alt="Patagonia Experiencias" class="h-9 w-auto hidden">
+      <span id="logoTxt" class="flex items-center gap-2.5">
+        <span class="w-9 h-9 shrink-0 bg-brand-fuchsia rounded-xl flex items-center justify-center text-white shadow-lg shadow-brand-fuchsia/20 group-hover:scale-105 transition-transform">
+          <i class="fa-solid fa-map-location-dot text-[15px]"></i>
+        </span>
+        <span class="leading-none">
+          <span class="ft font-bold text-[16px] block leading-none">Patagonia<span class="text-brand-fuchsia">Experiencias</span></span>
+          <span class="ftt text-[8px] font-bold text-white/60 block mt-1">PLATAFORMA DE RESERVAS</span>
+        </span>
+      </span>
+    </a>
+    <a id="btnBenef" href="#" class="chip ftt text-[9px] font-semibold text-slate-200 hover:text-white border border-white/15 hover:border-white/40 px-3 py-1.5 rounded-full transition-colors">
+      SUMÁ PUNTOS
+    </a>
+  </div>
+  <div class="border-t border-white/[.08]">
+    <div class="max-w-5xl mx-auto flex items-center gap-2 px-4 py-2">
+      <button id="btnHoy" class="chip shrink-0 ftt text-[9px] font-semibold bg-brand-fuchsia px-2.5 py-1.5 rounded-full">AHORA</button>
+      <div id="meses" class="flex gap-1 overflow-x-auto no-scrollbar py-0.5"></div>
+    </div>
+  </div>
+</header>
+
+<!-- ======================= HERO ======================= -->
+<section class="bg-brand-night text-white">
+  <div class="max-w-5xl mx-auto px-4 pt-6 pb-7">
+    <p class="ftt text-[9px] font-semibold text-slate-500 mb-3">GUÍA DE TEMPORADA</p>
+    <h1 id="h1" class="ft font-black text-[30px] sm:text-[44px] leading-[1.02] mb-3 max-w-lg"></h1>
+    <p id="bajada" class="text-slate-400 text-[13.5px] sm:text-[15px] leading-relaxed max-w-md"></p>
+    <div class="mt-7 pt-5 border-t border-white/[.08] flex items-end justify-between gap-6">
+      <div class="min-w-0">
+        <p class="ftt text-[8px] font-semibold text-slate-500 mb-1.5">ESTÁS VIENDO</p>
+        <p id="mesGrande" class="ft font-black text-[27px] leading-none"></p>
+      </div>
+      <div class="text-right shrink-0">
+        <p id="cuenta" class="ft font-black text-[27px] leading-none text-brand-fuchsia"></p>
+        <p id="cuentaLbl" class="ftt text-[8px] font-semibold text-slate-500 mt-1.5">ESPECIES</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= DESTACADOS ======================= -->
+<section id="secDest" class="bg-brand-night pb-8">
+  <div class="max-w-5xl mx-auto">
+    <div class="px-4 flex items-baseline justify-between mb-3.5">
+      <h2 class="ft font-bold text-white text-[14px]">Los más buscados</h2>
+      <span class="ftt text-[9px] font-semibold text-slate-500">POR LOS QUE SE VIAJA</span>
+    </div>
+    <div id="destacados" class="flex gap-2.5 overflow-x-auto no-scrollbar px-4 pb-1"></div>
+  </div>
+</section>
+
+<!-- ======================= FILTROS ======================= -->
+<div id="barraFiltros" class="sticky top-[100px] z-30 bg-brand-bg/92 backdrop-blur-md border-b border-brand-line">
+  <div class="max-w-5xl mx-auto px-4 py-2.5">
+    <div class="flex gap-2 items-center">
+      <div class="relative flex-1">
+        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-[11px]"></i>
+        <input id="buscar" type="search" placeholder="¿Qué animal querés ver?"
+          class="w-full pl-9 pr-3 py-2.5 text-[13px] rounded-xl border border-brand-line bg-white focus:border-slate-400 outline-none placeholder:text-slate-400">
+      </div>
+      <button id="btnFiltros" class="shrink-0 px-3.5 py-2.5 rounded-xl border border-brand-line bg-white text-[11px] font-semibold text-slate-600">
+        Filtros<span id="nFiltros" class="ml-1 text-brand-fuchsia"></span>
+      </button>
+      <button id="btnVista" class="shrink-0 px-3.5 py-2.5 rounded-xl border border-brand-line bg-white text-[11px] font-semibold text-slate-600">
+        <span id="btnVistaTxt">Año</span>
+      </button>
+    </div>
+    <div id="panelFiltros" class="hidden pt-3.5 space-y-3.5">
+      <div><span class="lblf">PROVINCIA</span><div class="flex gap-1.5 overflow-x-auto no-scrollbar" id="fProv"></div></div>
+      <div><span class="lblf">SALIDAS DESDE</span><div class="flex gap-1.5 overflow-x-auto no-scrollbar" id="fSal"></div></div>
+      <div><span class="lblf">AMBIENTE</span><div class="flex gap-1.5 overflow-x-auto no-scrollbar pb-0.5" id="fAmb"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= LISTA ======================= -->
+<main class="max-w-5xl mx-auto px-4 py-6 pb-28">
+  <div id="bloqueMes">
+    <h2 id="tituloEnTemp" class="ftt text-[9px] font-semibold text-slate-500 mb-3"></h2>
+    <div id="lista" class="space-y-2.5"></div>
+    <div id="fueraWrap" class="mt-8">
+      <button id="btnFuera" class="w-full flex items-center justify-between text-left px-4 py-3.5 bg-white border border-brand-line rounded-2xl">
+        <span class="text-[13px] font-semibold text-slate-500" id="fueraCount"></span>
+        <i id="fueraIco" class="fa-solid fa-chevron-down text-slate-400 text-[10px]"></i>
+      </button>
+      <div id="fuera" class="hidden space-y-2.5 mt-2.5"></div>
+    </div>
+  </div>
+
+  <div id="vacio" class="hidden text-center py-20">
+    <i class="fa-regular fa-compass text-slate-300 text-3xl mb-4"></i>
+    <p class="ft font-bold text-slate-700 mb-1">No hay fauna con esos filtros</p>
+    <p class="text-[13px] text-slate-500 mb-5">Probá sacando alguno.</p>
+    <button onclick="limpiarFiltros()" class="text-[12px] font-semibold text-brand-fuchsia">Limpiar filtros</button>
+  </div>
+
+  <div id="anual" class="hidden tarjeta overflow-hidden"></div>
+
+  <p class="mt-10 text-center">
+    <a href="#fichas" class="inline-block ftt text-[9px] font-semibold text-slate-500 hover:text-brand-night border border-brand-line bg-white px-5 py-3 rounded-full transition-colors">
+      VER LAS FICHAS COMPLETAS
+    </a>
+  </p>
+</main>
+
+<!-- ======================= CIERRE ======================= -->
+
+<!-- =====================================================================
+     CONTENIDO INDEXABLE — NO BORRAR
+     Todo lo de arriba lo dibuja JavaScript y los buscadores no lo leen bien.
+     Esta sección es HTML real: es la que posiciona.
+     Si editás el calendario, regenerala con "Copiar HTML SEO" en modo edición.
+     ===================================================================== -->
+<section id="fichas" class="bg-white border-t border-brand-line">
+  <div class="max-w-5xl mx-auto px-4 py-14">
+    <h2 class="ft font-black text-[24px] leading-tight text-brand-night mb-2">Las 33 especies, una por una</h2>
+    <p class="text-[13.5px] text-slate-500 leading-relaxed mb-9 max-w-xl">Cuándo se ve cada una, en qué lugar de la Patagonia y con qué excursión ir a buscarla.</p>
+    <div class="space-y-7">
+        <article id="ficha-ballena-franca" class="pb-7 border-b border-slate-100 last:border-0">
+          <h3 class="ft font-bold text-[17px] leading-tight text-brand-night">Ballena franca austral</h3>
+          <p class="text-[12px] italic text-slate-400 mb-3">Eubalaena australis</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Cuándo se ve:</strong> de junio a diciembre. Mejor momento: Septiembre y octubre.</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Dónde:</strong> Península Valdés, Puerto Pirámides, El Doradillo, Golfo San José. <span class="text-slate-500">Chubut · Mar y costa</span></p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5">En El Doradillo se ven desde la playa, sin barco: el agua profunda llega casi hasta la orilla.</p>
+          <p class="text-[13px] leading-relaxed"><strong class="font-semibold">Excursiones:</strong> <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/el-doradillo-avistaje-costero-ballena-franca-austral" class="text-brand-fuchsia hover:underline font-medium">El Doradillo · Avistaje costero de ballena franca</a> <span class="text-slate-400">(Forastero tour)</span> · <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/solo-ballenas-tour-y-traslados-a-peninsula-valdes" class="text-brand-fuchsia hover:underline font-medium">Solo Ballenas · Tour y traslados a Península Valdés</a> <span class="text-slate-400">(Forastero tour)</span> · <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/doradillo" class="text-brand-fuchsia hover:underline font-medium">Doradillo</a> <span class="text-slate-400">(Sussanich Turismo)</span> · <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/peninsula-valdes" class="text-brand-fuchsia hover:underline font-medium">Península Valdés</a> <span class="text-slate-400">(Sussanich Turismo)</span></p>
+        </article>
+        <article id="ficha-pinguino-magallanes" class="pb-7 border-b border-slate-100 last:border-0">
+          <h3 class="ft font-bold text-[17px] leading-tight text-brand-night">Pingüino de Magallanes</h3>
+          <p class="text-[12px] italic text-slate-400 mb-3">Spheniscus magellanicus</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Cuándo se ve:</strong> de septiembre a abril. Mejor momento: Noviembre a enero.</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Dónde:</strong> Punta Tombo, Cabo Dos Bahías, Isla Escondida, Estancia San Lorenzo, Cabo Vírgenes, Monte León, Isla Martillo. <span class="text-slate-500">Chubut, Santa Cruz, Tierra del Fuego · Mar y costa</span></p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5">Llegan en septiembre, ponen los huevos en octubre y los pichones nacen en noviembre. En febrero mudan las plumas y se quedan quietos en tierra.</p>
+          <p class="text-[13px] leading-relaxed"><strong class="font-semibold">Excursiones:</strong> <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/pinguinera-punta-tombo" class="text-brand-fuchsia hover:underline font-medium">Pingüinera Punta Tombo</a> <span class="text-slate-400">(Forastero tour)</span> · <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/punta-tombo" class="text-brand-fuchsia hover:underline font-medium">Punta Tombo</a> <span class="text-slate-400">(Sussanich Turismo)</span></p>
+        </article>
+        <article id="ficha-orca" class="pb-7 border-b border-slate-100 last:border-0">
+          <h3 class="ft font-bold text-[17px] leading-tight text-brand-night">Orca</h3>
+          <p class="text-[12px] italic text-slate-400 mb-3">Orcinus orca</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Cuándo se ve:</strong> de septiembre a abril. Mejor momento: Marzo y abril.</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Dónde:</strong> Punta Norte y Caleta Valdés, Península Valdés. <span class="text-slate-500">Chubut · Mar y costa</span></p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5">Punta Norte es uno de los dos lugares del mundo donde las orcas se varan a propósito para cazar lobitos. Depende de la marea: hay que ir con horario de tabla, no a cualquier hora.</p>
+          <p class="text-[13px] leading-relaxed"><strong class="font-semibold">Excursiones:</strong> <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/peninsula-valdes" class="text-brand-fuchsia hover:underline font-medium">Península Valdés</a> <span class="text-slate-400">(Sussanich Turismo)</span></p>
+        </article>
+        <article id="ficha-lobo-marino" class="pb-7 border-b border-slate-100 last:border-0">
+          <h3 class="ft font-bold text-[17px] leading-tight text-brand-night">Lobo marino de un pelo</h3>
+          <p class="text-[12px] italic text-slate-400 mb-3">Otaria flavescens</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Cuándo se ve:</strong> todo el año. Mejor momento: Diciembre a febrero.</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Dónde:</strong> Punta Loma, Punta Pirámide, Punta León, Punta Bermeja, Isla de los Pájaros. <span class="text-slate-500">Chubut, Río Negro, Santa Cruz · Mar y costa</span></p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5">Están todo el año, pero en diciembre y enero nacen las crías y la lobería se llena de sonido.</p>
+          <p class="text-[13px] leading-relaxed"><strong class="font-semibold">Excursiones:</strong> <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/punta-loma-con-city-tour" class="text-brand-fuchsia hover:underline font-medium">Punta Loma con City Tour</a> <span class="text-slate-400">(Sussanich Turismo)</span> · <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/peninsula-valdes" class="text-brand-fuchsia hover:underline font-medium">Península Valdés</a> <span class="text-slate-400">(Sussanich Turismo)</span></p>
+        </article>
+        <article id="ficha-elefante-marino" class="pb-7 border-b border-slate-100 last:border-0">
+          <h3 class="ft font-bold text-[17px] leading-tight text-brand-night">Elefante marino del sur</h3>
+          <p class="text-[12px] italic text-slate-400 mb-3">Mirounga leonina</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Cuándo se ve:</strong> de agosto a marzo. Mejor momento: Septiembre a noviembre.</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Dónde:</strong> Punta Delgada, Caleta Valdés, Península Valdés. <span class="text-slate-500">Chubut · Mar y costa</span></p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5">La única colonia continental del mundo está en Península Valdés. Un macho adulto pesa lo mismo que una camioneta.</p>
+          <p class="text-[13px] leading-relaxed"><strong class="font-semibold">Excursiones:</strong> <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/peninsula-valdes" class="text-brand-fuchsia hover:underline font-medium">Península Valdés</a> <span class="text-slate-400">(Sussanich Turismo)</span></p>
+        </article>
+        <article id="ficha-tonina-overa" class="pb-7 border-b border-slate-100 last:border-0">
+          <h3 class="ft font-bold text-[17px] leading-tight text-brand-night">Tonina overa</h3>
+          <p class="text-[12px] italic text-slate-400 mb-3">Cephalorhynchus commersonii</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Cuándo se ve:</strong> todo el año. Mejor momento: Diciembre a marzo.</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Dónde:</strong> Playa Unión y Rawson, Camarones, Puerto Deseado, Bahía San Antonio. <span class="text-slate-500">Chubut, Santa Cruz, Río Negro · Mar y costa</span></p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5">Blanca y negra, del tamaño de un chico. Sale a las 8 de la mañana desde Rawson porque el mar está más quieto y se ve mejor.</p>
+          <p class="text-[13px] leading-relaxed"><strong class="font-semibold">Excursiones:</strong> <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/valle-inferior" class="text-brand-fuchsia hover:underline font-medium">Valle inferior</a> <span class="text-slate-400">(Sussanich Turismo)</span></p>
+        </article>
+        <article id="ficha-delfin-oscuro" class="pb-7 border-b border-slate-100 last:border-0">
+          <h3 class="ft font-bold text-[17px] leading-tight text-brand-night">Delfín oscuro</h3>
+          <p class="text-[12px] italic text-slate-400 mb-3">Lagenorhynchus obscurus</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Cuándo se ve:</strong> de diciembre a abril. Mejor momento: Diciembre a marzo.</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Dónde:</strong> Golfo Nuevo, Golfo San José, Punta Loma. <span class="text-slate-500">Chubut · Mar y costa</span></p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5">Andan en grupos grandes y son los que más saltan y giran. Suelen acercarse solos a la embarcación.</p>
+          <p class="text-[13px] leading-relaxed"><strong class="font-semibold">Excursiones:</strong> <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/punta-loma-con-city-tour" class="text-brand-fuchsia hover:underline font-medium">Punta Loma con City Tour</a> <span class="text-slate-400">(Sussanich Turismo)</span> · <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/peninsula-valdes" class="text-brand-fuchsia hover:underline font-medium">Península Valdés</a> <span class="text-slate-400">(Sussanich Turismo)</span></p>
+        </article>
+        <article id="ficha-guanaco" class="pb-7 border-b border-slate-100 last:border-0">
+          <h3 class="ft font-bold text-[17px] leading-tight text-brand-night">Guanaco</h3>
+          <p class="text-[12px] italic text-slate-400 mb-3">Lama guanicoe</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Cuándo se ve:</strong> todo el año. Mejor momento: Noviembre a enero, cuando nacen los chulengos.</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Dónde:</strong> Toda la estepa, Península Valdés, Cabo Dos Bahías, Lihué Calel, Parque Patagonia. <span class="text-slate-500">Chubut, La Pampa, Neuquén, Río Negro, Santa Cruz, Tierra del Fuego · Estepa</span></p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5">El chulengo camina a los 15 minutos de nacer. Si ves uno solo parado en una loma mirando fijo, es el centinela del grupo.</p>
+          <p class="text-[13px] leading-relaxed"><strong class="font-semibold">Excursiones:</strong> <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/peninsula-valdes" class="text-brand-fuchsia hover:underline font-medium">Península Valdés</a> <span class="text-slate-400">(Sussanich Turismo)</span> · <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/punta-tombo" class="text-brand-fuchsia hover:underline font-medium">Punta Tombo</a> <span class="text-slate-400">(Sussanich Turismo)</span> · <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/piedra-parada" class="text-brand-fuchsia hover:underline font-medium">Piedra Parada</a> <span class="text-slate-400">(MerakiSur)</span></p>
+        </article>
+        <article id="ficha-choique" class="pb-7 border-b border-slate-100 last:border-0">
+          <h3 class="ft font-bold text-[17px] leading-tight text-brand-night">Choique o ñandú petiso</h3>
+          <p class="text-[12px] italic text-slate-400 mb-3">Rhea pennata</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Cuándo se ve:</strong> todo el año. Mejor momento: Noviembre a enero.</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Dónde:</strong> Estepa patagónica, Península Valdés, Punta Tombo, Lihué Calel, rutas de meseta. <span class="text-slate-500">Chubut, La Pampa, Neuquén, Río Negro, Santa Cruz, Tierra del Fuego · Estepa</span></p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5">El macho arma el nido, empolla los huevos de varias hembras y cría solo a los pichones. No hay que confundirlo con el ñandú del norte: el choique es más chico y es el de la Patagonia.</p>
+          <p class="text-[13px] leading-relaxed"><strong class="font-semibold">Excursiones:</strong> <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/peninsula-valdes" class="text-brand-fuchsia hover:underline font-medium">Península Valdés</a> <span class="text-slate-400">(Sussanich Turismo)</span> · <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/punta-tombo" class="text-brand-fuchsia hover:underline font-medium">Punta Tombo</a> <span class="text-slate-400">(Sussanich Turismo)</span></p>
+        </article>
+        <article id="ficha-condor" class="pb-7 border-b border-slate-100 last:border-0">
+          <h3 class="ft font-bold text-[17px] leading-tight text-brand-night">Cóndor andino</h3>
+          <p class="text-[12px] italic text-slate-400 mb-3">Vultur gryphus</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Cuándo se ve:</strong> todo el año. Mejor momento: Primavera y verano, a media mañana.</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Dónde:</strong> Cañadones y cornisas de cordillera, Piedra Parada, Esquel, Parque Patagonia. <span class="text-slate-500">Neuquén, Río Negro, Chubut, Santa Cruz · Bosque y montaña</span></p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5">Necesita corrientes de aire caliente para volar: por eso aparece cuando el sol ya calentó las paredes de roca, no al amanecer.</p>
+          <p class="text-[13px] leading-relaxed"><strong class="font-semibold">Excursiones:</strong> <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/piedra-parada" class="text-brand-fuchsia hover:underline font-medium">Piedra Parada</a> <span class="text-slate-400">(MerakiSur)</span> · <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/panoramicas-de-esquel" class="text-brand-fuchsia hover:underline font-medium">Panorámicas de Esquel</a> <span class="text-slate-400">(MerakiSur)</span></p>
+        </article>
+        <article id="ficha-ballena-sei" class="pb-7 border-b border-slate-100 last:border-0">
+          <h3 class="ft font-bold text-[17px] leading-tight text-brand-night">Ballena sei</h3>
+          <p class="text-[12px] italic text-slate-400 mb-3">Balaenoptera borealis</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Cuándo se ve:</strong> de diciembre a abril. Mejor momento: Enero a marzo.</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Dónde:</strong> Península Valdés, Camarones, Golfo San Jorge. <span class="text-slate-500">Chubut · Mar y costa</span></p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5">Es la segunda ballena más rápida del mar y hace unos años casi no se registraba acá. Hoy el norte de Chubut es uno de los pocos lugares del mundo donde se concentra en verano.</p>
+          <p class="text-[13px] leading-relaxed"><strong class="font-semibold">Excursiones:</strong> <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/peninsula-valdes" class="text-brand-fuchsia hover:underline font-medium">Península Valdés</a> <span class="text-slate-400">(Sussanich Turismo)</span></p>
+        </article>
+        <article id="ficha-huemul" class="pb-7 border-b border-slate-100 last:border-0">
+          <h3 class="ft font-bold text-[17px] leading-tight text-brand-night">Huemul</h3>
+          <p class="text-[12px] italic text-slate-400 mb-3">Hippocamelus bisulcus</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Cuándo se ve:</strong> todo el año. Mejor momento: Todo el año, con mucha suerte.</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Dónde:</strong> Los Alerces, Nahuel Huapi, Parque Patagonia, Los Glaciares. <span class="text-slate-500">Río Negro, Chubut, Santa Cruz, Neuquén · Bosque y montaña</span></p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5">Está en el escudo nacional y quedan menos de 2.000 en el mundo. Si lo ves, hay que reportarlo al guardaparque: sirve para el monitoreo.</p>
+          <p class="text-[13px] leading-relaxed"><strong class="font-semibold">Excursiones:</strong> <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/parque-nacional-los-alerces-full-day" class="text-brand-fuchsia hover:underline font-medium">Parque Nacional Los Alerces Full Day</a> <span class="text-slate-400">(MerakiSur)</span></p>
+        </article>
+        <article id="ficha-loro-barranquero" class="pb-7 border-b border-slate-100 last:border-0">
+          <h3 class="ft font-bold text-[17px] leading-tight text-brand-night">Loro barranquero</h3>
+          <p class="text-[12px] italic text-slate-400 mb-3">Cyanoliseus patagonus</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Cuándo se ve:</strong> de septiembre a marzo. Mejor momento: Noviembre a enero.</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Dónde:</strong> Balneario El Cóndor (Río Negro), barrancas del río Colorado, Lihué Calel, acantilados de meseta. <span class="text-slate-500">Río Negro, La Pampa, Neuquén, Chubut · Estepa</span></p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5">La colonia del Balneario El Cóndor es la más grande del mundo: decenas de miles de nidos excavados en un acantilado de varios kilómetros. Al atardecer vuelven todos juntos y el ruido tapa al del mar.</p>
+          <p class="text-[13px] text-slate-500">Todavía sin excursión en el catálogo. <a href="https://wa.me/5492804356028" class="text-brand-fuchsia hover:underline font-medium">Consultanos por WhatsApp</a>.</p>
+        </article>
+        <article id="ficha-vizcacha" class="pb-7 border-b border-slate-100 last:border-0">
+          <h3 class="ft font-bold text-[17px] leading-tight text-brand-night">Vizcacha</h3>
+          <p class="text-[12px] italic text-slate-400 mb-3">Lagostomus maximus</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Cuándo se ve:</strong> todo el año. Mejor momento: Todo el año, al atardecer y de noche.</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Dónde:</strong> Caldenal pampeano, Lihué Calel, Parque Luro, campos del norte patagónico. <span class="text-slate-500">La Pampa, Río Negro, Neuquén · Estepa</span></p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5">Vive en vizcacheras subterráneas comunales que pueden tener décadas de uso. Junta huesos, palos y cualquier cosa que brille y la amontona en la entrada.</p>
+          <p class="text-[13px] text-slate-500">Todavía sin excursión en el catálogo. <a href="https://wa.me/5492804356028" class="text-brand-fuchsia hover:underline font-medium">Consultanos por WhatsApp</a>.</p>
+        </article>
+        <article id="ficha-cauquenes" class="pb-7 border-b border-slate-100 last:border-0">
+          <h3 class="ft font-bold text-[17px] leading-tight text-brand-night">Cauquenes</h3>
+          <p class="text-[12px] italic text-slate-400 mb-3">Chloephaga picta y otras</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Cuándo se ve:</strong> todo el año. Mejor momento: Otoño e invierno en La Pampa, primavera en el sur.</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Dónde:</strong> Lagunas y campos de La Pampa y Río Negro en invierno, estepa de Santa Cruz y Tierra del Fuego en verano. <span class="text-slate-500">La Pampa, Río Negro, Santa Cruz, Tierra del Fuego, Chubut · Lagunas</span></p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5">Cría en el sur y sube a pasar el invierno al norte patagónico. El cauquén colorado está en peligro crítico: quedan unos pocos cientos y su caza está prohibida en todo el país.</p>
+          <p class="text-[13px] text-slate-500">Todavía sin excursión en el catálogo. <a href="https://wa.me/5492804356028" class="text-brand-fuchsia hover:underline font-medium">Consultanos por WhatsApp</a>.</p>
+        </article>
+        <article id="ficha-ballena-jorobada" class="pb-7 border-b border-slate-100 last:border-0">
+          <h3 class="ft font-bold text-[17px] leading-tight text-brand-night">Ballena jorobada</h3>
+          <p class="text-[12px] italic text-slate-400 mb-3">Megaptera novaeangliae</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Cuándo se ve:</strong> de marzo a agosto. Mejor momento: Otoño.</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Dónde:</strong> Golfo Nuevo, plataforma patagónica. <span class="text-slate-500">Chubut, Santa Cruz · Mar y costa · Avistajes esporádicos</span></p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5">No tiene temporada fija en la Patagonia: aparece de paso. Si la ves saltando entera fuera del agua, es ella.</p>
+          <p class="text-[13px] leading-relaxed"><strong class="font-semibold">Excursiones:</strong> <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/peninsula-valdes" class="text-brand-fuchsia hover:underline font-medium">Península Valdés</a> <span class="text-slate-400">(Sussanich Turismo)</span></p>
+        </article>
+        <article id="ficha-delfin-austral" class="pb-7 border-b border-slate-100 last:border-0">
+          <h3 class="ft font-bold text-[17px] leading-tight text-brand-night">Delfín austral</h3>
+          <p class="text-[12px] italic text-slate-400 mb-3">Lagenorhynchus australis</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Cuándo se ve:</strong> todo el año. Mejor momento: Verano.</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Dónde:</strong> Ría Deseado, canales fueguinos, Canal Beagle. <span class="text-slate-500">Santa Cruz, Tierra del Fuego · Mar y costa</span></p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5">Es de los delfines menos vistos del país: vive casi siempre en canales cerrados y aguas frías del sur.</p>
+          <p class="text-[13px] leading-relaxed"><strong class="font-semibold">Excursiones:</strong> <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/sabores-del-beagle" class="text-brand-fuchsia hover:underline font-medium">Sabores del Beagle</a> <span class="text-slate-400">(Noelia Ferrario)</span></p>
+        </article>
+        <article id="ficha-pinguino-penacho" class="pb-7 border-b border-slate-100 last:border-0">
+          <h3 class="ft font-bold text-[17px] leading-tight text-brand-night">Pingüino de penacho amarillo</h3>
+          <p class="text-[12px] italic text-slate-400 mb-3">Eudyptes chrysocome</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Cuándo se ve:</strong> de octubre a abril. Mejor momento: Noviembre a febrero.</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Dónde:</strong> Isla Pingüino, Puerto Deseado. <span class="text-slate-500">Santa Cruz · Mar y costa</span></p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5">Es la única colonia accesible del continente. Se llega solo por navegación y depende del viento.</p>
+          <p class="text-[13px] text-slate-500">Todavía sin excursión en el catálogo. <a href="https://wa.me/5492804356028" class="text-brand-fuchsia hover:underline font-medium">Consultanos por WhatsApp</a>.</p>
+        </article>
+        <article id="ficha-pinguino-papua" class="pb-7 border-b border-slate-100 last:border-0">
+          <h3 class="ft font-bold text-[17px] leading-tight text-brand-night">Pingüino papúa</h3>
+          <p class="text-[12px] italic text-slate-400 mb-3">Pygoscelis papua</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Cuándo se ve:</strong> de octubre a abril. Mejor momento: Noviembre a febrero.</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Dónde:</strong> Isla Martillo, Canal Beagle. <span class="text-slate-500">Tierra del Fuego · Mar y costa</span></p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5">Convive con el de Magallanes en la misma isla. Es el del pico naranja y la mancha blanca sobre el ojo.</p>
+          <p class="text-[13px] text-slate-500">Todavía sin excursión en el catálogo. <a href="https://wa.me/5492804356028" class="text-brand-fuchsia hover:underline font-medium">Consultanos por WhatsApp</a>.</p>
+        </article>
+        <article id="ficha-cormoran-imperial" class="pb-7 border-b border-slate-100 last:border-0">
+          <h3 class="ft font-bold text-[17px] leading-tight text-brand-night">Cormorán imperial</h3>
+          <p class="text-[12px] italic text-slate-400 mb-3">Leucocarbo atriceps</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Cuándo se ve:</strong> todo el año. Mejor momento: Octubre a enero.</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Dónde:</strong> Punta Loma, Punta Tombo, Isla de los Pájaros, Ría Deseado, Canal Beagle. <span class="text-slate-500">Chubut, Santa Cruz, Tierra del Fuego · Mar y costa</span></p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5">Bucea más de 50 metros para pescar. En primavera la cara se le pone naranja intenso: es época reproductiva.</p>
+          <p class="text-[13px] leading-relaxed"><strong class="font-semibold">Excursiones:</strong> <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/punta-loma-con-city-tour" class="text-brand-fuchsia hover:underline font-medium">Punta Loma con City Tour</a> <span class="text-slate-400">(Sussanich Turismo)</span> · <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/sabores-del-beagle" class="text-brand-fuchsia hover:underline font-medium">Sabores del Beagle</a> <span class="text-slate-400">(Noelia Ferrario)</span></p>
+        </article>
+        <article id="ficha-albatros" class="pb-7 border-b border-slate-100 last:border-0">
+          <h3 class="ft font-bold text-[17px] leading-tight text-brand-night">Albatros y petreles</h3>
+          <p class="text-[12px] italic text-slate-400 mb-3">Thalassarche melanophris y otros</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Cuándo se ve:</strong> todo el año. Mejor momento: Otoño e invierno.</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Dónde:</strong> Canal Beagle, mar abierto frente a Madryn y Puerto Deseado. <span class="text-slate-500">Chubut, Santa Cruz, Tierra del Fuego · Mar y costa</span></p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5">El albatros de ceja negra abre casi dos metros y medio de alas y puede pasar años sin tocar tierra.</p>
+          <p class="text-[13px] leading-relaxed"><strong class="font-semibold">Excursiones:</strong> <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/sabores-del-beagle" class="text-brand-fuchsia hover:underline font-medium">Sabores del Beagle</a> <span class="text-slate-400">(Noelia Ferrario)</span></p>
+        </article>
+        <article id="ficha-aves-playeras" class="pb-7 border-b border-slate-100 last:border-0">
+          <h3 class="ft font-bold text-[17px] leading-tight text-brand-night">Aves playeras migratorias</h3>
+          <p class="text-[12px] italic text-slate-400 mb-3">Calidris canutus rufa y otras</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Cuándo se ve:</strong> de septiembre a abril. Mejor momento: Octubre y noviembre, febrero y marzo.</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Dónde:</strong> San Antonio Oeste, Península Valdés, Río Gallegos, Playa Unión. <span class="text-slate-500">Chubut, Río Negro, Santa Cruz · Mar y costa</span></p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5">El playero rojizo hace 15.000 km desde el Ártico hasta acá. Se para a comer en la costa patagónica y sigue viaje.</p>
+          <p class="text-[13px] leading-relaxed"><strong class="font-semibold">Excursiones:</strong> <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/punta-loma-con-city-tour" class="text-brand-fuchsia hover:underline font-medium">Punta Loma con City Tour</a> <span class="text-slate-400">(Sussanich Turismo)</span> · <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/valle-inferior" class="text-brand-fuchsia hover:underline font-medium">Valle inferior</a> <span class="text-slate-400">(Sussanich Turismo)</span></p>
+        </article>
+        <article id="ficha-flamenco" class="pb-7 border-b border-slate-100 last:border-0">
+          <h3 class="ft font-bold text-[17px] leading-tight text-brand-night">Flamenco austral</h3>
+          <p class="text-[12px] italic text-slate-400 mb-3">Phoenicopterus chilensis</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Cuándo se ve:</strong> todo el año. Mejor momento: Primavera y verano.</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Dónde:</strong> Laguna Cacique Chiquichano, salitrales y lagunas de La Pampa, lagunas de meseta, bahías costeras. <span class="text-slate-500">Chubut, La Pampa, Neuquén, Río Negro, Santa Cruz · Lagunas</span></p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5">El rosa se lo dan los crustáceos que filtra del barro. Los juveniles son grises y tardan años en teñirse.</p>
+          <p class="text-[13px] leading-relaxed"><strong class="font-semibold">Excursiones:</strong> <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/tour-valle-inferior-rio-chubut" class="text-brand-fuchsia hover:underline font-medium">Tour Valle Inferior del Río Chubut</a> <span class="text-slate-400">(Forastero tour)</span> · <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/dique-florentino-ameghino-lugar-de-ensueno" class="text-brand-fuchsia hover:underline font-medium">Dique Florentino Ameghino</a> <span class="text-slate-400">(Forastero tour)</span></p>
+        </article>
+        <article id="ficha-maca-tobiano" class="pb-7 border-b border-slate-100 last:border-0">
+          <h3 class="ft font-bold text-[17px] leading-tight text-brand-night">Macá tobiano</h3>
+          <p class="text-[12px] italic text-slate-400 mb-3">Podiceps gallardoi</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Cuándo se ve:</strong> de octubre a marzo. Mejor momento: Noviembre a febrero.</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Dónde:</strong> Mesetas de Santa Cruz, Parque Patagonia, estuario del río Santa Cruz en invierno. <span class="text-slate-500">Santa Cruz · Lagunas</span></p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5">Existe solamente en Santa Cruz y no llega a las 800 parejas. Verlo es de las cosas más difíciles que se pueden hacer en la Patagonia.</p>
+          <p class="text-[13px] text-slate-500">Todavía sin excursión en el catálogo. <a href="https://wa.me/5492804356028" class="text-brand-fuchsia hover:underline font-medium">Consultanos por WhatsApp</a>.</p>
+        </article>
+        <article id="ficha-mara" class="pb-7 border-b border-slate-100 last:border-0">
+          <h3 class="ft font-bold text-[17px] leading-tight text-brand-night">Mara patagónica</h3>
+          <p class="text-[12px] italic text-slate-400 mb-3">Dolichotis patagonum</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Cuándo se ve:</strong> todo el año. Mejor momento: Todo el año, temprano o al atardecer.</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Dónde:</strong> Península Valdés, meseta chubutense, Punta Tombo, Lihué Calel. <span class="text-slate-500">Chubut, La Pampa, Río Negro, Santa Cruz · Estepa</span></p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5">Parece una liebre con patas de ciervo y solo existe en Argentina. Forma pareja de por vida.</p>
+          <p class="text-[13px] leading-relaxed"><strong class="font-semibold">Excursiones:</strong> <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/peninsula-valdes" class="text-brand-fuchsia hover:underline font-medium">Península Valdés</a> <span class="text-slate-400">(Sussanich Turismo)</span> · <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/punta-tombo" class="text-brand-fuchsia hover:underline font-medium">Punta Tombo</a> <span class="text-slate-400">(Sussanich Turismo)</span></p>
+        </article>
+        <article id="ficha-zorro" class="pb-7 border-b border-slate-100 last:border-0">
+          <h3 class="ft font-bold text-[17px] leading-tight text-brand-night">Zorro colorado y zorro gris</h3>
+          <p class="text-[12px] italic text-slate-400 mb-3">Lycalopex culpaeus / L. griseus</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Cuándo se ve:</strong> todo el año. Mejor momento: Todo el año, al amanecer y al atardecer.</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Dónde:</strong> Toda la Patagonia, del caldenal pampeano a la cordillera y la costa. <span class="text-slate-500">Chubut, La Pampa, Neuquén, Río Negro, Santa Cruz, Tierra del Fuego · Estepa</span></p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5">El colorado es el segundo cánido más grande de Sudamérica. Nunca hay que darle comida: pierde el miedo y termina atropellado en la ruta.</p>
+          <p class="text-[13px] leading-relaxed"><strong class="font-semibold">Excursiones:</strong> <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/peninsula-valdes" class="text-brand-fuchsia hover:underline font-medium">Península Valdés</a> <span class="text-slate-400">(Sussanich Turismo)</span> · <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/piedra-parada" class="text-brand-fuchsia hover:underline font-medium">Piedra Parada</a> <span class="text-slate-400">(MerakiSur)</span></p>
+        </article>
+        <article id="ficha-puma" class="pb-7 border-b border-slate-100 last:border-0">
+          <h3 class="ft font-bold text-[17px] leading-tight text-brand-night">Puma</h3>
+          <p class="text-[12px] italic text-slate-400 mb-3">Puma concolor</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Cuándo se ve:</strong> todo el año. Mejor momento: Abril a octubre.</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Dónde:</strong> Parque Patagonia, Cañadón Pinturas, Lihué Calel, estancias de meseta. <span class="text-slate-500">Santa Cruz, Chubut, La Pampa, Neuquén · Estepa</span></p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5">En invierno el pasto está bajo y hay menos horas de sol fuerte: es cuando más se lo llega a ver. Siempre con guía habilitado.</p>
+          <p class="text-[13px] text-slate-500">Todavía sin excursión en el catálogo. <a href="https://wa.me/5492804356028" class="text-brand-fuchsia hover:underline font-medium">Consultanos por WhatsApp</a>.</p>
+        </article>
+        <article id="ficha-piche" class="pb-7 border-b border-slate-100 last:border-0">
+          <h3 class="ft font-bold text-[17px] leading-tight text-brand-night">Piche patagónico</h3>
+          <p class="text-[12px] italic text-slate-400 mb-3">Zaedyus pichiy</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Cuándo se ve:</strong> de septiembre a abril. Mejor momento: Primavera y verano.</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Dónde:</strong> Estepa, caldenal y matorral, banquinas de rutas de meseta. <span class="text-slate-500">Chubut, La Pampa, Neuquén, Río Negro, Santa Cruz · Estepa</span></p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5">Es el único armadillo que hiberna. En pleno invierno está bajo tierra y no se lo ve.</p>
+          <p class="text-[13px] leading-relaxed"><strong class="font-semibold">Excursiones:</strong> <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/peninsula-valdes" class="text-brand-fuchsia hover:underline font-medium">Península Valdés</a> <span class="text-slate-400">(Sussanich Turismo)</span> · <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/piedra-parada" class="text-brand-fuchsia hover:underline font-medium">Piedra Parada</a> <span class="text-slate-400">(MerakiSur)</span></p>
+        </article>
+        <article id="ficha-pudu" class="pb-7 border-b border-slate-100 last:border-0">
+          <h3 class="ft font-bold text-[17px] leading-tight text-brand-night">Pudú</h3>
+          <p class="text-[12px] italic text-slate-400 mb-3">Pudu puda</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Cuándo se ve:</strong> todo el año. Mejor momento: Todo el año, muy esquivo.</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Dónde:</strong> Bosque húmedo de Nahuel Huapi, Lanín y Los Alerces. <span class="text-slate-500">Río Negro, Neuquén, Chubut · Bosque y montaña</span></p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5">Es el ciervo más chico del mundo: 40 cm de alto. Se mueve en el sotobosque cerrado y casi nunca se deja ver.</p>
+          <p class="text-[13px] leading-relaxed"><strong class="font-semibold">Excursiones:</strong> <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/parque-nacional-los-alerces-full-day" class="text-brand-fuchsia hover:underline font-medium">Parque Nacional Los Alerces Full Day</a> <span class="text-slate-400">(MerakiSur)</span></p>
+        </article>
+        <article id="ficha-huillin" class="pb-7 border-b border-slate-100 last:border-0">
+          <h3 class="ft font-bold text-[17px] leading-tight text-brand-night">Huillín</h3>
+          <p class="text-[12px] italic text-slate-400 mb-3">Lontra provocax</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Cuándo se ve:</strong> todo el año. Mejor momento: Todo el año, temprano a la mañana.</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Dónde:</strong> Lagos andinos, Nahuel Huapi, Canal Beagle. <span class="text-slate-500">Río Negro, Neuquén, Chubut, Tierra del Fuego · Bosque y montaña</span></p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5">Nutria autóctona en peligro. Se la confunde con el visón, que es introducido y justamente una de las causas de que al huillín le vaya mal.</p>
+          <p class="text-[13px] leading-relaxed"><strong class="font-semibold">Excursiones:</strong> <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/parque-nacional-los-alerces-full-day" class="text-brand-fuchsia hover:underline font-medium">Parque Nacional Los Alerces Full Day</a> <span class="text-slate-400">(MerakiSur)</span> · <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/lagos-off-road" class="text-brand-fuchsia hover:underline font-medium">Lagos Off Road</a> <span class="text-slate-400">(Noelia Ferrario)</span></p>
+        </article>
+        <article id="ficha-carpintero" class="pb-7 border-b border-slate-100 last:border-0">
+          <h3 class="ft font-bold text-[17px] leading-tight text-brand-night">Carpintero magallánico</h3>
+          <p class="text-[12px] italic text-slate-400 mb-3">Campephilus magellanicus</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Cuándo se ve:</strong> todo el año. Mejor momento: Primavera.</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Dónde:</strong> Bosques de lenga y coihue, Los Alerces, Tierra del Fuego. <span class="text-slate-500">Chubut, Río Negro, Neuquén, Tierra del Fuego · Bosque y montaña</span></p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5">Es el carpintero más grande de Sudamérica. Se lo escucha antes de verlo: dos golpes secos y espaciados contra el tronco.</p>
+          <p class="text-[13px] leading-relaxed"><strong class="font-semibold">Excursiones:</strong> <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/parque-nacional-los-alerces-full-day" class="text-brand-fuchsia hover:underline font-medium">Parque Nacional Los Alerces Full Day</a> <span class="text-slate-400">(MerakiSur)</span> · <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/trekking-laguna-esmeralda" class="text-brand-fuchsia hover:underline font-medium">Trekking Laguna Esmeralda</a> <span class="text-slate-400">(Noelia Ferrario)</span></p>
+        </article>
+        <article id="ficha-ciervo-colorado" class="pb-7 border-b border-slate-100 last:border-0">
+          <h3 class="ft font-bold text-[17px] leading-tight text-brand-night">Ciervo colorado en brama</h3>
+          <p class="text-[12px] italic text-slate-400 mb-3">Cervus elaphus</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Cuándo se ve:</strong> de marzo a mayo. Mejor momento: Marzo y abril.</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Dónde:</strong> Reserva Provincial Parque Luro (La Pampa), parques y estancias de la cordillera neuquina y rionegrina. <span class="text-slate-500">La Pampa, Neuquén, Río Negro, Chubut · Bosque y montaña · Especie introducida</span></p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5">En otoño los machos braman para marcar territorio y se escucha a kilómetros. Parque Luro, en La Pampa, es el lugar clásico del país para escucharla: se hace al atardecer y de noche, con guía.</p>
+          <p class="text-[13px] text-slate-500">Todavía sin excursión en el catálogo. <a href="https://wa.me/5492804356028" class="text-brand-fuchsia hover:underline font-medium">Consultanos por WhatsApp</a>.</p>
+        </article>
+        <article id="ficha-castor" class="pb-7 border-b border-slate-100 last:border-0">
+          <h3 class="ft font-bold text-[17px] leading-tight text-brand-night">Castor</h3>
+          <p class="text-[12px] italic text-slate-400 mb-3">Castor canadensis</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Cuándo se ve:</strong> todo el año. Mejor momento: Verano, al atardecer.</p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Dónde:</strong> Ríos y turbales de Tierra del Fuego. <span class="text-slate-500">Tierra del Fuego · Bosque y montaña · Especie introducida</span></p>
+          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5">Lo trajeron en 1946 para hacer peletería y hoy es la principal plaga del bosque fueguino. Las represas se ven desde la ruta.</p>
+          <p class="text-[13px] leading-relaxed"><strong class="font-semibold">Excursiones:</strong> <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/parque-nacional-tierra-del-fuego" class="text-brand-fuchsia hover:underline font-medium">Parque Nacional Tierra del Fuego</a> <span class="text-slate-400">(Noelia Ferrario)</span> · <a href="https://patagoniaexperiencias.com/patagonia-experiencias.html#tour/lagos-off-road" class="text-brand-fuchsia hover:underline font-medium">Lagos Off Road</a> <span class="text-slate-400">(Noelia Ferrario)</span></p>
+        </article>
+    </div>
+  </div>
+</section>
+
+<section id="prestadores" class="bg-brand-night text-white">
+  <div class="max-w-5xl mx-auto px-4 py-14">
+    <p class="ftt text-[9px] font-semibold text-slate-500 mb-3">PARA PRESTADORES</p>
+    <h2 class="ft font-black text-[24px] leading-tight mb-4 max-w-lg">¿Operás experiencias de fauna en la Patagonia?</h2>
+    <p class="text-[13.5px] text-slate-400 leading-relaxed max-w-xl mb-4">
+      De las 33 especies de este calendario, 8 todavía no tienen ninguna excursión asociada:
+      pingüino de penacho amarillo, pingüino papúa, macá tobiano, puma, brama del ciervo colorado,
+      loro barranquero, vizcacha y cauquenes. La Pampa, entera, todavía no tiene prestadores cargados.
+      Si operás alguna de esas experiencias, hay gente buscándolas todos los meses.
+    </p>
+    <p class="text-[12.5px] text-slate-500 leading-relaxed max-w-xl mb-7">
+      Trabajamos únicamente con prestadores habilitados: legajo RNAV según Ley 18.829 para agencias de viaje,
+      y Registro Único de Turismo Receptivo del Chubut, Resolución 68/24, para operadores receptivos.
+    </p>
+    <a id="ctaPre" href="https://patagoniaexperiencias.com/prestadores.html" class="inline-block ftt text-[9px] font-semibold bg-brand-fuchsia hover:bg-brand-fuchsiaDark px-6 py-4 rounded-full transition-colors">SUMÁ TU EMPRESA O SERVICIO</a>
+  </div>
+</section>
+
+<section id="preguntas" class="bg-brand-bg border-t border-brand-line">
+  <div class="max-w-5xl mx-auto px-4 py-14">
+    <h2 class="ft font-black text-[24px] leading-tight text-brand-night mb-7">Preguntas frecuentes</h2>
+        <details class="border-b border-slate-100 py-4" open>
+          <summary class="ft font-bold text-[14.5px] text-brand-night cursor-pointer list-none flex justify-between items-start gap-4">
+            <span>¿Cuál es la mejor época para ver fauna en la Patagonia?</span><span class="text-slate-300 text-[12px] mt-1">+</span>
+          </summary>
+          <p class="text-[13.5px] text-slate-600 leading-relaxed mt-3">No hay una sola: cada especie tiene su ventana. Entre septiembre y diciembre coinciden la ballena franca austral, el pingüino de Magallanes, el elefante marino y los nacimientos de guanaco, y es el período con más especies activas a la vez. En verano aparecen la ballena sei, los delfines y los pingüinos de penacho amarillo y papúa. En otoño e invierno se suman las orcas de Punta Norte, la brama del ciervo colorado, los cauquenes en La Pampa y la mejor época para intentar el puma.</p>
+        </details>
+        <details class="border-b border-slate-100 py-4" >
+          <summary class="ft font-bold text-[14.5px] text-brand-night cursor-pointer list-none flex justify-between items-start gap-4">
+            <span>¿Qué fauna se puede ver en invierno en la Patagonia?</span><span class="text-slate-300 text-[12px] mt-1">+</span>
+          </summary>
+          <p class="text-[13.5px] text-slate-600 leading-relaxed mt-3">Bastante más de lo que se cree. En invierno hay ballena franca austral en Península Valdés y El Doradillo, lobos marinos, tonina overa, guanaco, choique, cóndor andino, huemul, zorros, albatros y petreles, y es el mejor momento del año para el puma en la meseta y para los cauquenes en La Pampa y Río Negro.</p>
+        </details>
+        <details class="border-b border-slate-100 py-4" >
+          <summary class="ft font-bold text-[14.5px] text-brand-night cursor-pointer list-none flex justify-between items-start gap-4">
+            <span>¿Cuándo se ven ballenas en Puerto Madryn y Península Valdés?</span><span class="text-slate-300 text-[12px] mt-1">+</span>
+          </summary>
+          <p class="text-[13.5px] text-slate-600 leading-relaxed mt-3">La ballena franca austral se ve de junio a diciembre, con el pico entre septiembre y octubre. En El Doradillo se avistan desde la playa, sin embarcación, porque el agua profunda llega casi hasta la orilla. La ballena sei es distinta: se concentra en verano, de enero a marzo.</p>
+        </details>
+        <details class="border-b border-slate-100 py-4" >
+          <summary class="ft font-bold text-[14.5px] text-brand-night cursor-pointer list-none flex justify-between items-start gap-4">
+            <span>¿Cuándo hay pingüinos en Punta Tombo?</span><span class="text-slate-300 text-[12px] mt-1">+</span>
+          </summary>
+          <p class="text-[13.5px] text-slate-600 leading-relaxed mt-3">El pingüino de Magallanes está en Punta Tombo de septiembre a abril. Llegan en septiembre, ponen los huevos en octubre y los pichones nacen en noviembre. El mejor momento para verlos con actividad es de noviembre a enero. En febrero mudan las plumas y se quedan quietos en tierra.</p>
+        </details>
+        <details class="border-b border-slate-100 py-4" >
+          <summary class="ft font-bold text-[14.5px] text-brand-night cursor-pointer list-none flex justify-between items-start gap-4">
+            <span>¿Cuándo se pueden ver orcas en Punta Norte?</span><span class="text-slate-300 text-[12px] mt-1">+</span>
+          </summary>
+          <p class="text-[13.5px] text-slate-600 leading-relaxed mt-3">Las orcas están en Península Valdés de enero a abril y de septiembre a diciembre. El varamiento intencional para cazar lobitos, que es lo que hace único a Punta Norte, se da sobre todo en marzo y abril, y depende de la marea: hay que ir con la tabla en la mano, no a cualquier hora.</p>
+        </details>
+        <details class="border-b border-slate-100 py-4" >
+          <summary class="ft font-bold text-[14.5px] text-brand-night cursor-pointer list-none flex justify-between items-start gap-4">
+            <span>¿Qué provincias abarca el calendario?</span><span class="text-slate-300 text-[12px] mt-1">+</span>
+          </summary>
+          <p class="text-[13.5px] text-slate-600 leading-relaxed mt-3">Las seis de la región: Chubut, La Pampa, Neuquén, Río Negro, Santa Cruz y Tierra del Fuego. Los meses de presencia en Chubut siguen el Calendario de Fauna del Ministerio de Turismo y Áreas Protegidas del Chubut; el resto de la región y la marca de temporada pico son un agregado de Patagonia Experiencias.</p>
+        </details>
+        <details class="border-b border-slate-100 py-4" >
+          <summary class="ft font-bold text-[14.5px] text-brand-night cursor-pointer list-none flex justify-between items-start gap-4">
+            <span>¿Dónde se ve el loro barranquero?</span><span class="text-slate-300 text-[12px] mt-1">+</span>
+          </summary>
+          <p class="text-[13.5px] text-slate-600 leading-relaxed mt-3">La colonia del Balneario El Cóndor, en Río Negro, es la más grande del mundo: decenas de miles de nidos excavados en un acantilado de varios kilómetros. Se ve de septiembre a marzo, con el pico entre noviembre y enero. Al atardecer vuelven todos juntos y el ruido tapa al del mar.</p>
+        </details>
+        <details class="border-b border-slate-100 py-4" >
+          <summary class="ft font-bold text-[14.5px] text-brand-night cursor-pointer list-none flex justify-between items-start gap-4">
+            <span>¿Cuándo es la brama del ciervo colorado?</span><span class="text-slate-300 text-[12px] mt-1">+</span>
+          </summary>
+          <p class="text-[13.5px] text-slate-600 leading-relaxed mt-3">En marzo y abril. Los machos braman para marcar territorio y se escucha a kilómetros. Parque Luro, en La Pampa, es el lugar clásico del país para escucharla: se hace al atardecer y de noche, con guía. Es una especie introducida.</p>
+        </details>
+        <details class="border-b border-slate-100 py-4" >
+          <summary class="ft font-bold text-[14.5px] text-brand-night cursor-pointer list-none flex justify-between items-start gap-4">
+            <span>¿Estas fechas garantizan el avistaje?</span><span class="text-slate-300 text-[12px] mt-1">+</span>
+          </summary>
+          <p class="text-[13.5px] text-slate-600 leading-relaxed mt-3">No. La fauna se mueve por clima, mareas y disponibilidad de alimento, así que las fechas son orientativas y ninguna excursión puede garantizar un avistaje. Conviene confirmar siempre con el prestador habilitado antes de viajar.</p>
+        </details>
+  </div>
+</section>
+
+<footer class="bg-brand-night text-white">
+  <div class="max-w-5xl mx-auto px-4 py-12">
+    <p id="cierre" class="ft font-bold text-[17px] leading-snug max-w-sm mb-6"></p>
+    <div class="flex flex-wrap gap-2 mb-8">
+      <a id="fExc" href="#" class="ftt text-[9px] font-semibold bg-brand-fuchsia hover:bg-brand-fuchsiaDark px-4 py-3 rounded-full transition-colors">VER EXPERIENCIAS</a>
+      <a id="fBen" href="#" class="ftt text-[9px] font-semibold border border-white/20 hover:border-white/50 px-4 py-3 rounded-full transition-colors">PATAGONIA PUNTOS</a>
+      <a id="fMag" href="#" class="ftt text-[9px] font-semibold border border-white/20 hover:border-white/50 px-4 py-3 rounded-full transition-colors">REVISTA Y GUÍAS</a>
+      <a id="fGui" href="#" class="ftt text-[9px] font-semibold border border-white/20 hover:border-white/50 px-4 py-3 rounded-full transition-colors">GUÍA DE VIAJEROS</a>
+      <a id="fPre" href="#" class="ftt text-[9px] font-semibold border border-white/20 hover:border-white/50 px-4 py-3 rounded-full transition-colors">SUMÁ TU EMPRESA</a>
+      <a id="fWa"  href="#" class="ftt text-[9px] font-semibold border border-white/20 hover:border-white/50 px-4 py-3 rounded-full transition-colors">WHATSAPP</a>
+    </div>
+    <div class="flex items-center gap-5 text-[10px] font-semibold text-slate-500 mb-5 pt-6 border-t border-white/[.08]">
+      <span class="flex items-center gap-2"><i class="w-4 h-2 rounded-sm inline-block" style="background:#b9c2ce"></i>Se puede ver</span>
+      <span class="flex items-center gap-2"><i class="w-4 h-2 rounded-sm inline-block" style="background:#E91E63"></i>Temporada pico</span>
+    </div>
+    <p class="text-[10.5px] text-slate-500 leading-relaxed max-w-lg">
+      Los meses de presencia en Chubut siguen el Calendario de Fauna del Ministerio de Turismo y Áreas Protegidas del Chubut.
+      La marca de temporada pico y las especies del resto de la Patagonia son un agregado de Patagonia Experiencias.
+      Las fechas son orientativas: la fauna se mueve por clima, mareas y disponibilidad de alimento.
+      Ninguna excursión garantiza avistajes.
+    </p>
+    <p class="text-[10px] text-slate-600 mt-4">efe5 proyectos SRL · Trelew, Chubut · <span id="anioTxt"></span></p>
+  </div>
+</footer>
+
+<!-- ======================= FICHA ======================= -->
+<div id="overlay" class="fixed inset-0 z-50 hidden">
+  <div class="absolute inset-0 bg-slate-900/55 backdrop-blur-sm" onclick="cerrarFicha()"></div>
+  <div id="sheet" class="sheet absolute inset-x-0 bottom-0 max-h-[93vh] overflow-y-auto bg-white rounded-t-3xl translate-y-full sm:max-w-lg sm:mx-auto sm:rounded-3xl sm:bottom-6 sm:inset-x-4">
+    <div class="sticky top-0 z-10 bg-white/95 backdrop-blur px-5 pt-3 pb-2 flex justify-center">
+      <div class="w-9 h-1 rounded-full bg-slate-300 sm:hidden"></div>
+      <button onclick="cerrarFicha()" class="hidden sm:flex absolute right-4 top-3 w-8 h-8 items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200"><i class="fa-solid fa-xmark text-xs"></i></button>
+    </div>
+    <div id="fichaBody" class="px-5 pb-9 safe-b"></div>
+  </div>
+</div>
+
+<!-- ======================= BARRA DE EDICIÓN ======================= -->
+<div id="editBar" class="hidden fixed bottom-0 inset-x-0 z-40 bg-slate-900 text-white border-t border-white/10 safe-b">
+  <div class="max-w-5xl mx-auto px-3 py-2.5 flex gap-2 overflow-x-auto no-scrollbar items-center">
+    <span class="chip ftt text-[9px] font-semibold text-amber-400 mr-1">EDICIÓN</span>
+    <span id="contFotos" class="chip text-[11px] font-semibold text-slate-400 mr-1"></span>
+    <button onclick="nuevaEspecie()" class="chip text-[11px] font-semibold bg-brand-fuchsia px-3 py-1.5 rounded-lg">+ Especie</button>
+    <button onclick="exportarJS()" class="chip text-[11px] font-semibold bg-white/10 px-3 py-1.5 rounded-lg">Copiar bloque</button>
+    <button onclick="exportarSEO()" class="chip text-[11px] font-semibold bg-white/10 px-3 py-1.5 rounded-lg">Copiar HTML SEO</button>
+    <button onclick="descargarJSON()" class="chip text-[11px] font-semibold bg-white/10 px-3 py-1.5 rounded-lg">Descargar JSON</button>
+    <label class="chip text-[11px] font-semibold bg-white/10 px-3 py-1.5 rounded-lg cursor-pointer">Importar
+      <input type="file" accept=".json" class="hidden" onchange="importarJSON(event)">
+    </label>
+    <button onclick="salirEdicion()" class="chip text-[11px] font-semibold text-slate-400 px-2">Salir</button>
+  </div>
+</div>
+
+<div id="toast" class="fixed bottom-20 left-1/2 -translate-x-1/2 z-[60] hidden bg-slate-900 text-white text-[12px] font-medium px-4 py-2.5 rounded-xl shadow-xl"></div>
+
+<script>
+/* ===================== ESTADO ===================== */
+const HOY = new Date().getMonth();
+let mesSel = HOY, provSel='todas', ambSel='todos', salSel='todas', texto='', vista='mes';
+let panelAbierto = false;
+let editando = new URLSearchParams(location.search).get('edit')==='1';
+let abierta=null, verFuera=false;
+
+/* ===================== ICONOS DE ESPECIE =====================
+   Siluetas geometricas armadas con primitivas (elipses, rectangulos,
+   triangulos): mismo lenguaje que las placas de ambiente.
+   Se usan cuando la especie todavia no tiene foto cargada.
+   Para agregar un icono nuevo: sumalo aca y referencialo en el campo "ico".
+   ============================================================= */
+const ICONOS = {
+  ballena:'<ellipse cx="29" cy="32" rx="23" ry="11"/><path d="M50 32 L63 22 L60 32 L63 42 Z"/><path d="M25 42 L30 50 L35 42 Z"/>',
+  delfin:'<ellipse cx="30" cy="34" rx="23" ry="8.5"/><path d="M25 27 L32 13 L39 27 Z"/><path d="M51 34 L63 26 L60 34 L63 43 Z"/><path d="M9 30 L1 35 L9 39 Z"/>',
+  pinguino:'<ellipse cx="32" cy="38" rx="14" ry="19"/><circle cx="32" cy="16" r="9"/><path d="M40 15 L52 18 L40 21 Z"/><ellipse cx="17" cy="37" rx="4.5" ry="12"/><rect x="23" y="54" width="7" height="4" rx="2"/><rect x="34" y="54" width="7" height="4" rx="2"/>',
+  pinnipedo:'<ellipse cx="28" cy="45" rx="24" ry="9"/><path d="M38 46 L52 46 L50 30 L42 30 Z"/><circle cx="46" cy="28" r="8"/><path d="M53 27 L63 30 L53 33 Z"/><path d="M24 50 L16 60 L30 55 Z"/>',
+  aveVuelo:'<ellipse cx="32" cy="34" rx="4.5" ry="10"/><circle cx="32" cy="22" r="4.5"/><path d="M28 30 L2 18 L6 30 L28 38 Z"/><path d="M36 30 L62 18 L58 30 L36 38 Z"/><path d="M28 42 L32 54 L36 42 Z"/>',
+  aveParada:'<ellipse cx="29" cy="36" rx="13" ry="16"/><circle cx="38" cy="16" r="8"/><path d="M45 15 L58 18 L45 21 Z"/><path d="M18 46 L4 56 L21 51 Z"/><rect x="26" y="49" width="3" height="10" rx="1.5"/><rect x="33" y="49" width="3" height="10" rx="1.5"/>',
+  zancuda:'<ellipse cx="25" cy="30" rx="15" ry="9.5"/><path d="M36 27 L42 25 L47 11 L41 10 Z"/><circle cx="45" cy="9" r="5.5"/><path d="M49 9 L59 13 L48 14 Z"/><rect x="22" y="38" width="3" height="21" rx="1.5"/><rect x="30" y="38" width="3" height="21" rx="1.5"/><path d="M12 28 L2 24 L12 34 Z"/>',
+  ratite:'<ellipse cx="25" cy="33" rx="17" ry="13"/><path d="M37 27 L43 25 L48 10 L42 9 Z"/><circle cx="45" cy="9" r="5.5"/><path d="M49 8 L58 10 L49 13 Z"/><rect x="21" y="43" width="3.5" height="17" rx="1.7"/><rect x="30" y="43" width="3.5" height="17" rx="1.7"/>',
+  camelido:'<ellipse cx="27" cy="30" rx="18" ry="10.5"/><path d="M39 26 L45 24 L51 12 L45 10 Z"/><ellipse cx="51" cy="11" rx="6.5" ry="4.5"/><path d="M46 8 L47 1 L50 7 Z"/><path d="M52 7 L56 1 L56 8 Z"/><rect x="15" y="38" width="4" height="20" rx="2"/><rect x="23" y="38" width="4" height="20" rx="2"/><rect x="33" y="38" width="4" height="20" rx="2"/><rect x="40" y="38" width="4" height="20" rx="2"/>',
+  ciervo:'<ellipse cx="27" cy="33" rx="17" ry="10"/><path d="M38 29 L44 27 L49 15 L43 13 Z"/><ellipse cx="50" cy="14" rx="6.5" ry="4.5"/><path d="M46 11 L43 1 L48 9 Z"/><path d="M53 11 L57 1 L55 10 Z"/><rect x="16" y="41" width="4" height="18" rx="2"/><rect x="24" y="41" width="4" height="18" rx="2"/><rect x="33" y="41" width="4" height="18" rx="2"/><rect x="40" y="41" width="4" height="18" rx="2"/>',
+  canido:'<ellipse cx="27" cy="34" rx="17" ry="9"/><circle cx="45" cy="29" r="8"/><path d="M51 28 L62 31 L51 34 Z"/><path d="M39 24 L39 13 L46 21 Z"/><path d="M47 21 L54 13 L53 24 Z"/><ellipse cx="9" cy="30" rx="9" ry="5"/><rect x="17" y="42" width="4" height="15" rx="2"/><rect x="25" y="42" width="4" height="15" rx="2"/><rect x="33" y="42" width="4" height="15" rx="2"/><rect x="39" y="42" width="4" height="15" rx="2"/>',
+  felino:'<ellipse cx="29" cy="34" rx="19" ry="8.5"/><circle cx="47" cy="29" r="7.5"/><path d="M41 24 L41 15 L47 22 Z"/><path d="M48 22 L55 15 L54 24 Z"/><path d="M12 33 C3 33 1 25 5 19 L9 21 C7 26 8 29 13 29 Z"/><rect x="19" y="41" width="4" height="16" rx="2"/><rect x="27" y="41" width="4" height="16" rx="2"/><rect x="35" y="41" width="4" height="16" rx="2"/><rect x="41" y="41" width="4" height="16" rx="2"/>',
+  roedor:'<ellipse cx="28" cy="36" rx="18" ry="12"/><circle cx="47" cy="29" r="8"/><ellipse cx="45" cy="17" rx="3.5" ry="7"/><path d="M54 28 L63 31 L54 34 Z"/><ellipse cx="10" cy="31" rx="7" ry="3.5"/><rect x="19" y="46" width="4" height="11" rx="2"/><rect x="27" y="46" width="4" height="11" rx="2"/><rect x="35" y="46" width="4" height="11" rx="2"/><rect x="41" y="46" width="4" height="11" rx="2"/>',
+  armadillo:'<path d="M3 48 A25 22 0 0 1 47 48 Z"/><circle cx="52" cy="42" r="6.5"/><path d="M57 41 L64 44 L57 47 Z"/><rect x="11" y="46" width="4" height="10" rx="2"/><rect x="21" y="46" width="4" height="10" rx="2"/><rect x="31" y="46" width="4" height="10" rx="2"/><rect x="39" y="46" width="4" height="10" rx="2"/>',
+  nutria:'<ellipse cx="27" cy="38" rx="20" ry="9"/><circle cx="47" cy="31" r="7.5"/><path d="M53 30 L63 33 L53 36 Z"/><path d="M9 40 C2 40 1 32 5 26 L9 28 C6 32 7 36 11 36 Z"/><rect x="20" y="45" width="4" height="9" rx="2"/><rect x="30" y="45" width="4" height="9" rx="2"/><rect x="38" y="45" width="4" height="9" rx="2"/>',
+  anatida:'<ellipse cx="27" cy="38" rx="19" ry="11"/><path d="M38 33 L44 31 L48 17 L42 16 Z"/><circle cx="46" cy="15" r="6"/><path d="M51 14 L62 17 L51 20 Z"/><path d="M10 32 L1 27 L11 38 Z"/>',
+  loro:'<ellipse cx="29" cy="31" rx="13" ry="15"/><circle cx="38" cy="14" r="8.5"/><path d="M45 11 L55 15 L46 22 Z"/><path d="M23 43 L17 62 L31 50 Z"/><rect x="27" y="44" width="3" height="8" rx="1.5"/><rect x="33" y="44" width="3" height="8" rx="1.5"/>'
+};
+
+/* ===================== PLACAS DE AMBIENTE ===================== */
+const PLACAS = {
+  mar: '<svg viewBox="0 0 64 64" preserveAspectRatio="xMidYMid slice" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">'
+     + '<path d="M-2 22 q6 -7 12 0 t12 0 t12 0 t12 0 t12 0"/>'
+     + '<path d="M-2 34 q6 -7 12 0 t12 0 t12 0 t12 0 t12 0"/>'
+     + '<path d="M-2 46 q6 -7 12 0 t12 0 t12 0 t12 0 t12 0"/></svg>',
+  estepa: '<svg viewBox="0 0 64 64" preserveAspectRatio="xMidYMid slice">'
+     + '<circle cx="47" cy="19" r="6" fill="currentColor" opacity=".55"/>'
+     + '<path d="M-2 48 q16 -16 30 -6 T66 38 L66 66 L-2 66 Z" fill="currentColor" opacity=".45"/>'
+     + '<path d="M-2 57 q20 -12 36 -4 T66 52 L66 66 L-2 66 Z" fill="currentColor"/></svg>',
+  bosque: '<svg viewBox="0 0 64 64" preserveAspectRatio="xMidYMid slice">'
+     + '<path d="M8 50 L17 22 L26 50 Z" fill="currentColor" opacity=".55"/>'
+     + '<path d="M24 52 L35 16 L46 52 Z" fill="currentColor"/>'
+     + '<path d="M42 50 L50 26 L58 50 Z" fill="currentColor" opacity=".55"/>'
+     + '<rect x="-2" y="50" width="68" height="2.5" fill="currentColor"/></svg>',
+  lagunas: '<svg viewBox="0 0 64 64" preserveAspectRatio="xMidYMid slice" fill="none" stroke="currentColor" stroke-width="2">'
+     + '<ellipse cx="32" cy="38" rx="7" ry="3"/>'
+     + '<ellipse cx="32" cy="38" rx="15" ry="6.5"/>'
+     + '<ellipse cx="32" cy="38" rx="23" ry="10"/>'
+     + '<ellipse cx="32" cy="38" rx="31" ry="13.5"/></svg>'
+};
+
+/* ===================== INIT ===================== */
+function resolverFotos(){
+  // Prioridad: 1) lo que ya tenga la especie en img
+  //            2) el mapa FOTOS por id
+  //            3) CONFIG.fotosBase + id + extension
+  FAUNA.forEach(function(s){
+    if (s.img) return;
+    if (typeof FOTOS !== 'undefined' && FOTOS[s.id]) { s.img = FOTOS[s.id]; return; }
+    if (CONFIG.fotosBase) s.img = CONFIG.fotosBase + s.id + (CONFIG.fotosExt || '.jpg');
+  });
+}
+
+function init(){
+  resolverFotos();
+  document.getElementById('h1').textContent = CONFIG.titulo;
+  document.getElementById('bajada').textContent = CONFIG.bajada;
+  document.getElementById('cierre').textContent = CONFIG.cierre;
+  document.getElementById('anioTxt').textContent = CONFIG.anio;
+  document.getElementById('fExc').href = CONFIG.urlExcursiones;
+  document.getElementById('fBen').href = CONFIG.urlBeneficios;
+  document.getElementById('fMag').href = CONFIG.urlMagazine;
+  document.getElementById('fGui').href = CONFIG.urlGuias;
+  document.getElementById('fPre').href = CONFIG.urlPrestadores;
+  document.getElementById('ctaPre').href = CONFIG.urlPrestadores;
+  document.getElementById('fWa').href  = CONFIG.whatsapp;
+  document.getElementById('btnBenef').href = CONFIG.urlBeneficios;
+  document.getElementById('logoLink').href = CONFIG.urlApp;
+
+  fijarOffset();
+  window.addEventListener('resize', fijarOffset);
+
+  if (CONFIG.logoUrl){
+    const img = document.getElementById('logoImg');
+    img.onload = function(){ img.classList.remove('hidden'); document.getElementById('logoTxt').classList.add('hidden'); };
+    img.src = CONFIG.logoUrl;
+  }
+
+  const cm = document.getElementById('meses');
+  cm.innerHTML = MESES.map(function(m,i){
+    return '<button data-mes="'+i+'" class="mes-btn chip text-[11px] font-semibold px-2.5 py-1.5 rounded-full transition-colors">'+m.slice(0,3)+'</button>';
+  }).join('');
+  cm.querySelectorAll('.mes-btn').forEach(function(b){ b.onclick=function(){ mesSel=+b.dataset.mes; verFuera=false; render(); scrollMes(); }; });
+  document.getElementById('btnHoy').onclick = function(){ mesSel=HOY; vista='mes'; render(); scrollMes(); };
+
+  const fp = document.getElementById('fProv');
+  fp.innerHTML = [{id:'todas',lbl:'Toda la Patagonia'}].concat(PROVINCIAS).map(function(p){
+    return '<button data-p="'+p.id+'" class="prov-btn chip text-[11px] font-semibold px-3 py-1.5 rounded-full border transition-colors">'+p.lbl+'</button>';
+  }).join('');
+  fp.querySelectorAll('.prov-btn').forEach(function(b){ b.onclick=function(){ provSel=b.dataset.p; render(); }; });
+
+  const bases = [];
+  Object.keys(SALIDAS).forEach(function(op){ if (bases.indexOf(SALIDAS[op])===-1) bases.push(SALIDAS[op]); });
+  bases.sort(function(a,b){ return a.localeCompare(b,'es'); });
+  const fs = document.getElementById('fSal');
+  fs.innerHTML = ['Todas'].concat(bases).map(function(b){
+    const id = b==='Todas' ? 'todas' : b;
+    return '<button data-s="'+id+'" class="sal-btn chip text-[11px] font-semibold px-3 py-1.5 rounded-full border transition-colors">'+b+'</button>';
+  }).join('');
+  fs.querySelectorAll('.sal-btn').forEach(function(b){ b.onclick=function(){ salSel=b.dataset.s; render(); }; });
+
+  document.getElementById('btnFiltros').onclick = function(){
+    panelAbierto = !panelAbierto;
+    document.getElementById('panelFiltros').classList.toggle('hidden', !panelAbierto);
+    fijarOffset();
+  };
+
+  const fa = document.getElementById('fAmb');
+  fa.innerHTML = [{id:'todos',lbl:'Todos los ambientes'}].concat(AMBIENTES).map(function(a){
+    return '<button data-a="'+a.id+'" class="amb-btn chip text-[11px] font-semibold px-3 py-1.5 rounded-full border transition-colors">'+a.lbl+'</button>';
+  }).join('');
+  fa.querySelectorAll('.amb-btn').forEach(function(b){ b.onclick=function(){ ambSel=b.dataset.a; render(); }; });
+
+  document.getElementById('buscar').oninput = function(e){ texto=e.target.value.toLowerCase().trim(); render(); };
+  document.getElementById('btnVista').onclick = function(){ vista = vista==='mes'?'anual':'mes'; render(); };
+  document.getElementById('btnFuera').onclick = function(){ verFuera=!verFuera; render(); };
+
+  if (editando) document.getElementById('editBar').classList.remove('hidden');
+  render(); scrollMes();
+}
+// La barra de filtros se pega justo debajo del header, sea cual sea su alto real.
+function fijarOffset(){
+  const h = document.getElementById('cab').offsetHeight;
+  document.getElementById('barraFiltros').style.top = h + 'px';
+}
+
+function scrollMes(){
+  const b = document.querySelector('.mes-btn[data-mes="'+mesSel+'"]');
+  if (b) b.scrollIntoView({inline:'center', block:'nearest', behavior:'smooth'});
+}
+
+/* ===================== HELPERS ===================== */
+function colorAmb(id){ return (AMBIENTES.filter(function(a){return a.id===id;})[0]||{}).color || '#64748b'; }
+function lblAmb(id){ return (AMBIENTES.filter(function(a){return a.id===id;})[0]||{}).lbl || ''; }
+function lblProv(ids){
+  return (ids||[]).map(function(p){ return (PROVINCIAS.filter(function(x){return x.id===p;})[0]||{}).lbl; })
+                  .filter(Boolean).join(' · ');
+}
+function urlExc(slug){ return CONFIG.baseExcursion + slug; }
+function nExc(s){ return (s.exc||[]).length; }
+function prosaMeses(meses){
+  const on = meses.map(function(v,i){ return v>0?i:-1; }).filter(function(i){ return i>=0; });
+  if (on.length===12) return 'Se ve todo el año';
+  if (!on.length) return 'Sin datos de temporada';
+  const g=[]; let act=[on[0]];
+  for (let k=1;k<on.length;k++){ if(on[k]===on[k-1]+1) act.push(on[k]); else { g.push(act); act=[on[k]]; } }
+  g.push(act);
+  if (g.length>1 && g[0][0]===0 && g[g.length-1].slice(-1)[0]===11){ const u=g.pop(); g[0]=u.concat(g[0]); }
+  const t = g.map(function(x){
+    return x.length===1 ? 'en '+MESES[x[0]].toLowerCase()
+                        : 'de '+MESES[x[0]].toLowerCase()+' a '+MESES[x[x.length-1]].toLowerCase();
+  });
+  return 'Se ve ' + (t.length===1 ? t[0] : t.slice(0,-1).join(', ')+' y '+t.slice(-1));
+}
+function salidasDe(s){
+  const out = [];
+  (s.exc||[]).forEach(function(e){
+    const c = SALIDAS[e.op];
+    if (c && out.indexOf(c)===-1) out.push(c);
+  });
+  return out;
+}
+function prestadoresDe(s){
+  const out = [];
+  (s.exc||[]).forEach(function(e){ if (out.indexOf(e.op)===-1) out.push(e.op); });
+  return out;
+}
+
+function proximo(s){
+  for (let k=1;k<=12;k++){ const i=(mesSel+k)%12; if ((s.meses[i]||0)>0) return i; }
+  return null;
+}
+function filtrar(){
+  return FAUNA.filter(function(s){
+    if (provSel!=='todas' && s.prov.indexOf(provSel)===-1) return false;
+    if (ambSel!=='todos'  && s.amb!==ambSel) return false;
+    if (salSel!=='todas'  && salidasDe(s).indexOf(salSel)===-1) return false;
+    if (texto){
+      const excTxt = (s.exc||[]).map(function(e){ return e.t+' '+e.op+' '+(SALIDAS[e.op]||''); }).join(' ');
+      const blob = (s.nombre+' '+s.cientifico+' '+s.zonas+' '+(s.dato||'')+' '+excTxt).toLowerCase();
+      if (blob.indexOf(texto)===-1) return false;
+    }
+    return true;
+  });
+}
+function ordenarPorMes(arr,m){
+  return arr.slice().sort(function(a,b){
+    const d=(b.meses[m]||0)-(a.meses[m]||0); if (d) return d;
+    const dd=(a.dest||99)-(b.dest||99);      if (dd) return dd;
+    return a.nombre.localeCompare(b.nombre,'es');
+  });
+}
+function placaHTML(s, clases){
+  const c = colorAmb(s.amb);
+  const bicho = ICONOS[s.ico] || '';
+  return '<div class="placa '+clases+' relative overflow-hidden" style="background:'+c+'">'
+    + '<span class="patron">'+(PLACAS[s.amb]||'')+'</span>'
+    + (bicho ? '<span class="bicho-wrap"><svg class="bicho" viewBox="0 0 64 64" fill="#fff" aria-hidden="true">'+bicho+'</svg></span>' : '')
+    + (s.img ? '<img src="'+s.img+'" alt="'+s.nombre+' — '+lblProv(s.prov)+'" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover" style="object-position:'+(s.foco||'50% 50%')+'" onerror="this.remove()">' : '')
+    + '</div>';
+}
+
+/* ===================== RENDER ===================== */
+function render(){
+  document.body.classList.toggle('edit', editando);
+
+  document.querySelectorAll('.mes-btn').forEach(function(b){
+    const on = +b.dataset.mes===mesSel;
+    b.className='mes-btn chip text-[11px] font-semibold px-2.5 py-1.5 rounded-full transition-colors '+(on?'bg-white text-brand-night':'text-slate-400 hover:text-white');
+  });
+  document.querySelectorAll('.prov-btn').forEach(function(b){
+    const on=b.dataset.p===provSel;
+    b.className='prov-btn chip text-[11px] font-semibold px-3 py-1.5 rounded-full border transition-colors '+(on?'bg-brand-oxford text-white border-brand-oxford':'bg-white text-slate-600 border-brand-line');
+  });
+  document.querySelectorAll('.amb-btn').forEach(function(b){
+    const on=b.dataset.a===ambSel;
+    b.className='amb-btn chip text-[11px] font-semibold px-3 py-1.5 rounded-full border transition-colors '+(on?'bg-brand-oxford text-white border-brand-oxford':'bg-white text-slate-600 border-brand-line');
+  });
+  document.querySelectorAll('.sal-btn').forEach(function(b){
+    const on=b.dataset.s===salSel;
+    b.className='sal-btn chip text-[11px] font-semibold px-3 py-1.5 rounded-full border transition-colors '+(on?'bg-brand-oxford text-white border-brand-oxford':'bg-white text-slate-600 border-brand-line');
+  });
+  document.getElementById('btnVistaTxt').textContent = vista==='mes'?'Año':'Mes';
+  const activos = (provSel!=='todas'?1:0)+(ambSel!=='todos'?1:0)+(salSel!=='todas'?1:0);
+  document.getElementById('nFiltros').textContent = activos ? '· '+activos : '';
+
+  if (editando){
+    const con = FAUNA.filter(function(x){ return x.img; }).length;
+    document.getElementById('contFotos').textContent = 'Fotos ' + con + '/' + FAUNA.length;
+  }
+
+  renderDestacados();
+
+  const base = filtrar();
+  const enTemp = ordenarPorMes(base.filter(function(s){ return (s.meses[mesSel]||0)>0; }), mesSel);
+  const off = base.filter(function(s){ return (s.meses[mesSel]||0)===0; })
+                  .sort(function(a,b){ return (a.dest||99)-(b.dest||99) || a.nombre.localeCompare(b.nombre,'es'); });
+  const pico = enTemp.filter(function(s){ return s.meses[mesSel]===2; }).length;
+
+  document.getElementById('mesGrande').textContent = vista==='mes' ? MESES[mesSel] : 'Todo el año';
+  document.getElementById('cuenta').textContent = vista==='mes' ? enTemp.length : base.length;
+  document.getElementById('cuentaLbl').textContent = vista==='mes'
+    ? (pico ? pico+' EN SU MEJOR MOMENTO' : 'ESPECIES')
+    : 'ESPECIES';
+
+  const bloque=document.getElementById('bloqueMes'), anual=document.getElementById('anual'), vacio=document.getElementById('vacio');
+
+  if (vista==='anual'){
+    bloque.classList.add('hidden'); vacio.classList.add('hidden'); anual.classList.remove('hidden');
+    anual.innerHTML = renderAnual(base); return;
+  }
+  anual.classList.add('hidden');
+
+  if (!base.length){ bloque.classList.add('hidden'); vacio.classList.remove('hidden'); return; }
+  vacio.classList.add('hidden'); bloque.classList.remove('hidden');
+
+  document.getElementById('tituloEnTemp').textContent = enTemp.length
+    ? ('EN TEMPORADA EN '+MESES[mesSel].toUpperCase())
+    : ('NADA EN TEMPORADA EN '+MESES[mesSel].toUpperCase()+' CON ESTOS FILTROS');
+  document.getElementById('lista').innerHTML = enTemp.map(function(s){ return cardHTML(s,false); }).join('');
+
+  const fw=document.getElementById('fueraWrap');
+  if (!off.length){ fw.classList.add('hidden'); }
+  else {
+    fw.classList.remove('hidden');
+    document.getElementById('fueraCount').textContent = 'Fuera de temporada este mes · '+off.length;
+    document.getElementById('fueraIco').className = 'fa-solid text-slate-400 text-[10px] '+(verFuera?'fa-chevron-up':'fa-chevron-down');
+    const cont=document.getElementById('fuera');
+    cont.classList.toggle('hidden', !verFuera);
+    cont.innerHTML = verFuera ? off.map(function(s){ return cardHTML(s,true); }).join('') : '';
+  }
+}
+
+function renderDestacados(){
+  const dest = FAUNA.filter(function(s){ return s.dest>0; }).sort(function(a,b){ return a.dest-b.dest; });
+  document.getElementById('secDest').classList.toggle('hidden', !dest.length);
+  document.getElementById('destacados').innerHTML = dest.map(function(s){
+    const n = s.meses[mesSel]||0, p = proximo(s);
+    const estado = n===2
+      ? '<span class="ftt text-[8px] font-semibold text-brand-fuchsia">TEMPORADA PICO</span>'
+      : n===1
+      ? '<span class="ftt text-[8px] font-semibold text-slate-300">EN TEMPORADA</span>'
+      : '<span class="ftt text-[8px] font-semibold text-slate-600">VUELVE EN '+(p!==null?MESES[p].slice(0,3).toUpperCase():'—')+'</span>';
+    return '<button onclick="abrirFicha(\''+s.id+'\')" class="shrink-0 w-[132px] text-left '+(n===0?'apagado':'')+'">'
+      + placaHTML(s,'w-full aspect-[4/5] rounded-2xl mb-2.5')
+      + '<p class="ft font-bold text-white text-[12.5px] leading-[1.25] line2 mb-1.5">'+s.nombre+'</p>'
+      + estado + '</button>';
+  }).join('');
+}
+
+function cintaHTML(s, grande){
+  const cells = s.meses.map(function(v,i){
+    return '<div class="celda '+(v===2?'n2':v===1?'n1':'')+'" data-m="'+i+'"></div>';
+  }).join('');
+  const lbls = MESES_MIN.map(function(m,i){
+    return '<span class="'+(i===mesSel?'on':'')+'">'+m+'</span>';
+  }).join('');
+  return '<div class="'+(grande?'cinta-lg':'')+'" data-cinta="'+s.id+'">'
+    + '<div class="cinta-lbl mb-1.5">'+lbls+'</div>'
+    + '<div class="cinta">'+cells+'</div></div>';
+}
+
+function cardHTML(s, off){
+  const n = s.meses[mesSel]||0, p = proximo(s);
+  const pill = n===2 ? '<span class="pill pico">TEMPORADA PICO</span>'
+    : n===1 ? '<span class="pill si">SE PUEDE VER</span>'
+    : '<span class="pill no">VUELVE EN '+(p!==null?MESES[p].toUpperCase():'—')+'</span>';
+
+  const cuando = prosaMeses(s.meses).replace(/^Se ve /,'') + '. <b>Mejor: '+s.mejor+'</b>';
+  const donde  = s.zonas + ' <span class="text-slate-400">· '+lblProv(s.prov)+'</span>';
+
+  const ops = prestadoresDe(s), sal = salidasDe(s), k = nExc(s);
+  const conQuien = k
+    ? '<b>'+ops.join(', ')+'</b> <span class="text-slate-400">· '+k+(k===1?' excursión':' excursiones')
+      + (sal.length ? ' · sale desde '+sal.join(' y ') : '')+'</span>'
+    : '<span class="text-slate-400">Todavía sin prestador en el catálogo</span>';
+
+  return '<article class="fade-in tarjeta overflow-hidden cursor-pointer '+(off?'apagado':'')+'" onclick="abrirFicha(\''+s.id+'\')">'
+    + '<div class="flex gap-3.5 p-4 pb-3.5">'
+    +   placaHTML(s,'w-[74px] h-[74px] shrink-0 rounded-xl')
+    +   '<div class="min-w-0 flex-1">'
+    +     '<div class="flex items-start justify-between gap-3">'
+    +       '<h3 class="ft font-bold text-[16px] leading-[1.15] text-brand-night">'+s.nombre+'</h3>'
+    +       '<i class="fa-solid fa-arrow-right text-slate-300 text-[11px] mt-1 shrink-0"></i>'
+    +     '</div>'
+    +     '<p class="text-[11px] italic text-slate-400 mt-0.5 mb-2.5">'+s.cientifico+'</p>'
+    +     pill
+    +     (s.nota?'<span class="pill no ml-1">'+s.nota.toUpperCase()+'</span>':'')
+    +   '</div>'
+    + '</div>'
+    + '<div class="px-4 pb-4">'+cintaHTML(s,false)+'</div>'
+    + '<dl class="datos">'
+    +   '<div><dt>CUÁNDO</dt><dd>'+cuando+'</dd></div>'
+    +   '<div><dt>DÓNDE</dt><dd>'+donde+'</dd></div>'
+    +   '<div><dt>CON QUIÉN</dt><dd>'+conQuien+'</dd></div>'
+    + '</dl></article>';
+}
+
+function renderAnual(arr){
+  const filas = arr.slice().sort(function(a,b){ return (a.dest||99)-(b.dest||99) || a.nombre.localeCompare(b.nombre,'es'); })
+    .map(function(s){
+      return '<button onclick="abrirFicha(\''+s.id+'\')" class="w-full text-left px-4 py-3 border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors flex items-center gap-3">'
+      + '<span class="font-semibold text-[12px] text-brand-night w-[38%] shrink-0 line1">'+s.nombre+'</span>'
+      + '<span class="flex-1"><span class="cinta block">'
+      + s.meses.map(function(v){ return '<span class="celda block '+(v===2?'n2':v===1?'n1':'')+'" style="height:11px"></span>'; }).join('')
+      + '</span></span></button>';
+    }).join('');
+  return '<div class="px-4 py-3 border-b border-slate-100 flex items-center gap-3">'
+    + '<span class="ftt text-[9px] font-semibold text-slate-500 w-[38%] shrink-0">ESPECIE</span>'
+    + '<span class="flex-1"><span class="cinta block">'
+    + MESES_MIN.map(function(m,i){ return '<span class="block text-[9px] font-semibold text-center '+(i===mesSel?'text-brand-night font-bold':'text-slate-400')+'">'+m+'</span>'; }).join('')
+    + '</span></span></div>'
+    + (filas || '<p class="p-8 text-center text-[13px] text-slate-400">Sin resultados.</p>');
+}
+
+/* ===================== FICHA ===================== */
+function abrirFicha(id){
+  const s = FAUNA.filter(function(x){return x.id===id;})[0]; if(!s) return;
+  abierta=id;
+  document.getElementById('fichaBody').innerHTML = editando ? fichaEditHTML(s) : fichaHTML(s);
+  document.getElementById('overlay').classList.remove('hidden');
+  requestAnimationFrame(function(){ document.getElementById('sheet').classList.remove('translate-y-full'); });
+  document.body.style.overflow='hidden';
+  if (editando) bindCintaEdit(s);
+}
+function cerrarFicha(){
+  document.getElementById('sheet').classList.add('translate-y-full');
+  setTimeout(function(){ document.getElementById('overlay').classList.add('hidden'); document.body.style.overflow=''; },280);
+  abierta=null;
+}
+document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&abierta) cerrarFicha(); });
+
+function bloqueExcursiones(s){
+  const lista = s.exc||[];
+  if (!lista.length){
+    return '<div class="mb-3">'
+      + '<p class="ftt text-[9px] font-semibold text-slate-400 mb-2">CÓMO IR A VERLA</p>'
+      + '<p class="text-[12.5px] text-slate-500 leading-relaxed mb-3">Todavía no hay una excursión del catálogo para esta especie. Escribinos y armamos la salida con un prestador habilitado.</p>'
+      + '<a href="'+CONFIG.whatsapp+'" target="_blank" rel="noopener" class="block text-center bg-brand-fuchsia hover:bg-brand-fuchsiaDark text-white ft font-bold text-[13px] py-4 rounded-2xl transition-colors">Consultar por WhatsApp</a>'
+      + '</div>';
+  }
+  const filas = lista.map(function(e){
+    return '<a href="'+urlExc(e.s)+'" target="_blank" rel="noopener" class="flex items-center gap-3 px-4 py-3.5 border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors">'
+      + '<span class="min-w-0 flex-1">'
+      +   '<span class="block ft font-bold text-[13px] leading-tight text-brand-night mb-0.5">'+e.t+'</span>'
+      +   '<span class="block text-[11px] text-slate-500">'+e.op+'</span>'
+      + '</span>'
+      + '<i class="fa-solid fa-arrow-right text-brand-fuchsia text-[11px] shrink-0"></i></a>';
+  }).join('');
+  return '<div class="mb-3">'
+    + '<p class="ftt text-[9px] font-semibold text-slate-400 mb-2">CÓMO IR A VERLA</p>'
+    + '<div class="border border-brand-line rounded-2xl overflow-hidden">'+filas+'</div>'
+    + '</div>';
+}
+
+function fichaHTML(s){
+  const n=s.meses[mesSel]||0, p=proximo(s);
+  const estado = n===2 ? 'Ahora está en su mejor momento'
+    : n===1 ? 'Se puede ver en '+MESES[mesSel].toLowerCase()
+    : 'En '+MESES[mesSel].toLowerCase()+' no se ve. Vuelve en '+(p!==null?MESES[p].toLowerCase():'—')+'.';
+
+  return '<div class="pt-1">'
+    + placaHTML(s,'w-full aspect-[16/9] rounded-2xl mb-5')
+    + (s.dest>0?'<p class="ftt text-[9px] font-semibold text-brand-fuchsia mb-2">MÁS BUSCADA</p>':'')
+    + '<h2 class="ft font-black text-[23px] leading-[1.1] text-brand-night mb-1.5">'+s.nombre+'</h2>'
+    + '<p class="text-[12.5px] italic text-slate-400 mb-5">'+s.cientifico+'</p>'
+    + '<div class="flex flex-wrap gap-1.5 mb-5">'
+    +   '<span class="text-[10.5px] font-semibold px-2.5 py-1 rounded-full text-white" style="background:'+colorAmb(s.amb)+'">'+lblAmb(s.amb)+'</span>'
+    +   '<span class="text-[10.5px] font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">'+lblProv(s.prov)+'</span>'
+    +   (s.nota?'<span class="text-[10.5px] font-semibold px-2.5 py-1 rounded-full bg-amber-50 text-amber-700">'+s.nota+'</span>':'')
+    + '</div>'
+    + '<div class="bg-slate-50 rounded-2xl p-4 mb-5">'
+    +   '<p class="ftt text-[9px] font-semibold text-slate-400 mb-3">CALENDARIO</p>'
+    +   cintaHTML(s,true)
+    +   '<p class="text-[13px] font-semibold text-brand-night mt-4">'+estado+'</p>'
+    +   '<p class="text-[12.5px] text-slate-500 mt-1">Mejor momento: '+s.mejor+'</p>'
+    + '</div>'
+    + '<div class="mb-5"><p class="ftt text-[9px] font-semibold text-slate-400 mb-2">DÓNDE VERLA</p>'
+    +   '<p class="text-[13.5px] text-slate-700 leading-relaxed">'+s.zonas+'</p></div>'
+    + (s.dato?'<div class="mb-6"><p class="ftt text-[9px] font-semibold text-slate-400 mb-2">EL DATO</p>'
+    +   '<p class="text-[13.5px] text-slate-700 leading-relaxed">'+s.dato+'</p></div>':'')
+    + bloqueExcursiones(s)
+    + '<a href="'+CONFIG.urlPrestadores+'" target="_blank" rel="noopener" class="block text-center border border-brand-line text-slate-700 font-semibold text-[12.5px] py-3.5 rounded-2xl hover:bg-slate-50 transition-colors">Sumá tu empresa o servicio</a>'
+    + '<p class="text-[10.5px] text-slate-400 text-center mt-3.5 leading-relaxed">Reservás con prestadores habilitados y accedés a hasta 10 beneficios en el destino. Ninguna excursión garantiza avistajes.</p>'
+    + '</div>';
+}
+
+/* ===================== EDICIÓN ===================== */
+function campo(lbl,val,key,ml,ph){
+  const v = (val||'').toString().replace(/"/g,'&quot;');
+  return '<label class="block mb-3"><span class="ftt text-[9px] font-semibold text-slate-400">'+lbl.toUpperCase()+'</span>'
+    + (ml
+      ? '<textarea data-k="'+key+'" rows="3" class="w-full mt-1.5 px-3 py-2.5 text-[13px] rounded-xl border border-brand-line focus:border-slate-400 outline-none">'+(val||'')+'</textarea>'
+      : '<input data-k="'+key+'" placeholder="'+(ph||'')+'" value="'+v+'" class="w-full mt-1.5 px-3 py-2.5 text-[13px] rounded-xl border border-brand-line focus:border-slate-400 outline-none">')
+    + '</label>';
+}
+
+function fichaEditHTML(s){
+  let opts = '<option value="0" '+(!s.dest?'selected':'')+'>No destacada</option>';
+  for (let i=1;i<=12;i++) opts += '<option value="'+i+'" '+(s.dest===i?'selected':'')+'>Más buscada · posición '+i+'</option>';
+
+  const excTxt = (s.exc||[]).map(function(e){ return e.t+' | '+e.op+' | '+e.s; }).join('\n');
+
+  return '<div class="pt-1">'
+    + '<p class="ftt text-[9px] font-semibold text-amber-600 mb-4">EDITANDO FICHA</p>'
+    + placaHTML(s,'w-full aspect-[16/9] rounded-2xl mb-4')
+    + campo('URL de la foto (1200×1000)', s.img, 'img', false, 'https://…/ballena.jpg')
+    + campo('Foco del recorte (X% Y%)', s.foco, 'foco', false, '50% 50%')
+    + '<label class="block mb-3"><span class="ftt text-[9px] font-semibold text-slate-400">ÍCONO (SI NO HAY FOTO)</span>'
+    + '<select data-k="ico" class="w-full mt-1.5 px-3 py-2.5 text-[13px] rounded-xl border border-brand-line bg-white">'
+    + Object.keys(ICONOS).map(function(k){ return '<option value="'+k+'" '+(k===s.ico?'selected':'')+'>'+k+'</option>'; }).join('')
+    + '</select></label>'
+    + campo('Nombre común', s.nombre, 'nombre')
+    + campo('Nombre científico', s.cientifico, 'cientifico')
+    + '<label class="block mb-3"><span class="ftt text-[9px] font-semibold text-slate-400">DESTACADA</span>'
+    + '<select data-k="dest" data-num="1" class="w-full mt-1.5 px-3 py-2.5 text-[13px] rounded-xl border border-brand-line bg-white">'+opts+'</select></label>'
+    + '<label class="block mb-3"><span class="ftt text-[9px] font-semibold text-slate-400">AMBIENTE</span>'
+    + '<select data-k="amb" class="w-full mt-1.5 px-3 py-2.5 text-[13px] rounded-xl border border-brand-line bg-white">'
+    + AMBIENTES.map(function(a){ return '<option value="'+a.id+'" '+(a.id===s.amb?'selected':'')+'>'+a.lbl+'</option>'; }).join('')
+    + '</select></label>'
+    + '<div class="mb-4"><span class="ftt text-[9px] font-semibold text-slate-400">PROVINCIAS</span>'
+    + '<div class="flex flex-wrap gap-1.5 mt-2">'
+    + PROVINCIAS.map(function(p){
+        return '<button type="button" data-prov="'+p.id+'" class="prov-e text-[11px] font-semibold px-3 py-1.5 rounded-full border transition-colors '
+          + (s.prov.indexOf(p.id)>-1?'bg-brand-oxford text-white border-brand-oxford':'bg-white text-slate-600 border-brand-line')+'">'+p.lbl+'</button>';
+      }).join('')
+    + '</div></div>'
+    + campo('Zonas de avistaje', s.zonas, 'zonas', true)
+    + campo('Mejor momento', s.mejor, 'mejor')
+    + campo('Etiqueta (opcional)', s.nota, 'nota')
+    + campo('El dato', s.dato, 'dato', true)
+    + '<label class="block mb-3"><span class="ftt text-[9px] font-semibold text-slate-400">EXCURSIONES · UNA POR LÍNEA: TÍTULO | PRESTADOR | SLUG</span>'
+    + '<textarea data-exc="1" rows="4" class="w-full mt-1.5 px-3 py-2.5 text-[12px] font-mono rounded-xl border border-brand-line focus:border-slate-400 outline-none">'+excTxt+'</textarea>'
+    + '<span class="block text-[10.5px] text-slate-400 mt-1.5">El slug es lo que va después de /experiencias/ en la URL del producto.</span></label>'
+    + '<div class="bg-slate-50 rounded-2xl p-4 mb-5">'
+    + '<p class="ftt text-[9px] font-semibold text-slate-400 mb-3">TOCÁ CADA MES: VACÍO → SE VE → PICO</p>'
+    + cintaHTML(s,true) + '</div>'
+    + '<button onclick="guardarFicha(\''+s.id+'\')" class="w-full bg-brand-fuchsia text-white ft font-bold text-[13px] py-4 rounded-2xl mb-2">Guardar cambios</button>'
+    + '<button onclick="borrarEspecie(\''+s.id+'\')" class="w-full text-[12px] font-semibold text-rose-500 py-2">Eliminar especie</button>'
+    + '</div>';
+}
+
+function bindCintaEdit(s){
+  const cont = document.querySelector('#fichaBody [data-cinta]'); if(!cont) return;
+  cont.querySelectorAll('.celda').forEach(function(c){
+    c.onclick = function(){
+      const i=+c.dataset.m;
+      s.meses[i]=(s.meses[i]+1)%3;
+      c.className='celda '+(s.meses[i]===2?'n2':s.meses[i]===1?'n1':'');
+    };
+  });
+}
+
+function guardarFicha(id){
+  const s=FAUNA.filter(function(x){return x.id===id;})[0]; if(!s) return;
+  document.querySelectorAll('#fichaBody [data-k]').forEach(function(el){
+    s[el.dataset.k] = el.dataset.num ? Number(el.value) : el.value.trim();
+  });
+  const ta = document.querySelector('#fichaBody [data-exc]');
+  if (ta){
+    s.exc = ta.value.split('\n').map(function(l){ return l.trim(); }).filter(Boolean).map(function(l){
+      const p = l.split('|').map(function(x){ return x.trim(); });
+      return { t:p[0]||'', op:p[1]||'', s:p[2]||'' };
+    }).filter(function(e){ return e.t && e.s; });
+  }
+  const provs=[].slice.call(document.querySelectorAll('#fichaBody .prov-e'))
+    .filter(function(b){ return b.classList.contains('bg-brand-oxford'); })
+    .map(function(b){ return b.dataset.prov; });
+  if (provs.length) s.prov=provs;
+  if (!s.nota) delete s.nota;
+  cerrarFicha(); render(); toast('Ficha actualizada');
+}
+
+document.addEventListener('click', function(e){
+  const b=e.target.closest('.prov-e'); if(!b) return;
+  const on=b.classList.contains('bg-brand-oxford');
+  b.className='prov-e text-[11px] font-semibold px-3 py-1.5 rounded-full border transition-colors '
+    + (on?'bg-white text-slate-600 border-brand-line':'bg-brand-oxford text-white border-brand-oxford');
+});
+
+function nuevaEspecie(){
+  const id='especie-'+Date.now();
+  FAUNA.unshift({ id:id, nombre:'Nueva especie', cientifico:'', img:'', ico:'camelido', dest:0, amb:'estepa',
+    prov:['chubut'], zonas:'', meses:[0,0,0,0,0,0,0,0,0,0,0,0], mejor:'', dato:'', exc:[] });
+  render(); abrirFicha(id);
+}
+function borrarEspecie(id){
+  if (!confirm('¿Eliminar esta especie del calendario?')) return;
+  FAUNA=FAUNA.filter(function(s){ return s.id!==id; }); cerrarFicha(); render(); toast('Especie eliminada');
+}
+function salirEdicion(){
+  editando=false; document.getElementById('editBar').classList.add('hidden'); render(); toast('Saliste del modo edición');
+}
+function exportarJS(){
+  const txt='let FAUNA = '+JSON.stringify(FAUNA,null,2)+';';
+  if (navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt)
+      .then(function(){ toast('Bloque copiado. Pegalo reemplazando el FAUNA del archivo.'); })
+      .catch(function(){ prompt('Copiá este bloque:',txt); });
+  } else { prompt('Copiá este bloque:',txt); }
+}
+function descargarJSON(){
+  const blob=new Blob([JSON.stringify(FAUNA,null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='fauna-patagonia.json'; a.click(); URL.revokeObjectURL(a.href); toast('JSON descargado');
+}
+function importarJSON(ev){
+  const f=ev.target.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=function(){ try{
+      const d=JSON.parse(r.result);
+      if(!Array.isArray(d)||!d.length) throw new Error('formato');
+      FAUNA=d; render(); toast('Calendario importado: '+d.length+' especies');
+    }catch(e){ toast('El archivo no tiene el formato del calendario'); } };
+  r.readAsText(f); ev.target.value='';
+}
+/* ===================== GENERADOR DE CONTENIDO INDEXABLE =====================
+   La sección #fichas y el JSON-LD son HTML real: es lo que leen los buscadores.
+   Si cambiás el calendario, se quedan viejos. Este generador los rearma.
+   Modo edición → "Copiar HTML SEO" → pegar reemplazando el bloque marcado.
+   ========================================================================== */
+function escHTML(t){
+  return String(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function htmlFichas(){
+  return FAUNA.map(function(f){
+    const exc = (f.exc||[]).map(function(e){
+      return '<a href="'+CONFIG.baseExcursion+e.s+'" class="text-brand-fuchsia hover:underline font-medium">'+escHTML(e.t)+'</a> <span class="text-slate-400">('+escHTML(e.op)+')</span>';
+    }).join(' · ');
+    return '        <article id="ficha-'+f.id+'" class="pb-7 border-b border-slate-100 last:border-0">\n'
+      + '          <h3 class="ft font-bold text-[17px] leading-tight text-brand-night">'+escHTML(f.nombre)+'</h3>\n'
+      + '          <p class="text-[12px] italic text-slate-400 mb-3">'+escHTML(f.cientifico)+'</p>\n'
+      + '          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Cuándo se ve:</strong> '+prosaMeses(f.meses).replace(/^Se ve /,'')+'. Mejor momento: '+escHTML(f.mejor)+'.</p>\n'
+      + '          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5"><strong class="font-semibold">Dónde:</strong> '+escHTML(f.zonas)+'. <span class="text-slate-500">'+escHTML(lblProv(f.prov))+' · '+escHTML(lblAmb(f.amb))+(f.nota?' · '+escHTML(f.nota):'')+'</span></p>\n'
+      + (f.dato?'          <p class="text-[13.5px] text-slate-700 leading-relaxed mb-1.5">'+escHTML(f.dato)+'</p>\n':'')
+      + (exc?'          <p class="text-[13px] leading-relaxed"><strong class="font-semibold">Excursiones:</strong> '+exc+'</p>\n'
+           :'          <p class="text-[13px] text-slate-500">Todavía sin excursión en el catálogo. <a href="'+CONFIG.whatsapp+'" class="text-brand-fuchsia hover:underline font-medium">Consultanos por WhatsApp</a>.</p>\n')
+      + '        </article>';
+  }).join('\n');
+}
+function jsonLDLista(){
+  return JSON.stringify({
+    '@type':'ItemList', name:'Fauna de la Patagonia por temporada', numberOfItems:FAUNA.length,
+    itemListElement: FAUNA.map(function(f,i){
+      return { '@type':'ListItem', position:i+1, name:f.nombre, url:CONFIG.urlCanonica+'#ficha-'+f.id,
+        item:{ '@type':'Taxon', name:f.nombre, alternateName:f.cientifico, taxonRank:'species',
+               description: prosaMeses(f.meses)+'. Mejor momento: '+f.mejor+'. Dónde: '+f.zonas+'.' } };
+    })
+  }, null, 1);
+}
+function exportarSEO(){
+  const txt = '<!-- FICHAS · pegar dentro de <div class="space-y-7"> en la sección #fichas -->\n'
+    + htmlFichas()
+    + '\n\n<!-- JSON-LD · reemplazar el nodo ItemList del <head> -->\n'
+    + jsonLDLista();
+  if (navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt)
+      .then(function(){ toast('HTML indexable copiado. Reemplazá las fichas y el ItemList.'); })
+      .catch(function(){ prompt('Copiá esto:', txt); });
+  } else { prompt('Copiá esto:', txt); }
+}
+
+function limpiarFiltros(){ provSel='todas'; ambSel='todos'; salSel='todas'; texto=''; document.getElementById('buscar').value=''; render(); }
+
+let tTimer;
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.remove('hidden');
+  clearTimeout(tTimer); tTimer=setTimeout(function(){ t.classList.add('hidden'); },2600);
+}
+
+init();
+</script>
+</body>
+</html>

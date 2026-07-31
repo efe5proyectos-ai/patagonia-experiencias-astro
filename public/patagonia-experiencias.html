@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ===========================================================
-     PATAGONIA EXPERIENCIAS · build v8 · 2026-07-30
+     PATAGONIA EXPERIENCIAS · build v9 · 2026-07-31
      Incluye:
        · Muro de logos en marquee a color (2 filas) + /assets/prestadores/
        · Catálogo GEO_PROVINCIAS + resolverGeo() (unifica "pto madryn" etc)
@@ -10,7 +10,10 @@
        · FIX Leaflet _leaflet_pos: encuadre sin animación + guarda de DOM
        · PEDiag.auditar() / PEDiag.reparar() — auditoría del campo viejo precioDescuento
        · FRENO_DESCUENTO_ACTIVO = false (interruptor, apagado; no altera nada)
-       · PEDiag.temporadas() — mide el hueco de temporadasPrecio (no leído por el sitio)
+       · PEDiag.temporadas() — mide el hueco de temporadasPrecio
+       · PRECIOS POR TEMPORADA IMPLEMENTADOS: tourConPrecioTemporada() aplica el
+       precio de la temporada vigente ANTES de calcularPreciosTour. La fórmula de
+       comisiones NO se modifica: recibe otro precio de entrada y opera igual.
      La fórmula de comisiones (calcularPreciosTour) NO fue modificada en ninguna
      de estas versiones: es byte a byte idéntica a la original.
      Para confirmar en el navegador: abrí la consola y buscá [PE BUILD].
@@ -1783,6 +1786,37 @@ const limpiarTextoWord = valor => {
   s = s.replace(/\u00A0/g, ' ').replace(/[ \t]{2,}/g, ' ').replace(/\n{3,}/g, '\n\n').trim();
   return s;
 };
+function temporadaVigente(tour, mes) {
+  if (!tour || !Array.isArray(tour.temporadasPrecio)) return null;
+  const m = Number(mes);
+  if (!Number.isFinite(m) || m < 1 || m > 12) return null;
+  return tour.temporadasPrecio.find(tp => tp && Array.isArray(tp.meses) && tp.meses.map(Number).includes(m) && Number(tp.precio) > 0) || null;
+}
+function tourConPrecioTemporada(tour, fechaOMes) {
+  if (!tour || !Array.isArray(tour.temporadasPrecio) || tour.temporadasPrecio.length === 0) return tour;
+  let mes;
+  if (fechaOMes instanceof Date) {
+    mes = fechaOMes.getMonth() + 1;
+  } else if (typeof fechaOMes === 'number') {
+    mes = fechaOMes;
+  } else if (typeof fechaOMes === 'string' && fechaOMes.length >= 7) {
+    mes = Number(fechaOMes.split('-')[1]);
+  }
+  if (!Number.isFinite(mes) || mes < 1 || mes > 12) mes = new Date().getMonth() + 1;
+  const t = temporadaVigente(tour, mes);
+  if (!t) return tour;
+  const copia = Object.assign({}, tour, {
+    precio: Number(t.precio) || Number(tour.precio) || 0,
+    _temporadaNombre: t.nombre || 'Temporada',
+    _temporadaMes: mes,
+    _precioBaseOriginal: Number(tour.precio) || 0
+  });
+  if (t.precioNino !== null && t.precioNino !== undefined && Number(t.precioNino) > 0) {
+    copia.precioNino = Number(t.precioNino);
+    copia.politicaNinos = 'manual';
+  }
+  return copia;
+}
 const calcularPreciosTour = (tour, agencias, planes) => {
   agencias = agencias || _agenciasGlobal;
   planes = planes || _planesGlobal;
@@ -3535,7 +3569,7 @@ function TourCard({
     className: "w-full h-full object-cover tour-card-img"
   }), (() => {
     if (tour.categoria === 'gastronomia' && tour.tipoGastro === 'referencia') return null;
-    const calc = calcularPreciosTour(tour);
+    const calc = calcularPreciosTour(tourConPrecioTemporada(tour));
     let pct = 0;
     if (calc.comisionPct > 0 && calc.descuentoPctReal > 0) {
       pct = calc.descuentoPctReal;
@@ -3692,7 +3726,7 @@ function TourCard({
         className: "font-title font-bold text-sm text-amber-600 uppercase tracking-wide"
       }, "Lugar recomendado"));
     }
-    const calc = calcularPreciosTour(tour);
+    const calc = calcularPreciosTour(tourConPrecioTemporada(tour));
     if (calc.comisionPct > 0 && calc.precioPreventa > 0 && calc.precioPreventa < calc.precioBase) {
       return React.createElement(React.Fragment, null, React.createElement("span", {
         className: "font-title font-black text-lg text-slate-400 line-through leading-none"
@@ -3727,7 +3761,7 @@ function TourCard({
     className: "fa-solid fa-arrow-right text-sm"
   }))), (() => {
     if (tour.categoria === 'gastronomia' && tour.tipoGastro === 'referencia') return null;
-    const calc = calcularPreciosTour(tour);
+    const calc = calcularPreciosTour(tourConPrecioTemporada(tour));
     if (!(calc.comisionPct > 0 && calc.precioReserva > 0)) return null;
     return React.createElement("div", {
       className: "mt-3 -mx-5 bg-brand-fuchsia text-white px-4 py-2.5 flex items-center justify-between gap-3"
@@ -3747,7 +3781,7 @@ function TourCard({
   })(), (() => {
     const pts = Number(tour.puntosPorReserva) || 5000;
     if (pts <= 0) return null;
-    const calcSenia = calcularPreciosTour(tour);
+    const calcSenia = calcularPreciosTour(tourConPrecioTemporada(tour));
     const hayBannerSenia = calcSenia.comisionPct > 0 && calcSenia.precioReserva > 0;
     return React.createElement("div", {
       className: `${hayBannerSenia ? '' : 'mt-3 '}-mx-5 -mb-5 bg-slate-600 text-white px-4 py-2 flex items-center justify-center gap-2 text-[11px] font-bold uppercase tracking-wider`
@@ -3895,7 +3929,7 @@ function TourDetailPage({
     };
     const ordenados = [...otros].sort((a, b) => score(b) - score(a));
     return ordenados.slice(0, 3).map(t => {
-      const calc = calcularPreciosTour(t, agencias && agencias.length ? agencias : _agenciasGlobal, _planesGlobal);
+      const calc = calcularPreciosTour(tourConPrecioTemporada(t), agencias && agencias.length ? agencias : _agenciasGlobal, _planesGlobal);
       const precioLista = calc && calc.precioBase > 0 ? calc.precioBase : Number(t.precio) || 0;
       const precioVenta = calc && calc.precioPreventa > 0 ? calc.precioPreventa : precioLista;
       const senia = calc && calc.precioReserva > 0 ? calc.precioReserva : 0;
@@ -3971,11 +4005,13 @@ function TourDetailPage({
     sumarLikeFirestore(tour.id);
   };
   const totalPax = viajeros.adultos + viajeros.ninos;
-  const politicaNinos = tour.politicaNinos || '100';
+  const tourP = tourConPrecioTemporada(tour, fecha);
+  const _hayTemporada = tourP !== tour;
+  const politicaNinos = tourP.politicaNinos || '100';
   let factorNino;
   if (politicaNinos === 'manual') {
-    const _precioAdulto = Number(tour.precio) || 0;
-    const _precioNino = Number(tour.precioNino) || 0;
+    const _precioAdulto = Number(tourP.precio) || 0;
+    const _precioNino = Number(tourP.precioNino) || 0;
     if (_precioAdulto > 0 && _precioNino > 0) {
       factorNino = _precioNino / _precioAdulto;
     } else {
@@ -3997,10 +4033,10 @@ function TourDetailPage({
     noches = Math.ceil((f2 - f1) / (1000 * 60 * 60 * 24));
     if (!Number.isFinite(noches) || noches <= 0) noches = 1;
   }
-  const _calcTour = calcularPreciosTour(tour);
+  const _calcTour = calcularPreciosTour(tourP);
   const _tieneComisionNueva = _calcTour.comisionPct > 0 && _calcTour.precioReserva > 0;
-  const _tienePrecioDescuentoViejo = tour.precioDescuento && Number(tour.precioDescuento) > 0 && Number(tour.precioDescuento) < Number(tour.precio);
-  const precioCompletoUnitario = Number(tour.precio) || 0;
+  const _tienePrecioDescuentoViejo = tourP.precioDescuento && Number(tourP.precioDescuento) > 0 && Number(tourP.precioDescuento) < Number(tourP.precio);
+  const precioCompletoUnitario = Number(tourP.precio) || 0;
   let precioPreventaUnitario;
   let precioReservaUnitario;
   let precioSaldoDestinoUnitario;
@@ -4011,8 +4047,8 @@ function TourDetailPage({
     precioSaldoDestinoUnitario = _calcTour.saldoDestino;
     descuentoPctReal = _calcTour.descuentoPctReal;
   } else if (_tienePrecioDescuentoViejo) {
-    precioPreventaUnitario = Number(tour.precioDescuento);
-    precioReservaUnitario = Number(tour.precioDescuento);
+    precioPreventaUnitario = Number(tourP.precioDescuento);
+    precioReservaUnitario = Number(tourP.precioDescuento);
     precioSaldoDestinoUnitario = 0;
     descuentoPctReal = precioCompletoUnitario > 0 ? Math.round((precioCompletoUnitario - precioPreventaUnitario) / precioCompletoUnitario * 100) : 0;
     if (FRENO_DESCUENTO_ACTIVO && descuentoPctReal >= FRENO_DESCUENTO_UMBRAL) {
@@ -5186,7 +5222,7 @@ function TourDetailPage({
   }, React.createElement("div", {
     className: "mb-5 bg-slate-50 p-5 rounded-2xl border border-slate-100 text-center shadow-inner"
   }, (() => {
-    const calc = calcularPreciosTour(tour);
+    const calc = calcularPreciosTour(tourConPrecioTemporada(tour));
     if (calc.comisionPct > 0 && calc.precioPreventa > 0 && calc.precioPreventa < calc.precioBase) {
       return React.createElement("div", {
         className: "flex flex-col gap-1 items-center"
@@ -5405,7 +5441,11 @@ function TourDetailPage({
     className: "fa-solid fa-circle-exclamation text-base"
   }), errorMsg), React.createElement("div", {
     className: "flex flex-col gap-3 mt-2"
-  }, _muestraDesglose && React.createElement("p", {
+  }, _hayTemporada && React.createElement("p", {
+    className: "text-center text-[10px] font-bold text-amber-700 uppercase tracking-widest flex items-center justify-center gap-1.5 bg-amber-50 border border-amber-200 rounded-lg py-2 px-2"
+  }, React.createElement("i", {
+    className: "fa-solid fa-calendar-day text-amber-500"
+  }), "Precio de ", tourP._temporadaNombre), _muestraDesglose && React.createElement("p", {
     className: "text-center text-[10px] font-bold text-emerald-700 uppercase tracking-widest flex items-center justify-center gap-1.5 -mb-1"
   }, React.createElement("i", {
     className: "fa-solid fa-bolt text-emerald-500"
@@ -7509,7 +7549,7 @@ function HomePage({
       raw: a
     }));
     const toursPagos = (toursDisponibles || []).map(t => {
-      const calc = calcularPreciosTour(t, agencias && agencias.length ? agencias : _agenciasGlobal, _planesGlobal);
+      const calc = calcularPreciosTour(tourConPrecioTemporada(t), agencias && agencias.length ? agencias : _agenciasGlobal, _planesGlobal);
       const precioLista = calc && calc.precioBase > 0 ? calc.precioBase : Number(t.precio) || 0;
       const precioVenta = calc && calc.precioPreventa > 0 ? calc.precioPreventa : precioLista;
       const senia = calc && calc.precioReserva > 0 ? calc.precioReserva : 0;
@@ -9226,9 +9266,9 @@ function App() {
 window.PE_BUILD = {
   version: 'v4',
   fecha: '2026-07-30',
-  cambios: ['logos-marquee', 'geo-catalogo', 'filtro-hero', 'fix-nan-checkout', 'fix-leaflet', 'pediag-auditoria', 'pediag-temporadas']
+  cambios: ['logos-marquee', 'geo-catalogo', 'filtro-hero', 'fix-nan-checkout', 'fix-leaflet', 'pediag-auditoria', 'precios-por-temporada']
 };
-console.log('%c[PE BUILD] v8 · 2026-07-30 · +PEDiag.auditar() +reparar() +temporadas()', 'background:#E91E63;color:#fff;font-weight:bold;padding:3px 8px;border-radius:4px');
+console.log('%c[PE BUILD] v9 · 2026-07-31 · +PRECIOS POR TEMPORADA', 'background:#E91E63;color:#fff;font-weight:bold;padding:3px 8px;border-radius:4px');
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(React.createElement(App, null));
 </script>

@@ -78,7 +78,7 @@
   @media(prefers-reduced-motion:reduce){.pe-bm-img img{transition:none;transform:none}}
 </style>
 
-<a class="pe-bm" id="peBm" href="https://patagoniaexperiencias.com/calendario-fauna.html">
+<a class="pe-bm" id="peBm" href="https://patagoniaexperiencias.com/calendario-fauna/">
   <div class="pe-bm-img"><img id="peBmImg" alt="" loading="lazy" decoding="async"></div>
   <div class="pe-bm-grad"></div>
   <div class="pe-bm-marca">
@@ -131,7 +131,7 @@
   var cand=hay.slice().sort(function(a,b){ return punt(b)-punt(a); }).slice(0,3);
   var el=cand[Math.floor(Math.random()*cand.length)];   // rota entre las tres mejores
 
-  document.getElementById('peBm').href='https://patagoniaexperiencias.com/calendario-fauna.html#ficha-'+el[4];
+  document.getElementById('peBm').href='https://patagoniaexperiencias.com/calendario-fauna/#ficha-'+el[4];
   document.getElementById('peBmEye').textContent=(el[3][m]===2?'TEMPORADA PICO · ':'')+M[m].toUpperCase();
   document.getElementById('peBmHook').textContent=el[1];
   document.getElementById('peBmSub').textContent=el[0]+' · '+el[2];

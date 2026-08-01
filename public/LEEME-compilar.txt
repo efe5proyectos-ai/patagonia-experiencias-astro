@@ -17,13 +17,31 @@ QUÉ ES CADA ARCHIVO
   sitemap-guias.xml                   Las dos URLs para el sitemap.
 
 
-AL SUBIR, RENOMBRAR
+AL SUBIR · ESTRUCTURA EN EL REPO DE ASTRO
 
-  calendario-fauna-COMPILADO.html   →   calendario-fauna.html
-  que-hacer-patagonia-COMPILADO.html →  que-hacer-patagonia.html
+  Van dentro de public/, cada uno en su carpeta y llamados index.html.
+  Astro sirve todo lo que está en public/ desde la raíz del dominio.
 
-  Los nombres tienen que coincidir con el <link rel="canonical"> del head
-  y con CONFIG.urlCanonica. Si cambiás uno, cambiá los dos.
+  public/
+    calendario-fauna/
+      index.html      ← calendario-fauna-COMPILADO.html renombrado
+    que-hacer-patagonia/
+      index.html      ← que-hacer-patagonia-COMPILADO.html renombrado
+    assets/
+      fauna/          las 33 fotos
+      actividades/    las 85 fotos
+      banner/         las 12 del banner ancho
+      prestadores/    los 7 logos
+
+  Eso da las URLs:
+      https://patagoniaexperiencias.com/calendario-fauna/
+      https://patagoniaexperiencias.com/que-hacer-patagonia/
+
+  Tienen que coincidir con el <link rel="canonical"> del head y con
+  CONFIG.urlCanonica. Si cambia la ruta, cambian los dos.
+
+  Las rutas de imágenes empiezan con barra (/assets/...), así que
+  funcionan igual desde cualquier profundidad. No hay que tocarlas.
 
 
 CUÁNDO HAY QUE RECOMPILAR

@@ -5,8 +5,8 @@ derivarlo al catálogo de la plataforma.
 
 | Página | Qué es | URL en producción |
 |---|---|---|
-| Calendario de fauna | 33 especies, mes a mes, con la excursión para ir a verlas | `/calendario-fauna.html` |
-| Qué hacer en la Patagonia | 85 actividades en 93 destinos, por lugar o por categoría | `/que-hacer-patagonia.html` |
+| Calendario de fauna | 33 especies, mes a mes, con la excursión para ir a verlas | `/calendario-fauna/` |
+| Qué hacer en la Patagonia | 85 actividades en 93 destinos, por lugar o por categoría | `/que-hacer-patagonia/` |
 
 ## Estructura
 
@@ -59,13 +59,15 @@ páginas sueltas sin sentido que Google podría indexar por error.
 
 ## Al desplegar
 
-Subir por FTP los dos COMPILADO, renombrados:
+Los dos COMPILADO van dentro de `public/`, cada uno en su carpeta y
+renombrados a `index.html`:
 
-    calendario-fauna-COMPILADO.html    →  calendario-fauna.html
-    que-hacer-patagonia-COMPILADO.html →  que-hacer-patagonia.html
+    public/calendario-fauna/index.html      ← calendario-fauna-COMPILADO.html
+    public/que-hacer-patagonia/index.html   ← que-hacer-patagonia-COMPILADO.html
 
-Los nombres tienen que coincidir con el `<link rel="canonical">` del head
-y con `CONFIG.urlCanonica`.
+Astro los sirve desde la raíz, así que quedan en `/calendario-fauna/` y
+`/que-hacer-patagonia/`, que es lo que declara el `<link rel="canonical">`
+y `CONFIG.urlCanonica`.
 
 Después: sumar las dos URLs al sitemap, enlazarlas desde el index y desde
 el Magazine, y pedir indexación en Search Console. Sin enlaces entrantes

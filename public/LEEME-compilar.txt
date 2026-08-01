@@ -1,0 +1,82 @@
+CÓMO PASAR DE FUENTE A COMPILADO
+════════════════════════════════════════════════════════════════════
+
+QUÉ ES CADA ARCHIVO
+
+  calendario-fauna-FUENTE.html        Editás acá. Trae Tailwind por CDN,
+  que-hacer-patagonia-FUENTE.html     así cualquier clase nueva funciona
+                                      al instante mientras trabajás.
+
+  calendario-fauna-COMPILADO.html     Esto va al servidor. Trae el CSS
+  que-hacer-patagonia-COMPILADO.html  adentro, ya generado. Carga mucho
+                                      más rápido y no depende del CDN.
+
+  tailwind.config.js                  Config del compilador.
+  in.css                              Entrada del compilador.
+  oferta-ejemplo.json                 Formato del feed de prestadores.
+  sitemap-guias.xml                   Las dos URLs para el sitemap.
+
+
+AL SUBIR, RENOMBRAR
+
+  calendario-fauna-COMPILADO.html   →   calendario-fauna.html
+  que-hacer-patagonia-COMPILADO.html →  que-hacer-patagonia.html
+
+  Los nombres tienen que coincidir con el <link rel="canonical"> del head
+  y con CONFIG.urlCanonica. Si cambiás uno, cambiá los dos.
+
+
+CUÁNDO HAY QUE RECOMPILAR
+
+  SÍ, hay que recompilar si tocaste la maqueta y agregaste una clase de
+  Tailwind que antes no estaba (por ejemplo un text-2xl o un gap-8 nuevo).
+
+  NO hace falta si solo cambiaste datos: especies, actividades, meses,
+  textos, prestadores, fotos, links. Eso no toca el CSS.
+
+  Ante la duda, recompilá. Tarda dos segundos y no rompe nada.
+
+
+CÓMO SE RECOMPILA
+
+  1. Poné en una misma carpeta los dos FUENTE, tailwind.config.js y in.css.
+  2. Abrí una terminal ahí y corré:
+
+       npx tailwindcss -c tailwind.config.js -i in.css -o out.css --minify
+
+     La primera vez baja Tailwind solo. Genera out.css, unos 19 kB.
+
+  3. Abrí cada FUENTE y cada COMPILADO y hacé el intercambio:
+
+     En el COMPILADO, reemplazá TODO lo que está entre
+        /* ===== TAILWIND COMPILADO ... */
+     y
+        /* ---- reglas propias ---- */
+     por el contenido nuevo de out.css.
+
+     Y asegurate de que el COMPILADO no tenga el <script> del CDN.
+
+  Si preferís no hacerlo a mano, pasame los FUENTE y te devuelvo los
+  COMPILADO listos.
+
+
+DÓNDE SE EDITA CADA COSA, DENTRO DEL FUENTE
+
+  CONFIG          arriba de todo: URLs, carpeta de fotos, feed, títulos.
+  PRESTADORES     nombre de fantasía, logo, ciudad base, plan y tracción.
+                  El nombre de fantasía es lo único que se publica.
+  PLANES          cuánto rota cada plan de suscripción.
+  FAUNA           las 33 especies. Documentado campo por campo.
+  ACTIVIDADES     las 85 actividades, con sus lugares.
+  <style>         SIEMPRE debajo de /* ---- reglas propias ---- */
+
+
+EL BLOQUE INDEXABLE
+
+  Las fichas que están al final del <body> son HTML real: es lo que lee
+  Google. Si cambiás los datos, ese bloque queda viejo.
+
+  En el calendario: abrilo con ?edit=1 al final de la URL y usá el botón
+  "Copiar HTML SEO". Te deja las fichas y el JSON-LD listos para pegar.
+
+  En la guía de actividades todavía no hay generador: por ahora es a mano.

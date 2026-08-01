@@ -1,0 +1,51 @@
+{
+  "_comentario": "Feed de oferta. Lo genera la plataforma y lo consumen el calendario de fauna y la guia de actividades. Ninguna de las dos paginas se toca cuando cambia la oferta.",
+  "generado": "2026-07-31T09:00:00-03:00",
+
+  "prestadores": {
+    "Sussanich Turismo": {
+      "nombre": "Sussanich Turismo",
+      "logo": "sussanich.png",
+      "base": "Puerto Piramides",
+      "plan": "pro",
+      "traccion": 68,
+      "activo": true
+    },
+    "Forastero tour": {
+      "nombre": "Forastero Tour",
+      "logo": "forastero.png",
+      "base": "Puerto Madryn",
+      "plan": "premium",
+      "traccion": 74,
+      "activo": true
+    },
+    "MerakiSur": {
+      "nombre": "MerakiSur",
+      "logo": "merakisur.png",
+      "base": "Esquel",
+      "plan": "base",
+      "traccion": 55,
+      "activo": true
+    },
+    "Noelia Ferrario": {
+      "nombre": "COMPLETAR nombre de fantasia",
+      "logo": "noelia-ferrario.png",
+      "base": "Ushuaia",
+      "plan": "base",
+      "traccion": 50,
+      "activo": true
+    }
+  },
+
+  "oferta": {
+    "ballena-franca": [
+      { "t": "El Doradillo · Avistaje costero de ballena franca", "op": "Forastero tour", "s": "el-doradillo-avistaje-costero-ballena-franca-austral" },
+      { "t": "Solo Ballenas · Tour y traslados a Peninsula Valdes", "op": "Forastero tour", "s": "solo-ballenas-tour-y-traslados-a-peninsula-valdes" },
+      { "t": "Doradillo", "op": "Sussanich Turismo", "s": "doradillo" },
+      { "t": "Peninsula Valdes", "op": "Sussanich Turismo", "s": "peninsula-valdes" }
+    ],
+    "avistaje-ballenas-embarcado": [
+      { "t": "Peninsula Valdes", "op": "Sussanich Turismo", "s": "peninsula-valdes" }
+    ]
+  }
+}

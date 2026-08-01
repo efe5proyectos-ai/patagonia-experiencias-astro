@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Banner dinámico de fauna · para pegar en el sitio</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+  body{font-family:'Inter',sans-serif;background:#f6f7f9;margin:0;padding:28px 16px 70px;color:#0f172a}
+  .doc{max-width:860px;margin:0 auto}
+  h1{font-family:'Montserrat';font-size:22px;letter-spacing:-.02em;margin:0 0 6px}
+  .sub{color:#64748b;font-size:13.5px;margin:0 0 26px;line-height:1.6}
+  h2{font-family:'Montserrat';font-size:11px;letter-spacing:.15em;color:#94a3b8;margin:38px 0 12px}
+  .nota{background:#fff;border:1px solid #e8ebf0;border-radius:12px;padding:16px 18px;font-size:12.5px;color:#475569;line-height:1.65}
+  .nota b{color:#0f172a}
+  code{background:#eef1f5;padding:1px 5px;border-radius:4px;font-size:11.5px}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;background:#fff;border:1px solid #e8ebf0;border-radius:12px;overflow:hidden}
+  th{background:#f8fafc;text-align:left;font-family:'Montserrat';font-size:9px;letter-spacing:.12em;color:#94a3b8;padding:10px 14px}
+  td{padding:9px 14px;border-top:1px solid #f1f5f9;color:#475569}
+  td:first-child{font-weight:600;color:#0f172a}
+</style>
+</head>
+<body>
+<div class="doc">
+  <h1>Banner dinámico de temporada</h1>
+  <p class="sub">Cambia solo según el mes. Foto a sangre, un titular que engancha y los datos de temporada abajo.
+     No depende de Tailwind ni de ninguna librería.</p>
+
+  <h2>ASÍ SE VE</h2>
+
+<!-- ==================================================================
+     BANNER FAUNA · PEGAR DESDE ACÁ
+     ================================================================== -->
+<style>
+  .pe-bf{--pe-fx:#E91E63;position:relative;display:block;overflow:hidden;border-radius:20px;
+         min-height:300px;text-decoration:none;background:#0b1220;isolation:isolate}
+  .pe-bf *{box-sizing:border-box}
+  .pe-bf-img{position:absolute;inset:0;z-index:0}
+  .pe-bf-img img{width:100%;height:100%;object-fit:cover;object-position:center 40%;
+                 transform:scale(1.04);transition:transform 7s ease-out}
+  .pe-bf:hover .pe-bf-img img{transform:scale(1.1)}
+  .pe-bf-grad{position:absolute;inset:0;z-index:1;
+    background:linear-gradient(to top,rgba(11,18,32,.96) 0%,rgba(11,18,32,.82) 32%,rgba(11,18,32,.35) 62%,rgba(11,18,32,.12) 100%)}
+  .pe-bf-body{position:relative;z-index:2;padding:26px;display:flex;flex-direction:column;
+              justify-content:flex-end;min-height:300px}
+  .pe-bf-eyebrow{font-family:'Montserrat',sans-serif;font-weight:800;font-size:9.5px;letter-spacing:.18em;
+                 color:var(--pe-fx);display:block;margin-bottom:12px}
+  .pe-bf-hook{font-family:'Montserrat',sans-serif;font-weight:900;font-size:25px;line-height:1.12;
+              letter-spacing:-.025em;color:#fff;margin:0 0 10px;max-width:560px;
+              text-shadow:0 2px 20px rgba(0,0,0,.4)}
+  .pe-bf-sub{font-family:'Inter',sans-serif;font-size:13px;color:#cbd5e1;margin:0 0 20px;
+             line-height:1.5;max-width:520px}
+  .pe-bf-sub b{color:#fff;font-weight:600}
+  .pe-bf-foot{display:flex;align-items:center;gap:20px}
+  .pe-bf-temp{flex:1;min-width:0}
+  .pe-bf-lbl{display:flex;gap:2px;margin-bottom:5px}
+  .pe-bf-lbl span{flex:1;font-family:'Montserrat',sans-serif;font-size:7.5px;font-weight:700;
+                  text-align:center;color:rgba(255,255,255,.4);letter-spacing:-.02em}
+  .pe-bf-lbl span.hoy{color:#fff}
+  .pe-bf-cinta{display:flex;gap:2px}
+  .pe-bf-cinta i{flex:1;height:6px;border-radius:2px;background:rgba(255,255,255,.16)}
+  .pe-bf-cinta i.on{background:rgba(255,255,255,.5)}
+  .pe-bf-cinta i.pico{background:var(--pe-fx)}
+  .pe-bf-cta{flex-shrink:0;background:var(--pe-fx);color:#fff;font-family:'Montserrat',sans-serif;
+             font-weight:800;font-size:9.5px;letter-spacing:.13em;padding:15px 22px;border-radius:99px;
+             transition:background .2s,transform .2s}
+  .pe-bf:hover .pe-bf-cta{background:#C2185B;transform:translateY(-1px)}
+  /* Sin foto cargada: no queda un hueco, queda una placa de marca */
+  .pe-bf.pe-sinfoto .pe-bf-img{background:
+     radial-gradient(120% 90% at 78% 18%,#164e5c 0%,transparent 62%),
+     linear-gradient(150deg,#132033 0%,#0b1220 70%)}
+  .pe-bf.pe-sinfoto .pe-bf-grad{background:linear-gradient(to top,rgba(11,18,32,.92) 0%,rgba(11,18,32,.55) 55%,transparent 100%)}
+  @media(max-width:640px){
+    .pe-bf{min-height:340px;border-radius:16px}
+    .pe-bf-body{min-height:340px;padding:20px}
+    .pe-bf-hook{font-size:22px}
+    .pe-bf-sub{font-size:12.5px;margin-bottom:18px}
+    .pe-bf-foot{flex-direction:column;align-items:stretch;gap:16px}
+    .pe-bf-cta{text-align:center;padding:14px}
+  }
+  @media(prefers-reduced-motion:reduce){.pe-bf-img img{transition:none;transform:none}}
+</style>
+
+<a class="pe-bf" id="peBf" href="https://patagoniaexperiencias.com/calendario-fauna.html">
+  <div class="pe-bf-img"><img id="peBfImg" alt="" loading="lazy" decoding="async"></div>
+  <div class="pe-bf-grad"></div>
+  <div class="pe-bf-body">
+    <span class="pe-bf-eyebrow" id="peBfMes"></span>
+    <p class="pe-bf-hook" id="peBfHook"></p>
+    <p class="pe-bf-sub" id="peBfSub"></p>
+    <div class="pe-bf-foot">
+      <div class="pe-bf-temp">
+        <div class="pe-bf-lbl" id="peBfLbl"></div>
+        <div class="pe-bf-cinta" id="peBfCinta"></div>
+      </div>
+      <span class="pe-bf-cta">VER EL CALENDARIO</span>
+    </div>
+  </div>
+</a>
+
+<script>
+(function(){
+  // ------------------------------------------------------------------
+  // FOTOS · lo único que hay que completar. Medida 1600x900, el animal
+  // hacia la derecha o el centro: el texto va abajo a la izquierda.
+  // Si una queda vacía, el banner usa la placa de marca y no se rompe.
+  // ------------------------------------------------------------------
+  var BASE = '';   // ej: 'https://patagoniaexperiencias.com/assets/banner/'
+  var EXT  = '.jpg';
+
+  // nombre · hook · lugar · meses (0 no · 1 se ve · 2 pico) · id · peso
+  // El peso desempata cuando ninguna está en pico. 10 es la que más tracciona.
+  var F=[
+   ['Ballena franca austral','Hay ballenas a quince minutos del centro de Puerto Madryn','Península Valdés y El Doradillo',[0,0,0,0,0,1,1,1,2,2,1,1],'ballena-franca',10],
+   ['Pingüino de Magallanes','Un millón de pingüinos a tres horas de Trelew','Punta Tombo y Cabo Dos Bahías',[2,1,1,1,0,0,0,0,1,2,2,2],'pinguino-magallanes',9],
+   ['Orca','Uno de los dos lugares del planeta donde las orcas salen del agua para cazar','Punta Norte, Península Valdés',[1,1,2,2,0,0,0,0,1,1,1,1],'orca',8],
+   ['Lobo marino','Se acercan solos y te mordisquean las aletas','Punta Loma y Punta Bermeja',[2,2,1,1,1,1,1,1,1,1,1,2],'lobo-marino',4],
+   ['Elefante marino','La única colonia continental del mundo está en Chubut','Punta Delgada y Caleta Valdés',[1,1,1,0,0,0,0,1,2,2,2,1],'elefante-marino',6],
+   ['Tonina overa','Blanca y negra, del tamaño de un chico, a ocho de la mañana','Playa Unión y Puerto Deseado',[2,2,2,1,1,1,1,1,1,1,1,2],'tonina-overa',5],
+   ['Delfín oscuro','Saltan, giran y se acercan solos a la embarcación','Golfo Nuevo',[2,2,2,1,0,0,0,0,0,0,0,2],'delfin-oscuro',5],
+   ['Guanaco','El chulengo camina a los quince minutos de nacer','Toda la estepa patagónica',[2,1,1,1,1,1,1,1,1,1,2,2],'guanaco',3],
+   ['Choique','El macho empolla los huevos de varias hembras y cría solo a los pichones','Estepa y Península Valdés',[2,1,1,1,1,1,1,1,1,1,2,2],'choique',2],
+   ['Cóndor andino','Tres metros de ala esperando que el sol caliente la roca','Piedra Parada y Esquel',[1,1,1,1,1,1,1,1,2,2,2,2],'condor',4],
+   ['Ballena sei','La segunda ballena más rápida del mar pasa el verano frente a Chubut','Camarones y Golfo San Jorge',[2,2,2,1,0,0,0,0,0,0,0,1],'ballena-sei',7],
+   ['Huemul','Está en el escudo nacional y quedan menos de dos mil en el mundo','Los Alerces y Parque Patagonia',[1,1,1,1,1,1,1,1,1,1,1,1],'huemul',3]
+  ];
+
+  var M=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  var L=['EN','FE','MR','AB','MY','JN','JL','AG','SE','OC','NO','DI'];
+  var m=new Date().getMonth();
+
+  var hay=F.filter(function(f){return f[3][m]>0;});
+  if(!hay.length) return;
+  // Puntaje: la temporada manda, el peso desempata.
+  var punt=function(f){ return f[3][m]*100 + f[5]; };
+  var cand=hay.slice().sort(function(a,b){ return punt(b)-punt(a); }).slice(0,3);
+  var el=cand[Math.floor(Math.random()*cand.length)];   // rota entre las tres mejores
+
+  var raiz='https://patagoniaexperiencias.com/calendario-fauna.html';
+  document.getElementById('peBf').href=raiz+'#ficha-'+el[4];
+  document.getElementById('peBfMes').textContent=
+    (el[3][m]===2?'TEMPORADA PICO · ':'')+M[m].toUpperCase()+' EN LA PATAGONIA';
+  document.getElementById('peBfHook').textContent=el[1];
+  document.getElementById('peBfSub').innerHTML=
+    '<b>'+el[0]+'</b> · '+el[2]+'. En '+M[m]+' se pueden ver '+hay.length+' de las doce especies más buscadas.';
+
+  var lbl='',cin='';
+  for(var i=0;i<12;i++){
+    lbl+='<span class="'+(i===m?'hoy':'')+'">'+L[i]+'</span>';
+    cin+='<i class="'+(el[3][i]===2?'pico':el[3][i]===1?'on':'')+'"></i>';
+  }
+  document.getElementById('peBfLbl').innerHTML=lbl;
+  document.getElementById('peBfCinta').innerHTML=cin;
+
+  // Foto: si no hay BASE o el archivo falla, queda la placa de marca
+  var wrap=document.getElementById('peBf'), img=document.getElementById('peBfImg');
+  if(BASE){
+    img.onerror=function(){ img.remove(); wrap.classList.add('pe-sinfoto'); };
+    img.alt=el[0]+' en la Patagonia';
+    img.src=BASE+el[4]+EXT;
+  } else { img.remove(); wrap.classList.add('pe-sinfoto'); }
+})();
+</script>
+<!-- ==================================================================
+     BANNER FAUNA · HASTA ACÁ
+     ================================================================== -->
+
+  <h2>LAS FOTOS DEL BANNER</h2>
+  <div class="nota" style="margin-bottom:14px">
+    Son <b>otras que las del calendario</b>: acá el recorte es apaisado y el texto ocupa la mitad inferior izquierda.
+    Si usás las mismas de 1200×1000 se van a ver cortadas y el titular va a caer encima del animal.
+  </div>
+  <table>
+    <tr><th>QUÉ</th><th>CÓMO</th></tr>
+    <tr><td>Medida</td><td>1600 × 900 px (16:9)</td></tr>
+    <tr><td>Dónde va el animal</td><td>Mitad derecha o centro alto. La franja inferior izquierda se cubre con el degradado y el texto.</td></tr>
+    <tr><td>Zona segura de texto</td><td>Los 500 px de abajo quedan oscurecidos. No pongas nada importante ahí.</td></tr>
+    <tr><td>Peso</td><td>Menos de 250 kb. WebP calidad 80 o JPG 80.</td></tr>
+    <tr><td>Nombre del archivo</td><td>El id de la especie: <code>ballena-franca.jpg</code>, <code>orca.jpg</code>, <code>condor.jpg</code>…</td></tr>
+    <tr><td>Qué foto funciona</td><td>Plano abierto, horizonte alto, mucho cielo o mar. Los primeros planos cerrados no dejan lugar al texto.</td></tr>
+  </table>
+
+  <h2>CÓMO SE ACTIVAN</h2>
+  <div class="nota">
+    Subís las doce fotos a una carpeta, por ejemplo <code>/assets/banner/</code>, y completás una sola línea
+    dentro del script:<br><br>
+    <code>var BASE = 'https://patagoniaexperiencias.com/assets/banner/';</code><br><br>
+    Mientras esté vacío, el banner muestra la placa de marca en degradado. Si subís seis de doce, las seis
+    con foto la usan y las otras caen a la placa. <b>Nunca se ve un cuadro roto.</b>
+  </div>
+
+  <h2>DÓNDE PONERLO</h2>
+  <div class="nota">
+    <b>En el index</b>, debajo del buscador: es lo primero que ve el que llega por primera vez y le da una razón para entrar hoy.<br><br>
+    <b>En la app</b> (patagonia-experiencias.html), entre el hero y la grilla de tours.<br><br>
+    <b>En el Magazine</b>, al pie de cada nota de fauna.<br><br>
+    Se pega tal cual entre los dos comentarios. No pisa estilos: todas las clases empiezan con <code>.pe-bf</code>.
+  </div>
+
+  <h2>LO QUE HAY QUE SABER</h2>
+  <div class="nota">
+    El banner tiene su propia copia reducida de los datos, en <code>var F</code>: las doce especies destacadas
+    con su titular, su lugar y sus meses. Es a propósito, para que no dependa del calendario y pese poco.
+    <b>Si cambiás los meses de alguna de esas doce en el calendario, cambialos también acá.</b><br><br>
+    Elige al azar entre las que están en temporada pico, así no muestra siempre lo mismo, y el link va directo
+    a la ficha de esa especie dentro del calendario, no a la portada.
+  </div>
+</div>
+</body>
+</html>

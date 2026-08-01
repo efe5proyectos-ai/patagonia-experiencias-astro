@@ -2269,6 +2269,9 @@ let FAUNA = [
   .flecha[disabled]{opacity:.2;pointer-events:none}
   .flecha.izq{left:8px}.flecha.der{right:8px}
   #destacados{scroll-behavior:smooth;scroll-snap-type:x mandatory}
+  /* El panel no puede comerse la pantalla: si no entra, scrollea adentro. */
+  #panelFiltros{max-height:46vh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+  #barraFiltros{max-height:76vh}
   #destacados>button{scroll-snap-align:start}
   .apagado{opacity:.5}
   .sheet{transition:transform .3s cubic-bezier(.32,.72,0,1)}
@@ -2837,14 +2840,28 @@ let abierta=null, verFuera=false, panelAbierto=false;
 var carAuto=null, carPausa=0;
 
 /* ===================== UTILIDADES ===================== */
+/* Cierra el panel de filtros. Se llama al elegir un chip: el panel abierto
+   es sticky y, si queda abierto, tapa media pantalla y parece que el scroll
+   está trabado. */
+function cerrarPanel(){
+  if(!panelAbierto) return;
+  panelAbierto=false;
+  document.getElementById('panelFiltros').classList.add('hidden');
+  fijarOffset();
+}
+
 function fijarOffset(){
   document.getElementById('barraFiltros').style.top = document.getElementById('cab').offsetHeight + 'px';
 }
 function irAlPrincipio(){
-  const m = document.querySelector('main');
-  const off = document.getElementById('cab').offsetHeight + document.getElementById('barraFiltros').offsetHeight;
-  const y = m.getBoundingClientRect().top + window.pageYOffset - off - 10;
-  if (window.pageYOffset > y + 4) window.scrollTo({ top:y, behavior:'smooth' });
+  // Se mide en el frame siguiente: si recién se cerró el panel, la barra
+  // todavía tiene el alto viejo y el destino saldría corrido.
+  requestAnimationFrame(function(){
+    const m = document.querySelector('main');
+    const off = document.getElementById('cab').offsetHeight + document.getElementById('barraFiltros').offsetHeight;
+    const y = Math.max(0, m.getBoundingClientRect().top + window.pageYOffset - off - 10);
+    if (Math.abs(window.pageYOffset - y) > 6) window.scrollTo({ top:y, behavior:'smooth' });
+  });
 }
 function colorAmb(id){ return (AMBIENTES.filter(function(a){return a.id===id;})[0]||{}).color || '#64748b'; }
 function lblAmb(id){ return (AMBIENTES.filter(function(a){return a.id===id;})[0]||{}).lbl || ''; }
@@ -3287,7 +3304,7 @@ function init(){
       return '<button data-v="'+x.id+'" class="'+cls+' chip text-[11px] font-semibold px-3 py-1.5 rounded-full border transition-colors">'+x.lbl+'</button>';
     }).join('');
     document.getElementById(cont).querySelectorAll('.'+cls).forEach(function(b){
-      b.onclick=function(){ setter(b.dataset.v); render(); irAlPrincipio(); };
+      b.onclick=function(){ setter(b.dataset.v); cerrarPanel(); render(); irAlPrincipio(); };
     });
   };
   chips('fProv',[{id:'todas',lbl:'Toda la Patagonia'}].concat(PROVINCIAS),'prov-btn',function(v){ provSel=v; });

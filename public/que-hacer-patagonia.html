@@ -6277,6 +6277,9 @@ let ACTIVIDADES = [
   .flecha[disabled]{opacity:.2;pointer-events:none}
   .flecha.izq{left:8px}.flecha.der{right:8px}
   #pedido{scroll-behavior:smooth;scroll-snap-type:x mandatory}
+  /* El panel no puede comerse la pantalla: si no entra, scrollea adentro. */
+  #panelFiltros{max-height:46vh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+  #barraFiltros{max-height:76vh}
   #pedido>button{scroll-snap-align:start}
   .pill{display:inline-block;font-family:'Montserrat',sans-serif;font-size:8.5px;letter-spacing:.1em;font-weight:700;padding:3px 7px;border-radius:5px}
   .pill.alta{background:var(--fx);color:#fff}
@@ -7448,16 +7451,27 @@ function abrirPanel(foco){
   if(g){ g.style.transition='background .5s'; g.style.background='#fff6fa';
          setTimeout(function(){ g.style.background=''; },1400); }
 }
+function cerrarPanel(){
+  if(!panel) return;
+  panel=false;
+  document.getElementById('panelFiltros').classList.add('hidden');
+  fijarOffset();
+}
+
 function irALaBarra(){
   var b=document.getElementById('barraFiltros');
   var y=b.getBoundingClientRect().top+window.pageYOffset-document.getElementById('cab').offsetHeight-6;
   if(window.pageYOffset>y+4||window.pageYOffset<y-260) window.scrollTo({top:y,behavior:'smooth'});
 }
 function irAlPrincipio(){
-  var m=document.querySelector('main');
-  var off=document.getElementById('cab').offsetHeight+document.getElementById('barraFiltros').offsetHeight;
-  var y=m.getBoundingClientRect().top+window.pageYOffset-off-10;
-  if(window.pageYOffset>y+4) window.scrollTo({top:y,behavior:'smooth'});
+  // Se mide en el frame siguiente: si recién se cerró el panel, la barra
+  // todavía tiene el alto viejo y el destino saldría corrido.
+  requestAnimationFrame(function(){
+    var m=document.querySelector('main');
+    var off=document.getElementById('cab').offsetHeight+document.getElementById('barraFiltros').offsetHeight;
+    var y=Math.max(0, m.getBoundingClientRect().top+window.pageYOffset-off-10);
+    if(Math.abs(window.pageYOffset-y)>6) window.scrollTo({top:y,behavior:'smooth'});
+  });
 }
 function carScroll(d){
   var c=document.getElementById('pedido');
@@ -7793,13 +7807,13 @@ function renderPedido(){
   }).join('');
   carEstado();
 }
-function setCat(c){ catSel=(catSel===c?'todas':c); render(); irAlPrincipio(); }
-function setLoc(l){ locSel=(locSel===l?'todas':l); render(); irAlPrincipio(); }
+function setCat(c){ catSel=(catSel===c?'todas':c); cerrarPanel(); render(); irAlPrincipio(); }
+function setLoc(l){ locSel=(locSel===l?'todas':l); cerrarPanel(); render(); irAlPrincipio(); }
 
 function chipsProv(){
   document.getElementById('fProv').innerHTML=[{id:'todas',lbl:'Toda la Patagonia'}].concat(PROVINCIAS).map(function(p){
     var on=provSel===p.id;
-    return '<button onclick="provSel=\''+p.id+'\';locSel=\'todas\';render();irAlPrincipio()" class="chip text-[11px] font-semibold px-3 py-1.5 rounded-full border transition-colors '
+    return '<button onclick="provSel=\''+p.id+'\';locSel=\'todas\';cerrarPanel();render();irAlPrincipio()" class="chip text-[11px] font-semibold px-3 py-1.5 rounded-full border transition-colors '
      +(on?'bg-brand-oxford text-white border-brand-oxford':'bg-white text-slate-600 border-brand-line')+'">'+p.lbl+'</button>';
   }).join('');
 }

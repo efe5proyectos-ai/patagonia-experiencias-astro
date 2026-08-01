@@ -2,10 +2,14 @@
 <!-- ===========================================================
      ⚠️ ARCHIVO COMPILADO — este es el que va al servidor.
      El JSX ya está traducido a JavaScript y Babel fue quitado del <head>.
-     NO editar acá: los cambios se hacen en el FUENTE y se recompila,
-     porque este archivo ya no entiende JSX.
+     NO editar acá: los cambios se hacen en el FUENTE y se recompila.
      ===========================================================
-     PATAGONIA EXPERIENCIAS · build v10 · 2026-08-01
+     PATAGONIA EXPERIENCIAS · build v10.1 · 2026-08-01
+     Nuevo en v10.1 — menú unificado:
+       · Un solo ítem "Guías" en la barra, con las TRES adentro:
+         Guía de viajeros, Calendario de fauna y Qué hacer en la Patagonia.
+         Antes convivían "Guías" y "Guía de Viajeros" como ítems distintos.
+       · GUIAS_MENU centraliza la lista: se toca ahí y cambian los dos menús.
      Nuevo en v10 — integración de las guías de temporada:
        · NavGuias        entrada "Guías" en el navbar, con desplegable
        · GuiasHome       tira de 2 tarjetas en la home, después de descuentos
@@ -3383,9 +3387,29 @@ const DATOS_PLATAFORMA = {
 // Es una copia reducida a propósito: solo las especies que tienen tour.
 // =====================================================================
 const GUIAS_URL = {
+  viajeros: '/guias-de-viaje/',
   fauna: 'https://patagoniaexperiencias.com/calendario-fauna/',
   hacer: 'https://patagoniaexperiencias.com/que-hacer-patagonia/'
 };
+
+// Las tres guías del menú, en un solo lugar: alcanza con tocar acá para
+// sumar o sacar una, y se actualizan el desplegable y el menú móvil.
+const GUIAS_MENU = [{
+  url: GUIAS_URL.viajeros,
+  icono: 'fa-book-open',
+  titulo: 'Guía de viajeros',
+  bajada: 'Todo lo que necesitás saber antes de viajar'
+}, {
+  url: GUIAS_URL.fauna,
+  icono: 'fa-binoculars',
+  titulo: 'Calendario de fauna',
+  bajada: 'Qué animal ver cada mes y con quién ir'
+}, {
+  url: GUIAS_URL.hacer,
+  icono: 'fa-map-location-dot',
+  titulo: 'Qué hacer en la Patagonia',
+  bajada: '85 actividades por destino y temporada'
+}];
 const TEMPORADA_FAUNA = {
   'ballena-franca': {
     n: 'Ballena franca austral',
@@ -3609,22 +3633,20 @@ function NavGuias({
   }), " Gu\xEDas", /*#__PURE__*/React.createElement("i", {
     className: `fa-solid fa-chevron-down text-[8px] transition-transform ${abierto ? 'rotate-180' : ''}`
   })), abierto && /*#__PURE__*/React.createElement("div", {
-    className: "absolute right-0 mt-2 w-72 bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden z-50"
-  }, /*#__PURE__*/React.createElement("a", {
-    href: GUIAS_URL.fauna,
-    className: "block px-4 py-3.5 border-b border-slate-100 hover:bg-brand-fuchsia/5 transition-colors"
+    className: "absolute right-0 mt-2 w-[19rem] bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden z-50"
+  }, GUIAS_MENU.map((g, i) => /*#__PURE__*/React.createElement("a", {
+    key: g.url,
+    href: g.url,
+    className: `flex items-start gap-3 px-4 py-3.5 hover:bg-brand-fuchsia/5 transition-colors ${i < GUIAS_MENU.length - 1 ? 'border-b border-slate-100' : ''}`
+  }, /*#__PURE__*/React.createElement("i", {
+    className: `fa-solid ${g.icono} w-5 text-center text-brand-fuchsia mt-0.5`
+  }), /*#__PURE__*/React.createElement("span", {
+    className: "min-w-0"
   }, /*#__PURE__*/React.createElement("span", {
-    className: "block font-title font-bold text-sm text-brand-dark"
-  }, "Calendario de fauna"), /*#__PURE__*/React.createElement("span", {
-    className: "block text-[11px] text-slate-500 mt-0.5"
-  }, "Qu\xE9 animal ver cada mes y con qui\xE9n ir")), /*#__PURE__*/React.createElement("a", {
-    href: GUIAS_URL.hacer,
-    className: "block px-4 py-3.5 hover:bg-brand-fuchsia/5 transition-colors"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "block font-title font-bold text-sm text-brand-dark"
-  }, "Qu\xE9 hacer en la Patagonia"), /*#__PURE__*/React.createElement("span", {
-    className: "block text-[11px] text-slate-500 mt-0.5"
-  }, "85 actividades por destino y temporada"))));
+    className: "block font-title font-bold text-sm text-brand-dark leading-tight"
+  }, g.titulo), /*#__PURE__*/React.createElement("span", {
+    className: "block text-[11px] text-slate-500 mt-0.5 leading-snug"
+  }, g.bajada))))));
 }
 function Navbar({
   scrolled,
@@ -3700,11 +3722,6 @@ function Navbar({
   }), " Revista"), /*#__PURE__*/React.createElement(NavGuias, {
     scrolled: scrolled
   }), /*#__PURE__*/React.createElement("a", {
-    href: "guiadeviajeros.html",
-    className: `hidden md:flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full transition-all hover-magenta ${scrolled ? 'text-slate-500 hover:bg-brand-fuchsia/5' : 'text-white/90 hover:bg-white/10'}`
-  }, /*#__PURE__*/React.createElement("i", {
-    className: "fa-solid fa-book-open"
-  }), " Gu\xEDa de Viajeros"), /*#__PURE__*/React.createElement("a", {
     href: "https://tienda.patagoniapuntos.com",
     target: "_blank",
     rel: "noopener noreferrer",
@@ -3735,12 +3752,23 @@ function Navbar({
     className: "flex items-center gap-3 py-3.5 px-2 text-sm font-bold uppercase tracking-widest text-slate-600 border-b border-slate-50 text-left active:text-brand-fuchsia"
   }, /*#__PURE__*/React.createElement("i", {
     className: "fa-solid fa-newspaper w-5 text-center text-brand-fuchsia"
-  }), " Revista"), /*#__PURE__*/React.createElement("a", {
-    href: "/guias-de-viaje/",
-    className: "flex items-center gap-3 py-3.5 px-2 text-sm font-bold uppercase tracking-widest text-slate-600 border-b border-slate-50 active:text-brand-fuchsia"
+  }), " Revista"), /*#__PURE__*/React.createElement("div", {
+    className: "border-b border-slate-50 py-2"
+  }, /*#__PURE__*/React.createElement("p", {
+    className: "px-2 pt-1.5 pb-1 text-[10px] font-black uppercase tracking-[0.16em] text-slate-400"
+  }, "Gu\xEDas"), GUIAS_MENU.map(g => /*#__PURE__*/React.createElement("a", {
+    key: g.url,
+    href: g.url,
+    className: "flex items-start gap-3 py-2.5 px-2 active:text-brand-fuchsia"
   }, /*#__PURE__*/React.createElement("i", {
-    className: "fa-solid fa-book-open w-5 text-center text-brand-fuchsia"
-  }), " Gu\xEDa de Viajeros"), /*#__PURE__*/React.createElement("a", {
+    className: `fa-solid ${g.icono} w-5 text-center text-brand-fuchsia mt-0.5`
+  }), /*#__PURE__*/React.createElement("span", {
+    className: "min-w-0"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "block text-sm font-bold text-slate-700 leading-tight"
+  }, g.titulo), /*#__PURE__*/React.createElement("span", {
+    className: "block text-[11px] font-normal normal-case tracking-normal text-slate-400 mt-0.5 leading-snug"
+  }, g.bajada))))), /*#__PURE__*/React.createElement("a", {
     href: "https://tienda.patagoniapuntos.com",
     target: "_blank",
     rel: "noopener noreferrer",
@@ -11193,7 +11221,7 @@ function App() {
 // Sello de build: sirve para confirmar de un vistazo qué versión está
 // publicada y no confundir archivos al subir por FTP.
 window.PE_BUILD = {
-  version: 'v10',
+  version: 'v10.1',
   fecha: '2026-07-30',
   cambios: ['logos-marquee', 'geo-catalogo', 'filtro-hero', 'fix-nan-checkout', 'fix-leaflet', 'pediag-auditoria', 'precios-por-temporada']
 };

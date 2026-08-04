@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ===========================================================
-     PATAGONIA EXPERIENCIAS · build v10 · 2026-08-02
+     PATAGONIA EXPERIENCIAS · build v11 · 2026-08-04
      Incluye:
        · Muro de logos en marquee a color (2 filas) + /assets/prestadores/
        · Catálogo GEO_PROVINCIAS + resolverGeo() (unifica "pto madryn" etc)
@@ -15,6 +15,8 @@
        precio de la temporada vigente ANTES de calcularPreciosTour. La fórmula de
        comisiones NO se modifica: recibe otro precio de entrada y opera igual.
        · GUARDA precio $0: un tour sin precio de lista no habilita la reserva.
+       · GUÍAS DE TEMPORADA recuperadas: NavGuias (menú), GuiasHome, TourTemporada.
+       Se habían perdido al construir la v10 sobre una base anterior a su alta.
      La fórmula de comisiones (calcularPreciosTour) NO fue modificada en ninguna
      de estas versiones: es byte a byte idéntica a la original.
      Para confirmar en el navegador: abrí la consola y buscá [PE BUILD].
@@ -1043,6 +1045,247 @@ const SCORING_CONFIG_DEFAULT = {
   }
 };
 let _agenciasGlobal = [];
+const GUIAS_URL = {
+  viajeros: '/guias-de-viaje/',
+  fauna: 'https://patagoniaexperiencias.com/calendario-fauna/',
+  hacer: 'https://patagoniaexperiencias.com/que-hacer-patagonia/'
+};
+const GUIAS_MENU = [{
+  url: GUIAS_URL.viajeros,
+  icono: 'fa-book-open',
+  titulo: 'Guía de viajeros',
+  bajada: 'Todo lo que necesitás saber antes de viajar'
+}, {
+  url: GUIAS_URL.fauna,
+  icono: 'fa-binoculars',
+  titulo: 'Calendario de fauna',
+  bajada: 'Qué animal ver cada mes y con quién ir'
+}, {
+  url: GUIAS_URL.hacer,
+  icono: 'fa-map-location-dot',
+  titulo: 'Qué hacer en la Patagonia',
+  bajada: '85 actividades por destino y temporada'
+}];
+const TEMPORADA_FAUNA = {
+  'ballena-franca': {
+    n: 'Ballena franca austral',
+    m: [0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 1, 1],
+    mejor: 'septiembre y octubre'
+  },
+  'ballena-sei': {
+    n: 'Ballena sei',
+    m: [2, 2, 2, 1, 0, 0, 0, 0, 0, 0, 0, 1],
+    mejor: 'enero a marzo'
+  },
+  'orca': {
+    n: 'Orca',
+    m: [1, 1, 2, 2, 0, 0, 0, 0, 1, 1, 1, 1],
+    mejor: 'marzo y abril'
+  },
+  'pinguino-magallanes': {
+    n: 'Pingüino de Magallanes',
+    m: [2, 1, 1, 1, 0, 0, 0, 0, 1, 2, 2, 2],
+    mejor: 'noviembre a enero'
+  },
+  'lobo-marino': {
+    n: 'Lobo marino',
+    m: [2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
+    mejor: 'diciembre a febrero'
+  },
+  'elefante-marino': {
+    n: 'Elefante marino',
+    m: [1, 1, 1, 0, 0, 0, 0, 1, 2, 2, 2, 1],
+    mejor: 'septiembre a noviembre'
+  },
+  'tonina-overa': {
+    n: 'Tonina overa',
+    m: [2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2],
+    mejor: 'diciembre a marzo'
+  },
+  'delfin-oscuro': {
+    n: 'Delfín oscuro',
+    m: [2, 2, 2, 1, 0, 0, 0, 0, 0, 0, 0, 2],
+    mejor: 'diciembre a marzo'
+  },
+  'guanaco': {
+    n: 'Guanaco',
+    m: [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2],
+    mejor: 'noviembre a enero'
+  },
+  'condor': {
+    n: 'Cóndor andino',
+    m: [1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2],
+    mejor: 'primavera y verano'
+  },
+  'huemul': {
+    n: 'Huemul',
+    m: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    mejor: 'todo el año, con suerte'
+  }
+};
+const PISTAS_FAUNA = [['ballena-franca', ['ballena franca', 'avistaje de ballena', 'ballenas', 'doradillo', 'solo ballenas']], ['ballena-sei', ['ballena sei']], ['orca', ['orca', 'punta norte']], ['pinguino-magallanes', ['pingüin', 'pinguin', 'punta tombo', 'tombo', 'dos bahías', 'isla escondida']], ['lobo-marino', ['lobo marino', 'lobos marinos', 'lobería', 'loberia', 'punta loma', 'snorkel con lobos']], ['elefante-marino', ['elefante marino', 'punta delgada', 'caleta valdés']], ['tonina-overa', ['tonina', 'toninas']], ['delfin-oscuro', ['delfín oscuro', 'delfin oscuro', 'delfines']], ['guanaco', ['guanaco', 'chulengo', 'safari de estepa']], ['condor', ['cóndor', 'condor', 'piedra parada']], ['huemul', ['huemul', 'los alerces']]];
+function especieDelTour(tour) {
+  if (!tour) return null;
+  if (tour.especieGuia && TEMPORADA_FAUNA[tour.especieGuia]) return tour.especieGuia;
+  const txt = [tour.titulo, tour.nombre, tour.destino, tour.descripcionLarga].filter(Boolean).join(' ').toLowerCase();
+  if (!txt) return null;
+  for (let i = 0; i < PISTAS_FAUNA.length; i++) {
+    const [id, pistas] = PISTAS_FAUNA[i];
+    for (let k = 0; k < pistas.length; k++) {
+      if (txt.indexOf(pistas[k]) !== -1) return id;
+    }
+  }
+  return null;
+}
+function NavGuias({
+  scrolled
+}) {
+  const [abierto, setAbierto] = useState(false);
+  useEffect(() => {
+    if (!abierto) return;
+    const cerrar = () => setAbierto(false);
+    document.addEventListener('click', cerrar);
+    return () => document.removeEventListener('click', cerrar);
+  }, [abierto]);
+  return React.createElement("div", {
+    className: "relative hidden md:block",
+    onClick: e => e.stopPropagation()
+  }, React.createElement("button", {
+    onClick: () => setAbierto(o => !o),
+    className: `flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full transition-all hover-magenta ${scrolled ? 'text-slate-500 hover:bg-brand-fuchsia/5' : 'text-white/90 hover:bg-white/10'}`
+  }, React.createElement("i", {
+    className: "fa-solid fa-compass"
+  }), " Gu\xEDas", React.createElement("i", {
+    className: `fa-solid fa-chevron-down text-[8px] transition-transform ${abierto ? 'rotate-180' : ''}`
+  })), abierto && React.createElement("div", {
+    className: "absolute right-0 mt-2 w-[19rem] bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden z-50"
+  }, GUIAS_MENU.map((g, i) => React.createElement("a", {
+    key: g.url,
+    href: g.url,
+    className: `flex items-start gap-3 px-4 py-3.5 hover:bg-brand-fuchsia/5 transition-colors ${i < GUIAS_MENU.length - 1 ? 'border-b border-slate-100' : ''}`
+  }, React.createElement("i", {
+    className: `fa-solid ${g.icono} w-5 text-center text-brand-fuchsia mt-0.5`
+  }), React.createElement("span", {
+    className: "min-w-0"
+  }, React.createElement("span", {
+    className: "block font-title font-bold text-sm text-brand-dark leading-tight"
+  }, g.titulo), React.createElement("span", {
+    className: "block text-[11px] text-slate-500 mt-0.5 leading-snug"
+  }, g.bajada))))));
+}
+function TourTemporada({
+  tour
+}) {
+  const id = especieDelTour(tour);
+  if (!id) return null;
+  const esp = TEMPORADA_FAUNA[id];
+  const mes = new Date().getMonth();
+  const val = esp.m[mes] || 0;
+  const MIN = ['EN', 'FE', 'MR', 'AB', 'MY', 'JN', 'JL', 'AG', 'SE', 'OC', 'NO', 'DI'];
+  const NOM = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+  let proximo = null;
+  for (let k = 1; k <= 12; k++) {
+    const i = (mes + k) % 12;
+    if (esp.m[i] > 0) {
+      proximo = i;
+      break;
+    }
+  }
+  const texto = val === 2 ? 'Estás mirando ' + NOM[mes] + ': es temporada alta, el mejor momento del año.' : val === 1 ? 'Estás mirando ' + NOM[mes] + ': se puede ver. El mejor momento es ' + esp.mejor + '.' : 'En ' + NOM[mes] + ' no se ve. Vuelve en ' + (proximo !== null ? NOM[proximo] : '—') + '.';
+  return React.createElement("div", {
+    className: "mt-8 bg-slate-50 border border-slate-200 rounded-2xl p-5 md:p-6"
+  }, React.createElement("div", {
+    className: "flex items-center justify-between gap-4 flex-wrap mb-3"
+  }, React.createElement("p", {
+    className: "text-[10px] font-bold text-slate-400 uppercase tracking-widest"
+  }, "Mejor \xE9poca para ver ", esp.n.toLowerCase()), React.createElement("div", {
+    className: "flex items-center gap-3 text-[10px] font-semibold text-slate-500"
+  }, React.createElement("span", {
+    className: "flex items-center gap-1.5"
+  }, React.createElement("i", {
+    className: "inline-block w-3.5 h-2 rounded-sm",
+    style: {
+      background: '#E91E63'
+    }
+  }), "Alta"), React.createElement("span", {
+    className: "flex items-center gap-1.5"
+  }, React.createElement("i", {
+    className: "inline-block w-3.5 h-2 rounded-sm",
+    style: {
+      background: '#F48FB1'
+    }
+  }), "Media"))), React.createElement("div", {
+    className: "grid grid-cols-12 gap-[3px] mb-1"
+  }, MIN.map((m, i) => React.createElement("span", {
+    key: i,
+    className: `text-[8px] md:text-[9px] font-bold text-center leading-4 rounded ${i === mes ? 'text-white bg-slate-900' : 'text-slate-400'}`
+  }, m))), React.createElement("div", {
+    className: "grid grid-cols-12 gap-[3px]"
+  }, esp.m.map((v, i) => React.createElement("span", {
+    key: i,
+    className: "block h-3 rounded-sm",
+    style: {
+      background: v === 2 ? '#E91E63' : v === 1 ? '#F48FB1' : '#e9ecf1'
+    }
+  }))), React.createElement("p", {
+    className: "text-sm font-semibold text-brand-dark mt-4"
+  }, texto), React.createElement("a", {
+    href: GUIAS_URL.fauna + '#ficha-' + id,
+    target: "_blank",
+    rel: "noopener noreferrer",
+    className: "inline-flex items-center gap-1.5 text-xs font-bold text-brand-fuchsia hover:underline mt-2"
+  }, "Ver el calendario completo de fauna ", React.createElement("i", {
+    className: "fa-solid fa-arrow-right text-[10px]"
+  })));
+}
+function GuiasHome() {
+  const mes = new Date().getMonth();
+  const NOM = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+  const enTemporada = Object.keys(TEMPORADA_FAUNA).filter(k => (TEMPORADA_FAUNA[k].m[mes] || 0) > 0);
+  const enAlta = Object.keys(TEMPORADA_FAUNA).filter(k => TEMPORADA_FAUNA[k].m[mes] === 2).map(k => TEMPORADA_FAUNA[k].n);
+  const bajadaFauna = enAlta.length ? enAlta.slice(0, 2).join(' y ') + (enAlta.length > 2 ? ' y más' : '') + ' están en su mejor momento.' : 'Ballenas, pingüinos, orcas y 30 especies más, mes a mes.';
+  return React.createElement("section", {
+    className: "py-12 md:py-14 bg-white border-t border-slate-200"
+  }, React.createElement("div", {
+    className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+  }, React.createElement("div", {
+    className: "grid grid-cols-1 md:grid-cols-2 gap-4"
+  }, React.createElement("a", {
+    href: GUIAS_URL.fauna,
+    className: "group relative overflow-hidden rounded-3xl min-h-[168px] flex flex-col p-6 md:p-7",
+    style: {
+      background: 'radial-gradient(120% 90% at 78% 15%, #0e6f80 0%, transparent 60%), linear-gradient(150deg, #132033, #0b1220 72%)'
+    }
+  }, React.createElement("span", {
+    className: "text-[9px] font-black uppercase tracking-[0.16em] text-brand-fuchsia mb-2"
+  }, "Gu\xEDa de temporada"), React.createElement("h3", {
+    className: "font-title text-xl md:text-2xl font-black text-white leading-tight mb-1.5"
+  }, "\xBFQu\xE9 fauna se ve en ", NOM[mes], "?"), React.createElement("p", {
+    className: "text-[13px] text-slate-400 leading-snug max-w-sm"
+  }, bajadaFauna), React.createElement("span", {
+    className: "mt-auto pt-4 text-[10px] font-black uppercase tracking-widest text-white flex items-center gap-2"
+  }, "Ver el calendario", React.createElement("i", {
+    className: "fa-solid fa-arrow-right text-[10px] group-hover:translate-x-1 transition-transform"
+  })), enTemporada.length > 0 && React.createElement("span", {
+    className: "absolute top-6 right-6 text-[10px] font-bold text-white/50"
+  }, enTemporada.length, " especies este mes")), React.createElement("a", {
+    href: GUIAS_URL.hacer,
+    className: "group relative overflow-hidden rounded-3xl min-h-[168px] flex flex-col p-6 md:p-7",
+    style: {
+      background: 'radial-gradient(120% 90% at 78% 15%, #1f6b46 0%, transparent 60%), linear-gradient(150deg, #12251c, #0b1220 72%)'
+    }
+  }, React.createElement("span", {
+    className: "text-[9px] font-black uppercase tracking-[0.16em] text-brand-fuchsia mb-2"
+  }, "Gu\xEDa de actividades"), React.createElement("h3", {
+    className: "font-title text-xl md:text-2xl font-black text-white leading-tight mb-1.5"
+  }, "\xBFQu\xE9 se puede hacer?"), React.createElement("p", {
+    className: "text-[13px] text-slate-400 leading-snug max-w-sm"
+  }, "85 actividades en 93 destinos. Busc\xE1 por d\xF3nde est\xE1s o por lo que quer\xE9s hacer."), React.createElement("span", {
+    className: "mt-auto pt-4 text-[10px] font-black uppercase tracking-widest text-white flex items-center gap-2"
+  }, "Ver qu\xE9 hacer", React.createElement("i", {
+    className: "fa-solid fa-arrow-right text-[10px] group-hover:translate-x-1 transition-transform"
+  }))))));
+}
 const GEO_PROVINCIAS = [{
   id: 'chubut',
   nombre: 'Chubut',
@@ -2866,12 +3109,9 @@ function Navbar({
     className: `hidden md:flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full transition-all hover-magenta ${scrolled ? 'text-slate-500 hover:bg-brand-fuchsia/5' : 'text-white/90 hover:bg-white/10'}`
   }, React.createElement("i", {
     className: "fa-solid fa-newspaper"
-  }), " Revista"), React.createElement("a", {
-    href: "guiadeviajeros.html",
-    className: `hidden md:flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full transition-all hover-magenta ${scrolled ? 'text-slate-500 hover:bg-brand-fuchsia/5' : 'text-white/90 hover:bg-white/10'}`
-  }, React.createElement("i", {
-    className: "fa-solid fa-book-open"
-  }), " Guía de Viajeros"), React.createElement("a", {
+  }), " Revista"), React.createElement(NavGuias, {
+    scrolled: scrolled
+  }), React.createElement("a", {
     href: "https://tienda.patagoniapuntos.com",
     target: "_blank",
     rel: "noopener noreferrer",
@@ -2902,12 +3142,18 @@ function Navbar({
     className: "flex items-center gap-3 py-3.5 px-2 text-sm font-bold uppercase tracking-widest text-slate-600 border-b border-slate-50 text-left active:text-brand-fuchsia"
   }, React.createElement("i", {
     className: "fa-solid fa-newspaper w-5 text-center text-brand-fuchsia"
-  }), " Revista"), React.createElement("a", {
-    href: "/guias-de-viaje/",
-    className: "flex items-center gap-3 py-3.5 px-2 text-sm font-bold uppercase tracking-widest text-slate-600 border-b border-slate-50 active:text-brand-fuchsia"
+  }), " Revista"), React.createElement("div", {
+    className: "border-b border-slate-50 py-2"
+  }, React.createElement("p", {
+    className: "px-2 pt-1.5 pb-1 text-[10px] font-black uppercase tracking-[0.16em] text-slate-400"
+  }, "Guías"), GUIAS_MENU.map(g => React.createElement("a", {
+    key: g.url,
+    href: g.url,
+    onClick: () => setMenuMovil(false),
+    className: "flex items-center gap-3 py-3 px-2 text-sm font-bold uppercase tracking-widest text-slate-600 active:text-brand-fuchsia"
   }, React.createElement("i", {
-    className: "fa-solid fa-book-open w-5 text-center text-brand-fuchsia"
-  }), " Guía de Viajeros"), React.createElement("a", {
+    className: `fa-solid ${g.icono} w-5 text-center text-brand-fuchsia`
+  }), " ", g.titulo))), React.createElement("a", {
     href: "https://tienda.patagoniapuntos.com",
     target: "_blank",
     rel: "noopener noreferrer",
@@ -5073,6 +5319,8 @@ function TourDetailPage({
     dangerouslySetInnerHTML: {
       __html: formatearTextoMagico(limpiarTextoWord(tour.descripcionLarga))
     }
+  }), React.createElement(TourTemporada, {
+    tour: tour
   }), textoDisponibilidad(tour.disponibilidad) && React.createElement("div", {
     className: "mt-8 bg-emerald-50 border border-emerald-200 rounded-2xl p-5 shadow-sm flex items-center gap-3"
   }, React.createElement("div", {
@@ -8109,7 +8357,7 @@ function HomePage({
       });
       triggerScrollToResults();
     }
-  }))))), React.createElement(ArticleMapSection, {
+  }))))), React.createElement(GuiasHome, null), React.createElement(ArticleMapSection, {
     articulos: articulos,
     onSelectArticle: onSelectArticle
   }), (() => {
@@ -9271,9 +9519,9 @@ function App() {
 window.PE_BUILD = {
   version: 'v4',
   fecha: '2026-07-30',
-  cambios: ['logos-marquee', 'geo-catalogo', 'filtro-hero', 'guarda-precio-cero', 'fix-nan-checkout', 'fix-leaflet', 'pediag-auditoria', 'precios-por-temporada']
+  cambios: ['logos-marquee', 'geo-catalogo', 'filtro-hero', 'guarda-precio-cero', 'guias-recuperadas', 'fix-nan-checkout', 'fix-leaflet', 'pediag-auditoria', 'precios-por-temporada']
 };
-console.log('%c[PE BUILD] v10 · 2026-08-02 · +guarda precio $0', 'background:#E91E63;color:#fff;font-weight:bold;padding:3px 8px;border-radius:4px');
+console.log('%c[PE BUILD] v11 · 2026-08-04 · +guarda precio $0 +GUÍAS recuperadas', 'background:#E91E63;color:#fff;font-weight:bold;padding:3px 8px;border-radius:4px');
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(React.createElement(App, null));
 </script>

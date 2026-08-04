@@ -1,92 +1,685 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Meta Pixel Base · Patagonia Experiencias -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window,document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '1501384968138883');
+      fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=1501384968138883&ev=PageView&noscript=1"/></noscript>
+    <!-- End Meta Pixel -->
+    <title>Patagonia Experiencias | Reservá excursiones y alojamientos en la Patagonia</title>
 
 <!-- ===========================================================================
-     REDIRECCIÓN A LA APP · Patagonia Experiencias
+     SEO · Patagonia Experiencias
      ---------------------------------------------------------------------------
-     Manda a quien entre por la raíz del dominio directo a patagonia-experiencias.html
+     Todo lo de acá es SEO legítimo: le describe a Google lo mismo que ve el
+     visitante. Nada oculto, nada de cloaking.
 
-     PRESERVA hash y query string. Es lo importante: el sitio usa rutas por hash
-     (#tour/slug, #prestador/slug, #nota/slug) y parámetros (?q=, códigos promo).
-     Si alguien comparte patagoniaexperiencias.com/#tour/valle-inferior o un link
-     con código de descuento, tiene que llegar al lugar correcto y no a la home.
-
-     Tres capas, por orden de rapidez:
-       1. JavaScript  → instantáneo y arrastra hash + query
-       2. meta refresh → si el navegador tiene JS desactivado
-       3. link visible → si todo lo demás falla, el visitante puede tocar
-
-     El canonical le dice a Google cuál es la página real, así no se parte el SEO
-     entre la raíz y el archivo.
-
-     OJO CON ASTRO: si el proyecto tiene un src/pages/index.astro, ESE le gana a
-     este archivo y el build lo ignora. En ese caso hay que borrar o renombrar
-     el index.astro, o usar el _redirects que ya existe en public/.
-
-     Las rutas van RELATIVAS (sin barra inicial) a propósito: así funciona tanto
-     si el sitio está en la raíz del dominio como si cuelga de un subdirectorio.
+     Por qué NO usamos texto escondido: Google lo llama "hidden text" y es
+     penalizable — va de perder posiciones a la desindexación del dominio. Es
+     una técnica de hace 15 años que hoy se detecta sin esfuerzo. El riesgo no
+     compensa: lo que sí funciona es que el contenido esté en el HTML, visible
+     tanto para el robot como para la persona.
      =========================================================================== -->
 
-<title>Patagonia Experiencias | Reservá tu próxima aventura</title>
-<meta name="description" content="La plataforma de reservas turísticas de la Patagonia: excursiones, alojamientos, gastronomía y experiencias con prestadores habilitados.">
-<link rel="canonical" href="https://patagoniaexperiencias.com/patagonia-experiencias.html">
+<!-- Idioma y zona: le dice a Google para qué público es -->
+<meta name="language" content="es-AR">
+<meta name="geo.region" content="AR-U">
+<meta name="geo.placename" content="Patagonia, Argentina">
+<meta name="author" content="Patagonia Experiencias · efe5 proyectos SRL">
 
-<!-- Capa 2: si no hay JS, redirige igual (sin conservar el hash) -->
-<meta http-equiv="refresh" content="0; url=patagonia-experiencias.html">
+<!-- Descripción: es lo que se lee debajo del título en los resultados.
+     Hasta ~160 caracteres; más largo lo corta. -->
+<meta name="description" content="Reservá excursiones, alojamientos y experiencias en la Patagonia con prestadores habilitados. Avistaje de ballenas, glaciares, trekking y gastronomía en Chubut, Santa Cruz, Río Negro, Neuquén y Tierra del Fuego.">
 
-<!-- Capa 1: instantánea y conservando todo. Va antes del render para que ni se vea. -->
-<script>
-  (function () {
-    var destino = 'patagonia-experiencias.html';
-    // location.search = "?q=ballenas"   ·   location.hash = "#tour/valle-inferior"
-    var extra = (window.location.search || '') + (window.location.hash || '');
-    // replace() en vez de href: no deja la raíz en el historial, así el botón
-    // "atrás" del navegador lleva a donde el visitante venía y no a un rebote.
-    window.location.replace(destino + extra);
-  })();
+<!-- Instrucciones al robot: indexar, seguir links, y mostrar vista previa completa -->
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1">
+
+<!-- Canonical: evita que Google trate como duplicadas la raíz, /index.html y
+     las variantes con o sin www. Todo el peso va a una sola dirección. -->
+<link rel="canonical" href="https://patagoniaexperiencias.com/">
+
+<!-- Open Graph: cómo se ve el link al compartirlo en Facebook, WhatsApp, LinkedIn -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Patagonia Experiencias">
+<meta property="og:locale" content="es_AR">
+<meta property="og:url" content="https://patagoniaexperiencias.com/">
+<meta property="og:title" content="Patagonia Experiencias | Reservá tu próxima aventura">
+<meta property="og:description" content="La red que conecta las mejores experiencias de la Patagonia con quienes buscan vivirlas. Excursiones, alojamientos y gastronomía con prestadores habilitados.">
+<meta property="og:image" content="https://patagoniaexperiencias.com/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Paisaje de la Patagonia argentina">
+
+<!-- Twitter/X: mismo objetivo que Open Graph -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Patagonia Experiencias | Reservá tu próxima aventura">
+<meta name="twitter:description" content="Excursiones, alojamientos y gastronomía en la Patagonia con prestadores habilitados.">
+<meta name="twitter:image" content="https://patagoniaexperiencias.com/og-image.jpg">
+
+<!-- Color de marca en la barra del navegador móvil -->
+<meta name="theme-color" content="#E91E63">
+
+<!-- ---------------------------------------------------------------------------
+     DATOS ESTRUCTURADOS (JSON-LD)
+     Es el formato que Google entiende mejor. Le explica QUÉ es este sitio, no
+     solo qué dice. Habilita los resultados enriquecidos: el bloque con logo,
+     redes, zona de cobertura y buscador propio dentro de los resultados.
+     --------------------------------------------------------------------------- -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TravelAgency",
+      "@id": "https://patagoniaexperiencias.com/#organizacion",
+      "name": "Patagonia Experiencias",
+      "alternateName": "Patagonia Experiencias · Plataforma de Reservas",
+      "url": "https://patagoniaexperiencias.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://patagoniaexperiencias.com/logo-patagonia-experiencias.png"
+      },
+      "description": "Plataforma de reservas turísticas de la Patagonia argentina. Conecta viajeros con agencias, operadores, alojamientos y gastronomía habilitados.",
+      "email": "patagoniaexperienciasok@gmail.com",
+      "telephone": "+5492804687904",
+      "priceRange": "$$",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Trelew",
+        "addressRegion": "Chubut",
+        "addressCountry": "AR"
+      },
+      "areaServed": [
+        { "@type": "State", "name": "Chubut" },
+        { "@type": "State", "name": "Santa Cruz" },
+        { "@type": "State", "name": "Río Negro" },
+        { "@type": "State", "name": "Neuquén" },
+        { "@type": "State", "name": "Tierra del Fuego" },
+        { "@type": "State", "name": "La Pampa" }
+      ],
+      "sameAs": [
+        "https://www.instagram.com/patagoniaexperienciasok/",
+        "https://www.facebook.com/patagoniaexperiencias"
+      ],
+      "parentOrganization": {
+        "@type": "Organization",
+        "name": "efe5 proyectos SRL"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://patagoniaexperiencias.com/#sitio",
+      "url": "https://patagoniaexperiencias.com/",
+      "name": "Patagonia Experiencias",
+      "inLanguage": "es-AR",
+      "publisher": { "@id": "https://patagoniaexperiencias.com/#organizacion" },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://patagoniaexperiencias.com/patagonia-experiencias.html?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://patagoniaexperiencias.com/#pagina",
+      "url": "https://patagoniaexperiencias.com/",
+      "name": "Patagonia Experiencias | Reservá tu próxima aventura",
+      "isPartOf": { "@id": "https://patagoniaexperiencias.com/#sitio" },
+      "about": { "@id": "https://patagoniaexperiencias.com/#organizacion" },
+      "description": "Punto de entrada a la plataforma: acceso para viajeros, para prestadores turísticos y al panel de gestión."
+    }
+  ]
+}
 </script>
 
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'], title: ['Montserrat', 'sans-serif'] },
+                    colors: { brand: { oxford: '#2c3e50', fuchsia: '#E91E63', fuchsiaDark: '#C2185B', snow: '#FDFDFD', grayLight: '#F3F4F6', border: '#E5E7EB' } }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth-compat.js"></script>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 <style>
-  html, body { margin: 0; height: 100%; }
-  body {
-    font-family: 'Inter', -apple-system, 'Segoe UI', system-ui, sans-serif;
-    background: linear-gradient(135deg, #1f2937 0%, #2c3e50 45%, #C2185B 100%);
-    color: #fff;
-    display: flex; align-items: center; justify-content: center;
-    text-align: center; padding: 24px;
-  }
-  .marca { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; margin: 0 0 6px; }
-  .marca span { color: #F8BBD0; }
-  .eyebrow {
-    font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
-    font-weight: 700; color: rgba(255,255,255,.6); margin: 0 0 26px;
-  }
-  .cargando { font-size: 13px; color: rgba(255,255,255,.75); margin: 0 0 20px; }
-  .link {
-    display: inline-block; background: #E91E63; color: #fff;
-    padding: 13px 30px; border-radius: 50px; text-decoration: none;
-    font-weight: 700; font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
-  }
-  .spinner {
-    width: 26px; height: 26px; margin: 0 auto 20px;
-    border: 3px solid rgba(255,255,255,.25); border-top-color: #F8BBD0;
-    border-radius: 50%; animation: girar .8s linear infinite;
-  }
-  @keyframes girar { to { transform: rotate(360deg); } }
-  @media (prefers-reduced-motion: reduce) { .spinner { animation: none; } }
-</style>
+        html, body { margin: 0; padding: 0; height: 100%; background-color: #FDFDFD; color: #2c3e50; overflow: hidden; }
+        .card-link { transition: all 0.3s ease; }
+        .card-link:hover { transform: translateY(-2px); box-shadow: 0 15px 30px -5px rgba(233, 30, 99, 0.2); }
+        .card-link:hover i.icon-action { transform: translateX(5px); }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        .left-panel::-webkit-scrollbar { width: 6px; }
+        .left-panel::-webkit-scrollbar-track { background: transparent; }
+        .left-panel::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .left-panel::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        @media (max-width: 1024px) { html, body { overflow: auto; height: auto; } }
+    </style>
 </head>
-<body>
-  <!-- Capa 3: solo se llega a ver si fallaron las dos anteriores -->
-  <main>
-    <div class="spinner"></div>
-    <p class="marca">Patagonia<span>Experiencias</span></p>
-    <p class="eyebrow">Plataforma de Reservas</p>
-    <p class="cargando">Llevándote a las experiencias…</p>
-    <a class="link" href="patagonia-experiencias.html">Entrar ahora</a>
-  </main>
+<body class="antialiased selection:bg-brand-fuchsia selection:text-white">
+  <!-- =========================================================================
+       CONTENIDO INDEXABLE
+       -------------------------------------------------------------------------
+       El problema que resuelve: toda la página se dibuja con React desde JS, así
+       que el HTML que llega a Google tenía CERO texto. Sin texto no hay nada que
+       posicionar, por más metadatos que se pongan arriba.
+
+       Esto va dentro de <noscript>, que es la forma legítima: el visitante con
+       JavaScript no lo ve nunca (React ya le dibujó la página), y quien no tenga
+       JS —o el robot que no ejecuta— sí lee un contenido real y navegable.
+
+       No es texto oculto: es el mismo contenido de la página, en su versión sin
+       JavaScript, con links que funcionan de verdad. Nada que el buscador vea y
+       la persona no pueda.
+       ========================================================================= -->
+  <noscript>
+    <div style="max-width:860px;margin:0 auto;padding:40px 24px;font-family:Inter,system-ui,Arial,sans-serif;line-height:1.7;color:#2c3e50;">
+
+      <h1 style="font-size:30px;font-weight:800;margin:0 0 12px;color:#1f2937;">
+        Patagonia Experiencias · Plataforma de reservas turísticas
+      </h1>
+      <p style="font-size:17px;color:#4b5563;margin:0 0 32px;">
+        La red que conecta las mejores experiencias de la Patagonia con quienes buscan vivirlas
+        intensamente. Reservá excursiones, alojamientos y gastronomía con prestadores habilitados
+        de Chubut, Santa Cruz, Río Negro, Neuquén, Tierra del Fuego y La Pampa.
+      </p>
+
+      <h2 style="font-size:21px;font-weight:700;margin:0 0 10px;">Para turistas y viajeros</h2>
+      <p style="margin:0 0 12px;">
+        Mirá tours, alojamientos y experiencias sin registrarte.
+        <a href="patagonia-experiencias.html" style="color:#E91E63;font-weight:600;">Descubrí tu próximo destino</a>
+        y reservá con seña online: el saldo lo coordinás directamente con el prestador en destino.
+      </p>
+      <ul style="margin:0 0 28px;padding-left:20px;">
+        <li><strong>Avistaje de ballenas</strong> en Puerto Madryn y Puerto Pirámides, entre junio y diciembre</li>
+        <li><strong>Pingüinos de Magallanes</strong> en Punta Tombo, de septiembre a marzo</li>
+        <li><strong>Glaciares</strong>: Perito Moreno y minitrekking sobre hielo en El Calafate</li>
+        <li><strong>Trekking y montaña</strong> en El Chaltén, Bariloche, Esquel y Los Alerces</li>
+        <li><strong>Nieve y ski</strong> en La Hoya, Cerro Catedral y Chapelco</li>
+        <li><strong>Gastronomía regional</strong>: casas de té galesas en Gaiman, cervecerías y bodegas</li>
+        <li><strong>Alojamientos</strong>: hoteles, cabañas y lodges en toda la región</li>
+      </ul>
+
+      <h2 style="font-size:21px;font-weight:700;margin:0 0 10px;">Para prestadores turísticos</h2>
+      <p style="margin:0 0 28px;">
+        Si tenés una agencia de viajes, un alojamiento, un restaurante o una excursión,
+        <a href="prestadores.html" style="color:#E91E63;font-weight:600;">publicá tus servicios</a>
+        en la plataforma. Trabajamos con operadores habilitados: legajo RNAV para agencias de viajes
+        y Registro Único de Turismo Receptivo de Chubut para operadores receptivos.
+        Si ya sos parte, <a href="https://panel.patagoniaexperiencias.com" style="color:#E91E63;font-weight:600;">accedé a tu panel</a>.
+      </p>
+
+      <h2 style="font-size:21px;font-weight:700;margin:0 0 10px;">Destinos que cubrimos</h2>
+      <p style="margin:0 0 28px;">
+        Puerto Madryn · Puerto Pirámides · Península Valdés · Punta Tombo · Trelew · Gaiman ·
+        Rawson · Playa Unión · Esquel · Trevelin · La Hoya · Parque Los Alerces · Lago Puelo ·
+        Comodoro Rivadavia · El Calafate · El Chaltén · Río Gallegos · Bariloche · El Bolsón ·
+        Las Grutas · San Martín de los Andes · Villa La Angostura · Ushuaia · Río Grande
+      </p>
+
+      <h2 style="font-size:21px;font-weight:700;margin:0 0 10px;">Cómo funciona</h2>
+      <p style="margin:0 0 28px;">
+        No te vendemos la excursión y chau: te acompañamos para que disfrutes más y mejor.
+        Elegís la experiencia, reservás online con una seña y el resto lo abonás directamente
+        al prestador. Todos los operadores de la plataforma están verificados. Además, cada
+        reserva suma beneficios de <strong>Patagonia Puntos</strong> para usar en el destino.
+      </p>
+
+      <h2 style="font-size:21px;font-weight:700;margin:0 0 10px;">El ecosistema</h2>
+      <p style="margin:0 0 28px;">
+        <a href="https://patagoniamagazine.com.ar" style="color:#E91E63;">Patagonia Magazine</a> —
+        notas, guías y calendario de fauna de la región ·
+        <a href="https://tienda.patagoniapuntos.com" style="color:#E91E63;">Patagonia Puntos</a> —
+        beneficios concretos en comercios adheridos del destino
+      </p>
+
+      <h2 style="font-size:21px;font-weight:700;margin:0 0 10px;">Contacto</h2>
+      <p style="margin:0 0 8px;">
+        WhatsApp: <a href="https://wa.me/005492804687904" style="color:#E91E63;">+54 9 2804 687904</a> ·
+        Email: <a href="mailto:patagoniaexperienciasok@gmail.com" style="color:#E91E63;">patagoniaexperienciasok@gmail.com</a>
+      </p>
+      <p style="margin:0 0 28px;color:#6b7280;font-size:14px;">
+        Patagonia Experiencias · efe5 proyectos SRL · Trelew, Chubut, Argentina
+      </p>
+
+      <p style="background:#fff5f8;border-left:4px solid #E91E63;padding:14px 18px;margin:0;font-size:14px;">
+        Esta página necesita JavaScript para funcionar completa.
+        Podés entrar directamente a <a href="patagonia-experiencias.html" style="color:#E91E63;font-weight:600;">las experiencias disponibles</a>.
+      </p>
+
+    </div>
+  </noscript>
+
+
+    <div id="root"></div>
+
+    <script>
+const {
+  useState,
+  useEffect
+} = React;
+const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+  apiKey: "AIzaSyDZkeRgN45FkOF8pO2rGxDJA28VZnZ8Ntg",
+  authDomain: "patagonia-experiencias.firebaseapp.com",
+  projectId: "patagonia-experiencias",
+  storageBucket: "patagonia-experiencias.firebasestorage.app",
+  messagingSenderId: "169796366610",
+  appId: "1:169796366610:web:3e2c7e65262933647983cb"
+};
+if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+const appId = typeof __app_id !== 'undefined' ? __app_id : 'patagonia-experiencias-app';
+function MediaBackground() {
+  const FALLBACK_INTERVALO = 8000;
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [mediaAssets, setMediaAssets] = useState([]);
+  const [intervaloMs, setIntervaloMs] = useState(FALLBACK_INTERVALO);
+  useEffect(() => {
+    let activo = true;
+    db.collection('artifacts').doc(appId).collection('public').doc('data').collection('configuracion').doc('medios').get().then(snap => {
+      if (!activo || !snap.exists) return;
+      const data = snap.data();
+      const items = data.hub?.items;
+      if (Array.isArray(items) && items.length > 0) {
+        const normalizados = items.map(it => ({
+          tipo: it.tipo || it.type || 'image',
+          url: it.url,
+          videoId: it.videoId || null
+        })).filter(it => it.url || it.videoId);
+        if (normalizados.length > 0) {
+          setMediaAssets(normalizados);
+          setCurrentIndex(Math.floor(Math.random() * normalizados.length));
+        }
+      }
+      if (typeof data.hub?.intervaloMs === 'number' && data.hub.intervaloMs >= 2000) {
+        setIntervaloMs(data.hub.intervaloMs);
+      }
+    }).catch(err => console.warn('No se pudo cargar config/medios.', err));
+    return () => {
+      activo = false;
+    };
+  }, []);
+  useEffect(() => {
+    if (mediaAssets.length > 1) {
+      const interval = setInterval(() => setCurrentIndex(prev => (prev + 1) % mediaAssets.length), intervaloMs);
+      return () => clearInterval(interval);
+    }
+  }, [mediaAssets.length, intervaloMs]);
+  return (React.createElement("div", {
+      className: "relative w-full h-[60vh] lg:h-full lg:w-1/2 overflow-hidden bg-gradient-to-br from-brand-oxford via-brand-fuchsiaDark to-brand-fuchsia"
+    }, mediaAssets.map((asset, index) => {
+      const esVideo = asset.tipo === 'video';
+      const esYoutube = asset.tipo === 'youtube';
+      const visible = index === currentIndex;
+      return React.createElement("div", {
+        key: index,
+        className: "absolute inset-0 transition-opacity duration-1000 ease-in-out",
+        style: {
+          opacity: visible ? 1 : 0
+        }
+      }, esYoutube ? React.createElement("iframe", {
+        src: `https://www.youtube.com/embed/${asset.videoId}?autoplay=1&mute=1&loop=1&playlist=${asset.videoId}&controls=0&showinfo=0&modestbranding=1&playsinline=1&rel=0`,
+        className: "w-full h-full pointer-events-none",
+        style: {
+          border: 0,
+          transform: 'scale(1.5)'
+        },
+        allow: "autoplay; encrypted-media",
+        title: "Video de fondo"
+      }) : esVideo ? React.createElement("video", {
+        src: asset.url,
+        className: "w-full h-full object-cover",
+        autoPlay: true,
+        muted: true,
+        loop: true,
+        playsInline: true
+      }) : React.createElement("img", {
+        src: asset.url,
+        className: "w-full h-full object-cover transform scale-105 transition-transform duration-[10000ms] ease-linear",
+        style: {
+          transform: visible ? 'scale(1)' : 'scale(1.05)'
+        },
+        alt: "Destino Patagonia"
+      }));
+    }), React.createElement("div", {
+      className: "absolute inset-0 bg-gradient-to-t from-brand-oxford/90 via-brand-oxford/20 to-transparent"
+    }), React.createElement("div", {
+      className: "absolute bottom-10 left-8 right-8 lg:right-12 lg:bottom-16 lg:text-right"
+    }, React.createElement("div", {
+      className: "w-14 h-14 md:w-16 md:h-16 bg-brand-fuchsia rounded-2xl flex items-center justify-center text-white shadow-2xl mb-5 md:mb-6 lg:ml-auto"
+    }, React.createElement("i", {
+      className: "fa-solid fa-mountain-sun text-2xl md:text-3xl"
+    })), React.createElement("h1", {
+      className: "font-title font-black text-3xl md:text-4xl lg:text-6xl text-white uppercase italic tracking-tighter leading-none mb-4 drop-shadow-lg animate-float"
+    }, "DESCUBR\xCD ", React.createElement("br", null), React.createElement("span", {
+      className: "text-brand-fuchsia"
+    }, "PATAGONIA")), React.createElement("p", {
+      className: "text-white/80 font-medium text-lg lg:ml-auto max-w-md hidden md:block"
+    }, "La red que conecta las mejores experiencias de la Patagonia con quienes buscan vivirlas intensamente.")))
+  );
+}
+function App() {
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authTarget, setAuthTarget] = useState('');
+  const [loginError, setLoginError] = useState('');
+  const handleGoogleLogin = async () => {
+    setIsLoggingIn(true);
+    setLoginError('');
+    try {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      const result = await auth.signInWithPopup(provider);
+      const user = result.user;
+      const userRef = db.collection('artifacts').doc(appId).collection('users').doc(user.uid).collection('perfil').doc('datos');
+      const docSnap = await userRef.get();
+      if (!docSnap.exists) {
+        const perfilBase = {
+          nombre: user.displayName || '',
+          email: user.email || '',
+          nivel: 'Explorador',
+          fechaRegistro: new Date().toISOString(),
+          rol: authTarget
+        };
+        if (authTarget === 'turista') perfilBase.puntos = 0;
+        if (authTarget === 'prestador') perfilBase.puntosPartner = 0;
+        await userRef.set(perfilBase);
+      }
+      if (authTarget === 'turista') window.location.href = 'billetera-turista.html';else if (authTarget === 'prestador') window.location.href = 'https://panel.patagoniaexperiencias.com';else window.location.href = 'https://admin.patagoniaexperiencias.com';
+    } catch (error) {
+      console.error("Error en login:", error);
+      setLoginError("No se pudo completar el acceso con Google. Verificá tu conexión e intentá de nuevo.");
+    } finally {
+      setIsLoggingIn(false);
+    }
+  };
+  return React.createElement("div", {
+    className: "flex flex-col-reverse lg:flex-row h-screen w-full bg-brand-snow font-sans"
+  }, React.createElement("div", {
+    className: "w-full lg:w-1/2 h-full left-panel overflow-y-auto bg-white flex flex-col relative z-10 shadow-2xl lg:shadow-[10px_0_30px_rgba(0,0,0,0.05)]"
+  }, React.createElement("div", {
+    className: "h-2 w-full bg-brand-fuchsia absolute top-0 left-0"
+  }), React.createElement("div", {
+    className: "flex-1 w-full flex flex-col justify-center pt-8"
+  }, React.createElement("div", {
+    className: "px-8 md:px-12 lg:px-16 xl:px-20 pb-8 max-w-2xl mx-auto w-full"
+  }, React.createElement("div", {
+    className: "mb-10 text-center lg:text-left mt-8 lg:mt-0"
+  }, React.createElement("h2", {
+    className: "font-title font-bold text-2xl md:text-3xl text-brand-oxford uppercase tracking-tight mb-2"
+  }, "Ac\xE1 empieza tu viaje"), React.createElement("p", {
+    className: "text-gray-500 font-medium"
+  }, "Eleg\xED tu camino. La Patagonia te espera.")), React.createElement("div", {
+    className: "mb-4"
+  }, React.createElement("div", {
+    className: "flex items-center gap-3 mb-5"
+  }, React.createElement("div", {
+    className: "w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500"
+  }, React.createElement("i", {
+    className: "fa-solid fa-plane"
+  })), React.createElement("h3", {
+    className: "font-title font-bold text-sm uppercase tracking-widest text-gray-400"
+  }, "Para Turistas & Viajeros")), React.createElement("div", {
+    className: "space-y-4"
+  }, React.createElement("a", {
+    href: "patagonia-experiencias.html",
+    className: "w-full card-link block bg-brand-fuchsia rounded-2xl p-4 md:p-5 flex items-center justify-between group shadow-lg hover:bg-brand-fuchsiaDark transition-all duration-300 transform scale-[1.02] text-left"
+  }, React.createElement("div", {
+    className: "flex items-center gap-3 md:gap-4"
+  }, React.createElement("div", {
+    className: "w-10 h-10 md:w-12 md:h-12 bg-white/20 rounded-xl flex items-center justify-center text-white text-base md:text-xl transition-all duration-300"
+  }, React.createElement("i", {
+    className: "fa-solid fa-map-marked-alt"
+  })), React.createElement("div", null, React.createElement("h4", {
+    className: "font-title font-bold text-white text-base md:text-lg leading-none mb-1 transition-colors duration-300"
+  }, "Descubr\xED tu pr\xF3ximo destino ahora"), React.createElement("p", {
+    className: "text-xs text-white/90 font-medium transition-colors duration-300"
+  }, "Mir\xE1 tours, alojamientos y experiencias. Entr\xE1 libre."))), React.createElement("i", {
+    className: "fa-solid fa-arrow-right text-white text-lg icon-action transition-all"
+  }))))), React.createElement("div", {
+    className: "w-full bg-white border-t border-gray-100 py-4"
+  }, React.createElement("div", {
+    className: "px-8 md:px-12 lg:px-16 xl:px-20 max-w-2xl mx-auto w-full"
+  }, React.createElement("div", {
+    className: "flex justify-around items-center text-center gap-3"
+  }, React.createElement("div", {
+    className: "flex-1"
+  }, React.createElement("p", {
+    className: "font-title font-extrabold text-brand-oxford text-xl md:text-2xl leading-none"
+  }, "+200"), React.createElement("p", {
+    className: "text-[10px] uppercase tracking-widest text-gray-400 font-bold mt-1"
+  }, "Prestadores")), React.createElement("div", {
+    className: "w-px h-10 bg-gray-200"
+  }), React.createElement("div", {
+    className: "flex-1"
+  }, React.createElement("p", {
+    className: "font-title font-extrabold text-brand-oxford text-xl md:text-2xl leading-none"
+  }, "+5.000"), React.createElement("p", {
+    className: "text-[10px] uppercase tracking-widest text-gray-400 font-bold mt-1"
+  }, "Usuarios")), React.createElement("div", {
+    className: "w-px h-10 bg-gray-200"
+  }), React.createElement("div", {
+    className: "flex-1"
+  }, React.createElement("p", {
+    className: "font-title font-bold text-brand-oxford text-[11px] md:text-xs uppercase tracking-wider leading-tight"
+  }, "Experiencias"), React.createElement("p", {
+    className: "font-title font-bold text-brand-oxford text-[11px] md:text-xs uppercase tracking-wider leading-tight mt-1"
+  }, "Alojamientos"), React.createElement("p", {
+    className: "font-title font-bold text-brand-oxford text-[11px] md:text-xs uppercase tracking-wider leading-tight mt-1"
+  }, "Gastronom\xEDa"))))), React.createElement("div", {
+    className: "w-full bg-[#f3f4f6] border-y border-gray-200 mt-auto"
+  }, React.createElement("div", {
+    className: "px-8 md:px-12 lg:px-16 xl:px-20 py-10 max-w-2xl mx-auto w-full"
+  }, React.createElement("div", {
+    className: "flex items-center gap-3 mb-5"
+  }, React.createElement("div", {
+    className: "w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-500"
+  }, React.createElement("i", {
+    className: "fa-solid fa-briefcase"
+  })), React.createElement("h3", {
+    className: "font-title font-bold text-sm uppercase tracking-widest text-gray-500"
+  }, "Para Prestadores Tur\xEDsticos")), React.createElement("div", {
+    className: "space-y-4"
+  }, React.createElement("a", {
+    href: "prestadores.html",
+    className: "card-link block bg-white rounded-2xl p-4 md:p-5 flex items-center justify-between group border border-gray-100 shadow-sm hover:bg-brand-fuchsia transition-all duration-300"
+  }, React.createElement("div", {
+    className: "flex items-center gap-3 md:gap-4"
+  }, React.createElement("div", {
+    className: "w-10 h-10 md:w-12 md:h-12 bg-gray-100 group-hover:bg-white/20 rounded-xl flex items-center justify-center text-gray-500 group-hover:text-white text-base md:text-xl transition-all duration-300"
+  }, React.createElement("i", {
+    className: "fa-solid fa-store"
+  })), React.createElement("div", null, React.createElement("h4", {
+    className: "font-title font-bold text-brand-oxford group-hover:text-white text-base md:text-lg leading-none mb-1 transition-colors duration-300"
+  }, "Public\xE1 tus Servicios"), React.createElement("p", {
+    className: "text-xs text-gray-500 group-hover:text-white/90 font-medium transition-colors duration-300"
+  }, "Alojamiento, gastronom\xEDa, excursiones y m\xE1s."))), React.createElement("i", {
+    className: "fa-solid fa-arrow-right text-gray-300 group-hover:text-white text-lg icon-action transition-all"
+  })), React.createElement("div", {
+    className: "text-center pt-1"
+  }, React.createElement("a", {
+    href: "https://panel.patagoniaexperiencias.com",
+    className: "text-xs text-gray-500 hover:text-brand-fuchsia font-medium transition-colors inline-flex items-center gap-1.5"
+  }, React.createElement("i", {
+    className: "fa-solid fa-right-to-bracket text-[10px]"
+  }), "\xBFYa sos parte? Acced\xE9 a tu panel")))))), React.createElement("div", {
+    className: "mt-auto border-t border-brand-border pt-8 pb-6 px-6 bg-white w-full"
+  }, React.createElement("div", {
+    className: "max-w-2xl mx-auto flex flex-col gap-6 w-full"
+  }, React.createElement("div", {
+    className: "flex flex-wrap justify-center items-center gap-8 md:gap-12 opacity-60 grayscale hover:grayscale-0 transition-all duration-500"
+  }, React.createElement("a", {
+    href: "https://tienda.patagoniapuntos.com",
+    target: "_blank",
+    rel: "noopener noreferrer",
+    title: "Ir a Patagonia Puntos",
+    className: "flex flex-col items-center cursor-pointer"
+  }, React.createElement("img", {
+    src: "./logo-patagonia-puntos.png",
+    className: "h-8 object-contain",
+    onError: e => {
+      e.target.style.display = 'none';
+      e.target.nextSibling.style.display = 'flex';
+    }
+  }), React.createElement("div", {
+    style: {
+      display: 'none'
+    },
+    className: "items-center gap-2 text-brand-oxford font-title font-black text-[10px] uppercase tracking-widest"
+  }, React.createElement("div", {
+    className: "w-6 h-6 bg-brand-fuchsia rounded-md flex items-center justify-center text-white"
+  }, React.createElement("i", {
+    className: "fa-solid fa-mountain-sun text-[10px]"
+  })), "Patagonia Puntos")), React.createElement("a", {
+    href: "https://patagoniamagazine.com.ar",
+    target: "_blank",
+    rel: "noopener noreferrer",
+    title: "Ir a Patagonia Magazine",
+    className: "flex flex-col items-center cursor-pointer"
+  }, React.createElement("img", {
+    src: "./logo-patagonia-magazine.png",
+    className: "h-8 object-contain",
+    onError: e => {
+      e.target.style.display = 'none';
+      e.target.nextSibling.style.display = 'flex';
+    }
+  }), React.createElement("div", {
+    style: {
+      display: 'none'
+    },
+    className: "items-center gap-2 text-brand-oxford font-title font-black text-[10px] uppercase tracking-widest"
+  }, React.createElement("div", {
+    className: "w-6 h-6 bg-brand-oxford rounded-md flex items-center justify-center text-white"
+  }, React.createElement("i", {
+    className: "fa-solid fa-book-open text-[10px]"
+  })), "Patagonia Magazine")), React.createElement("div", {
+    className: "flex flex-col items-center"
+  }, React.createElement("img", {
+    src: "./logo-octopus.png",
+    className: "h-8 object-contain",
+    onError: e => {
+      e.target.style.display = 'none';
+      e.target.nextSibling.style.display = 'flex';
+    }
+  }), React.createElement("div", {
+    style: {
+      display: 'none'
+    },
+    className: "items-center gap-2 text-brand-oxford font-title font-black text-[10px] uppercase tracking-widest"
+  }, React.createElement("div", {
+    className: "w-6 h-6 bg-[#009EE3] rounded-md flex items-center justify-center text-white"
+  }, React.createElement("i", {
+    className: "fa-solid fa-bolt text-[10px]"
+  })), "Octopus"))), React.createElement("div", {
+    className: "flex justify-center items-center gap-4 py-2"
+  }, React.createElement("a", {
+    href: "https://www.instagram.com/patagoniaexperienciasok/",
+    target: "_blank",
+    rel: "noopener noreferrer",
+    "aria-label": "Instagram Patagonia Puntos",
+    className: "w-9 h-9 rounded-full bg-gray-100 hover:bg-brand-fuchsia text-gray-500 hover:text-white flex items-center justify-center transition-all duration-300"
+  }, React.createElement("i", {
+    className: "fa-brands fa-instagram text-base"
+  })), React.createElement("a", {
+    href: "https://www.facebook.com/patagoniaexperiencias",
+    target: "_blank",
+    rel: "noopener noreferrer",
+    "aria-label": "Facebook Patagonia Puntos",
+    className: "w-9 h-9 rounded-full bg-gray-100 hover:bg-brand-fuchsia text-gray-500 hover:text-white flex items-center justify-center transition-all duration-300"
+  }, React.createElement("i", {
+    className: "fa-brands fa-facebook-f text-base"
+  })), React.createElement("a", {
+    href: "https://wa.me/005492804687904?text=Hola%2C%20los%20contacto%20desde%20el%20sitio%20web%20de%20Patagonia%20Experiencias.%20Necesito%20informaci%C3%B3n.",
+    target: "_blank",
+    rel: "noopener noreferrer",
+    "aria-label": "WhatsApp Patagonia Puntos",
+    className: "w-9 h-9 rounded-full bg-gray-100 hover:bg-brand-fuchsia text-gray-500 hover:text-white flex items-center justify-center transition-all duration-300"
+  }, React.createElement("i", {
+    className: "fa-brands fa-whatsapp text-base"
+  }))), React.createElement("div", {
+    className: "flex justify-center items-center border-t border-gray-100 pt-6"
+  }, React.createElement("div", {
+    className: "text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-1.5 text-center"
+  }, React.createElement("span", {
+    className: "text-brand-fuchsia"
+  }, React.createElement("i", {
+    className: "fa-solid fa-bolt"
+  })), "Powered by OCTOPUS & efe5 proyectos", React.createElement("button", {
+    onClick: () => {
+      setAuthTarget('admin');
+      setShowAuthModal(true);
+    },
+    className: "ml-2 hover:text-brand-fuchsia transition-colors",
+    title: "Acceso Maestro"
+  }, React.createElement("i", {
+    className: "fa-solid fa-lock"
+  }))))))), React.createElement(MediaBackground, null), showAuthModal && React.createElement("div", {
+    className: "fixed inset-0 z-[100] bg-brand-oxford/80 backdrop-blur-sm flex justify-center items-center p-4"
+  }, React.createElement("div", {
+    className: "bg-white rounded-3xl w-full max-w-sm shadow-2xl relative overflow-hidden flex flex-col p-8"
+  }, React.createElement("button", {
+    onClick: () => setShowAuthModal(false),
+    className: "absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 transition-colors"
+  }, React.createElement("i", {
+    className: "fa-solid fa-xmark"
+  })), React.createElement("div", {
+    className: "w-16 h-16 bg-brand-fuchsia/10 text-brand-fuchsia rounded-full flex items-center justify-center mb-4 mx-auto"
+  }, React.createElement("i", {
+    className: `fa-solid ${authTarget === 'turista' ? 'fa-plane' : authTarget === 'prestador' ? 'fa-store' : 'fa-crown'} text-3xl`
+  })), React.createElement("h3", {
+    className: "font-title font-black text-2xl text-brand-oxford mb-1 text-center"
+  }, "Acceso al Sistema"), React.createElement("p", {
+    className: "text-xs font-bold uppercase tracking-widest text-slate-400 mb-6 text-center"
+  }, "Perfil: ", authTarget === 'turista' ? 'Turista' : authTarget === 'prestador' ? 'Prestador B2B' : 'Administrador'), React.createElement("button", {
+    onClick: handleGoogleLogin,
+    disabled: isLoggingIn,
+    className: "w-full bg-white border border-slate-300 hover:border-brand-fuchsia hover:bg-slate-50 text-slate-700 font-bold py-3.5 rounded-xl flex items-center justify-center gap-3 transition-all shadow-sm mb-4"
+  }, isLoggingIn ? React.createElement("i", {
+    className: "fa-solid fa-circle-notch fa-spin text-brand-fuchsia text-lg"
+  }) : React.createElement("i", {
+    className: "fa-brands fa-google text-brand-fuchsia text-lg"
+  }), "Continuar con Google"), loginError && React.createElement("div", {
+    className: "bg-stone-100 border border-stone-200 text-stone-700 text-[10px] font-bold p-3 rounded-lg mb-4 text-center"
+  }, React.createElement("i", {
+    className: "fa-solid fa-triangle-exclamation mr-1"
+  }), " ", loginError), React.createElement("p", {
+    className: "text-[10px] text-slate-400 text-center leading-relaxed"
+  }, "Al continuar acept\xE1s nuestros t\xE9rminos de uso. Solo se permite el acceso con cuentas Google verificadas."))));
+}
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(React.createElement(App, null));
+</script>
 </body>
 </html>

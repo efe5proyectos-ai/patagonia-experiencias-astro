@@ -2543,6 +2543,7 @@ const CONFIG = {
   urlApp        : 'https://patagoniaexperiencias.com/patagonia-experiencias.html',
   urlCanonica   : 'https://patagoniaexperiencias.com/que-hacer-patagonia/',
   urlFauna      : 'https://patagoniaexperiencias.com/calendario-fauna/',
+  urlComer : 'https://patagoniaexperiencias.com/que-comer-patagonia/',
   urlBeneficios : 'https://tienda.patagoniapuntos.com',
   urlMagazine   : 'https://patagoniaexperiencias.com/guias/',
   urlGuias      : 'https://patagoniaexperiencias.com/guias-de-viaje/',
@@ -6334,7 +6335,11 @@ let ACTIVIDADES = [
           <span class="ftt text-[8px] font-bold text-white/60 block mt-1">PLATAFORMA DE RESERVAS</span></span>
       </span>
     </a>
-    <a id="btnFauna" href="#" class="chip ftt text-[9px] font-semibold text-slate-200 hover:text-white border border-white/15 hover:border-white/40 px-3 py-1.5 rounded-full transition-colors">CALENDARIO DE FAUNA</a>
+    <nav class="flex items-center gap-1.5 overflow-x-auto no-scrollbar shrink-0">
+  <a id="btnFauna" href="#" class="chip ftt text-[9px] font-semibold text-slate-200 hover:text-white border border-white/15 hover:border-white/40 px-3 py-1.5 rounded-full transition-colors whitespace-nowrap">FAUNA</a>
+  <a id="btnComer" href="#" class="chip ftt text-[9px] font-semibold text-slate-200 hover:text-white border border-white/15 hover:border-white/40 px-3 py-1.5 rounded-full transition-colors whitespace-nowrap">QUÉ COMER</a>
+  <a id="btnGuias" href="#" class="chip ftt text-[9px] font-semibold text-slate-200 hover:text-white border border-white/15 hover:border-white/40 px-3 py-1.5 rounded-full transition-colors whitespace-nowrap">GUÍAS</a>
+</nav>
   </div>
   <div class="border-t border-white/[.08]">
     <div class="max-w-5xl mx-auto px-2.5 pt-2 pb-2.5">
@@ -7902,6 +7907,8 @@ function init(){
   document.getElementById('anioTxt').textContent=CONFIG.anio;
   document.getElementById('logoLink').href=CONFIG.urlApp;
   document.getElementById('btnFauna').href=CONFIG.urlFauna;
+  document.getElementById('btnComer').href = CONFIG.urlComer;
+  document.getElementById('btnGuias').href = CONFIG.urlGuias;
   document.getElementById('fExc').href=CONFIG.urlApp;
   document.getElementById('fFau').href=CONFIG.urlFauna;
   document.getElementById('fBen').href=CONFIG.urlBeneficios;

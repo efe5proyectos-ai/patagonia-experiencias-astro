@@ -18,14 +18,10 @@ const SITIO = 'https://patagoniaexperiencias.com';
 
 // Páginas sueltas en public/ (sin la extensión .html)
 const PAGINAS_PUBLICAS = [
-  // Guías de temporada
-  'calendario-fauna',
-  'que-hacer-patagonia',
   // Landings de destino
   'puerto-madryn',
   'valle-del-chubut',
   'esquel-trevelin',
-  'que-comer-patagonia',
   // Institucionales y captación
   'prestadores',
   'sumar-gastronomia',
@@ -41,6 +37,11 @@ const PAGINAS_PUBLICAS = [
 // Guías de viaje: viven en subcarpetas con index.html, así que readdirSync
 // plano nunca las veía. Van explícitas, con barra final.
 const GUIAS_DE_VIAJE = [
+  // Guías de temporada (movidas a carpeta con index.html)
+  'calendario-fauna/',
+  'que-hacer-patagonia/',
+  'que-comer-patagonia/',
+  // Guías de viaje por destino
   'guias-de-viaje/esquel-trevelin/',
   'guias-de-viaje/peninsula-valdes/',
   'guias-de-viaje/valle-del-chubut/',

@@ -516,6 +516,7 @@ const CONFIG = {
   urlCanonica   : 'https://patagoniaexperiencias.com/que-comer-patagonia/',
   urlApp        : 'https://patagoniaexperiencias.com/patagonia-experiencias.html',
   urlFauna      : 'https://patagoniaexperiencias.com/calendario-fauna/',
+  urlGuias : 'https://patagoniaexperiencias.com/guias-de-viaje/',
   urlActividades: 'https://patagoniaexperiencias.com/que-hacer-patagonia/',
   urlBeneficios : 'https://tienda.patagoniapuntos.com',
   urlPrestadores: 'https://patagoniaexperiencias.com/prestadores.html',
@@ -2027,7 +2028,11 @@ let GASTRO = [
     <span class="ft font-bold text-[16px] block leading-none">Patagonia<span class="text-brand-fuchsia">Experiencias</span></span>
     <span class="ftt text-[8px] font-bold text-white/60 block mt-1">PLATAFORMA DE RESERVAS</span></span>
   </a>
-  <a id="btnFauna" href="#" target="_blank" rel="noopener" class="chip ftt text-[9px] font-semibold text-slate-200 hover:text-white border border-white/15 hover:border-white/40 px-3 py-1.5 rounded-full transition-colors">OTRAS GUÍAS</a>
+  <nav class="flex items-center gap-1.5 overflow-x-auto no-scrollbar shrink-0">
+  <a id="btnFauna" href="#" class="chip ftt text-[9px] font-semibold text-slate-200 hover:text-white border border-white/15 hover:border-white/40 px-3 py-1.5 rounded-full transition-colors whitespace-nowrap">FAUNA</a>
+  <a id="btnActiv" href="#" class="chip ftt text-[9px] font-semibold text-slate-200 hover:text-white border border-white/15 hover:border-white/40 px-3 py-1.5 rounded-full transition-colors whitespace-nowrap">QUÉ HACER</a>
+  <a id="btnGuias" href="#" class="chip ftt text-[9px] font-semibold text-slate-200 hover:text-white border border-white/15 hover:border-white/40 px-3 py-1.5 rounded-full transition-colors whitespace-nowrap">GUÍAS</a>
+</nav>
  </div>
  <div class="border-t border-white/[.08]">
   <div class="max-w-5xl mx-auto px-2.5 pt-2 pb-2.5">
@@ -2625,6 +2630,8 @@ function init(){
  document.getElementById('anioTxt').textContent=CONFIG.anio;
  document.getElementById('logoLink').href=CONFIG.urlApp;
  document.getElementById('btnFauna').href=CONFIG.urlFauna;
+ document.getElementById('btnActiv').href = CONFIG.urlActividades;
+ document.getElementById('btnGuias').href = CONFIG.urlGuias;
  document.getElementById('fExc').href=CONFIG.urlApp;
  document.getElementById('fFau').href=CONFIG.urlFauna;
  document.getElementById('fAct').href=CONFIG.urlActividades;

@@ -1355,6 +1355,62 @@ const GEO_PROVINCIAS = [{
     id: 'los-alerces',
     nombre: 'Parque Los Alerces',
     alias: ['los alerces', 'parque los alerces', 'pn los alerces']
+  }, {
+    id: 'lago-rosario',
+    nombre: 'Lago Rosario',
+    alias: ['lago rosario', 'laguna rosario', 'comunidad lago rosario']
+  }, {
+    id: 'cholila',
+    nombre: 'Cholila',
+    alias: ['cholila']
+  }, {
+    id: 'epuyen',
+    nombre: 'Epuyén',
+    alias: ['epuyen']
+  }, {
+    id: 'corcovado',
+    nombre: 'Corcovado',
+    alias: ['corcovado']
+  }, {
+    id: 'tecka',
+    nombre: 'Tecka',
+    alias: ['tecka']
+  }, {
+    id: 'gan-gan',
+    nombre: 'Gan Gan',
+    alias: ['gan gan', 'gangan']
+  }, {
+    id: 'gastre',
+    nombre: 'Gastre',
+    alias: ['gastre']
+  }, {
+    id: 'telsen',
+    nombre: 'Telsen',
+    alias: ['telsen']
+  }, {
+    id: 'paso-de-indios',
+    nombre: 'Paso de Indios',
+    alias: ['paso de indios']
+  }, {
+    id: 'rio-mayo',
+    nombre: 'Río Mayo',
+    alias: ['rio mayo']
+  }, {
+    id: 'rio-pico',
+    nombre: 'Río Pico',
+    alias: ['rio pico']
+  }, {
+    id: 'jose-de-san-martin',
+    nombre: 'José de San Martín',
+    alias: ['jose de san martin', 'j de san martin']
+  }, {
+    id: 'rada-tilly',
+    nombre: 'Rada Tilly',
+    alias: ['rada tilly']
+  }, {
+    id: 'lago-blanco',
+    nombre: 'Lago Blanco',
+    alias: ['lago blanco']
   }]
 }, {
   id: 'rio-negro',
@@ -1884,12 +1940,22 @@ function resolverGeo(textoDestino, provinciaHint, localidadHint) {
   }
   if (!resultado && GEO_INDEX.porAliasLocalidad.has(full)) resultado = GEO_INDEX.porAliasLocalidad.get(full);
   if (!resultado) {
+    const candidatos = [];
     for (const alias of GEO_INDEX.aliasLargos) {
       const re = new RegExp('(^|\\s)' + alias.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '($|\\s|,)');
-      if (re.test(full)) {
-        resultado = GEO_INDEX.porAliasLocalidad.get(alias);
-        break;
-      }
+      if (re.test(full)) candidatos.push({
+        alias: alias,
+        r: GEO_INDEX.porAliasLocalidad.get(alias)
+      });
+    }
+    if (candidatos.length) {
+      candidatos.sort(function (a, b) {
+        if (b.alias.length !== a.alias.length) return b.alias.length - a.alias.length;
+        var pa = a.r.provincia.region === 'patagonia' ? 1 : 0;
+        var pb = b.r.provincia.region === 'patagonia' ? 1 : 0;
+        return pb - pa;
+      });
+      resultado = candidatos[0].r;
     }
   }
   if (!resultado) {
@@ -9375,11 +9441,7 @@ function App() {
     }
     return {
       ...tourConResenas,
-      urgenciaConfig: t.urgencia ? {
-        texto: t.urgencia,
-        icono: '',
-        color: 'rose'
-      } : null
+      urgenciaConfig: null
     };
   });
   return React.createElement("div", {

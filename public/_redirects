@@ -18,3 +18,11 @@ https://cattdf.patagoniaexperiencias.com/* https://patagoniaexperiencias.com/pre
 /guias.html /guias-de-viaje/ 301
 /guiadeviajeros.html /guias-de-viaje/ 301
 /guiadeviajeros /guias-de-viaje/ 301
+
+# ── Guías de temporada: pasaron de archivo plano a carpeta con index.html,
+#    para que la URL servida coincida con el <link rel="canonical"> y con
+#    CONFIG.urlFauna / urlActividades / urlComer, que ya usan barra final.
+#    Estas reglas trasladan a Google el posicionamiento de las URLs viejas. ──
+/calendario-fauna.html /calendario-fauna/ 301
+/que-hacer-patagonia.html /que-hacer-patagonia/ 301
+/que-comer-patagonia.html /que-comer-patagonia/ 301

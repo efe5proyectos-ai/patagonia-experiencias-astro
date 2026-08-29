@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ===========================================================
-     PATAGONIA EXPERIENCIAS · build v13 · 2026-08-28
+     PATAGONIA EXPERIENCIAS · build v15 · 2026-08-29
      Incluye:
        · Muro de logos en marquee a color (2 filas) + /assets/prestadores/
        · Catálogo GEO_PROVINCIAS + resolverGeo() (unifica "pto madryn" etc)
@@ -654,52 +654,75 @@ function CartelPush({
 }) {
   const [enviando, setEnviando] = useState(false);
   const [listo, setListo] = useState(false);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const t = setTimeout(() => setVisible(true), 60);
+    return () => clearTimeout(t);
+  }, []);
   const aceptar = async () => {
     setEnviando(true);
     const ok = await pushSuscribir('cartel');
     setEnviando(false);
     if (ok) {
       setListo(true);
-      setTimeout(onCerrar, 2600);
+      setTimeout(onCerrar, 3000);
     } else onCerrar();
   };
   const rechazar = () => {
     pushGuardarEstado('rechazado');
     onCerrar();
   };
+  const base = "fixed z-[9999] left-4 right-4 bottom-4 sm:right-auto sm:left-5 sm:bottom-5 sm:max-w-sm transition-all duration-500 ease-out";
+  const entrada = visible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0";
   if (listo) {
     return React.createElement("div", {
-      className: "fixed bottom-28 right-5 z-[9999] bg-white rounded-2xl shadow-2xl border border-emerald-200 p-4 max-w-xs animate-fadeIn"
-    }, React.createElement("p", {
-      className: "text-sm font-bold text-emerald-700 flex items-center gap-2"
+      className: base + " " + entrada
+    }, React.createElement("div", {
+      className: "bg-emerald-600 rounded-2xl shadow-2xl p-5 flex items-center gap-3"
+    }, React.createElement("div", {
+      className: "w-10 h-10 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0"
     }, React.createElement("i", {
-      className: "fa-solid fa-circle-check"
-    }), " ¡Listo!"), React.createElement("p", {
-      className: "text-xs text-slate-500 mt-1"
-    }, "Te vamos a avisar cuando haya promos y novedades."));
+      className: "fa-solid fa-check text-white text-lg"
+    })), React.createElement("div", null, React.createElement("p", {
+      className: "text-sm font-bold text-white"
+    }, "¡Listo, ya estás anotado!"), React.createElement("p", {
+      className: "text-xs text-emerald-50 mt-0.5"
+    }, "Te avisamos cuando haya promos y novedades."))));
   }
   return React.createElement("div", {
-    className: "fixed bottom-28 right-5 z-[9999] bg-white rounded-2xl shadow-2xl border border-slate-200 p-5 max-w-xs animate-fadeIn"
+    className: base + " " + entrada
   }, React.createElement("div", {
-    className: "flex items-start gap-3 mb-3"
+    className: "bg-brand-dark rounded-2xl shadow-2xl border-2 border-brand-fuchsia overflow-hidden"
   }, React.createElement("div", {
-    className: "w-9 h-9 rounded-xl bg-brand-fuchsia/10 flex items-center justify-center flex-shrink-0"
+    className: "bg-brand-fuchsia px-5 py-2.5 flex items-center gap-2"
   }, React.createElement("i", {
-    className: "fa-solid fa-bell text-brand-fuchsia text-sm"
-  })), React.createElement("div", null, React.createElement("p", {
-    className: "text-sm font-bold text-brand-dark leading-tight"
+    className: "fa-solid fa-bell text-white text-sm animate-pulse"
+  }), React.createElement("p", {
+    className: "text-[11px] font-black text-white uppercase tracking-[0.15em]"
+  }, "Antes de que te vayas"), React.createElement("button", {
+    onClick: rechazar,
+    className: "ml-auto text-white/70 hover:text-white transition-colors",
+    title: "Cerrar"
+  }, React.createElement("i", {
+    className: "fa-solid fa-xmark text-sm"
+  }))), React.createElement("div", {
+    className: "p-5"
+  }, React.createElement("p", {
+    className: "text-base font-bold text-white leading-snug mb-1.5"
   }, "¿Te avisamos de las promos?"), React.createElement("p", {
-    className: "text-xs text-slate-500 mt-1 leading-relaxed"
-  }, "Ofertas de temporada, salidas nuevas y cuándo arranca el avistaje. Sin spam, podés desactivarlo cuando quieras."))), React.createElement("div", {
+    className: "text-[13px] text-slate-300 leading-relaxed mb-4"
+  }, "Ofertas de temporada, salidas nuevas y cuándo arranca el avistaje de ballenas. Sin spam, lo desactivás cuando quieras."), React.createElement("div", {
     className: "flex gap-2"
   }, React.createElement("button", {
     onClick: aceptar,
     disabled: enviando,
-    className: "flex-1 bg-brand-fuchsia hover:bg-brand-fuchsiaDark disabled:bg-slate-300 text-white text-xs font-bold py-2.5 rounded-lg transition-colors"
-  }, enviando ? 'Un momento…' : 'Sí, avisame'), React.createElement("button", {
+    className: "flex-1 bg-brand-fuchsia hover:bg-brand-fuchsiaDark disabled:bg-slate-600 text-white text-sm font-bold py-3 rounded-xl transition-colors shadow-lg"
+  }, enviando ? React.createElement(React.Fragment, null, React.createElement("i", {
+    className: "fa-solid fa-circle-notch fa-spin mr-1.5"
+  }), "Un momento…") : 'Sí, avisame'), React.createElement("button", {
     onClick: rechazar,
-    className: "px-3 text-xs font-bold text-slate-400 hover:text-slate-600 transition-colors"
-  }, "Ahora no")));
+    className: "px-4 text-sm font-bold text-slate-400 hover:text-white transition-colors"
+  }, "Ahora no")))));
 }
 function useOfrecerPush(toursVistos) {
   const [mostrar, setMostrar] = useState(false);
@@ -1635,322 +1658,6 @@ const GEO_PROVINCIAS = [{
     id: 'general-acha',
     nombre: 'General Acha',
     alias: ['general acha']
-  }]
-}, {
-  id: 'buenos-aires',
-  nombre: 'Buenos Aires',
-  region: 'centro',
-  alias: ['buenos aires', 'bs as', 'bsas', 'pba'],
-  localidades: [{
-    id: 'mar-del-plata',
-    nombre: 'Mar del Plata',
-    alias: ['mar del plata', 'mdp', 'mar de plata']
-  }, {
-    id: 'villa-gesell',
-    nombre: 'Villa Gesell',
-    alias: ['villa gesell', 'gesell']
-  }, {
-    id: 'pinamar',
-    nombre: 'Pinamar',
-    alias: ['pinamar']
-  }, {
-    id: 'necochea',
-    nombre: 'Necochea',
-    alias: ['necochea']
-  }, {
-    id: 'tandil',
-    nombre: 'Tandil',
-    alias: ['tandil']
-  }, {
-    id: 'bahia-blanca',
-    nombre: 'Bahía Blanca',
-    alias: ['bahia blanca']
-  }, {
-    id: 'tigre',
-    nombre: 'Tigre',
-    alias: ['tigre', 'delta del parana']
-  }]
-}, {
-  id: 'caba',
-  nombre: 'CABA',
-  region: 'centro',
-  alias: ['caba', 'capital federal', 'ciudad de buenos aires'],
-  localidades: [{
-    id: 'caba-centro',
-    nombre: 'Ciudad de Buenos Aires',
-    alias: ['caba', 'capital federal', 'ciudad de buenos aires', 'palermo', 'san telmo', 'recoleta']
-  }]
-}, {
-  id: 'mendoza',
-  nombre: 'Mendoza',
-  region: 'cuyo',
-  alias: ['mendoza', 'mza'],
-  localidades: [{
-    id: 'mendoza-capital',
-    nombre: 'Mendoza Capital',
-    alias: ['mendoza capital', 'ciudad de mendoza']
-  }, {
-    id: 'lujan-de-cuyo',
-    nombre: 'Luján de Cuyo',
-    alias: ['lujan de cuyo', 'lujan cuyo']
-  }, {
-    id: 'valle-de-uco',
-    nombre: 'Valle de Uco',
-    alias: ['valle de uco', 'uco', 'tunuyan', 'tupungato']
-  }, {
-    id: 'malargue',
-    nombre: 'Malargüe',
-    alias: ['malargue']
-  }, {
-    id: 'san-rafael',
-    nombre: 'San Rafael',
-    alias: ['san rafael']
-  }, {
-    id: 'aconcagua',
-    nombre: 'Aconcagua',
-    alias: ['aconcagua', 'puente del inca']
-  }]
-}, {
-  id: 'salta',
-  nombre: 'Salta',
-  region: 'norte',
-  alias: ['salta'],
-  localidades: [{
-    id: 'salta-capital',
-    nombre: 'Salta Capital',
-    alias: ['salta capital', 'ciudad de salta']
-  }, {
-    id: 'cafayate',
-    nombre: 'Cafayate',
-    alias: ['cafayate']
-  }, {
-    id: 'cachi',
-    nombre: 'Cachi',
-    alias: ['cachi']
-  }, {
-    id: 'san-antonio-cobres',
-    nombre: 'San Antonio de los Cobres',
-    alias: ['san antonio de los cobres', 'tren a las nubes']
-  }]
-}, {
-  id: 'jujuy',
-  nombre: 'Jujuy',
-  region: 'norte',
-  alias: ['jujuy'],
-  localidades: [{
-    id: 'purmamarca',
-    nombre: 'Purmamarca',
-    alias: ['purmamarca', 'cerro siete colores']
-  }, {
-    id: 'tilcara',
-    nombre: 'Tilcara',
-    alias: ['tilcara', 'quebrada de humahuaca']
-  }, {
-    id: 'humahuaca',
-    nombre: 'Humahuaca',
-    alias: ['humahuaca']
-  }, {
-    id: 'salinas-grandes',
-    nombre: 'Salinas Grandes',
-    alias: ['salinas grandes']
-  }, {
-    id: 'san-salvador-jujuy',
-    nombre: 'San Salvador de Jujuy',
-    alias: ['san salvador de jujuy', 'jujuy capital']
-  }]
-}, {
-  id: 'cordoba',
-  nombre: 'Córdoba',
-  region: 'centro',
-  alias: ['cordoba', 'cba'],
-  localidades: [{
-    id: 'cordoba-capital',
-    nombre: 'Córdoba Capital',
-    alias: ['cordoba capital', 'ciudad de cordoba']
-  }, {
-    id: 'villa-carlos-paz',
-    nombre: 'Villa Carlos Paz',
-    alias: ['villa carlos paz', 'carlos paz']
-  }, {
-    id: 'villa-general-belgrano',
-    nombre: 'Villa General Belgrano',
-    alias: ['villa general belgrano', 'vgb']
-  }, {
-    id: 'mina-clavero',
-    nombre: 'Mina Clavero',
-    alias: ['mina clavero', 'traslasierra']
-  }, {
-    id: 'la-cumbrecita',
-    nombre: 'La Cumbrecita',
-    alias: ['la cumbrecita', 'cumbrecita']
-  }]
-}, {
-  id: 'misiones',
-  nombre: 'Misiones',
-  region: 'litoral',
-  alias: ['misiones'],
-  localidades: [{
-    id: 'puerto-iguazu',
-    nombre: 'Puerto Iguazú',
-    alias: ['puerto iguazu', 'iguazu', 'cataratas', 'cataratas del iguazu']
-  }, {
-    id: 'san-ignacio',
-    nombre: 'San Ignacio',
-    alias: ['san ignacio', 'ruinas jesuiticas']
-  }, {
-    id: 'posadas',
-    nombre: 'Posadas',
-    alias: ['posadas']
-  }]
-}, {
-  id: 'tucuman',
-  nombre: 'Tucumán',
-  region: 'norte',
-  alias: ['tucuman'],
-  localidades: [{
-    id: 'san-miguel-tucuman',
-    nombre: 'San Miguel de Tucumán',
-    alias: ['san miguel de tucuman', 'tucuman capital']
-  }, {
-    id: 'tafi-del-valle',
-    nombre: 'Tafí del Valle',
-    alias: ['tafi del valle', 'tafi']
-  }]
-}, {
-  id: 'san-juan',
-  nombre: 'San Juan',
-  region: 'cuyo',
-  alias: ['san juan'],
-  localidades: [{
-    id: 'san-juan-capital',
-    nombre: 'San Juan Capital',
-    alias: ['san juan capital']
-  }, {
-    id: 'valle-de-la-luna',
-    nombre: 'Valle de la Luna',
-    alias: ['valle de la luna', 'ischigualasto']
-  }, {
-    id: 'barreal',
-    nombre: 'Barreal',
-    alias: ['barreal']
-  }]
-}, {
-  id: 'entre-rios',
-  nombre: 'Entre Ríos',
-  region: 'litoral',
-  alias: ['entre rios'],
-  localidades: [{
-    id: 'colon',
-    nombre: 'Colón',
-    alias: ['colon']
-  }, {
-    id: 'gualeguaychu',
-    nombre: 'Gualeguaychú',
-    alias: ['gualeguaychu']
-  }, {
-    id: 'concordia',
-    nombre: 'Concordia',
-    alias: ['concordia']
-  }]
-}, {
-  id: 'catamarca',
-  nombre: 'Catamarca',
-  region: 'norte',
-  alias: ['catamarca'],
-  localidades: [{
-    id: 'catamarca-capital',
-    nombre: 'Catamarca Capital',
-    alias: ['catamarca capital']
-  }, {
-    id: 'antofagasta-sierra',
-    nombre: 'Antofagasta de la Sierra',
-    alias: ['antofagasta de la sierra']
-  }]
-}, {
-  id: 'la-rioja',
-  nombre: 'La Rioja',
-  region: 'norte',
-  alias: ['la rioja'],
-  localidades: [{
-    id: 'la-rioja-capital',
-    nombre: 'La Rioja Capital',
-    alias: ['la rioja capital']
-  }, {
-    id: 'talampaya',
-    nombre: 'Talampaya',
-    alias: ['talampaya', 'villa union']
-  }]
-}, {
-  id: 'santa-fe',
-  nombre: 'Santa Fe',
-  region: 'litoral',
-  alias: ['santa fe'],
-  localidades: [{
-    id: 'rosario',
-    nombre: 'Rosario',
-    alias: ['rosario']
-  }, {
-    id: 'santa-fe-capital',
-    nombre: 'Santa Fe Capital',
-    alias: ['santa fe capital']
-  }]
-}, {
-  id: 'corrientes',
-  nombre: 'Corrientes',
-  region: 'litoral',
-  alias: ['corrientes'],
-  localidades: [{
-    id: 'esteros-ibera',
-    nombre: 'Esteros del Iberá',
-    alias: ['esteros del ibera', 'ibera', 'colonia carlos pellegrini']
-  }, {
-    id: 'corrientes-capital',
-    nombre: 'Corrientes Capital',
-    alias: ['corrientes capital']
-  }]
-}, {
-  id: 'chaco',
-  nombre: 'Chaco',
-  region: 'norte',
-  alias: ['chaco'],
-  localidades: [{
-    id: 'resistencia',
-    nombre: 'Resistencia',
-    alias: ['resistencia']
-  }]
-}, {
-  id: 'formosa',
-  nombre: 'Formosa',
-  region: 'norte',
-  alias: ['formosa'],
-  localidades: [{
-    id: 'formosa-capital',
-    nombre: 'Formosa Capital',
-    alias: ['formosa capital']
-  }]
-}, {
-  id: 'santiago-del-estero',
-  nombre: 'Santiago del Estero',
-  region: 'norte',
-  alias: ['santiago del estero'],
-  localidades: [{
-    id: 'termas-rio-hondo',
-    nombre: 'Termas de Río Hondo',
-    alias: ['termas de rio hondo', 'termas']
-  }]
-}, {
-  id: 'san-luis',
-  nombre: 'San Luis',
-  region: 'cuyo',
-  alias: ['san luis'],
-  localidades: [{
-    id: 'merlo-sl',
-    nombre: 'Villa de Merlo',
-    alias: ['villa de merlo', 'merlo']
-  }, {
-    id: 'potrero-funes',
-    nombre: 'Potrero de los Funes',
-    alias: ['potrero de los funes']
   }]
 }];
 const GEO_REGIONES = [{
@@ -9684,7 +9391,7 @@ window.PE_BUILD = {
   fecha: '2026-07-30',
   cambios: ['logos-marquee', 'geo-catalogo', 'filtro-hero', 'guarda-precio-cero', 'guias-recuperadas', 'ttl-eventos', 'push-turistas', 'fix-nan-checkout', 'fix-leaflet', 'pediag-auditoria', 'precios-por-temporada']
 };
-console.log('%c[PE BUILD] v13 · 2026-08-28 · +notificaciones push (turistas)', 'background:#E91E63;color:#fff;font-weight:bold;padding:3px 8px;border-radius:4px');
+console.log('%c[PE BUILD] v15 · 2026-08-29 · catálogo geo solo Patagonia', 'background:#E91E63;color:#fff;font-weight:bold;padding:3px 8px;border-radius:4px');
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(React.createElement(App, null));
 </script>

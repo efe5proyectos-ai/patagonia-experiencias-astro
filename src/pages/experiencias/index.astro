@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { obtenerExperiencias } from '../../lib/contenido.js';
+import CarruselFotos from '../../components/CarruselFotos.astro';
 import traducciones from '../../data/traducciones-pt.json';
 const exps = await obtenerExperiencias();
 const hayPt = Object.keys(traducciones).length > 0;
@@ -15,31 +16,30 @@ const urgColores = { rose:'bg-rose-600/95 border-rose-500', amber:'bg-amber-500/
       {exps.map((e) => {
         const pct = e.precios.ahorro > 0 && e.precios.precioLista > 0 ? Math.round((e.precios.ahorro / e.precios.precioLista) * 100) : 0;
         return (
-        <a href={`/experiencias/${e.slug}/`} class="group bg-white rounded-2xl overflow-hidden flex flex-col shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
-          <div class="relative h-52 overflow-hidden">
-            {e.imagen && <img src={e.imagen} alt={`${e.titulo} — ${e.destino}`} loading="lazy" width="600" height="400" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />}
+        <article class="group bg-white rounded-2xl overflow-hidden flex flex-col shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
+          <CarruselFotos imagen={e.imagen} imagenes={e.imagenes} alt={`${e.titulo} — ${e.destino}`} href={`/experiencias/${e.slug}/`} puntosArriba={!!(e.urgencia && e.urgencia.texto)}>
             {e.etiqueta && (
-              <div class="absolute top-4 left-4 max-w-[calc(100%-2rem)] bg-brand-fuchsia px-3 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-widest text-white shadow-md z-10 border border-brand-fuchsiaDark flex items-center gap-1">
+              <div class="pe-capa absolute top-4 left-4 max-w-[calc(100%-2rem)] bg-brand-fuchsia px-3 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-widest text-white shadow-md z-10 border border-brand-fuchsiaDark flex items-center gap-1">
                 <span class="text-white/80 font-black text-sm leading-none">#</span> <span class="truncate">{e.etiqueta}</span>
               </div>
             )}
             {pct > 0 && (
-              <div class="absolute bottom-6 left-4 bg-emerald-500 text-white text-base font-black px-3 py-1.5 rounded-lg shadow-xl z-10 uppercase tracking-wider flex items-center gap-1.5 border-2 border-white">
+              <div class="pe-capa absolute bottom-6 left-4 bg-emerald-500 text-white text-base font-black px-3 py-1.5 rounded-lg shadow-xl z-10 uppercase tracking-wider flex items-center gap-1.5 border-2 border-white">
                 <i class="fa-solid fa-tag text-xs"></i>-{pct}%
               </div>
             )}
             {e.likes > 0 && (
-              <div class="absolute bottom-6 right-4 backdrop-blur-md px-2.5 py-1.5 rounded-lg flex items-center justify-center border z-20 shadow-sm gap-1.5 bg-white/20 border-white/30 text-white">
+              <div class="pe-capa absolute bottom-6 right-4 backdrop-blur-md px-2.5 py-1.5 rounded-lg flex items-center justify-center border z-20 shadow-sm gap-1.5 bg-white/20 border-white/30 text-white">
                 <i class="fa-regular fa-heart text-sm"></i><span class="text-xs font-bold">{e.likes}</span>
               </div>
             )}
             {e.urgencia && e.urgencia.texto && (
-              <div class={`absolute bottom-0 left-0 right-0 backdrop-blur-md py-1.5 px-3 text-white text-[10px] font-black tracking-widest uppercase text-center flex justify-center items-center gap-2 border-t shadow-lg ${urgColores[e.urgencia.color] || urgColores.rose}`}>
+              <div class={`pe-capa absolute bottom-0 left-0 right-0 backdrop-blur-md py-1.5 px-3 text-white text-[10px] font-black tracking-widest uppercase text-center flex justify-center items-center gap-2 border-t shadow-lg ${urgColores[e.urgencia.color] || urgColores.rose}`}>
                 {e.urgencia.icono && <i class={`fa-solid ${e.urgencia.icono}`}></i>}{e.urgencia.texto}
               </div>
             )}
-          </div>
-          <div class="p-5 flex flex-col flex-grow">
+          </CarruselFotos>
+          <a href={`/experiencias/${e.slug}/`} class="p-5 flex flex-col flex-grow">
             <div class="mb-2">
               {e.proveedor && <p class="text-[10px] text-brand-fuchsia font-bold uppercase tracking-widest mb-1.5 flex items-center gap-1"><i class="fa-solid fa-store opacity-70"></i> {e.proveedor}</p>}
               <div class="flex justify-between items-start gap-3">
@@ -80,8 +80,8 @@ const urgColores = { rose:'bg-rose-600/95 border-rose-500', amber:'bg-amber-500/
                 <i class="fa-solid fa-coins"></i>Sumás +{e.puntos.toLocaleString('es-AR')} pts
               </div>
             )}
-          </div>
-        </a>
+          </a>
+        </article>
       )})}
     </div>
   </main>

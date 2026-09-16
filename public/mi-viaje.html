@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patagonia Experiencias — Mi viaje</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --fucsia:#E6007E;--fucsia-suave:#FBE3F0;--petroleo:#20424D;--ink:#1A1A1A;--gris:#6B6B6B;
+    --linea:#E7E4DF;--fondo:#F6F5F2;--superficie:#FFFFFF;--ok:#1E7A54;--ok-suave:#E4F3EC;
+    --sombra:0 1px 2px rgba(26,26,26,.05), 0 8px 24px rgba(26,26,26,.06);
+  }
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+    --fucsia:#FF3D9E;--fucsia-suave:#3a1226;--petroleo:#12262C;--ink:#F3F1ED;--gris:#A5A29C;
+    --linea:#2C2E31;--fondo:#121316;--superficie:#1B1D20;--ok:#38B27E;--ok-suave:#13291F;
+    --sombra:0 1px 2px rgba(0,0,0,.4), 0 10px 28px rgba(0,0,0,.5);}}
+  :root[data-theme="dark"]{--fucsia:#FF3D9E;--fucsia-suave:#3a1226;--petroleo:#12262C;--ink:#F3F1ED;
+    --gris:#A5A29C;--linea:#2C2E31;--fondo:#121316;--superficie:#1B1D20;--ok:#38B27E;--ok-suave:#13291F;
+    --sombra:0 1px 2px rgba(0,0,0,.4), 0 10px 28px rgba(0,0,0,.5);}
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',system-ui,sans-serif;background:var(--fondo);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:520px;margin:0 auto;padding:16px 16px 56px}
+
+  header.top{display:flex;align-items:center;justify-content:space-between;padding:6px 2px 20px}
+  .brand{display:flex;align-items:center;gap:8px;font-family:'Montserrat';font-weight:800;font-size:15px;letter-spacing:-.02em}
+  .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--fucsia)}
+  .avatar{width:34px;height:34px;border-radius:50%;background:var(--petroleo);color:#fff;display:grid;place-items:center;font-family:'Montserrat';font-weight:700;font-size:14px}
+
+  .hola{font-size:14px;color:var(--gris);margin:0 2px 4px}
+  .hola b{color:var(--ink);font-weight:600}
+  .h1{font-family:'Montserrat';font-weight:800;letter-spacing:-.02em;font-size:24px;margin:0 2px 16px}
+
+  /* Panel principal del viaje */
+  .viaje{background:var(--petroleo);color:#fff;border-radius:22px;padding:22px;box-shadow:var(--sombra)}
+  .viaje .tag{font-size:12px;color:rgba(255,255,255,.7)}
+  .viaje h2{font-family:'Montserrat';font-weight:700;font-size:19px;margin-top:3px}
+  .ring-row{display:flex;align-items:center;gap:20px;margin-top:18px}
+  .ring{position:relative;width:104px;height:104px;flex:none}
+  .ring svg{transform:rotate(-90deg)}
+  .ring .pctxt{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+  .ring .pctxt b{font-family:'Montserrat';font-weight:800;font-size:26px;display:block;line-height:1}
+  .ring .pctxt span{font-size:10.5px;color:rgba(255,255,255,.65)}
+  .ring-info{flex:1}
+  .ring-info .pagado{font-family:'Montserrat';font-weight:800;font-size:22px}
+  .ring-info .de{font-size:13px;color:rgba(255,255,255,.7);margin-top:2px}
+  .ring-info .cuotas-lbl{font-size:12.5px;color:rgba(255,255,255,.85);margin-top:10px;display:inline-flex;gap:6px;align-items:center}
+  .dotline{display:flex;gap:5px;margin-top:8px}
+  .dotline i{width:100%;height:6px;border-radius:3px;background:rgba(255,255,255,.16)}
+  .dotline i.done{background:var(--fucsia);filter:brightness(1.3)}
+
+  /* Próxima cuota */
+  .cuota-card{background:var(--superficie);border:1px solid var(--linea);border-radius:18px;padding:18px;box-shadow:var(--sombra);margin-top:14px}
+  .cuota-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+  .cuota-top .lbl{font-size:12.5px;color:var(--gris)}
+  .cuota-top .monto{font-family:'Montserrat';font-weight:800;font-size:26px;letter-spacing:-.02em;margin-top:2px}
+  .cuota-top .vence{font-size:12.5px;color:var(--gris);margin-top:4px}
+  .cuota-top .vence b{color:var(--ink);font-weight:600}
+  .badge-n{background:var(--fucsia-suave);color:var(--fucsia);font-weight:700;font-size:12px;padding:5px 10px;border-radius:999px;white-space:nowrap;font-family:'Montserrat'}
+
+  .mp{display:flex;align-items:center;gap:10px;margin-top:14px;padding:11px 12px;border:1px solid var(--linea);border-radius:12px;font-size:13px}
+  .mp .chip{width:34px;height:22px;border-radius:4px;background:#00b1ea;flex:none;display:grid;place-items:center;color:#fff;font-size:8px;font-weight:800;font-family:'Montserrat';letter-spacing:.02em}
+  .mp .txt{flex:1;color:var(--gris)}
+  .mp .txt b{color:var(--ink);font-weight:600}
+  .mp .cambiar{color:var(--fucsia);font-weight:600;font-size:12.5px;text-decoration:none}
+
+  .pagar{margin-top:14px;width:100%;border:none;cursor:pointer;background:var(--fucsia);color:#fff;font:inherit;font-family:'Montserrat';font-weight:700;font-size:15.5px;padding:15px;border-radius:13px;transition:transform .12s,filter .15s}
+  .pagar:hover{filter:brightness(1.06)} .pagar:active{transform:translateY(1px)}
+  .auto{font-size:12px;color:var(--gris);text-align:center;margin-top:10px}
+  .auto b{color:var(--ink);font-weight:600}
+
+  .full{background:var(--ok-suave);border:1px solid var(--ok);color:var(--ok);border-radius:14px;padding:16px;margin-top:14px;display:none;align-items:center;gap:12px}
+  .full svg{width:24px;height:24px;flex:none} .full b{font-family:'Montserrat';font-weight:700;font-size:15px;color:var(--ink);display:block}
+  .full span{font-size:13px;color:var(--gris)}
+
+  .sec{font-size:12.5px;font-weight:600;color:var(--gris);margin:22px 2px 10px}
+  .exp{display:flex;align-items:center;gap:12px;background:var(--superficie);border:1px solid var(--linea);border-radius:14px;padding:12px;margin-bottom:9px}
+  .exp .ic{width:40px;height:40px;border-radius:10px;flex:none;display:grid;place-items:center;color:#fff}
+  .exp .nm{flex:1}.exp .nm b{font-family:'Montserrat';font-weight:600;font-size:14px}.exp .nm span{display:block;font-size:12px;color:var(--gris);margin-top:1px}
+  .exp .ok{color:var(--ok);font-size:12px;font-weight:600;display:inline-flex;align-items:center;gap:4px}
+  .exp .ok svg{width:14px;height:14px}
+
+  .proteg{background:var(--superficie);border:1px solid var(--linea);border-radius:16px;padding:16px;margin-top:16px;display:flex;gap:12px}
+  .proteg .sh{width:28px;height:28px;flex:none;color:var(--fucsia)}
+  .proteg b{font-family:'Montserrat';font-weight:700;font-size:14px}
+  .proteg p{font-size:13px;color:var(--gris);margin-top:4px;line-height:1.5}
+  .proteg a{color:var(--fucsia);font-weight:600;text-decoration:none}
+
+  :focus-visible{outline:2px solid var(--fucsia);outline-offset:2px;border-radius:6px}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="brand"><span class="dot"></span>Patagonia&nbsp;Experiencias</div>
+    <div class="avatar">M</div>
+  </header>
+
+  <p class="hola">Hola de nuevo, <b>Marcelo</b></p>
+  <h1 class="h1">Mi viaje</h1>
+
+  <!-- Panel del viaje -->
+  <div class="viaje">
+    <div class="tag">Esquel, Chubut · 2 personas · feb 2027</div>
+    <h2>Aventura en Esquel</h2>
+
+    <div class="ring-row">
+      <div class="ring">
+        <svg width="104" height="104" viewBox="0 0 104 104">
+          <circle cx="52" cy="52" r="46" fill="none" stroke="rgba(255,255,255,.14)" stroke-width="10"/>
+          <circle id="arc" cx="52" cy="52" r="46" fill="none" stroke="var(--fucsia)" stroke-width="10" stroke-linecap="round"
+                  stroke-dasharray="289" stroke-dashoffset="289" style="filter:brightness(1.3);transition:stroke-dashoffset .6s cubic-bezier(.2,.7,.2,1)"/>
+        </svg>
+        <div class="pctxt"><b id="pct">43%</b><span>pagado</span></div>
+      </div>
+      <div class="ring-info">
+        <div class="pagado" id="pagado">$416.866</div>
+        <div class="de">de $962.000</div>
+        <div class="cuotas-lbl"><span id="cuotasTxt">2 de 6 cuotas pagadas</span></div>
+        <div class="dotline" id="dots"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Próxima cuota -->
+  <div class="cuota-card" id="cuotaCard">
+    <div class="cuota-top">
+      <div>
+        <div class="lbl">Próxima cuota</div>
+        <div class="monto">$136.283</div>
+        <div class="vence">Vence el <b id="vence">14 de febrero</b></div>
+      </div>
+      <span class="badge-n" id="badgeN">Cuota 3 de 6</span>
+    </div>
+
+    <div class="mp">
+      <span class="chip">pago</span>
+      <span class="txt">Mercado Pago · <b>Visa ••••&nbsp;4417</b> guardada</span>
+      <a href="#" class="cambiar">Cambiar</a>
+    </div>
+
+    <button class="pagar" id="pagar">Pagar cuota ahora</button>
+    <p class="auto">O se cobra sola el <b>14/02</b> con tu tarjeta guardada</p>
+  </div>
+
+  <!-- Estado completo (oculto hasta el final) -->
+  <div class="full" id="full">
+    <svg viewBox="0 0 24 24" fill="none" stroke="var(--ok)"><circle cx="12" cy="12" r="10" stroke-width="2"/><path d="M8 12l3 3 5-6" stroke-width="2.2"/></svg>
+    <div><b>¡Viaje pago al 100%!</b><span>Te enviamos los vouchers de las 3 experiencias por mail.</span></div>
+  </div>
+
+  <!-- Experiencias -->
+  <p class="sec">Tus experiencias reservadas</p>
+  <div id="exps"></div>
+
+  <!-- Protección -->
+  <div class="proteg">
+    <svg class="sh" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" stroke-width="1.7"/><path d="M9 12l2 2 4-4" stroke-width="1.7"/></svg>
+    <div>
+      <b>Tu dinero nunca se pierde</b>
+      <p>Si en algún momento no podés seguir, lo que pagaste se transforma en <b>crédito de viaje</b> para usar en cualquier experiencia (vence en 12 meses). Sin interés, sin letra chica. <a href="#">Ver condiciones</a></p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  var fmt=new Intl.NumberFormat('es-AR',{style:'currency',currency:'ARS',maximumFractionDigits:0});
+  var TOTAL=962000, SENA=144300, NCUO=6, CUOTA=Math.round((TOTAL-SENA)/NCUO);
+  var pagadas=2; // cuotas pagadas (además de la seña)
+  var CIRC=289;
+
+  var exps=[
+    {n:'La Trochita — Viejo Expreso Patagónico', m:'Esquel · Nahuel Pan', c:'#8a5a2b'},
+    {n:'Navegación El Alerzal', m:'P.N. Los Alerces · catamarán', c:'#1f6f78'},
+    {n:'Piedra Parada', m:'Cañón y trekking', c:'#6a7d3a'}
+  ];
+  var ce=document.getElementById('exps');
+  exps.forEach(function(e){
+    var d=document.createElement('div');d.className='exp';
+    d.innerHTML='<div class="ic" style="background:'+e.c+'"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#fff" stroke-width="1.8"><path d="M3 18l5-6 4 4 4-7 5 9"/></svg></div>'+
+      '<div class="nm"><b>'+e.n+'</b><span>'+e.m+'</span></div>'+
+      '<span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>Reservada</span>';
+    ce.appendChild(d);
+  });
+
+  function render(){
+    var pagado=SENA+CUOTA*pagadas;
+    var pct=Math.round(pagado/TOTAL*100);
+    document.getElementById('pct').textContent=pct+'%';
+    document.getElementById('pagado').textContent=fmt.format(pagado);
+    document.getElementById('arc').style.strokeDashoffset=CIRC-(CIRC*pct/100);
+    document.getElementById('cuotasTxt').textContent=pagadas+' de '+NCUO+' cuotas pagadas';
+
+    var dots=document.getElementById('dots');dots.innerHTML='';
+    for(var i=0;i<NCUO;i++){var s=document.createElement('i');if(i<pagadas)s.className='done';dots.appendChild(s);}
+
+    if(pagadas>=NCUO){
+      document.getElementById('cuotaCard').style.display='none';
+      document.getElementById('full').style.display='flex';
+    }else{
+      var prox=pagadas+1;
+      document.getElementById('badgeN').textContent='Cuota '+prox+' de '+NCUO;
+      var fechas=['14 de febrero','14 de marzo','14 de abril','14 de mayo','14 de junio','14 de julio'];
+      document.getElementById('vence').textContent=fechas[pagadas]||'—';
+    }
+  }
+
+  document.getElementById('pagar').addEventListener('click',function(){
+    var b=this;b.textContent='Procesando pago…';b.disabled=true;
+    setTimeout(function(){pagadas++;render();b.textContent='Pagar cuota ahora';b.disabled=false;},650);
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

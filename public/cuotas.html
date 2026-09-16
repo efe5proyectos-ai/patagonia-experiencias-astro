@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patagonia Experiencias — Armá tu viaje a Esquel en cuotas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --fucsia:#E6007E;
+    --fucsia-suave:#FBE3F0;
+    --petroleo:#20424D;
+    --petroleo-claro:#2E5B69;
+    --ink:#1A1A1A;
+    --gris:#6B6B6B;
+    --linea:#E7E4DF;
+    --fondo:#F6F5F2;
+    --superficie:#FFFFFF;
+    --ok:#1E7A54;
+    --sombra:0 1px 2px rgba(26,26,26,.05), 0 8px 24px rgba(26,26,26,.06);
+  }
+  :root:not([data-theme="light"]){}
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --fucsia:#FF3D9E;
+      --fucsia-suave:#3a1226;
+      --petroleo:#12262C;
+      --petroleo-claro:#1c3b45;
+      --ink:#F3F1ED;
+      --gris:#A5A29C;
+      --linea:#2C2E31;
+      --fondo:#121316;
+      --superficie:#1B1D20;
+      --sombra:0 1px 2px rgba(0,0,0,.4), 0 10px 28px rgba(0,0,0,.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --fucsia:#FF3D9E; --fucsia-suave:#3a1226; --petroleo:#12262C; --petroleo-claro:#1c3b45;
+    --ink:#F3F1ED; --gris:#A5A29C; --linea:#2C2E31; --fondo:#121316; --superficie:#1B1D20;
+    --sombra:0 1px 2px rgba(0,0,0,.4), 0 10px 28px rgba(0,0,0,.5);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    background:var(--fondo);
+    color:var(--ink);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:20px 18px 64px}
+
+  /* Header */
+  header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 0 22px}
+  .brand{display:flex;align-items:center;gap:9px;font-family:'Montserrat';font-weight:800;letter-spacing:-.02em;font-size:16px}
+  .brand .dot{width:11px;height:11px;border-radius:50%;background:var(--fucsia);flex:none}
+  .brand small{font-weight:600;color:var(--gris);font-family:'Inter';font-size:12px;letter-spacing:0}
+  .destino{font-size:13px;color:var(--gris);display:flex;align-items:center;gap:6px}
+  .destino svg{color:var(--fucsia)}
+
+  /* Hero title */
+  .lead h1{font-family:'Montserrat';font-weight:800;letter-spacing:-.025em;line-height:1.08;font-size:clamp(26px,5.4vw,40px);max-width:15ch}
+  .lead p{margin-top:10px;color:var(--gris);font-size:clamp(15px,2.5vw,17px);max-width:52ch}
+  .lead{margin-bottom:26px}
+
+  /* Layout */
+  .grid{display:grid;grid-template-columns:1fr;gap:20px}
+  @media(min-width:900px){.grid{grid-template-columns:1.15fr .85fr;align-items:start}}
+
+  /* Personas */
+  .personas{
+    display:flex;align-items:center;justify-content:space-between;gap:14px;
+    background:var(--superficie);border:1px solid var(--linea);border-radius:16px;
+    padding:14px 16px;box-shadow:var(--sombra);margin-bottom:16px
+  }
+  .personas .lbl{font-weight:600}
+  .personas .sub{font-size:12.5px;color:var(--gris);margin-top:2px}
+  .stepper{display:flex;align-items:center;gap:4px;border:1px solid var(--linea);border-radius:999px;padding:4px}
+  .stepper button{
+    width:36px;height:36px;border-radius:50%;border:none;cursor:pointer;
+    background:var(--fondo);color:var(--ink);font-size:20px;font-weight:600;line-height:1;
+    display:grid;place-items:center;transition:background .15s
+  }
+  .stepper button:hover{background:var(--fucsia-suave)}
+  .stepper button:disabled{opacity:.35;cursor:not-allowed}
+  .stepper .val{min-width:34px;text-align:center;font-weight:700;font-family:'Montserrat';font-size:18px}
+
+  /* Experience cards */
+  .exp-title{font-size:13px;font-weight:600;color:var(--gris);margin:0 2px 8px}
+  .exp{
+    display:flex;gap:14px;align-items:stretch;background:var(--superficie);
+    border:1px solid var(--linea);border-radius:16px;overflow:hidden;
+    box-shadow:var(--sombra);margin-bottom:12px;cursor:pointer;transition:border-color .15s
+  }
+  .exp:hover{border-color:var(--fucsia)}
+  .exp .thumb{width:96px;flex:none;position:relative;background:var(--petroleo)}
+  .exp .thumb svg{position:absolute;inset:0;width:100%;height:100%}
+  .exp .body{flex:1;padding:14px 4px 14px 0;display:flex;flex-direction:column;justify-content:center}
+  .exp h3{font-family:'Montserrat';font-weight:700;font-size:16px;letter-spacing:-.01em}
+  .exp .meta{font-size:12.5px;color:var(--gris);margin-top:3px}
+  .exp .price{margin-top:8px;font-size:13px;color:var(--gris)}
+  .exp .price b{font-family:'Montserrat';font-weight:700;color:var(--ink);font-size:15px}
+  .exp .check{
+    align-self:center;margin:0 16px;width:26px;height:26px;border-radius:50%;flex:none;
+    border:2px solid var(--linea);display:grid;place-items:center;transition:.15s
+  }
+  .exp[data-on="1"]{border-color:var(--fucsia)}
+  .exp[data-on="1"] .check{background:var(--fucsia);border-color:var(--fucsia)}
+  .exp .check svg{width:14px;height:14px;color:#fff;opacity:0}
+  .exp[data-on="1"] .check svg{opacity:1}
+
+  /* Summary / savings panel — el héroe */
+  .panel{
+    background:var(--petroleo);color:#fff;border-radius:22px;padding:24px 22px;
+    box-shadow:var(--sombra);position:sticky;top:16px
+  }
+  .lock{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;
+    background:rgba(255,255,255,.12);padding:6px 11px;border-radius:999px}
+  .lock svg{width:14px;height:14px}
+  .total-lbl{margin-top:18px;font-size:13px;color:rgba(255,255,255,.7)}
+  .total{font-family:'Montserrat';font-weight:800;letter-spacing:-.03em;font-size:clamp(34px,7vw,46px);line-height:1}
+  .total .pers{font-size:14px;font-weight:600;color:rgba(255,255,255,.7);font-family:'Inter';margin-left:8px}
+
+  .seg{margin-top:20px}
+  .seg > span{font-size:12.5px;color:rgba(255,255,255,.7);display:block;margin-bottom:8px}
+  .opts{display:flex;gap:8px}
+  .opts button{
+    flex:1;border:1px solid rgba(255,255,255,.22);background:transparent;color:#fff;
+    padding:11px 4px;border-radius:12px;cursor:pointer;font:inherit;font-size:14px;font-weight:600;
+    transition:.15s;font-family:'Inter'
+  }
+  .opts button small{display:block;font-weight:400;font-size:11px;color:rgba(255,255,255,.6);margin-top:2px}
+  .opts button:hover{border-color:rgba(255,255,255,.5)}
+  .opts button[aria-pressed="true"]{background:var(--fucsia);border-color:var(--fucsia)}
+  .opts button[aria-pressed="true"] small{color:rgba(255,255,255,.85)}
+
+  .rows{margin-top:22px;border-top:1px solid rgba(255,255,255,.14);padding-top:16px}
+  .row{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:12px}
+  .row .k{font-size:13.5px;color:rgba(255,255,255,.78)}
+  .row .k em{display:block;font-style:normal;font-size:11.5px;color:rgba(255,255,255,.5);margin-top:1px}
+  .row .v{font-family:'Montserrat';font-weight:700;font-size:16px;text-align:right;white-space:nowrap}
+  .row.big .v{color:#fff;font-size:22px}
+  .row.big .v b{color:var(--fucsia);filter:brightness(1.6)}
+
+  /* progress preview */
+  .prog-wrap{margin-top:6px;background:rgba(255,255,255,.10);border-radius:999px;height:12px;overflow:hidden}
+  .prog{height:100%;width:15%;background:var(--fucsia);border-radius:999px;transition:width .5s cubic-bezier(.2,.7,.2,1)}
+  .prog-cap{display:flex;justify-content:space-between;font-size:11.5px;color:rgba(255,255,255,.6);margin-top:7px}
+
+  .fecha{margin-top:20px}
+  .fecha label{font-size:12.5px;color:rgba(255,255,255,.7);display:block;margin-bottom:7px}
+  .fecha input{
+    width:100%;font:inherit;font-size:15px;padding:12px 14px;border-radius:12px;
+    border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.06);color:#fff;
+    color-scheme:dark
+  }
+  .fecha .hint{font-size:12px;color:rgba(255,255,255,.62);margin-top:8px;line-height:1.45}
+  .fecha .hint b{color:#fff;font-weight:600}
+
+  .cta{
+    margin-top:20px;width:100%;border:none;cursor:pointer;background:var(--fucsia);color:#fff;
+    font:inherit;font-weight:700;font-size:16px;font-family:'Montserrat';letter-spacing:-.01em;
+    padding:16px;border-radius:14px;transition:transform .12s, filter .15s
+  }
+  .cta:hover{filter:brightness(1.06)}
+  .cta:active{transform:translateY(1px)}
+
+  .trust{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+  .trust span{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:rgba(255,255,255,.82);
+    background:rgba(255,255,255,.08);padding:6px 10px;border-radius:999px}
+  .trust svg{width:13px;height:13px;color:var(--fucsia);filter:brightness(1.5);flex:none}
+
+  .foot{margin-top:20px;font-size:11.5px;color:var(--gris);line-height:1.5;max-width:60ch}
+
+  :focus-visible{outline:2px solid var(--fucsia);outline-offset:2px;border-radius:6px}
+  @media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="brand"><span class="dot"></span>Patagonia&nbsp;Experiencias<small>&nbsp;· ahorrá y viajá</small></div>
+    <div class="destino">
+      <svg viewBox="0 0 24 24" fill="none" width="15" height="15"><path d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11Z" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="10" r="2.4" stroke="currentColor" stroke-width="1.7"/></svg>
+      Esquel, Chubut
+    </div>
+  </header>
+
+  <div class="lead">
+    <h1>Armá tu viaje a Esquel y pagalo en cuotas.</h1>
+    <p>Elegí tus experiencias, congelá el precio de hoy con una seña y sumá cuotas hasta que llega el día de viajar. Sin interés y sin tarjeta de crédito.</p>
+  </div>
+
+  <div class="grid">
+
+    <!-- IZQUIERDA -->
+    <section>
+      <div class="personas">
+        <div>
+          <div class="lbl">¿Cuántos viajan?</div>
+          <div class="sub" id="persSub">2 personas · los precios se multiplican solos</div>
+        </div>
+        <div class="stepper">
+          <button id="menos" aria-label="Quitar persona">−</button>
+          <span class="val" id="persVal">2</span>
+          <button id="mas" aria-label="Agregar persona">+</button>
+        </div>
+      </div>
+
+      <p class="exp-title">Tus experiencias en Esquel</p>
+      <div id="exps"></div>
+    </section>
+
+    <!-- DERECHA: panel de ahorro -->
+    <aside>
+      <div class="panel">
+        <span class="lock">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="5" y="10" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="1.8"/></svg>
+          Precio congelado al pagar la seña
+        </span>
+
+        <div class="total-lbl">Total de tu viaje</div>
+        <div class="total"><span id="total">$962.000</span><span class="pers" id="totalPers">2 personas</span></div>
+
+        <div class="seg">
+          <span>Elegí en cuántas cuotas lo pagás</span>
+          <div class="opts" id="planes">
+            <button data-n="3" aria-pressed="false">3<small>cuotas</small></button>
+            <button data-n="6" aria-pressed="true">6<small>cuotas</small></button>
+            <button data-n="9" aria-pressed="false">9<small>cuotas</small></button>
+          </div>
+        </div>
+
+        <div class="rows">
+          <div class="row">
+            <div class="k">Seña para asegurar los cupos<em>15% del total, se paga hoy</em></div>
+            <div class="v" id="sena">$144.300</div>
+          </div>
+          <div class="row big">
+            <div class="k">Cuota mensual</div>
+            <div class="v"><b id="cuota">$136.283</b></div>
+          </div>
+          <div class="row" style="margin-bottom:14px">
+            <div class="k">Saldo en <span id="nCuotas">6</span> cuotas</div>
+            <div class="v" id="saldo">$817.700</div>
+          </div>
+
+          <div class="prog-wrap"><div class="prog" id="prog"></div></div>
+          <div class="prog-cap"><span>Con la seña arrancás en <b id="progPct" style="color:#fff">15%</b></span><span>Tu viaje: 100%</span></div>
+        </div>
+
+        <div class="fecha">
+          <label for="fviaje">¿Cuándo querés viajar?</label>
+          <input type="date" id="fviaje">
+          <div class="hint" id="fhint"></div>
+        </div>
+
+        <button class="cta" id="cta">Pagar la seña y asegurar los cupos</button>
+
+        <div class="trust">
+          <span><svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.4"/></svg>Sin interés</span>
+          <span><svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.4"/></svg>Sin tarjeta de crédito</span>
+          <span><svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.4"/></svg>Cupo asegurado</span>
+        </div>
+      </div>
+
+      <p class="foot">La seña asegura tu lugar y congela el precio: al confirmarla, reservamos los cupos con cada prestador de Esquel. Completás el pago hasta 15 días antes de viajar. Es ahorro programado, no un crédito.</p>
+    </aside>
+
+  </div>
+</div>
+
+<script>
+(function(){
+  var fmt = new Intl.NumberFormat('es-AR',{style:'currency',currency:'ARS',maximumFractionDigits:0});
+  var meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+
+  // Excursiones reales de Esquel (precio por persona, residente nacional)
+  var data = [
+    {id:'trochita', on:true, nombre:'La Trochita — Viejo Expreso Patagónico', meta:'Esquel · Nahuel Pan · 3 hs', precio:86000, grad:['#8a5a2b','#3a2413']},
+    {id:'alerzal', on:true, nombre:'Navegación El Alerzal — P.N. Los Alerces', meta:'Catamarán entre alerces milenarios · día completo', precio:195000, grad:['#1f6f78','#0f3238']},
+    {id:'piedra', on:true, nombre:'Piedra Parada — cañón y trekking', meta:'Cañón del río Gualjaina · 8 hs · dificultad media', precio:200000, grad:['#6a7d3a','#2c3417']}
+  ];
+
+  var personas = 2, plan = 6, deposito = 0.15;
+
+  // Render experiencias
+  var cont = document.getElementById('exps');
+  data.forEach(function(e){
+    var el = document.createElement('div');
+    el.className='exp'; el.dataset.on = e.on?'1':'0'; el.dataset.id=e.id;
+    el.setAttribute('role','button'); el.setAttribute('tabindex','0');
+    el.innerHTML =
+      '<div class="thumb"><svg viewBox="0 0 96 130" preserveAspectRatio="none"><defs><linearGradient id="g_'+e.id+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+e.grad[0]+'"/><stop offset="1" stop-color="'+e.grad[1]+'"/></linearGradient></defs><rect width="96" height="130" fill="url(#g_'+e.id+')"/><path d="M0 96 L26 64 L44 84 L64 52 L96 92 L96 130 L0 130 Z" fill="rgba(255,255,255,.10)"/><path d="M0 110 L34 82 L58 100 L96 74 L96 130 L0 130 Z" fill="rgba(0,0,0,.18)"/></svg></div>'+
+      '<div class="body"><h3>'+e.nombre+'</h3><div class="meta">'+e.meta+'</div>'+
+      '<div class="price">Desde <b>'+fmt.format(e.precio)+'</b> por persona</div></div>'+
+      '<div class="check"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="3"/></svg></div>';
+    function toggle(){ e.on=!e.on; el.dataset.on=e.on?'1':'0'; calc(); }
+    el.addEventListener('click',toggle);
+    el.addEventListener('keydown',function(ev){if(ev.key===' '||ev.key==='Enter'){ev.preventDefault();toggle();}});
+    cont.appendChild(el);
+  });
+
+  // Fecha por defecto: ~5 meses adelante
+  var hoy = new Date();
+  var viaje = new Date(hoy.getFullYear(), hoy.getMonth()+5, hoy.getDate());
+  var fin = document.getElementById('fviaje');
+  function iso(d){return d.toISOString().slice(0,10);}
+  fin.value = iso(viaje);
+  fin.min = iso(new Date(hoy.getFullYear(),hoy.getMonth(),hoy.getDate()+30));
+
+  // Elementos
+  var elTotal=document.getElementById('total'), elTotalPers=document.getElementById('totalPers'),
+      elSena=document.getElementById('sena'), elCuota=document.getElementById('cuota'),
+      elSaldo=document.getElementById('saldo'), elN=document.getElementById('nCuotas'),
+      elProg=document.getElementById('prog'), elProgPct=document.getElementById('progPct'),
+      elHint=document.getElementById('fhint'), elPersVal=document.getElementById('persVal'),
+      elPersSub=document.getElementById('persSub');
+
+  function calc(){
+    var base = data.reduce(function(s,e){return s + (e.on?e.precio:0);},0);
+    var total = base * personas;
+    var sena = Math.round(total*deposito);
+    var saldo = total - sena;
+    var cuota = plan>0 ? Math.round(saldo/plan) : 0;
+
+    elTotal.textContent = fmt.format(total);
+    elTotalPers.textContent = personas+(personas===1?' persona':' personas');
+    elSena.textContent = fmt.format(sena);
+    elSaldo.textContent = fmt.format(saldo);
+    elCuota.textContent = fmt.format(cuota);
+    elN.textContent = plan;
+    var pct = total>0 ? Math.round(deposito*100) : 0;
+    elProg.style.width = pct+'%';
+    elProgPct.textContent = pct+'%';
+
+    // Fecha límite = 15 días antes del viaje
+    var v = new Date(fin.value+'T00:00:00');
+    if(!isNaN(v)){
+      var limite = new Date(v.getTime()); limite.setDate(limite.getDate()-15);
+      var difMeses = (v.getFullYear()-hoy.getFullYear())*12 + (v.getMonth()-hoy.getMonth());
+      elHint.innerHTML = 'Terminás de pagar el <b>'+limite.getDate()+' de '+meses[limite.getMonth()]+'</b> (15 días antes de viajar). '+
+        'Tenés <b>'+Math.max(difMeses,1)+' '+(difMeses===1?'mes':'meses')+'</b> por delante — el plan de '+plan+' cuotas '+(plan<=difMeses?'entra cómodo':'te queda algo ajustado')+'.';
+    }
+  }
+
+  document.getElementById('mas').addEventListener('click',function(){personas=Math.min(personas+1,12);sync();});
+  document.getElementById('menos').addEventListener('click',function(){personas=Math.max(personas-1,1);sync();});
+  function sync(){
+    elPersVal.textContent=personas;
+    elPersSub.textContent=personas+(personas===1?' persona':' personas')+' · los precios se multiplican solos';
+    document.getElementById('menos').disabled = personas<=1;
+    calc();
+  }
+
+  document.querySelectorAll('#planes button').forEach(function(b){
+    b.addEventListener('click',function(){
+      plan=parseInt(b.dataset.n,10);
+      document.querySelectorAll('#planes button').forEach(function(x){x.setAttribute('aria-pressed', x===b?'true':'false');});
+      calc();
+    });
+  });
+
+  fin.addEventListener('change',calc);
+
+  document.getElementById('cta').addEventListener('click',function(){
+    var base = data.reduce(function(s,e){return s+(e.on?e.precio:0);},0)*personas;
+    if(base<=0){alert('Elegí al menos una experiencia para continuar.');return;}
+    this.textContent='Seña confirmada · te reservamos los cupos';
+    this.style.background='var(--ok)';
+  });
+
+  sync();
+})();
+</script>
+</body>
+</html>

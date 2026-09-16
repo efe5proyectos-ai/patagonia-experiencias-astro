@@ -147,6 +147,22 @@ function normalizarExperiencia(doc, agencias, planes) {
   };
 }
 
+// Slug EXACTO que usa la app de reservas (patagonia-experiencias.html → getTourSlug).
+// Los botones "Reservar" tienen que usar este, no el slug de la URL de Astro:
+// si difieren (títulos con "|", ":", "." pegados a letras, títulos repetidos), la app no encuentra el tour.
+function slugApp(texto) {
+  if (!texto) return '';
+  return texto.toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+}
+function slugReservaDe(doc, todos) {
+  if (!doc || !doc.titulo) return doc?.id || '';
+  const base = slugApp(doc.titulo);
+  const iguales = todos.filter((t) => slugApp(t.titulo) === base).sort((a, b) => String(a.id || '').localeCompare(String(b.id || '')));
+  const i = iguales.findIndex((t) => t.id === doc.id);
+  return i <= 0 ? base : `${base}-${i + 1}`;
+}
+
 export async function obtenerExperiencias() {
   const [remoto, agencias, planesDoc] = await Promise.all([
     leerColeccion('tours').catch((e) => { console.warn(`[datos] ${e.message} — datos locales`); return null; }),
@@ -157,7 +173,8 @@ export async function obtenerExperiencias() {
   const crudos = (remoto && remoto.length)
     ? remoto
     : (await import('../data/experiencias.json')).default;
-  return crudos.filter((d) => d.activo !== false).map((d) => normalizarExperiencia(d, agencias || [], planes));
+  const activos = crudos.filter((d) => d.activo !== false);
+  return activos.map((d) => ({ ...normalizarExperiencia(d, agencias || [], planes), slugReserva: slugReservaDe(d, activos) }));
 }
 
 

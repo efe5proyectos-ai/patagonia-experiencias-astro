@@ -1,10 +1,13 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { obtenerExperiencias } from '../../lib/contenido.js';
+import traducciones from '../../data/traducciones-pt.json';
 const exps = await obtenerExperiencias();
+const hayPt = Object.keys(traducciones).length > 0;
+const alternos = hayPt ? { es: 'https://patagoniaexperiencias.com/experiencias/', pt: 'https://patagoniaexperiencias.com/pt-br/experiencias/' } : null;
 const urgColores = { rose:'bg-rose-600/95 border-rose-500', amber:'bg-amber-500/95 border-amber-400', emerald:'bg-emerald-600/95 border-emerald-500', sky:'bg-sky-600/95 border-sky-500', fuchsia:'bg-fuchsia-600/95 border-fuchsia-500', slate:'bg-slate-700/95 border-slate-600' };
 ---
-<BaseLayout titulo="Experiencias en la Patagonia" descripcion="Excursiones y experiencias verificadas con prestadores locales: avistaje de ballenas, La Hoya, Los Alerces, Huella Galesa y todo el Chubut.">
+<BaseLayout titulo="Experiencias en la Patagonia" descripcion="Excursiones y experiencias verificadas con prestadores locales: avistaje de ballenas, La Hoya, Los Alerces, Huella Galesa y todo el Chubut." alternos={alternos}>
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <p class="text-brand-fuchsia text-xs font-black uppercase tracking-[0.3em] mb-3"><i class="fa-solid fa-circle-check mr-2"></i>Catálogo verificado</p>
     <h1 class="font-sans font-extrabold text-3xl sm:text-5xl leading-tight mb-10 text-brand-oxford">Experiencias</h1>

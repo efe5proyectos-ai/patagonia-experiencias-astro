@@ -21,6 +21,11 @@
       src="https://www.facebook.com/tr?id=1501384968138883&ev=PageView&noscript=1"/></noscript>
     <!-- End Meta Pixel -->
     <title>Patagonia Experiencias | Conectando la Patagonia</title>
+    <meta name="description" content="Tours, excursiones y gastronomía en la Patagonia argentina con prestadores locales verificados: Puerto Madryn, Península Valdés, Trelew, Gaiman y Esquel. Reservá online.">
+    <link rel="canonical" href="https://patagoniaexperiencias.com/">
+    <link rel="alternate" hreflang="es-AR" href="https://patagoniaexperiencias.com/">
+    <link rel="alternate" hreflang="pt-BR" href="https://patagoniaexperiencias.com/pt-br/">
+    <link rel="alternate" hreflang="x-default" href="https://patagoniaexperiencias.com/">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -60,7 +65,42 @@
     </style>
 </head>
 <body class="antialiased selection:bg-brand-fuchsia selection:text-white">
-    <div id="root"></div>
+    <div id="root">
+        <!-- Pantalla de carga con enlaces reales para buscadores. React la reemplaza al terminar de cargar. -->
+        <style>
+            .pe-splash{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:32px 20px;background:#FDFDFD;font-family:Inter,sans-serif;text-align:center}
+            .pe-marca{font-family:Montserrat,sans-serif;font-weight:800;font-size:1.6rem;color:#2c3e50;margin:0}
+            .pe-marca span{color:#E91E63}
+            .pe-spin{width:34px;height:34px;border:3px solid #f3c1d3;border-top-color:#E91E63;border-radius:50%;animation:pe-g .8s linear infinite}
+            @keyframes pe-g{to{transform:rotate(360deg)}}
+            .pe-h1{font-size:.95rem;font-weight:600;color:#64748b;margin:0;max-width:560px}
+            .pe-bajada{font-size:.8rem;color:#94a3b8;margin:0;max-width:560px;line-height:1.5}
+            .pe-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;max-width:760px;margin-top:10px}
+            .pe-chip{font-size:.72rem;color:#64748b;text-decoration:none;border:1px solid #e5e7eb;border-radius:999px;padding:5px 11px;background:#fff}
+            .pe-chip:hover{color:#E91E63;border-color:#E91E63}
+        </style>
+        <main class="pe-splash">
+            <p class="pe-marca">Patagonia<span>Experiencias</span></p>
+            <div class="pe-spin" role="status" aria-label="Cargando"></div>
+            <h1 class="pe-h1">Patagonia Experiencias: tours y experiencias en la Patagonia argentina</h1>
+            <p class="pe-bajada">Excursiones, gastronomía y alojamiento con prestadores locales verificados en Puerto Madryn, Península Valdés, Trelew, Gaiman, Esquel y toda la región.</p>
+            <nav class="pe-nav" aria-label="Secciones de Patagonia Experiencias">
+                <a class="pe-chip" href="/experiencias/">Experiencias y excursiones en la Patagonia</a>
+                <a class="pe-chip" href="/patagonia-experiencias">Reservar tours online</a>
+                <a class="pe-chip" href="/guias-de-viaje/">Guías de viaje de la Patagonia</a>
+                <a class="pe-chip" href="/guias-de-viaje/peninsula-valdes/">Guía de Península Valdés</a>
+                <a class="pe-chip" href="/guias-de-viaje/valle-del-chubut/">Guía del Valle del Chubut: Trelew, Gaiman, Dolavon y Rawson</a>
+                <a class="pe-chip" href="/guias-de-viaje/esquel-trevelin/">Guía de Esquel y Trevelin</a>
+                <a class="pe-chip" href="/puerto-madryn">Qué hacer en Puerto Madryn</a>
+                <a class="pe-chip" href="/calendario-fauna/">Calendario de fauna: ballenas, pingüinos y orcas</a>
+                <a class="pe-chip" href="/que-hacer-patagonia/">Qué hacer en la Patagonia</a>
+                <a class="pe-chip" href="/que-comer-patagonia/">Qué comer en la Patagonia</a>
+                <a class="pe-chip" href="/guias/">Revista Patagonia</a>
+                <a class="pe-chip" href="/prestadores">Soy prestador turístico</a>
+                <a class="pe-chip" href="/pt-br/" hreflang="pt-BR">Passeios na Patagônia argentina (Português)</a>
+            </nav>
+        </main>
+    </div>
 
     <script>
 const {

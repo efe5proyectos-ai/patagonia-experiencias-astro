@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
-import { readdirSync, existsSync } from 'node:fs';
+import { readdirSync, existsSync, readFileSync } from 'node:fs';
 
 const SITIO = 'https://patagoniaexperiencias.com';
 
@@ -22,6 +22,8 @@ const PAGINAS_PUBLICAS = [
   'puerto-madryn',
   'valle-del-chubut',
   'esquel-trevelin',
+  // App de reservas
+  'patagonia-experiencias',
   // Institucionales y captación
   'prestadores',
   'sumar-gastronomia',
@@ -72,11 +74,14 @@ if (faltantes.length) {
 }
 console.log(`[sitemap] ${paginasPublicas.length} páginas de public/ agregadas`);
 
+// pt-BR: si todavía no hay traducciones, /pt-br/ no entra al sitemap (páginas vacías = noindex)
+const HAY_PT = (() => { try { return Object.keys(JSON.parse(readFileSync('./src/data/traducciones-pt.json', 'utf8'))).length > 0; } catch { return false; } })();
+
 export default defineConfig({
   site: SITIO,
   output: 'static',
   trailingSlash: 'always',
-  integrations: [sitemap({ changefreq: 'weekly', lastmod: new Date(), customPages: paginasPublicas })],
+  integrations: [sitemap({ changefreq: 'weekly', lastmod: new Date(), customPages: paginasPublicas, filter: (p) => HAY_PT || !p.includes('/pt-br/') })],
   vite: { plugins: [tailwindcss()] },
   build: { format: 'directory' },
 });

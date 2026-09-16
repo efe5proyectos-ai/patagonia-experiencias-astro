@@ -1,0 +1,41 @@
+# ─────────────────────────────────────────────────────────────
+# INDEXACIÓN — qué NO debe aparecer en Google
+# ─────────────────────────────────────────────────────────────
+
+# Copia de staging de Cloudflare (*.pages.dev): contenido duplicado del sitio
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
+
+# Páginas transaccionales y de uso interno
+/pago-confirmado
+  X-Robots-Tag: noindex
+/pago-pendiente
+  X-Robots-Tag: noindex
+/pago-rechazado
+  X-Robots-Tag: noindex
+/mi-viaje
+  X-Robots-Tag: noindex
+/billetera-turista
+  X-Robots-Tag: noindex
+/cuotas
+  X-Robots-Tag: noindex
+/registro-invitacion
+  X-Robots-Tag: noindex
+/manual-prestador
+  X-Robots-Tag: noindex
+/iconos-categorias
+  X-Robots-Tag: noindex
+/banner-fauna
+  X-Robots-Tag: noindex
+/banner-fauna-300x250
+  X-Robots-Tag: noindex
+/email-bienvenida-prestador*
+  X-Robots-Tag: noindex
+/guias-de-viaje/peninsula-valdes/verificar-imagenes
+  X-Robots-Tag: noindex
+/*.json
+  X-Robots-Tag: noindex
+/*.md
+  X-Robots-Tag: noindex
+/*.txt
+  X-Robots-Tag: noindex

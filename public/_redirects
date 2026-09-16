@@ -26,3 +26,16 @@ https://cattdf.patagoniaexperiencias.com/* https://patagoniaexperiencias.com/pre
 /calendario-fauna.html /calendario-fauna/ 301
 /que-hacer-patagonia.html /que-hacer-patagonia/ 301
 /que-comer-patagonia.html /que-comer-patagonia/ 301
+
+# ── Limpieza de indexación 16/09/2026: versiones viejas y duplicados ──
+/index_2.html / 301
+/index_2 / 301
+/patagonia-experiencias_v11.html /patagonia-experiencias 301
+/patagonia-experiencias_v11 /patagonia-experiencias 301
+/guia-peninsula-valle-2026.html /guias-de-viaje/peninsula-valdes/ 301
+/guia-peninsula-valle-2026 /guias-de-viaje/peninsula-valdes/ 301
+/guias-de-viaje/peninsula-valdes/peninsula-valle.html /guias-de-viaje/peninsula-valdes/ 301
+/guias-de-viaje/peninsula-valdes/peninsula-valle /guias-de-viaje/peninsula-valdes/ 301
+/sitemap-guias.xml /sitemap-index.xml 301
+# Archivo con credenciales: bloqueado mientras se borra del repo
+/meta-conversion.php / 301

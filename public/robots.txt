@@ -4,3 +4,4 @@ Disallow: /admin/
 Disallow: /dashboard/
 
 Sitemap: https://patagoniaexperiencias.com/sitemap-index.xml
+Sitemap: https://patagoniaexperiencias.com/sitemap-imagens.xml

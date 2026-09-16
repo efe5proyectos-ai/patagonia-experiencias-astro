@@ -1,0 +1,32 @@
+name: Traducir experiencias a portugués (pt-BR)
+
+on:
+  workflow_dispatch:
+    inputs:
+      forzar:
+        description: 'Retraducir todo (1 = sí)'
+        required: false
+        default: '0'
+
+permissions:
+  contents: write
+
+jobs:
+  traducir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Traducir nuevos o modificados
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          FORZAR: ${{ github.event.inputs.forzar }}
+        run: node scripts/traducir-pt.mjs
+      - name: Guardar traducciones en la rama
+        run: |
+          git config user.name "traductor-pt"
+          git config user.email "actions@github.com"
+          git add src/data/traducciones-pt.json
+          git diff --cached --quiet || (git commit -m "pt-BR: traducciones actualizadas" && git push)

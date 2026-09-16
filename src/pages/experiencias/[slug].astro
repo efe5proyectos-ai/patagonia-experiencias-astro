@@ -1,14 +1,17 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { obtenerExperiencias } from '../../lib/contenido.js';
+import { traduccionDe, urlPt, relacionadas } from '../../lib/traducciones.js';
 
 export async function getStaticPaths() {
   const exps = await obtenerExperiencias();
-  return exps.map((exp) => ({ params: { slug: exp.slug }, props: { exp } }));
+  return exps.map((exp) => ({ params: { slug: exp.slug }, props: { exp, rel: relacionadas(exp, exps) } }));
 }
 
-const { exp } = Astro.props;
+const { exp, rel } = Astro.props;
 const url = new URL(Astro.url.pathname, Astro.site).href;
+const pt = traduccionDe(exp.slug);
+const alternos = pt?.slugPt ? { es: url, pt: urlPt(pt.slugPt) } : null;
 const textoPlano = exp.descripcion.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 const descripcion = textoPlano.slice(0, 157).trim() + '…';
 const etiquetaDuracion = { par_horas: 'Un par de horas', medio_dia: 'Medio día', dia_completo: 'Día completo' }[exp.duracion] || exp.duracion;
@@ -26,7 +29,7 @@ const schema = [
     { '@type': 'ListItem', position: 3, name: exp.titulo, item: url } ] },
 ];
 ---
-<BaseLayout titulo={`${exp.titulo} en ${exp.destino}`} descripcion={descripcion} imagen={exp.imagen} schema={schema} tipo="product">
+<BaseLayout titulo={`${exp.titulo} en ${exp.destino}`} descripcion={descripcion} imagen={exp.imagen} schema={schema} tipo="product" alternos={alternos}>
   <main>
     {exp.imagen && (
       <div class="relative h-[45vh] min-h-[320px] overflow-hidden">
@@ -86,6 +89,22 @@ const schema = [
         <a href={`/patagonia-experiencias.html#tour/${exp.slug}`} class="inline-flex items-center gap-2 bg-white text-brand-fuchsia font-bold text-sm uppercase tracking-widest px-6 py-3 rounded-full hover:bg-slate-100 transition-all"><i class="fa-solid fa-ticket"></i> Reservar ahora</a>
       </aside>
     </article>
+    {rel.length > 0 && (
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-6">
+        <h2 class="font-sans font-extrabold text-2xl text-brand-oxford mb-6">Seguí explorando la zona</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {rel.map((e) => (
+            <a href={`/experiencias/${e.slug}/`} class="group bg-white rounded-2xl overflow-hidden flex flex-col shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
+              <div class="relative h-44 overflow-hidden"><img src={e.imagen} alt={`${e.titulo} — ${e.destino}`} loading="lazy" width="600" height="400" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" /></div>
+              <div class="p-5">
+                <h3 class="font-sans font-bold text-brand-dark text-[15px] leading-tight group-hover:text-brand-fuchsia transition-colors">{e.titulo}</h3>
+                <p class="text-slate-500 text-[11px] font-semibold mt-2"><i class="fa-solid fa-location-dot mr-1 text-brand-fuchsia"></i>{e.destino}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
   </main>
   <style is:global>
     .prose-pe h2 { font-family:'Montserrat',sans-serif; font-weight:800; font-size:1.5rem; color:#2c3e50; margin:2.2rem 0 .8rem; }

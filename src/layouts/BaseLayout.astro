@@ -1,13 +1,19 @@
 ---
 import '../styles/global.css';
+import { TEXTOS, WHATSAPP } from '../lib/traducciones.js';
 // Layout con el diseño real de producción: Tailwind + Montserrat/Inter + fucsia E91E63
+// idioma: 'es' | 'pt'. alternos: { es: urlAbsoluta, pt: urlAbsoluta } → genera hreflang recíproco
 const {
   titulo, descripcion,
-  imagen = 'https://patagoniaexperiencias.com/og-default.jpg',
+  imagen = 'https://patagoniaexperiencias.com/og-image.jpg',
   schema = null, tipo = 'website', temaOscuro = false,
+  idioma = 'es', alternos = null, noindex = false,
 } = Astro.props;
+const T = TEXTOS[idioma] || TEXTOS.es;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const tituloCompleto = `${titulo} | Patagonia Experiencias`;
+const hayAlternos = alternos && alternos.es && alternos.pt;
+const linkOtroIdioma = hayAlternos ? (idioma === 'pt' ? alternos.es : alternos.pt) : null;
 const schemaOrg = {
   '@context': 'https://schema.org', '@type': 'Organization',
   name: 'Patagonia Experiencias', url: 'https://patagoniaexperiencias.com',
@@ -15,19 +21,25 @@ const schemaOrg = {
 };
 ---
 <!doctype html>
-<html lang="es-AR">
+<html lang={T.lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{tituloCompleto}</title>
     <meta name="description" content={descripcion} />
     <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
     <meta property="og:type" content={tipo} />
     <meta property="og:title" content={tituloCompleto} />
     <meta property="og:description" content={descripcion} />
     <meta property="og:image" content={imagen} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:locale" content="es_AR" />
+    <meta property="og:locale" content={T.og} />
+    {hayAlternos && <meta property="og:locale:alternate" content={idioma === 'pt' ? 'es_AR' : 'pt_BR'} />}
+    {hayAlternos && <link rel="alternate" hreflang="es-AR" href={alternos.es} />}
+    {hayAlternos && <link rel="alternate" hreflang="pt-BR" href={alternos.pt} />}
+    {hayAlternos && <link rel="alternate" hreflang="x-default" href={alternos.es} />}
+    <meta property="og:site_name" content="Patagonia Experiencias" />
     <meta name="twitter:card" content="summary_large_image" />
     <script type="application/ld+json" set:html={JSON.stringify(schemaOrg)} />
     {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
@@ -39,15 +51,16 @@ const schemaOrg = {
 
     <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
-        <a href="/" class="font-sans font-extrabold text-lg tracking-tight text-brand-oxford">
+        <a href={T.inicio} class="font-sans font-extrabold text-lg tracking-tight text-brand-oxford">
           Patagonia<span class="text-brand-fuchsia">Experiencias</span>
         </a>
         <nav class="flex items-center gap-1">
-          <a href="/guias/" class="hidden md:flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full text-slate-500 hover:bg-brand-fuchsia/5 hover:text-brand-fuchsia transition-all"><i class="fa-solid fa-newspaper"></i> Revista</a>
-          <a href="/experiencias/" class="hidden md:flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full text-slate-500 hover:bg-brand-fuchsia/5 hover:text-brand-fuchsia transition-all"><i class="fa-solid fa-compass"></i> Experiencias</a>
-          <a href="/guias-de-viaje/" class="hidden md:flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full text-slate-500 hover:bg-brand-fuchsia/5 hover:text-brand-fuchsia transition-all"><i class="fa-solid fa-book-open"></i> Guía de Viajeros</a>
-          <a href="https://tienda.patagoniapuntos.com" target="_blank" rel="noopener noreferrer" class="hidden md:flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full text-slate-500 hover:bg-brand-fuchsia/5 hover:text-brand-fuchsia transition-all"><i class="fa-solid fa-coins"></i> Suma Puntos</a>
-          <a href="https://patagoniaexperiencias.com/#experiencias" class="flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-5 py-2.5 rounded-full bg-brand-fuchsia text-white shadow-lg shadow-brand-fuchsia/30 hover:bg-brand-fuchsiaDark transition-all"><i class="fa-solid fa-ticket"></i> Reservar</a>
+          <a href="/guias/" class="hidden md:flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full text-slate-500 hover:bg-brand-fuchsia/5 hover:text-brand-fuchsia transition-all"><i class="fa-solid fa-newspaper"></i> {T.revista}</a>
+          <a href={idioma === 'pt' ? '/pt-br/experiencias/' : '/experiencias/'} class="hidden md:flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full text-slate-500 hover:bg-brand-fuchsia/5 hover:text-brand-fuchsia transition-all"><i class="fa-solid fa-compass"></i> {T.experiencias}</a>
+          <a href="/guias-de-viaje/" class="hidden md:flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full text-slate-500 hover:bg-brand-fuchsia/5 hover:text-brand-fuchsia transition-all"><i class="fa-solid fa-book-open"></i> {T.guia}</a>
+          <a href="https://tienda.patagoniapuntos.com" target="_blank" rel="noopener noreferrer" class="hidden md:flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full text-slate-500 hover:bg-brand-fuchsia/5 hover:text-brand-fuchsia transition-all"><i class="fa-solid fa-coins"></i> {T.puntos}</a>
+          {linkOtroIdioma && <a href={linkOtroIdioma} hreflang={idioma === 'pt' ? 'es-AR' : 'pt-BR'} class="flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest px-3 py-2 rounded-full text-slate-500 hover:text-brand-fuchsia transition-all"><i class="fa-solid fa-globe"></i> {T.idiomaOtro}</a>}
+          <a href={idioma === 'pt' ? '/pt-br/experiencias/' : 'https://patagoniaexperiencias.com/#experiencias'} class="flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-5 py-2.5 rounded-full bg-brand-fuchsia text-white shadow-lg shadow-brand-fuchsia/30 hover:bg-brand-fuchsiaDark transition-all"><i class="fa-solid fa-ticket"></i> {T.reservar}</a>
         </nav>
       </div>
     </header>
@@ -55,30 +68,43 @@ const schemaOrg = {
     <slot />
 
     <footer class="bg-brand-dark text-white mt-20">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 grid md:grid-cols-3 gap-10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 grid md:grid-cols-4 gap-10">
         <div>
           <p class="font-sans font-extrabold text-lg mb-3">Patagonia<span class="text-brand-fuchsia">Experiencias</span></p>
-          <p class="text-sm text-white/60 leading-relaxed">La Patagonia se decide antes de llegar. Experiencias verificadas con prestadores locales de todo el Chubut y la región.</p>
+          <p class="text-sm text-white/60 leading-relaxed">{T.lema}</p>
         </div>
         <div>
-          <p class="text-xs font-bold uppercase tracking-widest text-white/40 mb-4">Ecosistema</p>
+          <p class="text-xs font-bold uppercase tracking-widest text-white/40 mb-4">{T.eco}</p>
           <ul class="space-y-2 text-sm">
-            <li><a href="/guias/" class="text-white/70 hover:text-brand-fuchsia transition-colors">Revista y guías</a></li>
-            <li><a href="/experiencias/" class="text-white/70 hover:text-brand-fuchsia transition-colors">Experiencias</a></li>
+            <li><a href="/guias/" class="text-white/70 hover:text-brand-fuchsia transition-colors">{T.revistaGuias}</a></li>
+            <li><a href={idioma === 'pt' ? '/pt-br/experiencias/' : '/experiencias/'} class="text-white/70 hover:text-brand-fuchsia transition-colors">{T.experiencias}</a></li>
             <li><a href="https://tienda.patagoniapuntos.com" class="text-white/70 hover:text-brand-fuchsia transition-colors">Patagonia Puntos</a></li>
-            <li><a href="https://patagoniaexperiencias.com/prestadores.html" class="text-white/70 hover:text-brand-fuchsia transition-colors">Soy Prestador</a></li>
+            <li><a href="https://patagoniaexperiencias.com/prestadores.html" class="text-white/70 hover:text-brand-fuchsia transition-colors">{T.prestador}</a></li>
           </ul>
         </div>
         <div>
-          <p class="text-xs font-bold uppercase tracking-widest text-white/40 mb-4">Contacto</p>
+          <p class="text-xs font-bold uppercase tracking-widest text-white/40 mb-4">{idioma === 'pt' ? 'Destinos e guias' : 'Destinos y guías'}</p>
+          <ul class="space-y-2 text-sm">
+            <li><a href="/guias-de-viaje/peninsula-valdes/" class="text-white/70 hover:text-brand-fuchsia transition-colors">Península Valdés</a></li>
+            <li><a href="/puerto-madryn" class="text-white/70 hover:text-brand-fuchsia transition-colors">Puerto Madryn</a></li>
+            <li><a href="/guias-de-viaje/valle-del-chubut/" class="text-white/70 hover:text-brand-fuchsia transition-colors">Valle del Chubut</a></li>
+            <li><a href="/guias-de-viaje/valle-del-chubut/trelew/" class="text-white/70 hover:text-brand-fuchsia transition-colors">Trelew</a></li>
+            <li><a href="/guias-de-viaje/valle-del-chubut/gaiman/" class="text-white/70 hover:text-brand-fuchsia transition-colors">Gaiman</a></li>
+            <li><a href="/guias-de-viaje/esquel-trevelin/" class="text-white/70 hover:text-brand-fuchsia transition-colors">Esquel y Trevelin</a></li>
+            <li><a href="/calendario-fauna/" class="text-white/70 hover:text-brand-fuchsia transition-colors">{idioma === 'pt' ? 'Calendário de fauna' : 'Calendario de fauna'}</a></li>
+            <li><a href={idioma === 'pt' ? '/' : '/pt-br/'} hreflang={idioma === 'pt' ? 'es-AR' : 'pt-BR'} class="text-white/70 hover:text-brand-fuchsia transition-colors">{idioma === 'pt' ? 'Versión en español' : 'Em português 🇧🇷'}</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="text-xs font-bold uppercase tracking-widest text-white/40 mb-4">{T.contacto}</p>
           <p class="text-sm text-white/70">efe5 proyectos SRL · Trelew, Chubut, Argentina</p>
           <a href="https://www.instagram.com/patagoniaexperienciasok" class="inline-flex items-center gap-2 mt-3 text-sm text-white/70 hover:text-brand-fuchsia transition-colors"><i class="fa-brands fa-instagram"></i> @patagoniaexperienciasok</a>
         </div>
       </div>
-      <div class="border-t border-white/10 py-5 text-center text-xs text-white/40">© 2026 Patagonia Experiencias · Todos los derechos reservados</div>
+      <div class="border-t border-white/10 py-5 text-center text-xs text-white/40">© 2026 Patagonia Experiencias · {T.derechos}</div>
     </footer>
 
-    <a href="https://wa.me/5492804356028" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"
+    <a href={`https://wa.me/${idioma === 'pt' ? WHATSAPP.pt : WHATSAPP.es}${idioma === 'pt' ? '?text=' + encodeURIComponent('Olá! Estou no site da Patagonia Experiencias e quero informações.') : ''}`} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"
        class="fixed bottom-6 right-6 w-14 h-14 bg-green-500 hover:bg-green-600 text-white rounded-full flex items-center justify-center text-3xl shadow-lg shadow-green-500/30 z-50 transition-all">
       <i class="fa-brands fa-whatsapp"></i>
     </a>

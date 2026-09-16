@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Tarjeta from '../../../components/TarjetaPt.astro';
+import { obtenerExperienciasPt } from '../../../lib/traducciones.js';
+const exps = await obtenerExperienciasPt();
+const alternos = exps.length ? { es: 'https://patagoniaexperiencias.com/experiencias/', pt: 'https://patagoniaexperiencias.com/pt-br/experiencias/' } : null;
+const schema = { '@context': 'https://schema.org', '@type': 'ItemList', inLanguage: 'pt-BR',
+  itemListElement: exps.map((e, i) => ({ '@type': 'ListItem', position: i + 1, url: `https://patagoniaexperiencias.com/pt-br/experiencias/${e.slug}/`, name: e.titulo })) };
+---
+<BaseLayout titulo="Passeios na Patagônia argentina" descripcion="Passeios e excursões na Patagônia argentina com operadores locais verificados: observação de baleias em Península Valdés, pinguins, Puerto Madryn, Trelew e Esquel." idioma="pt" alternos={alternos} schema={schema} noindex={exps.length === 0}>
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <p class="text-brand-fuchsia text-xs font-black uppercase tracking-[0.3em] mb-3"><i class="fa-solid fa-circle-check mr-2"></i>Catálogo verificado</p>
+    <h1 class="font-sans font-extrabold text-3xl sm:text-5xl leading-tight mb-4 text-brand-oxford">Passeios na Patagônia argentina</h1>
+    <p class="text-slate-600 text-lg max-w-3xl mb-10">Excursões com operadores locais de Chubut e da região. Os valores estão em pesos argentinos e você reserva online com pagamento seguro pelo Mercado Pago.</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {exps.map((e) => <Tarjeta e={e} />)}
+    </div>
+  </main>
+</BaseLayout>

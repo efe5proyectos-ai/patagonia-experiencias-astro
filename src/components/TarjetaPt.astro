@@ -1,0 +1,38 @@
+---
+// Card de passeio (pt-BR) — mesmo visual do catálogo em espanhol
+const { e } = Astro.props;
+const fmt = (n) => Number(n).toLocaleString('pt-BR');
+const pct = e.precios.ahorro > 0 && e.precios.precioLista > 0 ? Math.round((e.precios.ahorro / e.precios.precioLista) * 100) : 0;
+---
+<a href={`/pt-br/experiencias/${e.slug}/`} class="group bg-white rounded-2xl overflow-hidden flex flex-col shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
+  <div class="relative h-52 overflow-hidden">
+    {e.imagen && <img src={e.imagen} alt={e.alt} loading="lazy" width="600" height="400" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />}
+    {pct > 0 && (
+      <div class="absolute bottom-4 left-4 bg-emerald-500 text-white text-base font-black px-3 py-1.5 rounded-lg shadow-xl z-10 uppercase tracking-wider flex items-center gap-1.5 border-2 border-white">
+        <i class="fa-solid fa-tag text-xs"></i>-{pct}%
+      </div>
+    )}
+  </div>
+  <div class="p-5 flex flex-col flex-grow">
+    {e.proveedor && <p class="text-[10px] text-brand-fuchsia font-bold uppercase tracking-widest mb-1.5 flex items-center gap-1"><i class="fa-solid fa-store opacity-70"></i> {e.proveedor}</p>}
+    <h3 class="font-sans font-bold text-brand-dark text-[15px] leading-tight group-hover:text-brand-fuchsia transition-colors">{e.titulo}</h3>
+    <div class="space-y-1.5 mb-4 mt-3">
+      <p class="text-slate-500 text-[11px] font-semibold flex items-center gap-1.5"><i class="fa-solid fa-location-dot w-4 text-center text-brand-fuchsia opacity-80 text-sm"></i> {e.destino}</p>
+      {e.duracion && <p class="text-slate-500 text-[11px] font-semibold flex items-center gap-1.5"><i class="fa-regular fa-clock w-4 text-center opacity-60 text-sm text-brand-fuchsia"></i> {e.duracion}</p>}
+    </div>
+    <div class="mt-auto border-t border-slate-100 pt-4 flex items-center justify-between">
+      <div class="flex flex-col gap-0.5">
+        {e.esGastroReferencia ? (
+          <span class="font-sans font-bold text-sm text-amber-600 uppercase tracking-wide"><i class="fa-solid fa-utensils mr-1"></i>Lugar recomendado</span>
+        ) : e.precios.precioFinal > 0 ? (
+          <>
+            {e.precios.ahorro > 0 && <span class="font-sans font-black text-lg text-slate-400 line-through leading-none">${fmt(e.precios.precioLista)}</span>}
+            <span class="font-sans font-black text-2xl text-brand-fuchsia leading-none">${fmt(e.precios.precioFinal)}</span>
+            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">pesos argentinos</span>
+          </>
+        ) : null}
+      </div>
+      <span class="w-9 h-9 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center group-hover:bg-brand-fuchsia group-hover:text-white transition-colors shadow-sm flex-shrink-0"><i class="fa-solid fa-arrow-right text-sm"></i></span>
+    </div>
+  </div>
+</a>

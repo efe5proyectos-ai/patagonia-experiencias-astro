@@ -1,0 +1,56 @@
+---
+// Home em português — porta de entrada para o público brasileiro
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Tarjeta from '../../components/TarjetaPt.astro';
+import { obtenerExperienciasPt, WHATSAPP } from '../../lib/traducciones.js';
+const exps = await obtenerExperienciasPt();
+const destaques = exps.slice(0, 8);
+const alternos = exps.length ? { es: 'https://patagoniaexperiencias.com/', pt: 'https://patagoniaexperiencias.com/pt-br/' } : null;
+const faq = [
+  { p: 'Brasileiros precisam de passaporte para viajar à Patagônia argentina?', r: 'Não é obrigatório. Pelo acordo do Mercosul, cidadãos brasileiros podem entrar na Argentina com RG válido e em bom estado ou com passaporte. Confira as exigências da sua companhia aérea antes de viajar.' },
+  { p: 'Em que moeda estão os valores dos passeios?', r: 'Os valores estão em pesos argentinos (ARS). A reserva é feita online com pagamento pelo Mercado Pago.' },
+  { p: 'Como tiro dúvidas antes de reservar?', r: 'Fale com a gente pelo WhatsApp. Te ajudamos a escolher o passeio certo para as datas da sua viagem.' },
+];
+const schema = [
+  { '@context': 'https://schema.org', '@type': 'WebSite', name: 'Patagonia Experiencias', url: 'https://patagoniaexperiencias.com/pt-br/', inLanguage: 'pt-BR' },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', inLanguage: 'pt-BR',
+    mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.p, acceptedAnswer: { '@type': 'Answer', text: f.r } })) },
+];
+---
+<BaseLayout titulo="Passeios e experiências na Patagônia argentina" descripcion="O que fazer na Patagônia argentina: passeios com operadores locais verificados em Puerto Madryn, Península Valdés, Trelew e Esquel. Reserve online." idioma="pt" alternos={alternos} schema={schema} noindex={exps.length === 0}>
+  <main>
+    <section class="bg-brand-oxford text-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+        <p class="text-brand-fuchsia text-xs font-black uppercase tracking-[0.3em] mb-4"><i class="fa-solid fa-earth-americas mr-2"></i>Patagônia argentina</p>
+        <h1 class="font-sans font-extrabold text-4xl sm:text-6xl leading-tight max-w-4xl">A Patagônia se decide antes de chegar</h1>
+        <p class="text-white/75 text-lg sm:text-xl max-w-2xl mt-5">Baleias, pinguins, cultura galesa, lagos e montanhas. Passeios verificados com quem conhece a região de verdade.</p>
+        <div class="flex flex-wrap gap-3 mt-8">
+          <a href="/pt-br/experiencias/" class="inline-flex items-center gap-2 bg-brand-fuchsia text-white font-bold text-sm uppercase tracking-widest px-6 py-3 rounded-full shadow-lg shadow-brand-fuchsia/30 hover:bg-brand-fuchsiaDark transition-all"><i class="fa-solid fa-compass"></i> Ver passeios</a>
+          <a href={`https://wa.me/${WHATSAPP.pt}?text=Ol%C3%A1!%20Quero%20ajuda%20para%20planejar%20minha%20viagem%20%C3%A0%20Patag%C3%B4nia`} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 border-2 border-white/40 text-white font-bold text-sm uppercase tracking-widest px-6 py-3 rounded-full hover:bg-white/10 transition-all"><i class="fa-brands fa-whatsapp"></i> Falar no WhatsApp</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-8">Passeios em destaque</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {destaques.map((e) => <Tarjeta e={e} />)}
+      </div>
+      <div class="mt-10 text-center">
+        <a href="/pt-br/experiencias/" class="inline-flex items-center gap-2 text-brand-fuchsia font-bold uppercase tracking-widest text-sm hover:underline">Ver todos os passeios <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 pb-8">
+      <h2 class="font-sans font-extrabold text-2xl text-brand-oxford mb-4">Perguntas frequentes de quem vem do Brasil</h2>
+      <div class="space-y-3">
+        {faq.map((f) => (
+          <details class="bg-white border border-slate-200 rounded-2xl p-5">
+            <summary class="font-sans font-bold text-brand-oxford cursor-pointer">{f.p}</summary>
+            <p class="mt-3 text-slate-600 leading-relaxed">{f.r}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  </main>
+</BaseLayout>

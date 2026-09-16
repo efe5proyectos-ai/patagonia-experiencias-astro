@@ -79,7 +79,7 @@ const schemaOrg = {
             <li><a href="/guias/" class="text-white/70 hover:text-brand-fuchsia transition-colors">{T.revistaGuias}</a></li>
             <li><a href={idioma === 'pt' ? '/pt-br/experiencias/' : '/experiencias/'} class="text-white/70 hover:text-brand-fuchsia transition-colors">{T.experiencias}</a></li>
             <li><a href="https://tienda.patagoniapuntos.com" class="text-white/70 hover:text-brand-fuchsia transition-colors">Patagonia Puntos</a></li>
-            <li><a href="https://patagoniaexperiencias.com/prestadores.html" class="text-white/70 hover:text-brand-fuchsia transition-colors">{T.prestador}</a></li>
+            {idioma !== 'pt' && <li><a href="https://patagoniaexperiencias.com/prestadores.html" class="text-white/70 hover:text-brand-fuchsia transition-colors">{T.prestador}</a></li>}
           </ul>
         </div>
         <div>

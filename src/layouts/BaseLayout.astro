@@ -108,5 +108,39 @@ const schemaOrg = {
        class="fixed bottom-6 right-6 w-14 h-14 bg-green-500 hover:bg-green-600 text-white rounded-full flex items-center justify-center text-3xl shadow-lg shadow-green-500/30 z-50 transition-all">
       <i class="fa-brands fa-whatsapp"></i>
     </a>
+    {idioma === 'pt' && (
+      <script is:inline>
+        // Referencia en reales: cotización BRL→ARS del día (open.er-api.com), guardada 12 h en el navegador.
+        // Si la consulta falla, los montos en R$ quedan ocultos y la página funciona igual.
+        (function () {
+          var els = document.querySelectorAll('.pe-brl[data-ars]');
+          if (!els.length) return;
+          function pintar(arsPorBrl) {
+            if (!(arsPorBrl > 0)) return;
+            els.forEach(function (el) {
+              var ars = Number(el.getAttribute('data-ars'));
+              if (!(ars > 0)) return;
+              var v = el.querySelector('.pe-brl-valor');
+              if (v) v.textContent = Math.round(ars / arsPorBrl).toLocaleString('pt-BR');
+              el.hidden = false;
+            });
+          }
+          var CLAVE = 'pe_cotiz_brl_ars';
+          try {
+            var c = JSON.parse(localStorage.getItem(CLAVE) || 'null');
+            if (c && c.valor > 0 && Date.now() - c.t < 12 * 3600 * 1000) { pintar(c.valor); return; }
+          } catch (e) {}
+          fetch('https://open.er-api.com/v6/latest/BRL')
+            .then(function (r) { return r.json(); })
+            .then(function (d) {
+              var valor = d && d.result === 'success' && d.rates && d.rates.ARS;
+              if (!(valor > 0)) return;
+              try { localStorage.setItem(CLAVE, JSON.stringify({ valor: valor, t: Date.now() })); } catch (e) {}
+              pintar(valor);
+            })
+            .catch(function () {});
+        })();
+      </script>
+    )}
   </body>
 </html>

@@ -29,6 +29,7 @@ const pct = e.precios.ahorro > 0 && e.precios.precioLista > 0 ? Math.round((e.pr
             {e.precios.ahorro > 0 && <span class="font-sans font-black text-lg text-slate-400 line-through leading-none">${fmt(e.precios.precioLista)}</span>}
             <span class="font-sans font-black text-2xl text-brand-fuchsia leading-none">${fmt(e.precios.precioFinal)}</span>
             <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">pesos argentinos</span>
+            <span class="pe-brl text-xs font-bold text-slate-600" data-ars={e.precios.precioFinal} hidden>≈ R$ <span class="pe-brl-valor"></span></span>
           </>
         ) : null}
       </div>

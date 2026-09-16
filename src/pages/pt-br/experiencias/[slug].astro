@@ -67,13 +67,14 @@ const schema = [
             <span class="font-sans font-extrabold text-4xl text-brand-fuchsia">${fmt(exp.precio)}</span>
             <span class="text-slate-400 text-sm font-bold ml-1">pesos argentinos (ARS)</span>
           </p>
-          {reales > 0 && <p class="text-slate-500 text-sm font-semibold mt-1">≈ R$ {fmt(reales)} <span class="text-slate-400 font-normal">(valor de referência)</span></p>}
+          <p class="pe-brl text-slate-600 text-lg font-bold mt-1" data-ars={exp.precio} hidden={reales === 0}>≈ R$ <span class="pe-brl-valor">{reales > 0 ? fmt(reales) : ''}</span> <span class="text-slate-400 text-sm font-normal">(valor de referência em reais)</span></p>
           {exp.precios.sena > 0 && (
             <div class="mt-4 bg-brand-fuchsia text-white rounded-xl px-5 py-4 flex items-center justify-between gap-4 shadow-lg shadow-brand-fuchsia/25">
               <span class="text-[11px] font-black uppercase tracking-widest leading-tight">⚡ Garanta sua vaga<br/>hoje com</span>
               <span class="text-right">
                 <span class="font-sans font-extrabold text-3xl">${fmt(exp.precios.sena)}</span>
                 <span class="block text-[10px] font-bold uppercase tracking-widest opacity-80">Sinal de reserva</span>
+                <span class="pe-brl block text-[11px] font-bold opacity-90" data-ars={exp.precios.sena} hidden>≈ R$ <span class="pe-brl-valor"></span></span>
               </span>
             </div>
           )}
@@ -99,7 +100,7 @@ const schema = [
         <h2 class="font-sans font-extrabold text-2xl mb-2">Reserve este passeio</h2>
         <p class="text-white/80 mb-5">Pagamento online seguro pelo Mercado Pago, com operadores locais verificados.</p>
         <div class="flex flex-wrap gap-3">
-          <a href={`/patagonia-experiencias.html#tour/${exp.slugEs}`} class="inline-flex items-center gap-2 bg-white text-brand-fuchsia font-bold text-sm uppercase tracking-widest px-6 py-3 rounded-full hover:bg-slate-100 transition-all"><i class="fa-solid fa-ticket"></i> Reservar agora</a>
+          <a href={`/patagonia-experiencias.html#tour/${exp.slugReserva || exp.slugEs}`} class="inline-flex items-center gap-2 bg-white text-brand-fuchsia font-bold text-sm uppercase tracking-widest px-6 py-3 rounded-full hover:bg-slate-100 transition-all"><i class="fa-solid fa-ticket"></i> Reservar agora</a>
           <a href={`https://wa.me/${WHATSAPP.pt}?text=${encodeURIComponent('Olá! Tenho interesse no passeio: ' + exp.titulo)}`} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 border-2 border-white/70 text-white font-bold text-sm uppercase tracking-widest px-6 py-3 rounded-full hover:bg-white/10 transition-all"><i class="fa-brands fa-whatsapp"></i> Tirar dúvidas</a>
         </div>
       </aside>

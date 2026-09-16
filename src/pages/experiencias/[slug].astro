@@ -86,7 +86,7 @@ const schema = [
       <aside class="mt-12 bg-gradient-to-br from-brand-fuchsia to-brand-fuchsiaDark rounded-3xl p-8 text-white shadow-2xl shadow-brand-fuchsia/20">
         <h2 class="font-sans font-extrabold text-2xl mb-2">Reservá esta experiencia</h2>
         <p class="text-white/80 mb-5">Asegurá tu lugar online y sumá Patagonia Puntos.</p>
-        <a href={`/patagonia-experiencias.html#tour/${exp.slug}`} class="inline-flex items-center gap-2 bg-white text-brand-fuchsia font-bold text-sm uppercase tracking-widest px-6 py-3 rounded-full hover:bg-slate-100 transition-all"><i class="fa-solid fa-ticket"></i> Reservar ahora</a>
+        <a href={`/patagonia-experiencias.html#tour/${exp.slugReserva || exp.slug}`} class="inline-flex items-center gap-2 bg-white text-brand-fuchsia font-bold text-sm uppercase tracking-widest px-6 py-3 rounded-full hover:bg-slate-100 transition-all"><i class="fa-solid fa-ticket"></i> Reservar ahora</a>
       </aside>
     </article>
     {rel.length > 0 && (

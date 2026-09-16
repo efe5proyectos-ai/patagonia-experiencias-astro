@@ -101,6 +101,31 @@ const schemaOrg = {
           <a href="https://www.instagram.com/patagoniaexperienciasok" class="inline-flex items-center gap-2 mt-3 text-sm text-white/70 hover:text-brand-fuchsia transition-colors"><i class="fa-brands fa-instagram"></i> @patagoniaexperienciasok</a>
         </div>
       </div>
+      <!-- Respaldo institucional y pagos: mismo bloque en ES y PT -->
+      <div class="border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 grid gap-10 lg:grid-cols-[1fr_auto] items-center">
+          <div>
+            <p class="text-xs font-bold uppercase tracking-widest text-white/40 mb-5 text-center lg:text-left">{idioma === 'pt' ? 'Parceiros institucionais' : 'Nos acompañan'}</p>
+            <ul class="flex flex-wrap justify-center lg:justify-start items-center gap-4">
+              <li class="h-20 px-6 rounded-xl bg-white/5 border border-white/10 flex items-center">
+                <img src="/assets/institucional/chubut-seguro.png" alt={idioma === 'pt' ? 'Chubut Seguro — turismo formal' : 'Chubut Seguro — turismo formal'} width="520" height="227" loading="lazy" class="h-12 w-auto" />
+              </li>
+              <li class="h-20 px-5 rounded-xl bg-white flex items-center">
+                <img src="/assets/institucional/ahg-trelew.png" alt="Asociación Hotelera Gastronómica de Trelew y Valle del Chubut" width="172" height="121" loading="lazy" class="h-14 w-auto" />
+              </li>
+              <li class="h-20 px-5 rounded-xl bg-[#f2f2f2] flex items-center">
+                <img src="/assets/institucional/cat-chubut.png" alt="Cámara de Turismo del Chubut" width="360" height="254" loading="lazy" class="h-14 w-auto" />
+              </li>
+            </ul>
+          </div>
+          <div class="text-center lg:text-right">
+            <p class="text-xs font-bold uppercase tracking-widest text-white/40 mb-5">{idioma === 'pt' ? 'Pagamento seguro' : 'Pagos seguros'}</p>
+            <div class="inline-flex h-20 px-5 rounded-xl bg-[#f7f7f7] items-center">
+              <img src="/assets/institucional/medios-de-pago.png" alt={idioma === 'pt' ? 'Pagamento via Mercado Pago: Visa, Mastercard, American Express e outros' : 'Pagos vía Mercado Pago: Visa, Mastercard, American Express y más'} width="466" height="58" loading="lazy" class="h-9 w-auto max-w-full" />
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="border-t border-white/10 py-5 text-center text-xs text-white/40">© 2026 Patagonia Experiencias · {T.derechos}</div>
     </footer>
 

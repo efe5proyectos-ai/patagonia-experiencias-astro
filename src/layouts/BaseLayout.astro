@@ -14,6 +14,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const tituloCompleto = `${titulo} | Patagonia Experiencias`;
 const hayAlternos = alternos && alternos.es && alternos.pt;
 const linkOtroIdioma = hayAlternos ? (idioma === 'pt' ? alternos.es : alternos.pt) : null;
+const urlWhatsApp = idioma === 'pt'
+  ? `https://wa.me/${WHATSAPP.pt}?text=${encodeURIComponent('Olá! Estou no site da Patagonia Experiencias e quero informações.')}`
+  : `https://wa.me/${WHATSAPP.es}`;
 const schemaOrg = {
   '@context': 'https://schema.org', '@type': 'Organization',
   name: 'Patagonia Experiencias', url: 'https://patagoniaexperiencias.com',
@@ -47,20 +50,20 @@ const schemaOrg = {
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   </head>
-  <body class:list={["font-body antialiased", temaOscuro ? "bg-[#0d1117] text-white" : "bg-brand-light text-slate-800"]}>
+  <body style="overflow-x:clip" class:list={["font-body antialiased", temaOscuro ? "bg-[#0d1117] text-white" : "bg-brand-light text-slate-800"]}>
 
     <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
-        <a href={T.inicio} class="font-sans font-extrabold text-lg tracking-tight text-brand-oxford">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between gap-3">
+        <a href={T.inicio} class="font-sans font-extrabold text-[15px] min-[380px]:text-base sm:text-lg tracking-tight text-brand-oxford whitespace-nowrap shrink-0">
           Patagonia<span class="text-brand-fuchsia">Experiencias</span>
         </a>
-        <nav class="flex items-center gap-1">
+        <nav class="flex items-center gap-1 min-w-0">
           <a href="/guias/" class="hidden md:flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full text-slate-500 hover:bg-brand-fuchsia/5 hover:text-brand-fuchsia transition-all"><i class="fa-solid fa-newspaper"></i> {T.revista}</a>
           <a href={idioma === 'pt' ? '/pt-br/experiencias/' : '/experiencias/'} class="hidden md:flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full text-slate-500 hover:bg-brand-fuchsia/5 hover:text-brand-fuchsia transition-all"><i class="fa-solid fa-compass"></i> {T.experiencias}</a>
           <a href="/guias-de-viaje/" class="hidden md:flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full text-slate-500 hover:bg-brand-fuchsia/5 hover:text-brand-fuchsia transition-all"><i class="fa-solid fa-book-open"></i> {T.guia}</a>
           <a href="https://tienda.patagoniapuntos.com" target="_blank" rel="noopener noreferrer" class="hidden md:flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full text-slate-500 hover:bg-brand-fuchsia/5 hover:text-brand-fuchsia transition-all"><i class="fa-solid fa-coins"></i> {T.puntos}</a>
-          {linkOtroIdioma && <a href={linkOtroIdioma} hreflang={idioma === 'pt' ? 'es-AR' : 'pt-BR'} class="flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest px-3 py-2 rounded-full text-slate-500 hover:text-brand-fuchsia transition-all"><i class="fa-solid fa-globe"></i> {T.idiomaOtro}</a>}
-          <a href={idioma === 'pt' ? '/pt-br/experiencias/' : 'https://patagoniaexperiencias.com/#experiencias'} class="flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-5 py-2.5 rounded-full bg-brand-fuchsia text-white shadow-lg shadow-brand-fuchsia/30 hover:bg-brand-fuchsiaDark transition-all"><i class="fa-solid fa-ticket"></i> {T.reservar}</a>
+          {linkOtroIdioma && <a href={linkOtroIdioma} hreflang={idioma === 'pt' ? 'es-AR' : 'pt-BR'} class="hidden sm:flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest px-3 py-2 rounded-full text-slate-500 hover:text-brand-fuchsia transition-all"><i class="fa-solid fa-globe"></i> {T.idiomaOtro}</a>}
+          <a href={idioma === 'pt' ? '/pt-br/experiencias/' : 'https://patagoniaexperiencias.com/#experiencias'} class="flex shrink-0 items-center gap-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider sm:tracking-widest px-3 sm:px-5 py-2.5 rounded-full bg-brand-fuchsia text-white shadow-lg shadow-brand-fuchsia/30 hover:bg-brand-fuchsiaDark transition-all"><i class="fa-solid fa-ticket hidden sm:inline"></i> {T.reservar}</a>
         </nav>
       </div>
     </header>
@@ -101,13 +104,46 @@ const schemaOrg = {
           <a href="https://www.instagram.com/patagoniaexperienciasok" class="inline-flex items-center gap-2 mt-3 text-sm text-white/70 hover:text-brand-fuchsia transition-colors"><i class="fa-brands fa-instagram"></i> @patagoniaexperienciasok</a>
         </div>
       </div>
+      <!-- Respaldo institucional y pagos: mismo bloque en ES y PT -->
+      <div class="border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 grid gap-10 lg:grid-cols-[1fr_auto] items-center">
+          <div>
+            <p class="text-xs font-bold uppercase tracking-widest text-white/40 mb-5 text-center lg:text-left">{idioma === 'pt' ? 'Parceiros institucionais' : 'Nos acompañan'}</p>
+            <ul class="flex flex-wrap justify-center lg:justify-start items-center gap-4">
+              <li class="h-20 px-6 rounded-xl bg-white/5 border border-white/10 flex items-center">
+                <img src="/assets/institucional/chubut-seguro.png" alt={idioma === 'pt' ? 'Chubut Seguro — turismo formal' : 'Chubut Seguro — turismo formal'} width="520" height="227" loading="lazy" class="h-12 w-auto" />
+              </li>
+              <li class="h-20 px-5 rounded-xl bg-white flex items-center">
+                <img src="/assets/institucional/ahg-trelew.png" alt="Asociación Hotelera Gastronómica de Trelew y Valle del Chubut" width="172" height="121" loading="lazy" class="h-14 w-auto" />
+              </li>
+              <li class="h-20 px-5 rounded-xl bg-[#f2f2f2] flex items-center">
+                <img src="/assets/institucional/cat-chubut.png" alt="Cámara de Turismo del Chubut" width="360" height="254" loading="lazy" class="h-14 w-auto" />
+              </li>
+            </ul>
+          </div>
+          <div class="text-center lg:text-right">
+            <p class="text-xs font-bold uppercase tracking-widest text-white/40 mb-5">{idioma === 'pt' ? 'Pagamento seguro' : 'Pagos seguros'}</p>
+            <div class="inline-flex h-20 px-5 rounded-xl bg-[#f7f7f7] items-center">
+              <img src="/assets/institucional/medios-de-pago.png" alt={idioma === 'pt' ? 'Pagamento via Mercado Pago: Visa, Mastercard, American Express e outros' : 'Pagos vía Mercado Pago: Visa, Mastercard, American Express y más'} width="466" height="58" loading="lazy" class="h-9 w-auto max-w-full" />
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="border-t border-white/10 py-5 text-center text-xs text-white/40">© 2026 Patagonia Experiencias · {T.derechos}</div>
     </footer>
 
-    <a href={`https://wa.me/${idioma === 'pt' ? WHATSAPP.pt : WHATSAPP.es}${idioma === 'pt' ? '?text=' + encodeURIComponent('Olá! Estou no site da Patagonia Experiencias e quero informações.') : ''}`} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"
-       class="fixed bottom-6 right-6 w-14 h-14 bg-green-500 hover:bg-green-600 text-white rounded-full flex items-center justify-center text-3xl shadow-lg shadow-green-500/30 z-50 transition-all">
+    {/* WhatsApp: botón flotante en escritorio y barra fija abajo en celular */}
+    <a href={urlWhatsApp} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"
+       class="hidden md:flex fixed bottom-6 right-6 w-14 h-14 bg-[#25D366] hover:bg-[#1ebe5b] text-white rounded-full items-center justify-center text-3xl shadow-lg shadow-green-500/30 z-50 transition-all">
       <i class="fa-brands fa-whatsapp"></i>
     </a>
+    <a href={urlWhatsApp} target="_blank" rel="noopener noreferrer"
+       class="md:hidden fixed inset-x-0 bottom-0 z-50 flex items-center justify-center gap-2.5 bg-[#25D366] active:bg-[#1ebe5b] text-white font-bold text-[15px] shadow-[0_-4px_14px_rgba(0,0,0,.15)]"
+       style="min-height:56px;padding-bottom:env(safe-area-inset-bottom)">
+      <i class="fa-brands fa-whatsapp text-2xl"></i>
+      <span>{idioma === 'pt' ? 'Fale conosco no WhatsApp' : 'Consultanos por WhatsApp'}</span>
+    </a>
+    <div class="md:hidden" style="height:calc(56px + env(safe-area-inset-bottom))" aria-hidden="true"></div>
     {idioma === 'pt' && (
       <script is:inline>
         // Referencia en reales: cotización BRL→ARS del día (open.er-api.com), guardada 12 h en el navegador.

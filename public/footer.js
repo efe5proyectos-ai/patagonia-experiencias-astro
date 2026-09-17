@@ -56,7 +56,7 @@
                 <div>
                     <h4 class="text-white font-bold mb-6 uppercase tracking-widest text-xs">Soporte</h4>
                     <ul class="space-y-3 text-sm">
-                        <li><a href="https://wa.me/5492804356028" target="_blank" rel="noopener" class="hover:text-white transition-colors flex items-center gap-2"><i class="fa-brands fa-whatsapp" style="color:#E91E63;"></i> +54 9 2804 35-6028</a></li>
+                        <li><a href="https://wa.me/5492804687904" target="_blank" rel="noopener" class="hover:text-white transition-colors flex items-center gap-2"><i class="fa-brands fa-whatsapp" style="color:#E91E63;"></i> +54 9 2804 35-6028</a></li>
                         <li><a href="mailto:hola@patagoniaexperiencias.com" class="hover:text-white transition-colors flex items-center gap-2 break-all"><i class="fa-regular fa-envelope flex-shrink-0" style="color:#E91E63;"></i> <span>hola@patagoniaexperiencias.com</span></a></li>
                         <li><a href="manual-prestador.html" class="hover:text-white transition-colors flex items-center gap-2"><i class="fa-solid fa-book" style="color:#E91E63;"></i> Manual del Prestador</a></li>
                         <li><a href="ecosistema.html" class="hover:text-white transition-colors flex items-center gap-2"><i class="fa-solid fa-circle-info" style="color:#E91E63;"></i> Quiénes somos</a></li>

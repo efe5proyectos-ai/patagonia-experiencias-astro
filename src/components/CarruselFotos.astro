@@ -1,0 +1,73 @@
+---
+// Carrusel de fotos para tarjetas de producto (ES y PT).
+// - Deslizable con el dedo en celular (scroll-snap nativo, sin librerías).
+// - Flechas en escritorio al pasar el mouse + puntitos de posición.
+// - Cada foto es un enlace a la ficha; las flechas NO están dentro del enlace.
+// - Solo la primera foto se carga de entrada; el resto, al acercarse (lazy).
+const { imagenes = [], imagen = '', alt = '', href, max = 5, etiquetaAnterior = 'Foto anterior', etiquetaSiguiente = 'Foto siguiente', puntosArriba = false } = Astro.props;
+const fotos = [...new Set([imagen, ...imagenes].filter((u) => typeof u === 'string' && /^https?:\/\//.test(u)))].slice(0, max);
+const varias = fotos.length > 1;
+---
+<div class="pe-carrusel relative h-52 overflow-hidden bg-slate-100" data-carrusel>
+  <div class="pe-pista" data-pista>
+    {fotos.map((src, i) => (
+      <a href={href} class="pe-foto" tabindex={i === 0 ? 0 : -1} aria-label={i === 0 ? alt : `${alt} (${i + 1}/${fotos.length})`}>
+        <img src={src} alt={i === 0 ? alt : `${alt} — foto ${i + 1}`} loading="lazy" decoding="async" width="600" height="400" />
+      </a>
+    ))}
+  </div>
+  {varias && (
+    <>
+      <button type="button" class="pe-flecha pe-ant" data-dir="-1" aria-label={etiquetaAnterior}><i class="fa-solid fa-chevron-left"></i></button>
+      <button type="button" class="pe-flecha pe-sig" data-dir="1" aria-label={etiquetaSiguiente}><i class="fa-solid fa-chevron-right"></i></button>
+      <div class="pe-puntos" style={puntosArriba ? "bottom:40px" : undefined} aria-hidden="true">
+        {fotos.map((_, i) => <span class={i === 0 ? 'activo' : ''}></span>)}
+      </div>
+    </>
+  )}
+  <slot />
+</div>
+
+<style is:global>
+  .pe-pista { display: flex; height: 100%; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .pe-pista::-webkit-scrollbar { display: none; }
+  .pe-foto { flex: 0 0 100%; height: 100%; scroll-snap-align: start; display: block; }
+  .pe-foto img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .pe-flecha { position: absolute; top: 50%; transform: translateY(-50%); z-index: 30; width: 32px; height: 32px; border-radius: 999px; border: 0; background: rgba(255,255,255,.92); color: #2c3e50; display: none; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,.18); cursor: pointer; font-size: 12px; }
+  .pe-ant { left: 10px; } .pe-sig { right: 10px; }
+  @media (hover: hover) { .pe-carrusel:hover .pe-flecha { display: flex; } }
+  .pe-flecha:focus-visible { display: flex; outline: 2px solid #E91E63; }
+  .pe-puntos { position: absolute; left: 0; right: 0; bottom: 8px; z-index: 30; display: flex; justify-content: center; gap: 5px; pointer-events: none; }
+  .pe-puntos span { width: 6px; height: 6px; border-radius: 999px; background: rgba(255,255,255,.55); box-shadow: 0 0 2px rgba(0,0,0,.4); transition: all .2s; }
+  .pe-puntos span.activo { width: 16px; background: #fff; }
+  .pe-carrusel .pe-capa { pointer-events: none; }
+</style>
+
+<script>
+  // Un solo manejador para todos los carruseles de la página
+  if (!(window as any).__peCarrusel) {
+    (window as any).__peCarrusel = true;
+    document.addEventListener('click', (ev) => {
+      const btn = (ev.target as HTMLElement).closest('.pe-flecha') as HTMLElement | null;
+      if (!btn) return;
+      ev.preventDefault();
+      const pista = btn.closest('[data-carrusel]')?.querySelector('[data-pista]') as HTMLElement | null;
+      if (!pista) return;
+      const dir = Number(btn.dataset.dir) || 1;
+      const ancho = pista.clientWidth;
+      const max = pista.scrollWidth - ancho;
+      let destino = pista.scrollLeft + dir * ancho;
+      if (destino > max + 2) destino = 0;          // al final vuelve a la primera
+      if (destino < -2) destino = max;             // desde la primera va a la última
+      pista.scrollTo({ left: destino });
+    });
+    const actualizar = (pista: HTMLElement) => {
+      const i = Math.round(pista.scrollLeft / Math.max(1, pista.clientWidth));
+      pista.closest('[data-carrusel]')?.querySelectorAll('.pe-puntos span').forEach((p, k) => p.classList.toggle('activo', k === i));
+    };
+    document.querySelectorAll<HTMLElement>('[data-pista]').forEach((pista) => {
+      let t: number | undefined;
+      pista.addEventListener('scroll', () => { clearTimeout(t); t = window.setTimeout(() => actualizar(pista), 60); }, { passive: true });
+    });
+  }
+</script>

@@ -12,8 +12,8 @@ const SITIO = 'https://patagoniaexperiencias.com';
 // WhatsApp por idioma. El de Brasil lo atiende un operador brasileño.
 // Variable en Cloudflare Pages: WHATSAPP_PT (solo números, con código de país. Ej: 5511999999999)
 export const WHATSAPP = {
-  es: '5492804356028',
-  pt: String(import.meta.env.WHATSAPP_PT || '').replace(/\D/g, '') || '5492804356028',
+  es: '5492804687904',
+  pt: String(import.meta.env.WHATSAPP_PT || '').replace(/\D/g, '') || '5492804687904',
 };
 if (!import.meta.env.WHATSAPP_PT) console.warn('[pt-br] Falta WHATSAPP_PT: se usa el WhatsApp general en las páginas en portugués');
 

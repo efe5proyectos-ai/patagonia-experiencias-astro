@@ -1,7 +1,57 @@
+# ─────────────────────────────────────────────────────────────
+# Buscadores tradicionales
+# ─────────────────────────────────────────────────────────────
 User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /dashboard/
+
+# ─────────────────────────────────────────────────────────────
+# Asistentes de IA: acceso explícito para que puedan citar y
+# recomendar Patagonia Experiencias (ChatGPT, Perplexity, Claude,
+# Gemini, Copilot). Bloquearlos equivale a no existir para ellos.
+# ─────────────────────────────────────────────────────────────
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: meta-externalagent
+Allow: /
 
 Sitemap: https://patagoniaexperiencias.com/sitemap-index.xml
 Sitemap: https://patagoniaexperiencias.com/sitemap-imagens.xml

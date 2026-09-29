@@ -35,7 +35,3 @@ https://:project.pages.dev/*
   X-Robots-Tag: noindex
 /*.json
   X-Robots-Tag: noindex
-/*.md
-  X-Robots-Tag: noindex
-/*.txt
-  X-Robots-Tag: noindex

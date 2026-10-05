@@ -677,11 +677,48 @@ async function pushSuscribir(origen) {
       merge: true
     });
     pushGuardarEstado('suscripto');
+    pushEscucharPrimerPlano();
     console.log('[PUSH] Suscripto correctamente.');
     return true;
   } catch (e) {
     console.warn('[PUSH] No se pudo suscribir:', e && e.message);
     return false;
+  }
+}
+function pushEscucharPrimerPlano() {
+  try {
+    if (!pushDisponible()) return;
+    if (Notification.permission !== 'granted') return;
+    if (!navigator.serviceWorker) return;
+    const messaging = firebase.messaging();
+    messaging.onMessage(function (payload) {
+      try {
+        const n = payload && payload.notification || {};
+        const d = payload && payload.data || {};
+        const titulo = n.title || d.title || 'Patagonia Experiencias';
+        const cuerpo = n.body || d.body || '';
+        const destino = d.url || d.click_action || '/';
+        const opciones = {
+          body: cuerpo,
+          icon: n.icon || d.icon || '/favicon.png',
+          badge: '/favicon.png',
+          data: { url: destino },
+          tag: 'pe-push-' + Date.now()
+        };
+        const img = n.image || d.image || '';
+        if (img) opciones.image = img;
+        navigator.serviceWorker.ready.then(function (reg) {
+          reg.showNotification(titulo, opciones);
+        }).catch(function (err) {
+          console.warn('[PUSH] No se pudo mostrar en primer plano:', err && err.message);
+        });
+      } catch (err) {
+        console.warn('[PUSH] onMessage:', err && err.message);
+      }
+    });
+    console.log('[PUSH] Escucha en primer plano activa.');
+  } catch (e) {
+    console.warn('[PUSH] onMessage no disponible:', e && e.message);
   }
 }
 function CartelPush({
@@ -9091,6 +9128,9 @@ function App() {
     const handleScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+  useEffect(() => {
+    pushEscucharPrimerPlano();
   }, []);
   const urlSyncReady = useRef(false);
   useEffect(() => {

@@ -4055,11 +4055,11 @@ function TourDetailPage({
         reservaId: reservaAsociada?.id || '',
         rating: Number(resenaRating),
         texto: resenaTexto.trim(),
-        estado: 'aprobada',
+        estado: 'pendiente',
         respuestaPrestador: '',
         fechaCreacion: new Date().toISOString()
       });
-      setResenaSentMsg('¡Gracias! Tu reseña ya está publicada.');
+      setResenaSentMsg('¡Gracias! La revisamos y la publicamos en breve.');
       setYaResenoEsteTour(true);
       if (tour.proveedorId && !tour.proveedorId.startsWith('agencia_')) {
         crearNotificacion(tour.proveedorId, 'resena_nueva', '⭐ Recibiste una nueva reseña', `${user.displayName || user.email.split('@')[0]} dejó una reseña de ${Number(resenaRating)} estrellas en "${tour.titulo}". Podés responderla desde tu panel.`, {
@@ -4716,10 +4716,10 @@ function TourDetailPage({
         nombre: reviewData.nombre,
         email: reviewData.email,
         texto: reviewData.texto,
-        estado: 'aprobada',
+        estado: 'pendiente',
         fecha: new Date().toISOString()
       });
-      setReviewMsg('¡Reseña publicada! Gracias por tu opinión.');
+      setReviewMsg('¡Gracias! La revisamos y la publicamos en breve.');
       setReviewData({
         nombre: '',
         email: '',
@@ -6163,7 +6163,7 @@ function TourDetailPage({
     className: "bg-blue-50 border border-blue-100 rounded-lg p-3 text-xs text-blue-700 mb-5 flex items-start gap-2"
   }, React.createElement("i", {
     className: "fa-solid fa-info-circle mt-0.5"
-  }), React.createElement("span", null, "Tu reseña se publica al instante con tu nombre y como \"Compra verificada\". El operador podrá responderla.")), resenaSentMsg && React.createElement("div", {
+  }), React.createElement("span", null, "Tu reseña pasa por una revisión rápida antes de publicarse. Se muestra con tu nombre y como \"Compra verificada\". El operador podrá responderla.")), resenaSentMsg && React.createElement("div", {
     className: `mb-4 p-3 rounded-lg text-xs font-bold flex items-center gap-2 ${resenaSentMsg.includes('Gracias') ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-rose-50 text-rose-700 border border-rose-200'}`
   }, React.createElement("i", {
     className: `fa-solid ${resenaSentMsg.includes('Gracias') ? 'fa-check-circle' : 'fa-triangle-exclamation'}`

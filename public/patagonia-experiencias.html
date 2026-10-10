@@ -1143,10 +1143,68 @@ function embellecerTextoMagico(texto) {
   }).join('');
   return html;
 }
+// === Normaliza texto pegado desde PDF / Word ===
+// Repara saltos de linea duros a mitad de oracion (wrap de la columna
+// original) y vinetas que quedaron solas en su propia linea.
+const TXT_CIERRE = /[.:;!?\u2026"\u00BB)\]]$/;
+const TXT_COLGANTES = new Set(['a', 'ante', 'bajo', 'cabe', 'con', 'contra', 'de', 'desde', 'durante', 'en', 'entre', 'hacia', 'hasta', 'mediante', 'para', 'por', 'segun', 'seg\u00FAn', 'sin', 'so', 'sobre', 'tras', 'el', 'la', 'los', 'las', 'un', 'una', 'unos', 'unas', 'lo', 'al', 'del', 'y', 'e', 'o', 'u', 'ni', 'que', 'como', 'cuando', 'donde', 'mientras', 'aunque', 'pero', 'si', 'su', 'sus', 'mi', 'mis', 'tu', 'tus', 'nuestro', 'nuestra', 'nuestros', 'nuestras', 'este', 'esta', 'estos', 'estas', 'ese', 'esa', 'esos', 'esas', 'aquel', 'aquella', 'mas', 'm\u00E1s', 'muy', 'tan', 'ya', 'se', 'le', 'les', 'me', 'te', 'nos']);
+const TXT_SOLO_VINETA = /^[\s]*[\u00B7\u2022*\-\u2013\u2014\u2023\u25E6\u25AA]+[\s]*$/;
+const TXT_EMPIEZA_VINETA = /^[\s]*[\u00B7\u2022*\-\u2013\u2014\u2023\u25E6\u25AA]\s+/;
+const TXT_EMPIEZA_TITULO = /^[\s]*#{1,6}\s/;
+function normalizarTextoPegado(texto) {
+  if (!texto || typeof texto !== 'string') return '';
+  let t = texto.replace(/\r\n?/g, '\n').replace(/\u00A0/g, ' ').replace(/\u200B/g, '').replace(/[ \t]+/g, ' ');
+  const lineas = t.split('\n').map(function (l) { return l.trim(); });
+  // Vineta huerfana: se pega a la siguiente linea con contenido
+  const paso1 = [];
+  for (let i = 0; i < lineas.length; i++) {
+    if (lineas[i] !== '' && TXT_SOLO_VINETA.test(lineas[i])) {
+      let j = i + 1;
+      while (j < lineas.length && lineas[j] === '') j++;
+      if (j < lineas.length) { paso1.push('- ' + lineas[j]); i = j; }
+      continue;
+    }
+    paso1.push(lineas[i]);
+  }
+  // Unificar las vinetas con texto a formato markdown
+  const paso2 = paso1.map(function (l) {
+    return TXT_EMPIEZA_VINETA.test(l) ? l.replace(TXT_EMPIEZA_VINETA, '- ') : l;
+  });
+  // Unir las lineas que son continuacion de la misma oracion
+  const out = [];
+  for (let i = 0; i < paso2.length; i++) {
+    const linea = paso2[i];
+    if (linea === '') { out.push(''); continue; }
+    let acum = linea;
+    while (i + 1 < paso2.length) {
+      const sig = paso2[i + 1];
+      if (sig === '') break;
+      if (TXT_EMPIEZA_VINETA.test(sig) || TXT_EMPIEZA_TITULO.test(sig)) break;
+      const ult = acum.split(' ').pop().toLowerCase().replace(/[^0-9a-z\u00E1\u00E9\u00ED\u00F3\u00FA\u00FC\u00F1]/g, '');
+      const colgante = TXT_COLGANTES.has(ult);
+      const cierra = TXT_CIERRE.test(acum);
+      if (colgante || (!cierra && acum.length >= 25)) { acum = acum + ' ' + sig; i++; continue; }
+      break;
+    }
+    out.push(acum);
+  }
+  // Vinetas consecutivas separadas por una linea vacia: van en la misma lista
+  const fin = [];
+  for (let i = 0; i < out.length; i++) {
+    if (out[i] === '' && i > 0 && i + 1 < out.length
+        && TXT_EMPIEZA_VINETA.test(out[i - 1]) && TXT_EMPIEZA_VINETA.test(out[i + 1])) {
+      continue;
+    }
+    fin.push(out[i]);
+  }
+  return fin.join('\n').replace(/\n{3,}/g, '\n\n').trim();
+}
 function renderNota(texto) {
   if (!texto || typeof texto !== 'string') return '';
-  const tieneMarkdown = /^\s*#{1,3}\s|\*\*[^*]+\*\*|^\s*>\s|^\s*-\s|\[[^\]]+\]\([^)]+\)/m.test(texto);
-  return tieneMarkdown ? renderMarkdown(texto) : embellecerTextoMagico(texto);
+  const limpio = normalizarTextoPegado(texto);
+  if (!limpio) return '';
+  const tieneMarkdown = /^\s*#{1,3}\s|\*\*[^*]+\*\*|^\s*>\s|^\s*-\s|\[[^\]]+\]\([^)]+\)/m.test(limpio);
+  return tieneMarkdown ? renderMarkdown(limpio) : embellecerTextoMagico(limpio);
 }
 const STOP_TOUR = new Set(['excursion', 'excursión', 'tour', 'tours', 'visita', 'paseo', 'aventura', 'experiencia', 'clasica', 'clásica', 'completo', 'completa', 'desde', 'hacia', 'entre', 'sobre', 'para', 'con', 'del', 'de', 'la', 'el', 'los', 'las', 'y', 'en', 'a', 'al', 'un', 'una', 'por', 'full', 'day', 'medio', 'dia', 'día', 'noche', 'city', 'trip']);
 const normKw = s => (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
@@ -4773,7 +4831,7 @@ function TourDetailPage({
       return `<div class="rte-render text-slate-600 font-body text-[15px] leading-relaxed">${texto}</div>`;
     }
     texto = texto.replace(/<br\s*\/?>/gi, '\n').replace(/<\/(div|p|tr|td|table|ul|ol|li)>/gi, '\n').replace(/<[^>]+>/g, '');
-    texto = texto.replace(/,[ \t]*\n(?!\n)[ \t]*(?![-•])/g, ', ').replace(/([^\n])\n(?!\n)[ \t]*(?=[a-z0-9áéíóúñü¿¡(])/g, '$1 ');
+    texto = normalizarTextoPegado(texto);
     let parrafos = texto.split(/\n+/).filter(p => p.trim() !== '');
     let html = parrafos.map((p, index) => {
       let pLower = p.toLowerCase();

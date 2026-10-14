@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Enlace privado para alianzas con camaras y asociaciones. No se indexa. -->
+<meta name="robots" content="noindex, nofollow">
+<title>Patagonia Experiencias + Beneficios · Alta por convenio</title>
+<meta name="description" content="Alta bonificada en Patagonia Experiencias para prestadores de asociaciones y cámaras adheridas, a cambio de un beneficio para el turista en Patagonia Puntos.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --fx:#E6007E; --fx-d:#B80063; --ink:#1A1A1A; --grey:#6B6B6B;
+    --soft:#FCEAF3; --line:#EAD3E0; --ok:#128a4a; --err:#c62828;
+    --amber-bg:#FFF3DE; --amber-bd:#F3D08A; --amber-line:#E8A200; --amber-tx:#4A3800;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{ -webkit-text-size-adjust:100%; }
+  body{ font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif; color:var(--ink);
+    background:#F5F2F4; line-height:1.5; }
+  .wrap{ max-width:680px; margin:0 auto; padding:0 0 40px; }
+
+  /* HERO */
+  .hero{ background:linear-gradient(125deg,#141414 0%, #3A0A28 45%, var(--fx) 118%);
+    color:#fff; padding:26px 22px 30px; position:relative; overflow:hidden; }
+  .hero::after{ content:''; position:absolute; right:-90px; top:-90px; width:260px; height:260px;
+    border-radius:50%; background:radial-gradient(circle, rgba(230,0,126,.55), transparent 68%); }
+  .brand{ display:flex; align-items:center; gap:9px; position:relative; z-index:2; }
+  .mark{ width:34px; height:34px; flex:0 0 auto; }
+  .wordmark{ font-family:'Montserrat'; font-weight:800; font-size:18px; }
+  .wordmark .e{ color:#FF6FB8; }
+  .kicker{ position:relative; z-index:2; margin-top:20px; font-family:'Montserrat'; font-weight:600;
+    font-size:10.5px; letter-spacing:2.5px; text-transform:uppercase; color:#FFB9DE; }
+  h1{ position:relative; z-index:2; font-family:'Montserrat'; font-weight:800; font-size:26px;
+    line-height:1.12; margin-top:6px; }
+  h1 span{ color:#FF6FB8; }
+  .lead{ position:relative; z-index:2; font-size:14px; color:#F3D9E8; margin-top:9px; }
+  .badge{ position:relative; z-index:2; display:inline-block; margin-top:14px; background:#fff;
+    color:var(--fx-d); font-family:'Montserrat'; font-weight:800; font-size:12.5px;
+    padding:8px 16px; border-radius:40px; }
+  .badge b{ color:var(--ink); }
+
+  /* CARD */
+  .card{ background:#fff; margin:16px; border-radius:16px; box-shadow:0 8px 30px rgba(0,0,0,.07);
+    border:1px solid #eee; overflow:hidden; }
+  .card .pad{ padding:22px; }
+
+  .trato{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:18px; }
+  @media(max-width:520px){ .trato{ grid-template-columns:1fr; } }
+  .trato .col{ border:1px solid var(--line); border-radius:12px; padding:14px; background:#fff; }
+  .trato .col.das{ background:var(--soft); }
+  .trato h3{ font-family:'Montserrat'; font-weight:800; font-size:11px; letter-spacing:1.4px;
+    text-transform:uppercase; color:var(--fx-d); margin-bottom:8px; }
+  .trato ul{ list-style:none; }
+  .trato li{ font-size:13px; color:#333; padding-left:16px; position:relative; margin-bottom:6px; }
+  .trato li::before{ content:''; position:absolute; left:0; top:7px; width:6px; height:6px;
+    border-radius:50%; background:var(--fx); }
+
+  .note{ display:flex; align-items:flex-start; gap:10px; background:var(--amber-bg);
+    border:1.4px solid var(--amber-bd); border-left:5px solid var(--amber-line);
+    border-radius:11px; padding:11px 14px; margin:16px 0 4px; }
+  .note .ico{ width:22px; height:22px; border-radius:50%; background:var(--amber-line); color:#fff;
+    font-family:'Montserrat'; font-weight:800; font-size:14px; display:flex; align-items:center;
+    justify-content:center; flex:0 0 auto; }
+  .note .tx{ font-size:13px; color:var(--amber-tx); }
+  .note .tx b{ color:#2A2000; }
+
+  /* SECCIONES */
+  .sec{ border-top:1px solid #F0E6EC; padding-top:20px; margin-top:22px; }
+  .sec:first-of-type{ border-top:0; padding-top:0; margin-top:0; }
+  .sec-h{ display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+  .sec-n{ width:26px; height:26px; border-radius:50%; background:var(--fx); color:#fff;
+    font-family:'Montserrat'; font-weight:800; font-size:13px; display:flex; align-items:center;
+    justify-content:center; flex:0 0 auto; }
+  .sec-t{ font-family:'Montserrat'; font-weight:800; font-size:15px; }
+  .sec-s{ font-size:12.5px; color:var(--grey); margin:-8px 0 14px 36px; }
+
+  /* CAMPOS */
+  label{ display:block; font-size:12.5px; font-weight:600; margin:0 0 5px; color:#333; }
+  label .req{ color:var(--fx); }
+  .hint{ font-size:11.5px; color:var(--grey); font-weight:400; margin-top:4px; }
+  input[type=text], input[type=email], input[type=tel], input[type=number], input[type=date], select, textarea{
+    width:100%; border:1.4px solid #DCDCE2; border-radius:10px; padding:11px 12px;
+    font-family:inherit; font-size:14px; color:var(--ink); background:#fff; }
+  textarea{ min-height:86px; resize:vertical; }
+  input:focus, select:focus, textarea:focus{ outline:none; border-color:var(--fx);
+    box-shadow:0 0 0 3px rgba(230,0,126,.1); }
+  input.bad, select.bad, textarea.bad{ border-color:var(--err); background:#FFF6F6; }
+  .row{ margin-bottom:14px; }
+  .dos{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  @media(max-width:520px){ .dos{ grid-template-columns:1fr; } }
+
+  .check{ display:flex; gap:10px; align-items:flex-start; margin-bottom:11px; }
+  .check input{ width:18px; height:18px; margin-top:2px; flex:0 0 auto; accent-color:var(--fx); }
+  .check span{ font-size:13px; color:#333; }
+
+  /* BENEFICIOS */
+  .ben{ border:1.6px solid var(--line); border-radius:13px; padding:16px; margin-bottom:12px;
+    background:#FFFDFE; position:relative; }
+  .ben-h{ display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+  .ben-t{ font-family:'Montserrat'; font-weight:800; font-size:12px; letter-spacing:1.2px;
+    text-transform:uppercase; color:var(--fx-d); }
+  .quitar{ background:none; border:0; color:var(--grey); font-size:12px; font-weight:600;
+    cursor:pointer; text-decoration:underline; padding:2px 4px; }
+  .quitar:hover{ color:var(--err); }
+  .mas{ width:100%; border:1.6px dashed var(--line); background:#fff; color:var(--fx-d);
+    font-family:'Montserrat'; font-weight:700; font-size:13px; padding:12px; border-radius:11px;
+    cursor:pointer; }
+  .mas:hover{ background:var(--soft); }
+  .mas:disabled{ opacity:.45; cursor:not-allowed; }
+  .dias{ display:flex; flex-wrap:wrap; gap:6px; }
+  .dia{ position:relative; }
+  .dia input{ position:absolute; opacity:0; width:0; height:0; }
+  .dia span{ display:block; border:1.4px solid #DCDCE2; border-radius:8px; padding:7px 11px;
+    font-size:12.5px; font-weight:600; cursor:pointer; background:#fff; color:#555; }
+  .dia input:checked + span{ background:var(--fx); border-color:var(--fx); color:#fff; }
+  .foto{ font-size:13px; }
+  .previa{ margin-top:8px; display:none; }
+  .previa img{ max-width:100%; max-height:150px; border-radius:9px; border:1px solid var(--line); }
+
+  /* BOTON / MENSAJES */
+  .btn{ width:100%; background:var(--fx); color:#fff; border:0; border-radius:12px; padding:15px;
+    font-family:'Montserrat'; font-weight:800; font-size:15px; cursor:pointer; margin-top:6px; }
+  .btn:hover{ background:var(--fx-d); }
+  .btn:disabled{ opacity:.55; cursor:not-allowed; }
+  .msg{ display:none; margin-top:12px; padding:12px 14px; border-radius:10px; font-size:13px; }
+  .msg.show{ display:block; }
+  .msg.err{ background:#FFF0F0; border:1.4px solid #F3C4C4; color:var(--err); }
+  .msg.inf{ background:var(--soft); border:1.4px solid var(--line); color:var(--fx-d); }
+  .legal{ font-size:11.5px; color:var(--grey); text-align:center; margin-top:14px; line-height:1.55; }
+
+  /* EXITO */
+  #successView{ display:none; }
+  #successView.show{ display:block; }
+  .ok-ico{ width:60px; height:60px; border-radius:50%; background:var(--ok); color:#fff;
+    font-size:30px; display:flex; align-items:center; justify-content:center; margin:0 auto 16px; }
+  .ok-t{ font-family:'Montserrat'; font-weight:800; font-size:21px; text-align:center; }
+  .ok-s{ font-size:14px; color:var(--grey); text-align:center; margin-top:8px; }
+  .pasos{ margin-top:20px; border-top:1px solid #F0E6EC; padding-top:18px; }
+  .paso{ display:flex; gap:12px; margin-bottom:14px; }
+  .paso-n{ width:24px; height:24px; border-radius:50%; background:var(--soft); color:var(--fx-d);
+    font-family:'Montserrat'; font-weight:800; font-size:12px; display:flex; align-items:center;
+    justify-content:center; flex:0 0 auto; }
+  .paso-t{ font-size:13.5px; color:#333; }
+  .paso-t b{ font-weight:700; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 48 48" aria-hidden="true">
+        <rect width="48" height="48" rx="13" fill="#fff"/>
+        <path d="M24 11c-4.6 0-8.3 3.7-8.3 8.3 0 6 8.3 17 8.3 17s8.3-11 8.3-17c0-4.6-3.7-8.3-8.3-8.3zm0 11.4a3.1 3.1 0 1 1 0-6.2 3.1 3.1 0 0 1 0 6.2z" fill="#E6007E"/>
+      </svg>
+      <div class="wordmark">Patagonia<span class="e">Experiencias</span></div>
+    </div>
+    <p class="kicker" id="kicker">Alta por convenio</p>
+    <h1>Sumá tu servicio a la vidriera.<br><span>Sin costo de suscripción.</span></h1>
+    <p class="lead">Acceso bonificado para prestadores de asociaciones y cámaras adheridas. A cambio, ofrecés un beneficio real al turista dentro de Patagonia Puntos.</p>
+    <div class="badge">Invitación para <b id="orgBadge">asociaciones adheridas</b></div>
+  </div>
+
+  <!-- ===================== FORMULARIO ===================== -->
+  <div class="card" id="formView">
+    <div class="pad">
+
+      <div class="trato">
+        <div class="col">
+          <h3>Lo que recibís</h3>
+          <ul>
+            <li>Ficha publicada en Patagonia Experiencias</li>
+            <li>Reservas y pago online, sin cargo de suscripción</li>
+            <li>Panel propio para gestionar tus servicios</li>
+            <li>Tu servicio dentro de los itinerarios que arma AIKE</li>
+          </ul>
+        </div>
+        <div class="col das">
+          <h3>Lo que aportás</h3>
+          <ul>
+            <li>Al menos un beneficio para el turista en Patagonia Puntos</li>
+            <li>Mínimo 20% de descuento, o un 3x2 o 2x1 equivalente</li>
+            <li>Vos elegís los días, el cupo y la vigencia</li>
+            <li>Comisión del 20% solo sobre lo que efectivamente vendas</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="note">
+        <div class="ico">!</div>
+        <div class="tx"><b>El beneficio es la condición del acuerdo.</b> Sin al menos un beneficio cargado, la ficha no se publica. Es lo que le da valor al turista y lo que reemplaza la suscripción.</div>
+      </div>
+
+      <form id="altaForm" style="margin-top:22px" novalidate>
+
+        <!-- 1. NEGOCIO -->
+        <div class="sec">
+          <div class="sec-h"><div class="sec-n">1</div><div class="sec-t">Tu negocio</div></div>
+
+          <div class="row">
+            <label for="empresa">Nombre comercial <span class="req">*</span></label>
+            <input type="text" id="empresa" maxlength="120" autocomplete="organization" placeholder="Como te conocen los turistas">
+          </div>
+
+          <div class="dos row">
+            <div>
+              <label for="responsable">Responsable <span class="req">*</span></label>
+              <input type="text" id="responsable" maxlength="120" autocomplete="name" placeholder="Nombre y apellido">
+            </div>
+            <div>
+              <label for="rubro">Rubro <span class="req">*</span></label>
+              <select id="rubro">
+                <option value="">Elegí una opción</option>
+                <option value="excursiones">Excursiones y actividades</option>
+                <option value="agencia">Agencia de viajes</option>
+                <option value="alojamiento">Alojamiento</option>
+                <option value="gastronomia">Gastronomía</option>
+                <option value="transporte">Transporte turístico</option>
+                <option value="comercio">Comercio o producto regional</option>
+                <option value="otro">Otro</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="dos row">
+            <div>
+              <label for="email">Correo <span class="req">*</span></label>
+              <input type="email" id="email" maxlength="140" autocomplete="email" placeholder="tucorreo@gmail.com">
+              <p class="hint">Tiene que ser una cuenta de Google: con esa entrás al panel.</p>
+            </div>
+            <div>
+              <label for="whatsapp">WhatsApp <span class="req">*</span></label>
+              <input type="tel" id="whatsapp" maxlength="40" placeholder="+54 9 280 ...">
+            </div>
+          </div>
+
+          <div class="dos row">
+            <div>
+              <label for="localidad">Localidad <span class="req">*</span></label>
+              <input type="text" id="localidad" maxlength="80" placeholder="Trelew, Esquel, Puerto Madryn...">
+            </div>
+            <div>
+              <label for="habilitacion">Habilitación o CUIT</label>
+              <input type="text" id="habilitacion" maxlength="60" placeholder="Legajo, registro o CUIT">
+            </div>
+          </div>
+
+          <div class="row">
+            <label for="social">Web o redes</label>
+            <input type="text" id="social" maxlength="200" placeholder="instagram.com/tunegocio">
+          </div>
+        </div>
+
+        <!-- 2. PROPUESTA -->
+        <div class="sec">
+          <div class="sec-h"><div class="sec-n">2</div><div class="sec-t">Tu propuesta</div></div>
+          <p class="sec-s">Contanos qué ofrecés. Después cargás el detalle completo desde el panel.</p>
+
+          <div class="row">
+            <label for="propuesta">Qué servicios querés publicar <span class="req">*</span></label>
+            <textarea id="propuesta" maxlength="900" placeholder="Ejemplo: full day a Península Valdés con guía bilingüe, salidas diarias a las 7, hasta 12 pasajeros."></textarea>
+            <p class="hint">Escribilo como se lo contarías a un turista. Si pegás texto de un PDF, revisá que no queden cortes raros.</p>
+          </div>
+
+          <div class="dos row">
+            <div>
+              <label for="cantidad">Cuántos servicios distintos</label>
+              <input type="number" id="cantidad" min="1" max="99" placeholder="3">
+            </div>
+            <div>
+              <label for="desde">Desde qué precio</label>
+              <input type="text" id="desde" maxlength="40" placeholder="$ 45.000 por persona">
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. BENEFICIOS -->
+        <div class="sec">
+          <div class="sec-h"><div class="sec-n">3</div><div class="sec-t">Tu beneficio en Patagonia Puntos</div></div>
+          <p class="sec-s">Obligatorio. Podés cargar hasta tres. Vos ponés las condiciones.</p>
+
+          <div id="beneficios"></div>
+          <button type="button" class="mas" id="masBen">+ Agregar otro beneficio</button>
+        </div>
+
+        <!-- 4. CONFIRMACION -->
+        <div class="sec">
+          <div class="sec-h"><div class="sec-n">4</div><div class="sec-t">Para cerrar</div></div>
+
+          <div class="check">
+            <input type="checkbox" id="chkHab">
+            <span>Declaro que mi actividad está habilitada para operar y que los datos son correctos.</span>
+          </div>
+          <div class="check">
+            <input type="checkbox" id="chkBen">
+            <span>Me comprometo a sostener el beneficio cargado durante la vigencia que indique, y a avisar con 30 días si quiero modificarlo.</span>
+          </div>
+          <div class="check">
+            <input type="checkbox" id="chkOk">
+            <span>Acepto los <a href="/terminos" target="_blank" style="color:var(--fx-d)">términos</a> y la <a href="/privacidad" target="_blank" style="color:var(--fx-d)">política de privacidad</a>.</span>
+          </div>
+
+          <button type="submit" class="btn" id="submitBtn">Enviar y crear mi cuenta</button>
+          <div class="msg" id="formMsg"></div>
+          <p class="legal">Al enviar vas a ingresar con tu cuenta de Google. Tu solicitud queda en revisión y te avisamos por correo cuando se publique.</p>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================== EXITO ===================== -->
+  <div class="card" id="successView">
+    <div class="pad">
+      <div class="ok-ico">&#10003;</div>
+      <p class="ok-t">Listo, recibimos tu alta</p>
+      <p class="ok-s">Te confirmamos a <b id="okmail"></b></p>
+      <div class="pasos">
+        <div class="paso"><div class="paso-n">1</div><div class="paso-t"><b>Revisamos tu solicitud.</b> Verificamos los datos y el beneficio cargado.</div></div>
+        <div class="paso"><div class="paso-n">2</div><div class="paso-t"><b>Cargás tus servicios.</b> Entrá al panel con la misma cuenta de Google y sumá fotos, precios y disponibilidad.</div></div>
+        <div class="paso"><div class="paso-n">3</div><div class="paso-t"><b>Publicamos.</b> Tu ficha sale en la vidriera y tu beneficio queda disponible en Patagonia Puntos.</div></div>
+      </div>
+      <a class="btn" id="goPanel" href="#" style="display:block; text-align:center; text-decoration:none; margin-top:8px">Ir al panel</a>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-storage-compat.js"></script>
+<script>
+/* =================================================================
+   PATAGONIA EXPERIENCIAS + BENEFICIOS
+   Alta por convenio. Enlace privado: se pasa a camaras y asociaciones.
+   El prestador entra sin costo de suscripcion a cambio de cargar al
+   menos un beneficio para el turista en Patagonia Puntos.
+
+   Para cada alianza, pasale el link con su identificador:
+     /alianzas?org=ahg-trelew
+   Asi sabes de que acuerdo vino cada alta.
+   ================================================================= */
+
+var firebaseConfig = {
+  apiKey: "AIzaSyDZkeRgN45FkOF8pO2rGxDJA28VZnZ8Ntg",
+  authDomain: "patagonia-experiencias.firebaseapp.com",
+  projectId: "patagonia-experiencias",
+  storageBucket: "patagonia-experiencias.firebasestorage.app",
+  messagingSenderId: "169796366610",
+  appId: "1:169796366610:web:3e2c7e65262933647983cb"
+};
+var APP_ID = "patagonia-experiencias-app";
+var PANEL_URL = "https://patagoniaexperiencias.com/dashboard-prestadores.html";
+var COLECCION_PATH = "artifacts/" + APP_ID + "/public/data/solicitudes_prestadores";
+
+var CONVENIO = {
+  campania: "ALIANZAS_BENEFICIOS_2026",
+  plan: "esencial",
+  bonificado: true,
+  comisionPct: 20,
+  descuentoMinimo: 20,
+  maxBeneficios: 3
+};
+
+/* Organizaciones con convenio. La clave es lo que va en ?org=
+   Para sumar una alianza nueva, agregala aca y pasale su link. */
+var ORGANIZACIONES = {
+  "ahg-trelew":  "Asociacion Hotelera Gastronomica de Trelew y Valle del Chubut",
+  "cat-chubut":  "Camara Argentina de Turismo - Chubut",
+  "agencia-chubut": "Agencia de Turismo de Chubut"
+};
+
+/* ---------------------------------------------------------------- */
+var $ = function (id) { return document.getElementById(id); };
+var db = null, auth = null, storage = null;
+try {
+  if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+  db = firebase.firestore();
+  auth = firebase.auth();
+  try { storage = firebase.storage(); } catch (e) { storage = null; }
+} catch (e) {
+  console.error("[alta] Firebase no inicializo:", e && e.message);
+}
+
+/* --- Organizacion que refiere (viene por ?org=) --- */
+var ORG_CLAVE = "";
+var ORG_NOMBRE = "";
+(function () {
+  try {
+    var p = new URLSearchParams(location.search);
+    ORG_CLAVE = (p.get("org") || "").trim().toLowerCase();
+    if (ORG_CLAVE) {
+      ORG_NOMBRE = ORGANIZACIONES[ORG_CLAVE] || ORG_CLAVE;
+      $("orgBadge").textContent = ORG_NOMBRE;
+      $("kicker").textContent = "Alta por convenio";
+    }
+  } catch (e) {}
+})();
+
+/* ================= BENEFICIOS ================= */
+var TIPOS = [
+  { v: "desc20", t: "20% de descuento", clase: "descuento", valor: 20 },
+  { v: "desc25", t: "25% de descuento", clase: "descuento", valor: 25 },
+  { v: "desc30", t: "30% de descuento", clase: "descuento", valor: 30 },
+  { v: "desc40", t: "40% o más de descuento", clase: "descuento", valor: 40 },
+  { v: "3x2",    t: "3x2 (pagás dos, llevás tres)", clase: "combo", valor: 33 },
+  { v: "2x1",    t: "2x1 (pagás uno, llevás dos)", clase: "combo", valor: 50 },
+  { v: "acomp",  t: "Acompañante sin cargo", clase: "combo", valor: 50 },
+  { v: "upgrade",t: "Mejora de categoría sin cargo", clase: "upgrade", valor: 20 },
+  { v: "otro",   t: "Otro beneficio equivalente", clase: "otro", valor: 20 }
+];
+var DIAS = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
+var nBen = 0;
+
+function htmlTipos() {
+  var s = '<option value="">Elegí el beneficio</option>';
+  for (var i = 0; i < TIPOS.length; i++) {
+    s += '<option value="' + TIPOS[i].v + '">' + TIPOS[i].t + '</option>';
+  }
+  return s;
+}
+function htmlDias(idx) {
+  var s = '';
+  for (var i = 0; i < DIAS.length; i++) {
+    s += '<label class="dia"><input type="checkbox" class="b-dia" value="' + DIAS[i] + '" checked><span>' + DIAS[i] + '</span></label>';
+  }
+  return s;
+}
+
+function agregarBeneficio() {
+  if (nBen >= CONVENIO.maxBeneficios) return;
+  nBen++;
+  var i = nBen;
+  var div = document.createElement("div");
+  div.className = "ben";
+  div.setAttribute("data-ben", i);
+  div.innerHTML =
+    '<div class="ben-h">' +
+      '<div class="ben-t">Beneficio ' + i + (i === 1 ? ' &middot; obligatorio' : '') + '</div>' +
+      (i > 1 ? '<button type="button" class="quitar">Quitar</button>' : '') +
+    '</div>' +
+    '<div class="row">' +
+      '<label>Qué ofrecés <span class="req">*</span></label>' +
+      '<select class="b-tipo">' + htmlTipos() + '</select>' +
+      '<p class="hint">El mínimo del convenio es 20% de descuento, o un combo equivalente.</p>' +
+    '</div>' +
+    '<div class="row b-otro" style="display:none">' +
+      '<label>Describí el beneficio <span class="req">*</span></label>' +
+      '<input type="text" class="b-otroTx" maxlength="90" placeholder="Ejemplo: segunda noche al 50%">' +
+    '</div>' +
+    '<div class="row">' +
+      '<label>Sobre qué aplica <span class="req">*</span></label>' +
+      '<input type="text" class="b-aplica" maxlength="140" placeholder="Ejemplo: menú principal, excursión de medio día, habitación doble">' +
+    '</div>' +
+    '<div class="row">' +
+      '<label>Días en que vale</label>' +
+      '<div class="dias">' + htmlDias(i) + '</div>' +
+      '<p class="hint">Destildá los días que no quieras. Muchos prestadores lo dejan solo de lunes a jueves, que es cuando hay lugar.</p>' +
+    '</div>' +
+    '<div class="dos row">' +
+      '<div>' +
+        '<label>Cupo por mes</label>' +
+        '<input type="number" class="b-cupo" min="1" max="9999" placeholder="Sin límite">' +
+        '<p class="hint">Cuántos canjes aceptás por mes.</p>' +
+      '</div>' +
+      '<div>' +
+        '<label>Vigencia hasta</label>' +
+        '<input type="date" class="b-hasta">' +
+        '<p class="hint">Vacío = sin fecha de corte.</p>' +
+      '</div>' +
+    '</div>' +
+    '<div class="row">' +
+      '<label>Foto del beneficio</label>' +
+      '<input type="file" class="b-foto foto" accept="image/*">' +
+      '<p class="hint">Opcional. Una foto del plato, la habitación o la excursión. Ideal 1080x1080.</p>' +
+      '<div class="previa"><img alt=""></div>' +
+    '</div>';
+
+  $("beneficios").appendChild(div);
+
+  var sel = div.querySelector(".b-tipo");
+  sel.addEventListener("change", function () {
+    div.querySelector(".b-otro").style.display = (sel.value === "otro") ? "block" : "none";
+  });
+
+  var file = div.querySelector(".b-foto");
+  file.addEventListener("change", function () {
+    var f = file.files && file.files[0];
+    var prev = div.querySelector(".previa");
+    if (!f) { prev.style.display = "none"; return; }
+    if (f.size > 5 * 1024 * 1024) {
+      alert("La imagen supera los 5 MB. Elegí una más liviana.");
+      file.value = ""; prev.style.display = "none"; return;
+    }
+    var r = new FileReader();
+    r.onload = function (e) {
+      prev.querySelector("img").src = e.target.result;
+      prev.style.display = "block";
+    };
+    r.readAsDataURL(f);
+  });
+
+  var q = div.querySelector(".quitar");
+  if (q) q.addEventListener("click", function () {
+    div.parentNode.removeChild(div);
+    renumerar();
+  });
+
+  actualizarBotonMas();
+}
+
+function renumerar() {
+  var cajas = document.querySelectorAll("#beneficios .ben");
+  nBen = cajas.length;
+  for (var i = 0; i < cajas.length; i++) {
+    cajas[i].setAttribute("data-ben", i + 1);
+    cajas[i].querySelector(".ben-t").innerHTML = "Beneficio " + (i + 1) + (i === 0 ? " &middot; obligatorio" : "");
+    var btn = cajas[i].querySelector(".quitar");
+    if (i === 0 && btn) btn.style.display = "none";
+    if (i > 0 && btn) btn.style.display = "inline";
+  }
+  actualizarBotonMas();
+}
+function actualizarBotonMas() {
+  var b = $("masBen");
+  b.disabled = nBen >= CONVENIO.maxBeneficios;
+  b.textContent = b.disabled
+    ? "Llegaste al máximo de " + CONVENIO.maxBeneficios + " beneficios"
+    : "+ Agregar otro beneficio";
+}
+$("masBen").addEventListener("click", agregarBeneficio);
+agregarBeneficio();
+
+/* ================= VALIDACION ================= */
+function marcar(el, mal) {
+  if (!el) return;
+  if (mal) el.classList.add("bad"); else el.classList.remove("bad");
+}
+function mostrar(tipo, txt) {
+  var m = $("formMsg");
+  m.className = "msg show " + tipo;
+  m.innerHTML = txt;
+  m.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+function ocultar() { $("formMsg").className = "msg"; }
+
+function leerBeneficios() {
+  var out = [];
+  var cajas = document.querySelectorAll("#beneficios .ben");
+  for (var i = 0; i < cajas.length; i++) {
+    var c = cajas[i];
+    var tipoV = c.querySelector(".b-tipo").value;
+    var aplica = c.querySelector(".b-aplica").value.trim();
+    var otroTx = c.querySelector(".b-otroTx").value.trim();
+    if (!tipoV && !aplica) continue;           // caja vacia: se ignora
+    var def = null;
+    for (var k = 0; k < TIPOS.length; k++) if (TIPOS[k].v === tipoV) def = TIPOS[k];
+    var dias = [];
+    var chks = c.querySelectorAll(".b-dia");
+    for (var d = 0; d < chks.length; d++) if (chks[d].checked) dias.push(chks[d].value);
+    var cupo = parseInt(c.querySelector(".b-cupo").value, 10);
+    out.push({
+      _caja: c,
+      _tipoEl: c.querySelector(".b-tipo"),
+      _aplicaEl: c.querySelector(".b-aplica"),
+      _otroEl: c.querySelector(".b-otroTx"),
+      _file: c.querySelector(".b-foto").files[0] || null,
+      tipo: tipoV,
+      titulo: def ? def.t : "",
+      categoria: def ? def.clase : "",
+      valorEquivalente: def ? def.valor : 0,
+      descripcionLibre: otroTx,
+      aplicaA: aplica,
+      dias: dias,
+      cupoMensual: isNaN(cupo) ? null : cupo,
+      vigenciaHasta: c.querySelector(".b-hasta").value || null
+    });
+  }
+  return out;
+}
+
+function validar() {
+  var errores = [];
+  var campos = [
+    ["empresa", "el nombre comercial"],
+    ["responsable", "el responsable"],
+    ["rubro", "el rubro"],
+    ["email", "el correo"],
+    ["whatsapp", "el WhatsApp"],
+    ["localidad", "la localidad"],
+    ["propuesta", "tu propuesta"]
+  ];
+  for (var i = 0; i < campos.length; i++) {
+    var el = $(campos[i][0]);
+    var vacio = !el.value.trim();
+    marcar(el, vacio);
+    if (vacio) errores.push("Falta " + campos[i][1] + ".");
+  }
+
+  var mail = $("email").value.trim();
+  if (mail && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(mail)) {
+    marcar($("email"), true);
+    errores.push("El correo no parece válido.");
+  }
+
+  // Beneficios: al menos uno completo
+  var bens = leerBeneficios();
+  if (bens.length === 0) {
+    errores.push("Tenés que cargar al menos un beneficio: es la condición del convenio.");
+    var primera = document.querySelector("#beneficios .ben .b-tipo");
+    marcar(primera, true);
+  }
+  for (var b = 0; b < bens.length; b++) {
+    var x = bens[b];
+    var malTipo = !x.tipo;
+    var malAplica = !x.aplicaA;
+    var malOtro = (x.tipo === "otro" && !x.descripcionLibre);
+    marcar(x._tipoEl, malTipo);
+    marcar(x._aplicaEl, malAplica);
+    marcar(x._otroEl, malOtro);
+    if (malTipo) errores.push("Elegí qué ofrecés en el beneficio " + (b + 1) + ".");
+    if (malAplica) errores.push("Indicá sobre qué aplica el beneficio " + (b + 1) + ".");
+    if (malOtro) errores.push("Describí el beneficio " + (b + 1) + ".");
+    if (x.dias.length === 0) errores.push("El beneficio " + (b + 1) + " tiene que valer al menos un día.");
+  }
+
+  if (!$("chkHab").checked) errores.push("Tenés que declarar que estás habilitado.");
+  if (!$("chkBen").checked) errores.push("Tenés que confirmar el compromiso del beneficio.");
+  if (!$("chkOk").checked) errores.push("Tenés que aceptar los términos.");
+
+  return { errores: errores, beneficios: bens };
+}
+
+/* ================= ENVIO ================= */
+function withTimeout(promise, ms) {
+  return Promise.race([
+    promise,
+    new Promise(function (_, rej) { setTimeout(function () { rej(new Error("timeout")); }, ms); })
+  ]);
+}
+
+async function subirFoto(uid, idx, file) {
+  if (!file || !storage) return null;
+  try {
+    var ext = (file.name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z0-9]/g, "");
+    var ref = storage.ref("solicitudes_beneficios/" + uid + "/beneficio-" + idx + "." + ext);
+    var snap = await withTimeout(ref.put(file), 30000);
+    return await withTimeout(snap.ref.getDownloadURL(), 15000);
+  } catch (e) {
+    // Si Storage rechaza, no se pierde la solicitud: queda sin foto.
+    console.warn("[alta] no se pudo subir la foto " + idx + ":", e && e.message);
+    return null;
+  }
+}
+
+$("altaForm").addEventListener("submit", async function (ev) {
+  ev.preventDefault();
+  ocultar();
+
+  var btn = $("submitBtn");
+  var chequeo = validar();
+  if (chequeo.errores.length) {
+    mostrar("err", "<b>Revisá esto antes de enviar:</b><br>" + chequeo.errores.join("<br>"));
+    return;
+  }
+  if (!db || !auth) {
+    mostrar("err", "No pudimos conectar con el sistema. Recargá la página e intentá de nuevo.");
+    return;
+  }
+
+  var emailForm = $("email").value.trim().toLowerCase();
+  btn.disabled = true;
+  btn.textContent = "Ingresando con Google...";
+
+  // 1) Login con Google
+  var user;
+  try {
+    var provider = new firebase.auth.GoogleAuthProvider();
+    provider.setCustomParameters({ login_hint: emailForm, prompt: "select_account" });
+    var cred = await auth.signInWithPopup(provider);
+    user = cred.user;
+  } catch (err) {
+    btn.disabled = false;
+    btn.textContent = "Enviar y crear mi cuenta";
+    var c = err && err.code;
+    if (c === "auth/popup-closed-by-user" || c === "auth/cancelled-popup-request") {
+      mostrar("err", "Cerraste la ventana de Google antes de terminar. Tocá <b>Enviar</b> y elegí tu cuenta.");
+    } else if (c === "auth/popup-blocked") {
+      mostrar("err", "Tu navegador bloqueó la ventana de Google. Permití las ventanas emergentes y probá de nuevo.");
+    } else {
+      mostrar("err", "No pudimos ingresar con Google. Probá de nuevo en un momento.");
+    }
+    return;
+  }
+
+  var emailAuth = (user.email || "").toLowerCase();
+  btn.textContent = "Guardando...";
+
+  // 2) Fotos de los beneficios (si Storage no deja, siguen sin foto)
+  var bens = chequeo.beneficios;
+  for (var i = 0; i < bens.length; i++) {
+    if (bens[i]._file) {
+      btn.textContent = "Subiendo imagen " + (i + 1) + "...";
+      bens[i].imagenUrl = await subirFoto(user.uid, i + 1, bens[i]._file);
+    } else {
+      bens[i].imagenUrl = null;
+    }
+  }
+
+  // 3) Beneficios limpios (sin referencias al DOM)
+  var beneficios = bens.map(function (b) {
+    return {
+      tipo: b.tipo,
+      titulo: b.tipo === "otro" ? b.descripcionLibre : b.titulo,
+      categoria: b.categoria,
+      valorEquivalente: b.valorEquivalente,
+      aplicaA: b.aplicaA,
+      dias: b.dias,
+      cupoMensual: b.cupoMensual,
+      vigenciaHasta: b.vigenciaHasta,
+      imagenUrl: b.imagenUrl || null,
+      estado: "pendiente"
+    };
+  });
+
+  var empresa = $("empresa").value.trim();
+  var responsable = $("responsable").value.trim();
+  var whatsapp = $("whatsapp").value.trim();
+
+  var datosContacto = {
+    empresa: empresa, responsable: responsable,
+    email: emailAuth, emailFormulario: emailForm, whatsapp: whatsapp,
+    localidad: $("localidad").value.trim(),
+    rubro: $("rubro").value,
+    habilitacion: $("habilitacion").value.trim(),
+    social: $("social").value.trim(),
+    propuesta: $("propuesta").value.trim(),
+    cantidadServicios: parseInt($("cantidad").value, 10) || null,
+    precioDesde: $("desde").value.trim(),
+    beneficios: beneficios,
+    beneficiosCargados: beneficios.length,
+    declaraHabilitado: true,
+    aceptaCondiciones: true,
+    compromisoBeneficio: true,
+    nombreFantasia: empresa, razonSocial: empresa, nombreAgencia: empresa,
+    nombre: responsable, emailContacto: emailAuth, telefono: whatsapp,
+    userId: user.uid, uid: user.uid,
+    actualizado: firebase.firestore.FieldValue.serverTimestamp()
+  };
+
+  var datosNuevo = Object.assign({}, datosContacto, {
+    origen: "alianzas",
+    campania: CONVENIO.campania,
+    organizacion: ORG_CLAVE || "directo",
+    organizacionNombre: ORG_NOMBRE || "",
+    plan: CONVENIO.plan,
+    bonificado: CONVENIO.bonificado,
+    comisionPct: CONVENIO.comisionPct,
+    estado: "pendiente_revision",
+    hostname: location.hostname,
+    creado: firebase.firestore.FieldValue.serverTimestamp()
+  });
+
+  // 4) Nunca duplicar: primero por UID, despues por email
+  var existing = null;
+  try {
+    var uidSnap = await withTimeout(db.collection(COLECCION_PATH).doc(user.uid).get(), 12000);
+    if (uidSnap.exists) existing = uidSnap;
+  } catch (e) { console.warn("[alta] lectura por uid:", e && e.message); }
+
+  if (!existing) {
+    try {
+      var q = await withTimeout(db.collection(COLECCION_PATH).where("emailContacto", "==", emailAuth).limit(1).get(), 12000);
+      if (q.empty) q = await withTimeout(db.collection(COLECCION_PATH).where("email", "==", emailAuth).limit(1).get(), 12000);
+      if (!q.empty) existing = q.docs[0];
+    } catch (e) { console.warn("[alta] lectura por email:", e && e.message); }
+  }
+
+  try {
+    if (existing) {
+      // Cuenta ya existente: se actualizan contacto y beneficios,
+      // nunca el plan, el estado ni la comision.
+      await withTimeout(existing.ref.set(datosContacto, { merge: true }), 15000);
+    } else {
+      await withTimeout(db.collection(COLECCION_PATH).doc(user.uid).set(datosNuevo, { merge: true }), 15000);
+    }
+  } catch (e) {
+    btn.disabled = false;
+    btn.textContent = "Enviar y crear mi cuenta";
+    console.error("[alta] guardado:", e);
+    mostrar("err", "No pudimos guardar tu alta. Probá de nuevo; si sigue fallando, escribinos por WhatsApp.");
+    return;
+  }
+
+  // 5) Aviso a Make (si esta configurado). No bloquea el alta.
+  try {
+    if (typeof WEBHOOK_ALTA !== "undefined" && WEBHOOK_ALTA) {
+      fetch(WEBHOOK_ALTA, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          empresa: empresa, responsable: responsable, email: emailAuth,
+          whatsapp: whatsapp, rubro: $("rubro").value,
+          localidad: $("localidad").value.trim(),
+          origen: "alianzas", campania: CONVENIO.campania,
+          organizacion: ORG_CLAVE || "directo",
+          beneficios: beneficios
+        })
+      }).catch(function () {});
+    }
+  } catch (e) {}
+
+  // 6) Exito
+  $("okmail").textContent = emailAuth;
+  var dest = PANEL_URL + (PANEL_URL.indexOf("?") >= 0 ? "&" : "?") + "origen=alianzas";
+  $("goPanel").setAttribute("href", dest);
+  $("formView").style.display = "none";
+  $("successView").classList.add("show");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+</script>
+</body>
+</html>

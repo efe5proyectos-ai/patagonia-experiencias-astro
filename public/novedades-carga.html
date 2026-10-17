@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Cómo cargar bien tu servicio · Patagonia Experiencias</title>
+<meta name="description" content="Qué cambió en la carga de servicios y cómo completar la ficha para vender más.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --fx:#E6007E; --fx-d:#B80063; --ink:#1A1A1A; --grey:#64748b;
+         --soft:#FCEAF3; --line:#EAD3E0; --azul:#1d4ed8; --azul-bg:#eff6ff; --azul-bd:#bfdbfe;
+         --verde:#047857; --verde-bg:#ecfdf5; --verde-bd:#a7f3d0; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Inter,system-ui,-apple-system,sans-serif;color:var(--ink);background:#F7F5F6;line-height:1.6}
+  .wrap{max-width:780px;margin:0 auto;padding:0 0 60px}
+
+  .hero{background:linear-gradient(125deg,#141414 0%,#3A0A28 45%,var(--fx) 118%);color:#fff;padding:30px 24px 36px;position:relative;overflow:hidden}
+  .hero::after{content:'';position:absolute;right:-90px;top:-90px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(230,0,126,.5),transparent 68%)}
+  .brand{display:flex;align-items:center;gap:10px;position:relative;z-index:2}
+  .brand svg{width:34px;height:34px}
+  .wm{font-family:Montserrat;font-weight:800;font-size:17px}
+  .wm span{color:#FF6FB8}
+  .kick{position:relative;z-index:2;margin-top:22px;font-family:Montserrat;font-weight:600;font-size:10.5px;letter-spacing:2.5px;text-transform:uppercase;color:#FFB9DE}
+  h1{position:relative;z-index:2;font-family:Montserrat;font-weight:800;font-size:27px;line-height:1.14;margin-top:7px}
+  h1 span{color:#FF6FB8}
+  .lead{position:relative;z-index:2;font-size:14.5px;color:#F3D9E8;margin-top:11px;max-width:60ch}
+
+  .card{background:#fff;margin:18px;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.06);border:1px solid #eee;padding:26px}
+  h2{font-family:Montserrat;font-weight:800;font-size:18px;margin-bottom:6px}
+  h2 .n{display:inline-flex;width:26px;height:26px;border-radius:50%;background:var(--fx);color:#fff;font-size:13px;align-items:center;justify-content:center;margin-right:9px;vertical-align:2px}
+  h3{font-family:Montserrat;font-weight:700;font-size:14.5px;margin:22px 0 7px}
+  p{margin-bottom:12px;font-size:14.5px}
+  .sub{color:var(--grey);font-size:13.5px;margin-bottom:18px}
+  strong{font-weight:700}
+
+  .pasos{counter-reset:p;list-style:none;margin:16px 0}
+  .pasos li{counter-increment:p;position:relative;padding-left:40px;margin-bottom:14px;font-size:14.5px}
+  .pasos li::before{content:counter(p);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:8px;background:var(--soft);color:var(--fx-d);font-family:Montserrat;font-weight:800;font-size:12.5px;display:flex;align-items:center;justify-content:center}
+  .pasos li b{display:block;font-family:Montserrat;font-weight:700;font-size:14px;margin-bottom:1px}
+
+  .caja{border-radius:12px;padding:16px 18px;margin:18px 0}
+  .caja.azul{background:var(--azul-bg);border:1px solid var(--azul-bd)}
+  .caja.verde{background:var(--verde-bg);border:1px solid var(--verde-bd)}
+  .caja.rosa{background:var(--soft);border:1px solid var(--line)}
+  .caja h4{font-family:Montserrat;font-weight:800;font-size:11px;letter-spacing:1.4px;text-transform:uppercase;margin-bottom:10px}
+  .caja.azul h4{color:var(--azul)} .caja.verde h4{color:var(--verde)} .caja.rosa h4{color:var(--fx-d)}
+  .caja p{font-size:13.5px;margin-bottom:8px} .caja p:last-child{margin-bottom:0}
+  .caja ul{list-style:none;margin:0}
+  .caja li{font-size:13.5px;padding-left:16px;position:relative;margin-bottom:7px}
+  .caja li:last-child{margin-bottom:0}
+  .caja.azul li::before{content:'';position:absolute;left:0;top:8px;width:6px;height:6px;border-radius:50%;background:var(--azul)}
+  .caja.verde li::before{content:'';position:absolute;left:0;top:8px;width:6px;height:6px;border-radius:50%;background:var(--verde)}
+  .caja.rosa li::before{content:'';position:absolute;left:0;top:8px;width:6px;height:6px;border-radius:50%;background:var(--fx)}
+
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+  th{text-align:left;background:var(--fx);color:#fff;font-family:Montserrat;font-weight:700;font-size:11px;letter-spacing:.6px;text-transform:uppercase;padding:9px 11px}
+  td{padding:9px 11px;border-bottom:1px solid #eee;vertical-align:top}
+  tr:nth-child(even) td{background:#fafafa}
+  td.c{color:var(--fx-d);font-weight:700;white-space:nowrap}
+
+  .cierre{text-align:center;padding:26px 20px;color:var(--grey);font-size:13px}
+  .cierre a{color:var(--fx-d);font-weight:600;text-decoration:none}
+  @media(max-width:560px){ .card{padding:20px;margin:14px} h1{font-size:23px} table{font-size:12.5px} th,td{padding:7px 8px} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="brand">
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <rect width="48" height="48" rx="13" fill="#fff"/>
+        <path d="M24 11c-4.6 0-8.3 3.7-8.3 8.3 0 6 8.3 17 8.3 17s8.3-11 8.3-17c0-4.6-3.7-8.3-8.3-8.3zm0 11.4a3.1 3.1 0 1 1 0-6.2 3.1 3.1 0 0 1 0 6.2z" fill="#E6007E"/>
+      </svg>
+      <div class="wm">Patagonia<span>Experiencias</span></div>
+    </div>
+    <p class="kick">Novedades para prestadores</p>
+    <h1>Mejoramos la carga.<br><span>Ahora en cinco pasos.</span></h1>
+    <p class="lead">Reordenamos el formulario y sumamos los datos que el turista pregunta antes de reservar. Nada de lo que ya cargaste se perdió.</p>
+  </div>
+
+  <!-- QUÉ CAMBIÓ -->
+  <div class="card">
+    <h2>Qué cambió</h2>
+    <p class="sub">Tres cosas, y ninguna te obliga a rehacer tu ficha.</p>
+
+    <h3>1. El formulario sigue el orden en que uno piensa</h3>
+    <p>Antes el sistema te pedía el precio antes de saber para cuántas personas era la unidad. Ahora primero describís qué ofrecés, después ponés el precio. Es el mismo orden que usan Booking y Airbnb: primero la habitación, después la tarifa.</p>
+
+    <h3>2. Los alojamientos tienen sus propios campos</h3>
+    <p>Hasta ahora un alojamiento se cargaba con los mismos campos que una excursión. Te pedía "duración en horas" cuando lo que vendés son noches, y te dejaba elegir "medio día" o "día completo", que no describen una estadía.</p>
+    <p>Eso se terminó: si elegís Alojamiento, la duración pasa a ser <strong>por noche</strong> automáticamente y aparecen los campos que sí corresponden.</p>
+
+    <h3>3. Sumamos datos que evitan llamados</h3>
+    <p>Cada dato que falta en tu ficha es un turista que no reserva o que te escribe para preguntar. Los campos nuevos son justamente los que más se preguntan.</p>
+
+    <div class="caja rosa">
+      <h4>Lo importante</h4>
+      <p>Todo lo que ya tenías cargado sigue igual: precios, temporadas, fotos, descripciones y fechas. Los campos nuevos están vacíos esperando que los completes, y podés hacerlo de a poco.</p>
+    </div>
+  </div>
+
+  <!-- LOS CINCO PASOS -->
+  <div class="card">
+    <h2><span class="n">1</span>Cómo se carga ahora</h2>
+    <p class="sub">El formulario está ordenado así, de arriba hacia abajo.</p>
+
+    <ol class="pasos">
+      <li><b>Qué publicás</b>Título, destino y categoría. Si es alojamiento o gastronomía, también el tipo de establecimiento.</li>
+      <li><b>Cómo es</b>Para alojamiento: tipo de unidad, capacidad, camas, horarios y noches mínimas. Para excursiones: duración, punto de encuentro y mínimo de pasajeros.</li>
+      <li><b>Cuánto sale</b>Precio base y, si corresponde, tarifa de niños.</li>
+      <li><b>Cuándo</b>Fechas disponibles y precios por temporada.</li>
+      <li><b>Cómo se ve</b>Descripción y fotos.</li>
+    </ol>
+  </div>
+
+  <!-- ALOJAMIENTO -->
+  <div class="card">
+    <h2><span class="n">2</span>Si cargás alojamiento</h2>
+    <p class="sub">Estos campos son nuevos. Completalos una vez y te ahorrás consultas todo el año.</p>
+
+    <table>
+      <tr><th>Campo</th><th>Qué poner</th></tr>
+      <tr><td class="c">Tipo de unidad</td><td>Qué estás publicando: habitación matrimonial, doble, cabaña, departamento, casa completa. Si tenés varios tipos, cargá una ficha por cada uno.</td></tr>
+      <tr><td class="c">Capacidad máxima</td><td>Cuántas personas entran realmente. Se completa sola según el tipo, pero corregila si hace falta.</td></tr>
+      <tr><td class="c">Camas</td><td>Qué camas hay. Por ejemplo: "1 matrimonial + 1 sofá cama".</td></tr>
+      <tr><td class="c">Check-in / check-out</td><td>Los horarios de entrada y salida.</td></tr>
+      <tr><td class="c">Noches mínimas</td><td>Cuántas noches como mínimo aceptás por reserva.</td></tr>
+    </table>
+
+    <div class="caja azul">
+      <h4>Por qué importa la capacidad</h4>
+      <p>Sin este dato, el sistema no sabe cuántos huéspedes permitir y deja reservar de más. Una habitación matrimonial podía recibir una reserva para cuatro personas.</p>
+      <p>Mientras no lo completes, el sistema limita a 2 personas por precaución. Si tu unidad recibe más, vas a estar perdiendo reservas hasta que lo cargues.</p>
+    </div>
+
+    <div class="caja azul">
+      <h4>Las noches mínimas te protegen</h4>
+      <p>Si no ponés nada, alguien puede reservarte una sola noche en el medio de un fin de semana largo y dejarte el resto sin vender. Poné 2 para fines de semana, o 3 si manejás feriados largos.</p>
+    </div>
+  </div>
+
+  <!-- EXCURSIONES -->
+  <div class="card">
+    <h2><span class="n">3</span>Si cargás excursiones</h2>
+    <p class="sub">Dos campos nuevos, pensados desde el lado de la agencia.</p>
+
+    <table>
+      <tr><th>Campo</th><th>Qué poner</th></tr>
+      <tr><td class="c">Punto de encuentro</td><td>Dónde empieza. Puede ser una dirección o "pasamos a buscar por el hotel".</td></tr>
+      <tr><td class="c">Mínimo de pasajeros</td><td>Con cuánta gente salís. Dejalo en 1 si podés salir con una sola persona.</td></tr>
+    </table>
+
+    <div class="caja verde">
+      <h4>Sobre el mínimo de pasajeros</h4>
+      <p>Las plataformas internacionales recomiendan ponerlo en 1 siempre que la operación lo permita, porque muchísima gente viaja sola y un mínimo alto corta ventas antes de que ocurran.</p>
+      <p>Si tu salida necesita cuatro personas para ser rentable, ponelo en cuatro. Pero revisá si de verdad es así, o si es una costumbre.</p>
+    </div>
+  </div>
+
+  <!-- ANTELACIÓN -->
+  <div class="card">
+    <h2><span class="n">4</span>Antelación mínima</h2>
+    <p class="sub">Este campo es para todos, alojamiento y excursiones.</p>
+    <p>Indica con cuántas horas de anticipación te tienen que reservar. Si lo dejás en cero, pueden reservarte para hoy mismo.</p>
+
+    <div class="caja verde">
+      <h4>Cuanto más bajo, más vendés</h4>
+      <p>Es tentador poner 48 horas para estar tranquilo, pero cada hora que pedís de más son reservas que se van a otro lado. Mucha gente resuelve el día anterior o el mismo día, sobre todo en temporada.</p>
+      <p>La referencia internacional: menos de 10 horas para salidas de mañana y menos de 4 para las de tarde. Poné el número más bajo que tu operación aguante sin que te compliques.</p>
+    </div>
+  </div>
+
+  <!-- TEMPORADAS -->
+  <div class="card">
+    <h2><span class="n">5</span>Precios por temporada</h2>
+    <p class="sub">Esto ya existía, pero poca gente lo usa. Vale la pena.</p>
+    <p>Podés cargar varias tarifas y decirle al sistema en qué meses rige cada una. Cuando el turista elige la fecha, el sistema aplica solo el precio correcto.</p>
+
+    <div class="caja rosa">
+      <h4>Un ejemplo</h4>
+      <p>Cargás "Temporada alta" a $250.000 marcando diciembre, enero y febrero. Y "Temporada baja" a $180.000 con el resto de los meses.</p>
+      <p>Si alguien reserva para el 20 de diciembre, paga la tarifa alta sin que vos hagas nada. Y ya podés dejar cargado el precio del verano aunque estemos en octubre: las reservas futuras salen bien.</p>
+    </div>
+
+    <p>Si no cargás ninguna temporada, rige tu precio base todo el año. No es obligatorio, pero si tenés temporada marcada te conviene usarlo.</p>
+  </div>
+
+  <!-- FOTOS -->
+  <div class="card">
+    <h2><span class="n">6</span>Dos cosas que mueven la aguja</h2>
+
+    <h3>Las fotos</h3>
+    <p>Las plataformas grandes piden al menos diez fotos horizontales y de buena calidad, y recomiendan poner las cuatro mejores primero, porque funcionan como el aviso de tu servicio. Si tenés tres fotos y una está borrosa, ahí hay una venta que se pierde antes de que lean el precio.</p>
+
+    <h3>La descripción</h3>
+    <p>Arrancá por lo que te hace distinto, no por la historia de la empresa. Párrafos cortos. Si pegás texto desde un PDF o un Word, revisá que no queden frases cortadas por la mitad.</p>
+  </div>
+
+  <div class="cierre">
+    <p>¿Dudas con algún campo? Escribinos y te ayudamos a completar tu ficha.</p>
+    <p style="margin-top:6px"><a href="https://patagoniaexperiencias.com">patagoniaexperiencias.com</a></p>
+  </div>
+
+</div>
+</body>
+</html>

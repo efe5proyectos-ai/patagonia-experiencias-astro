@@ -1143,6 +1143,38 @@ function embellecerTextoMagico(texto) {
   }).join('');
   return html;
 }
+// === Tipos de unidad de alojamiento ===
+// Respaldo para las fichas viejas que se cargaron antes de que el
+// panel pidiera la capacidad. Sin esto el tope quedaba en 99 y una
+// habitacion matrimonial aceptaba 4 huespedes.
+const TIPOS_UNIDAD = {
+  habitacion_matrimonial: ['Habitacion matrimonial', 2],
+  habitacion_doble: ['Habitacion doble', 2],
+  habitacion_triple: ['Habitacion triple', 3],
+  habitacion_cuadruple: ['Habitacion cuadruple', 4],
+  habitacion_familiar: ['Habitacion familiar', 5],
+  suite: ['Suite', 2],
+  cabania: ['Cabana', 4],
+  departamento: ['Departamento', 4],
+  casa: ['Casa completa', 6],
+  domo: ['Domo o glamping', 2],
+  dormitorio: ['Plaza en dormitorio compartido', 1],
+  otro: ['Unidad', 2]
+};
+function nombreTipoUnidad(tipo) {
+  return (TIPOS_UNIDAD[tipo] && TIPOS_UNIDAD[tipo][0]) || '';
+}
+// Tope de personas de una unidad. Prioridad: lo que cargo el prestador,
+// despues lo que sugiere el tipo, y como ultimo recurso 2 (no 99: es
+// preferible que el turista pregunte a que reserve de mas).
+function topeDeUnidad(tour) {
+  if (!tour) return 2;
+  const cargada = Number(tour.capacidadMax);
+  if (cargada > 0) return cargada;
+  const porTipo = TIPOS_UNIDAD[tour.tipoUnidad] && TIPOS_UNIDAD[tour.tipoUnidad][1];
+  if (porTipo > 0) return porTipo;
+  return 2;
+}
 // === Normaliza texto pegado desde PDF / Word ===
 // Repara saltos de linea duros a mitad de oracion (wrap de la columna
 // original) y vinetas que quedaron solas en su propia linea.
@@ -5608,9 +5640,9 @@ function TourDetailPage({
     className: "font-bold text-base w-4 text-center text-brand-dark"
   }, viajeros.adultos), React.createElement("button", {
     onClick: () => {
-      const max = Number(tour.capacidadMax) || 99;
+      const max = topeDeUnidad(tour);
       if (viajeros.adultos >= max) {
-        setErrorMsg(`Capacidad máxima: ${max} personas.`);
+        setErrorMsg(`Esta unidad acepta hasta ${max} ${max === 1 ? 'persona' : 'personas'}.`);
         setTimeout(() => setErrorMsg(''), 3000);
         return;
       }
@@ -5621,11 +5653,11 @@ function TourDetailPage({
       }));
     },
     className: "w-8 h-8 rounded-lg border border-slate-300 flex items-center justify-center hover:bg-slate-800 hover:text-white text-slate-500 font-bold transition-all shadow-sm"
-  }, "+"))), tour.capacidadMax && React.createElement("p", {
+  }, "+"))), React.createElement("p", {
     className: "text-[10px] text-blue-600 font-semibold leading-relaxed"
   }, React.createElement("i", {
     className: "fa-solid fa-circle-info mr-1"
-  }), "Esta unidad acepta hasta ", tour.capacidadMax, " personas. El precio es por la unidad completa, no por persona.")) : React.createElement(React.Fragment, null, React.createElement("div", {
+  }), nombreTipoUnidad(tour.tipoUnidad) ? nombreTipoUnidad(tour.tipoUnidad) + ': hasta ' : 'Esta unidad acepta hasta ', topeDeUnidad(tour), topeDeUnidad(tour) === 1 ? ' persona.' : ' personas.', tour.camas ? ' ' + tour.camas + '.' : '', " El precio es por la unidad completa, no por persona.")) : React.createElement(React.Fragment, null, React.createElement("div", {
     className: "p-4 border-b border-slate-200 flex justify-between items-center group hover:bg-slate-50 transition-colors"
   }, React.createElement("div", null, React.createElement("p", {
     className: "text-xs font-bold text-slate-800 uppercase tracking-wide group-hover:text-brand-fuchsia transition-colors"

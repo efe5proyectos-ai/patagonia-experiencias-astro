@@ -773,7 +773,31 @@ $("altaForm").addEventListener("submit", async function (ev) {
     return;
   }
 
-  // 4) Exito
+  // 4) Correo de bienvenida: mismo webhook de Make que el resto de los registros
+  //    (escenario "Bienvenida Prestadores"). Solo para altas nuevas; va por la rama
+  //    "Registro normal" porque bonificado = false. Si falla, el alta no se interrumpe.
+  if (!existing) {
+    try {
+      fetch("https://hook.us2.make.com/cp2fgy5e6u898t3ziy46m1hp2o2yr7xp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nombreAgencia: empresa || "Prestador",
+          email: emailAuth,
+          rubro: rubro,
+          plan: CONFIG.plan,
+          origen: "registro_agencias",
+          campania: CONFIG.campania,
+          referencia: REF || "directo",
+          bonificado: false,
+          adhierePuntos: adhierePuntos,
+          fecha: new Date().toISOString()
+        })
+      }).catch(function (e) { console.warn("[registro] webhook bienvenida:", e); });
+    } catch (e) { console.warn("[registro] webhook bienvenida:", e); }
+  }
+
+  // 5) Exito
   $("okmail").textContent = emailAuth;
   if (adhierePuntos) $("okPuntos").style.display = "flex";
   var dest = PANEL_URL + (PANEL_URL.indexOf("?") >= 0 ? "&" : "?") + "origen=registro_agencias";

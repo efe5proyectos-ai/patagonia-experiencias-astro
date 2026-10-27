@@ -1,0 +1,58 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // ── Quién puede subir ─────────────────────────────────────────
+    // El sitio público inicia sesión ANÓNIMA a cada visitante: con
+    // "request.auth != null" cualquier visitante podía subir, pisar o
+    // BORRAR fotos de tours, banners y agencias. Ahora solo cuentas
+    // reales (Google / email): admin y prestadores.
+    function cuentaReal() {
+      return request.auth != null
+          && request.auth.token.firebase.sign_in_provider != 'anonymous';
+    }
+    // Cualquier imagen (incluye HEIC de iPhone) menos SVG (un SVG puede llevar código).
+    function imagen(maxMB) {
+      return request.resource.size < maxMB * 1024 * 1024
+          && request.resource.contentType.matches('image/.*')
+          && !request.resource.contentType.matches('image/svg.*');
+    }
+    function video(maxMB) {
+      return request.resource.size < maxMB * 1024 * 1024
+          && request.resource.contentType.matches('video/.*');
+    }
+    // Subir/reemplazar: validar el archivo. Borrar: solo cuenta real.
+    function subeImagen(maxMB) {
+      return cuentaReal() && (request.resource == null || imagen(maxMB));
+    }
+    function subeImagenOVideo() {
+      return cuentaReal() && (request.resource == null || imagen(5) || video(50));
+    }
+
+    match /{allPaths=**} {
+      allow read: if true;
+    }
+
+    match /tours/{file}     { allow write: if subeImagen(5); }
+    match /articulos/{file} { allow write: if subeImagen(5); }
+    match /agencias/{file}  { allow write: if subeImagen(5); }
+    match /general/{file}   { allow write: if subeImagen(5); }
+    match /guias/{file}     { allow write: if subeImagen(5); }
+    match /push/{file}      { allow write: if subeImagen(1); }
+    match /medios/{file}    { allow write: if subeImagenOVideo(); }
+    match /banners/{file}   { allow write: if subeImagenOVideo(); }
+
+    // ── Imagen del beneficio en registro-agencias y alianzas ──────
+    // Antes NO tenía regla y caía en "write: false": la subida fallaba.
+    // Cada agencia solo escribe en su propia carpeta (su uid).
+    match /solicitudes_beneficios/{uid}/{file} {
+      allow write: if cuentaReal()
+                   && request.auth.uid == uid
+                   && (request.resource == null || imagen(5));
+    }
+
+    match /{path=**} {
+      allow write: if false;
+    }
+  }
+}

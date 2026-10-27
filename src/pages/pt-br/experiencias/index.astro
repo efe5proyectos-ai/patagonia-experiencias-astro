@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Tarjeta from '../../../components/TarjetaPt.astro';
-import { obtenerExperienciasPt } from '../../../lib/traducciones.js';
+import { obtenerExperienciasPt, WHATSAPP } from '../../../lib/traducciones.js';
 const exps = await obtenerExperienciasPt();
 const alternos = exps.length ? { es: 'https://patagoniaexperiencias.com/experiencias/', pt: 'https://patagoniaexperiencias.com/pt-br/experiencias/' } : null;
 const schema = { '@context': 'https://schema.org', '@type': 'ItemList', inLanguage: 'pt-BR',
@@ -11,7 +11,18 @@ const schema = { '@context': 'https://schema.org', '@type': 'ItemList', inLangua
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <p class="text-brand-fuchsia text-xs font-black uppercase tracking-[0.3em] mb-3"><i class="fa-solid fa-circle-check mr-2"></i>Catálogo verificado</p>
     <h1 class="font-sans font-extrabold text-3xl sm:text-5xl leading-tight mb-4 text-brand-oxford">Passeios na Patagônia argentina</h1>
-    <p class="text-slate-600 text-lg max-w-3xl mb-10">Excursões com operadores locais de Chubut e da região. Os valores estão em pesos argentinos e você reserva online com pagamento seguro pelo Mercado Pago.</p>
+    <p class="text-slate-600 text-lg max-w-3xl mb-10">Excursões com operadores locais de Chubut e da região. Os valores estão em pesos argentinos. Você reserva pelo WhatsApp, com atendimento em português, ou online pelo Mercado Pago.</p>
+    <div class="mb-10 rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center gap-4 justify-between">
+      <div>
+        <p class="font-sans font-extrabold text-lg text-brand-oxford">Prefere reservar com ajuda?</p>
+        <p class="text-sm text-slate-600 mt-1">Atendimento em português: confirmamos a vaga com o operador e enviamos o link de pagamento.</p>
+      </div>
+      <a href={`https://wa.me/${WHATSAPP.pt}?text=${encodeURIComponent('Olá! Quero reservar um passeio na Patagônia. Podem me ajudar?')}`}
+         target="_blank" rel="noopener noreferrer"
+         class="shrink-0 inline-flex items-center justify-center gap-2.5 bg-[#25D366] hover:bg-[#1ebe5b] text-white font-extrabold text-sm px-6 py-3.5 rounded-xl transition-all">
+        <i class="fa-brands fa-whatsapp text-xl"></i> Falar no WhatsApp
+      </a>
+    </div>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       {exps.map((e) => <Tarjeta e={e} />)}
     </div>

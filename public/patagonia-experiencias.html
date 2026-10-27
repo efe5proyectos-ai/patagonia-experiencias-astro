@@ -179,6 +179,7 @@
     <!-- Leaflet (OpenStreetMap) - mapa interactivo gratis sin API key. Diferido: no bloquea el render inicial. -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" media="print" onload="this.media='all'" />
     <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="/js/purify.min.js"></script>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
@@ -1037,6 +1038,41 @@ const buildPrestadorUrl = (prestador, allPrestadores, codigo = null) => {
   const codigoQS = codigo ? `?codigo=${encodeURIComponent(codigo)}` : '';
   return `${base}#prestador/${slug}${codigoQS}`;
 };
+// === Seguridad (U5): todo HTML cargado por admin/prestadores pasa por acá ===
+// DOMPurify (/js/purify.min.js) quita scripts, eventos on*, javascript: y similares.
+// Se permiten iframes solo de YouTube, Vimeo y Google Maps (videos y mapas en banners/notas).
+const IFRAME_OK = /^https:\/\/(www\.)?(youtube\.com|youtube-nocookie\.com|player\.vimeo\.com|google\.com\/maps|maps\.google\.com)\//i;
+let _purifyListo = false;
+function prepararPurify() {
+  if (_purifyListo || !window.DOMPurify) return !!window.DOMPurify;
+  window.DOMPurify.addHook('uponSanitizeElement', function (nodo, data) {
+    if (data.tagName === 'iframe') {
+      const src = nodo.getAttribute('src') || '';
+      if (!IFRAME_OK.test(src)) nodo.parentNode && nodo.parentNode.removeChild(nodo);
+    }
+  });
+  window.DOMPurify.addHook('afterSanitizeAttributes', function (nodo) {
+    if (nodo.tagName === 'A' && nodo.getAttribute('target') === '_blank') nodo.setAttribute('rel', 'noopener noreferrer');
+  });
+  _purifyListo = true;
+  return true;
+}
+function sanearHtml(html) {
+  if (html === null || html === undefined) return '';
+  html = String(html);
+  if (!html) return '';
+  if (prepararPurify()) {
+    return window.DOMPurify.sanitize(html, {
+      ADD_TAGS: ['iframe'],
+      ADD_ATTR: ['target', 'allow', 'allowfullscreen', 'frameborder', 'loading'],
+      FORBID_TAGS: ['style', 'form', 'input', 'button', 'textarea', 'select']
+    });
+  }
+  // Respaldo si /js/purify.min.js no cargó: texto plano con saltos de línea
+  const d = document.createElement('div');
+  d.textContent = html.replace(/<br\s*\/?>/gi, '\n').replace(/<\/(p|div|li|h[1-6])>/gi, '\n').replace(/<[^>]+>/g, '');
+  return d.innerHTML.replace(/\n/g, '<br>');
+}
 function renderMarkdown(texto) {
   if (!texto || typeof texto !== 'string') return '';
   let safe = texto.replace(/<script[\s\S]*?<\/script>/gi, '').replace(/\son\w+\s*=\s*"[^"]*"/gi, '').replace(/\son\w+\s*=\s*'[^']*'/gi, '');
@@ -3467,7 +3503,7 @@ function BannerSlot({
       return React.createElement("div", {
         className: "w-full h-full overflow-hidden",
         dangerouslySetInnerHTML: {
-          __html: banner.contenido
+          __html: sanearHtml(banner.contenido)
         }
       });
     }
@@ -3602,7 +3638,7 @@ function BannerSlotSingle({
       return React.createElement("div", {
         className: "w-full h-full overflow-hidden",
         dangerouslySetInnerHTML: {
-          __html: banner.contenido
+          __html: sanearHtml(banner.contenido)
         }
       });
     }
@@ -3714,7 +3750,7 @@ function BannerBillboard({
       return React.createElement("div", {
         className: "w-full",
         dangerouslySetInnerHTML: {
-          __html: banner.contenido
+          __html: sanearHtml(banner.contenido)
         }
       });
     }
@@ -5011,7 +5047,7 @@ function TourDetailPage({
     }), " Sobre este lugar"), React.createElement("p", {
       className: "text-slate-600 text-sm leading-relaxed",
       dangerouslySetInnerHTML: {
-        __html: limpiarTextoWord(tour.descripcionLarga) || ''
+        __html: sanearHtml(limpiarTextoWord(tour.descripcionLarga) || '')
       }
     }))), React.createElement("div", {
       className: "lg:col-span-1"
@@ -5336,7 +5372,7 @@ function TourDetailPage({
   }), " La Experiencia"), React.createElement("div", {
     className: "rich-text font-body text-slate-600 text-sm md:text-base leading-relaxed",
     dangerouslySetInnerHTML: {
-      __html: formatearTextoMagico(limpiarTextoWord(tour.descripcionLarga))
+      __html: sanearHtml(formatearTextoMagico(limpiarTextoWord(tour.descripcionLarga)))
     }
   }), React.createElement(TourTemporada, {
     tour: tour
@@ -5359,7 +5395,7 @@ function TourDetailPage({
   }), " Términos y Condiciones de esta experiencia"), React.createElement("div", {
     className: "rte-render text-blue-900/90 text-sm leading-relaxed",
     dangerouslySetInnerHTML: {
-      __html: tour.terminosExcursion
+      __html: sanearHtml(tour.terminosExcursion)
     }
   })), tour.tips && React.createElement("div", {
     className: "mt-8 bg-amber-50/50 border border-amber-100 rounded-2xl p-6 flex flex-col sm:flex-row gap-4 items-start shadow-sm"
@@ -6790,7 +6826,7 @@ function ArticleView({
   }), React.createElement("div", {
     className: "article-body max-w-3xl mb-16",
     dangerouslySetInnerHTML: {
-      __html: autoVincularTours(renderNota(article.contenido), allTours)
+      __html: sanearHtml(autoVincularTours(renderNota(article.contenido), allTours))
     }
   }), article.videoUrl && (() => {
     const url = article.videoUrl.trim();

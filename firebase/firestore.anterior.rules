@@ -1,0 +1,275 @@
+rules_version = '2';
+// =============================================================================
+// PATAGONIA PUNTOS — Reglas Firestore (v3)
+// AIKE + NOVEDADES + PREREGISTRO CAT + CRM/UNIFICACIÓN
+// [+] push_turistas: tokens FCM de visitantes (alta pública, lectura solo admin)
+// [+] resenas: se crean en estado 'pendiente' (moderación previa del admin)
+// =============================================================================
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAdmin() {
+      return request.auth != null
+          && request.auth.token.email_verified == true
+          && request.auth.token.email.lower() in [
+               'patagoniapuntos@gmail.com',
+               'efe5proyectos@gmail.com'
+             ];
+    }
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    function isVerifiedUser() {
+      return request.auth != null
+          && request.auth.token.email_verified == true
+          && request.auth.token.email != null;
+    }
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+    match /artifacts/{appId} {
+      match /users/{userId}/perfil/{docId} {
+        allow read, write: if isOwner(userId) || isAdmin();
+      }
+      match /public/data/{document=**} {
+        allow read: if isAdmin();
+        allow write: if isAdmin();
+      }
+      match /public/data/tours/{tourId} {
+        allow read: if true;
+        allow create: if isAdmin()
+                      || (isVerifiedUser() && request.resource.data.proveedorId == request.auth.uid);
+        allow update: if isAdmin()
+                      || (isVerifiedUser() && resource.data.proveedorId == request.auth.uid)
+                      || request.resource.data.diff(resource.data).affectedKeys()
+                         .hasOnly(['visitas', 'visitasPorMes', 'likesReales']);
+        allow delete: if isAdmin()
+                      || (isVerifiedUser() && resource.data.proveedorId == request.auth.uid);
+      }
+      // ----- RESERVAS -----
+      match /public/data/reservas/{reservaId} {
+        allow read: if isAdmin()
+                    || (isVerifiedUser()
+                        && resource.data.clienteEmail.lower() == request.auth.token.email.lower())
+                    || (isVerifiedUser()
+                        && resource.data.proveedorId == request.auth.uid);
+        allow create: if (
+                          isVerifiedUser()
+                          && request.resource.data.clienteEmail is string
+                          && request.resource.data.clienteEmail.lower() == request.auth.token.email.lower()
+                          && request.resource.data.tourId is string
+                          && request.resource.data.tourId.size() > 0
+                          && request.resource.data.estado in [
+                               'Pendiente de pago',
+                               'Pagado',
+                               'Pendiente (En destino)',
+                               'Cancelada'
+                             ]
+                        ) || (
+                          request.resource.data.origen == 'aike'
+                          && request.resource.data.tipo == 'paquete_aike'
+                          && request.resource.data.clienteEmail is string
+                          && request.resource.data.clienteEmail.size() > 0
+                          && request.resource.data.tourId is string
+                          && request.resource.data.tourId.size() > 0
+                          && request.resource.data.estado == 'Pendiente de pago'
+                        );
+        allow update: if isAdmin()
+                      || (isVerifiedUser()
+                          && resource.data.clienteEmail.lower() == request.auth.token.email.lower())
+                      || (isVerifiedUser()
+                          && resource.data.proveedorId == request.auth.uid)
+                      || (resource.data.origen == 'aike'
+                          && request.resource.data.diff(resource.data).affectedKeys()
+                             .hasOnly(['estado', 'paymentId', 'fechaPago', 'purchaseTrackeado']));
+        allow delete: if isAdmin();
+      }
+      // ----- SOLICITUDES DE PRESTADORES / AGENCIAS -----
+      match /public/data/solicitudes_prestadores/{prestadorId} {
+        allow read: if true;
+        allow create: if isVerifiedUser()
+                      || (
+                           request.resource.data.origen == 'catchubut'
+                           && request.resource.data.campania == 'CAT_CHUBUT_2026'
+                           && request.resource.data.estado == 'preregistro'
+                           && request.resource.data.bonificado == true
+                           && request.resource.data.email is string
+                           && request.resource.data.email.matches('[^@]+@[^@]+[.][^@]+')
+                           && request.resource.data.empresa is string
+                           && request.resource.data.empresa.size() > 0
+                           && request.resource.data.empresa.size() <= 200
+                           && request.resource.data.responsable is string
+                           && request.resource.data.responsable.size() > 0
+                         )
+                      || (
+                           request.resource.data.origen == 'cattdf'
+                           && request.resource.data.campania == 'CAT_TDF_2026'
+                           && request.resource.data.estado == 'preregistro'
+                           && request.resource.data.bonificado == true
+                           && request.resource.data.email is string
+                           && request.resource.data.email.matches('[^@]+@[^@]+[.][^@]+')
+                           && request.resource.data.empresa is string
+                           && request.resource.data.empresa.size() > 0
+                           && request.resource.data.empresa.size() <= 200
+                           && request.resource.data.responsable is string
+                           && request.resource.data.responsable.size() > 0
+                         );
+        allow update: if isAdmin()
+                      || (
+                           isOwner(prestadorId)
+                           && !request.resource.data.diff(resource.data).affectedKeys()
+                                 .hasAny([
+                                   'plan', 'planElegido', 'estado',
+                                   'bonificado', 'esBonificada', 'mesesBonificados',
+                                   'bonificacionPeriodo', 'comisionPct', 'acuerdo'
+                                 ])
+                         );
+        allow delete: if isAdmin();
+      }
+      // ----- SOLICITUDES GASTRONÓMICAS -----
+      match /public/data/solicitudes_gastronomia/{solicitudId} {
+        allow read: if isAdmin();
+        allow create: if request.resource.data.estado == 'pendiente_revision'
+                      && request.resource.data.categoria == 'gastronomia'
+                      && request.resource.data.nombre is string
+                      && request.resource.data.nombre.size() > 0
+                      && request.resource.data.nombre.size() <= 200
+                      && request.resource.data.emailComercial is string
+                      && request.resource.data.emailComercial.matches('[^@]+@[^@]+[.][^@]+')
+                      && request.resource.data.responsable is string
+                      && request.resource.data.responsable.size() > 0
+                      && request.resource.data.aceptaCondiciones == true;
+        allow update, delete: if isAdmin();
+      }
+      match /public/data/articulos/{articuloId} {
+        allow read: if true;
+        allow create, delete: if isAdmin();
+        allow update: if isAdmin()
+                      || request.resource.data.diff(resource.data).affectedKeys()
+                         .hasOnly(['lecturas']);
+      }
+      match /public/data/codigos_descuento/{codigoId} {
+        allow read: if true;
+        allow create, delete: if isAdmin();
+        allow update: if isAdmin()
+                      || (isVerifiedUser()
+                          && request.resource.data.diff(resource.data).affectedKeys()
+                             .hasOnly(['usosActuales', 'emailsUsados']));
+      }
+      // ----- RESEÑAS (con moderación: se crean en 'pendiente') -----
+      match /public/data/resenas/{resenaId} {
+        allow read: if true;
+        allow create: if isVerifiedUser()
+                      && request.resource.data.usuarioId == request.auth.uid
+                      && request.resource.data.usuarioEmail.lower() == request.auth.token.email.lower()
+                      && request.resource.data.estado == 'pendiente'
+                      && request.resource.data.tourId is string
+                      && request.resource.data.tourId.size() > 0
+                      && request.resource.data.rating is number
+                      && request.resource.data.rating >= 1
+                      && request.resource.data.rating <= 5
+                      && request.resource.data.texto is string
+                      && request.resource.data.texto.size() >= 10
+                      && request.resource.data.texto.size() <= 500;
+        allow update: if isAdmin()
+                      || (isVerifiedUser()
+                          && resource.data.proveedorId == request.auth.uid
+                          && request.resource.data.diff(resource.data).affectedKeys()
+                             .hasOnly(['respuestaPrestador', 'fechaRespuesta']));
+        allow delete: if isAdmin()
+                      || (isVerifiedUser() && resource.data.proveedorId == request.auth.uid);
+      }
+      // === SUSCRIPCIONES PUSH (tokens FCM de visitantes) ===
+      match /public/data/push_turistas/{token} {
+        allow read: if isAdmin();
+        allow create, update: if request.resource.data.token is string
+                              && request.resource.data.token.size() > 0
+                              && request.resource.data.token.size() <= 300
+                              && request.resource.data.activo is bool;
+        allow delete: if isAdmin();
+      }
+      // === Eventos de AIKE ===
+      match /public/data/aike_eventos/{eventoId} {
+        allow read: if isAdmin();
+        allow create: if request.resource.data.keys().hasOnly(['sessionId','tipo','datos','fecha','ts','ua'])
+                      && request.resource.data.sessionId is string
+                      && request.resource.data.sessionId.size() <= 60
+                      && request.resource.data.tipo is string
+                      && request.resource.data.tipo.size() <= 40
+                      && request.resource.data.ts is number;
+        allow update, delete: if isAdmin();
+      }
+      // === Eventos del SITIO ===
+      match /public/data/eventos_sitio/{eventoId} {
+        allow read: if isAdmin();
+        allow create: if request.resource.data.sessionId is string
+                      && request.resource.data.sessionId.size() <= 60
+                      && request.resource.data.tipo is string
+                      && request.resource.data.tipo.size() <= 40
+                      && request.resource.data.ts is number;
+        allow update, delete: if isAdmin();
+      }
+      match /public/data/historial_puntos/{movimientoId} {
+        allow read: if isAdmin()
+                    || (isVerifiedUser() && resource.data.proveedorUid == request.auth.uid);
+        allow create: if isAdmin()
+                      || (isVerifiedUser() && request.resource.data.proveedorUid == request.auth.uid);
+        allow update, delete: if isAdmin();
+      }
+      match /public/data/notificaciones/{notiId} {
+        allow read: if isAdmin()
+                    || (isVerifiedUser() && resource.data.destinatarioUid == request.auth.uid);
+        allow create: if isVerifiedUser()
+                      && request.resource.data.destinatarioUid is string
+                      && request.resource.data.destinatarioUid.size() > 0
+                      && request.resource.data.tipo is string
+                      && request.resource.data.fechaCreacion is string
+                      && request.resource.data.leida == false;
+        allow update: if isAdmin()
+                      || (isVerifiedUser()
+                          && resource.data.destinatarioUid == request.auth.uid
+                          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['leida']));
+        allow delete: if isAdmin();
+      }
+      match /public/data/configuracion/{configId} {
+        allow read: if true;
+        allow write: if isAdmin();
+      }
+      match /public/data/config/{configId} {
+        allow read: if true;
+        allow write: if isAdmin();
+      }
+      match /public/data/banners/{bannerId} {
+        allow read: if true;
+        allow write: if isAdmin();
+      }
+      match /public/data/novedades/{novedadId} {
+        allow read: if true;
+        allow write: if isAdmin();
+      }
+      match /public/data/guias/{guiaId} {
+        allow read: if true;
+        allow write: if isAdmin();
+      }
+      match /public/data/pagos_suscripciones/{pagoId} {
+        allow read: if isAdmin();
+        allow write: if isAdmin();
+      }
+      match /public/data/ventas_guias/{ventaId} {
+        allow get: if true;
+        allow list: if isAdmin();
+        allow create: if request.resource.data.clienteEmail is string
+                      && request.resource.data.clienteEmail.size() > 0
+                      && request.resource.data.guiaId is string
+                      && request.resource.data.guiaId.size() > 0
+                      && request.resource.data.estado == 'Pendiente de pago';
+        allow update: if isAdmin()
+                      || request.resource.data.diff(resource.data).affectedKeys()
+                         .hasOnly(['estado', 'paymentId', 'fechaPago', 'purchaseTrackeado']);
+        allow delete: if isAdmin();
+      }
+    }
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

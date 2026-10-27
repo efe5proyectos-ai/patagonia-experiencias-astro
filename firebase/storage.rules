@@ -11,10 +11,11 @@ service firebase.storage {
       return request.auth != null
           && request.auth.token.firebase.sign_in_provider != 'anonymous';
     }
-    // Imágenes comunes, sin SVG (un SVG puede llevar código).
+    // Cualquier imagen (incluye HEIC de iPhone) menos SVG (un SVG puede llevar código).
     function imagen(maxMB) {
       return request.resource.size < maxMB * 1024 * 1024
-          && request.resource.contentType.matches('image/(jpeg|jpg|png|webp|gif|avif)');
+          && request.resource.contentType.matches('image/.*')
+          && !request.resource.contentType.matches('image/svg.*');
     }
     function video(maxMB) {
       return request.resource.size < maxMB * 1024 * 1024

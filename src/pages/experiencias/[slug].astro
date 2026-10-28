@@ -49,6 +49,9 @@ const schema = [
       <nav class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-6" aria-label="Migas de pan">
         <a href="/" class="hover:text-brand-fuchsia">Inicio</a> <span class="mx-1">›</span> <a href="/experiencias/" class="hover:text-brand-fuchsia">Experiencias</a>
       </nav>
+      {!exp.imagen && (
+        <h1 class="font-sans font-extrabold text-3xl sm:text-4xl text-brand-oxford leading-tight mb-6">{exp.titulo}</h1>
+      )}
       <div class="flex flex-wrap gap-3 mb-8 text-xs font-bold uppercase tracking-widest text-slate-500">
         <span class="bg-white border border-slate-200 rounded-full px-4 py-2"><i class="fa-solid fa-location-dot mr-1.5 text-brand-fuchsia"></i>{exp.destino}</span>
         {etiquetaDuracion && <span class="bg-white border border-slate-200 rounded-full px-4 py-2"><i class="fa-regular fa-clock mr-1.5 text-brand-fuchsia"></i>{etiquetaDuracion}</span>}

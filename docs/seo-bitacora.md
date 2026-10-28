@@ -116,6 +116,15 @@ Reglas de la bitácora:
    la herramienta de resultados enriquecidos; corregir lo que tire error.
 8. **Core Web Vitals.** Las páginas de `public/` cargan Tailwind por CDN y
    compilan en el navegador; las guías tienen imágenes pesadas.
+
+   Medido el 28/10: `/aike` (77 KB) y `/prestadores` (74 KB) **no traen ni un
+   encabezado en el HTML**: todo el contenido lo arma JavaScript (282 y 301
+   llamadas a `createElement`/`innerHTML`). Google renderiza JS, pero llega
+   tarde y pierde señales. `/calendario-fauna/` sí trae el `<h1>` pero **vacío**,
+   lo rellena el script. Las tres están en el sitemap. Lo barato y seguro es
+   dejar el título y el primer párrafo escritos en el HTML y que el script sólo
+   los reemplace si hace falta; no es cambio de diseño, pero hay que leer bien
+   cada render antes de tocar.
 9. **Páginas huérfanas que sí valen.** `/cuotas` quedó indexable el 28/10 pero
    sigue sin recibir un solo enlace interno: Google la ve sólo por el sitemap.
    Lo mismo `/aike`, `/ecosistema` y `/alianzas`. Falta un enlace desde el footer
@@ -146,9 +155,12 @@ Reglas de la bitácora:
   `ecosistema`, `preregistro`, `preregistrotdf`, `privacidad`,
   `sumar-gastronomia` y `terminos`.
 - **28/10/2026** — H1 de respaldo en las fichas sin foto. El único `<h1>` vivía
-  dentro del hero, que sólo se renderiza si hay imagen, así que esas fichas
-  salían sin ningún H1 (dos en producción: `safari-lacustre-al-alerce-milenario-cleona`
-  y `panoramicas-de-esquel-com-degustacao-de-erva-mate`).
+  dentro del bloque del hero, que sólo se renderiza si la experiencia tiene
+  imagen: una ficha sin foto se publicaba sin ningún H1. Es un arreglo
+  preventivo — **hoy no hay ninguna ficha sin foto en producción**. El commit
+  dice que dos fichas estaban afectadas y eso está mal: esas dos URLs me dieron
+  una respuesta cortada en el rastreo y las leí como si no tuvieran H1. Vale el
+  arreglo, no el diagnóstico.
 - **28/10/2026** — Página 404 propia. Hasta ese día cualquier URL inexistente
   devolvía 200 con la home: soft 404 masivo.
 - **28/10/2026** — GA4 y Pixel instalados en las páginas de Astro, que no tenían
@@ -194,3 +206,14 @@ Eso no se puede arreglar desde el código: es decisión de catálogo (consolidar
 diferenciar). Las tres páginas de pago necesitan `noindex` y son zona prohibida,
 también anotadas. Bing sigue devolviendo 403 en IndexNow (Yandex aceptó bien el
 aviso de `/cuotas`); falta reclamar el sitio en Bing Webmaster Tools.
+
+**Corrección sobre el H1 (misma corrida).** Al verificar el deploy encontré que
+dos de las URLs del rastreo me habían devuelto una respuesta cortada (1,3 KB y
+8 KB contra una mediana de 22 KB), y las leí como fichas sin H1. No lo eran. El
+arreglo que subí igual sirve, porque el bug del template es real: si una
+experiencia no tiene foto, no se renderiza ningún H1. Pero hoy no hay ninguna
+ficha así en producción, así que no esperes ningún movimiento por este cambio.
+Lo que sí es real y quedó anotado en el pendiente 8: `/aike` y `/prestadores` no
+tienen ningún encabezado en el HTML servido y `/calendario-fauna/` lo tiene
+vacío. **Para la próxima corrida: el rastreo tiene que validar el tamaño de cada
+respuesta antes de concluir que a una página le falta algo.**

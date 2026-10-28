@@ -58,21 +58,56 @@ Reglas de la bitácora:
   de las páginas no indexadas y las búsquedas reales de Argentina y Brasil.
 - Reclamar el sitio en Bing Webmaster Tools (se importa desde Search Console),
   para destrabar IndexNow en Bing.
+- **Tours repetidos en el catálogo.** Hay 7 grupos de fichas distintas que
+  publican exactamente el mismo texto, así que para Google son la misma página
+  y compiten entre ellas. Hay que decidir, grupo por grupo, si se consolidan en
+  una ficha o si cada una cuenta algo propio (qué incluye, qué no, qué prestador):
+  1. `bosque-de-alerces-milenarios-glaxiar` / `safari-lacustre-bosque-de-alerces-milenarios-glaxiar` / `safari-lacustre-al-alerce-milenario-cleona`
+  2. `comarca-andina-full-day` / `comarca-andina` / `valle-de-cholila`
+  3. `ruta-galesa-con-complejo-hidroelectrico-futaleufu` / `…-con-visita-al-campo-de-tulipanes` / `…-con-visita-al-campo-de-peonias`
+  4. `ruta-galesa-con-peonias` / `ruta-galesa-medio-dia-con-visita-al-campo-de-peonias`
+  5. `ruta-galesa-half-day` / `ruta-galesa-trevelin`
+  6. `turismo-ancestral-sierra-colorada-lago-rosario` / `turismo-ancestral-sierra-colorada-y-lago-rosario`
+  7. `alquiler-equipo-de-ski-por-1-dia` / `alquiler-equipo-de-ski-por-3-dias`
+  Es catálogo, no código: la corrida automática no lo toca.
+- **Las tres páginas de pago** (`pago-confirmado`, `pago-pendiente`, `pago-rechazado`)
+  sirven 200 y son rastreables, sin `noindex`. Deberían llevar `noindex, follow`:
+  son pantallas de resultado de una compra, no tienen nada que buscar y pueden
+  aparecer en Google con un pedido ajeno. El cambio es una sola línea de `<meta>`
+  en el `<head>` y no toca el flujo de Mercado Pago, pero son zona prohibida:
+  hace falta tu OK para tocarlas.
+- `guia-peninsula-valdes-lite.html` tenía el `<link rel="canonical">` apuntando a
+  **patagoniamagazine.com.ar**. Quedó en `noindex`, así que ya no regala
+  autoridad, pero conviene revisar si quedaron más canónicas cruzadas entre los
+  dos dominios.
 
 ## Pendientes (en orden de impacto)
 
-1. **Las 147 páginas no indexadas.** Sacar el detalle por motivo (duplicadas sin
-   canónica, rastreada sin indexar, descubierta sin rastrear, soft 404, excluida
-   por noindex) y atacar el motivo más numeroso. Es lo que más tráfico libera.
+1. **Las 147 páginas no indexadas.** Sin Search Console conectado no se puede
+   sacar el detalle por motivo. Lo que sí se hizo (28/10) es la auditoría desde
+   el otro lado: cruzar las 49 páginas de `public/` contra las 240 del sitemap.
+   Aparecieron 13 rastreables fuera del sitemap y sin ningún enlace interno; ya
+   están resueltas (ver "Hecho"). **Lo que queda del 147 es casi seguro el
+   contenido duplicado del catálogo**: ver los 7 grupos anotados en
+   "Para Marcelo". Hasta tener Search Console, ése es el camino.
 2. **Slugs duplicados entre prestadores.** Dos agencias que venden el mismo tour
    comparten la misma URL, así que cuál precio se muestra es indeterminado y
    Google ve contenido que cambia solo. Hay que darles URL propia o consolidar.
 3. **Destinos sin reconocer**: Corcovado, Comarca Andina, Pueblo Alto Lodge y
    Cholila no matchean con ningún destino del sistema, así que esas fichas quedan
    fuera del enlazado por destino y de las páginas de listado.
-4. **Títulos y meta descripciones duplicados o autogenerados**, sobre todo en
-   `/pt-br/`. Revisar que cada ficha tenga título único con destino y actividad,
-   y descripción escrita para el buscador, no un recorte de la descripción.
+4. **Meta descripciones autogeneradas.** Medido el 28/10 sobre las 239 URLs del
+   sitemap: ninguna ficha se queda sin description, pero todas salen de
+   `textoPlano.slice(0, 157)` en `src/pages/experiencias/[slug].astro` (línea 16)
+   y en su gemela de `/pt-br/`. Por eso los 7 grupos de tours repetidos tienen
+   description idéntica. Títulos: sólo 1 par duplicado, en portugués
+   (`caminhada-com-raquetes-de-neve-em-esquel` y
+   `caminhada-raquetes-de-neve-la-curva-de-los-guanacos-esquel`, los dos
+   "Caminhada com Raquetes de Neve em Esquel") — ése se arregla sumando el lugar
+   al título de la segunda. Cambiar el recorte por una description armada con
+   destino + duración + categoría + texto mejora las que hoy son únicas, pero
+   **no arregla los grupos repetidos**: ahí los campos también coinciden. Primero
+   la decisión de catálogo, después el recorte.
 5. **Contenido pt-BR traducido a máquina.** Google Brasil premia el texto que
    suena nativo. Revisar las fichas con más impresiones y reescribirlas.
 6. **Enlazado interno guías ↔ fichas.** Las guías de viaje tienen autoridad y
@@ -81,8 +116,11 @@ Reglas de la bitácora:
    la herramienta de resultados enriquecidos; corregir lo que tire error.
 8. **Core Web Vitals.** Las páginas de `public/` cargan Tailwind por CDN y
    compilan en el navegador; las guías tienen imágenes pesadas.
-9. **Páginas huérfanas**: las que están en el sitemap y no reciben ningún enlace
-   interno desde el sitio.
+9. **Páginas huérfanas que sí valen.** `/cuotas` quedó indexable el 28/10 pero
+   sigue sin recibir un solo enlace interno: Google la ve sólo por el sitemap.
+   Lo mismo `/aike`, `/ecosistema` y `/alianzas`. Falta un enlace desde el footer
+   compartido (`public/footer.js`) o desde la home. Es cambio de navegación:
+   chico, pero toca todas las páginas, así que va en una corrida propia.
 10. **Bing rechaza IndexNow.** Yandex acepta las 240 URLs (200 OK); Bing y el
     endpoint compartido devuelven 403 `UserForbiddedToAccessSite` aunque la
     clave esté bien publicada y accesible. Falta reclamar el sitio en Bing
@@ -92,6 +130,25 @@ Reglas de la bitácora:
 
 ## Hecho
 
+- **28/10/2026** — Páginas indexables fuera del sitemap: 13 URLs servían 200,
+  eran rastreables y no estaban ni en el sitemap ni enlazadas desde ninguna
+  parte. Se les puso `noindex, follow`: `banner-fauna`, `banner-fauna-300x250`,
+  `iconos-categorias`, `verificar-imagenes`, `guia-peninsula-valdes-lite`,
+  `mi-viaje`, `billetera-turista`, `manual-prestador`, `registro-invitacion` y
+  `email-bienvenida-prestador`. `/index_1` (una versión vieja de la home, que le
+  competía sirviendo 200) pasó a 301 a la home, igual que `/index_2`.
+- **28/10/2026** — `/cuotas` promovida: tenía título propio y búsqueda real
+  ("viaje a Esquel en cuotas") pero estaba huérfana y sin `description`,
+  `canonical` ni Open Graph. Se le agregaron los tres y entró a la lista blanca
+  del sitemap (ahora 241 URLs). Sólo metadatos de `<head>`: no se tocó el
+  cálculo de seña y cuotas.
+- **28/10/2026** — `canonical` faltante en 6 páginas que sí están en el sitemap:
+  `ecosistema`, `preregistro`, `preregistrotdf`, `privacidad`,
+  `sumar-gastronomia` y `terminos`.
+- **28/10/2026** — H1 de respaldo en las fichas sin foto. El único `<h1>` vivía
+  dentro del hero, que sólo se renderiza si hay imagen, así que esas fichas
+  salían sin ningún H1 (dos en producción: `safari-lacustre-al-alerce-milenario-cleona`
+  y `panoramicas-de-esquel-com-degustacao-de-erva-mate`).
 - **28/10/2026** — Página 404 propia. Hasta ese día cualquier URL inexistente
   devolvía 200 con la home: soft 404 masivo.
 - **28/10/2026** — GA4 y Pixel instalados en las páginas de Astro, que no tenían
@@ -102,3 +159,38 @@ Reglas de la bitácora:
 ## Registro
 
 (Cada corrida agrega acá abajo su párrafo, con fecha.)
+
+### 28/10/2026 — Auditoría de indexabilidad de `public/` + H1 de respaldo
+
+Rastreé las 240 URLs del sitemap una por una (239 con 200; la guía
+`canal-beagle…` dio timeout en el primer intento y 200 en el segundo, es lentitud
+de Cloudflare en frío, no un error) y extraje de cada una título, description,
+canonical, robots, H1, hreflang y datos estructurados. Resultado del lado bueno:
+cero `noindex` accidentales, cero canónicas cruzadas, cero páginas sin título ni
+description. El problema estaba afuera del sitemap: de las 49 páginas HTML de
+`public/`, 13 servían 200 y eran rastreables sin estar en el sitemap ni recibir
+un enlace interno — creativos de banners, hojas de iconos, plantillas de email,
+pantallas de estado privado del visitante y una versión vieja de la home
+(`/index_1`) compitiendo con la home real. Esas 13 son candidatas directas de
+las 147 "no indexadas" de Search Console y se comían presupuesto de rastreo.
+Quedaron todas en `noindex, follow` menos `/index_1`, que pasó a 301.
+
+Aproveché el mismo pase para cerrar tres huecos chicos: `/cuotas` (huérfana, con
+búsqueda propia y sin ningún metadato) entró al sitemap con description,
+canonical y Open Graph; las 6 páginas del sitemap que no tenían `canonical` ahora
+la tienen; y las fichas sin foto, que se publicaban sin ningún H1 porque el
+único `<h1>` estaba dentro del bloque del hero, ahora llevan uno dentro del
+`<article>`.
+
+**Qué mido como resultado esperado:** que las "no indexadas" de Search Console
+bajen de 147 a cerca de 134 en dos o tres semanas (las 13 pasan de "rastreada sin
+indexar" a "excluida por noindex", que es el estado correcto y no cuenta como
+problema), que `/cuotas` aparezca indexada, y que el rastreo se concentre en las
+fichas y las guías en vez de gastarse en artefactos.
+
+**Qué quedó pendiente:** el resto del 147 es contenido duplicado del catálogo —
+7 grupos de fichas con texto idéntico, anotados en "Para Marcelo" con los slugs.
+Eso no se puede arreglar desde el código: es decisión de catálogo (consolidar o
+diferenciar). Las tres páginas de pago necesitan `noindex` y son zona prohibida,
+también anotadas. Bing sigue devolviendo 403 en IndexNow (Yandex aceptó bien el
+aviso de `/cuotas`); falta reclamar el sitio en Bing Webmaster Tools.

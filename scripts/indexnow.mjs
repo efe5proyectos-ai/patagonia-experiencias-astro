@@ -34,19 +34,31 @@ if (!lista.length) { console.error('No hay URLs para enviar. ¿Está bien el fil
 console.log(`Enviando ${lista.length} URLs a IndexNow${filtro ? ` (filtro: ${filtro})` : ''}`);
 lista.forEach((u) => console.log(`  ${u}`));
 
+// Se avisa a cada buscador por separado y no sólo al endpoint compartido
+// (api.indexnow.org): si uno rechaza, el resto igual recibe el aviso.
+// Bing viene devolviendo 403 UserForbiddedToAccessSite: le falta que el sitio
+// esté reclamado en Bing Webmaster Tools. Yandex acepta sin eso.
+const BUSCADORES = [
+  ['Yandex', 'https://yandex.com/indexnow'],
+  ['Bing', 'https://www.bing.com/indexnow'],
+  ['IndexNow (compartido)', 'https://api.indexnow.org/IndexNow'],
+];
+
 // IndexNow acepta hasta 10.000 URLs por request.
-for (let i = 0; i < lista.length; i += 10000) {
-  const r = await fetch('https://api.indexnow.org/IndexNow', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
-    body: JSON.stringify({
-      host: 'patagoniaexperiencias.com',
-      key: CLAVE,
-      keyLocation: `${SITIO}/${CLAVE}.txt`,
-      urlList: lista.slice(i, i + 10000),
-    }),
-  });
-  // 200 = recibido · 202 = recibido, clave en validación · 403 = clave mal publicada
-  console.log(`\nRespuesta IndexNow: ${r.status} ${r.statusText}`);
-  if (r.status >= 400) console.log(await r.text());
+for (const [nombre, endpoint] of BUSCADORES) {
+  for (let i = 0; i < lista.length; i += 10000) {
+    const r = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json; charset=utf-8' },
+      body: JSON.stringify({
+        host: 'patagoniaexperiencias.com',
+        key: CLAVE,
+        keyLocation: `${SITIO}/${CLAVE}.txt`,
+        urlList: lista.slice(i, i + 10000),
+      }),
+    });
+    // 200 = recibido · 202 = recibido, clave en validación · 403 = rechazado
+    console.log(`${nombre}: ${r.status} ${r.statusText}`);
+    if (r.status >= 400) console.log(`  ${(await r.text()).slice(0, 160)}`);
+  }
 }

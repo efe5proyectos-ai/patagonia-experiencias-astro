@@ -54,6 +54,10 @@ Reglas de la bitácora:
 - Confirmar que el número de `WHATSAPP_PT` (+54 9 2945 64-2052) es el del guía
   que atiende en portugués.
 - Conectar Google Analytics para el informe semanal automático de consultas.
+- Conectar Search Console, para que la tarea de la madrugada pueda ver el detalle
+  de las páginas no indexadas y las búsquedas reales de Argentina y Brasil.
+- Reclamar el sitio en Bing Webmaster Tools (se importa desde Search Console),
+  para destrabar IndexNow en Bing.
 
 ## Pendientes (en orden de impacto)
 
@@ -79,9 +83,12 @@ Reglas de la bitácora:
    compilan en el navegador; las guías tienen imágenes pesadas.
 9. **Páginas huérfanas**: las que están en el sitemap y no reciben ningún enlace
    interno desde el sitio.
-10. **IndexNow todavía en 403** (`UserForbiddedToAccessSite`). La clave está bien
-    publicada; reintentar y, si sigue, documentar que hace falta reclamar el
-    sitio en Bing Webmaster Tools.
+10. **Bing rechaza IndexNow.** Yandex acepta las 240 URLs (200 OK); Bing y el
+    endpoint compartido devuelven 403 `UserForbiddedToAccessSite` aunque la
+    clave esté bien publicada y accesible. Falta reclamar el sitio en Bing
+    Webmaster Tools (se importa desde Search Console en dos minutos). Es tarea
+    de Marcelo: está anotada abajo. Mientras tanto el script sigue avisando a
+    Yandex, que funciona.
 
 ## Hecho
 

@@ -24,6 +24,8 @@ const PAGINAS_PUBLICAS = [
   'esquel-trevelin',
   // App de reservas
   'patagonia-experiencias',
+  // Financiación (landing de ahorro programado, con búsqueda propia)
+  'cuotas',
   // Institucionales y captación
   'prestadores',
   'sumar-gastronomia',

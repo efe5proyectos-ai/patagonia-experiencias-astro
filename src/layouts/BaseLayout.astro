@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { TEXTOS, WHATSAPP } from '../lib/traducciones.js';
+import { TEXTOS, WHATSAPP, waPt } from '../lib/traducciones.js';
 // Layout con el diseño real de producción: Tailwind + Montserrat/Inter + fucsia E91E63
 // idioma: 'es' | 'pt'. alternos: { es: urlAbsoluta, pt: urlAbsoluta } → genera hreflang recíproco
 const {
@@ -15,8 +15,13 @@ const tituloCompleto = `${titulo} | Patagonia Experiencias`;
 const hayAlternos = alternos && alternos.es && alternos.pt;
 const linkOtroIdioma = hayAlternos ? (idioma === 'pt' ? alternos.es : alternos.pt) : null;
 const urlWhatsApp = idioma === 'pt'
-  ? `https://wa.me/${WHATSAPP.pt}?text=${encodeURIComponent('Olá! Estou no site da Patagonia Experiencias e quero informações.')}`
+  ? waPt({ ref: 'barra' })
   : `https://wa.me/${WHATSAPP.es}`;
+// Medición: el mismo GA4 y el mismo Pixel que usa el resto del sitio.
+// Hasta ahora las páginas generadas con Astro (/experiencias/, /guias/, /pt-br/)
+// no tenían ninguno de los dos: todo el tráfico de los anuncios caía acá sin medir.
+const GA4 = 'G-NF2R0BJG34';
+const PIXEL = '1501384968138883';
 const schemaOrg = {
   '@context': 'https://schema.org', '@type': 'Organization',
   name: 'Patagonia Experiencias', url: 'https://patagoniaexperiencias.com',
@@ -46,6 +51,23 @@ const schemaOrg = {
     <meta name="twitter:card" content="summary_large_image" />
     <script type="application/ld+json" set:html={JSON.stringify(schemaOrg)} />
     {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+    <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GA4}`}></script>
+    <script is:inline define:vars={{ GA4 }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', GA4);
+    </script>
+    <script is:inline define:vars={{ PIXEL }}>
+      !function (f, b, e, v, n, t, s) {
+        if (f.fbq) return; n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments) };
+        if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = [];
+        t = b.createElement(e); t.async = !0; t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s)
+      }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', PIXEL);
+      fbq('track', 'PageView');
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -133,17 +155,34 @@ const schemaOrg = {
     </footer>
 
     {/* WhatsApp: botón flotante en escritorio y barra fija abajo en celular */}
-    <a href={urlWhatsApp} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"
+    <a href={urlWhatsApp} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" data-wa-ref="barra"
        class="hidden md:flex fixed bottom-6 right-6 w-14 h-14 bg-[#25D366] hover:bg-[#1ebe5b] text-white rounded-full items-center justify-center text-3xl shadow-lg shadow-green-500/30 z-50 transition-all">
       <i class="fa-brands fa-whatsapp"></i>
     </a>
-    <a href={urlWhatsApp} target="_blank" rel="noopener noreferrer"
+    <a href={urlWhatsApp} target="_blank" rel="noopener noreferrer" data-wa-ref="barra"
        class="md:hidden fixed inset-x-0 bottom-0 z-50 flex items-center justify-center gap-2.5 bg-[#25D366] active:bg-[#1ebe5b] text-white font-bold text-[15px] shadow-[0_-4px_14px_rgba(0,0,0,.15)]"
        style="min-height:56px;padding-bottom:env(safe-area-inset-bottom)">
       <i class="fa-brands fa-whatsapp text-2xl"></i>
       <span>{idioma === 'pt' ? 'Fale conosco no WhatsApp' : 'Consultanos por WhatsApp'}</span>
     </a>
     <div class="md:hidden" style="height:calc(56px + env(safe-area-inset-bottom))" aria-hidden="true"></div>
+
+    {/* Cada clic a WhatsApp queda registrado en GA4 y en el Pixel, con el tour
+        y el lugar del que salió. De ahí sale el informe de consultas. */}
+    <script is:inline define:vars={{ idioma }}>
+      document.addEventListener('click', function (ev) {
+        var a = ev.target && ev.target.closest ? ev.target.closest('a[href*="wa.me"]') : null;
+        if (!a) return;
+        var datos = {
+          idioma: idioma,
+          tour: a.getAttribute('data-wa-tour') || '(sin tour)',
+          lugar: a.getAttribute('data-wa-ref') || 'site',
+          pagina: location.pathname,
+        };
+        try { if (window.gtag) window.gtag('event', 'contacto_whatsapp', datos); } catch (e) {}
+        try { if (window.fbq) window.fbq('track', 'Contact', datos); } catch (e) {}
+      }, true);
+    </script>
     {idioma === 'pt' && (
       <script is:inline>
         // Referencia en reales: cotización BRL→ARS del día (open.er-api.com), guardada 12 h en el navegador.

@@ -17,6 +17,22 @@ export const WHATSAPP = {
 };
 if (!import.meta.env.WHATSAPP_PT) console.warn('[pt-br] Falta WHATSAPP_PT: se usa el WhatsApp general en las páginas en portugués');
 
+// ── Mensaje de WhatsApp en portugués ──────────────────────────
+// Lo atiende un guía brasileño, así que el mensaje tiene que decir
+// en la primera línea que la consulta llega del sitio en portugués
+// de Patagonia Experiencias. La línea "Ref:" es la que permite
+// después hacer el seguimiento de qué tour generó cada consulta.
+export function waPt({ titulo = '', precio = 0, url = '', ref = 'site' } = {}) {
+  const texto = [
+    'Olá! Vim pelo site da Patagonia Experiencias (versão em português).',
+    titulo ? `Passeio: ${titulo}` : 'Quero ajuda para escolher um passeio na Patagônia.',
+    precio > 0 ? `Preço no site: $${Number(precio).toLocaleString('pt-BR')} ARS por pessoa` : '',
+    url ? `Link: ${url}` : '',
+    `Ref: PE-PT-${ref}`,
+  ].filter(Boolean).join('\n');
+  return `https://wa.me/${WHATSAPP.pt}?text=${encodeURIComponent(texto)}`;
+}
+
 // Hasta 4 experiencias relacionadas: mismo destino primero, después misma categoría
 export function relacionadas(actual, todas, n = 4) {
   const otras = todas.filter((e) => e.slug !== actual.slug && e.imagen);

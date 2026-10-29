@@ -35,3 +35,11 @@ https://:project.pages.dev/*
   X-Robots-Tag: noindex
 /*.json
   X-Robots-Tag: noindex
+
+# AIKE con IA: página de prueba y catálogo interno
+/aike-prueba
+  X-Robots-Tag: noindex
+/aike/*
+  X-Robots-Tag: noindex
+/api/*
+  X-Robots-Tag: noindex

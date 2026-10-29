@@ -174,7 +174,16 @@ export async function obtenerExperiencias() {
     ? remoto
     : (await import('../data/experiencias.json')).default;
   const activos = crudos.filter((d) => d.activo !== false);
-  return activos.map((d) => ({ ...normalizarExperiencia(d, agencias || [], planes), slugReserva: slugReservaDe(d, activos) }));
+  // Misma regla que la app de reservas para decidir qué se muestra (lo usa AIKE)
+  const agenciaVisible = (pid) => (agencias || []).some((a) =>
+    (a.id === pid || a.userId === pid || a.uid === pid)
+    && (a.origen === 'admin_manual' || a.estado === 'activo' || typeof a.estado === 'undefined'));
+  return activos.map((d) => ({
+    ...normalizarExperiencia(d, agencias || [], planes),
+    slugReserva: slugReservaDe(d, activos),
+    tourId: d.id || '',
+    visibleEnApp: d.pausadoPorAdmin !== true && (!d.proveedorId || !(agencias || []).length || agenciaVisible(d.proveedorId)),
+  }));
 }
 
 

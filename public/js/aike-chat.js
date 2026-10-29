@@ -22,12 +22,12 @@
   var PT = cfg.idioma === 'pt';
   var T = PT ? {
     hola: 'Olá! Sou o **AIKE**, seu assistente de viagem com inteligência artificial. Me conta: quando você vem para a Patagônia e o que quer viver?',
-    ph: 'Escreva sua pergunta…', enviar: 'Enviar', ver: 'Ver', reservar: 'Reservar', desde: 'a partir de',
+    ph: 'Escreva sua pergunta…', enviar: 'Enviar', accion: 'Ver e consultar', desde: 'a partir de',
     sugs: ['Ver baleias: quando ir?', 'O que fazer em Puerto Madryn', 'Pinguins em Punta Tombo'],
     erro: 'Não consegui responder agora. Tenta de novo em alguns segundos.', ia: 'Assistente com IA · pode cometer erros', abrir: 'Falar com AIKE'
   } : {
     hola: '¡Hola! Soy **AIKE**, tu asistente de viaje con inteligencia artificial. Contame: ¿cuándo venís a la Patagonia y qué te gustaría vivir?',
-    ph: 'Escribí tu consulta…', enviar: 'Enviar', ver: 'Ver', reservar: 'Reservar', desde: 'desde',
+    ph: 'Escribí tu consulta…', enviar: 'Enviar', accion: 'Ver y reservar', desde: 'desde',
     sugs: ['Ballenas: ¿cuándo ir?', '¿Qué hago en Puerto Madryn?', 'Beneficios de Patagonia Puntos'],
     erro: 'No pude responder ahora. Probá de nuevo en unos segundos.', ia: 'Asistente con IA · puede equivocarse', abrir: 'Hablar con AIKE'
   };
@@ -56,7 +56,7 @@
     '.aike-c strong{font-size:13px;line-height:1.3}.aike-c span{font-size:11px;color:#64748b}.aike-c em{font-style:normal;font:800 15px Montserrat,system-ui,sans-serif;color:#E91E63}' +
     '.aike-c s{font-size:11px;color:#94a3b8}.aike-cb{display:flex;gap:6px;margin-top:auto;padding-top:6px}' +
     '.aike-cb a{flex:1;text-align:center;font-size:12px;font-weight:700;padding:7px 4px;border-radius:9px;text-decoration:none}' +
-    '.aike-cb a:first-child{background:#f1f5f9;color:#2c3e50}.aike-cb a:last-child{background:#E91E63;color:#fff}' +
+    '.aike-cb a{background:#E91E63;color:#fff}.aike-cb a.wa{background:#25D366}.aike-c>a{display:block}' +
     '.aike-n{align-self:flex-start;font-size:12px;background:#fff;border-left:3px solid #4FD1E8;padding:8px 10px;border-radius:8px;max-width:86%}.aike-n a{color:#2c3e50;font-weight:600;text-decoration:none}' +
     '.aike-s{display:flex;flex-wrap:wrap;gap:6px}.aike-s button{border:1px solid #f3c1d3;background:#fff;color:#C2185B;font-size:12px;font-weight:600;padding:6px 10px;border-radius:999px;cursor:pointer}' +
     '.aike-dots{display:inline-flex;gap:4px}.aike-dots i{width:7px;height:7px;border-radius:50%;background:#E91E63;opacity:.3;animation:aikeP 1s infinite}' +
@@ -101,11 +101,10 @@
     if (!lista || !lista.length) return;
     var w = document.createElement('div'); w.className = 'aike-cards';
     w.innerHTML = lista.map(function (c) {
-      return '<article class="aike-c">' + (c.imagen ? '<img loading="lazy" alt="" src="' + esc(urlSegura(c.imagen)) + '">' : '') +
+      return '<article class="aike-c">' + (c.imagen ? '<a href="' + esc(urlSegura(c.url)) + '"><img loading="lazy" alt="" src="' + esc(urlSegura(c.imagen)) + '"></a>' : '') +
         '<div class="aike-cc"><strong>' + esc(c.titulo) + '</strong><span>' + esc(c.destino || '') + '</span>' +
         (c.precio ? '<em>' + esc(T.desde) + ' ' + pesos(c.precio) + '</em>' + (c.precioLista ? '<s>' + pesos(c.precioLista) + '</s>' : '') : '') +
-        '<div class="aike-cb"><a target="_blank" rel="noopener" href="' + esc(urlSegura(c.urlFicha)) + '">' + esc(T.ver) + '</a>' +
-        '<a href="' + esc(urlSegura(c.urlReserva)) + '">' + esc(T.reservar) + '</a></div></div></article>';
+        '<div class="aike-cb"><a ' + (PT ? 'class="wa" ' : '') + 'href="' + esc(urlSegura(c.url)) + '">' + (PT ? '💬 ' : '') + esc(T.accion) + '</a></div></div></article>';
     }).join('');
     caja.appendChild(w);
   }

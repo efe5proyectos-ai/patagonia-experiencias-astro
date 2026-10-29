@@ -194,7 +194,7 @@ REGLAS FIJAS:
 2. Si no hay una experiencia en el catálogo para lo que piden, decilo con honestidad y ofrecé alternativas del catálogo o el WhatsApp de un asesor.
 3. Solo hablás de turismo en la Patagonia y de Patagonia Experiencias, Patagonia Magazine y Patagonia Puntos. Si te piden otra cosa (tareas, programación, política, temas personales, otros destinos fuera de la Patagonia), respondé en una línea que solo podés ayudar con viajes por la Patagonia y proponé algo concreto.
 4. No inventes horarios, disponibilidad, teléfonos, direcciones, distancias, duraciones ni políticas, ni relaciones geográficas que no estén en los datos (no digas que dos lugares son vecinos si no lo sabés con certeza: Gaiman y Trelew están en el Valle del Chubut, cerca de Puerto Madryn; Esquel y Trevelin están en la cordillera, a unos 600 km). Para eso: la ficha de la experiencia o el asesor por WhatsApp${whatsapp ? ` (https://wa.me/${whatsapp})` : ''}.
-5. Reserva: se hace online desde el botón "Reservar" de la tarjeta; al reservar se paga una seña online con Mercado Pago y el resto se abona al prestador. No confirmes reservas ni pagos vos.
+5. Reserva: ${pt ? 'el botão "Ver e consultar" de cada cartão leva à página do passeio em português, com o WhatsApp do nosso assessor para tirar dúvidas e reservar.' : 'se hace online desde el botón "Ver y reservar" de la tarjeta, que abre la experiencia en la plataforma de reservas; al reservar se paga una seña online con Mercado Pago y el resto se abona al prestador.'} No confirmes reservas ni pagos vos.
 6. Datos de fauna y clima: hablá en general y aclarando que depende de la temporada (ej.: ballena franca austral en Península Valdés aprox. junio a diciembre; pingüinos de Magallanes en Punta Tombo aprox. septiembre a abril).
 7. Respuestas cortas: 2 a 5 oraciones, sin listas largas. No anuncies lo que vas a hacer ("voy a buscar…"): usá las herramientas y respondé directo. Podés usar **negrita** y links en formato [texto](url). Terminá con una pregunta que ayude a avanzar (fechas, con quién viaja, qué le interesa).
 8. Temporada: cuando sepas el mes del viaje pasalo en "mes" al buscar. No recomiendes experiencias con fuera_de_temporada (ej.: nieve o ski en verano). Si solo quedan esas, decí que en esas fechas no hay y proponé otra cosa o el asesor.
@@ -233,18 +233,20 @@ async function ejecutarHerramienta(nombre, entrada, cat, estado) {
   }
 }
 
-function tarjetasDe(cat, ids, idioma) {
-  return ids.map((id) => cat.experiencias.find((e) => e.id === id)).filter(Boolean).map((e) => ({
-    id: e.id,
-    titulo: idioma === 'pt' && e.pt ? e.pt.titulo : e.titulo,
-    destino: e.destino,
-    imagen: e.imagen,
-    precio: e.precio,
-    precioLista: e.precioLista,
-    duracion: e.duracion,
-    urlFicha: idioma === 'pt' && e.pt ? e.pt.urlFicha : e.urlFicha,
-    urlReserva: e.urlReserva,
-  }));
+// Adónde lleva cada tarjeta:
+//  · español → la app de reservas (/patagonia-experiencias.html#tour/…), donde se compra
+//  · portugués → la página en portugués del tour, con el WhatsApp de consultas del asesor
+//    (si el tour todavía no está traducido, directo a ese WhatsApp con el nombre del tour)
+function tarjetasDe(cat, ids, idioma, whatsapp) {
+  return ids.map((id) => cat.experiencias.find((e) => e.id === id)).filter(Boolean).map((e) => {
+    const pt = idioma === 'pt';
+    const titulo = pt && e.pt ? e.pt.titulo : e.titulo;
+    const url = !pt ? e.urlReserva
+      : e.pt ? e.pt.urlFicha
+      : `https://wa.me/${whatsapp}?text=${encodeURIComponent('Olá! Vi no AIKE o passeio: ' + e.titulo + '. Quero mais informações.')}`;
+    return { id: e.id, titulo, destino: e.destino, imagen: e.imagen, precio: e.precio, precioLista: e.precioLista,
+      duracion: e.duracion, url, accion: pt ? 'consultar' : 'reservar' };
+  });
 }
 
 function cors(origen) {
@@ -342,7 +344,7 @@ export async function onRequestPost({ request, env }) {
 
   return json({
     texto: texto || respaldo || (idioma === 'pt' ? 'Me conta um pouco mais da sua viagem?' : '¿Me contás un poco más de tu viaje?'),
-    tarjetas: tarjetasDe(cat, estado.tarjetas, idioma),
+    tarjetas: tarjetasDe(cat, estado.tarjetas, idioma, whatsapp),
     notas: estado.notas,
   }, 200, h);
 }

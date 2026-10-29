@@ -4,7 +4,10 @@
 
    Uso en cualquier página (también Patagonia Puntos y Magazine):
      <script src="https://patagoniaexperiencias.com/js/aike-chat.js"
-             data-idioma="es" defer></script>
+             data-idioma="auto" defer></script>
+   Idioma: "auto" toma el del navegador; además, si el lector escribe en otro
+   idioma, el chat cambia solo (textos, voz y recomendación). Pantalla en
+   español, portugués o inglés; la IA responde en cualquier idioma.
    Opcionales: data-api (URL de /api/aike), data-avatar (imagen),
                data-nombre (nombre del consultor), data-abierto="1".
 
@@ -24,12 +27,19 @@
     api: ds.api || base + '/api/aike',
     avatar: ds.avatar || base + '/img/aike-ia.svg',
     nombre: ds.nombre || 'Quimey',
-    idioma: ds.idioma || ((document.documentElement.lang || '').toLowerCase().indexOf('pt') === 0 ? 'pt' : 'es'),
+    // data-idioma="auto" (o sin indicar): el que eligió en esta visita, si no el del navegador
+    idioma: (function () {
+      var fijo = (ds.idioma || 'auto').toLowerCase();
+      if (fijo !== 'auto') return fijo;
+      try { var guardado = sessionStorage.getItem('consultor_pe_idioma'); if (guardado) return guardado; } catch (e) {}
+      var nav = ((navigator.languages && navigator.languages[0]) || navigator.language || document.documentElement.lang || 'es').toLowerCase().slice(0, 2);
+      return /^[a-z]{2}$/.test(nav) ? nav : 'es';
+    })(),
     abierto: ds.abierto === '1'
   };
-  var PT = cfg.idioma === 'pt';
   var N = cfg.nombre;
-  var T = PT ? {
+  var TEXTOS = {
+    pt: {
     hola: 'Olá! Sou a **' + N + '**, a consultora da Patagonia Magazine com inteligência artificial. Pergunte sobre viagens, gastronomia, eventos e passeios na Patagônia. Pode escrever ou falar 🎙️',
     ph: 'Escreva sua pergunta…', enviar: 'Enviar', accion: 'Ver e consultar', desde: 'a partir de', reco: 'Recomendação',
     sugs: [
@@ -42,7 +52,8 @@
     ],
     erro: 'Não consegui responder agora. Tenta de novo em alguns segundos.', ia: 'Consultora com IA · pode cometer erros',
     abrir: 'Falar com a ' + N, sub: 'Consultora · Patagonia Magazine', mic: 'Falar', ouvir: 'Ouvir', parar: 'Parar', escutando: 'Escutando…'
-  } : {
+  },
+    es: {
     hola: '¡Hola! Soy **' + N + '**, la consultora de Patagonia Magazine con inteligencia artificial. Preguntame sobre viajes, gastronomía, eventos y excursiones en la Patagonia. Podés escribir o hablarme 🎙️',
     ph: 'Escribí tu consulta…', enviar: 'Enviar', accion: 'Ver y reservar', desde: 'desde', reco: 'Recomendación',
     sugs: [
@@ -56,10 +67,54 @@
     ],
     erro: 'No pude responder ahora. Probá de nuevo en unos segundos.', ia: 'Consultora con IA · puede equivocarse',
     abrir: 'Hablar con ' + N, sub: 'Consultora · Patagonia Magazine', mic: 'Hablar', ouvir: 'Escuchar', parar: 'Detener', escutando: 'Te escucho…'
+  },
+    en: {
+    hola: 'Hi! I\'m **' + N + '**, Patagonia Magazine\'s AI travel consultant. Ask me about trips, food, events and tours in Patagonia, in any language. You can type or talk to me 🎙️',
+    ph: 'Type your question…', enviar: 'Send', accion: 'See and book', desde: 'from', reco: 'Recommendation',
+    sugs: [
+      ['Whale watching: when should I go?', [6, 7, 8, 9, 10, 11, 12]], ['Penguins at Punta Tombo: worth it?', [9, 10, 11, 12, 1, 2, 3, 4]],
+      ['Orcas in Península Valdés: when?', [2, 3, 4, 10, 11]], ['Snow in Esquel: what to do?', [6, 7, 8, 9]],
+      ['Where to eat in Puerto Madryn'], ['Upcoming events in Patagonia'], ['3-day plan for Península Valdés'],
+      ['Welsh tea in Gaiman: where?'], ['How do I get to Puerto Madryn?'], ['Family activities in Patagonia'], ['What local dishes should I try?']
+    ],
+    erro: 'I couldn\'t answer right now. Please try again in a few seconds.', ia: 'AI consultant · may make mistakes',
+    abrir: 'Talk to ' + N, sub: 'Consultant · Patagonia Magazine', mic: 'Talk', ouvir: 'Listen', parar: 'Stop', escutando: 'Listening…'
+    }
   };
-  var LANG = PT ? 'pt-BR' : 'es-AR';
+  // Voz de cada idioma (el resto usa el idioma tal cual: fr, it, de…)
+  var VOCES = { es: 'es-AR', pt: 'pt-BR', en: 'en-US', fr: 'fr-FR', it: 'it-IT', de: 'de-DE' };
+  var PT, T, LANG;
+  function fijarIdioma(id) {
+    cfg.idioma = id; PT = id === 'pt'; T = TEXTOS[id] || TEXTOS.en; LANG = VOCES[id] || id;
+    try { sessionStorage.setItem('consultor_pe_idioma', id); } catch (e) {}
+  }
+  fijarIdioma(cfg.idioma);
 
-  var CLAVE = 'consultor_pe_' + cfg.idioma;
+  // ── Detección del idioma de cada mensaje (palabras frecuentes de cada lengua) ──
+  var PALABRAS = {
+    es: 'el la los las que y en un una para con por qué cómo dónde cuándo quiero hay es del al me mi viaje ballenas pingüinos hola gracias somos vamos podés tengo muy también donde cuando como cuánto cuesta días queremos niños chicos comer excursión excursiones recomendás',
+    pt: 'o os as que e em um uma para com por não você vocês onde quando como quero tem é do da no na eu meu minha viagem baleias pinguins olá ola obrigado obrigada somos vamos pode muito também passeio passeios gostaria fazer crianças comer quanto custa recomenda',
+    en: 'the and is are what where when how to in of for with i we want trip whales penguins hello hi thanks can do you my there best travel days kids eat tour tours much cost',
+    fr: 'le les et est des une pour avec je nous voyage baleines bonjour merci où quand comment vous jours enfants manger',
+    it: 'il gli è di che per con sono viaggio balene ciao grazie dove quando come vorrei giorni bambini mangiare',
+    de: 'der die das und ist ich wir mit für wo wann wie reise wale hallo danke ein eine nicht tage kinder essen'
+  };
+  var DIC = {};
+  Object.keys(PALABRAS).forEach(function (k) { DIC[k] = {}; PALABRAS[k].split(' ').forEach(function (w) { DIC[k][w] = 1; }); });
+  function detectarIdioma(texto) {
+    var t = String(texto || '').toLowerCase(), puntos = { es: 0, pt: 0, en: 0, fr: 0, it: 0, de: 0 };
+    if (/[ñ¿¡]/.test(t)) puntos.es += 3;
+    if (/[ãõ]|ção|ções|\bvocê/.test(t)) puntos.pt += 3;
+    if (/[ßäöü]/.test(t)) puntos.de += 3;
+    (t.match(/[a-zà-ÿ]+/g) || []).forEach(function (w) { for (var k in DIC) if (DIC[k][w]) puntos[k]++; });
+    var orden = Object.keys(puntos).sort(function (a, b) { return puntos[b] - puntos[a]; });
+    var a = puntos[orden[0]], b = puntos[orden[1]];
+    if (a >= 2 && a > b) return orden[0];
+    if (a === 1 && b === 0) return orden[0];
+    return '';
+  }
+
+  var CLAVE = 'consultor_pe_charla';
   var historial = [];
   try { historial = JSON.parse(sessionStorage.getItem(CLAVE) || '[]') || []; } catch (e) { historial = []; }
   function guardar() { try { sessionStorage.setItem(CLAVE, JSON.stringify(historial.slice(-30))); } catch (e) {} }
@@ -169,6 +224,15 @@
   var caja = panel.querySelector('.cpe-m'), form = panel.querySelector('form'), area = form.querySelector('textarea'),
     env = form.querySelector('.cpe-env'), mic = form.querySelector('.cpe-mic');
 
+  function cambiarIdioma(id) {
+    if (!id || id === cfg.idioma) return;
+    fijarIdioma(id);
+    area.placeholder = T.ph; env.textContent = T.enviar;
+    panel.querySelector('.cpe-h small').textContent = T.sub; panel.querySelector('.cpe-l').textContent = T.ia;
+    boton.setAttribute('aria-label', T.abrir);
+    if (mic) { mic.setAttribute('aria-label', T.mic); mic.title = T.mic; }
+  }
+
   function burbuja(rol, texto, autoLeer) {
     var d = document.createElement('div');
     d.className = 'cpe-t ' + (rol === 'user' ? 'cpe-u' : 'cpe-a');
@@ -189,7 +253,7 @@
     a.innerHTML = (c.imagen ? '<img loading="lazy" alt="" src="' + esc(urlSegura(c.imagen)) + '">' : '') +
       '<div><small>' + esc(T.reco) + '</small><strong>' + esc(c.titulo) + '</strong>' +
       (c.precio ? '<span>' + esc(T.desde) + ' <b>' + pesos(c.precio) + '</b></span>' : '') + '</div>' +
-      '<em' + (PT ? ' class="wa"' : '') + '>' + esc(T.accion) + '</em>';
+      '<em' + (c.accion === 'consultar' ? ' class="wa"' : '') + '>' + esc(c.accion === 'consultar' ? TEXTOS.pt.accion : T.accion) + '</em>';
     caja.appendChild(a);
   }
   function sugerencias() {
@@ -222,6 +286,8 @@
     if (!texto || enviando) return;
     enviando = true; env.disabled = true; callar();
     var chips = caja.querySelector('.cpe-s'); if (chips) chips.remove();
+    var detectado = detectarIdioma(texto);
+    if (detectado && detectado !== cfg.idioma) { cambiarIdioma(detectado); pintar(); var c2 = caja.querySelector('.cpe-s'); if (c2) c2.remove(); }
     historial.push({ rol: 'user', texto: texto }); guardar();
     burbuja('user', texto);
     var esp = document.createElement('div'); esp.className = 'cpe-t cpe-a'; esp.innerHTML = '<span class="cpe-dots"><i></i><i></i><i></i></span>';

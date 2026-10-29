@@ -190,7 +190,7 @@ export async function registrarEvento(env, request, e) {
   if (desactivadas(env) || !sesionValida(e.sesion)) return false;
   const campos = { sesion: e.sesion, actualizado: new Date(), ...origenVisita(request) };
   if (e.pagina) { campos.pagina = limpiarUrl(e.pagina); campos.sitio = hostDe(e.pagina); }
-  if (e.idioma === 'es' || e.idioma === 'pt') campos.idioma = e.idioma;
+  if (/^[a-z]{2}$/.test(String(e.idioma || ''))) campos.idioma = e.idioma;
   const sumas = {}, agregar = {};
   if (e.tipo === 'abrir') sumas.aperturas = 1;
   else if (e.tipo === 'tarjeta') { sumas.clics_tarjeta = 1; agregar.links = [limpiarUrl(e.url) + (String(e.url).includes('#') ? '#' + String(e.url).split('#')[1].slice(0, 120) : '')]; }

@@ -106,7 +106,7 @@
       <div class="grupo" id="rango">
         <button data-d="1" type="button">Hoy</button><button data-d="7" type="button">7 días</button><button data-d="30" type="button" class="on">30 días</button><button data-d="90" type="button">90 días</button><button data-d="365" type="button">1 año</button>
       </div>
-      <select id="fIdioma"><option value="">Todos los idiomas</option><option value="es">Español</option><option value="pt">Portugués</option></select>
+      <select id="fIdioma"><option value="">Todos los idiomas</option><option value="es">Español</option><option value="pt">Portugués</option><option value="en">Inglés</option><option value="otro">Otros idiomas</option></select>
       <select id="fTema"><option value="">Todos los temas</option></select>
       <div class="derecha">
         <button class="accion" id="recargar" type="button">Actualizar</button>
@@ -139,6 +139,7 @@
     itinerario: 'Itinerario / qué hacer', clima_temporada: 'Clima y temporada', como_llegar: 'Cómo llegar / traslados',
     precios_reservas: 'Precios y reservas', negocio_sumarse: 'Negocios que quieren sumarse', patagonia_puntos: 'Patagonia Puntos', otro: 'Otro' };
   var INTENCION = { inspirarse: 'Inspirarse / curiosidad', planificar: 'Planificar un viaje', cotizar_reservar: 'Cotizar o reservar', negocio: 'Negocio', otro: 'Otro' };
+  var IDIOMAS = { es: 'Español', pt: 'Portugués', en: 'Inglés', fr: 'Francés', it: 'Italiano', de: 'Alemán' };
   var MESES = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
   var VIAJA = { solo: 'Solo/a', pareja: 'En pareja', familia: 'En familia', amigos: 'Con amigos', grupo: 'Grupo', trabajo: 'Por trabajo' };
   var PAISES = { AR: 'Argentina', BR: 'Brasil', CL: 'Chile', UY: 'Uruguay', PY: 'Paraguay', US: 'Estados Unidos', ES: 'España', MX: 'México', CO: 'Colombia', PE: 'Perú', DE: 'Alemania', FR: 'Francia', IT: 'Italia', GB: 'Reino Unido' };
@@ -184,7 +185,7 @@
   function filtradas() {
     var idi = $('fIdioma').value, tema = $('fTema').value;
     return todas.filter(function (c) {
-      if (idi && c.idioma !== idi) return false;
+      if (idi === 'otro' ? ['es', 'pt', 'en'].indexOf(c.idioma || 'es') >= 0 : idi && c.idioma !== idi) return false;
       if (tema && (!c.datos || c.datos.tema !== tema)) return false;
       return true;
     });
@@ -267,7 +268,7 @@
     h += barras('Página donde abrieron el chat', '', contar(charlas, function (c) { return (c.pagina || '').replace(/^https?:\/\/(www\.)?/, ''); }), { limite: 12 });
     h += barras('Cómo llegaron a esa página', 'Sitio anterior (buscador, redes…)', contar(charlas, function (c) { return c.ref || 'directo / sin dato'; }));
     h += barras('Dispositivo', '', contar(charlas, function (c) { return c.dispositivo; }), { total: charlas.length });
-    h += barras('Idioma', '', contar(charlas, function (c) { return c.idioma === 'pt' ? 'Portugués' : 'Español'; }), { total: charlas.length });
+    h += barras('Idioma', '', contar(charlas, function (c) { return IDIOMAS[c.idioma || 'es'] || String(c.idioma).toUpperCase(); }), { total: charlas.length });
     h += barras('Experiencias más recomendadas', 'Recomendación que mostró Quimey', contar(charlas, function (c) { return c.tarjetas || []; }), { limite: 12 });
     h += barras('Rubros de negocios interesados', '', contar(conDatos, function (c) { return c.datos.es_negocio ? normal(c.datos.rubro_negocio) || 'Sin rubro' : ''; }));
     h += '</div>';
@@ -313,7 +314,7 @@
       if (d.es_negocio) res += '<span class="chip rosa">Negocio</span>';
       if (c.voz) res += '<span class="chip">Voz</span>';
       h += '<tr class="conv" data-id="' + esc(c._id) + '"><td>' + (f ? esc(f.toLocaleString('es-AR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })) : '') + '<br><span class="chip">' + num(c.turnos) + ' preg.</span></td>' +
-        '<td>' + esc(c.ciudad || '') + (c.pais && c.pais !== 'AR' ? ' · ' + esc(c.pais) : '') + '<br><span class="chip">' + esc(c.dispositivo || '') + '</span>' + (c.idioma === 'pt' ? '<span class="chip">PT</span>' : '') + '</td>' +
+        '<td>' + esc(c.ciudad || '') + (c.pais && c.pais !== 'AR' ? ' · ' + esc(c.pais) : '') + '<br><span class="chip">' + esc(c.dispositivo || '') + '</span>' + (c.idioma && c.idioma !== 'es' ? '<span class="chip">' + esc(c.idioma.toUpperCase()) + '</span>' : '') + '</td>' +
         '<td><b>' + esc(d.resumen || primera.slice(0, 140)) + '</b>' + (d.tema ? '<br><span class="chip">' + esc(TEMAS[d.tema] || d.tema) + '</span>' : '') + '</td>' +
         '<td>' + esc(viaje.join(' · ')) + '</td><td>' + res + '</td></tr>';
       if (abiertas[c._id]) {

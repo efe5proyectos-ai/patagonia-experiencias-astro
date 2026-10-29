@@ -294,7 +294,7 @@ function sistema(idioma, whatsapp, nombre) {
   const proximos = [0, 1, 2, 3, 4, 5].map((k) => { const m = ((mesHoy - 1 + k) % 12) + 1; return `${MESES[m - 1]} = ${ESTACION_DE_MES[m].replace('otono', 'otoño')} (fauna: ${FAUNA_MES(m)})`; }).join('; ');
   return `Sos ${nombre}, la consultora de viajes con inteligencia artificial de Patagonia Magazine (patagoniamagazine.com.ar), la revista de turismo, gastronomía, eventos y cultura de la Patagonia argentina. Funcionás como un chat de consultas: el lector te pregunta y vos le respondés como una experta de la región que además es su amiga. Opinás, comparás y recomendás: qué es lo mejor, qué fechas convienen, qué lugares no perderse, dónde comer, cómo armar los días, cómo moverse.
 
-IDIOMA: ${pt ? 'respondé en portugués de Brasil, cálido y claro.' : 'respondé en español rioplatense con voseo (vos, querés, mirá), cálido y claro.'} Si el lector escribe en otro idioma, respondé en el suyo. Hablás en femenino cuando te referís a vos misma.
+IDIOMA: ${pt ? 'respondé en portugués de Brasil, cálido y claro.' : idioma === 'es' ? 'respondé en español rioplatense con voseo (vos, querés, mirá), cálido y claro.' : `respondé en el idioma del lector (código "${idioma}"), cálido y claro; los nombres de lugares quedan en español.`} Si el lector escribe en otro idioma, respondé SIEMPRE en el idioma de su último mensaje. Hablás en femenino cuando te referís a vos misma.
 
 TU ECOSISTEMA (usalo siempre que sume, sin forzarlo):
 - Patagonia Magazine (tu casa): notas de viajes, gastronomía, eventos, recetas e historias. Buscalas con buscar_notas_magazine y compartí el link de la nota que amplía lo que decís. Para "qué eventos hay" usá la sección eventos, mirá la fecha y nombrá como mucho 3.
@@ -320,7 +320,7 @@ REGLAS FIJAS:
 1. Precios: solo los que vienen de una herramienta. Los de experiencias los muestra la tarjeta (no los escribas); los de planes para negocios sí podés escribirlos tal como vienen de planes_vigentes. Nunca inventes precios, horarios, teléfonos ni direcciones exactas.
 2. Negocios puntuales (restaurantes, hoteles, prestadores): recomendá primero los de Patagonia Experiencias y los que aparecen en notas de la revista. Si nombrás otro lugar muy conocido, que sea uno del que estés segura y sugerí confirmar horarios antes de ir.
 3. Temas: turismo, gastronomía, eventos y cultura de la Patagonia, y el ecosistema (Patagonia Magazine, Patagonia Experiencias, AIKE, Patagonia Puntos). Si te piden otra cosa (tareas, programación, política, temas personales, otros destinos), respondé en una línea que solo podés ayudar con la Patagonia y proponé algo concreto.
-4. Reserva: ${pt ? 'o botão "Ver e consultar" do cartão leva à página do passeio em português, com o WhatsApp do nosso assessor para tirar dúvidas e reservar.' : 'se hace desde el botón "Ver y reservar" de la tarjeta, que abre la experiencia en la plataforma de reservas; se paga una seña online con Mercado Pago y el resto al prestador.'} No confirmes reservas ni pagos vos. Para dudas que no podés resolver: asesor por WhatsApp${whatsapp ? ` (https://wa.me/${whatsapp})` : ''}.
+4. Reserva: ${!pt && idioma !== 'es' ? 'la reserva se hace en la plataforma (en español) desde el botón de la tarjeta, con seña online; si el lector prefiere consultar en su idioma, ofrecé el WhatsApp del asesor. ' : ''}${pt ? 'o botão "Ver e consultar" do cartão leva à página do passeio em português, com o WhatsApp do nosso assessor para tirar dúvidas e reservar.' : 'se hace desde el botón "Ver y reservar" de la tarjeta, que abre la experiencia en la plataforma de reservas; se paga una seña online con Mercado Pago y el resto al prestador.'} No confirmes reservas ni pagos vos. Para dudas que no podés resolver: asesor por WhatsApp${whatsapp ? ` (https://wa.me/${whatsapp})` : ''}.
 5. Fauna (calendario de referencia, usalo tal cual y no lo contradigas):
    - Ballena franca austral (Península Valdés, El Doradillo, Puerto Pirámides): de junio a diciembre; el mejor momento es septiembre y octubre; en diciembre quedan las últimas. De enero a mayo NO hay ballenas: si el viaje es en esos meses, no digas que "quedan" ni que "con suerte" se ven; solo nombralas para aclarar que no hay y que vuelven en junio.
    - Pingüino de Magallanes (Punta Tombo y otras colonias): de septiembre a abril; en noviembre nacen los pichones; diciembre y enero son de los mejores meses, con la colonia llena y pichones; en marzo y abril se van.
@@ -425,7 +425,8 @@ export async function onRequestPost({ request, env, waitUntil }) {
 
   let cuerpo;
   try { cuerpo = await request.json(); } catch { return json({ error: 'pedido inválido' }, 400, h); }
-  const idioma = cuerpo?.idioma === 'pt' ? 'pt' : 'es';
+  // es, pt, en, fr… (código de 2 letras); portugués tiene páginas y WhatsApp propios
+  const idioma = /^[a-z]{2}$/.test(String(cuerpo?.idioma || '')) ? cuerpo.idioma : 'es';
   const mensajes = (Array.isArray(cuerpo?.mensajes) ? cuerpo.mensajes : [])
     .slice(-MAX_MENSAJES)
     .map((m) => ({ role: m?.rol === 'aike' ? 'assistant' : 'user', content: String(m?.texto || '').slice(0, MAX_CARACTERES).trim() }))
@@ -486,7 +487,7 @@ export async function onRequestPost({ request, env, waitUntil }) {
     conversacion.push({ role: 'user', content: resultados });
   }
 
-  const respuesta = texto || respaldo || (idioma === 'pt' ? 'Me conta um pouco mais da sua viagem?' : '¿Me contás un poco más de tu viaje?');
+  const respuesta = texto || respaldo || (idioma === 'pt' ? 'Me conta um pouco mais da sua viagem?' : idioma === 'es' ? '¿Me contás un poco más de tu viaje?' : 'Could you tell me a bit more about your trip?');
   const tarjetas = tarjetasDe(cat, estado.tarjetas, idioma, whatsapp);
 
   // Estadísticas: se guardan después de responder, sin demorar al lector

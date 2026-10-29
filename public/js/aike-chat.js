@@ -31,7 +31,7 @@
   var N = cfg.nombre;
   var T = PT ? {
     hola: 'Olá! Sou a **' + N + '**, a consultora da Patagonia Magazine com inteligência artificial. Pergunte sobre viagens, gastronomia, eventos e passeios na Patagônia. Pode escrever ou falar 🎙️',
-    ph: 'Escreva ou fale sua pergunta…', enviar: 'Enviar', accion: 'Ver e consultar', desde: 'a partir de', reco: 'Recomendação',
+    ph: 'Escreva sua pergunta…', enviar: 'Enviar', accion: 'Ver e consultar', desde: 'a partir de', reco: 'Recomendação',
     sugs: [
       ['Ver baleias: quando ir?', [6, 7, 8, 9, 10, 11, 12]], ['Pinguins em Punta Tombo: vale a pena?', [9, 10, 11, 12, 1, 2, 3, 4]],
       ['Orcas em Península Valdés: quando?', [2, 3, 4, 10, 11]], ['Neve em Esquel: o que fazer?', [6, 7, 8, 9]],
@@ -44,7 +44,7 @@
     abrir: 'Falar com a ' + N, sub: 'Consultora · Patagonia Magazine', mic: 'Falar', ouvir: 'Ouvir', parar: 'Parar', escutando: 'Escutando…'
   } : {
     hola: '¡Hola! Soy **' + N + '**, la consultora de Patagonia Magazine con inteligencia artificial. Preguntame sobre viajes, gastronomía, eventos y excursiones en la Patagonia. Podés escribir o hablarme 🎙️',
-    ph: 'Escribí o hablá tu consulta…', enviar: 'Enviar', accion: 'Ver y reservar', desde: 'desde', reco: 'Recomendación',
+    ph: 'Escribí tu consulta…', enviar: 'Enviar', accion: 'Ver y reservar', desde: 'desde', reco: 'Recomendación',
     sugs: [
       ['Ballenas: ¿cuándo ir?', [6, 7, 8, 9, 10, 11, 12]], ['Pingüinos en Punta Tombo: ¿vale la pena?', [9, 10, 11, 12, 1, 2, 3, 4]],
       ['Orcas en Península Valdés: ¿cuándo?', [2, 3, 4, 10, 11]], ['¿Qué hago con nieve en Esquel?', [6, 7, 8, 9]],
@@ -110,7 +110,9 @@
     '.cpe-f textarea:focus{border-color:#E91E63}.cpe-f button{border:0;background:#E91E63;color:#fff;font-weight:700;border-radius:12px;padding:0 14px;height:42px;cursor:pointer}' +
     '.cpe-f .cpe-mic{background:#f1f5f9;color:#2c3e50;width:42px;padding:0;font-size:18px}.cpe-f .cpe-mic.on{background:#E91E63;color:#fff;animation:cpeP 1s infinite}' +
     '.cpe-f button:disabled{opacity:.5}.cpe-l{font-size:10px;color:#94a3b8;text-align:center;padding:0 0 8px;background:#fff}' +
-    '@media(max-width:520px){.cpe-p{right:12px;bottom:88px}.cpe-b{right:14px;bottom:14px}}';
+    '@media(max-width:520px){.cpe-p{left:0;right:0;top:0;bottom:auto;width:100%;height:100vh;height:100dvh;border-radius:0}' +
+    '.cpe-b{right:14px;bottom:14px}.cpe-b.cpe-oculto{display:none}.cpe-h{padding-top:max(14px,env(safe-area-inset-top))}' +
+    '.cpe-f textarea{font-size:16px}.cpe-l{padding-bottom:max(8px,env(safe-area-inset-bottom))}}';
   var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
@@ -238,7 +240,7 @@
         try { if (window.fbq) fbq('trackCustom', 'ConsultorIARespuesta'); } catch (e) {}
       })
       .catch(function () { esp.remove(); burbuja('aike', T.erro); })
-      .then(function () { enviando = false; env.disabled = false; abajo(); if (!modoVoz) area.focus(); });
+      .then(function () { enviando = false; env.disabled = false; abajo(); if (!modoVoz && !tactil) area.focus(); });
   }
 
   // Micrófono: dicta, y al terminar envía solo
@@ -268,13 +270,34 @@
   }
 
   var abrioYa = false;
-  function abrir() { panel.classList.add('on'); pintar(); setTimeout(function () { area.focus(); }, 50); if (!abrioYa) { abrioYa = true; evento('abrir'); } }
+  var celular = function () { return window.matchMedia && window.matchMedia('(max-width:520px)').matches; };
+  var tactil = window.matchMedia && window.matchMedia('(pointer:coarse)').matches;
+  // En el celular el panel ocupa la pantalla y se achica cuando aparece el teclado
+  function ajustar() {
+    if (!panel.classList.contains('on') || !celular() || !window.visualViewport) { panel.style.height = ''; panel.style.top = ''; return; }
+    panel.style.height = window.visualViewport.height + 'px';
+    panel.style.top = window.visualViewport.offsetTop + 'px';
+    abajo();
+  }
+  if (window.visualViewport) { window.visualViewport.addEventListener('resize', ajustar); window.visualViewport.addEventListener('scroll', ajustar); }
+  var scrollAntes = '';
+  function abrir() {
+    panel.classList.add('on'); pintar();
+    if (celular()) { boton.classList.add('cpe-oculto'); scrollAntes = document.documentElement.style.overflow; document.documentElement.style.overflow = 'hidden'; }
+    ajustar();
+    // En pantallas táctiles no se abre el teclado solo: el lector ve el título y las preguntas
+    if (!tactil) setTimeout(function () { area.focus(); }, 50);
+    if (!abrioYa) { abrioYa = true; evento('abrir'); }
+  }
   // Clics en la recomendación y en los links de las respuestas (para medir conversión)
   caja.addEventListener('click', function (e) {
     var a = e.target && e.target.closest ? e.target.closest('a') : null;
     if (a && a.href) evento(a.classList.contains('cpe-r') ? 'tarjeta' : 'link', a.href);
   });
-  function cerrar() { panel.classList.remove('on'); callar(); if (rec) rec.stop(); }
+  function cerrar() {
+    panel.classList.remove('on'); callar(); if (rec) rec.stop();
+    boton.classList.remove('cpe-oculto'); document.documentElement.style.overflow = scrollAntes; ajustar();
+  }
   boton.onclick = function () { panel.classList.contains('on') ? cerrar() : abrir(); };
   panel.querySelector('.cpe-x').onclick = cerrar;
   form.onsubmit = function (e) { e.preventDefault(); modoVoz = false; var t = area.value; area.value = ''; enviar(t); };

@@ -45,3 +45,8 @@ https://:project.pages.dev/*
   X-Robots-Tag: noindex
 /api/*
   X-Robots-Tag: noindex
+
+# Widget de Quimey (se carga en Patagonia Magazine): UTF-8 y caché corta para que los cambios lleguen rápido
+/js/aike-chat.js
+  Content-Type: application/javascript; charset=utf-8
+  Cache-Control: public, max-age=600, must-revalidate

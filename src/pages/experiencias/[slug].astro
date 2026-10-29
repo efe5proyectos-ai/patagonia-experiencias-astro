@@ -1,14 +1,18 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { obtenerExperiencias } from '../../lib/contenido.js';
+import { obtenerExperiencias, obtenerGuias } from '../../lib/contenido.js';
 import { traduccionDe, urlPt, relacionadas } from '../../lib/traducciones.js';
+import { guiasDeExperiencia, destinoParaTitulo } from '../../lib/geo.js';
 
 export async function getStaticPaths() {
-  const exps = await obtenerExperiencias();
-  return exps.map((exp) => ({ params: { slug: exp.slug }, props: { exp, rel: relacionadas(exp, exps) } }));
+  const [exps, guias] = await Promise.all([obtenerExperiencias(), obtenerGuias()]);
+  return exps.map((exp) => ({
+    params: { slug: exp.slug },
+    props: { exp, rel: relacionadas(exp, exps), guias: guiasDeExperiencia(exp, guias) },
+  }));
 }
 
-const { exp, rel } = Astro.props;
+const { exp, rel, guias } = Astro.props;
 const url = new URL(Astro.url.pathname, Astro.site).href;
 const pt = traduccionDe(exp.slug);
 const alternos = pt?.slugPt ? { es: url, pt: urlPt(pt.slugPt) } : null;
@@ -29,7 +33,7 @@ const schema = [
     { '@type': 'ListItem', position: 3, name: exp.titulo, item: url } ] },
 ];
 ---
-<BaseLayout titulo={`${exp.titulo} en ${exp.destino}`} descripcion={descripcion} imagen={exp.imagen} schema={schema} tipo="product" alternos={alternos}>
+<BaseLayout titulo={`${exp.titulo} en ${destinoParaTitulo(exp.destino)}`} descripcion={descripcion} imagen={exp.imagen} schema={schema} tipo="product" alternos={alternos}>
   <main>
     {exp.imagen && (
       <div class="relative h-[45vh] min-h-[320px] overflow-hidden">
@@ -86,6 +90,17 @@ const schema = [
         </div>
       )}
       <div class="prose-pe text-[17px] leading-relaxed text-slate-700 whitespace-pre-line" set:html={exp.descripcion} />
+      {guias.items.length > 0 && (
+        <section class="mt-10 border border-slate-200 rounded-2xl p-6 bg-white">
+          <h2 class="font-sans font-bold text-base text-brand-oxford mb-1">Antes de viajar a {guias.lugar.nombre}</h2>
+          <p class="text-slate-500 text-sm mb-4">Nuestra guía del lugar: qué ver, cuándo ir y cómo llegar.</p>
+          <ul class="space-y-2">
+            {guias.items.map((g) => (
+              <li><a href={`/guias/${g.slug}/`} class="text-brand-fuchsia font-semibold text-[15px] hover:underline"><i class="fa-solid fa-book-open mr-2 text-xs"></i>{g.titulo}</a></li>
+            ))}
+          </ul>
+        </section>
+      )}
       <aside class="mt-12 bg-gradient-to-br from-brand-fuchsia to-brand-fuchsiaDark rounded-3xl p-8 text-white shadow-2xl shadow-brand-fuchsia/20">
         <h2 class="font-sans font-extrabold text-2xl mb-2">Reservá esta experiencia</h2>
         <p class="text-white/80 mb-5">Asegurá tu lugar online y sumá Patagonia Puntos.</p>

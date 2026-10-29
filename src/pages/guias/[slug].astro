@@ -1,13 +1,17 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { obtenerGuias } from '../../lib/contenido.js';
+import { obtenerGuias, obtenerExperiencias } from '../../lib/contenido.js';
+import { experienciasDeGuia } from '../../lib/geo.js';
 
 export async function getStaticPaths() {
-  const guias = await obtenerGuias();
-  return guias.map((guia) => ({ params: { slug: guia.slug }, props: { guia } }));
+  const [guias, exps] = await Promise.all([obtenerGuias(), obtenerExperiencias()]);
+  return guias.map((guia) => ({
+    params: { slug: guia.slug },
+    props: { guia, reservables: experienciasDeGuia(guia, exps) },
+  }));
 }
 
-const { guia } = Astro.props;
+const { guia, reservables } = Astro.props;
 const url = new URL(Astro.url.pathname, Astro.site).href;
 
 // Description: saca el HTML y evita repetir el título si el cuerpo arranca con él
@@ -59,6 +63,24 @@ const schema = [
               <p class="mt-3 text-slate-600">{f.respuesta}</p>
             </details>
           ))}
+        </section>
+      )}
+
+      {reservables.items.length > 0 && (
+        <section class="mt-14">
+          <h2 class="font-sans font-extrabold text-2xl text-brand-oxford mb-2">Reservá en {reservables.lugar.nombre}</h2>
+          <p class="text-slate-500 text-sm mb-6">Prestadores locales verificados, con precio y disponibilidad online.</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {reservables.items.map((e) => (
+              <a href={`/experiencias/${e.slug}/`} class="group bg-white rounded-2xl overflow-hidden flex flex-col shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
+                <div class="relative h-40 overflow-hidden"><img src={e.imagen} alt={`${e.titulo} — ${e.destino}`} loading="lazy" width="600" height="400" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" /></div>
+                <div class="p-5">
+                  <h3 class="font-sans font-bold text-brand-dark text-[15px] leading-tight group-hover:text-brand-fuchsia transition-colors">{e.titulo}</h3>
+                  <p class="text-slate-500 text-[11px] font-semibold mt-2"><i class="fa-solid fa-location-dot mr-1 text-brand-fuchsia"></i>{e.destino}</p>
+                </div>
+              </a>
+            ))}
+          </div>
         </section>
       )}
 

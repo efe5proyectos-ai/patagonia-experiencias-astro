@@ -45,6 +45,7 @@ export async function GET() {
         categoria: e.categoria || '',
         duracion: e.duracion || '',
         temporada: e.temporada || '',
+        temporadas: e.temporadas || [],   // verano / otono / invierno / primavera (vacío = todo el año)
         precio: e.precio || null,            // precio final (ARS), igual al de la ficha
         precioLista: e.precioLista || null,  // solo si hay descuento
         sena: e.precios?.sena || null,       // lo que se paga online al reservar

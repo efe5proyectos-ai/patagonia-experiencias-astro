@@ -182,6 +182,7 @@ export async function obtenerExperiencias() {
     ...normalizarExperiencia(d, agencias || [], planes),
     slugReserva: slugReservaDe(d, activos),
     tourId: d.id || '',
+    temporadas: Array.isArray(d.temporadas) ? d.temporadas : [],
     visibleEnApp: d.pausadoPorAdmin !== true && (!d.proveedorId || !(agencias || []).length || agenciaVisible(d.proveedorId)),
   }));
 }

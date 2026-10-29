@@ -266,6 +266,18 @@ const HERRAMIENTAS = [
   },
 ];
 
+// Meses que nombra el lector (es/pt) → aviso puntual de fauna para esta charla
+const MESES_TEXTO = [['enero', 'janeiro'], ['febrero', 'fevereiro'], ['marzo', 'marco'], ['abril'], ['mayo', 'maio'], ['junio', 'junho'],
+  ['julio', 'julho'], ['agosto'], ['septiembre', 'setiembre', 'setembro'], ['octubre', 'outubro'], ['noviembre', 'novembro'], ['diciembre', 'dezembro']];
+function avisoFauna(mensajes) {
+  const txt = norm(mensajes.filter((m) => m.role === 'user').map((m) => m.content).join(' '));
+  const sinBallenas = MESES_TEXTO.map((nombres, i) => (nombres.some((n) => new RegExp(`\\b${n}\\b`).test(txt)) ? i + 1 : 0))
+    .filter((m) => m >= 1 && m <= 5);
+  if (!sinBallenas.length) return '';
+  const nombres = sinBallenas.map((m) => MESES_TEXTO[m - 1][0]).join(', ');
+  return `AVISO PARA ESTA CHARLA: el lector habla de ${nombres}. En ese mes NO hay ballenas francas en la Patagonia (la temporada es de junio a diciembre). No las ofrezcas, no digas que "quedan las últimas" ni "con suerte", y no propongas avistajes de ballenas ni El Doradillo para ballenas. Si pregunta por ballenas, decile que no hay y que vuelven en junio. Proponé pingüinos, lobos y elefantes marinos, orcas (marzo y abril) y playa.`;
+}
+
 function sistema(idioma, whatsapp, nombre) {
   const pt = idioma === 'pt';
   const hoy = new Date().toLocaleDateString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires', day: 'numeric', month: 'long', year: 'numeric' });
@@ -430,6 +442,7 @@ export async function onRequestPost({ request, env, waitUntil }) {
   let texto = '';
   let respaldo = '';
 
+  const aviso = avisoFauna(mensajes);
   for (let vuelta = 0; vuelta < MAX_VUELTAS; vuelta++) {
     const r = await fetch((env.AIKE_API_BASE || 'https://api.anthropic.com') + '/v1/messages', {
       method: 'POST',
@@ -441,7 +454,8 @@ export async function onRequestPost({ request, env, waitUntil }) {
       body: JSON.stringify({
         model: env.AIKE_MODELO || MODELO_DEFAULT,
         max_tokens: 700,
-        system: [{ type: 'text', text: sistema(idioma, whatsapp, env.CONSULTOR_NOMBRE || 'Quimey'), cache_control: { type: 'ephemeral' } }],
+        system: [{ type: 'text', text: sistema(idioma, whatsapp, env.CONSULTOR_NOMBRE || 'Quimey'), cache_control: { type: 'ephemeral' } },
+          ...(aviso ? [{ type: 'text', text: aviso }] : [])],
         tools: HERRAMIENTAS.map((t, i) => (i === HERRAMIENTAS.length - 1 ? { ...t, cache_control: { type: 'ephemeral' } } : t)),
         messages: conversacion,
       }),

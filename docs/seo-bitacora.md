@@ -70,6 +70,21 @@ Reglas de la bitácora:
   6. `turismo-ancestral-sierra-colorada-lago-rosario` / `turismo-ancestral-sierra-colorada-y-lago-rosario`
   7. `alquiler-equipo-de-ski-por-1-dia` / `alquiler-equipo-de-ski-por-3-dias`
   Es catálogo, no código: la corrida automática no lo toca.
+- **Localidades que la app de reservas no reconoce.** La tabla de localidades y
+  alias (`GEO_PROVINCIAS`) vive dentro de `public/patagonia-experiencias.html`,
+  que es zona prohibida, así que no la toqué. Le faltan: **Corcovado**,
+  **Cholila**, **Comarca Andina**, **Pueblo Alto Lodge**, **Lago Rosario**,
+  **Gualjaina** y **Aldea Escolar** — hay fichas publicadas en cada uno de esos
+  lugares y el filtro por destino de la app no las encuentra. El arreglo es
+  sumar una entrada por localidad en el array de `localidades` de Chubut, con
+  sus alias; no toca precios ni checkout, pero está en el archivo del checkout.
+  Decime si lo hago y lo hago en una corrida. (Del lado de Astro ya está
+  cubierto: el cruce guía ↔ ficha usa su propia tabla, `src/lib/geo.js`.)
+- **Las guías de viaje no tienen destino propio.** En Firestore las 60 guías no
+  traen el campo `destino`, así que el código cae en `categoria` y la etiqueta
+  que se ve arriba del título dice "Recomendado", "Aventura" o "Inspiración" en
+  lugar del lugar. Si en el admin se les carga el destino, las guías se pueden
+  agrupar y enlazar por lugar igual que las fichas. Es carga de datos, no código.
 - **Las tres páginas de pago** (`pago-confirmado`, `pago-pendiente`, `pago-rechazado`)
   sirven 200 y son rastreables, sin `noindex`. Deberían llevar `noindex, follow`:
   son pantallas de resultado de una compra, no tienen nada que buscar y pueden
@@ -93,10 +108,7 @@ Reglas de la bitácora:
 2. **Slugs duplicados entre prestadores.** Dos agencias que venden el mismo tour
    comparten la misma URL, así que cuál precio se muestra es indeterminado y
    Google ve contenido que cambia solo. Hay que darles URL propia o consolidar.
-3. **Destinos sin reconocer**: Corcovado, Comarca Andina, Pueblo Alto Lodge y
-   Cholila no matchean con ningún destino del sistema, así que esas fichas quedan
-   fuera del enlazado por destino y de las páginas de listado.
-4. **Meta descripciones autogeneradas.** Medido el 28/10 sobre las 239 URLs del
+3. **Meta descripciones autogeneradas.** Medido el 28/10 sobre las 239 URLs del
    sitemap: ninguna ficha se queda sin description, pero todas salen de
    `textoPlano.slice(0, 157)` en `src/pages/experiencias/[slug].astro` (línea 16)
    y en su gemela de `/pt-br/`. Por eso los 7 grupos de tours repetidos tienen
@@ -108,10 +120,25 @@ Reglas de la bitácora:
    destino + duración + categoría + texto mejora las que hoy son únicas, pero
    **no arregla los grupos repetidos**: ahí los campos también coinciden. Primero
    la decisión de catálogo, después el recorte.
-5. **Contenido pt-BR traducido a máquina.** Google Brasil premia el texto que
+4. **Contenido pt-BR traducido a máquina.** Google Brasil premia el texto que
    suena nativo. Revisar las fichas con más impresiones y reescribirlas.
-6. **Enlazado interno guías ↔ fichas.** Las guías de viaje tienen autoridad y
-   casi no enlazan a las fichas de tours que venden eso mismo.
+5. **Guías sin oferta propia que enlazar.** Resuelto el enlazado automático
+   (ver "Hecho" del 29/10), quedan **26 de las 60 guías sin ningún enlace a
+   ficha** porque no hay nada publicado en ese lugar: 5 de Bariloche, 4 de El
+   Calafate / El Chaltén, 4 de Santa Cruz (Cueva de las Manos, Lago Posadas,
+   Puerto San Julián, Jaramillo, Perito Moreno), y Camarones, Sarmiento, Dique
+   Ameghino, Los Altares, Piedra Parada, Río Senguer, Siete Lagos. Son páginas
+   que traen visitas y no tienen nada para vender. Es decisión de catálogo
+   (sumar prestadores ahí) o de contenido (despublicar las que no aportan), no
+   de código.
+6. **Títulos que repiten el lugar.** Medido el 29/10 sobre las 93 fichas en
+   español: 19 ya nombran el destino en el título y el template igual le pega
+   ` en {destino}` atrás, así que Google muestra "TREVELIN Full Day en
+   Trevelin, Chubut", "CABALGATAS EN ESQUEL en Esquel, Chubut", "Península
+   Valdés en Puerto Pirámides, Chubut". Se arregla con una condición en
+   `src/pages/experiencias/[slug].astro`: si el título ya nombra la localidad
+   detectada, no agregar el sufijo. Es cosmético pero gana caracteres útiles en
+   el resultado de búsqueda.
 7. **Datos estructurados.** Validar Product/Offer, FAQPage y BreadcrumbList con
    la herramienta de resultados enriquecidos; corregir lo que tire error.
 8. **Core Web Vitals.** Las páginas de `public/` cargan Tailwind por CDN y
@@ -131,13 +158,37 @@ Reglas de la bitácora:
    compartido (`public/footer.js`) o desde la home. Es cambio de navegación:
    chico, pero toca todas las páginas, así que va en una corrida propia.
 10. **Bing rechaza IndexNow.** Yandex acepta las 240 URLs (200 OK); Bing y el
-    endpoint compartido devuelven 403 `UserForbiddedToAccessSite` aunque la
-    clave esté bien publicada y accesible. Falta reclamar el sitio en Bing
-    Webmaster Tools (se importa desde Search Console en dos minutos). Es tarea
-    de Marcelo: está anotada abajo. Mientras tanto el script sigue avisando a
-    Yandex, que funciona.
+   endpoint compartido devuelven 403 `UserForbiddedToAccessSite` aunque la
+   clave esté bien publicada y accesible. Falta reclamar el sitio en Bing
+   Webmaster Tools (se importa desde Search Console en dos minutos). Es tarea
+   de Marcelo: está anotada arriba. Mientras tanto el script sigue avisando a
+   Yandex, que funciona (29/10: aceptó las 241 URLs).
 
 ## Hecho
+
+- **29/10/2026** — Enlazado interno guías ↔ fichas. Las 60 guías de viaje no
+  enlazaban a ninguna ficha de tour: su único enlace de salida era el CTA
+  genérico a `/experiencias/`. Ahora cada guía cierra con hasta 4 fichas del
+  mismo lugar ("Reservá en …") y cada ficha enlaza hasta 2 guías de su destino
+  ("Antes de viajar a …"). Verificado en producción: **34 de las 60 guías** con
+  bloque (136 enlaces nuevos a fichas) y **86 de las 93 fichas** con enlace a
+  guía (164 enlaces nuevos). Unas 300 conexiones internas nuevas, todas
+  contextuales. El cruce lo hace `src/lib/geo.js`, tabla de localidades y alias
+  propia de la capa Astro: el campo `destino` de Firestore es texto libre y muy
+  sucio, así que se detecta la localidad por alias en lugar de comparar
+  strings. **No lee ni toca `GEO_PROVINCIAS` de la app de reservas.** Reglas
+  para no enlazar mal: sin lugar reconocido no se muestra el bloque; si la
+  localidad de la guía no tiene oferta no se rellena con la zona (una guía de
+  Camarones no termina enlazando restaurantes de Comodoro); gastronomía y
+  alojamiento se enlazan sólo si están en la misma localidad.
+- **29/10/2026** — Direcciones de calle dentro del `<title>`. 12 fichas
+  publicaban el título como `{titulo} en {destino}` con la dirección cargada en
+  el campo destino: "Roselli Pizza Bar en italia 308 Trelew, CHUBUT", "Super
+  Magic en Soberanía Nacional 140Trelew, CHUBUT". Ahora, sólo cuando el destino
+  trae números, se reemplaza por la localidad reconocida ("… en Trelew"). Los
+  otros 81 títulos quedaron intactos y la etiqueta de la ficha sigue mostrando
+  la dirección completa, que ahí sí sirve. Verificado: cero títulos con
+  dirección en las 93 fichas.
 
 - **28/10/2026** — Páginas indexables fuera del sitemap: 13 URLs servían 200,
   eran rastreables y no estaban ni en el sitemap ni enlazadas desde ninguna
@@ -217,3 +268,47 @@ Lo que sí es real y quedó anotado en el pendiente 8: `/aike` y `/prestadores` 
 tienen ningún encabezado en el HTML servido y `/calendario-fauna/` lo tiene
 vacío. **Para la próxima corrida: el rastreo tiene que validar el tamaño de cada
 respuesta antes de concluir que a una página le falta algo.**
+
+### 29/10/2026 — Enlazado interno guías ↔ fichas + títulos con dirección
+
+Arranqué por el pendiente de más arriba que fuera accionable. Los tres primeros
+siguen trabados: las 147 no indexadas y los slugs duplicados necesitan Search
+Console o una decisión de catálogo, y los "destinos sin reconocer" resultaron
+estar en `GEO_PROVINCIAS`, adentro de `public/patagonia-experiencias.html`, que
+es zona prohibida — lo pasé a "Para Marcelo" con la lista exacta de localidades
+que faltan y el arreglo, sin tocar nada.
+
+El trabajo de la corrida fue el enlazado interno guías ↔ fichas. Las 60 guías de
+viaje son el contenido con más autoridad del sitio y su único enlace de salida
+era un CTA genérico a `/experiencias/`: toda esa autoridad moría ahí. Escribí
+`src/lib/geo.js`, una tabla de 25 localidades con alias (propia de la capa
+Astro, sin tocar la de la app de reservas), porque el campo `destino` de
+Firestore es texto libre y sucio: "Trevelin, CHUBUT", "italia 308 Trelew,
+CHUBUT", "Esquel", "  Fontana 432 Trelew". Con eso cada guía muestra hasta 4
+fichas del mismo lugar y cada ficha hasta 2 guías de su destino. Probé el cruce
+contra los datos reales de producción antes de subir nada, y después verifiqué
+el deploy fetcheando las 153 URLs: 34 guías con bloque (136 enlaces) y 86
+fichas con enlace a guía (164 enlaces). Ninguna respuesta vino cortada — validé
+el tamaño de cada una, como quedó anotado la corrida pasada.
+
+En el mismo pase encontré y arreglé algo que se veía en Google: 12 fichas
+publicaban la dirección de la calle dentro del `<title>`, porque varios
+prestadores cargaron la dirección en el campo destino y el template la pegaba
+atrás del nombre. "Roselli Pizza Bar en italia 308 Trelew, CHUBUT" ahora es
+"Roselli Pizza Bar en Trelew".
+
+**Qué mido como resultado esperado:** que las fichas gane posiciones en las
+búsquedas de intención de compra que hoy capturan las guías ("qué hacer en
+Puerto Madryn" → ficha de Punta Loma), porque Google ahora ve 300 enlaces
+contextuales desde las páginas con autoridad hacia las páginas que venden; que
+baje el porcentaje de salida de las guías; y que los 12 títulos limpios dejen de
+mostrar una dirección en el resultado de búsqueda. Avisé por IndexNow: Yandex
+aceptó las 241 URLs, Bing sigue en 403.
+
+**Qué quedó pendiente:** 26 de las 60 guías siguen sin enlazar a ninguna ficha,
+y no es un problema de código: no hay oferta publicada en esos lugares
+(Bariloche, El Calafate, El Chaltén, Santa Cruz, Camarones, Sarmiento). Son
+páginas que traen visitas y no tienen nada para vender — quedó como pendiente 5,
+y es decisión de Marcelo si se suman prestadores ahí o se despublican. También
+anoté el pendiente 6 nuevo: 19 fichas repiten el lugar en el título ("TREVELIN
+Full Day en Trevelin, Chubut"), medido hoy, con el arreglo identificado.

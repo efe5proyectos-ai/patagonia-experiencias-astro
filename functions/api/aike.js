@@ -193,7 +193,7 @@ REGLAS FIJAS:
 1. Nunca escribas precios, ni montos, ni nombres de excursiones que no hayan salido de una herramienta. Los precios los muestran las tarjetas: no los repitas en el texto.
 2. Si no hay una experiencia en el catálogo para lo que piden, decilo con honestidad y ofrecé alternativas del catálogo o el WhatsApp de un asesor.
 3. Solo hablás de turismo en la Patagonia y de Patagonia Experiencias, Patagonia Magazine y Patagonia Puntos. Si te piden otra cosa (tareas, programación, política, temas personales, otros destinos fuera de la Patagonia), respondé en una línea que solo podés ayudar con viajes por la Patagonia y proponé algo concreto.
-4. No inventes horarios, disponibilidad, teléfonos, direcciones ni políticas. Para eso: la ficha de la experiencia o el asesor por WhatsApp${whatsapp ? ` (https://wa.me/${whatsapp})` : ''}.
+4. No inventes horarios, disponibilidad, teléfonos, direcciones, distancias, duraciones ni políticas, ni relaciones geográficas que no estén en los datos (no digas que dos lugares son vecinos si no lo sabés con certeza: Gaiman y Trelew están en el Valle del Chubut, cerca de Puerto Madryn; Esquel y Trevelin están en la cordillera, a unos 600 km). Para eso: la ficha de la experiencia o el asesor por WhatsApp${whatsapp ? ` (https://wa.me/${whatsapp})` : ''}.
 5. Reserva: se hace online desde el botón "Reservar" de la tarjeta; al reservar se paga una seña online con Mercado Pago y el resto se abona al prestador. No confirmes reservas ni pagos vos.
 6. Datos de fauna y clima: hablá en general y aclarando que depende de la temporada (ej.: ballena franca austral en Península Valdés aprox. junio a diciembre; pingüinos de Magallanes en Punta Tombo aprox. septiembre a abril).
 7. Respuestas cortas: 2 a 5 oraciones, sin listas largas. No anuncies lo que vas a hacer ("voy a buscar…"): usá las herramientas y respondé directo. Podés usar **negrita** y links en formato [texto](url). Terminá con una pregunta que ayude a avanzar (fechas, con quién viaja, qué le interesa).
@@ -291,6 +291,7 @@ export async function onRequestPost({ request, env }) {
   const estado = { vistos: new Set(), tarjetas: [], notas: [] };
   const conversacion = [...mensajes];
   let texto = '';
+  let respaldo = '';
 
   for (let vuelta = 0; vuelta < MAX_VUELTAS; vuelta++) {
     const r = await fetch((env.AIKE_API_BASE || 'https://api.anthropic.com') + '/v1/messages', {
@@ -316,7 +317,12 @@ export async function onRequestPost({ request, env }) {
     const resp = await r.json();
     const bloques = resp.content || [];
     const textoVuelta = bloques.filter((b) => b.type === 'text').map((b) => b.text).join('\n').trim();
-    if (textoVuelta) texto = texto ? `${texto}\n\n${textoVuelta}` : textoVuelta;
+    // El texto que acompaña una búsqueda suele ser relleno ("dejame buscar…"): se guarda solo
+    // como respaldo; lo que ve el turista es el texto de la vuelta final.
+    if (textoVuelta) {
+      if (resp.stop_reason === 'tool_use') respaldo = textoVuelta;
+      else texto = textoVuelta;
+    }
     const usos = bloques.filter((b) => b.type === 'tool_use');
     if (resp.stop_reason !== 'tool_use' || !usos.length) break;
     conversacion.push({ role: 'assistant', content: bloques });
@@ -329,7 +335,7 @@ export async function onRequestPost({ request, env }) {
   }
 
   return json({
-    texto: texto || (idioma === 'pt' ? 'Me conta um pouco mais da sua viagem?' : '¿Me contás un poco más de tu viaje?'),
+    texto: texto || respaldo || (idioma === 'pt' ? 'Me conta um pouco mais da sua viagem?' : '¿Me contás un poco más de tu viaje?'),
     tarjetas: tarjetasDe(cat, estado.tarjetas, idioma),
     notas: estado.notas,
   }, 200, h);

@@ -17,7 +17,13 @@
 //   ANTHROPIC_API_KEY  (obligatoria, tipo "Secret")
 //   AIKE_MODELO        (opcional, por defecto claude-haiku-4-5)
 //   WHATSAPP_ES / WHATSAPP_PT (opcionales)
+//   QUIMEY_ESTADISTICAS = off  (opcional: apaga el registro de consultas)
+//
+// Cada conversación se registra para estadísticas (lib-funciones/estadisticas.js)
+// en Firestore consultas_ia, en segundo plano y sin datos personales.
 // ─────────────────────────────────────────────────────────────
+
+import { registrarConsulta } from '../../lib-funciones/estadisticas.js';
 
 const MODELO_DEFAULT = 'claude-haiku-4-5';
 const ORIGENES_OK = [
@@ -384,7 +390,7 @@ export async function onRequestOptions({ request }) {
   return new Response(null, { status: 204, headers: cors(request.headers.get('Origin')) });
 }
 
-export async function onRequestPost({ request, env }) {
+export async function onRequestPost({ request, env, waitUntil }) {
   const origen = request.headers.get('Origin') || '';
   const h = cors(origen);
   let mismoSitio = false;
@@ -408,7 +414,7 @@ export async function onRequestPost({ request, env }) {
   try { cat = await cargarCatalogo(request, env); } catch { return json({ error: 'No pude cargar el catálogo. Probá de nuevo en un rato.' }, 502, h); }
 
   const whatsapp = idioma === 'pt' ? (env.WHATSAPP_PT || env.WHATSAPP_ES || '5492804687904') : (env.WHATSAPP_ES || '5492804687904');
-  const estado = { vistos: new Set(), tarjetas: [], notas: [], env };
+  const estado = { vistos: new Set(), tarjetas: [], notas: [], env, herramientas: [], uso: { entrada: 0, salida: 0 } };
   const conversacion = [...mensajes];
   let texto = '';
   let respaldo = '';
@@ -435,6 +441,8 @@ export async function onRequestPost({ request, env }) {
       return json({ error: 'Hay mucha demanda en este momento. Probá de nuevo en unos segundos.' }, 502, h);
     }
     const resp = await r.json();
+    estado.uso.entrada += (resp.usage?.input_tokens || 0) + (resp.usage?.cache_read_input_tokens || 0) + (resp.usage?.cache_creation_input_tokens || 0);
+    estado.uso.salida += resp.usage?.output_tokens || 0;
     const bloques = resp.content || [];
     const textoVuelta = bloques.filter((b) => b.type === 'text').map((b) => b.text).join('\n').trim();
     // Se juntan los textos de todas las vueltas, sin las frases de relleno ("dejame buscar…")
@@ -446,15 +454,22 @@ export async function onRequestPost({ request, env }) {
     conversacion.push({ role: 'assistant', content: bloques });
     const resultados = [];
     for (const u of usos) {
+      estado.herramientas.push(u.name);
       const salida = await ejecutarHerramienta(u.name, u.input, cat, estado);
       resultados.push({ type: 'tool_result', tool_use_id: u.id, content: JSON.stringify(salida) });
     }
     conversacion.push({ role: 'user', content: resultados });
   }
 
-  return json({
-    texto: texto || respaldo || (idioma === 'pt' ? 'Me conta um pouco mais da sua viagem?' : '¿Me contás un poco más de tu viaje?'),
-    tarjetas: tarjetasDe(cat, estado.tarjetas, idioma, whatsapp),
-    notas: estado.notas,
-  }, 200, h);
+  const respuesta = texto || respaldo || (idioma === 'pt' ? 'Me conta um pouco mais da sua viagem?' : '¿Me contás un poco más de tu viaje?');
+  const tarjetas = tarjetasDe(cat, estado.tarjetas, idioma, whatsapp);
+
+  // Estadísticas: se guardan después de responder, sin demorar al lector
+  const registro = registrarConsulta(env, request, {
+    sesion: cuerpo?.sesion, idioma, pagina: String(cuerpo?.pagina || ''), ref: String(cuerpo?.ref || ''), voz: !!cuerpo?.voz,
+    mensajes, respuesta, herramientas: estado.herramientas, tarjetas: tarjetas.map((t) => t.id), notas: estado.notas, uso: estado.uso,
+  });
+  if (typeof waitUntil === 'function') waitUntil(registro); else await registro;
+
+  return json({ texto: respuesta, tarjetas, notas: estado.notas }, 200, h);
 }

@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Estadísticas de Quimey</title>
+<link rel="icon" href="/img/aike-ia.svg">
+<style>
+  :root{
+    --bg:#f6f4f7; --card:#fff; --ink:#1f2433; --ink2:#5b6476; --muted:#8a92a3; --line:#ebe7ee;
+    --marca:#E91E63; --marca-2:#C2185B; --barra:#E91E63; --barra-fondo:#f6e3ea; --verde:#15803d; --oscuro:#1A1B3A;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+  a{color:var(--marca-2)}
+  header{background:linear-gradient(135deg,#1A1B3A,#0F1020);color:#fff;padding:18px 16px}
+  header .in{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  header img{width:44px;height:44px;border-radius:12px}
+  header h1{font:800 20px Montserrat,system-ui,sans-serif;margin:0}
+  header small{opacity:.7;display:block}
+  header .yo{margin-left:auto;font-size:12px;opacity:.85;display:flex;gap:10px;align-items:center}
+  header button{background:rgba(255,255,255,.12);color:#fff;border:0;border-radius:10px;padding:6px 10px;cursor:pointer}
+  main{max-width:1200px;margin:0 auto;padding:16px}
+  .filtros{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px}
+  .filtros .grupo{display:flex;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .filtros .grupo button{border:0;background:none;padding:8px 12px;cursor:pointer;color:var(--ink2);font-weight:600}
+  .filtros .grupo button.on{background:var(--marca);color:#fff}
+  .filtros select,.filtros .accion{border:1px solid var(--line);background:#fff;border-radius:12px;padding:8px 12px;font:inherit;color:var(--ink)}
+  .filtros .accion{cursor:pointer;font-weight:600}
+  .filtros .derecha{margin-left:auto;display:flex;gap:8px}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:14px}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px}
+  .kpi b{display:block;font:800 26px Montserrat,system-ui,sans-serif;letter-spacing:-.01em}
+  .kpi span{color:var(--ink2);font-size:12px}
+  .kpi em{display:block;font-style:normal;color:var(--muted);font-size:11px;margin-top:2px}
+  .grilla{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:12px}
+  .caja{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;min-width:0}
+  .caja h2{font-size:13px;margin:0 0 2px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink)}
+  .caja p.nota{margin:0 0 10px;color:var(--muted);font-size:12px}
+  .ancha{grid-column:1/-1}
+  .barras{display:flex;flex-direction:column;gap:6px}
+  .fila{display:grid;grid-template-columns:minmax(90px,38%) 1fr 64px;gap:8px;align-items:center;font-size:13px}
+  .fila .et{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
+  .fila .pista{height:14px;background:var(--barra-fondo);border-radius:4px;position:relative}
+  .fila .pista i{position:absolute;left:0;top:0;bottom:0;background:var(--barra);border-radius:0 4px 4px 0;min-width:2px}
+  .fila .val{text-align:right;color:var(--ink2);font-variant-numeric:tabular-nums}
+  .fila:hover .pista i{background:var(--marca-2)}
+  .vacio{color:var(--muted);font-size:13px;padding:6px 0}
+  .dias{display:flex;align-items:flex-end;gap:2px;height:140px;padding-top:6px;border-bottom:1px solid var(--line)}
+  .dias div{flex:1;background:var(--barra);border-radius:4px 4px 0 0;min-height:2px;position:relative}
+  .dias div:hover{background:var(--marca-2)}
+  .dias-et{display:flex;justify-content:space-between;color:var(--muted);font-size:11px;margin-top:4px}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{text-align:left;color:var(--muted);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.05em;padding:8px 6px;border-bottom:1px solid var(--line)}
+  td{padding:9px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr.conv{cursor:pointer}
+  tr.conv:hover td{background:#fbf7f9}
+  .chip{display:inline-block;background:#f1f5f9;color:var(--ink2);border-radius:999px;padding:1px 8px;font-size:11px;margin:1px 2px 1px 0;white-space:nowrap}
+  .chip.rosa{background:#fde7ef;color:var(--marca-2)}
+  .chip.verde{background:#dcfce7;color:var(--verde)}
+  .detalle td{background:#fbf7f9}
+  .charla{display:flex;flex-direction:column;gap:6px;max-width:760px}
+  .charla div{padding:8px 12px;border-radius:12px;white-space:pre-wrap;font-size:13px}
+  .charla .lector{align-self:flex-end;background:var(--marca);color:#fff}
+  .charla .quimey{align-self:flex-start;background:#fff;border:1px solid var(--line)}
+  .ficha{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--ink2);margin-bottom:10px}
+  .ficha b{color:var(--ink)}
+  .tabla-scroll{overflow-x:auto}
+  #login{max-width:380px;margin:60px auto;background:#fff;border:1px solid var(--line);border-radius:20px;padding:26px;text-align:center}
+  #login img{width:72px;height:72px;border-radius:18px}
+  #login h1{font:800 20px Montserrat,system-ui,sans-serif;margin:10px 0 4px}
+  #login p{color:var(--ink2);margin:0 0 16px}
+  #login input{width:100%;border:1px solid var(--line);border-radius:12px;padding:10px 12px;font:inherit;margin-bottom:8px}
+  #login button{width:100%;border:0;border-radius:12px;padding:11px;font:700 14px inherit;cursor:pointer;margin-bottom:8px}
+  .b-google{background:#fff;border:1px solid var(--line)!important;color:var(--ink)}
+  .b-entrar{background:var(--marca);color:#fff}
+  .error{color:#b91c1c;font-size:13px;min-height:18px}
+  .cargando{text-align:center;color:var(--muted);padding:40px}
+  .mas{display:block;margin:12px auto 0;border:1px solid var(--line);background:#fff;border-radius:12px;padding:8px 14px;cursor:pointer;font-weight:600}
+  @media(max-width:600px){.fila{grid-template-columns:minmax(80px,40%) 1fr 52px}.grilla{grid-template-columns:1fr}.filtros .derecha{margin-left:0}}
+</style>
+</head>
+<body>
+<div id="login" hidden>
+  <img src="/img/aike-ia.svg" alt="">
+  <h1>Estadísticas de Quimey</h1>
+  <p>Entrá con la cuenta de administrador.</p>
+  <button class="b-google" id="bGoogle" type="button">Entrar con Google</button>
+  <form id="fMail">
+    <input type="email" id="mail" placeholder="Email" autocomplete="username" required>
+    <input type="password" id="clave" placeholder="Contraseña" autocomplete="current-password" required>
+    <button class="b-entrar" type="submit">Entrar</button>
+  </form>
+  <div class="error" id="errLogin"></div>
+</div>
+
+<div id="app" hidden>
+  <header><div class="in">
+    <img src="/img/aike-ia.svg" alt="">
+    <div><h1>Estadísticas de Quimey</h1><small>Qué consultan los lectores a la consultora IA de Patagonia Magazine</small></div>
+    <div class="yo"><span id="quien"></span><button id="salir" type="button">Salir</button></div>
+  </div></header>
+  <main>
+    <div class="filtros">
+      <div class="grupo" id="rango">
+        <button data-d="1" type="button">Hoy</button><button data-d="7" type="button">7 días</button><button data-d="30" type="button" class="on">30 días</button><button data-d="90" type="button">90 días</button><button data-d="365" type="button">1 año</button>
+      </div>
+      <select id="fIdioma"><option value="">Todos los idiomas</option><option value="es">Español</option><option value="pt">Portugués</option></select>
+      <select id="fTema"><option value="">Todos los temas</option></select>
+      <div class="derecha">
+        <button class="accion" id="recargar" type="button">Actualizar</button>
+        <button class="accion" id="csv" type="button">Descargar Excel (CSV)</button>
+      </div>
+    </div>
+    <div id="contenido"><div class="cargando">Cargando consultas…</div></div>
+  </main>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+<script>
+(function () {
+  firebase.initializeApp({
+    apiKey: 'AIzaSyDZkeRgN45FkOF8pO2rGxDJA28VZnZ8Ntg',
+    authDomain: 'patagonia-experiencias.firebaseapp.com',
+    projectId: 'patagonia-experiencias',
+    appId: '1:169796366610:web:3e2c7e65262933647983cb'
+  });
+  var auth = firebase.auth(), db = firebase.firestore();
+  var COL = db.collection('artifacts').doc('patagonia-experiencias-app').collection('public').doc('data').collection('consultas_ia');
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+  var num = function (n) { return Number(n || 0).toLocaleString('es-AR'); };
+  var pct = function (a, b) { return b ? Math.round(a * 100 / b) + '%' : '—'; };
+
+  var TEMAS = { excursiones: 'Excursiones', fauna: 'Fauna', gastronomia: 'Gastronomía', eventos: 'Eventos', alojamiento: 'Alojamiento',
+    itinerario: 'Itinerario / qué hacer', clima_temporada: 'Clima y temporada', como_llegar: 'Cómo llegar / traslados',
+    precios_reservas: 'Precios y reservas', negocio_sumarse: 'Negocios que quieren sumarse', patagonia_puntos: 'Patagonia Puntos', otro: 'Otro' };
+  var INTENCION = { inspirarse: 'Inspirarse / curiosidad', planificar: 'Planificar un viaje', cotizar_reservar: 'Cotizar o reservar', negocio: 'Negocio', otro: 'Otro' };
+  var MESES = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+  var VIAJA = { solo: 'Solo/a', pareja: 'En pareja', familia: 'En familia', amigos: 'Con amigos', grupo: 'Grupo', trabajo: 'Por trabajo' };
+  var PAISES = { AR: 'Argentina', BR: 'Brasil', CL: 'Chile', UY: 'Uruguay', PY: 'Paraguay', US: 'Estados Unidos', ES: 'España', MX: 'México', CO: 'Colombia', PE: 'Perú', DE: 'Alemania', FR: 'Francia', IT: 'Italia', GB: 'Reino Unido' };
+  Object.keys(TEMAS).forEach(function (k) { var o = document.createElement('option'); o.value = k; o.textContent = TEMAS[k]; $('fTema').appendChild(o); });
+
+  var todas = [], dias = 30, abiertas = {}, mostrar = 50;
+
+  // ── Login ──
+  $('bGoogle').onclick = function () {
+    $('errLogin').textContent = '';
+    auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).catch(function (e) { $('errLogin').textContent = mensajeError(e); });
+  };
+  $('fMail').onsubmit = function (ev) {
+    ev.preventDefault(); $('errLogin').textContent = '';
+    auth.signInWithEmailAndPassword($('mail').value.trim(), $('clave').value).catch(function (e) { $('errLogin').textContent = mensajeError(e); });
+  };
+  $('salir').onclick = function () { auth.signOut(); };
+  function mensajeError(e) {
+    var c = (e && e.code) || '';
+    if (/wrong-password|invalid-credential|user-not-found/.test(c)) return 'Email o contraseña incorrectos.';
+    if (/popup/.test(c)) return 'Se cerró la ventana de Google. Probá de nuevo.';
+    if (/unauthorized-domain/.test(c)) return 'Este dominio no está autorizado en Firebase para entrar con Google: usá email y contraseña.';
+    return 'No se pudo entrar (' + c + ').';
+  }
+  auth.onAuthStateChanged(function (u) {
+    var ok = u && !u.isAnonymous;
+    $('login').hidden = !!ok; $('app').hidden = !ok;
+    if (ok) { $('quien').textContent = u.email || ''; cargar(); }
+  });
+
+  // ── Datos ──
+  function cargar() {
+    $('contenido').innerHTML = '<div class="cargando">Cargando consultas…</div>';
+    var desde = new Date(); desde.setHours(0, 0, 0, 0); desde.setDate(desde.getDate() - (dias - 1));
+    COL.where('actualizado', '>=', desde).orderBy('actualizado', 'desc').limit(5000).get().then(function (snap) {
+      todas = []; snap.forEach(function (d) { var x = d.data(); x._id = d.id; todas.push(x); });
+      mostrar = 50; pintar();
+    }).catch(function (e) {
+      $('contenido').innerHTML = '<div class="caja"><b>No pude leer las consultas.</b><p class="nota">' +
+        (e && e.code === 'permission-denied' ? 'Esta cuenta no tiene permiso de administrador, o todavía no se publicaron las reglas de Firestore con la colección consultas_ia.' : esc(e && e.message)) + '</p></div>';
+    });
+  }
+  function filtradas() {
+    var idi = $('fIdioma').value, tema = $('fTema').value;
+    return todas.filter(function (c) {
+      if (idi && c.idioma !== idi) return false;
+      if (tema && (!c.datos || c.datos.tema !== tema)) return false;
+      return true;
+    });
+  }
+  function fecha(c) { var t = c.creado || c.actualizado; return t && t.toDate ? t.toDate() : null; }
+  function contar(lista, clave) {
+    var m = {};
+    lista.forEach(function (c) {
+      var v = clave(c); (Array.isArray(v) ? v : [v]).forEach(function (x) { if (x === '' || x == null || x === 0) return; x = String(x); m[x] = (m[x] || 0) + 1; });
+    });
+    return Object.keys(m).map(function (k) { return [k, m[k]]; }).sort(function (a, b) { return b[1] - a[1]; });
+  }
+  // Une variantes de escritura ("puerto madryn", "Pto Madryn") bajo un nombre
+  function normal(t) {
+    t = String(t || '').trim(); if (!t) return '';
+    var k = t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/^pto\.? /, 'puerto ');
+    return k.replace(/\b\w/g, function (c) { return c.toUpperCase(); });
+  }
+
+  function barras(titulo, nota, filas, opts) {
+    opts = opts || {};
+    var max = filas.length ? filas[0][1] : 0, total = opts.total || 0;
+    var lim = opts.limite || 10;
+    var html = '<section class="caja' + (opts.ancha ? ' ancha' : '') + '"><h2>' + esc(titulo) + '</h2>' + (nota ? '<p class="nota">' + esc(nota) + '</p>' : '');
+    if (!filas.length) return html + '<div class="vacio">Todavía sin datos.</div></section>';
+    html += '<div class="barras" role="list">';
+    filas.slice(0, lim).forEach(function (f) {
+      var et = opts.etiqueta ? opts.etiqueta(f[0]) : f[0];
+      var w = max ? Math.max(1, Math.round(f[1] * 100 / max)) : 0;
+      var txt = num(f[1]) + (total ? ' · ' + pct(f[1], total) : '');
+      html += '<div class="fila" role="listitem" title="' + esc(et + ': ' + txt) + '"><span class="et">' + esc(et) + '</span>' +
+        '<span class="pista"><i style="width:' + w + '%"></i></span><span class="val">' + (total ? pct(f[1], total) : num(f[1])) + '</span></div>';
+    });
+    return html + '</div></section>';
+  }
+
+  function pintar() {
+    var L = filtradas();
+    var charlas = L.filter(function (c) { return (c.turnos || 0) > 0; });
+    var conDatos = charlas.filter(function (c) { return c.datos; });
+    var soloAbrieron = L.filter(function (c) { return !(c.turnos > 0) && (c.aperturas || 0) > 0; }).length;
+    var preguntas = charlas.reduce(function (s, c) { return s + (c.turnos || 0); }, 0);
+    var conReco = charlas.filter(function (c) { return (c.tarjetas || []).length; }).length;
+    var clicReco = L.filter(function (c) { return (c.clics_tarjeta || 0) > 0; }).length;
+    var clicLink = L.filter(function (c) { return (c.clics_link || 0) > 0; }).length;
+    var negocios = conDatos.filter(function (c) { return c.datos.es_negocio; }).length;
+    var voz = charlas.filter(function (c) { return c.voz; }).length;
+    var tin = L.reduce(function (s, c) { return s + (c.tokens_entrada || 0); }, 0), tout = L.reduce(function (s, c) { return s + (c.tokens_salida || 0); }, 0);
+    var usd = tin / 1e6 * 1 + tout / 1e6 * 5;
+    var conPax = conDatos.filter(function (c) { return c.datos.pasajeros > 0; });
+    var paxProm = conPax.length ? (conPax.reduce(function (s, c) { return s + c.datos.pasajeros; }, 0) / conPax.length) : 0;
+
+    var h = '<div class="kpis">' +
+      kpi(num(charlas.length), 'Conversaciones', soloAbrieron ? num(soloAbrieron) + ' más abrieron el chat sin preguntar' : '') +
+      kpi(num(preguntas), 'Preguntas', charlas.length ? (preguntas / charlas.length).toFixed(1).replace('.', ',') + ' por conversación' : '') +
+      kpi(pct(conReco, charlas.length), 'Recibieron una recomendación', num(conReco) + ' conversaciones') +
+      kpi(num(clicReco), 'Clics en "Ver y reservar"', conReco ? pct(clicReco, conReco) + ' de las que la recibieron' : '') +
+      kpi(num(clicLink), 'Clics en links de notas', 'newsletter, notas, sumate…') +
+      kpi(num(negocios), 'Negocios interesados', 'quieren sumarse o anunciar') +
+      kpi(paxProm ? paxProm.toFixed(1).replace('.', ',') : '—', 'Pasajeros promedio', conPax.length ? 'en ' + num(conPax.length) + ' consultas que lo dicen' : '') +
+      kpi('US$ ' + usd.toFixed(2).replace('.', ','), 'Costo IA aproximado', voz ? num(voz) + ' conversaciones por voz' : 'incluye el análisis de cada charla') +
+      '</div>';
+
+    h += porDia(charlas);
+
+    var tot = conDatos.length;
+    h += '<div class="grilla">';
+    h += barras('Temas consultados', 'Tema principal de cada conversación', contar(conDatos, function (c) { return c.datos.tema; }), { total: tot, etiqueta: function (k) { return TEMAS[k] || k; }, limite: 12 });
+    h += barras('Destinos que interesan', 'Lugares nombrados en la charla', contar(conDatos, function (c) { return (c.datos.destinos || []).map(normal); }), { limite: 12 });
+    h += barras('Intereses', 'Lo que buscan hacer o comer', contar(conDatos, function (c) { return (c.datos.intereses || []).map(function (x) { return String(x).toLowerCase(); }); }), { limite: 12 });
+    h += barras('Intención', '¿Están mirando o por comprar?', contar(conDatos, function (c) { return c.datos.intencion; }), { total: tot, etiqueta: function (k) { return INTENCION[k] || k; } });
+    h += barras('Mes del viaje', 'Cuando lo dicen', contar(conDatos, function (c) { return c.datos.mes_viaje; }).sort(function (a, b) { return a[0] - b[0]; }).sort(function (a, b) { return b[1] - a[1]; }), { etiqueta: function (k) { return MESES[k] || k; }, limite: 12 });
+    h += barras('Cantidad de pasajeros', 'Cuando lo dicen', contar(conDatos, function (c) { var p = c.datos.pasajeros; return !p ? '' : p >= 7 ? '7 o más' : p === 1 ? '1 persona' : p + ' personas'; }));
+    h += barras('Con quién viajan', '', contar(conDatos, function (c) { return c.datos.viaja_con; }), { etiqueta: function (k) { return VIAJA[k] || k; } });
+    h += barras('Duración del viaje', 'Días, cuando lo dicen', contar(conDatos, function (c) { var d = c.datos.dias; return !d ? '' : d <= 2 ? '1 o 2 días' : d <= 4 ? '3 o 4 días' : d <= 7 ? '5 a 7 días' : 'Más de una semana'; }));
+    h += barras('Ciudad de origen del viajero', 'Desde dónde dicen que viajan', contar(conDatos, function (c) { return normal(c.datos.ciudad_origen); }));
+    h += barras('Ciudad desde donde consultan', 'Ubicación aproximada de la conexión', contar(charlas, function (c) { return c.ciudad ? c.ciudad + (c.pais && c.pais !== 'AR' ? ' (' + c.pais + ')' : '') : ''; }), { limite: 12 });
+    h += barras('País', 'De la conexión', contar(charlas, function (c) { return c.pais; }), { total: charlas.length, etiqueta: function (k) { return PAISES[k] || k; } });
+    h += barras('Provincia / región', 'De la conexión', contar(charlas, function (c) { return c.region; }));
+    h += barras('Página donde abrieron el chat', '', contar(charlas, function (c) { return (c.pagina || '').replace(/^https?:\/\/(www\.)?/, ''); }), { limite: 12 });
+    h += barras('Cómo llegaron a esa página', 'Sitio anterior (buscador, redes…)', contar(charlas, function (c) { return c.ref || 'directo / sin dato'; }));
+    h += barras('Dispositivo', '', contar(charlas, function (c) { return c.dispositivo; }), { total: charlas.length });
+    h += barras('Idioma', '', contar(charlas, function (c) { return c.idioma === 'pt' ? 'Portugués' : 'Español'; }), { total: charlas.length });
+    h += barras('Experiencias más recomendadas', 'Recomendación que mostró Quimey', contar(charlas, function (c) { return c.tarjetas || []; }), { limite: 12 });
+    h += barras('Rubros de negocios interesados', '', contar(conDatos, function (c) { return c.datos.es_negocio ? normal(c.datos.rubro_negocio) || 'Sin rubro' : ''; }));
+    h += '</div>';
+
+    h += tablaConversaciones(charlas);
+    $('contenido').innerHTML = h;
+    var mas = $('verMas'); if (mas) mas.onclick = function () { mostrar += 100; pintar(); };
+    Array.prototype.forEach.call(document.querySelectorAll('tr.conv'), function (tr) {
+      tr.onclick = function () { abiertas[tr.dataset.id] = !abiertas[tr.dataset.id]; pintar(); };
+    });
+  }
+  function kpi(v, t, e) { return '<div class="kpi"><b>' + esc(v) + '</b><span>' + esc(t) + '</span>' + (e ? '<em>' + esc(e) + '</em>' : '') + '</div>'; }
+
+  function porDia(charlas) {
+    var n = Math.min(dias, 90), cuenta = {}, hoy = new Date(); hoy.setHours(0, 0, 0, 0);
+    charlas.forEach(function (c) { var f = fecha(c); if (!f) return; var k = f.toISOString().slice(0, 10); cuenta[k] = (cuenta[k] || 0) + 1; });
+    var lista = [];
+    for (var i = n - 1; i >= 0; i--) { var d = new Date(hoy); d.setDate(d.getDate() - i); var k = new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10); lista.push([d, cuenta[k] || 0]); }
+    var max = Math.max.apply(null, lista.map(function (x) { return x[1]; })) || 1;
+    var fmt = function (d) { return d.toLocaleDateString('es-AR', { day: 'numeric', month: 'short' }); };
+    var h = '<section class="caja ancha" style="margin-bottom:12px"><h2>Conversaciones por día</h2><p class="nota">' + (dias > 90 ? 'Últimos 90 días' : 'Período elegido') + ' · máximo ' + num(max) + ' en un día</p><div class="dias">';
+    lista.forEach(function (x) { h += '<div style="height:' + Math.round(x[1] * 100 / max) + '%" title="' + esc(fmt(x[0]) + ': ' + x[1] + ' conversaciones') + '"></div>'; });
+    return h + '</div><div class="dias-et"><span>' + fmt(lista[0][0]) + '</span><span>' + fmt(lista[lista.length - 1][0]) + '</span></div></section>';
+  }
+
+  function tablaConversaciones(charlas) {
+    var h = '<section class="caja ancha" style="margin-top:12px"><h2>Conversaciones</h2><p class="nota">Tocá una fila para ver la charla completa. Mails y teléfonos que escribieron aparecen tapados.</p>';
+    if (!charlas.length) return h + '<div class="vacio">Todavía no hay conversaciones en este período.</div></section>';
+    h += '<div class="tabla-scroll"><table><thead><tr><th>Fecha</th><th>Desde</th><th>Qué buscaba</th><th>Viaje</th><th>Resultado</th></tr></thead><tbody>';
+    charlas.slice(0, mostrar).forEach(function (c) {
+      var d = c.datos || {}, f = fecha(c);
+      var primera = ((c.conversacion || []).filter(function (m) { return m.rol === 'lector'; })[0] || {}).texto || '';
+      var viaje = [];
+      if ((d.destinos || []).length) viaje.push(d.destinos.join(', '));
+      if (d.fecha_viaje) viaje.push(d.fecha_viaje); else if (d.mes_viaje) viaje.push(MESES[d.mes_viaje]);
+      if (d.pasajeros) viaje.push(d.pasajeros + ' pax');
+      if (d.dias) viaje.push(d.dias + ' días');
+      if (d.ciudad_origen) viaje.push('desde ' + d.ciudad_origen);
+      var res = '';
+      if ((c.tarjetas || []).length) res += '<span class="chip rosa">Recomendación</span>';
+      if (c.clics_tarjeta) res += '<span class="chip verde">Clic en reservar</span>';
+      if (c.clics_link) res += '<span class="chip">Clic en link</span>';
+      if (d.es_negocio) res += '<span class="chip rosa">Negocio</span>';
+      if (c.voz) res += '<span class="chip">Voz</span>';
+      h += '<tr class="conv" data-id="' + esc(c._id) + '"><td>' + (f ? esc(f.toLocaleString('es-AR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })) : '') + '<br><span class="chip">' + num(c.turnos) + ' preg.</span></td>' +
+        '<td>' + esc(c.ciudad || '') + (c.pais && c.pais !== 'AR' ? ' · ' + esc(c.pais) : '') + '<br><span class="chip">' + esc(c.dispositivo || '') + '</span>' + (c.idioma === 'pt' ? '<span class="chip">PT</span>' : '') + '</td>' +
+        '<td><b>' + esc(d.resumen || primera.slice(0, 140)) + '</b>' + (d.tema ? '<br><span class="chip">' + esc(TEMAS[d.tema] || d.tema) + '</span>' : '') + '</td>' +
+        '<td>' + esc(viaje.join(' · ')) + '</td><td>' + res + '</td></tr>';
+      if (abiertas[c._id]) {
+        var ficha = [['Tema', TEMAS[d.tema]], ['Intención', INTENCION[d.intencion]], ['Destinos', (d.destinos || []).join(', ')], ['Fecha', d.fecha_viaje || MESES[d.mes_viaje || 0]],
+          ['Pasajeros', d.pasajeros ? d.pasajeros + (d.adultos || d.menores ? ' (' + (d.adultos || 0) + ' adultos, ' + (d.menores || 0) + ' menores)' : '') : ''], ['Viaja', VIAJA[d.viaja_con]],
+          ['Días', d.dias], ['Origen', [d.ciudad_origen, d.pais_origen].filter(Boolean).join(', ')], ['Presupuesto', d.presupuesto], ['Intereses', (d.intereses || []).join(', ')],
+          ['Negocio', d.es_negocio ? (d.rubro_negocio || 'sí') : ''], ['Página', (c.pagina || '').replace(/^https?:\/\//, '')], ['Llegó desde', c.ref], ['Recomendó', (c.tarjetas || []).join(', ')],
+          ['Clics', (c.links || []).join(' · ')]];
+        h += '<tr class="detalle"><td colspan="5"><div class="ficha">' + ficha.filter(function (x) { return x[1]; }).map(function (x) { return '<span><b>' + esc(x[0]) + ':</b> ' + esc(x[1]) + '</span>'; }).join('') + '</div>' +
+          '<div class="charla">' + (c.conversacion || []).map(function (m) { return '<div class="' + (m.rol === 'lector' ? 'lector' : 'quimey') + '">' + esc(m.texto) + '</div>'; }).join('') + '</div></td></tr>';
+      }
+    });
+    h += '</tbody></table></div>';
+    if (charlas.length > mostrar) h += '<button class="mas" id="verMas" type="button">Ver más (' + num(charlas.length - mostrar) + ' restantes)</button>';
+    return h + '</section>';
+  }
+
+  // ── CSV para Excel ──
+  $('csv').onclick = function () {
+    var L = filtradas().filter(function (c) { return c.turnos > 0; });
+    var cols = ['fecha', 'sitio', 'pagina', 'llego_desde', 'pais', 'region', 'ciudad_conexion', 'dispositivo', 'idioma', 'voz', 'preguntas', 'tema', 'intencion', 'destinos',
+      'intereses', 'ciudad_origen', 'pais_origen', 'pasajeros', 'adultos', 'menores', 'viaja_con', 'fecha_viaje', 'mes_viaje', 'anio_viaje', 'dias', 'presupuesto',
+      'es_negocio', 'rubro_negocio', 'resumen', 'recomendacion', 'clic_reservar', 'clic_links', 'primera_pregunta', 'todas_las_preguntas'];
+    var q = function (v) { v = String(v == null ? '' : v); return /[";\n,]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; };
+    var filas = L.map(function (c) {
+      var d = c.datos || {}, f = fecha(c), lect = (c.conversacion || []).filter(function (m) { return m.rol === 'lector'; }).map(function (m) { return m.texto; });
+      return [f ? f.toLocaleString('es-AR') : '', c.sitio, c.pagina, c.ref, c.pais, c.region, c.ciudad, c.dispositivo, c.idioma, c.voz ? 'sí' : '', c.turnos, TEMAS[d.tema] || d.tema,
+        INTENCION[d.intencion] || d.intencion, (d.destinos || []).join(', '), (d.intereses || []).join(', '), d.ciudad_origen, d.pais_origen, d.pasajeros || '', d.adultos || '', d.menores || '',
+        VIAJA[d.viaja_con] || '', d.fecha_viaje, d.mes_viaje ? MESES[d.mes_viaje] : '', d.anio_viaje || '', d.dias || '', d.presupuesto, d.es_negocio ? 'sí' : '', d.rubro_negocio, d.resumen,
+        (c.tarjetas || []).join(', '), c.clics_tarjeta || '', c.clics_link || '', lect[0] || '', lect.join(' | ')].map(q).join(';');
+    });
+    var blob = new Blob(['﻿' + cols.join(';') + '\n' + filas.join('\n')], { type: 'text/csv;charset=utf-8' });
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'quimey-consultas-' + new Date().toISOString().slice(0, 10) + '.csv';
+    document.body.appendChild(a); a.click(); a.remove();
+  };
+
+  Array.prototype.forEach.call(document.querySelectorAll('#rango button'), function (b) {
+    b.onclick = function () { document.querySelectorAll('#rango button').forEach(function (x) { x.classList.remove('on'); }); b.classList.add('on'); dias = Number(b.dataset.d); cargar(); };
+  });
+  $('fIdioma').onchange = $('fTema').onchange = function () { mostrar = 50; pintar(); };
+  $('recargar').onclick = cargar;
+})();
+</script>
+</body>
+</html>

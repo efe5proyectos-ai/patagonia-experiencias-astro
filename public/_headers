@@ -39,6 +39,8 @@ https://:project.pages.dev/*
 # AIKE con IA: página de prueba y catálogo interno
 /aike-prueba
   X-Robots-Tag: noindex
+/panel/*
+  X-Robots-Tag: noindex
 /aike/*
   X-Robots-Tag: noindex
 /api/*

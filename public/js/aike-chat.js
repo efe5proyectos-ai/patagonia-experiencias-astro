@@ -32,13 +32,28 @@
   var T = PT ? {
     hola: 'Olá! Sou a **' + N + '**, a consultora da Patagonia Magazine com inteligência artificial. Pergunte sobre viagens, gastronomia, eventos e passeios na Patagônia. Pode escrever ou falar 🎙️',
     ph: 'Escreva ou fale sua pergunta…', enviar: 'Enviar', accion: 'Ver e consultar', desde: 'a partir de', reco: 'Recomendação',
-    sugs: ['Ver baleias: quando ir?', 'Onde comer em Puerto Madryn', 'Próximos eventos na Patagônia'],
+    sugs: [
+      ['Ver baleias: quando ir?', [6, 7, 8, 9, 10, 11, 12]], ['Pinguins em Punta Tombo: vale a pena?', [9, 10, 11, 12, 1, 2, 3, 4]],
+      ['Orcas em Península Valdés: quando?', [2, 3, 4, 10, 11]], ['Neve em Esquel: o que fazer?', [6, 7, 8, 9]],
+      ['Praias da Patagônia no verão', [12, 1, 2]], ['Patagônia no outono: onde ir?', [3, 4, 5]],
+      ['Onde comer em Puerto Madryn'], ['Próximos eventos na Patagônia'], ['Roteiro de 4 dias em Península Valdés'],
+      ['Chá galês em Gaiman: onde?'], ['Como chegar a Puerto Madryn?'], ['Passeios com crianças na Patagônia'],
+      ['O que comer na Patagônia?'], ['Esquel e Trevelin: o que fazer?'], ['Mergulho com lobos-marinhos'], ['Melhor época para visitar Chubut']
+    ],
     erro: 'Não consegui responder agora. Tenta de novo em alguns segundos.', ia: 'Consultora com IA · pode cometer erros',
     abrir: 'Falar com a ' + N, sub: 'Consultora · Patagonia Magazine', mic: 'Falar', ouvir: 'Ouvir', parar: 'Parar', escutando: 'Escutando…'
   } : {
     hola: '¡Hola! Soy **' + N + '**, la consultora de Patagonia Magazine con inteligencia artificial. Preguntame sobre viajes, gastronomía, eventos y excursiones en la Patagonia. Podés escribir o hablarme 🎙️',
     ph: 'Escribí o hablá tu consulta…', enviar: 'Enviar', accion: 'Ver y reservar', desde: 'desde', reco: 'Recomendación',
-    sugs: ['¿Qué eventos se vienen?', '¿Dónde como cordero en Trelew?', 'Ballenas: ¿cuándo ir?'],
+    sugs: [
+      ['Ballenas: ¿cuándo ir?', [6, 7, 8, 9, 10, 11, 12]], ['Pingüinos en Punta Tombo: ¿vale la pena?', [9, 10, 11, 12, 1, 2, 3, 4]],
+      ['Orcas en Península Valdés: ¿cuándo?', [2, 3, 4, 10, 11]], ['¿Qué hago con nieve en Esquel?', [6, 7, 8, 9]],
+      ['Playas de la Patagonia para el verano', [12, 1, 2]], ['Escapada de otoño: ¿adónde voy?', [3, 4, 5]],
+      ['¿Qué hacer en las vacaciones de invierno?', [7]], ['Escapada para Semana Santa', [3, 4]], ['Fin de semana largo: ¿qué me recomendás?'],
+      ['¿Qué eventos se vienen?'], ['¿Dónde como cordero en Trelew?'], ['Té galés en Gaiman: ¿dónde?'], ['Armame 3 días en Península Valdés'],
+      ['¿Qué hago en Puerto Madryn con chicos?'], ['¿Dónde comer mariscos en Madryn?'], ['Esquel y Trevelin: ¿qué no me pierdo?'],
+      ['Snorkel con lobos marinos: ¿dónde?'], ['¿Qué platos típicos tengo que probar?'], ['Tengo un restaurante: ¿cómo aparezco en la revista?']
+    ],
     erro: 'No pude responder ahora. Probá de nuevo en unos segundos.', ia: 'Consultora con IA · puede equivocarse',
     abrir: 'Hablar con ' + N, sub: 'Consultora · Patagonia Magazine', mic: 'Hablar', ouvir: 'Escuchar', parar: 'Detener', escutando: 'Te escucho…'
   };
@@ -48,6 +63,24 @@
   var historial = [];
   try { historial = JSON.parse(sessionStorage.getItem(CLAVE) || '[]') || []; } catch (e) { historial = []; }
   function guardar() { try { sessionStorage.setItem(CLAVE, JSON.stringify(historial.slice(-30))); } catch (e) {} }
+
+  // ── Estadísticas: un id anónimo por conversación (no identifica a la persona) ──
+  var SES = '';
+  try { SES = sessionStorage.getItem('consultor_pe_sesion') || ''; } catch (e) {}
+  if (!/^[A-Za-z0-9]{20,40}$/.test(SES)) {
+    var abc = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789', rnd = new Uint8Array(24);
+    try { crypto.getRandomValues(rnd); } catch (e) { for (var q = 0; q < 24; q++) rnd[q] = Math.floor(Math.random() * 256); }
+    SES = ''; for (var q2 = 0; q2 < 24; q2++) SES += abc[rnd[q2] % abc.length];
+    try { sessionStorage.setItem('consultor_pe_sesion', SES); } catch (e) {}
+  }
+  var API_EVENTO = cfg.api.replace(/\/api\/aike\/?$/, '/api/aike-evento');
+  function evento(tipo, url) {
+    try {
+      var cuerpo = JSON.stringify({ sesion: SES, tipo: tipo, url: url || '', pagina: location.href.split(/[?#]/)[0], idioma: cfg.idioma });
+      if (navigator.sendBeacon && navigator.sendBeacon(API_EVENTO, cuerpo)) return;
+      fetch(API_EVENTO, { method: 'POST', body: cuerpo, keepalive: true, mode: 'cors' }).catch(function () {});
+    } catch (e) {}
+  }
 
   var css = '' +
     '.cpe-b{position:fixed;right:20px;bottom:20px;z-index:2147483000;width:64px;height:64px;border:0;padding:0;border-radius:20px;cursor:pointer;background:none;box-shadow:0 10px 30px rgba(233,30,99,.35);transition:transform .2s}' +
@@ -159,7 +192,13 @@
   }
   function sugerencias() {
     var s = document.createElement('div'); s.className = 'cpe-s';
-    T.sugs.forEach(function (q) {
+    // 3 preguntas distintas en cada apertura: primero las de la temporada actual, el resto al azar
+    var mes = new Date().getMonth() + 1;
+    var mezclar = function (l) { return l.map(function (x) { return [Math.random(), x]; }).sort(function (a, b) { return a[0] - b[0]; }).map(function (x) { return x[1]; }); };
+    var deTemporada = mezclar(T.sugs.filter(function (x) { return x[1] && x[1].indexOf(mes) >= 0; }));
+    var generales = mezclar(T.sugs.filter(function (x) { return !x[1]; }));
+    var elegidas = deTemporada.slice(0, 1 + Math.floor(Math.random() * 2)).concat(generales).slice(0, 3);
+    mezclar(elegidas).map(function (x) { return x[0]; }).forEach(function (q) {
       var b = document.createElement('button'); b.type = 'button'; b.textContent = q;
       b.onclick = function () { s.remove(); enviar(q); };
       s.appendChild(b);
@@ -187,7 +226,8 @@
     caja.appendChild(esp); abajo();
     fetch(cfg.api, {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ idioma: cfg.idioma, mensajes: historial.map(function (m) { return { rol: m.rol, texto: m.texto }; }) })
+      body: JSON.stringify({ idioma: cfg.idioma, sesion: SES, pagina: location.href.split(/[?#]/)[0], ref: document.referrer || '', voz: modoVoz,
+        mensajes: historial.map(function (m) { return { rol: m.rol, texto: m.texto }; }) })
     }).then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
       .then(function (x) {
         esp.remove();
@@ -227,7 +267,13 @@
     };
   }
 
-  function abrir() { panel.classList.add('on'); pintar(); setTimeout(function () { area.focus(); }, 50); }
+  var abrioYa = false;
+  function abrir() { panel.classList.add('on'); pintar(); setTimeout(function () { area.focus(); }, 50); if (!abrioYa) { abrioYa = true; evento('abrir'); } }
+  // Clics en la recomendación y en los links de las respuestas (para medir conversión)
+  caja.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a') : null;
+    if (a && a.href) evento(a.classList.contains('cpe-r') ? 'tarjeta' : 'link', a.href);
+  });
   function cerrar() { panel.classList.remove('on'); callar(); if (rec) rec.stop(); }
   boton.onclick = function () { panel.classList.contains('on') ? cerrar() : abrir(); };
   panel.querySelector('.cpe-x').onclick = cerrar;

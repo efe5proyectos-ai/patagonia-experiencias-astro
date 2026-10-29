@@ -256,6 +256,14 @@ function cors(origen) {
     'Vary': 'Origin',
   };
 }
+// Quita oraciones tipo "Dejame buscar…", "Te muestro las opciones:", "Deixa eu buscar…"
+const RELLENO = /(d[eé]jame|dejame|voy a|ahora|deixa eu|vou)\s+(buscar|revisar|ver|mostrar|consultar|fijarme|procurar|olhar)|te muestro (las|lo|algunas)[^.!?]*:\s*$|^(perfecto|listo|genial|ótimo|perfeito)[!.]?\s*$/i;
+function sinRelleno(t) {
+  return String(t || '').split(/\n{2,}/).map((parrafo) =>
+    (parrafo.match(/[^.!?:]+[.!?:]*\s*/g) || [parrafo]).filter((o) => !RELLENO.test(o.trim())).join('').trim()
+  ).filter(Boolean).join('\n\n').trim();
+}
+
 const json = (obj, status, extra) => new Response(JSON.stringify(obj), {
   status, headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', ...extra },
 });
@@ -317,12 +325,10 @@ export async function onRequestPost({ request, env }) {
     const resp = await r.json();
     const bloques = resp.content || [];
     const textoVuelta = bloques.filter((b) => b.type === 'text').map((b) => b.text).join('\n').trim();
-    // El texto que acompaña una búsqueda suele ser relleno ("dejame buscar…"): se guarda solo
-    // como respaldo; lo que ve el turista es el texto de la vuelta final.
-    if (textoVuelta) {
-      if (resp.stop_reason === 'tool_use') respaldo = textoVuelta;
-      else texto = textoVuelta;
-    }
+    // Se juntan los textos de todas las vueltas, sin las frases de relleno ("dejame buscar…")
+    const util = sinRelleno(textoVuelta);
+    if (util) texto = texto ? `${texto}\n\n${util}` : util;
+    else if (textoVuelta) respaldo = textoVuelta;
     const usos = bloques.filter((b) => b.type === 'tool_use');
     if (resp.stop_reason !== 'tool_use' || !usos.length) break;
     conversacion.push({ role: 'assistant', content: bloques });

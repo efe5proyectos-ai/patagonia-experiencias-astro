@@ -30,17 +30,17 @@
   var PT = cfg.idioma === 'pt';
   var N = cfg.nombre;
   var T = PT ? {
-    hola: 'Olá! Sou a **' + N + '**, sua consultora de viagem com inteligência artificial. Pergunte o que quiser sobre a Patagônia: quando ir, o que fazer, como se mover. Pode escrever ou falar 🎙️',
+    hola: 'Olá! Sou a **' + N + '**, a consultora da Patagonia Magazine com inteligência artificial. Pergunte sobre viagens, gastronomia, eventos e passeios na Patagônia. Pode escrever ou falar 🎙️',
     ph: 'Escreva ou fale sua pergunta…', enviar: 'Enviar', accion: 'Ver e consultar', desde: 'a partir de', reco: 'Recomendação',
-    sugs: ['Ver baleias: quando ir?', 'O que fazer em Puerto Madryn', 'Pinguins em Punta Tombo'],
+    sugs: ['Ver baleias: quando ir?', 'Onde comer em Puerto Madryn', 'Próximos eventos na Patagônia'],
     erro: 'Não consegui responder agora. Tenta de novo em alguns segundos.', ia: 'Consultora com IA · pode cometer erros',
-    abrir: 'Falar com a ' + N, sub: 'Consultora de viagem · Patagônia', mic: 'Falar', ouvir: 'Ouvir', parar: 'Parar', escutando: 'Escutando…'
+    abrir: 'Falar com a ' + N, sub: 'Consultora · Patagonia Magazine', mic: 'Falar', ouvir: 'Ouvir', parar: 'Parar', escutando: 'Escutando…'
   } : {
-    hola: '¡Hola! Soy **' + N + '**, tu consultora de viaje con inteligencia artificial. Preguntame lo que quieras de la Patagonia: cuándo ir, qué hacer, cómo moverte. Podés escribir o hablarme 🎙️',
+    hola: '¡Hola! Soy **' + N + '**, la consultora de Patagonia Magazine con inteligencia artificial. Preguntame sobre viajes, gastronomía, eventos y excursiones en la Patagonia. Podés escribir o hablarme 🎙️',
     ph: 'Escribí o hablá tu consulta…', enviar: 'Enviar', accion: 'Ver y reservar', desde: 'desde', reco: 'Recomendación',
-    sugs: ['Ballenas: ¿cuándo ir?', '¿Qué hago en Puerto Madryn?', '¿Qué es Patagonia Puntos?'],
+    sugs: ['¿Qué eventos se vienen?', '¿Dónde como cordero en Trelew?', 'Ballenas: ¿cuándo ir?'],
     erro: 'No pude responder ahora. Probá de nuevo en unos segundos.', ia: 'Consultora con IA · puede equivocarse',
-    abrir: 'Hablar con ' + N, sub: 'Consultora de viaje · Patagonia', mic: 'Hablar', ouvir: 'Escuchar', parar: 'Detener', escutando: 'Te escucho…'
+    abrir: 'Hablar con ' + N, sub: 'Consultora · Patagonia Magazine', mic: 'Hablar', ouvir: 'Escuchar', parar: 'Detener', escutando: 'Te escucho…'
   };
   var LANG = PT ? 'pt-BR' : 'es-AR';
 

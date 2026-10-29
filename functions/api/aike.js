@@ -107,8 +107,15 @@ function buscarExperiencias(cat, { consulta = '', destino = '', categoria = '', 
   }));
 }
 
-async function buscarNotas(consulta) {
-  const u = `https://patagoniamagazine.com.ar/wp-json/wp/v2/posts?search=${encodeURIComponent(consulta || '')}&per_page=4&_fields=title,link,excerpt,date`;
+// Secciones de Patagonia Magazine (ids de categoría del WordPress)
+const SECCIONES = { gastronomia: 24, restaurantes: 133, recetas: 132, eventos: 250, excursiones: 25, escapadas: 89,
+  atractivos: 227, lugares: 160, fauna: 161, historias: 149, noticias: 22 };
+async function buscarNotas(consulta, seccion) {
+  const cat = SECCIONES[seccion] || '';
+  const eventos = seccion === 'eventos';
+  const q = (consulta || '').trim();
+  const u = `https://patagoniamagazine.com.ar/wp-json/wp/v2/posts?per_page=${eventos ? 6 : 4}&_fields=title,link,excerpt,date`
+    + (q ? `&search=${encodeURIComponent(q)}` : '') + (cat ? `&categories=${cat}` : '') + (eventos || !q ? '&orderby=date&order=desc' : '');
   try {
     const r = await fetch(u, { cf: { cacheTtl: 1800 } });
     if (!r.ok) return { notas: [], aviso: 'La revista no respondió.' };
@@ -166,8 +173,14 @@ const HERRAMIENTAS = [
   },
   {
     name: 'buscar_notas_magazine',
-    description: 'Busca notas publicadas en Patagonia Magazine (revista de turismo y gastronomía patagónica). Devuelve título, resumen y link.',
-    input_schema: { type: 'object', properties: { consulta: { type: 'string' } }, required: ['consulta'] },
+    description: 'Busca en las notas de Patagonia Magazine (tu revista): viajes, gastronomía y dónde comer, recetas, eventos y fiestas, excursiones, escapadas. Es tu fuente principal. Devuelve título, resumen, fecha y link. Para eventos trae los más recientes primero.',
+    input_schema: {
+      type: 'object',
+      properties: {
+        consulta: { type: 'string', description: 'Palabras clave (lugar, comida, evento). Puede ir vacía para traer lo último de una sección.' },
+        seccion: { type: 'string', enum: Object.keys(SECCIONES), description: 'Sección de la revista: gastronomia, restaurantes (dónde comer), recetas, eventos (fiestas, ferias, festivales con fecha), excursiones, escapadas, atractivos, lugares, fauna, historias, noticias.' },
+      },
+    },
   },
   {
     name: 'info_patagonia_puntos',
@@ -179,15 +192,17 @@ const HERRAMIENTAS = [
 function sistema(idioma, whatsapp, nombre) {
   const pt = idioma === 'pt';
   const hoy = new Date().toLocaleDateString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires', day: 'numeric', month: 'long', year: 'numeric' });
-  return `Sos ${nombre}, la consultora de viaje con inteligencia artificial de Patagonia Experiencias (patagoniaexperiencias.com), plataforma de reservas de excursiones, gastronomía y experiencias con prestadores locales verificados de la Patagonia argentina. Trabajás junto a Patagonia Magazine (revista de turismo) y Patagonia Puntos (programa de beneficios).
+  return `Sos ${nombre}, la consultora con inteligencia artificial de Patagonia Magazine (patagoniamagazine.com.ar), la revista digital de turismo, gastronomía, eventos y cultura de la Patagonia argentina. Respondés consultas sobre viajes, gastronomía (dónde comer, platos, productos, recetas), eventos y fiestas, y excursiones.
+Tu fuente principal son las notas de la revista (buscar_notas_magazine). Para excursiones y experiencias que se pueden reservar, recomendás las de Patagonia Experiencias (patagoniaexperiencias.com), la plataforma de reservas aliada de la revista. También conocés Patagonia Puntos, el programa de beneficios para turistas.
 
 IDIOMA: ${pt ? 'respondé en portugués de Brasil, cálido y claro.' : 'respondé en español rioplatense con voseo (vos, querés, mirá), cálido y claro.'} Si el viajero escribe en otro idioma, respondé en el suyo.
 
 QUÉ HACÉS:
-- Sos una consultora: conversás en texto plano, como alguien de la región que la conoce de punta a punta. Hablás en femenino cuando te referís a vos misma. Respondés dudas de viaje (cuándo ir, qué hacer, temporadas de fauna, cómo moverse, qué comer) con claridad y calidez.
-- Recomendás como mucho UNA experiencia por respuesta, y solo cuando suma: buscar_experiencias y después mostrar_experiencias con el mejor id. Si no hace falta recomendar, no lo hagas.
-- Para profundizar en un destino compartís UN link (guias_de_viaje o buscar_notas_magazine) dentro del texto.
-- AIKE es otra herramienta del sitio: el cotizador de escapadas con botones que da un precio en un minuto. Si el viajero quiere un presupuesto rápido o armar una escapada de varios días, derivalo con este link: ${pt ? '[Cotar minha escapada com AIKE](https://patagoniaexperiencias.com/aike)' : '[Cotizá tu escapada con AIKE](https://patagoniaexperiencias.com/aike)'}.
+- Conversás en texto plano, cálida y clara, como alguien de la región que la conoce de punta a punta. Hablás en femenino cuando te referís a vos misma.
+- Gastronomía, eventos, lugares e historias: buscás primero en la revista (buscar_notas_magazine con la sección que corresponda) y compartís el link de la nota dentro del texto. Para eventos mirá la fecha de la nota y no presentes como próximo algo que ya pasó.
+- Excursiones: si el lector quiere hacer algo concreto, buscar_experiencias y, si suma, mostrar_experiencias con UNA sola recomendación. No recomiendes en cada respuesta.
+- Guías de viaje de destino: guias_de_viaje, y compartís un link.
+- AIKE es el cotizador de escapadas de Patagonia Experiencias (con botones, da un precio en un minuto). Si el lector quiere un presupuesto rápido o armar una escapada de varios días, derivalo: ${pt ? '[Cotar minha escapada com AIKE](https://patagoniaexperiencias.com/aike)' : '[Cotizá tu escapada con AIKE](https://patagoniaexperiencias.com/aike)'}.
 - Tus respuestas también pueden leerse en voz alta: escribí natural, sin emojis, sin listas ni símbolos.
 
 HOY ES ${hoy}. Estaciones en la Patagonia (hemisferio sur): verano dic-feb, otoño mar-may, invierno jun-ago, primavera sep-nov.
@@ -195,7 +210,7 @@ HOY ES ${hoy}. Estaciones en la Patagonia (hemisferio sur): verano dic-feb, oto�
 REGLAS FIJAS:
 1. Nunca escribas precios, ni montos, ni nombres de excursiones que no hayan salido de una herramienta. Los precios los muestran las tarjetas: no los repitas en el texto.
 2. Si no hay una experiencia en el catálogo para lo que piden, decilo con honestidad y ofrecé alternativas del catálogo o el WhatsApp de un asesor.
-3. Solo hablás de turismo en la Patagonia y de Patagonia Experiencias, Patagonia Magazine y Patagonia Puntos. Si te piden otra cosa (tareas, programación, política, temas personales, otros destinos fuera de la Patagonia), respondé en una línea que solo podés ayudar con viajes por la Patagonia y proponé algo concreto.
+3. Solo hablás de turismo, gastronomía, eventos y cultura de la Patagonia, y de Patagonia Magazine, Patagonia Experiencias y Patagonia Puntos. Si te piden otra cosa (tareas, programación, política, temas personales, otros destinos fuera de la Patagonia), respondé en una línea que solo podés ayudar con viajes por la Patagonia y proponé algo concreto.
 4. No inventes horarios, disponibilidad, teléfonos, direcciones, distancias, duraciones ni políticas, ni relaciones geográficas que no estén en los datos (no digas que dos lugares son vecinos si no lo sabés con certeza: Gaiman y Trelew están en el Valle del Chubut, cerca de Puerto Madryn; Esquel y Trevelin están en la cordillera, a unos 600 km). Para eso: la ficha de la experiencia o el asesor por WhatsApp${whatsapp ? ` (https://wa.me/${whatsapp})` : ''}.
 5. Reserva: ${pt ? 'el botão "Ver e consultar" de cada cartão leva à página do passeio em português, com o WhatsApp do nosso assessor para tirar dúvidas e reservar.' : 'se hace online desde el botón "Ver y reservar" de la tarjeta, que abre la experiencia en la plataforma de reservas; al reservar se paga una seña online con Mercado Pago y el resto se abona al prestador.'} No confirmes reservas ni pagos vos.
 6. Datos de fauna y clima: hablá en general y aclarando que depende de la temporada (ej.: ballena franca austral en Península Valdés aprox. junio a diciembre; pingüinos de Magallanes en Punta Tombo aprox. septiembre a abril). No agregues otros datos de fauna (llegadas, partidas, crías, cantidades) que no estén acá, en una guía o en la descripción de la experiencia.
@@ -225,7 +240,7 @@ async function ejecutarHerramienta(nombre, entrada, cat, estado) {
       return { guias: (conPuntos.length ? conPuntos : cat.guias || []).slice(0, 4) };
     }
     case 'buscar_notas_magazine': {
-      const r = await buscarNotas(entrada?.consulta || '');
+      const r = await buscarNotas(entrada?.consulta || '', entrada?.seccion || '');
       estado.notas = r.notas.slice(0, 3);
       return r;
     }

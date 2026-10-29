@@ -268,7 +268,15 @@ function sistema(idioma, whatsapp, nombre) {
   const hoy = new Date().toLocaleDateString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires', day: 'numeric', month: 'long', year: 'numeric' });
   const MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
   const mesHoy = Number(new Date().toLocaleString('en-US', { timeZone: 'America/Argentina/Buenos_Aires', month: 'numeric' }));
-  const proximos = [0, 1, 2, 3, 4, 5].map((k) => { const m = ((mesHoy - 1 + k) % 12) + 1; return `${MESES[m - 1]} = ${ESTACION_DE_MES[m].replace('otono', 'otoño')}`; }).join('; ');
+  // Fauna de cada mes (Península Valdés y Punta Tombo), para que nunca prometa lo que no hay
+  const FAUNA_MES = (m) => {
+    const si = [], no = [];
+    (m >= 6 && m <= 12 ? si : no).push(m === 12 ? 'ballenas (las últimas)' : m >= 9 && m <= 10 ? 'ballenas (el mejor momento)' : 'ballenas');
+    (m >= 9 || m <= 4 ? si : no).push('pingüinos');
+    if ([2, 3, 4, 10, 11].includes(m)) si.push('orcas en Punta Norte (con suerte)');
+    return `sí ${si.join(', ')}${no.length ? `; NO hay ${no.join(' ni ')}` : ''}`;
+  };
+  const proximos = [0, 1, 2, 3, 4, 5].map((k) => { const m = ((mesHoy - 1 + k) % 12) + 1; return `${MESES[m - 1]} = ${ESTACION_DE_MES[m].replace('otono', 'otoño')} (fauna: ${FAUNA_MES(m)})`; }).join('; ');
   return `Sos ${nombre}, la consultora de viajes con inteligencia artificial de Patagonia Magazine (patagoniamagazine.com.ar), la revista de turismo, gastronomía, eventos y cultura de la Patagonia argentina. Funcionás como un chat de consultas: el lector te pregunta y vos le respondés como una experta de la región que además es su amiga. Opinás, comparás y recomendás: qué es lo mejor, qué fechas convienen, qué lugares no perderse, dónde comer, cómo armar los días, cómo moverse.
 
 IDIOMA: ${pt ? 'respondé en portugués de Brasil, cálido y claro.' : 'respondé en español rioplatense con voseo (vos, querés, mirá), cálido y claro.'} Si el lector escribe en otro idioma, respondé en el suyo. Hablás en femenino cuando te referís a vos misma.
@@ -291,7 +299,7 @@ CÓMO RESPONDÉS:
 - Terminá con una pregunta que ayude a avanzar (fechas, con quién viaja, qué le gusta), salvo que la respuesta esté completa.
 - Podés usar **negrita** y links en formato [texto](url).
 
-HOY ES ${hoy}. Estaciones en la Patagonia (hemisferio sur): diciembre, enero y febrero = VERANO; marzo, abril y mayo = otoño; junio, julio y agosto = invierno; septiembre, octubre y noviembre = primavera. Próximos meses: ${proximos}. Antes de nombrar una estación, chequeala en esta lista.
+HOY ES ${hoy}. Estaciones en la Patagonia (hemisferio sur): diciembre, enero y febrero = VERANO; marzo, abril y mayo = otoño; junio, julio y agosto = invierno; septiembre, octubre y noviembre = primavera. Próximos meses: ${proximos}. Antes de nombrar una estación o un animal para un mes, chequealo en esta lista.
 
 REGLAS FIJAS:
 1. Precios: solo los que vienen de una herramienta. Los de experiencias los muestra la tarjeta (no los escribas); los de planes para negocios sí podés escribirlos tal como vienen de planes_vigentes. Nunca inventes precios, horarios, teléfonos ni direcciones exactas.

@@ -188,7 +188,9 @@
   var botonSonando = null;
   function vozIdioma() {
     var vs = (sintesis && sintesis.getVoices()) || [];
-    var pref = PT ? ['pt-BR', 'pt'] : ['es-AR', 'es-US', 'es-MX', 'es-419', 'es'];
+    var id = cfg.idioma;
+    var pref = id === 'pt' ? ['pt-BR', 'pt'] : id === 'es' ? ['es-AR', 'es-US', 'es-MX', 'es-419', 'es']
+      : id === 'en' ? ['en-US', 'en-GB', 'en'] : [LANG, id];
     for (var i = 0; i < pref.length; i++) {
       for (var j = 0; j < vs.length; j++) if ((vs[j].lang || '').toLowerCase().indexOf(pref[i].toLowerCase()) === 0) return vs[j];
     }

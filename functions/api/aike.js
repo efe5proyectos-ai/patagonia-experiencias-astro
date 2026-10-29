@@ -87,7 +87,7 @@ function buscarExperiencias(cat, { consulta = '', destino = '', categoria = '', 
   const estacion = ESTACION_DE_MES[Number(mes)] || '';
   const palabras = norm(`${consulta} ${destino} ${categoria}`).split(/[^a-z0-9]+/).filter((p) => p.length > 2 && !VACIAS.has(p))
     .map((p) => SINONIMOS[p] || p);
-  const lista = cat.experiencias.map((e) => {
+  const candidatas = cat.experiencias.map((e) => {
     const texto = norm([e.titulo, e.destino, (e.regiones || []).join(' '), e.categoria, e.temporada, e.resumen].join(' '));
     const tit = norm(`${e.titulo} ${e.destino}`);
     let puntos = 0;
@@ -101,7 +101,10 @@ function buscarExperiencias(cat, { consulta = '', destino = '', categoria = '', 
     if (categoria && norm(e.categoria).includes(norm(categoria))) puntos += 2;
     return { e, puntos };
   })
-    .filter(({ e, puntos }) => (palabras.length ? puntos > 0 : true) && (!precio_max || !e.precio || e.precio <= precio_max))
+    .filter(({ e, puntos }) => (palabras.length ? puntos > 0 : true) && (!precio_max || !e.precio || e.precio <= precio_max));
+  // Con el mes del viaje, las que no son de esa temporada no se muestran (si queda alguna que sí)
+  const deTemporada = estacion ? candidatas.filter(({ e }) => enTemporada(e, estacion)) : candidatas;
+  const lista = (deTemporada.length ? deTemporada : candidatas)
     .sort((a, b) => b.puntos - a.puntos || (enTemporada(b.e, estacion) ? 1 : 0) - (enTemporada(a.e, estacion) ? 1 : 0))
     .slice(0, Math.min(Number(max) || 6, 8));
   return lista.map(({ e }) => ({

@@ -23,24 +23,24 @@
   var cfg = {
     api: ds.api || base + '/api/aike',
     avatar: ds.avatar || base + '/img/aike-ia.svg',
-    nombre: ds.nombre || 'Baqueano',
+    nombre: ds.nombre || 'Quimey',
     idioma: ds.idioma || ((document.documentElement.lang || '').toLowerCase().indexOf('pt') === 0 ? 'pt' : 'es'),
     abierto: ds.abierto === '1'
   };
   var PT = cfg.idioma === 'pt';
   var N = cfg.nombre;
   var T = PT ? {
-    hola: 'Olá! Sou o **' + N + '**, seu consultor de viagem com inteligência artificial. Pergunte o que quiser sobre a Patagônia: quando ir, o que fazer, como se mover. Pode escrever ou falar 🎙️',
+    hola: 'Olá! Sou a **' + N + '**, sua consultora de viagem com inteligência artificial. Pergunte o que quiser sobre a Patagônia: quando ir, o que fazer, como se mover. Pode escrever ou falar 🎙️',
     ph: 'Escreva ou fale sua pergunta…', enviar: 'Enviar', accion: 'Ver e consultar', desde: 'a partir de', reco: 'Recomendação',
     sugs: ['Ver baleias: quando ir?', 'O que fazer em Puerto Madryn', 'Pinguins em Punta Tombo'],
-    erro: 'Não consegui responder agora. Tenta de novo em alguns segundos.', ia: 'Consultor com IA · pode cometer erros',
-    abrir: 'Falar com o ' + N, sub: 'Consultor de viagem · Patagônia', mic: 'Falar', ouvir: 'Ouvir', parar: 'Parar', escutando: 'Escutando…'
+    erro: 'Não consegui responder agora. Tenta de novo em alguns segundos.', ia: 'Consultora com IA · pode cometer erros',
+    abrir: 'Falar com a ' + N, sub: 'Consultora de viagem · Patagônia', mic: 'Falar', ouvir: 'Ouvir', parar: 'Parar', escutando: 'Escutando…'
   } : {
-    hola: '¡Hola! Soy **' + N + '**, tu consultor de viaje con inteligencia artificial. Preguntame lo que quieras de la Patagonia: cuándo ir, qué hacer, cómo moverte. Podés escribir o hablarme 🎙️',
+    hola: '¡Hola! Soy **' + N + '**, tu consultora de viaje con inteligencia artificial. Preguntame lo que quieras de la Patagonia: cuándo ir, qué hacer, cómo moverte. Podés escribir o hablarme 🎙️',
     ph: 'Escribí o hablá tu consulta…', enviar: 'Enviar', accion: 'Ver y reservar', desde: 'desde', reco: 'Recomendación',
     sugs: ['Ballenas: ¿cuándo ir?', '¿Qué hago en Puerto Madryn?', '¿Qué es Patagonia Puntos?'],
-    erro: 'No pude responder ahora. Probá de nuevo en unos segundos.', ia: 'Consultor con IA · puede equivocarse',
-    abrir: 'Hablar con ' + N, sub: 'Consultor de viaje · Patagonia', mic: 'Hablar', ouvir: 'Escuchar', parar: 'Detener', escutando: 'Te escucho…'
+    erro: 'No pude responder ahora. Probá de nuevo en unos segundos.', ia: 'Consultora con IA · puede equivocarse',
+    abrir: 'Hablar con ' + N, sub: 'Consultora de viaje · Patagonia', mic: 'Hablar', ouvir: 'Escuchar', parar: 'Detener', escutando: 'Te escucho…'
   };
   var LANG = PT ? 'pt-BR' : 'es-AR';
 

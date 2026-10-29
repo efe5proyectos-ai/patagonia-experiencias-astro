@@ -179,12 +179,12 @@ const HERRAMIENTAS = [
 function sistema(idioma, whatsapp, nombre) {
   const pt = idioma === 'pt';
   const hoy = new Date().toLocaleDateString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires', day: 'numeric', month: 'long', year: 'numeric' });
-  return `Sos ${nombre}, el consultor de viaje con inteligencia artificial de Patagonia Experiencias (patagoniaexperiencias.com), plataforma de reservas de excursiones, gastronomía y experiencias con prestadores locales verificados de la Patagonia argentina. Trabajás junto a Patagonia Magazine (revista de turismo) y Patagonia Puntos (programa de beneficios).
+  return `Sos ${nombre}, la consultora de viaje con inteligencia artificial de Patagonia Experiencias (patagoniaexperiencias.com), plataforma de reservas de excursiones, gastronomía y experiencias con prestadores locales verificados de la Patagonia argentina. Trabajás junto a Patagonia Magazine (revista de turismo) y Patagonia Puntos (programa de beneficios).
 
 IDIOMA: ${pt ? 'respondé en portugués de Brasil, cálido y claro.' : 'respondé en español rioplatense con voseo (vos, querés, mirá), cálido y claro.'} Si el viajero escribe en otro idioma, respondé en el suyo.
 
 QUÉ HACÉS:
-- Sos un consultor: conversás en texto plano, como un baqueano que conoce la región. Respondés dudas de viaje (cuándo ir, qué hacer, temporadas de fauna, cómo moverse, qué comer) con claridad y calidez.
+- Sos una consultora: conversás en texto plano, como alguien de la región que la conoce de punta a punta. Hablás en femenino cuando te referís a vos misma. Respondés dudas de viaje (cuándo ir, qué hacer, temporadas de fauna, cómo moverse, qué comer) con claridad y calidez.
 - Recomendás como mucho UNA experiencia por respuesta, y solo cuando suma: buscar_experiencias y después mostrar_experiencias con el mejor id. Si no hace falta recomendar, no lo hagas.
 - Para profundizar en un destino compartís UN link (guias_de_viaje o buscar_notas_magazine) dentro del texto.
 - AIKE es otra herramienta del sitio: el cotizador de escapadas con botones que da un precio en un minuto. Si el viajero quiere un presupuesto rápido o armar una escapada de varios días, derivalo con este link: ${pt ? '[Cotar minha escapada com AIKE](https://patagoniaexperiencias.com/aike)' : '[Cotizá tu escapada con AIKE](https://patagoniaexperiencias.com/aike)'}.
@@ -246,7 +246,7 @@ function tarjetasDe(cat, ids, idioma, whatsapp) {
     const titulo = pt && e.pt ? e.pt.titulo : e.titulo;
     const url = !pt ? e.urlReserva
       : e.pt ? e.pt.urlFicha
-      : `https://wa.me/${whatsapp}?text=${encodeURIComponent('Olá! O consultor de viagem me recomendou o passeio: ' + e.titulo + '. Quero mais informações.')}`;
+      : `https://wa.me/${whatsapp}?text=${encodeURIComponent('Olá! A Quimey me recomendou o passeio: ' + e.titulo + '. Quero mais informações.')}`;
     return { id: e.id, titulo, destino: e.destino, imagen: e.imagen, precio: e.precio, precioLista: e.precioLista,
       duracion: e.duracion, url, accion: pt ? 'consultar' : 'reservar' };
   });
@@ -262,7 +262,7 @@ function cors(origen) {
   };
 }
 // Quita oraciones tipo "Dejame buscar…", "Te muestro las opciones:", "Deixa eu buscar…"
-const RELLENO = /(d[eé]jame|dejame|voy a|ahora|deixa eu|vou)\s+(buscar|revisar|ver|mostrar|consultar|fijarme|procurar|olhar)|^(busc[oa]me|busco|buscando|estoy buscando|vou procurar)\b|te muestro (las|lo|algunas)[^.!?]*:\s*$|^(perfecto|listo|genial|ótimo|perfeito)[!.]?\s*$/i;
+const RELLENO = /(d[eé]jame|dejame|voy a|ahora|deixa eu|vou)\s+(buscar|revisar|ver|mostrar|consultar|fijarme|procurar|olhar)|^(busc[oa]me|busco|buscando|estoy buscando|vou procurar|te busco|te muestro)\b|te muestro (las|lo|algunas)[^.!?]*:\s*$|^(perfecto|listo|genial|ótimo|perfeito)[!.]?\s*$/i;
 function sinRelleno(t) {
   return String(t || '').split(/\n{2,}/).map((parrafo) =>
     (parrafo.match(/[^.!?:]+[.!?:]*\s*/g) || [parrafo]).filter((o) => !RELLENO.test(o.trim())).join('').trim()
@@ -317,7 +317,7 @@ export async function onRequestPost({ request, env }) {
       body: JSON.stringify({
         model: env.AIKE_MODELO || MODELO_DEFAULT,
         max_tokens: 700,
-        system: [{ type: 'text', text: sistema(idioma, whatsapp, env.CONSULTOR_NOMBRE || 'Baqueano'), cache_control: { type: 'ephemeral' } }],
+        system: [{ type: 'text', text: sistema(idioma, whatsapp, env.CONSULTOR_NOMBRE || 'Quimey'), cache_control: { type: 'ephemeral' } }],
         tools: HERRAMIENTAS.map((t, i) => (i === HERRAMIENTAS.length - 1 ? { ...t, cache_control: { type: 'ephemeral' } } : t)),
         messages: conversacion,
       }),

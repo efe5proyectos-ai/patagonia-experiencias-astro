@@ -17,7 +17,13 @@
 //   ANTHROPIC_API_KEY  (obligatoria, tipo "Secret")
 //   AIKE_MODELO        (opcional, por defecto claude-haiku-4-5)
 //   WHATSAPP_ES / WHATSAPP_PT (opcionales)
+//   QUIMEY_ESTADISTICAS = off  (opcional: apaga el registro de consultas)
+//
+// Cada conversación se registra para estadísticas (lib-funciones/estadisticas.js)
+// en Firestore consultas_ia, en segundo plano y sin datos personales.
 // ─────────────────────────────────────────────────────────────
+
+import { registrarConsulta } from '../../lib-funciones/estadisticas.js';
 
 const MODELO_DEFAULT = 'claude-haiku-4-5';
 const ORIGENES_OK = [
@@ -81,7 +87,7 @@ function buscarExperiencias(cat, { consulta = '', destino = '', categoria = '', 
   const estacion = ESTACION_DE_MES[Number(mes)] || '';
   const palabras = norm(`${consulta} ${destino} ${categoria}`).split(/[^a-z0-9]+/).filter((p) => p.length > 2 && !VACIAS.has(p))
     .map((p) => SINONIMOS[p] || p);
-  const lista = cat.experiencias.map((e) => {
+  const candidatas = cat.experiencias.map((e) => {
     const texto = norm([e.titulo, e.destino, (e.regiones || []).join(' '), e.categoria, e.temporada, e.resumen].join(' '));
     const tit = norm(`${e.titulo} ${e.destino}`);
     let puntos = 0;
@@ -95,7 +101,10 @@ function buscarExperiencias(cat, { consulta = '', destino = '', categoria = '', 
     if (categoria && norm(e.categoria).includes(norm(categoria))) puntos += 2;
     return { e, puntos };
   })
-    .filter(({ e, puntos }) => (palabras.length ? puntos > 0 : true) && (!precio_max || !e.precio || e.precio <= precio_max))
+    .filter(({ e, puntos }) => (palabras.length ? puntos > 0 : true) && (!precio_max || !e.precio || e.precio <= precio_max));
+  // Con el mes del viaje, las que no son de esa temporada no se muestran (si queda alguna que sí)
+  const deTemporada = estacion ? candidatas.filter(({ e }) => enTemporada(e, estacion)) : candidatas;
+  const lista = (deTemporada.length ? deTemporada : candidatas)
     .sort((a, b) => b.puntos - a.puntos || (enTemporada(b.e, estacion) ? 1 : 0) - (enTemporada(a.e, estacion) ? 1 : 0))
     .slice(0, Math.min(Number(max) || 6, 8));
   return lista.map(({ e }) => ({
@@ -257,12 +266,32 @@ const HERRAMIENTAS = [
   },
 ];
 
+// Meses que nombra el lector (es/pt) → aviso puntual de fauna para esta charla
+const MESES_TEXTO = [['enero', 'janeiro'], ['febrero', 'fevereiro'], ['marzo', 'marco'], ['abril'], ['mayo', 'maio'], ['junio', 'junho'],
+  ['julio', 'julho'], ['agosto'], ['septiembre', 'setiembre', 'setembro'], ['octubre', 'outubro'], ['noviembre', 'novembro'], ['diciembre', 'dezembro']];
+function avisoFauna(mensajes) {
+  const txt = norm(mensajes.filter((m) => m.role === 'user').map((m) => m.content).join(' '));
+  const sinBallenas = MESES_TEXTO.map((nombres, i) => (nombres.some((n) => new RegExp(`\\b${n}\\b`).test(txt)) ? i + 1 : 0))
+    .filter((m) => m >= 1 && m <= 5);
+  if (!sinBallenas.length) return '';
+  const nombres = sinBallenas.map((m) => MESES_TEXTO[m - 1][0]).join(', ');
+  return `AVISO PARA ESTA CHARLA: el lector habla de ${nombres}. En ese mes NO hay ballenas francas en la Patagonia (la temporada es de junio a diciembre). No las ofrezcas, no digas que "quedan las últimas" ni "con suerte", y no propongas avistajes de ballenas ni El Doradillo para ballenas. Si pregunta por ballenas, decile que no hay y que vuelven en junio. Proponé pingüinos, lobos y elefantes marinos, orcas (marzo y abril) y playa.`;
+}
+
 function sistema(idioma, whatsapp, nombre) {
   const pt = idioma === 'pt';
   const hoy = new Date().toLocaleDateString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires', day: 'numeric', month: 'long', year: 'numeric' });
   const MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
   const mesHoy = Number(new Date().toLocaleString('en-US', { timeZone: 'America/Argentina/Buenos_Aires', month: 'numeric' }));
-  const proximos = [0, 1, 2, 3, 4, 5].map((k) => { const m = ((mesHoy - 1 + k) % 12) + 1; return `${MESES[m - 1]} = ${ESTACION_DE_MES[m].replace('otono', 'otoño')}`; }).join('; ');
+  // Fauna de cada mes (Península Valdés y Punta Tombo), para que nunca prometa lo que no hay
+  const FAUNA_MES = (m) => {
+    const si = [], no = [];
+    (m >= 6 && m <= 12 ? si : no).push(m === 12 ? 'ballenas (las últimas)' : m >= 9 && m <= 10 ? 'ballenas (el mejor momento)' : 'ballenas');
+    (m >= 9 || m <= 4 ? si : no).push('pingüinos');
+    if ([2, 3, 4, 10, 11].includes(m)) si.push('orcas en Punta Norte (con suerte)');
+    return `sí ${si.join(', ')}${no.length ? `; NO hay ${no.join(' ni ')}` : ''}`;
+  };
+  const proximos = [0, 1, 2, 3, 4, 5].map((k) => { const m = ((mesHoy - 1 + k) % 12) + 1; return `${MESES[m - 1]} = ${ESTACION_DE_MES[m].replace('otono', 'otoño')} (fauna: ${FAUNA_MES(m)})`; }).join('; ');
   return `Sos ${nombre}, la consultora de viajes con inteligencia artificial de Patagonia Magazine (patagoniamagazine.com.ar), la revista de turismo, gastronomía, eventos y cultura de la Patagonia argentina. Funcionás como un chat de consultas: el lector te pregunta y vos le respondés como una experta de la región que además es su amiga. Opinás, comparás y recomendás: qué es lo mejor, qué fechas convienen, qué lugares no perderse, dónde comer, cómo armar los días, cómo moverse.
 
 IDIOMA: ${pt ? 'respondé en portugués de Brasil, cálido y claro.' : 'respondé en español rioplatense con voseo (vos, querés, mirá), cálido y claro.'} Si el lector escribe en otro idioma, respondé en el suyo. Hablás en femenino cuando te referís a vos misma.
@@ -280,12 +309,12 @@ CRECER LA COMUNIDAD (con naturalidad, sin insistir):
 
 CÓMO RESPONDÉS:
 - Directo y con criterio propio: si te preguntan "¿qué me conviene?", elegí y explicá por qué. Usá todo lo que sabés de la Patagonia (destinos, clima, temporadas, distancias aproximadas entre ciudades, platos típicos, lugares imperdibles, cómo armar un itinerario).
-- Largo: máximo 110 palabras; si piden un itinerario, hasta 170 palabras con un párrafo corto por día. Nada de repetir ni de frases de transición ("acá está la info"). Sin emojis ni listas con símbolos: tus respuestas también se escuchan en voz alta.
+- Largo: máximo 110 palabras; si piden un itinerario, hasta 170 palabras con un párrafo corto por día. Nada de repetir ni de frases de transición ("acá está la info"). Sin emojis, sin listas con símbolos y sin listas numeradas: escribí en párrafos cortos, porque tus respuestas también se escuchan en voz alta.
 - No anuncies lo que vas a hacer ("voy a buscar…"): usá las herramientas y respondé directo.
 - Terminá con una pregunta que ayude a avanzar (fechas, con quién viaja, qué le gusta), salvo que la respuesta esté completa.
 - Podés usar **negrita** y links en formato [texto](url).
 
-HOY ES ${hoy}. Estaciones en la Patagonia (hemisferio sur): diciembre, enero y febrero = VERANO; marzo, abril y mayo = otoño; junio, julio y agosto = invierno; septiembre, octubre y noviembre = primavera. Próximos meses: ${proximos}. Antes de nombrar una estación, chequeala en esta lista.
+HOY ES ${hoy}. Estaciones en la Patagonia (hemisferio sur): diciembre, enero y febrero = VERANO; marzo, abril y mayo = otoño; junio, julio y agosto = invierno; septiembre, octubre y noviembre = primavera. Próximos meses: ${proximos}. Antes de nombrar una estación o un animal para un mes, chequealo en esta lista.
 
 REGLAS FIJAS:
 1. Precios: solo los que vienen de una herramienta. Los de experiencias los muestra la tarjeta (no los escribas); los de planes para negocios sí podés escribirlos tal como vienen de planes_vigentes. Nunca inventes precios, horarios, teléfonos ni direcciones exactas.
@@ -293,7 +322,7 @@ REGLAS FIJAS:
 3. Temas: turismo, gastronomía, eventos y cultura de la Patagonia, y el ecosistema (Patagonia Magazine, Patagonia Experiencias, AIKE, Patagonia Puntos). Si te piden otra cosa (tareas, programación, política, temas personales, otros destinos), respondé en una línea que solo podés ayudar con la Patagonia y proponé algo concreto.
 4. Reserva: ${pt ? 'o botão "Ver e consultar" do cartão leva à página do passeio em português, com o WhatsApp do nosso assessor para tirar dúvidas e reservar.' : 'se hace desde el botón "Ver y reservar" de la tarjeta, que abre la experiencia en la plataforma de reservas; se paga una seña online con Mercado Pago y el resto al prestador.'} No confirmes reservas ni pagos vos. Para dudas que no podés resolver: asesor por WhatsApp${whatsapp ? ` (https://wa.me/${whatsapp})` : ''}.
 5. Fauna (calendario de referencia, usalo tal cual y no lo contradigas):
-   - Ballena franca austral (Península Valdés, El Doradillo, Puerto Pirámides): de junio a diciembre; el mejor momento es septiembre y octubre; en diciembre quedan las últimas.
+   - Ballena franca austral (Península Valdés, El Doradillo, Puerto Pirámides): de junio a diciembre; el mejor momento es septiembre y octubre; en diciembre quedan las últimas. De enero a mayo NO hay ballenas: si el viaje es en esos meses, no digas que "quedan" ni que "con suerte" se ven; solo nombralas para aclarar que no hay y que vuelven en junio.
    - Pingüino de Magallanes (Punta Tombo y otras colonias): de septiembre a abril; en noviembre nacen los pichones; diciembre y enero son de los mejores meses, con la colonia llena y pichones; en marzo y abril se van.
    - Orcas en Punta Norte: con más chances en marzo y abril (también octubre y noviembre).
    - Elefantes y lobos marinos: todo el año.
@@ -384,7 +413,7 @@ export async function onRequestOptions({ request }) {
   return new Response(null, { status: 204, headers: cors(request.headers.get('Origin')) });
 }
 
-export async function onRequestPost({ request, env }) {
+export async function onRequestPost({ request, env, waitUntil }) {
   const origen = request.headers.get('Origin') || '';
   const h = cors(origen);
   let mismoSitio = false;
@@ -408,11 +437,12 @@ export async function onRequestPost({ request, env }) {
   try { cat = await cargarCatalogo(request, env); } catch { return json({ error: 'No pude cargar el catálogo. Probá de nuevo en un rato.' }, 502, h); }
 
   const whatsapp = idioma === 'pt' ? (env.WHATSAPP_PT || env.WHATSAPP_ES || '5492804687904') : (env.WHATSAPP_ES || '5492804687904');
-  const estado = { vistos: new Set(), tarjetas: [], notas: [], env };
+  const estado = { vistos: new Set(), tarjetas: [], notas: [], env, herramientas: [], uso: { entrada: 0, salida: 0 } };
   const conversacion = [...mensajes];
   let texto = '';
   let respaldo = '';
 
+  const aviso = avisoFauna(mensajes);
   for (let vuelta = 0; vuelta < MAX_VUELTAS; vuelta++) {
     const r = await fetch((env.AIKE_API_BASE || 'https://api.anthropic.com') + '/v1/messages', {
       method: 'POST',
@@ -424,7 +454,8 @@ export async function onRequestPost({ request, env }) {
       body: JSON.stringify({
         model: env.AIKE_MODELO || MODELO_DEFAULT,
         max_tokens: 700,
-        system: [{ type: 'text', text: sistema(idioma, whatsapp, env.CONSULTOR_NOMBRE || 'Quimey'), cache_control: { type: 'ephemeral' } }],
+        system: [{ type: 'text', text: sistema(idioma, whatsapp, env.CONSULTOR_NOMBRE || 'Quimey'), cache_control: { type: 'ephemeral' } },
+          ...(aviso ? [{ type: 'text', text: aviso }] : [])],
         tools: HERRAMIENTAS.map((t, i) => (i === HERRAMIENTAS.length - 1 ? { ...t, cache_control: { type: 'ephemeral' } } : t)),
         messages: conversacion,
       }),
@@ -435,6 +466,8 @@ export async function onRequestPost({ request, env }) {
       return json({ error: 'Hay mucha demanda en este momento. Probá de nuevo en unos segundos.' }, 502, h);
     }
     const resp = await r.json();
+    estado.uso.entrada += (resp.usage?.input_tokens || 0) + (resp.usage?.cache_read_input_tokens || 0) + (resp.usage?.cache_creation_input_tokens || 0);
+    estado.uso.salida += resp.usage?.output_tokens || 0;
     const bloques = resp.content || [];
     const textoVuelta = bloques.filter((b) => b.type === 'text').map((b) => b.text).join('\n').trim();
     // Se juntan los textos de todas las vueltas, sin las frases de relleno ("dejame buscar…")
@@ -446,15 +479,22 @@ export async function onRequestPost({ request, env }) {
     conversacion.push({ role: 'assistant', content: bloques });
     const resultados = [];
     for (const u of usos) {
+      estado.herramientas.push(u.name);
       const salida = await ejecutarHerramienta(u.name, u.input, cat, estado);
       resultados.push({ type: 'tool_result', tool_use_id: u.id, content: JSON.stringify(salida) });
     }
     conversacion.push({ role: 'user', content: resultados });
   }
 
-  return json({
-    texto: texto || respaldo || (idioma === 'pt' ? 'Me conta um pouco mais da sua viagem?' : '¿Me contás un poco más de tu viaje?'),
-    tarjetas: tarjetasDe(cat, estado.tarjetas, idioma, whatsapp),
-    notas: estado.notas,
-  }, 200, h);
+  const respuesta = texto || respaldo || (idioma === 'pt' ? 'Me conta um pouco mais da sua viagem?' : '¿Me contás un poco más de tu viaje?');
+  const tarjetas = tarjetasDe(cat, estado.tarjetas, idioma, whatsapp);
+
+  // Estadísticas: se guardan después de responder, sin demorar al lector
+  const registro = registrarConsulta(env, request, {
+    sesion: cuerpo?.sesion, idioma, pagina: String(cuerpo?.pagina || ''), ref: String(cuerpo?.ref || ''), voz: !!cuerpo?.voz,
+    mensajes, respuesta, herramientas: estado.herramientas, tarjetas: tarjetas.map((t) => t.id), notas: estado.notas, uso: estado.uso,
+  });
+  if (typeof waitUntil === 'function') waitUntil(registro); else await registro;
+
+  return json({ texto: respuesta, tarjetas, notas: estado.notas }, 200, h);
 }

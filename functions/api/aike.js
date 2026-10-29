@@ -110,24 +110,33 @@ function buscarExperiencias(cat, { consulta = '', destino = '', categoria = '', 
 // Secciones de Patagonia Magazine (ids de categoría del WordPress)
 const SECCIONES = { gastronomia: 24, restaurantes: 133, recetas: 132, eventos: 250, excursiones: 25, escapadas: 89,
   atractivos: 227, lugares: 160, fauna: 161, historias: 149, noticias: 22 };
+// Palabras que no ayudan a buscar en la revista
+const GENERICAS = new Set(['evento', 'eventos', 'fiesta', 'fiestas', 'festival', 'festivales', 'proximo', 'proximos', 'proximas', 'vienen',
+  'patagonia', 'patagonica', 'nota', 'notas', 'que', 'hay', 'donde', 'como', 'comer', 'comida', 'gastronomia', 'tipico', 'tipicos', 'plato', 'platos']);
+async function pedirNotas(q, cat, porFecha, cantidad) {
+  const u = `https://patagoniamagazine.com.ar/wp-json/wp/v2/posts?per_page=${cantidad}&_fields=title,link,excerpt,date`
+    + (q ? `&search=${encodeURIComponent(q)}` : '') + (cat ? `&categories=${cat}` : '') + (porFecha || !q ? '&orderby=date&order=desc' : '');
+  const r = await fetch(u, { cf: { cacheTtl: 1800 } });
+  if (!r.ok) throw new Error('revista ' + r.status);
+  const data = await r.json();
+  return (Array.isArray(data) ? data : []).map((p) => ({
+    titulo: String(p.title?.rendered || '').replace(/<[^>]+>/g, '').replace(/&#8217;/g, '’').replace(/&#8220;|&#8221;/g, '"').replace(/&#8211;/g, '–').trim(),
+    url: p.link,
+    resumen: String(p.excerpt?.rendered || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 240),
+    fecha: (p.date || '').slice(0, 10),
+  }));
+}
 async function buscarNotas(consulta, seccion) {
   const cat = SECCIONES[seccion] || '';
   const eventos = seccion === 'eventos';
-  const q = (consulta || '').trim();
-  const u = `https://patagoniamagazine.com.ar/wp-json/wp/v2/posts?per_page=${eventos ? 6 : 4}&_fields=title,link,excerpt,date`
-    + (q ? `&search=${encodeURIComponent(q)}` : '') + (cat ? `&categories=${cat}` : '') + (eventos || !q ? '&orderby=date&order=desc' : '');
+  const cantidad = eventos ? 6 : 4;
+  // Saca las palabras genéricas ("eventos", "patagonia"…): con la sección alcanza
+  const q = norm(consulta || '').split(/[^a-z0-9]+/).filter((w) => w.length > 2 && !GENERICAS.has(w) && !VACIAS.has(w)).join(' ');
   try {
-    const r = await fetch(u, { cf: { cacheTtl: 1800 } });
-    if (!r.ok) return { notas: [], aviso: 'La revista no respondió.' };
-    const data = await r.json();
-    return {
-      notas: (Array.isArray(data) ? data : []).map((p) => ({
-        titulo: String(p.title?.rendered || '').replace(/<[^>]+>/g, '').replace(/&#8217;/g, '’').replace(/&#8220;|&#8221;/g, '"').trim(),
-        url: p.link,
-        resumen: String(p.excerpt?.rendered || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 240),
-        fecha: (p.date || '').slice(0, 10),
-      })),
-    };
+    let notas = await pedirNotas(q, cat, eventos, cantidad);
+    if (!notas.length && q && cat) notas = await pedirNotas('', cat, true, cantidad);   // sección sin filtro
+    if (!notas.length && q && cat) notas = await pedirNotas(q, '', false, cantidad);    // palabras sin sección
+    return notas.length ? { notas } : { notas: [], aviso: 'No hay notas sobre eso en la revista.' };
   } catch (e) {
     return { notas: [], aviso: 'La revista no respondió.' };
   }
@@ -192,6 +201,9 @@ const HERRAMIENTAS = [
 function sistema(idioma, whatsapp, nombre) {
   const pt = idioma === 'pt';
   const hoy = new Date().toLocaleDateString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires', day: 'numeric', month: 'long', year: 'numeric' });
+  const MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+  const mesHoy = Number(new Date().toLocaleString('en-US', { timeZone: 'America/Argentina/Buenos_Aires', month: 'numeric' }));
+  const proximos = [0, 1, 2, 3, 4, 5].map((k) => { const m = ((mesHoy - 1 + k) % 12) + 1; return `${MESES[m - 1]} = ${ESTACION_DE_MES[m].replace('otono', 'otoño')}`; }).join('; ');
   return `Sos ${nombre}, la consultora con inteligencia artificial de Patagonia Magazine (patagoniamagazine.com.ar), la revista digital de turismo, gastronomía, eventos y cultura de la Patagonia argentina. Respondés consultas sobre viajes, gastronomía (dónde comer, platos, productos, recetas), eventos y fiestas, y excursiones.
 Tu fuente principal son las notas de la revista (buscar_notas_magazine). Para excursiones y experiencias que se pueden reservar, recomendás las de Patagonia Experiencias (patagoniaexperiencias.com), la plataforma de reservas aliada de la revista. También conocés Patagonia Puntos, el programa de beneficios para turistas.
 
@@ -199,13 +211,13 @@ IDIOMA: ${pt ? 'respondé en portugués de Brasil, cálido y claro.' : 'respond�
 
 QUÉ HACÉS:
 - Conversás en texto plano, cálida y clara, como alguien de la región que la conoce de punta a punta. Hablás en femenino cuando te referís a vos misma.
-- Gastronomía, eventos, lugares e historias: buscás primero en la revista (buscar_notas_magazine con la sección que corresponda) y compartís el link de la nota dentro del texto. Para eventos mirá la fecha de la nota, no presentes como próximo algo que ya pasó y nombrá como mucho 3, en un solo párrafo corto.
-- Excursiones: si el lector quiere hacer algo concreto (ver pingüinos, ballenas, una salida), buscar_experiencias y mostrar_experiencias con UNA sola recomendación, la mejor. Si decís que hay una excursión, mostrala. No recomiendes cuando la consulta es de gastronomía, eventos o información general.
+- Gastronomía, eventos, lugares e historias: ANTES de responder llamás SIEMPRE a buscar_notas_magazine (buscar_notas_magazine con la sección que corresponda) y compartís el link de la nota dentro del texto. Para eventos mirá la fecha de la nota, no presentes como próximo algo que ya pasó y nombrá como mucho 3, en un solo párrafo corto.
+- Excursiones: si el lector quiere hacer algo concreto (ver pingüinos, ballenas, una salida), buscar_experiencias y mostrar_experiencias con UNA sola recomendación, la mejor. Si decís que hay una excursión, mostrala. Mostrás una sola: no digas que hay varias opciones. No recomiendes cuando la consulta es de gastronomía, eventos o información general.
 - Guías de viaje de destino: guias_de_viaje, y compartís un link.
 - AIKE es el cotizador de escapadas de Patagonia Experiencias (con botones, da un precio en un minuto). Si el lector quiere un presupuesto rápido o armar una escapada de varios días, derivalo: ${pt ? '[Cotar minha escapada com AIKE](https://patagoniaexperiencias.com/aike)' : '[Cotizá tu escapada con AIKE](https://patagoniaexperiencias.com/aike)'}.
 - Tus respuestas también pueden leerse en voz alta: escribí natural, sin emojis, sin listas ni símbolos.
 
-HOY ES ${hoy}. Estaciones en la Patagonia (hemisferio sur), mes por mes: diciembre, enero y febrero = VERANO; marzo, abril y mayo = otoño; junio, julio y agosto = invierno; septiembre, octubre y noviembre = primavera. Diciembre es verano, nunca primavera.
+HOY ES ${hoy}. Estaciones en la Patagonia (hemisferio sur), mes por mes: diciembre, enero y febrero = VERANO; marzo, abril y mayo = otoño; junio, julio y agosto = invierno; septiembre, octubre y noviembre = primavera. Diciembre es verano, nunca primavera. Próximos meses: ${proximos}. Antes de nombrar una estación, chequeala en esta lista.
 
 REGLAS FIJAS:
 1. Nunca escribas precios, ni montos, ni nombres de excursiones que no hayan salido de una herramienta. Los precios los muestran las tarjetas: no los repitas en el texto.
@@ -277,7 +289,7 @@ function cors(origen) {
   };
 }
 // Quita oraciones tipo "Dejame buscar…", "Te muestro las opciones:", "Deixa eu buscar…"
-const RELLENO = /(d[eé]jame|dejame|voy a|ahora|deixa eu|vou)\s+(buscar|revisar|ver|mostrar|consultar|fijarme|procurar|olhar)|^(busc[oa]me|busco|buscando|estoy buscando|vou procurar|te busco|te muestro)\b|te muestro (las|lo|algunas)[^.!?]*:\s*$|^(perfecto|listo|genial|ótimo|perfeito)[!.]?\s*$/i;
+const RELLENO = /(d[eé]jame|dejame|voy a|ahora|deixa eu|vou)\s+(buscar|revisar|ver|mostrar|consultar|fijarme|procurar|olhar|traer|traerte|chequear)|^(busc[oa]me|busco|buscando|estoy buscando|vou procurar|te busco|te muestro)\b|te muestro (las|lo|algunas)[^.!?]*:\s*$|^(perfecto|listo|genial|ótimo|perfeito)[!.]?\s*$/i;
 function sinRelleno(t) {
   return String(t || '').split(/\n{2,}/).map((parrafo) =>
     (parrafo.match(/[^.!?:]+[.!?:]*\s*/g) || [parrafo]).filter((o) => !RELLENO.test(o.trim())).join('').trim()

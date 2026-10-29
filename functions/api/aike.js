@@ -398,7 +398,7 @@ function cors(origen) {
   };
 }
 // Quita oraciones tipo "Dejame buscar…", "Te muestro las opciones:", "Deixa eu buscar…"
-const RELLENO = /(d[eé]jame|dejame|voy a|ahora|deixa eu|vou)\s+(buscar|revisar|ver|mostrar|consultar|fijarme|procurar|olhar|traer|traerte|chequear)|^(busc[oa]me|busco|buscando|estoy buscando|vou procurar|te busco|te muestro)\b|te muestro (las|lo|algunas)[^.!?]*:\s*$|^(perfecto|listo|genial|ótimo|perfeito)[!.]?\s*$/i;
+const RELLENO = /(d[eé]jame|dejame|voy a|ahora|deixa eu|vou)\s+(buscar|revisar|ver|mostrar|consultar|fijarme|procurar|olhar|traer|traerte|chequear)|\b(let me|i'll|i will)\s+(find|check|search|look|see|show)|\b(laissez-moi|je vais)\s+(chercher|regarder|voir|vérifier)|^(perfect|great|perfait|parfait)[!.]?\s*$|^(busc[oa]me|busco|buscando|estoy buscando|vou procurar|te busco|te muestro)\b|te muestro (las|lo|algunas)[^.!?]*:\s*$|^(perfecto|listo|genial|ótimo|perfeito)[!.]?\s*$/i;
 function sinRelleno(t) {
   return String(t || '').split(/\n{2,}/).map((parrafo) =>
     (parrafo.match(/[^.!?:]+[.!?:]*\s*/g) || [parrafo]).filter((o) => !RELLENO.test(o.trim())).join('').trim()

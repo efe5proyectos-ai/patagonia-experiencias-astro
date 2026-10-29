@@ -142,6 +142,55 @@ async function buscarNotas(consulta, seccion) {
   }
 }
 
+// ── Suscripción, altas de negocios y planes (Patagonia Magazine + Experiencias) ──
+const MAG = 'https://patagoniamagazine.com.ar';
+const SUMATE = {
+  newsletter: { que: 'Newsletter gratis de Patagonia Magazine: notas del día, agenda del finde y escapadas, una vez por semana, sin spam.', url: `${MAG}/#newsletter` },
+  agenda: { que: 'Agenda de eventos, fiestas y festivales de la Patagonia.', url: `${MAG}/agenda/` },
+  sumar_gastronomia: { que: 'Restaurantes, casas de té, bodegas, cervecerías y cafeterías: alta en el directorio de la revista y en el ecosistema.', url: `${MAG}/sumate/?tipo=gastronomia#alta` },
+  sumar_excursion: { que: 'Prestadores de excursiones y actividades: publicar y vender online con reserva y pago.', url: `${MAG}/sumate/?tipo=excursion#alta` },
+  sumate_sin_costo: { que: 'Alta SIN COSTO: el negocio ofrece un beneficio a los socios de Patagonia Puntos (descuento, regalo, 2x1) y obtiene ficha en el directorio de la revista, su beneficio publicado en Patagonia Puntos con QR para sumar puntos y aparición en notas y guías.', url: `${MAG}/sumate/?modo=sin-costo#alta` },
+  sumate_con_plan: { que: 'Alta CON PLAN de Patagonia Experiencias: publicar excursiones o servicios con reserva y pago online y panel para gestionar reservas, sin beneficio obligatorio.', url: `${MAG}/sumate/?modo=plan#alta` },
+  planes_y_comisiones: { que: 'Detalle de planes y comisiones para prestadores.', url: 'https://patagoniaexperiencias.com/prestadores' },
+  anunciar: { que: 'Publicidad y anuncios en Patagonia Magazine.', url: `${MAG}/anunciantes/` },
+};
+let planesCache = null, planesHora = 0;
+async function planesVigentes(env) {
+  if (planesCache && Date.now() - planesHora < 1800000) return planesCache;
+  const key = env.FB_API_KEY || 'AIzaSyDZkeRgN45FkOF8pO2rGxDJA28VZnZ8Ntg';
+  const proyecto = env.FB_PROJECT_ID || 'patagonia-experiencias';
+  const u = `https://firestore.googleapis.com/v1/projects/${proyecto}/databases/(default)/documents/artifacts/patagonia-experiencias-app/public/data/configuracion/planes?key=${key}`;
+  const plano = (v) => (v == null ? null : v.stringValue ?? v.integerValue ?? v.doubleValue ?? v.booleanValue
+    ?? (v.arrayValue ? (v.arrayValue.values || []).map(plano) : v.mapValue ? Object.fromEntries(Object.entries(v.mapValue.fields || {}).map(([k, x]) => [k, plano(x)])) : null));
+  try {
+    const r = await fetch(u, { cf: { cacheTtl: 1800 } });
+    if (!r.ok) throw new Error('planes ' + r.status);
+    const f = Object.fromEntries(Object.entries((await r.json()).fields || {}).map(([k, v]) => [k, plano(v)]));
+    const hoy = new Date().toISOString().slice(0, 10);
+    const promo = f._promo?.promo;
+    const planes = Object.entries(f).filter(([k, p]) => !k.startsWith('_') && p && p.nombre)
+      .sort((a, b) => Number(a[1].orden || 0) - Number(b[1].orden || 0))
+      .map(([, p]) => ({
+        nombre: p.nombre,
+        precio_mensual_ars: Number(p.precioMensual) || null,
+        precio_mensual_pagando_anual_ars: Number(p.precioAnual) || null,
+        comision_por_venta: p.comision ? `${p.comision}%` : null,
+        incluye: String(p.features || '').split('\n').map((x) => x.trim()).filter(Boolean),
+      }));
+    planesCache = {
+      planes,
+      promocion: promo && promo.activa && (!promo.vigenciaHasta || promo.vigenciaHasta >= hoy) ? `${promo.badge || ''} (hasta ${promo.vigenciaHasta})` : 'sin promoción vigente',
+      alta_sin_costo: SUMATE.sumate_sin_costo,
+      ver_planes: SUMATE.planes_y_comisiones.url,
+      alta_con_plan: SUMATE.sumate_con_plan.url,
+    };
+    planesHora = Date.now();
+    return planesCache;
+  } catch (e) {
+    return { aviso: 'No pude leer los planes ahora.', ver_planes: SUMATE.planes_y_comisiones.url, alta_sin_costo: SUMATE.sumate_sin_costo };
+  }
+}
+
 const PUNTOS_INFO = {
   que_es: 'Patagonia Puntos es el programa de beneficios para turistas de la Patagonia: sumás puntos y accedés a descuentos y beneficios en comercios, gastronomía, hotelería y prestadores adheridos.',
   como_sumar: 'Se suman puntos al reservar experiencias en Patagonia Experiencias y en los comercios adheridos.',
@@ -192,6 +241,16 @@ const HERRAMIENTAS = [
     },
   },
   {
+    name: 'suscripcion_y_altas',
+    description: 'Links para que el lector se suscriba al newsletter o vea la agenda, y para que un negocio (restaurante, alojamiento, comercio, prestador de excursiones) se sume al ecosistema o anuncie en la revista. Devuelve qué es cada opción y su link.',
+    input_schema: { type: 'object', properties: { para: { type: 'string', enum: ['lector', 'negocio'] } } },
+  },
+  {
+    name: 'planes_vigentes',
+    description: 'Planes actuales para prestadores de Patagonia Experiencias (nombre, precio mensual, comisión, qué incluyen, promoción vigente) y la opción de alta sin costo con beneficio en Patagonia Puntos. Usala cuando un negocio pregunte cuánto sale o qué planes hay.',
+    input_schema: { type: 'object', properties: {} },
+  },
+  {
     name: 'info_patagonia_puntos',
     description: 'Información del programa de beneficios Patagonia Puntos y su link.',
     input_schema: { type: 'object', properties: {} },
@@ -215,6 +274,10 @@ TU ECOSISTEMA (usalo siempre que sume, sin forzarlo):
 - Patagonia Puntos: el programa de beneficios para turistas; sumás puntos y tenés descuentos en comercios adheridos. Mencionalo cuando hablen de ahorrar, comer o comprar en la región (info_patagonia_puntos).
 - Guías de viaje de destino del sitio: guias_de_viaje.
 
+CRECER LA COMUNIDAD (con naturalidad, sin insistir):
+- Lectores: cuando la charla se presta (después de ayudar, no al principio), invitá UNA vez por conversación a suscribirse gratis al newsletter de la revista o a mirar la agenda (suscripcion_y_altas con para: lector).
+- Negocios: si quien escribe tiene un restaurante, casa de té, bodega, cervecería, alojamiento, comercio o hace excursiones, o pregunta cómo aparecer, publicar, subir su gastronomía o anunciar, explicale las dos formas de sumarse: SIN COSTO ofreciendo un beneficio en Patagonia Puntos, o CON PLAN de Patagonia Experiencias para vender online. Pasale el link que corresponde (suscripcion_y_altas con para: negocio). Si pregunta precios o qué planes hay, usá planes_vigentes y contale los planes con su precio y comisión tal como vienen, y si hay promoción vigente.
+
 CÓMO RESPONDÉS:
 - Directo y con criterio propio: si te preguntan "¿qué me conviene?", elegí y explicá por qué. Usá todo lo que sabés de la Patagonia (destinos, clima, temporadas, distancias aproximadas entre ciudades, platos típicos, lugares imperdibles, cómo armar un itinerario).
 - Largo: de 2 a 6 oraciones. Si piden un itinerario, contalo por días en un párrafo corto por día. Sin emojis ni listas con símbolos: tus respuestas también se escuchan en voz alta.
@@ -225,7 +288,7 @@ CÓMO RESPONDÉS:
 HOY ES ${hoy}. Estaciones en la Patagonia (hemisferio sur): diciembre, enero y febrero = VERANO; marzo, abril y mayo = otoño; junio, julio y agosto = invierno; septiembre, octubre y noviembre = primavera. Próximos meses: ${proximos}. Antes de nombrar una estación, chequeala en esta lista.
 
 REGLAS FIJAS:
-1. Precios: solo los que vienen de una herramienta, y los muestra la tarjeta; no los escribas en el texto. Nunca inventes precios, horarios, teléfonos ni direcciones exactas.
+1. Precios: solo los que vienen de una herramienta. Los de experiencias los muestra la tarjeta (no los escribas); los de planes para negocios sí podés escribirlos tal como vienen de planes_vigentes. Nunca inventes precios, horarios, teléfonos ni direcciones exactas.
 2. Negocios puntuales (restaurantes, hoteles, prestadores): recomendá primero los de Patagonia Experiencias y los que aparecen en notas de la revista. Si nombrás otro lugar muy conocido, que sea uno del que estés segura y sugerí confirmar horarios antes de ir.
 3. Temas: turismo, gastronomía, eventos y cultura de la Patagonia, y el ecosistema (Patagonia Magazine, Patagonia Experiencias, AIKE, Patagonia Puntos). Si te piden otra cosa (tareas, programación, política, temas personales, otros destinos), respondé en una línea que solo podés ayudar con la Patagonia y proponé algo concreto.
 4. Reserva: ${pt ? 'o botão "Ver e consultar" do cartão leva à página do passeio em português, com o WhatsApp do nosso assessor para tirar dúvidas e reservar.' : 'se hace desde el botón "Ver y reservar" de la tarjeta, que abre la experiencia en la plataforma de reservas; se paga una seña online con Mercado Pago y el resto al prestador.'} No confirmes reservas ni pagos vos. Para dudas que no podés resolver: asesor por WhatsApp${whatsapp ? ` (https://wa.me/${whatsapp})` : ''}.
@@ -261,6 +324,13 @@ async function ejecutarHerramienta(nombre, entrada, cat, estado) {
       estado.notas = r.notas.slice(0, 3);
       return r;
     }
+    case 'suscripcion_y_altas':
+      return entrada?.para === 'lector'
+        ? { newsletter: SUMATE.newsletter, agenda: SUMATE.agenda }
+        : { sumar_gastronomia: SUMATE.sumar_gastronomia, sumar_excursion: SUMATE.sumar_excursion, sumate_sin_costo: SUMATE.sumate_sin_costo,
+            sumate_con_plan: SUMATE.sumate_con_plan, planes_y_comisiones: SUMATE.planes_y_comisiones, anunciar: SUMATE.anunciar };
+    case 'planes_vigentes':
+      return await planesVigentes(estado.env);
     case 'info_patagonia_puntos':
       return PUNTOS_INFO;
     default:
@@ -333,7 +403,7 @@ export async function onRequestPost({ request, env }) {
   try { cat = await cargarCatalogo(request, env); } catch { return json({ error: 'No pude cargar el catálogo. Probá de nuevo en un rato.' }, 502, h); }
 
   const whatsapp = idioma === 'pt' ? (env.WHATSAPP_PT || env.WHATSAPP_ES || '5492804687904') : (env.WHATSAPP_ES || '5492804687904');
-  const estado = { vistos: new Set(), tarjetas: [], notas: [] };
+  const estado = { vistos: new Set(), tarjetas: [], notas: [], env };
   const conversacion = [...mensajes];
   let texto = '';
   let respaldo = '';

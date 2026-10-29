@@ -257,7 +257,7 @@ function cors(origen) {
   };
 }
 // Quita oraciones tipo "Dejame buscar…", "Te muestro las opciones:", "Deixa eu buscar…"
-const RELLENO = /(d[eé]jame|dejame|voy a|ahora|deixa eu|vou)\s+(buscar|revisar|ver|mostrar|consultar|fijarme|procurar|olhar)|te muestro (las|lo|algunas)[^.!?]*:\s*$|^(perfecto|listo|genial|ótimo|perfeito)[!.]?\s*$/i;
+const RELLENO = /(d[eé]jame|dejame|voy a|ahora|deixa eu|vou)\s+(buscar|revisar|ver|mostrar|consultar|fijarme|procurar|olhar)|^(busc[oa]me|busco|buscando|estoy buscando|vou procurar)\b|te muestro (las|lo|algunas)[^.!?]*:\s*$|^(perfecto|listo|genial|ótimo|perfeito)[!.]?\s*$/i;
 function sinRelleno(t) {
   return String(t || '').split(/\n{2,}/).map((parrafo) =>
     (parrafo.match(/[^.!?:]+[.!?:]*\s*/g) || [parrafo]).filter((o) => !RELLENO.test(o.trim())).join('').trim()

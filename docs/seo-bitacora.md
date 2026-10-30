@@ -91,6 +91,17 @@ Reglas de la bitácora:
   aparecer en Google con un pedido ajeno. El cambio es una sola línea de `<meta>`
   en el `<head>` y no toca el flujo de Mercado Pago, pero son zona prohibida:
   hace falta tu OK para tocarlas.
+- **Estrellas en el resultado de Google (`aggregateRating`).** Las fichas
+  guardan un `rating` (4.8, 4.9…) que hoy se muestra en la página pero no se
+  declara como dato estructurado. Declararlo haría aparecer estrellas en Google,
+  que es lo que más sube el porcentaje de clics de todo lo que queda por hacer.
+  **No lo hice y no lo voy a hacer solo:** Google exige que la calificación
+  venga de reseñas reales de clientes, verificables, y las penas por inventarla
+  son manuales y caras (se cae todo el sitio del resultado enriquecido). Si el
+  rating de hoy lo carga el prestador o el admin a mano, no se puede publicar.
+  El camino bueno es pedirle la reseña al cliente después del tour (hay email y
+  WhatsApp del comprador) y recién con eso declarar `aggregateRating` con la
+  cantidad real de reseñas. Decime si querés que arme el circuito de reseñas.
 - `guia-peninsula-valdes-lite.html` tenía el `<link rel="canonical">` apuntando a
   **patagoniamagazine.com.ar**. Quedó en `noindex`, así que ya no regala
   autoridad, pero conviene revisar si quedaron más canónicas cruzadas entre los
@@ -112,11 +123,9 @@ Reglas de la bitácora:
    sitemap: ninguna ficha se queda sin description, pero todas salen de
    `textoPlano.slice(0, 157)` en `src/pages/experiencias/[slug].astro` (línea 16)
    y en su gemela de `/pt-br/`. Por eso los 7 grupos de tours repetidos tienen
-   description idéntica. Títulos: sólo 1 par duplicado, en portugués
-   (`caminhada-com-raquetes-de-neve-em-esquel` y
-   `caminhada-raquetes-de-neve-la-curva-de-los-guanacos-esquel`, los dos
-   "Caminhada com Raquetes de Neve em Esquel") — ése se arregla sumando el lugar
-   al título de la segunda. Cambiar el recorte por una description armada con
+   description idéntica. Títulos: ya no hay ninguno
+   duplicado, ni en español ni en portugués (el único par en portugués se
+   arregló el 30/10, ver "Hecho"). Cambiar el recorte por una description armada con
    destino + duración + categoría + texto mejora las que hoy son únicas, pero
    **no arregla los grupos repetidos**: ahí los campos también coinciden. Primero
    la decisión de catálogo, después el recorte.
@@ -131,17 +140,16 @@ Reglas de la bitácora:
    que traen visitas y no tienen nada para vender. Es decisión de catálogo
    (sumar prestadores ahí) o de contenido (despublicar las que no aportan), no
    de código.
-6. **Títulos que repiten el lugar.** Medido el 29/10 sobre las 93 fichas en
-   español: 19 ya nombran el destino en el título y el template igual le pega
-   ` en {destino}` atrás, así que Google muestra "TREVELIN Full Day en
-   Trevelin, Chubut", "CABALGATAS EN ESQUEL en Esquel, Chubut", "Península
-   Valdés en Puerto Pirámides, Chubut". Se arregla con una condición en
-   `src/pages/experiencias/[slug].astro`: si el título ya nombra la localidad
-   detectada, no agregar el sufijo. Es cosmético pero gana caracteres útiles en
-   el resultado de búsqueda.
-7. **Datos estructurados.** Validar Product/Offer, FAQPage y BreadcrumbList con
+6. **Datos estructurados.** Validar Product/Offer, FAQPage y BreadcrumbList con
    la herramienta de resultados enriquecidos; corregir lo que tire error.
-8. **Core Web Vitals.** Las páginas de `public/` cargan Tailwind por CDN y
+   Revisado el 30/10 en fichas de las dos lenguas: el JSON-LD parsea bien y los
+   tipos salen completos (Organization, Product con `offers`, BreadcrumbList y,
+   en portugués, FAQPage). Lo que falta es `priceValidUntil` en el `Offer`, que
+   Google pide como recomendado y hoy no está en ninguna ficha; sin él los
+   resultados con precio se muestran igual, pero la validación tira aviso. El
+   campo tiene que salir de una fecha de vigencia del precio, y el precio es
+   zona prohibida: hay que definir de dónde sale esa fecha antes de tocarlo.
+7. **Core Web Vitals.** Las páginas de `public/` cargan Tailwind por CDN y
    compilan en el navegador; las guías tienen imágenes pesadas.
 
    Medido el 28/10: `/aike` (77 KB) y `/prestadores` (74 KB) **no traen ni un
@@ -152,12 +160,12 @@ Reglas de la bitácora:
    dejar el título y el primer párrafo escritos en el HTML y que el script sólo
    los reemplace si hace falta; no es cambio de diseño, pero hay que leer bien
    cada render antes de tocar.
-9. **Páginas huérfanas que sí valen.** `/cuotas` quedó indexable el 28/10 pero
+8. **Páginas huérfanas que sí valen.** `/cuotas` quedó indexable el 28/10 pero
    sigue sin recibir un solo enlace interno: Google la ve sólo por el sitemap.
    Lo mismo `/aike`, `/ecosistema` y `/alianzas`. Falta un enlace desde el footer
    compartido (`public/footer.js`) o desde la home. Es cambio de navegación:
    chico, pero toca todas las páginas, así que va en una corrida propia.
-10. **Bing rechaza IndexNow.** Yandex acepta las 240 URLs (200 OK); Bing y el
+9. **Bing rechaza IndexNow.** Yandex acepta las 240 URLs (200 OK); Bing y el
    endpoint compartido devuelven 403 `UserForbiddedToAccessSite` aunque la
    clave esté bien publicada y accesible. Falta reclamar el sitio en Bing
    Webmaster Tools (se importa desde Search Console en dos minutos). Es tarea
@@ -165,6 +173,27 @@ Reglas de la bitácora:
    Yandex, que funciona (29/10: aceptó las 241 URLs).
 
 ## Hecho
+
+- **30/10/2026** — Títulos que repetían el lugar. El template de la ficha pegaba
+  siempre ` en {destino}` atrás del título, así que las fichas cuyo título ya
+  nombra el lugar se publicaban como "TREVELIN FULL DAY en Trevelin, Chubut",
+  "CABALGATAS EN ESQUEL en Esquel, Chubut", "Valle de Cholila en Cholila".
+  `tituloParaBuscadores()` en `src/lib/geo.js` saca el sufijo sólo cuando
+  repetiría un texto que ya está en el título. La comparación es **literal, no
+  por alias, a propósito**: "Trekking Laguna Esmeralda" conserva " en Ushuaia"
+  aunque la laguna sea alias de Ushuaia, porque el título no nombra la ciudad y
+  ésa es la palabra que la gente busca; lo mismo "Punta Loma con City Tour en
+  Puerto Madryn" y "PIEDRA PARADA en Gualjaina". Verificado en producción sobre
+  las 93 fichas: **19 títulos cambiaron, 74 quedaron intactos, cero títulos
+  duplicados nuevos** y el largo medio bajó de 74 a 71 caracteres. (La corrida
+  del 29/10 había contado 19 por alias; midiendo bien son 19 por repetición
+  literal y 32 por alias — las otras 13 son las que conviene dejar como están.)
+- **30/10/2026** — Único par de títulos duplicados en portugués. Las dos fichas
+  de raquetas de nieve de Esquel publicaban las dos
+  "Caminhada com Raquetes de Neve em Esquel, Patagônia". La segunda, que es la
+  de La Curva de los Guanacos (su título en español ya lo dice), pasó a
+  "Raquetes de Neve na Curva de los Guanacos, Esquel". Es un dato de
+  `src/data/traducciones-pt.json`, no código.
 
 - **29/10/2026** — Enlazado interno guías ↔ fichas. Las 60 guías de viaje no
   enlazaban a ninguna ficha de tour: su único enlace de salida era el CTA
@@ -264,7 +293,7 @@ dos de las URLs del rastreo me habían devuelto una respuesta cortada (1,3 KB y
 arreglo que subí igual sirve, porque el bug del template es real: si una
 experiencia no tiene foto, no se renderiza ningún H1. Pero hoy no hay ninguna
 ficha así en producción, así que no esperes ningún movimiento por este cambio.
-Lo que sí es real y quedó anotado en el pendiente 8: `/aike` y `/prestadores` no
+Lo que sí es real y quedó anotado en el pendiente 7: `/aike` y `/prestadores` no
 tienen ningún encabezado en el HTML servido y `/calendario-fauna/` lo tiene
 vacío. **Para la próxima corrida: el rastreo tiene que validar el tamaño de cada
 respuesta antes de concluir que a una página le falta algo.**
@@ -312,3 +341,45 @@ páginas que traen visitas y no tienen nada para vender — quedó como pendient
 y es decisión de Marcelo si se suman prestadores ahí o se despublican. También
 anoté el pendiente 6 nuevo: 19 fichas repiten el lugar en el título ("TREVELIN
 Full Day en Trevelin, Chubut"), medido hoy, con el arreglo identificado.
+
+### 30/10/2026 — Títulos de las fichas: se dejó de repetir el lugar
+
+Los cinco pendientes de arriba siguen necesitando Search Console o una decisión
+de catálogo, así que arranqué por el 6, el primero accionable. Antes de tocar
+nada rastreé las 93 fichas en español de producción y leí el título real de cada
+una (validando el tamaño de la respuesta, como quedó anotado el 28/10: ninguna
+vino cortada). La corrida del 29/10 había contado 19 fichas afectadas; midiendo
+por alias salen 32, pero revisando una por una quedó claro que **el criterio
+correcto no es el alias sino la repetición literal**: "Trekking Laguna
+Esmeralda en Ushuaia" tiene que conservar el sufijo, porque "Ushuaia" no está en
+el título y es la palabra que se busca; sacárselo habría sido perder la
+palabra clave en 13 fichas. Con el criterio literal son 19, y ésas son las que
+cambié.
+
+El arreglo es una función nueva en `src/lib/geo.js` y una línea en el template:
+nada de datos, nada de precios, nada de checkout. Compilé, subí, esperé el
+deploy y volví a rastrear las 93 fichas: los 93 títulos coinciden exactamente
+con lo esperado, 19 cambiaron, no se generó ningún título duplicado y el largo
+medio bajó de 74 a 71 caracteres. En el mismo pase rastreé las 59 fichas en
+portugués: los títulos de allá están bien escritos y 55 de 59 ya nombran el
+lugar, así que **no corresponde pegarles ningún sufijo** — lo único que había
+era el par duplicado de raquetas de nieve de Esquel, que arreglé en el dato.
+
+**Qué mido como resultado esperado:** que los 19 resultados de búsqueda dejen de
+mostrar el lugar dos veces (que lee como spam y gasta caracteres), y que al
+ganar 10–25 caracteres útiles Google muestre el título completo en vez de
+cortarlo — sobre todo en las cuatro variantes de "TREVELIN FULL DAY …" y las
+dos de "PANORÁMICAS DE ESQUEL …", donde lo que se cortaba era justamente lo que
+diferencia una ficha de la otra (tulipanes, peonías, degustación). Avisé por
+IndexNow: Yandex aceptó, Bing sigue en 403 (falta reclamar el sitio).
+
+**Qué quedó pendiente:** 16 títulos siguen pasando los 60 caracteres, pero ahí
+el largo lo pone el nombre que cargó el prestador, no el template. Revisé
+también los datos estructurados (pendiente 6): parsean bien y los tipos están
+completos; falta `priceValidUntil` en el `Offer`, que quedó anotado con la
+aclaración de que la fecha de vigencia del precio toca zona prohibida. Y anoté
+para Marcelo la oportunidad más grande que encontré y **no** toqué: declarar
+`aggregateRating` para que salgan estrellas en Google. El `rating` ya está
+cargado en las fichas, pero Google exige reseñas reales de clientes y la pena
+por inventarlas es un castigo manual; el camino correcto es pedir la reseña
+después del tour y recién entonces declararla.

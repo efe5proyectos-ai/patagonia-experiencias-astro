@@ -169,3 +169,30 @@ export function destinoParaTitulo(destino) {
   if (!/\d/.test(texto)) return texto;
   return localidadDe(texto)?.nombre || texto;
 }
+
+/**
+ * Título de una ficha tal como lo ve Google. El template pegaba siempre
+ * ` en {destino}` atrás del título, y las fichas cuyo título ya nombra el
+ * lugar terminaban publicando "TREVELIN FULL DAY en Trevelin, Chubut" o
+ * "CABALGATAS EN ESQUEL en Esquel, Chubut".
+ *
+ * La comparación es **literal**, no por alias, a propósito: una ficha que se
+ * llama "Trekking Laguna Esmeralda" sí tiene que conservar " en Ushuaia"
+ * (aunque la laguna sea un alias de Ushuaia), porque el título no nombra la
+ * ciudad y ésa es la palabra que la gente busca. Sólo se saca el sufijo
+ * cuando repetiría un texto que ya está en el título.
+ */
+export function tituloParaBuscadores(titulo, destino) {
+  const t = String(titulo || '').trim();
+  const lugar = destinoParaTitulo(destino);
+  if (!lugar) return t;
+  const enTitulo = ` ${normalizar(t)} `;
+  // El texto que se agregaría, su primer tramo ("Trevelin" de "Trevelin,
+  // Chubut") y el nombre canónico de la localidad reconocida.
+  const candidatos = [lugar, lugar.split(/[,–-]/)[0], localidadDe(lugar)?.nombre]
+    .filter(Boolean)
+    .map((c) => normalizar(c))
+    .filter((c) => c.length >= 4);
+  if (candidatos.some((c) => enTitulo.includes(` ${c} `) || enTitulo.includes(`${c} `) || enTitulo.includes(` ${c}`))) return t;
+  return `${t} en ${lugar}`;
+}

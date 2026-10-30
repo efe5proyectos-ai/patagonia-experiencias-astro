@@ -2,7 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { obtenerExperiencias, obtenerGuias } from '../../lib/contenido.js';
 import { traduccionDe, urlPt, relacionadas } from '../../lib/traducciones.js';
-import { guiasDeExperiencia, destinoParaTitulo } from '../../lib/geo.js';
+import { guiasDeExperiencia, tituloParaBuscadores } from '../../lib/geo.js';
 
 export async function getStaticPaths() {
   const [exps, guias] = await Promise.all([obtenerExperiencias(), obtenerGuias()]);
@@ -33,7 +33,7 @@ const schema = [
     { '@type': 'ListItem', position: 3, name: exp.titulo, item: url } ] },
 ];
 ---
-<BaseLayout titulo={`${exp.titulo} en ${destinoParaTitulo(exp.destino)}`} descripcion={descripcion} imagen={exp.imagen} schema={schema} tipo="product" alternos={alternos}>
+<BaseLayout titulo={tituloParaBuscadores(exp.titulo, exp.destino)} descripcion={descripcion} imagen={exp.imagen} schema={schema} tipo="product" alternos={alternos}>
   <main>
     {exp.imagen && (
       <div class="relative h-[45vh] min-h-[320px] overflow-hidden">

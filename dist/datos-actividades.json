@@ -1,0 +1,3519 @@
+[
+ {
+  "id": "ballenas-embarcado",
+  "nombre": "Avistaje embarcado de ballenas",
+  "cat": "fauna",
+  "meses": [
+   0,
+   0,
+   0,
+   0,
+   0,
+   1,
+   1,
+   1,
+   2,
+   2,
+   1,
+   1
+  ],
+  "lugares": [
+   {
+    "l": "Puerto Pirámides",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Salen de la playa de Pirámides con tractor. La temporada abre en junio y el pico es septiembre y octubre.",
+  "exc": [
+   {
+    "t": "Península Valdés",
+    "op": "Sussanich Turismo",
+    "s": "peninsula-valdes"
+   },
+   {
+    "t": "Solo Ballenas · Tour y traslados a Península Valdés",
+    "op": "Forastero tour",
+    "s": "solo-ballenas-tour-y-traslados-a-peninsula-valdes"
+   }
+  ],
+  "img": "",
+  "rank": 1
+ },
+ {
+  "id": "pinguineras",
+  "nombre": "Visita a pingüineras",
+  "cat": "fauna",
+  "meses": [
+   2,
+   1,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Punta Tombo",
+    "p": "chubut"
+   },
+   {
+    "l": "Cabo Dos Bahías",
+    "p": "chubut"
+   },
+   {
+    "l": "Camarones",
+    "p": "chubut"
+   },
+   {
+    "l": "Cabo Vírgenes",
+    "p": "santacruz"
+   },
+   {
+    "l": "Monte León",
+    "p": "santacruz"
+   },
+   {
+    "l": "Isla Martillo",
+    "p": "tdf"
+   }
+  ],
+  "dato": "Punta Tombo es la colonia continental más grande de pingüino de Magallanes. Noviembre a enero es cuando hay pichones.",
+  "exc": [
+   {
+    "t": "Pingüinera Punta Tombo",
+    "op": "Forastero tour",
+    "s": "pinguinera-punta-tombo"
+   },
+   {
+    "t": "Punta Tombo",
+    "op": "Sussanich Turismo",
+    "s": "punta-tombo"
+   }
+  ],
+  "img": "",
+  "rank": 2
+ },
+ {
+  "id": "perito-moreno",
+  "nombre": "Glaciar Perito Moreno",
+  "cat": "parques",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "El Calafate",
+    "p": "santacruz"
+   }
+  ],
+  "dato": "Es uno de los pocos glaciares del mundo en equilibrio. Las pasarelas tienen varios kilómetros y distintos niveles de dificultad.",
+  "exc": [],
+  "img": "",
+  "rank": 3
+ },
+ {
+  "id": "esqui",
+  "nombre": "Esquí alpino y snowboard",
+  "cat": "nieve",
+  "meses": [
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2,
+   2,
+   1,
+   0,
+   0,
+   0
+  ],
+  "lugares": [
+   {
+    "l": "Cerro Catedral",
+    "p": "rionegro"
+   },
+   {
+    "l": "Chapelco",
+    "p": "neuquen"
+   },
+   {
+    "l": "Caviahue",
+    "p": "neuquen"
+   },
+   {
+    "l": "La Hoya",
+    "p": "chubut"
+   },
+   {
+    "l": "Cerro Castor",
+    "p": "tdf"
+   },
+   {
+    "l": "Cerro Perito Moreno",
+    "p": "rionegro"
+   },
+   {
+    "l": "Batea Mahuida",
+    "p": "neuquen"
+   }
+  ],
+  "dato": "Cerro Castor es el centro de esquí más austral del mundo y el que tiene la temporada más larga del país.",
+  "exc": [],
+  "img": "",
+  "rank": 4
+ },
+ {
+  "id": "ballenas-costero",
+  "nombre": "Avistaje costero de ballenas, sin barco",
+  "cat": "fauna",
+  "meses": [
+   0,
+   0,
+   0,
+   0,
+   0,
+   1,
+   1,
+   1,
+   2,
+   2,
+   1,
+   1
+  ],
+  "lugares": [
+   {
+    "l": "El Doradillo",
+    "p": "chubut"
+   },
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   }
+  ],
+  "dato": "En El Doradillo el agua profunda llega casi hasta la orilla: se ven madres con cría desde la playa y es gratis.",
+  "exc": [
+   {
+    "t": "El Doradillo · Avistaje costero",
+    "op": "Forastero tour",
+    "s": "el-doradillo-avistaje-costero-ballena-franca-austral"
+   },
+   {
+    "t": "Doradillo",
+    "op": "Sussanich Turismo",
+    "s": "doradillo"
+   }
+  ],
+  "img": "",
+  "rank": 5
+ },
+ {
+  "id": "beagle",
+  "nombre": "Navegación por el Canal Beagle",
+  "cat": "nautica",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   }
+  ],
+  "dato": "Faro Les Éclaireurs, isla de lobos y de aves. En verano se puede combinar con desembarco en Isla Martillo.",
+  "exc": [
+   {
+    "t": "Sabores del Beagle",
+    "op": "Noelia Ferrario",
+    "s": "sabores-del-beagle"
+   }
+  ],
+  "img": "",
+  "rank": 6
+ },
+ {
+  "id": "fitz-roy",
+  "nombre": "Trekking al Fitz Roy y Cerro Torre",
+  "cat": "trekking",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "El Chaltén",
+    "p": "santacruz"
+   }
+  ],
+  "dato": "El Chaltén es la capital nacional del trekking y casi todos los senderos salen del pueblo, sin necesidad de transporte.",
+  "exc": [],
+  "img": "",
+  "rank": 7
+ },
+ {
+  "id": "nav-glaciares",
+  "nombre": "Navegación a glaciares",
+  "cat": "nautica",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "El Calafate",
+    "p": "santacruz"
+   },
+   {
+    "l": "Puerto Bandera",
+    "p": "santacruz"
+   },
+   {
+    "l": "Los Alerces",
+    "p": "chubut"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "La navegación por el Brazo Norte del Lago Argentino llega a los glaciares Upsala y Spegazzini, que no se ven por tierra.",
+  "exc": [
+   {
+    "t": "Parque Nacional Los Alerces Full Day",
+    "op": "MerakiSur",
+    "s": "parque-nacional-los-alerces-full-day"
+   }
+  ],
+  "img": "",
+  "rank": 8
+ },
+ {
+  "id": "minitrekking",
+  "nombre": "Trekking sobre glaciar",
+  "cat": "trekking",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "El Calafate",
+    "p": "santacruz"
+   },
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   },
+   {
+    "l": "El Chaltén",
+    "p": "santacruz"
+   }
+  ],
+  "dato": "El minitrekking sobre el Perito Moreno tiene tope de edad y no requiere experiencia. Se camina con grampones.",
+  "exc": [],
+  "img": "",
+  "rank": 9
+ },
+ {
+  "id": "trekking-media",
+  "nombre": "Trekking de media montaña",
+  "cat": "trekking",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   1,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   },
+   {
+    "l": "Trevelin",
+    "p": "chubut"
+   },
+   {
+    "l": "Los Alerces",
+    "p": "chubut"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "El Bolsón",
+    "p": "rionegro"
+   },
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   },
+   {
+    "l": "El Chaltén",
+    "p": "santacruz"
+   },
+   {
+    "l": "Villa La Angostura",
+    "p": "neuquen"
+   }
+  ],
+  "dato": "La ventana buena va de noviembre a abril. Fuera de eso hay nieve en cota alta y los refugios cierran.",
+  "exc": [
+   {
+    "t": "Trekking Laguna Esmeralda",
+    "op": "Noelia Ferrario",
+    "s": "trekking-laguna-esmeralda"
+   },
+   {
+    "t": "Parque Nacional Los Alerces Full Day",
+    "op": "MerakiSur",
+    "s": "parque-nacional-los-alerces-full-day"
+   }
+  ],
+  "img": "",
+  "rank": 10
+ },
+ {
+  "id": "orcas",
+  "nombre": "Avistaje de orcas",
+  "cat": "fauna",
+  "meses": [
+   1,
+   1,
+   2,
+   2,
+   0,
+   0,
+   0,
+   0,
+   1,
+   1,
+   1,
+   1
+  ],
+  "lugares": [
+   {
+    "l": "Punta Norte",
+    "p": "chubut"
+   },
+   {
+    "l": "Caleta Valdés",
+    "p": "chubut"
+   }
+  ],
+  "dato": "El varamiento intencional para cazar lobitos se da sobre todo en marzo y abril, y depende de la tabla de mareas.",
+  "exc": [
+   {
+    "t": "Península Valdés",
+    "op": "Sussanich Turismo",
+    "s": "peninsula-valdes"
+   }
+  ],
+  "img": "",
+  "rank": 11
+ },
+ {
+  "id": "snorkel-lobos",
+  "nombre": "Snorkel con lobos marinos",
+  "cat": "buceo",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Punta Loma",
+    "p": "chubut"
+   },
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Los juveniles se acercan solos y mordisquean las aletas. Es la actividad de contacto con fauna más buscada del golfo.",
+  "exc": [
+   {
+    "t": "Punta Loma con City Tour",
+    "op": "Sussanich Turismo",
+    "s": "punta-loma-con-city-tour"
+   }
+  ],
+  "img": "",
+  "rank": 12
+ },
+ {
+  "id": "parques-nacionales",
+  "nombre": "Parques nacionales",
+  "cat": "parques",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Los Alerces",
+    "p": "chubut"
+   },
+   {
+    "l": "Nahuel Huapi",
+    "p": "rionegro"
+   },
+   {
+    "l": "Lanín",
+    "p": "neuquen"
+   },
+   {
+    "l": "Los Glaciares",
+    "p": "santacruz"
+   },
+   {
+    "l": "Tierra del Fuego",
+    "p": "tdf"
+   },
+   {
+    "l": "Lihué Calel",
+    "p": "lapampa"
+   },
+   {
+    "l": "Monte León",
+    "p": "santacruz"
+   },
+   {
+    "l": "Perito Moreno",
+    "p": "santacruz"
+   },
+   {
+    "l": "Patagonia",
+    "p": "santacruz"
+   },
+   {
+    "l": "Laguna Blanca",
+    "p": "neuquen"
+   }
+  ],
+  "dato": "La región concentra la mayor superficie protegida del país. Casi todos cobran entrada y varios exigen registro previo.",
+  "exc": [
+   {
+    "t": "Parque Nacional Los Alerces Full Day",
+    "op": "MerakiSur",
+    "s": "parque-nacional-los-alerces-full-day"
+   },
+   {
+    "t": "Parque Nacional Tierra del Fuego",
+    "op": "Noelia Ferrario",
+    "s": "parque-nacional-tierra-del-fuego"
+   }
+  ],
+  "img": "",
+  "rank": 13
+ },
+ {
+  "id": "cueva-manos",
+  "nombre": "Cueva de las Manos",
+  "cat": "cultura",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Perito Moreno",
+    "p": "santacruz"
+   },
+   {
+    "l": "Cañadón Pinturas",
+    "p": "santacruz"
+   }
+  ],
+  "dato": "Patrimonio de la Humanidad. Las pinturas más antiguas tienen unos 9.300 años.",
+  "exc": [],
+  "img": "",
+  "rank": 14
+ },
+ {
+  "id": "mef",
+  "nombre": "Museo Egidio Feruglio",
+  "cat": "paleo",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Trelew",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Uno de los museos paleontológicos más importantes de Sudamérica. Ahí se presentó el Patagotitan, el dinosaurio más grande hallado.",
+  "exc": [
+   {
+    "t": "Tour Valle Inferior del Río Chubut",
+    "op": "Forastero tour",
+    "s": "tour-valle-inferior-rio-chubut"
+   },
+   {
+    "t": "Valle inferior",
+    "op": "Sussanich Turismo",
+    "s": "valle-inferior"
+   }
+  ],
+  "img": "",
+  "rank": 15
+ },
+ {
+  "id": "trochita",
+  "nombre": "La Trochita, el Viejo Expreso Patagónico",
+  "cat": "tren",
+  "meses": [
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   },
+   {
+    "l": "El Maitén",
+    "p": "chubut"
+   },
+   {
+    "l": "Nahuel Pan",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Trocha angosta de 75 cm y locomotoras a vapor de 1922. Es Monumento Histórico Nacional.",
+  "exc": [
+   {
+    "t": "Panorámicas de Esquel",
+    "op": "MerakiSur",
+    "s": "panoramicas-de-esquel"
+   }
+  ],
+  "img": "",
+  "rank": 16
+ },
+ {
+  "id": "ruta-40",
+  "nombre": "Ruta 40 patagónica",
+  "cat": "rutas",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   },
+   {
+    "l": "Perito Moreno",
+    "p": "santacruz"
+   },
+   {
+    "l": "El Chaltén",
+    "p": "santacruz"
+   },
+   {
+    "l": "El Calafate",
+    "p": "santacruz"
+   }
+  ],
+  "dato": "El tramo patagónico son más de 2.000 km. Hay que planificar la carga de combustible: hay etapas de 300 km sin nada.",
+  "exc": [],
+  "img": "",
+  "rank": 17
+ },
+ {
+  "id": "casas-te",
+  "nombre": "Casas de té galés",
+  "cat": "gastro",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Gaiman",
+    "p": "chubut"
+   },
+   {
+    "l": "Trevelin",
+    "p": "chubut"
+   },
+   {
+    "l": "Trelew",
+    "p": "chubut"
+   }
+  ],
+  "dato": "La torta negra galesa se hace con meses de anticipación. Una mesa alcanza para dos personas con hambre.",
+  "exc": [
+   {
+    "t": "Tour Valle Inferior del Río Chubut",
+    "op": "Forastero tour",
+    "s": "tour-valle-inferior-rio-chubut"
+   }
+  ],
+  "img": "",
+  "rank": 18
+ },
+ {
+  "id": "travesias-4x4",
+  "nombre": "Travesías 4x4",
+  "cat": "motor",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Península Valdés",
+    "p": "chubut"
+   },
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   },
+   {
+    "l": "El Chaltén",
+    "p": "santacruz"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "Es la forma de llegar a lugares donde no entra el micro ni el auto de alquiler.",
+  "exc": [
+   {
+    "t": "Lagos Off Road",
+    "op": "Noelia Ferrario",
+    "s": "lagos-off-road"
+   }
+  ],
+  "img": "",
+  "rank": 19
+ },
+ {
+  "id": "rafting",
+  "nombre": "Rafting",
+  "cat": "aventura",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Río Manso",
+    "p": "rionegro"
+   },
+   {
+    "l": "Río Aluminé",
+    "p": "neuquen"
+   },
+   {
+    "l": "Río Corcovado",
+    "p": "chubut"
+   },
+   {
+    "l": "Río Limay",
+    "p": "neuquen"
+   }
+  ],
+  "dato": "El Manso a la Frontera tiene rápidos clase III y IV. El Limay es el tramo apto para familias.",
+  "exc": [],
+  "img": "",
+  "rank": 20
+ },
+ {
+  "id": "buceo-bautismo",
+  "nombre": "Buceo bautismo",
+  "cat": "buceo",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   },
+   {
+    "l": "Puerto Pirámides",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Puerto Madryn es la capital nacional del buceo. El bautismo no requiere experiencia previa.",
+  "exc": [],
+  "img": "",
+  "rank": 21
+ },
+ {
+  "id": "mosca",
+  "nombre": "Pesca con mosca",
+  "cat": "pesca",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   1,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Junín de los Andes",
+    "p": "neuquen"
+   },
+   {
+    "l": "Aluminé",
+    "p": "neuquen"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   },
+   {
+    "l": "Corcovado",
+    "p": "chubut"
+   },
+   {
+    "l": "Río Grande",
+    "p": "tdf"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Los Antiguos",
+    "p": "santacruz"
+   }
+  ],
+  "dato": "La temporada general va de noviembre a abril. Junín de los Andes se promociona como capital nacional de la trucha.",
+  "exc": [],
+  "img": "",
+  "rank": 22
+ },
+ {
+  "id": "cabalgatas",
+  "nombre": "Cabalgatas",
+  "cat": "rural",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   },
+   {
+    "l": "Trevelin",
+    "p": "chubut"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "El Bolsón",
+    "p": "rionegro"
+   },
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   },
+   {
+    "l": "El Chaltén",
+    "p": "santacruz"
+   },
+   {
+    "l": "Lihué Calel",
+    "p": "lapampa"
+   }
+  ],
+  "dato": "De un par de horas a travesías de varios días con arreo. No hace falta experiencia para las salidas cortas.",
+  "exc": [
+   {
+    "t": "Cabalgatas Familiares",
+    "op": "MerakiSur",
+    "s": "cabalgatas-familiares"
+   }
+  ],
+  "img": "",
+  "rank": 23
+ },
+ {
+  "id": "loberias",
+  "nombre": "Loberías y elefanterías",
+  "cat": "fauna",
+  "meses": [
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   1
+  ],
+  "lugares": [
+   {
+    "l": "Punta Loma",
+    "p": "chubut"
+   },
+   {
+    "l": "Punta Pirámide",
+    "p": "chubut"
+   },
+   {
+    "l": "Punta Bermeja",
+    "p": "rionegro"
+   },
+   {
+    "l": "Cabo Blanco",
+    "p": "santacruz"
+   },
+   {
+    "l": "Punta León",
+    "p": "chubut"
+   }
+  ],
+  "dato": "La única colonia continental de elefante marino del mundo está en Península Valdés.",
+  "exc": [
+   {
+    "t": "Punta Loma con City Tour",
+    "op": "Sussanich Turismo",
+    "s": "punta-loma-con-city-tour"
+   }
+  ],
+  "img": "",
+  "rank": 24
+ },
+ {
+  "id": "playas-calidas",
+  "nombre": "Playas de aguas templadas",
+  "cat": "playa",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   0,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Las Grutas",
+    "p": "rionegro"
+   },
+   {
+    "l": "Playas Doradas",
+    "p": "rionegro"
+   },
+   {
+    "l": "El Cóndor",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "Las Grutas tiene el agua más cálida de la costa atlántica argentina por el efecto de las mareas en el golfo.",
+  "exc": [],
+  "img": "",
+  "rank": 25
+ },
+ {
+  "id": "toninas",
+  "nombre": "Avistaje de toninas overas",
+  "cat": "fauna",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Playa Unión",
+    "p": "chubut"
+   },
+   {
+    "l": "Rawson",
+    "p": "chubut"
+   },
+   {
+    "l": "Puerto Deseado",
+    "p": "santacruz"
+   },
+   {
+    "l": "Las Grutas",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "Salen a las 8 de la mañana desde Rawson porque el mar está más quieto y se ve mejor.",
+  "exc": [
+   {
+    "t": "Valle inferior",
+    "op": "Sussanich Turismo",
+    "s": "valle-inferior"
+   }
+  ],
+  "img": "",
+  "rank": 26
+ },
+ {
+  "id": "birdwatching",
+  "nombre": "Avistaje de aves",
+  "cat": "fauna",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "San Antonio Oeste",
+    "p": "rionegro"
+   },
+   {
+    "l": "Península Valdés",
+    "p": "chubut"
+   },
+   {
+    "l": "Río Gallegos",
+    "p": "santacruz"
+   },
+   {
+    "l": "Lihué Calel",
+    "p": "lapampa"
+   },
+   {
+    "l": "El Cóndor",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "La costa patagónica es escala obligada de las aves playeras que bajan del Ártico. El playero rojizo hace 15.000 km.",
+  "exc": [
+   {
+    "t": "Punta Loma con City Tour",
+    "op": "Sussanich Turismo",
+    "s": "punta-loma-con-city-tour"
+   },
+   {
+    "t": "Tour Valle Inferior del Río Chubut",
+    "op": "Forastero tour",
+    "s": "tour-valle-inferior-rio-chubut"
+   }
+  ],
+  "img": "",
+  "rank": 27
+ },
+ {
+  "id": "condores",
+  "nombre": "Avistaje de cóndores",
+  "cat": "fauna",
+  "meses": [
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Piedra Parada",
+    "p": "chubut"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   },
+   {
+    "l": "Parque Patagonia",
+    "p": "santacruz"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "Aparece cuando el sol ya calentó las paredes de roca y se arman las térmicas, no al amanecer.",
+  "exc": [
+   {
+    "t": "Piedra Parada",
+    "op": "MerakiSur",
+    "s": "piedra-parada"
+   },
+   {
+    "t": "Panorámicas de Esquel",
+    "op": "MerakiSur",
+    "s": "panoramicas-de-esquel"
+   }
+  ],
+  "img": "",
+  "rank": 28
+ },
+ {
+  "id": "safari-estepa",
+  "nombre": "Safari fotográfico de estepa",
+  "cat": "fauna",
+  "meses": [
+   2,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Península Valdés",
+    "p": "chubut"
+   },
+   {
+    "l": "Parque Patagonia",
+    "p": "santacruz"
+   },
+   {
+    "l": "Lihué Calel",
+    "p": "lapampa"
+   },
+   {
+    "l": "Punta Tombo",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Guanacos, choiques, maras y zorros. Los chulengos nacen entre noviembre y enero.",
+  "exc": [
+   {
+    "t": "Península Valdés",
+    "op": "Sussanich Turismo",
+    "s": "peninsula-valdes"
+   },
+   {
+    "t": "Punta Tombo",
+    "op": "Sussanich Turismo",
+    "s": "punta-tombo"
+   }
+  ],
+  "img": "",
+  "rank": 29
+ },
+ {
+  "id": "puma",
+  "nombre": "Avistaje de puma",
+  "cat": "fauna",
+  "meses": [
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   1,
+   1
+  ],
+  "lugares": [
+   {
+    "l": "Parque Patagonia",
+    "p": "santacruz"
+   },
+   {
+    "l": "Cañadón Pinturas",
+    "p": "santacruz"
+   }
+  ],
+  "dato": "En invierno el pasto está bajo y hay menos horas de sol fuerte: es cuando más se lo llega a ver. Siempre con guía.",
+  "exc": [],
+  "img": "",
+  "rank": 30
+ },
+ {
+  "id": "brama-ciervo",
+  "nombre": "Brama del ciervo colorado",
+  "cat": "fauna",
+  "meses": [
+   0,
+   0,
+   2,
+   2,
+   1,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0
+  ],
+  "lugares": [
+   {
+    "l": "Parque Luro",
+    "p": "lapampa"
+   },
+   {
+    "l": "Villa La Angostura",
+    "p": "neuquen"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "Los machos braman al atardecer y se escucha a kilómetros. Es de las pocas experiencias de fauna que se hace de noche.",
+  "exc": [],
+  "img": "",
+  "rank": 31
+ },
+ {
+  "id": "loros-barranqueros",
+  "nombre": "Colonia de loros barranqueros",
+  "cat": "fauna",
+  "meses": [
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Balneario El Cóndor",
+    "p": "rionegro"
+   },
+   {
+    "l": "Viedma",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "Es la colonia de loros barranqueros más grande del mundo: decenas de miles de nidos en varios kilómetros de acantilado.",
+  "exc": [],
+  "img": "",
+  "rank": 32
+ },
+ {
+  "id": "ria-deseado",
+  "nombre": "Navegación por la Ría Deseado",
+  "cat": "nautica",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Puerto Deseado",
+    "p": "santacruz"
+   }
+  ],
+  "dato": "Único estuario del país donde el mar entra en el cauce de un río seco. Toninas, cormoranes y la Isla Pingüino.",
+  "exc": [],
+  "img": "",
+  "rank": 33
+ },
+ {
+  "id": "nav-lacustre",
+  "nombre": "Navegación lacustre y cruce de lagos",
+  "cat": "nautica",
+  "meses": [
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Villa La Angostura",
+    "p": "neuquen"
+   },
+   {
+    "l": "Los Alerces",
+    "p": "chubut"
+   },
+   {
+    "l": "Puerto Blest",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "Isla Victoria y el Bosque de Arrayanes solo se llegan navegando.",
+  "exc": [],
+  "img": "",
+  "rank": 34
+ },
+ {
+  "id": "kayak-mar",
+  "nombre": "Kayak de mar",
+  "cat": "nautica",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   },
+   {
+    "l": "Puerto Pirámides",
+    "p": "chubut"
+   },
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Las Grutas",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "En Golfo Nuevo es común que los delfines oscuros se acerquen solos al kayak.",
+  "exc": [],
+  "img": "",
+  "rank": 35
+ },
+ {
+  "id": "sup",
+  "nombre": "Stand up paddle",
+  "cat": "nautica",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   0,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   },
+   {
+    "l": "Playa Unión",
+    "p": "chubut"
+   },
+   {
+    "l": "Las Grutas",
+    "p": "rionegro"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "Conviene salir temprano: en la Patagonia el viento se levanta cerca del mediodía.",
+  "exc": [],
+  "img": "",
+  "rank": 36
+ },
+ {
+  "id": "cruce-andino",
+  "nombre": "Cruce Andino a Chile",
+  "cat": "nautica",
+  "meses": [
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Puerto Blest",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "Combinación de lagos y buses entre Bariloche y Puerto Varas en un día. Requiere documentación para salir del país.",
+  "exc": [],
+  "img": "",
+  "rank": 37
+ },
+ {
+  "id": "buceo-naufragios",
+  "nombre": "Buceo en naufragios y parques submarinos",
+  "cat": "buceo",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   },
+   {
+    "l": "Golfo Nuevo",
+    "p": "chubut"
+   }
+  ],
+  "dato": "El Golfo Nuevo tiene barcos hundidos a propósito como parque submarino, a profundidades para buzos certificados.",
+  "exc": [],
+  "img": "",
+  "rank": 38
+ },
+ {
+  "id": "buceo-lagos",
+  "nombre": "Buceo en lagos andinos",
+  "cat": "buceo",
+  "meses": [
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Villa La Angostura",
+    "p": "neuquen"
+   }
+  ],
+  "dato": "Agua dulce muy fría y visibilidad alta. Se bucea con traje seco casi todo el año.",
+  "exc": [],
+  "img": "",
+  "rank": 39
+ },
+ {
+  "id": "alta-montana",
+  "nombre": "Ascensiones de alta montaña",
+  "cat": "trekking",
+  "meses": [
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Lanín",
+    "p": "neuquen"
+   },
+   {
+    "l": "Tronador",
+    "p": "rionegro"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   }
+  ],
+  "dato": "El Lanín se sube en dos o tres días con guía habilitado y registro previo en el parque.",
+  "exc": [],
+  "img": "",
+  "rank": 40
+ },
+ {
+  "id": "refugios",
+  "nombre": "Travesías de refugio en refugio",
+  "cat": "trekking",
+  "meses": [
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   },
+   {
+    "l": "El Bolsón",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "La red de refugios de Bariloche permite armar travesías de tres a cinco días sin cargar carpa.",
+  "exc": [],
+  "img": "",
+  "rank": 41
+ },
+ {
+  "id": "escalada",
+  "nombre": "Escalada en roca",
+  "cat": "trekking",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Piedra Parada",
+    "p": "chubut"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Los Molles",
+    "p": "neuquen"
+   },
+   {
+    "l": "El Chaltén",
+    "p": "santacruz"
+   }
+  ],
+  "dato": "El Cañadón de la Buitrera, en Piedra Parada, es uno de los sitios de escalada deportiva más importantes del país.",
+  "exc": [
+   {
+    "t": "Piedra Parada",
+    "op": "MerakiSur",
+    "s": "piedra-parada"
+   }
+  ],
+  "img": "",
+  "rank": 42
+ },
+ {
+  "id": "bosque-alerces",
+  "nombre": "Caminata entre alerces milenarios",
+  "cat": "trekking",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Los Alerces",
+    "p": "chubut"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   }
+  ],
+  "dato": "El Alerzal Milenario tiene ejemplares de más de 2.600 años. Se llega navegando y después caminando.",
+  "exc": [
+   {
+    "t": "Parque Nacional Los Alerces Full Day",
+    "op": "MerakiSur",
+    "s": "parque-nacional-los-alerces-full-day"
+   }
+  ],
+  "img": "",
+  "rank": 43
+ },
+ {
+  "id": "esqui-fondo",
+  "nombre": "Esquí de fondo y travesía",
+  "cat": "nieve",
+  "meses": [
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2,
+   2,
+   1,
+   0,
+   0,
+   0
+  ],
+  "lugares": [
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   },
+   {
+    "l": "Chapelco",
+    "p": "neuquen"
+   },
+   {
+    "l": "Caviahue",
+    "p": "neuquen"
+   }
+  ],
+  "dato": "El valle de Tierra Mayor, en Ushuaia, concentra los centros invernales de fondo del país.",
+  "exc": [],
+  "img": "",
+  "rank": 44
+ },
+ {
+  "id": "trineo-perros",
+  "nombre": "Trineo con perros",
+  "cat": "nieve",
+  "meses": [
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2,
+   2,
+   1,
+   0,
+   0,
+   0
+  ],
+  "lugares": [
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Caviahue",
+    "p": "neuquen"
+   }
+  ],
+  "dato": "Se hace con huskies siberianos y alaskan. En Ushuaia es de las actividades más pedidas de la temporada.",
+  "exc": [],
+  "img": "",
+  "rank": 45
+ },
+ {
+  "id": "motos-nieve",
+  "nombre": "Motos de nieve",
+  "cat": "nieve",
+  "meses": [
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2,
+   2,
+   1,
+   0,
+   0,
+   0
+  ],
+  "lugares": [
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "La Hoya",
+    "p": "chubut"
+   },
+   {
+    "l": "Chapelco",
+    "p": "neuquen"
+   }
+  ],
+  "dato": "No requiere experiencia previa y se hace en circuitos cerrados con guía.",
+  "exc": [],
+  "img": "",
+  "rank": 46
+ },
+ {
+  "id": "raquetas",
+  "nombre": "Caminata con raquetas",
+  "cat": "nieve",
+  "meses": [
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2,
+   2,
+   1,
+   0,
+   0,
+   0
+  ],
+  "lugares": [
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   },
+   {
+    "l": "Villa La Angostura",
+    "p": "neuquen"
+   }
+  ],
+  "dato": "Es la forma más accesible de entrar al bosque nevado: no hace falta saber esquiar.",
+  "exc": [],
+  "img": "",
+  "rank": 47
+ },
+ {
+  "id": "canopy",
+  "nombre": "Canopy y tirolesa",
+  "cat": "aventura",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Villa La Angostura",
+    "p": "neuquen"
+   },
+   {
+    "l": "El Bolsón",
+    "p": "rionegro"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Circuitos de cables entre coihues, aptos desde los 6 o 7 años según el operador.",
+  "exc": [],
+  "img": "",
+  "rank": 48
+ },
+ {
+  "id": "parapente",
+  "nombre": "Parapente y vuelo biplaza",
+  "cat": "aventura",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   },
+   {
+    "l": "Villa La Angostura",
+    "p": "neuquen"
+   }
+  ],
+  "dato": "Se vuela con instructor y depende del viento: se confirma el mismo día.",
+  "exc": [],
+  "img": "",
+  "rank": 49
+ },
+ {
+  "id": "rappel",
+  "nombre": "Rappel y tirolesa en cañadón",
+  "cat": "aventura",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Piedra Parada",
+    "p": "chubut"
+   },
+   {
+    "l": "Cañadón de la Buitrera",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Las paredes del cañadón son de ignimbrita volcánica y superan los 100 metros.",
+  "exc": [
+   {
+    "t": "Piedra Parada",
+    "op": "MerakiSur",
+    "s": "piedra-parada"
+   }
+  ],
+  "img": "",
+  "rank": 50
+ },
+ {
+  "id": "sandboard",
+  "nombre": "Sandboard en dunas",
+  "cat": "aventura",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   },
+   {
+    "l": "Las Grutas",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "Se hace en los médanos costeros y suele combinarse con travesía 4x4.",
+  "exc": [],
+  "img": "",
+  "rank": 51
+ },
+ {
+  "id": "kayak-rio",
+  "nombre": "Kayak y packrafting de río",
+  "cat": "aventura",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Río Aluminé",
+    "p": "neuquen"
+   },
+   {
+    "l": "Río Manso",
+    "p": "rionegro"
+   },
+   {
+    "l": "Los Alerces",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Requiere nociones básicas. Varios operadores dan el curso introductorio en el día.",
+  "exc": [],
+  "img": "",
+  "rank": 52
+ },
+ {
+  "id": "kite",
+  "nombre": "Kitesurf y windsurf",
+  "cat": "viento",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   },
+   {
+    "l": "Dina Huapi",
+    "p": "rionegro"
+   },
+   {
+    "l": "Las Grutas",
+    "p": "rionegro"
+   },
+   {
+    "l": "Playa Unión",
+    "p": "chubut"
+   }
+  ],
+  "dato": "El viento patagónico, que para todo lo demás es un problema, acá es el recurso.",
+  "exc": [],
+  "img": "",
+  "rank": 53
+ },
+ {
+  "id": "surf",
+  "nombre": "Surf",
+  "cat": "viento",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   0,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Playa Unión",
+    "p": "chubut"
+   },
+   {
+    "l": "Las Grutas",
+    "p": "rionegro"
+   },
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Agua fría todo el año: se entra con traje de 4/3 mm como mínimo.",
+  "exc": [],
+  "img": "",
+  "rank": 54
+ },
+ {
+  "id": "pesca-embarcada",
+  "nombre": "Pesca embarcada de mar",
+  "cat": "pesca",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Rawson",
+    "p": "chubut"
+   },
+   {
+    "l": "Puerto Deseado",
+    "p": "santacruz"
+   },
+   {
+    "l": "Las Grutas",
+    "p": "rionegro"
+   },
+   {
+    "l": "Camarones",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Salidas de medio día en busca de pez gallo, salmón de mar y meros.",
+  "exc": [],
+  "img": "",
+  "rank": 55
+ },
+ {
+  "id": "steelhead",
+  "nombre": "Pesca de trucha steelhead",
+  "cat": "pesca",
+  "meses": [
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Río Grande",
+    "p": "tdf"
+   },
+   {
+    "l": "Tolhuin",
+    "p": "tdf"
+   }
+  ],
+  "dato": "El río Grande es considerado el mejor río de steelhead del mundo. Los cupos se reservan con un año de anticipación.",
+  "exc": [],
+  "img": "",
+  "rank": 56
+ },
+ {
+  "id": "cuatriciclos",
+  "nombre": "Cuatriciclos y UTV",
+  "cat": "motor",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   },
+   {
+    "l": "Las Grutas",
+    "p": "rionegro"
+   },
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   }
+  ],
+  "dato": "Circuitos guiados en médanos y estepa. Se maneja con licencia y casco provisto.",
+  "exc": [],
+  "img": "",
+  "rank": 57
+ },
+ {
+  "id": "mtb",
+  "nombre": "Mountain bike",
+  "cat": "bici",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   1,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "El Bolsón",
+    "p": "rionegro"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   },
+   {
+    "l": "Trevelin",
+    "p": "chubut"
+   },
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   },
+   {
+    "l": "Villa La Angostura",
+    "p": "neuquen"
+   }
+  ],
+  "dato": "Bariloche tiene senderos señalizados de todos los niveles y bike park en el Catedral en verano.",
+  "exc": [],
+  "img": "",
+  "rank": 58
+ },
+ {
+  "id": "cicloturismo",
+  "nombre": "Cicloturismo por la Ruta 40",
+  "cat": "bici",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "El Bolsón",
+    "p": "rionegro"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   },
+   {
+    "l": "Los Antiguos",
+    "p": "santacruz"
+   },
+   {
+    "l": "El Chaltén",
+    "p": "santacruz"
+   }
+  ],
+  "dato": "El viento define todo: casi todos la hacen de norte a sur para tenerlo de espalda.",
+  "exc": [],
+  "img": "",
+  "rank": 59
+ },
+ {
+  "id": "circuito-bici",
+  "nombre": "Circuitos de un día en bici",
+  "cat": "bici",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Trevelin",
+    "p": "chubut"
+   },
+   {
+    "l": "Gaiman",
+    "p": "chubut"
+   },
+   {
+    "l": "Villa La Angostura",
+    "p": "neuquen"
+   }
+  ],
+  "dato": "El Circuito Chico de Bariloche son 27 km con bicisenda en buena parte del recorrido.",
+  "exc": [],
+  "img": "",
+  "rank": 60
+ },
+ {
+  "id": "estancias",
+  "nombre": "Día de campo en estancia",
+  "cat": "rural",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Santa Cruz",
+    "p": "santacruz"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   },
+   {
+    "l": "Río Grande",
+    "p": "tdf"
+   },
+   {
+    "l": "Parque Luro",
+    "p": "lapampa"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "Asado de cordero al asador, demostración de perros ovejeros y recorrida por el casco histórico.",
+  "exc": [],
+  "img": "",
+  "rank": 61
+ },
+ {
+  "id": "esquila",
+  "nombre": "Esquila y trabajo rural",
+  "cat": "rural",
+  "meses": [
+   2,
+   2,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Santa Cruz",
+    "p": "santacruz"
+   },
+   {
+    "l": "Chubut",
+    "p": "chubut"
+   },
+   {
+    "l": "Río Grande",
+    "p": "tdf"
+   }
+  ],
+  "dato": "La esquila se hace entre noviembre y enero. Muchas estancias la abren a visitantes en esa ventana.",
+  "exc": [],
+  "img": "",
+  "rank": 62
+ },
+ {
+  "id": "turismo-ancestral",
+  "nombre": "Turismo con comunidades originarias",
+  "cat": "rural",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Lago Rosario",
+    "p": "chubut"
+   },
+   {
+    "l": "Sierra Colorada",
+    "p": "chubut"
+   },
+   {
+    "l": "Villa Pehuenia",
+    "p": "neuquen"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "Gestionado por las propias comunidades mapuche y tehuelche: relato, comida y territorio contados por ellos.",
+  "exc": [
+   {
+    "t": "Turismo Ancestral · Sierra Colorada · Lago Rosario",
+    "op": "MerakiSur",
+    "s": "turismo-ancestral-sierra-colorada-lago-rosario"
+   }
+  ],
+  "img": "",
+  "rank": 63
+ },
+ {
+  "id": "bryn-gwyn",
+  "nombre": "Parque Paleontológico Bryn Gwyn",
+  "cat": "paleo",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Gaiman",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Se camina por una barranca que es un corte de 40 millones de años, con fósiles marinos in situ.",
+  "exc": [
+   {
+    "t": "Tour Valle Inferior del Río Chubut",
+    "op": "Forastero tour",
+    "s": "tour-valle-inferior-rio-chubut"
+   }
+  ],
+  "img": "",
+  "rank": 64
+ },
+ {
+  "id": "bosques-petrificados",
+  "nombre": "Bosques petrificados",
+  "cat": "paleo",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Sarmiento",
+    "p": "chubut"
+   },
+   {
+    "l": "Jaramillo",
+    "p": "santacruz"
+   },
+   {
+    "l": "Puerto Deseado",
+    "p": "santacruz"
+   }
+  ],
+  "dato": "Troncos de araucaria de 65 millones de años tirados en la estepa. El de Sarmiento se recorre a pie en una hora.",
+  "exc": [],
+  "img": "",
+  "rank": 65
+ },
+ {
+  "id": "dinos-neuquen",
+  "nombre": "Ruta de los dinosaurios",
+  "cat": "paleo",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Plaza Huincul",
+    "p": "neuquen"
+   },
+   {
+    "l": "Villa El Chocón",
+    "p": "neuquen"
+   },
+   {
+    "l": "Lago Barreales",
+    "p": "neuquen"
+   }
+  ],
+  "dato": "Neuquén concentra los hallazgos de los dinosaurios más grandes del mundo: Argentinosaurus y Giganotosaurus.",
+  "exc": [],
+  "img": "",
+  "rank": 66
+ },
+ {
+  "id": "ruta-galesa",
+  "nombre": "Ruta galesa: capillas y casas de té",
+  "cat": "cultura",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Gaiman",
+    "p": "chubut"
+   },
+   {
+    "l": "Trevelin",
+    "p": "chubut"
+   },
+   {
+    "l": "Trelew",
+    "p": "chubut"
+   },
+   {
+    "l": "Dolavon",
+    "p": "chubut"
+   }
+  ],
+  "dato": "La colonia galesa llegó en 1865. Quedan capillas, el idioma vivo y el eisteddfod, que es un certamen de poesía y canto.",
+  "exc": [
+   {
+    "t": "Tour Valle Inferior del Río Chubut",
+    "op": "Forastero tour",
+    "s": "tour-valle-inferior-rio-chubut"
+   },
+   {
+    "t": "Valle inferior",
+    "op": "Sussanich Turismo",
+    "s": "valle-inferior"
+   }
+  ],
+  "img": "",
+  "rank": 67
+ },
+ {
+  "id": "museos-ciudad",
+  "nombre": "Museos y centros de interpretación",
+  "cat": "cultura",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   },
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   },
+   {
+    "l": "Trelew",
+    "p": "chubut"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Río Gallegos",
+    "p": "santacruz"
+   }
+  ],
+  "dato": "El Ecocentro de Madryn y el Museo del Presidio de Ushuaia son los dos que nadie debería saltearse.",
+  "exc": [],
+  "img": "",
+  "rank": 68
+ },
+ {
+  "id": "punta-cuevas",
+  "nombre": "Punta Cuevas y el desembarco galés",
+  "cat": "cultura",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Donde desembarcaron los galeses del Mimosa en 1865 y vivieron en cuevas los primeros meses.",
+  "exc": [],
+  "img": "",
+  "rank": 69
+ },
+ {
+  "id": "fiestas",
+  "nombre": "Fiestas populares y celebraciones",
+  "cat": "cultura",
+  "meses": [
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   1,
+   1,
+   2,
+   2,
+   1,
+   1
+  ],
+  "lugares": [
+   {
+    "l": "Trelew",
+    "p": "chubut"
+   },
+   {
+    "l": "Gaiman",
+    "p": "chubut"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "El Bolsón",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "Eisteddfod galés en octubre, Fiesta Nacional del Esquí en agosto, Fiesta del Lúpulo en El Bolsón en febrero.",
+  "exc": [],
+  "img": "",
+  "rank": 70
+ },
+ {
+  "id": "cordero",
+  "nombre": "Cordero patagónico al asador",
+  "cat": "gastro",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "El Calafate",
+    "p": "santacruz"
+   },
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   },
+   {
+    "l": "Trelew",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Se cocina cruzado al palo entre tres y cinco horas. Es el plato que define la mesa patagónica.",
+  "exc": [],
+  "img": "",
+  "rank": 71
+ },
+ {
+  "id": "cervecerias",
+  "nombre": "Cervecerías artesanales",
+  "cat": "gastro",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "El Bolsón",
+    "p": "rionegro"
+   },
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   },
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   }
+  ],
+  "dato": "El lúpulo de El Bolsón abastece a buena parte de la industria cervecera del país.",
+  "exc": [],
+  "img": "",
+  "rank": 72
+ },
+ {
+  "id": "chocolate",
+  "nombre": "Ruta del chocolate",
+  "cat": "gastro",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "El Bolsón",
+    "p": "rionegro"
+   },
+   {
+    "l": "Villa La Angostura",
+    "p": "neuquen"
+   }
+  ],
+  "dato": "La calle Mitre de Bariloche concentra las chocolaterías históricas. La Fiesta del Chocolate es en Semana Santa.",
+  "exc": [],
+  "img": "",
+  "rank": 73
+ },
+ {
+  "id": "bodegas",
+  "nombre": "Bodegas y enoturismo",
+  "cat": "gastro",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "San Patricio del Chañar",
+    "p": "neuquen"
+   },
+   {
+    "l": "Alto Valle",
+    "p": "rionegro"
+   },
+   {
+    "l": "Trevelin",
+    "p": "chubut"
+   },
+   {
+    "l": "Sarmiento",
+    "p": "chubut"
+   }
+  ],
+  "dato": "La Patagonia es la frontera sur del vino argentino: pinot noir y malbec de clima frío.",
+  "exc": [],
+  "img": "",
+  "rank": 74
+ },
+ {
+  "id": "mariscos",
+  "nombre": "Mariscos y pesca artesanal",
+  "cat": "gastro",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   },
+   {
+    "l": "Rawson",
+    "p": "chubut"
+   },
+   {
+    "l": "Camarones",
+    "p": "chubut"
+   },
+   {
+    "l": "Puerto Deseado",
+    "p": "santacruz"
+   },
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   }
+  ],
+  "dato": "Vieiras, mejillones y langostinos del golfo. En Camarones el salmón de mar es el plato de la casa.",
+  "exc": [],
+  "img": "",
+  "rank": 75
+ },
+ {
+  "id": "playas-patagonicas",
+  "nombre": "Playas y balnearios patagónicos",
+  "cat": "playa",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   0,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Playa Unión",
+    "p": "chubut"
+   },
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   },
+   {
+    "l": "Camarones",
+    "p": "chubut"
+   },
+   {
+    "l": "Monte León",
+    "p": "santacruz"
+   }
+  ],
+  "dato": "Agua fría, viento a la tarde y muy poca gente. La Patagonia costera es playa de mañana.",
+  "exc": [],
+  "img": "",
+  "rank": 76
+ },
+ {
+  "id": "termas",
+  "nombre": "Termas y bienestar",
+  "cat": "termas",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Copahue",
+    "p": "neuquen"
+   },
+   {
+    "l": "Caviahue",
+    "p": "neuquen"
+   },
+   {
+    "l": "Villa Pehuenia",
+    "p": "neuquen"
+   }
+  ],
+  "dato": "Copahue tiene uno de los complejos termales más completos de Sudamérica, con barros y algas volcánicas.",
+  "exc": [],
+  "img": "",
+  "rank": 77
+ },
+ {
+  "id": "astroturismo",
+  "nombre": "Astroturismo y cielos oscuros",
+  "cat": "astro",
+  "meses": [
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Península Valdés",
+    "p": "chubut"
+   },
+   {
+    "l": "Parque Patagonia",
+    "p": "santacruz"
+   },
+   {
+    "l": "Lihué Calel",
+    "p": "lapampa"
+   },
+   {
+    "l": "El Chaltén",
+    "p": "santacruz"
+   },
+   {
+    "l": "Sarmiento",
+    "p": "chubut"
+   }
+  ],
+  "dato": "La meseta patagónica tiene algunos de los cielos con menos contaminación lumínica del hemisferio sur.",
+  "exc": [],
+  "img": "",
+  "rank": 78
+ },
+ {
+  "id": "tren-fin-mundo",
+  "nombre": "Tren del Fin del Mundo",
+  "cat": "tren",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   }
+  ],
+  "dato": "Recorre el trazado que usaban los presos del penal para buscar leña. Entra al Parque Nacional Tierra del Fuego.",
+  "exc": [
+   {
+    "t": "Parque Nacional Tierra del Fuego",
+    "op": "Noelia Ferrario",
+    "s": "parque-nacional-tierra-del-fuego"
+   }
+  ],
+  "img": "",
+  "rank": 79
+ },
+ {
+  "id": "tren-patagonico",
+  "nombre": "Tren Patagónico Viedma–Bariloche",
+  "cat": "tren",
+  "meses": [
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Viedma",
+    "p": "rionegro"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "Cruza la provincia de punta a punta en una noche y lleva autos. Es de los últimos trenes de larga distancia del país.",
+  "exc": [],
+  "img": "",
+  "rank": 80
+ },
+ {
+  "id": "siete-lagos",
+  "nombre": "Camino de los Siete Lagos",
+  "cat": "rutas",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Villa La Angostura",
+    "p": "neuquen"
+   },
+   {
+    "l": "San Martín de los Andes",
+    "p": "neuquen"
+   }
+  ],
+  "dato": "Son 110 km asfaltados entre Angostura y San Martín. En invierno puede cerrarse por nieve.",
+  "exc": [],
+  "img": "",
+  "rank": 81
+ },
+ {
+  "id": "circuito-chico",
+  "nombre": "Circuito Chico",
+  "cat": "rutas",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "El clásico de Bariloche: 60 km con los miradores del Nahuel Huapi. Se puede hacer en auto, en bici o en bus.",
+  "exc": [],
+  "img": "",
+  "rank": 82
+ },
+ {
+  "id": "ruta-azul",
+  "nombre": "Ruta Azul y costa chubutense",
+  "cat": "rutas",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   },
+   {
+    "l": "Rawson",
+    "p": "chubut"
+   },
+   {
+    "l": "Camarones",
+    "p": "chubut"
+   },
+   {
+    "l": "Comodoro Rivadavia",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Une la costa de Chubut de norte a sur pasando por pingüineras, loberías y pueblos de pescadores.",
+  "exc": [
+   {
+    "t": "Dique Florentino Ameghino",
+    "op": "Forastero tour",
+    "s": "dique-florentino-ameghino-lugar-de-ensueno"
+   }
+  ],
+  "img": "",
+  "rank": 83
+ },
+ {
+  "id": "peninsula-valdes-area",
+  "nombre": "Área Natural Protegida Península Valdés",
+  "cat": "parques",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Puerto Pirámides",
+    "p": "chubut"
+   },
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Patrimonio de la Humanidad desde 1999. Es una sola entrada que da acceso a todos los puntos de avistaje.",
+  "exc": [
+   {
+    "t": "Península Valdés",
+    "op": "Sussanich Turismo",
+    "s": "peninsula-valdes"
+   }
+  ],
+  "img": "",
+  "rank": 84
+ },
+ {
+  "id": "dique-ameghino",
+  "nombre": "Dique Florentino Ameghino",
+  "cat": "parques",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Dique Ameghino",
+    "p": "chubut"
+   },
+   {
+    "l": "Trelew",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Un cañón de rocas rojas en medio de la estepa, con el embalse que regula el río Chubut.",
+  "exc": [
+   {
+    "t": "Dique Florentino Ameghino",
+    "op": "Forastero tour",
+    "s": "dique-florentino-ameghino-lugar-de-ensueno"
+   }
+  ],
+  "img": "",
+  "rank": 85
+ }
+]

@@ -1,0 +1,223 @@
+ARCHIVOS DE IMAGEN · GUÍAS DE PATAGONIA EXPERIENCIAS
+══════════════════════════════════════════════════════════════════
+
+Hay TRES formatos distintos. No se pueden reusar entre sí salvo donde
+se aclara, porque el recorte es diferente en cada uno.
+
+──────────────────────────────────────────────────────────────────
+1 · FOTOS DE FICHA          1200 × 1000 px   (proporción 6:5)
+──────────────────────────────────────────────────────────────────
+  Sirven para el calendario de fauna Y para la guía de actividades.
+  La misma foto se muestra en tres recortes distintos:
+      ficha desplegada    16:9     472 × 266 en pantalla
+      los más buscados     4:5     132 × 165
+      tarjeta de lista     1:1      68 ×  68
+
+  ZONA SEGURA: 800 × 675 px centrados. Todo lo que quede afuera se
+  pierde en alguno de los tres recortes. El animal o la actividad,
+  centrado y ocupando la mitad del cuadro, con aire alrededor.
+
+  Peso: menos de 150 kb. WebP calidad 80 o JPG 78-82.
+  Carpetas: /assets/fauna/  y  /assets/actividades/
+  Se activan con una línea en CONFIG:  fotosBase: '/assets/fauna/'
+  Si una queda mal cortada, en modo edición ajustás el campo "foco".
+
+──────────────────────────────────────────────────────────────────
+2 · FOTOS DEL BANNER ANCHO  1600 × 900 px    (proporción 16:9)
+──────────────────────────────────────────────────────────────────
+  Solo para banner-fauna.html. Son 12, una por especie destacada.
+  El animal va en la mitad derecha o el centro alto: los 500 px de
+  abajo se oscurecen con el degradado y llevan el titular.
+  Plano abierto, horizonte alto, mucho cielo o mar.
+  Peso: menos de 250 kb.   Carpeta: /assets/banner/
+
+──────────────────────────────────────────────────────────────────
+3 · BANNER 300 × 250        REUSA las fotos del punto 1
+──────────────────────────────────────────────────────────────────
+  300÷250 = 1,2 y 1200÷1000 = 1,2: misma proporción exacta, entran
+  enteras sin recorte. No hace falta material nuevo.
+
+──────────────────────────────────────────────────────────────────
+4 · LOGOS DE PRESTADORES    400 × 400 px máx, PNG transparente
+──────────────────────────────────────────────────────────────────
+  Se muestran a 22 px en la tarjeta y 38 px en la ficha, con
+  object-fit: contain sobre fondo blanco: entran enteros aunque sean
+  apaisados. Si falta el archivo, sale un monograma con las iniciales.
+  Peso: menos de 40 kb.   Carpeta: /assets/prestadores/
+
+      sussanich.png                 Sussanich Turismo
+      forastero.png                 Forastero Tour
+      merakisur.png                 MerakiSur
+      limits-adventure.png          Limits Adventure
+      octopus-travel.png            Octopus Travel
+      patagonia-experiencias.png    Patagonia Experiencias
+      tierra-del-fuego-aventura.png Tierra del Fuego Aventura
+
+  VERIFICAR que estos nombres coincidan con los que ya están subidos.
+  Si no, se corrige en la tabla PRESTADORES de cada FUENTE.
+
+──────────────────────────────────────────────────────────────────
+5 · LOGO DE MARCA           alto ~80 px, PNG o SVG transparente
+──────────────────────────────────────────────────────────────────
+  Opcional: hoy el logo está dibujado en HTML y se ve bien.
+  Si querés usar el archivo, cargá la ruta en CONFIG.logoUrl.
+
+
+══════════════════════════════════════════════════════════════════
+CHECKLIST · FOTOS DE FAUNA  (33 archivos, carpeta /assets/fauna/)
+══════════════════════════════════════════════════════════════════
+Las 12 primeras son las que más rinden: aparecen en el carrusel.
+
+  [ ]  1. ballena-franca.jpg            Ballena franca austral   ← carrusel
+  [ ]  2. pinguino-magallanes.jpg       Pingüino de Magallanes   ← carrusel
+  [ ]  3. orca.jpg                      Orca   ← carrusel
+  [ ]  4. lobo-marino.jpg               Lobo marino de un pelo   ← carrusel
+  [ ]  5. elefante-marino.jpg           Elefante marino del sur   ← carrusel
+  [ ]  6. ballena-sei.jpg               Ballena sei   ← carrusel
+  [ ]  7. tonina-overa.jpg              Tonina overa   ← carrusel
+  [ ]  8. delfin-oscuro.jpg             Delfín oscuro   ← carrusel
+  [ ]  9. guanaco.jpg                   Guanaco   ← carrusel
+  [ ] 10. condor.jpg                    Cóndor andino   ← carrusel
+  [ ] 11. huemul.jpg                    Huemul   ← carrusel
+  [ ] 12. puma.jpg                      Puma   ← carrusel
+  [ ] 13. pinguino-papua.jpg            Pingüino papúa
+  [ ] 14. pinguino-penacho.jpg          Pingüino de penacho amarillo
+  [ ] 15. choique.jpg                   Choique o ñandú petiso
+  [ ] 16. ballena-jorobada.jpg          Ballena jorobada
+  [ ] 17. loro-barranquero.jpg          Loro barranquero
+  [ ] 18. delfin-austral.jpg            Delfín austral
+  [ ] 19. flamenco.jpg                  Flamenco austral
+  [ ] 20. cormoran-imperial.jpg         Cormorán imperial
+  [ ] 21. albatros.jpg                  Albatros y petreles
+  [ ] 22. aves-playeras.jpg             Aves playeras migratorias
+  [ ] 23. ciervo-colorado.jpg           Ciervo colorado en brama
+  [ ] 24. zorro.jpg                     Zorro colorado y zorro gris
+  [ ] 25. mara.jpg                      Mara patagónica
+  [ ] 26. castor.jpg                    Castor
+  [ ] 27. carpintero.jpg                Carpintero magallánico
+  [ ] 28. huillin.jpg                   Huillín
+  [ ] 29. maca-tobiano.jpg              Macá tobiano
+  [ ] 30. pudu.jpg                      Pudú
+  [ ] 31. cauquenes.jpg                 Cauquenes
+  [ ] 32. vizcacha.jpg                  Vizcacha
+  [ ] 33. piche.jpg                     Piche patagónico
+
+
+══════════════════════════════════════════════════════════════════
+CHECKLIST · FOTOS DE ACTIVIDADES  (85 archivos, /assets/actividades/)
+══════════════════════════════════════════════════════════════════
+Las 12 primeras aparecen en "Lo más pedido".
+
+  [ ]  1. ballenas-embarcado.jpg                Avistaje embarcado de ballenas   ← carrusel
+  [ ]  2. pinguineras.jpg                       Visita a pingüineras   ← carrusel
+  [ ]  3. perito-moreno.jpg                     Glaciar Perito Moreno   ← carrusel
+  [ ]  4. esqui.jpg                             Esquí alpino y snowboard   ← carrusel
+  [ ]  5. ballenas-costero.jpg                  Avistaje costero de ballenas, sin barco   ← carrusel
+  [ ]  6. beagle.jpg                            Navegación por el Canal Beagle   ← carrusel
+  [ ]  7. fitz-roy.jpg                          Trekking al Fitz Roy y Cerro Torre   ← carrusel
+  [ ]  8. nav-glaciares.jpg                     Navegación a glaciares   ← carrusel
+  [ ]  9. minitrekking.jpg                      Trekking sobre glaciar   ← carrusel
+  [ ] 10. trekking-media.jpg                    Trekking de media montaña   ← carrusel
+  [ ] 11. orcas.jpg                             Avistaje de orcas   ← carrusel
+  [ ] 12. snorkel-lobos.jpg                     Snorkel con lobos marinos   ← carrusel
+  [ ] 13. parques-nacionales.jpg                Parques nacionales
+  [ ] 14. cueva-manos.jpg                       Cueva de las Manos
+  [ ] 15. mef.jpg                               Museo Egidio Feruglio
+  [ ] 16. trochita.jpg                          La Trochita, el Viejo Expreso Patagónico
+  [ ] 17. ruta-40.jpg                           Ruta 40 patagónica
+  [ ] 18. casas-te.jpg                          Casas de té galés
+  [ ] 19. travesias-4x4.jpg                     Travesías 4x4
+  [ ] 20. rafting.jpg                           Rafting
+  [ ] 21. buceo-bautismo.jpg                    Buceo bautismo
+  [ ] 22. mosca.jpg                             Pesca con mosca
+  [ ] 23. cabalgatas.jpg                        Cabalgatas
+  [ ] 24. loberias.jpg                          Loberías y elefanterías
+  [ ] 25. playas-calidas.jpg                    Playas de aguas templadas
+  [ ] 26. toninas.jpg                           Avistaje de toninas overas
+  [ ] 27. birdwatching.jpg                      Avistaje de aves
+  [ ] 28. condores.jpg                          Avistaje de cóndores
+  [ ] 29. safari-estepa.jpg                     Safari fotográfico de estepa
+  [ ] 30. puma.jpg                              Avistaje de puma
+  [ ] 31. brama-ciervo.jpg                      Brama del ciervo colorado
+  [ ] 32. loros-barranqueros.jpg                Colonia de loros barranqueros
+  [ ] 33. ria-deseado.jpg                       Navegación por la Ría Deseado
+  [ ] 34. nav-lacustre.jpg                      Navegación lacustre y cruce de lagos
+  [ ] 35. kayak-mar.jpg                         Kayak de mar
+  [ ] 36. sup.jpg                               Stand up paddle
+  [ ] 37. cruce-andino.jpg                      Cruce Andino a Chile
+  [ ] 38. buceo-naufragios.jpg                  Buceo en naufragios y parques submarinos
+  [ ] 39. buceo-lagos.jpg                       Buceo en lagos andinos
+  [ ] 40. alta-montana.jpg                      Ascensiones de alta montaña
+  [ ] 41. refugios.jpg                          Travesías de refugio en refugio
+  [ ] 42. escalada.jpg                          Escalada en roca
+  [ ] 43. bosque-alerces.jpg                    Caminata entre alerces milenarios
+  [ ] 44. esqui-fondo.jpg                       Esquí de fondo y travesía
+  [ ] 45. trineo-perros.jpg                     Trineo con perros
+  [ ] 46. motos-nieve.jpg                       Motos de nieve
+  [ ] 47. raquetas.jpg                          Caminata con raquetas
+  [ ] 48. canopy.jpg                            Canopy y tirolesa
+  [ ] 49. parapente.jpg                         Parapente y vuelo biplaza
+  [ ] 50. rappel.jpg                            Rappel y tirolesa en cañadón
+  [ ] 51. sandboard.jpg                         Sandboard en dunas
+  [ ] 52. kayak-rio.jpg                         Kayak y packrafting de río
+  [ ] 53. kite.jpg                              Kitesurf y windsurf
+  [ ] 54. surf.jpg                              Surf
+  [ ] 55. pesca-embarcada.jpg                   Pesca embarcada de mar
+  [ ] 56. steelhead.jpg                         Pesca de trucha steelhead
+  [ ] 57. cuatriciclos.jpg                      Cuatriciclos y UTV
+  [ ] 58. mtb.jpg                               Mountain bike
+  [ ] 59. cicloturismo.jpg                      Cicloturismo por la Ruta 40
+  [ ] 60. circuito-bici.jpg                     Circuitos de un día en bici
+  [ ] 61. estancias.jpg                         Día de campo en estancia
+  [ ] 62. esquila.jpg                           Esquila y trabajo rural
+  [ ] 63. turismo-ancestral.jpg                 Turismo con comunidades originarias
+  [ ] 64. bryn-gwyn.jpg                         Parque Paleontológico Bryn Gwyn
+  [ ] 65. bosques-petrificados.jpg              Bosques petrificados
+  [ ] 66. dinos-neuquen.jpg                     Ruta de los dinosaurios
+  [ ] 67. ruta-galesa.jpg                       Ruta galesa: capillas y casas de té
+  [ ] 68. museos-ciudad.jpg                     Museos y centros de interpretación
+  [ ] 69. punta-cuevas.jpg                      Punta Cuevas y el desembarco galés
+  [ ] 70. fiestas.jpg                           Fiestas populares y celebraciones
+  [ ] 71. cordero.jpg                           Cordero patagónico al asador
+  [ ] 72. cervecerias.jpg                       Cervecerías artesanales
+  [ ] 73. chocolate.jpg                         Ruta del chocolate
+  [ ] 74. bodegas.jpg                           Bodegas y enoturismo
+  [ ] 75. mariscos.jpg                          Mariscos y pesca artesanal
+  [ ] 76. playas-patagonicas.jpg                Playas y balnearios patagónicos
+  [ ] 77. termas.jpg                            Termas y bienestar
+  [ ] 78. astroturismo.jpg                      Astroturismo y cielos oscuros
+  [ ] 79. tren-fin-mundo.jpg                    Tren del Fin del Mundo
+  [ ] 80. tren-patagonico.jpg                   Tren Patagónico Viedma–Bariloche
+  [ ] 81. siete-lagos.jpg                       Camino de los Siete Lagos
+  [ ] 82. circuito-chico.jpg                    Circuito Chico
+  [ ] 83. ruta-azul.jpg                         Ruta Azul y costa chubutense
+  [ ] 84. peninsula-valdes-area.jpg             Área Natural Protegida Península Valdés
+  [ ] 85. dique-ameghino.jpg                    Dique Florentino Ameghino
+
+
+══════════════════════════════════════════════════════════════════
+CHECKLIST · FOTOS DEL BANNER  (12 archivos, /assets/banner/)
+══════════════════════════════════════════════════════════════════
+Mismos nombres que fauna, pero en 1600 × 900.
+
+  [ ] ballena-franca.jpg            Ballena franca austral
+  [ ] pinguino-magallanes.jpg       Pingüino de Magallanes
+  [ ] orca.jpg                      Orca
+  [ ] lobo-marino.jpg               Lobo marino de un pelo
+  [ ] elefante-marino.jpg           Elefante marino del sur
+  [ ] ballena-sei.jpg               Ballena sei
+  [ ] tonina-overa.jpg              Tonina overa
+  [ ] delfin-oscuro.jpg             Delfín oscuro
+  [ ] guanaco.jpg                   Guanaco
+  [ ] condor.jpg                    Cóndor andino
+  [ ] huemul.jpg                    Huemul
+  [ ] puma.jpg                      Puma
+
+
+PRIORIDAD SI NO PODÉS CON TODO
+  1. Los 7 logos de prestadores. Son livianos y cambian la percepción.
+  2. Las 12 fotos de fauna del carrusel.
+  3. Las 12 de actividades del carrusel.
+  4. Las 12 del banner ancho.
+  5. El resto, de a poco. Lo que falta se ve con placa e ícono y
+     no rompe nada.

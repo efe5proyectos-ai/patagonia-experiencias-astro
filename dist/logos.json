@@ -1,0 +1,7 @@
+[
+  { "archivo": "cerveceria-la-perla.png",  "nombre": "Cervecería La Perla" },
+  { "archivo": "hotel-rayentray.png",      "nombre": "Hotel Rayentray" },
+  { "archivo": "parrilla-el-quincho.webp", "nombre": "Parrilla El Quincho" },
+  { "archivo": "cabanas-del-golfo.png",    "nombre": "Cabañas del Golfo" },
+  { "archivo": "cafe-verdi.svg",           "nombre": "Café Verdi" }
+]

@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Meta Pixel Base · Patagonia Experiencias -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window,document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '1501384968138883');
+      fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=1501384968138883&ev=PageView&noscript=1"/></noscript>
+    <!-- End Meta Pixel -->
+    <title>Pago Confirmado · Patagonia Experiencias</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <!-- Sprint 28: librerías para generar el voucher PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #ecfdf5 0%, #f0f9ff 100%); min-height: 100vh; }
+        .font-title { font-family: 'Playfair Display', serif; }
+        .check-anim { animation: checkBounce 0.6s ease-out; }
+        @keyframes checkBounce {
+            0% { transform: scale(0); opacity: 0; }
+            60% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes confettiFall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+        .confetti { position: fixed; width: 10px; height: 10px; pointer-events: none; animation: confettiFall 3s linear; }
+    </style>
+</head>
+<body>
+    <div id="root" class="min-h-screen flex items-center justify-center p-6"></div>
+
+    <script>
+        // === Firebase config (mismo que el resto del sitio) ===
+        const firebaseConfig = {
+            apiKey: "AIzaSyDZkeRgN45FkOF8pO2rGxDJA28VZnZ8Ntg",
+            authDomain: "patagonia-experiencias.firebaseapp.com",
+            projectId: "patagonia-experiencias",
+            storageBucket: "patagonia-experiencias.firebasestorage.app",
+            messagingSenderId: "169796366610",
+            appId: "1:169796366610:web:3e2c7e65262933647983cb"
+        };
+        const appId = 'patagonia-experiencias-app';
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // ============================================================================
+        // Sprint 7: pago-confirmado.html ahora ESPERA a que Firebase Auth resuelva
+        // la sesión antes de leer la reserva. Esto es necesario porque las reglas
+        // Firestore (Sprint 6) requieren que el usuario esté autenticado y su email
+        // coincida con clienteEmail para poder leer su propia reserva.
+        //
+        // Flow:
+        //   1. Llega de MercadoPago con ?id=XYZ en la URL
+        //   2. Espera a auth.onAuthStateChanged (puede ser instantáneo si la sesión
+        //      persistió en localStorage, lo normal)
+        //   3a. Si hay sesión válida → lee reserva → muestra voucher completo
+        //   3b. Si no hay sesión o falla la lectura → mensaje "tu pago se procesó,
+        //       revisa tu email" con datos básicos de MP que vienen en la URL
+        // ============================================================================
+
+        // Lanzar confetti
+        function lanzarConfetti() {
+            const colores = ['#10b981', '#3b82f6', '#f59e0b', '#ec4899'];
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.background = colores[Math.floor(Math.random() * colores.length)];
+                confetti.style.animationDelay = (Math.random() * 0.5) + 's';
+                confetti.style.animationDuration = (2 + Math.random() * 2) + 's';
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 5000);
+            }
+        }
+
+        // ============================================================================
+        // 15/05/2026: Constantes y helpers para notificaciones POST-PAGO.
+        // Cuando la modalidad de la reserva es 'compra' (paga vía MP), las
+        // notificaciones internas y el email se disparan acá (al confirmar el
+        // pago), NO al crear la reserva en patagonia-experiencias.html.
+        // Razón: evitar que el prestador reciba avisos de reservas que nunca
+        // se concretan (cliente abandona MP, tarjeta rechazada, etc).
+        // ============================================================================
+        const MAKE_EMAIL_WEBHOOK_URL = 'https://hook.us2.make.com/kwbrzp2b6zonybiv9gihhlekuafs2nm1';
+
+        const crearNotificacion = async (destinatarioUid, tipo, titulo, mensaje, datos = {}) => {
+            try {
+                if (!destinatarioUid) return;
+                await db.collection('artifacts').doc(appId).collection('public').doc('data').collection('notificaciones').add({
+                    destinatarioUid,
+                    tipo,
+                    titulo: titulo || '',
+                    mensaje: mensaje || '',
+                    datos,
+                    leida: false,
+                    fechaCreacion: new Date().toISOString()
+                });
+            } catch (err) {
+                console.warn('No se pudo crear notificación:', err);
+            }
+        };
+
+        // Leer parámetros de la URL
+        const params = new URLSearchParams(window.location.search);
+        const reservaId = params.get('id');
+        const paymentId = params.get('payment_id');
+        const status = params.get('status');
+        const root = document.getElementById('root');
+
+        // Renderizar loader inicial
+        root.innerHTML = renderCargando();
+
+        // ============================================================================
+        // FLOW PRINCIPAL: esperar Auth, después decidir
+        // ============================================================================
+        // Timeout de seguridad: si Auth tarda más de 6 segundos, mostramos fallback.
+        // Esto evita que la página quede pegada cargando si hay algún problema.
+        let authResuelta = false;
+        const timeoutAuth = setTimeout(() => {
+            if (!authResuelta) {
+                authResuelta = true;
+                renderFallbackSinSesion();
+            }
+        }, 6000);
+
+        const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
+            if (authResuelta) return; // Ya manejado por timeout o llamada anterior
+            authResuelta = true;
+            clearTimeout(timeoutAuth);
+            unsubscribe(); // Solo nos interesa la primera resolución
+
+            if (!reservaId) {
+                root.innerHTML = renderError('No se encontró el identificador de la reserva.');
+                return;
+            }
+
+            // Si no hay usuario autenticado o es anónimo (sin email): fallback amigable
+            if (!currentUser || currentUser.isAnonymous || !currentUser.email) {
+                renderFallbackSinSesion();
+                return;
+            }
+
+            // Hay sesión válida: intentar leer la reserva
+            await leerYRenderizarReserva();
+        });
+
+        async function leerYRenderizarReserva() {
+            try {
+                const ref = db.collection('artifacts').doc(appId)
+                    .collection('public').doc('data')
+                    .collection('reservas').doc(reservaId);
+                const doc = await ref.get();
+
+                if (!doc.exists) {
+                    root.innerHTML = renderError('No encontramos tu reserva. Verificá el link.');
+                    return;
+                }
+
+                let r = doc.data();
+
+                // ============================================================================
+                // Sprint 15: asignar puntos cuando el pago está confirmado
+                // ----------------------------------------------------------------------------
+                // Lógica:
+                //   1. La reserva debe estar en estado 'Pagado'
+                //   2. La reserva NO debe tener puntosSumados ya asignados (evita duplicar
+                //      si el turista vuelve a abrir esta página)
+                //   3. Leemos el tour de Firestore para obtener su puntosPorReserva
+                //   4. Si el tour no tiene puntosPorReserva, fallback a 5000 (default)
+                //   5. Actualizamos la reserva con puntosSumados = ese valor
+                //
+                // Defensivo: si cualquier paso falla, NO rompemos el voucher. El admin
+                // puede asignar los puntos manualmente si hace falta.
+                // ============================================================================
+                const necesitaAsignarPuntos = 
+                    r.estado === 'Pagado' && 
+                    (r.puntosSumados === undefined || r.puntosSumados === null || r.puntosSumados === 0) &&
+                    r.tourId;
+
+                if (necesitaAsignarPuntos) {
+                    try {
+                        const tourRef = db.collection('artifacts').doc(appId)
+                            .collection('public').doc('data')
+                            .collection('tours').doc(r.tourId);
+                        const tourSnap = await tourRef.get();
+
+                        let puntos = 5000; // Default
+                        if (tourSnap.exists) {
+                            const tourData = tourSnap.data();
+                            const pTour = Number(tourData.puntosPorReserva);
+                            if (!isNaN(pTour) && pTour >= 0) puntos = pTour;
+                        }
+
+                        // Actualizar la reserva con los puntos
+                        await ref.update({ puntosSumados: puntos });
+                        // Reflejar localmente para mostrar en el voucher
+                        r = { ...r, puntosSumados: puntos };
+
+                        console.log(`Puntos asignados: ${puntos}`);
+                    } catch (errPuntos) {
+                        // Si falla la asignación de puntos, NO rompemos el voucher.
+                        // Solo logueamos para el admin y seguimos.
+                        console.warn('No se pudieron asignar puntos automáticamente:', errPuntos);
+                    }
+                }
+
+                // ============================================================================
+                // 15/05/2026: Notificaciones + webhook DESPUÉS de confirmar pago.
+                // ----------------------------------------------------------------------------
+                // FIX 15/05/2026: usábamos `r.estado === 'Pagado'` pero el estado NUNCA
+                // se actualiza automáticamente cuando MP confirma — solo cuando el
+                // prestador confirma cobro manualmente. Por eso las notificaciones no
+                // se disparaban nunca. Ahora usamos `status=approved` de la URL de MP,
+                // que es la confirmación real de cobro de la seña.
+                //
+                // Solo se disparan si:
+                //   1. MP devolvió status=approved (la seña fue cobrada)
+                //   2. La modalidad fue 'compra' (porque 'consulta' las disparó en
+                //      patagonia-experiencias.html al toque)
+                //   3. NO se enviaron antes (flag `notificacionesEnviadas` en el doc).
+                //      Esto evita duplicados si el turista recarga esta página.
+                //
+                // Defensivo: si cualquier paso falla, NO rompemos el voucher.
+                // ============================================================================
+                // ENDURECIDO 25/05/2026: además de status=approved, exigimos que venga
+                // un payment_id real en la URL. MercadoPago solo incluye payment_id cuando
+                // hubo un pago efectivo. Si alguien falsea la URL con ?status=approved pero
+                // sin payment_id (o vacío), NO disparamos avisos. Esto evita avisos a la
+                // agencia por pagos que no se concretaron.
+                // NOTA: la validación 100% segura es vía notification_url (webhook IPN de MP),
+                // pendiente de configurar. Esto es un endurecimiento intermedio.
+                const paymentIdValido = paymentId && String(paymentId).trim().length > 0 && paymentId !== 'null';
+                const pagoMP_OK = status === 'approved' && paymentIdValido;
+                const necesitaDispararAvisos = 
+                    pagoMP_OK &&
+                    r.modalidad === 'compra' &&
+                    !r.notificacionesEnviadas;
+
+                // Si el pago está OK, además marcamos la reserva como 'Pagado' en Firestore
+                // (antes el estado nunca se actualizaba solo). Así queda registro real.
+                if (pagoMP_OK && r.estado !== 'Pagado') {
+                    try {
+                        await ref.update({ estado: 'Pagado', paymentId: String(paymentId), fechaPago: new Date().toISOString() });
+                        r = { ...r, estado: 'Pagado' };
+                    } catch (errEstado) {
+                        console.warn('No se pudo actualizar estado a Pagado:', errEstado);
+                    }
+                }
+
+                // ============================================================================
+                // 24/06/2026: Meta Pixel · evento Purchase.
+                // ----------------------------------------------------------------------------
+                // Se dispara SOLO cuando MercadoPago aprobó el pago (pagoMP_OK = status
+                // 'approved' + payment_id real) y la modalidad es 'compra'. Es el mismo
+                // gate que usan las notificaciones, así que mide la venta real, no la
+                // reserva sin pagar.
+                //   - value: lo efectivamente cobrado online (la seña/precioReserva).
+                //   - currency: ARS.
+                //   - eventID: reservaId → permite deduplicar si más adelante se suma un
+                //     Purchase server-side por CAPI (mismo ID = Meta lo cuenta una vez).
+                // Defensivo: si fbq no está o algo falla, NO rompe el voucher.
+                // ============================================================================
+                if (pagoMP_OK && r.modalidad === 'compra' && typeof fbq === 'function') {
+                    try {
+                        const valorPurchase = Number(r.precioReserva || r.total || 0);
+                        fbq('track', 'Purchase', {
+                            value: valorPurchase,
+                            currency: 'ARS',
+                            content_name: r.tourTitulo || '',
+                            content_ids: [r.tourId || reservaId],
+                            content_type: 'product',
+                            num_items: (Number(r.paxAdultos) || 0) + (Number(r.paxNinos) || 0)
+                        }, { eventID: reservaId });
+                        console.log('Meta Purchase disparado:', valorPurchase, 'ARS · evento', reservaId);
+                    } catch (errPixel) {
+                        console.warn('No se pudo disparar Purchase de Meta:', errPixel);
+                    }
+                }
+
+                // ============================================================================
+                // 09/07/2026: Meta CONVERSIONS API (server-side) vía meta-conversion.php
+                // ----------------------------------------------------------------------------
+                // El pixel de arriba a veces no llega (bloqueadores, el redirect de MercadoPago,
+                // etc.). Este envío server-side es la señal CONFIABLE de compra: le pega a
+                // nuestro PHP, que se lo reporta a Meta con el token seguro.
+                // Usa el MISMO event_id (reservaId) que el pixel → Meta deduplica: si ya llegó
+                // por pixel lo cuenta una vez, si no, cuenta este. Nunca doble.
+                // Defensivo: si falla, NO rompe el voucher (es fetch suelto con catch).
+                // ============================================================================
+                if (pagoMP_OK && r.modalidad === 'compra') {
+                    try {
+                        const valorCAPI = Number(r.precioReserva || r.total || 0);
+                        fetch('/meta-conversion.php', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                clave: 'patagonia-capi-2026-cambiar-esto',
+                                email: r.clienteEmail || '',
+                                telefono: r.clienteTelefono || '',
+                                valor: valorCAPI,
+                                moneda: 'ARS',
+                                tour: r.tourTitulo || '',
+                                event_id: reservaId
+                            })
+                        }).then(function(resp){
+                            console.log('Meta CAPI enviado (server-side), status', resp.status, '· evento', reservaId);
+                        }).catch(function(errCapi){
+                            console.warn('No se pudo enviar Meta CAPI:', errCapi);
+                        });
+                    } catch (errCapiOuter) {
+                        console.warn('Error preparando Meta CAPI:', errCapiOuter);
+                    }
+                }
+
+                if (necesitaDispararAvisos) {
+                    try {
+                        // Notificación al ADMIN
+                        crearNotificacion(
+                            'admin',
+                            'reserva_nueva',
+                            '🎫 Nueva reserva confirmada',
+                            `${r.clienteNombre} confirmó pago de "${r.tourTitulo}"`,
+                            { reservaId: reservaId, tourId: r.tourId, modalidad: 'compra' }
+                        );
+                        // Notificación al PRESTADOR (si tiene UID válido)
+                        if (r.proveedorId && r.proveedorId !== 'agencia_demo' && !r.proveedorId.startsWith('agencia_')) {
+                            crearNotificacion(
+                                r.proveedorId,
+                                'reserva_nueva',
+                                '🎫 Nueva reserva confirmada',
+                                `${r.clienteNombre} confirmó la reserva de "${r.tourTitulo}" para ${r.paxAdultos || 0} adulto(s).`,
+                                { reservaId: reservaId, tourId: r.tourId }
+                            );
+                        }
+
+                        // Webhook a Make para envío de emails (al turista + al prestador)
+                        if (MAKE_EMAIL_WEBHOOK_URL) {
+                            // Cargar datos del prestador para que Make pueda contactarlo
+                            let proveedorEmailFinal = '';
+                            let proveedorTelefonoFinal = '';
+                            try {
+                                if (r.proveedorId && r.proveedorId !== 'agencia_demo') {
+                                    const provSnap = await db.collection('artifacts').doc(appId)
+                                        .collection('public').doc('data')
+                                        .collection('solicitudes_prestadores')
+                                        .doc(r.proveedorId).get();
+                                    if (provSnap.exists) {
+                                        const provData = provSnap.data();
+                                        proveedorEmailFinal = provData.email || provData.emailContacto || '';
+                                        proveedorTelefonoFinal = provData.telefono || provData.whatsapp || '';
+                                    }
+                                }
+                            } catch (errPerfil) {
+                                console.warn('No se pudo cargar email del prestador para webhook:', errPerfil);
+                            }
+
+                            // Prestador EXTERNO: si la reserva trae emailAvisoExterno (cargado en el
+                            // tour desde el admin), ese tiene prioridad como destinatario del aviso.
+                            if (r.emailAvisoExterno && r.emailAvisoExterno.trim()) {
+                                proveedorEmailFinal = r.emailAvisoExterno.trim();
+                            }
+
+                            // Respaldo: si el prestador no tiene email cargado, la notificación
+                            // va a la casilla de la plataforma para que ninguna reserva se pierda.
+                            if (!proveedorEmailFinal || !proveedorEmailFinal.trim()) {
+                                proveedorEmailFinal = 'hola@patagoniaexperiencias.com';
+                            }
+
+                            // No usamos await: que se mande en background sin bloquear el voucher
+                            fetch(MAKE_EMAIL_WEBHOOK_URL, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    // === IDs ===
+                                    reservaId: reservaId,
+                                    tourId: r.tourId || '',
+                                    proveedorId: r.proveedorId || 'agencia_demo',
+                                    // === Datos del cliente ===
+                                    clienteNombre: r.clienteNombre || '',
+                                    clienteEmail: r.clienteEmail || '',
+                                    clienteTelefono: r.clienteTelefono || '',
+                                    // === Datos del tour ===
+                                    tourTitulo: r.tourTitulo || '',
+                                    proveedorNombre: r.proveedorNombre || '',
+                                    proveedorEmail: proveedorEmailFinal,
+                                    proveedorTelefono: proveedorTelefonoFinal,
+                                    emailAvisoExterno: r.emailAvisoExterno || '',
+                                    esExterno: !!(r.emailAvisoExterno && r.emailAvisoExterno.trim()),
+                                    // === Datos de la reserva ===
+                                    fechaActividad: r.fechaExcursion || '',
+                                    paxAdultos: r.paxAdultos || 0,
+                                    paxNinos: r.paxNinos || 0,
+                                    modalidad: 'compra',
+                                    estado: 'Pagado',
+                                    // === Datos económicos ===
+                                    precio: r.precioReserva || r.total || 0,
+                                    precioLista: r.precioLista || 0,
+                                    saldoDestino: r.saldoDestino || 0,
+                                    ahorroTurista: r.ahorroTurista || 0,
+                                    // === Meta ===
+                                    fechaCreacion: new Date().toISOString(),
+                                    sitio: 'patagoniaexperiencias.com'
+                                })
+                            }).catch(errMake => {
+                                console.warn('Webhook de emails falló (no rompe el voucher):', errMake);
+                            });
+                        }
+
+                        // Marcar que ya se enviaron, para no duplicar en recargas
+                        await ref.update({ notificacionesEnviadas: true, fechaNotificaciones: new Date().toISOString() });
+                        r = { ...r, notificacionesEnviadas: true };
+                    } catch (errAvisos) {
+                        // Si falla, no rompemos el voucher. El usuario ve su confirmación igual.
+                        console.warn('No se pudieron disparar las notificaciones post-pago:', errAvisos);
+                    }
+                }
+
+                root.innerHTML = renderConfirmacion(r, reservaId);
+                setTimeout(lanzarConfetti, 300);
+                
+                // Sprint 28: guardar la reserva globalmente para que el botón
+                // "Descargar Voucher PDF" pueda accederla. También cargamos el
+                // perfil del operador en background para tener la política de
+                // cancelación lista cuando el usuario haga click.
+                _reservaActual = r;
+                if (r.proveedorId) {
+                    db.collection('artifacts').doc(appId)
+                        .collection('public').doc('data')
+                        .collection('solicitudes_prestadores')
+                        .doc(r.proveedorId).get()
+                        .then(opSnap => { if (opSnap.exists) _perfilOperador = opSnap.data(); })
+                        .catch(e => console.warn('No se pudo precargar perfil operador:', e));
+                }
+            } catch (err) {
+                console.error('Error leyendo reserva:', err);
+                // Si falla por permisos (regla Firestore), mostramos el fallback amigable
+                // en lugar del error técnico. Esto pasa si el email del Google logueado
+                // no coincide con el clienteEmail de la reserva.
+                if (err && (err.code === 'permission-denied' || err.code === 7)) {
+                    renderFallbackSinSesion();
+                } else {
+                    root.innerHTML = renderError('Hubo un problema al consultar tu reserva.');
+                }
+            }
+        }
+
+        function renderFallbackSinSesion() {
+            // El pago se procesó (lo confirma MP en la URL), pero no podemos mostrar
+            // el detalle porque no hay sesión activa, o la sesión no tiene permiso.
+            // MP envía el comprobante por email igual, así que el usuario tiene la
+            // info por ese canal.
+            const pagoAprobado = status === 'approved';
+            
+            root.innerHTML = `
+                <div class="bg-white rounded-3xl shadow-2xl border border-slate-200 max-w-md w-full p-8 text-center">
+                    <!-- Logo Patagonia Experiencias (con fallback defensivo a Patagonia Puntos) -->
+                    <img 
+                        src="./logo-patagonia-experiencias.png" 
+                        alt="Patagonia Experiencias"
+                        class="h-20 object-contain mx-auto mb-6"
+                        onerror="this.onerror=null; this.src='./logo-patagonia-puntos.png'; this.onerror=function(){this.style.display='none';};"
+                    />
+                    <div class="check-anim w-20 h-20 mx-auto bg-gradient-to-br from-emerald-400 to-emerald-500 rounded-full flex items-center justify-center mb-5 shadow-lg">
+                        <i class="fa-solid fa-check text-3xl text-white"></i>
+                    </div>
+                    <h1 class="font-title text-2xl font-black text-slate-800 mb-3">
+                        ${pagoAprobado ? '¡Tu pago se procesó!' : 'Recibimos tu reserva'}
+                    </h1>
+                    <p class="text-sm text-slate-600 leading-relaxed mb-2">
+                        Te enviamos los detalles de tu reserva por <strong>email</strong>.
+                    </p>
+                    <p class="text-xs text-slate-500 leading-relaxed mb-6">
+                        Si no recibís el comprobante en los próximos minutos, revisá la carpeta de spam.
+                    </p>
+
+                    ${paymentId ? `
+                        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 mb-6 text-left">
+                            <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-0.5">Comprobante MercadoPago</p>
+                            <p class="font-mono text-xs font-bold text-slate-700">#${paymentId}</p>
+                        </div>
+                    ` : ''}
+
+                    <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6 text-left">
+                        <p class="text-xs text-blue-800 leading-relaxed flex items-start gap-2">
+                            <i class="fa-solid fa-circle-info text-blue-500 mt-0.5"></i>
+                            <span>Para ver el detalle completo de tu reserva y tus puntos acumulados, ingresá a <strong>Mi Billetera</strong> con la misma cuenta de Google que usaste para reservar.</span>
+                        </p>
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <a href="./billetera-turista.html" class="bg-slate-800 hover:bg-slate-900 text-white px-6 py-3 rounded-xl text-sm font-bold transition-colors">
+                            <i class="fa-solid fa-wallet mr-1"></i> Ir a Mi Billetera
+                        </a>
+                        <a href="./patagonia-experiencias.html" class="text-xs text-slate-500 hover:text-slate-700 mt-2">
+                            Volver al sitio
+                        </a>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderCargando() {
+            return `
+                <div class="bg-white rounded-3xl shadow-2xl border border-slate-200 max-w-md w-full p-10 text-center">
+                    <!-- Logo Patagonia Experiencias -->
+                    <img 
+                        src="./logo-patagonia-experiencias.png" 
+                        alt="Patagonia Experiencias"
+                        class="h-20 object-contain mx-auto mb-6"
+                        onerror="this.onerror=null; this.src='./logo-patagonia-puntos.png'; this.onerror=function(){this.style.display='none';};"
+                    />
+                    <div class="w-16 h-16 mx-auto mb-4 relative">
+                        <div class="absolute inset-0 rounded-full border-4 border-slate-100"></div>
+                        <div class="absolute inset-0 rounded-full border-4 border-emerald-500 border-t-transparent animate-spin"></div>
+                    </div>
+                    <h1 class="font-title text-xl font-black text-slate-800 mb-2">Confirmando tu pago...</h1>
+                    <p class="text-xs text-slate-500">Esto puede tardar unos segundos.</p>
+                </div>
+            `;
+        }
+
+        function fmt(n) {
+            return Number(n || 0).toLocaleString('es-AR');
+        }
+        function fmtFecha(iso) {
+            if (!iso) return '—';
+            const [y, m, d] = iso.split('-');
+            return `${d}/${m}/${y}`;
+        }
+
+        function renderConfirmacion(r, id) {
+            const esConfirmada = r.estado === 'Pagado';
+            const fechaTour = r.fechaExcursion;
+            return `
+                <div class="bg-white rounded-3xl shadow-2xl border border-slate-200 max-w-2xl w-full overflow-hidden">
+                    <!-- Logo Patagonia Experiencias arriba del voucher (estilo factura) -->
+                    <div class="bg-white pt-8 pb-2 text-center">
+                        <img 
+                            src="./logo-patagonia-experiencias.png" 
+                            alt="Patagonia Experiencias"
+                            class="h-20 object-contain mx-auto"
+                            onerror="this.onerror=null; this.src='./logo-patagonia-puntos.png'; this.onerror=function(){this.style.display='none';};"
+                        />
+                    </div>
+                    <!-- Header -->
+                    <div class="bg-gradient-to-r from-emerald-500 to-blue-500 p-8 text-white text-center relative overflow-hidden">
+                        <div class="check-anim w-20 h-20 mx-auto bg-white rounded-full flex items-center justify-center mb-4 shadow-xl">
+                            <i class="fa-solid fa-check text-4xl text-emerald-500"></i>
+                        </div>
+                        <h1 class="font-title text-3xl font-black mb-2">${esConfirmada ? '¡Pago Confirmado!' : '¡Reserva recibida!'}</h1>
+                        <p class="text-sm opacity-90">${esConfirmada ? 'Tu pago se procesó correctamente' : 'Estamos confirmando tu pago. Te avisaremos por email.'}</p>
+                    </div>
+
+                    <!-- Resumen reserva -->
+                    <div class="p-8">
+                        <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 mb-5">
+                            <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Tu reserva</p>
+                            <h2 class="font-title text-xl font-bold text-slate-800 mb-3">${r.tourTitulo || 'Tu actividad'}</h2>
+                            <div class="grid grid-cols-2 gap-3 text-sm">
+                                <div>
+                                    <p class="text-[10px] font-bold uppercase text-slate-400">Fecha</p>
+                                    <p class="font-bold text-slate-700"><i class="fa-regular fa-calendar mr-1 text-slate-400"></i> ${fmtFecha(fechaTour)}</p>
+                                </div>
+                                <div>
+                                    <p class="text-[10px] font-bold uppercase text-slate-400">Pasajeros</p>
+                                    <p class="font-bold text-slate-700"><i class="fa-solid fa-users mr-1 text-slate-400"></i> ${r.paxAdultos || 0} adt${(r.paxNinos || 0) > 0 ? ` · ${r.paxNinos} niños` : ''}</p>
+                                </div>
+                                <div class="col-span-2 pt-3 border-t border-slate-200">
+                                    <p class="text-[10px] font-bold uppercase text-slate-400">Reservado a nombre de</p>
+                                    <p class="font-bold text-slate-700">${r.clienteNombre || '—'}</p>
+                                    <p class="text-xs text-slate-500">${r.clienteEmail || ''}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Desglose precios -->
+                        <div class="bg-emerald-50 rounded-2xl p-5 border border-emerald-200 mb-5">
+                            <p class="text-[10px] font-bold uppercase tracking-widest text-emerald-700 mb-3">Detalle del Pago</p>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between text-slate-700">
+                                    <span>Pagaste online (reserva)</span>
+                                    <span class="font-bold">$${fmt(r.precioReserva || r.total)}</span>
+                                </div>
+                                ${r.saldoDestino > 0 ? `
+                                    <div class="flex justify-between text-slate-700">
+                                        <span><i class="fa-solid fa-circle-info text-amber-500 mr-1"></i> Saldo a coordinar</span>
+                                        <span class="font-bold text-amber-600">$${fmt(r.saldoDestino)}</span>
+                                    </div>
+                                ` : ''}
+                                ${r.ahorroTurista > 0 ? `
+                                    <div class="flex justify-between text-emerald-700 pt-2 border-t border-emerald-200">
+                                        <span><i class="fa-solid fa-piggy-bank mr-1"></i> Tu ahorro</span>
+                                        <span class="font-bold">$${fmt(r.ahorroTurista)}</span>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+
+                        <!-- Aviso de seña no reembolsable (15/05/2026):
+                             Política comercial confirmada por Marcelo: la seña de la
+                             preventa es promocional por tiempo limitado y no admite
+                             devolución. Se muestra en pago-confirmado.html (donde
+                             efectivamente hay seña pagada), no en pendiente ni rechazado. -->
+                        <div class="bg-slate-50 rounded-xl p-3 border border-slate-200 mb-5 flex items-start gap-2">
+                            <i class="fa-solid fa-circle-info text-slate-400 mt-0.5 text-xs"></i>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                Por tratarse de una preventa promocional, la seña <strong class="text-slate-700">no tiene devolución</strong>.
+                            </p>
+                        </div>
+
+                        <!-- Sprint 15: bloque de puntos sumados -->
+                        ${(Number(r.puntosSumados) || 0) > 0 ? `
+                        <div class="bg-gradient-to-r from-amber-50 to-yellow-50 rounded-2xl p-5 border border-amber-200 mb-5">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-[10px] font-bold uppercase tracking-widest text-amber-700 mb-1"><i class="fa-solid fa-coins mr-1"></i> Puntos sumados</p>
+                                    <p class="text-2xl font-black text-amber-700">+${fmt(r.puntosSumados)} pts</p>
+                                    <p class="text-xs text-amber-600 mt-1">Disponibles en tu billetera</p>
+                                </div>
+                                <a href="./billetera-turista.html" class="bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors">
+                                    Ver billetera <i class="fa-solid fa-arrow-right ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                        ` : ''}
+
+                        <!-- Próximos pasos -->
+                        <div class="bg-blue-50 rounded-2xl p-5 border border-blue-200 mb-5">
+                            <p class="text-[10px] font-bold uppercase tracking-widest text-blue-700 mb-3"><i class="fa-solid fa-list-check mr-1"></i> Próximos pasos</p>
+                            <ol class="space-y-2 text-sm text-slate-700">
+                                <li class="flex gap-2">
+                                    <span class="w-5 h-5 rounded-full bg-blue-500 text-white text-[10px] font-bold flex items-center justify-center flex-shrink-0 mt-0.5">1</span>
+                                    <span>Recibirás un <strong>email de confirmación</strong> con el voucher para presentar el día de la actividad.</span>
+                                </li>
+                                <li class="flex gap-2">
+                                    <span class="w-5 h-5 rounded-full bg-blue-500 text-white text-[10px] font-bold flex items-center justify-center flex-shrink-0 mt-0.5">2</span>
+                                    <span>El prestador te contactará para confirmar el horario y punto de encuentro.</span>
+                                </li>
+                                ${r.saldoDestino > 0 ? `
+                                <li class="flex gap-2">
+                                    <span class="w-5 h-5 rounded-full bg-blue-500 text-white text-[10px] font-bold flex items-center justify-center flex-shrink-0 mt-0.5">3</span>
+                                    <span>El saldo de <strong>$${fmt(r.saldoDestino)}</strong> se coordina directamente con el operador. Te indicará cuándo y cómo abonarlo.</span>
+                                </li>
+                                ` : ''}
+                            </ol>
+                        </div>
+
+                        <!-- ID Reserva -->
+                        <div class="text-center text-[10px] text-slate-400 uppercase tracking-widest mb-6">
+                            ID Reserva: <span class="font-mono">${id}</span>
+                        </div>
+
+                        ${esConfirmada ? `
+                        <!-- Sprint 28: Botón descargar voucher PDF.
+                            Solo aparece si la reserva está Pagada (no para pendientes).
+                            Auto-descarga al cargar la página tras 1.5 seg si pago confirmado. -->
+                        <div class="bg-gradient-to-br from-brand-fuchsia/5 to-brand-fuchsia/10 border-2 border-dashed border-brand-fuchsia/30 rounded-2xl p-5 mb-5 text-center" style="--tw-bg-fuchsia: #E91E63;">
+                            <div class="w-14 h-14 mx-auto bg-gradient-to-br from-pink-500 to-rose-600 rounded-full flex items-center justify-center mb-3 shadow-md">
+                                <i class="fa-solid fa-file-pdf text-white text-2xl"></i>
+                            </div>
+                            <h3 class="font-title font-extrabold text-lg text-slate-800 mb-1">Tu voucher está listo</h3>
+                            <p class="text-xs text-slate-600 mb-4">Descargalo y presentalo el día de la actividad. Incluye un QR para sumar 5.000 pts.</p>
+                            <button id="btn-descargar-voucher" onclick="descargarVoucher()" class="bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 text-white px-6 py-3 rounded-xl text-sm font-bold uppercase tracking-widest transition-all shadow-md hover:shadow-lg">
+                                <i class="fa-solid fa-download mr-2"></i> Descargar Voucher PDF
+                            </button>
+                        </div>
+                        ` : ''}
+
+                        <!-- Botones -->
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <a href="./patagonia-experiencias.html" class="flex-1 bg-slate-800 hover:bg-slate-900 text-white px-6 py-3 rounded-xl text-sm font-bold text-center transition-colors shadow-md">
+                                <i class="fa-solid fa-house mr-1"></i> Volver al sitio
+                            </a>
+                            <a href="./billetera-turista.html" class="flex-1 bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 px-6 py-3 rounded-xl text-sm font-bold transition-colors text-center">
+                                <i class="fa-solid fa-wallet mr-1"></i> Ver Mi Billetera
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderError(msg) {
+            return `
+                <div class="bg-white rounded-3xl shadow-2xl border border-slate-200 max-w-md w-full p-8 text-center">
+                    <!-- Logo Patagonia Experiencias -->
+                    <img 
+                        src="./logo-patagonia-experiencias.png" 
+                        alt="Patagonia Experiencias"
+                        class="h-20 object-contain mx-auto mb-6"
+                        onerror="this.onerror=null; this.src='./logo-patagonia-puntos.png'; this.onerror=function(){this.style.display='none';};"
+                    />
+                    <div class="w-20 h-20 mx-auto bg-amber-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="fa-solid fa-triangle-exclamation text-3xl text-amber-500"></i>
+                    </div>
+                    <h1 class="font-title text-2xl font-black text-slate-800 mb-2">Hubo un problema</h1>
+                    <p class="text-sm text-slate-600 mb-6">${msg}</p>
+                    <a href="./patagonia-experiencias.html" class="inline-block bg-slate-800 hover:bg-slate-900 text-white px-6 py-3 rounded-xl text-sm font-bold transition-colors">
+                        Volver al sitio
+                    </a>
+                </div>
+            `;
+        }
+
+        // ====================================================================
+        // SPRINT 28: VOUCHER PDF
+        // --------------------------------------------------------------------
+        // Guardamos la reserva globalmente para que el botón pueda accederla
+        // cuando el usuario lo presione. También se usa para auto-descarga.
+        // ====================================================================
+        let _reservaActual = null;
+        let _perfilOperador = null;
+        
+        // Función global llamada desde el botón "Descargar Voucher PDF"
+        async function descargarVoucher() {
+            if (!_reservaActual) {
+                alert('No se pudo cargar tu reserva. Por favor refrescá la página.');
+                return;
+            }
+            const btn = document.getElementById('btn-descargar-voucher');
+            const textoOriginal = btn ? btn.innerHTML : '';
+            try {
+                if (btn) {
+                    btn.disabled = true;
+                    btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin mr-2"></i> Generando PDF…';
+                }
+                
+                // Cargar perfil del operador si todavía no lo tenemos (para política de cancelación)
+                if (!_perfilOperador && _reservaActual.proveedorId) {
+                    try {
+                        const opSnap = await db.collection('artifacts').doc(appId)
+                            .collection('public').doc('data')
+                            .collection('solicitudes_prestadores')
+                            .doc(_reservaActual.proveedorId).get();
+                        if (opSnap.exists) _perfilOperador = opSnap.data();
+                    } catch (e) {
+                        console.warn('No se pudo cargar perfil operador:', e);
+                    }
+                }
+                
+                if (typeof window.generarVoucherPDF !== 'function') {
+                    throw new Error('Generador no disponible. Verificá que voucher-generator.js esté cargado.');
+                }
+                
+                // Reserva con id para que el voucher lo muestre
+                const reservaConId = { ..._reservaActual, id: reservaId };
+                await window.generarVoucherPDF(reservaConId, _perfilOperador || {});
+                
+            } catch (err) {
+                console.error('Error descargando voucher:', err);
+                alert('No pudimos generar tu voucher. Por favor intentá de nuevo.');
+            } finally {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = textoOriginal;
+                }
+            }
+        }
+        
+        // Exponer al global para el onclick
+        window.descargarVoucher = descargarVoucher;
+    </script>
+    
+    <!-- Sprint 28: cargar el módulo voucher-generator (debe estar al final
+         para que las funciones globales funcionen correctamente) -->
+    <script src="voucher-generator.js"></script>
+</body>
+</html>

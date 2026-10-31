@@ -442,6 +442,7 @@ export async function onRequestPost({ request, env, waitUntil }) {
   const conversacion = [...mensajes];
   let texto = '';
   let respaldo = '';
+  let ultimo = '';   // texto de la última vuelta (la respuesta final)
 
   const aviso = avisoFauna(mensajes);
   for (let vuelta = 0; vuelta < MAX_VUELTAS; vuelta++) {
@@ -473,7 +474,7 @@ export async function onRequestPost({ request, env, waitUntil }) {
     const textoVuelta = bloques.filter((b) => b.type === 'text').map((b) => b.text).join('\n').trim();
     // Se juntan los textos de todas las vueltas, sin las frases de relleno ("dejame buscar…")
     const util = sinRelleno(textoVuelta);
-    if (util) texto = texto ? `${texto}\n\n${util}` : util;
+    if (util) { texto = texto ? `${texto}\n\n${util}` : util; ultimo = util; }
     else if (textoVuelta) respaldo = textoVuelta;
     const usos = bloques.filter((b) => b.type === 'tool_use');
     if (resp.stop_reason !== 'tool_use' || !usos.length) break;
@@ -487,7 +488,10 @@ export async function onRequestPost({ request, env, waitUntil }) {
     conversacion.push({ role: 'user', content: resultados });
   }
 
-  const respuesta = texto || respaldo || (idioma === 'pt' ? 'Me conta um pouco mais da sua viagem?' : idioma === 'es' ? '¿Me contás un poco más de tu viaje?' : 'Could you tell me a bit more about your trip?');
+  // Si la última vuelta trae una respuesta completa, va sola (sin el borrador de antes de buscar);
+  // si es solo un cierre corto, se suma a lo anterior.
+  const final = ultimo && ultimo.split(/\s+/).length >= 35 ? ultimo : texto;
+  const respuesta = final || respaldo || (idioma === 'pt' ? 'Me conta um pouco mais da sua viagem?' : idioma === 'es' ? '¿Me contás un poco más de tu viaje?' : 'Could you tell me a bit more about your trip?');
   const tarjetas = tarjetasDe(cat, estado.tarjetas, idioma, whatsapp);
 
   // Estadísticas: se guardan después de responder, sin demorar al lector

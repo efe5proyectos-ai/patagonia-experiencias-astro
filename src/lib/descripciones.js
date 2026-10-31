@@ -60,7 +60,8 @@ export function recortar(texto, limite) {
     if (!COLGADO.test(base)) break;
     base = base.replace(COLGADO, '');
   }
-  return base.replace(/[\s,;:.·-]+$/, '') + '…';
+  // Un paréntesis o una comilla de apertura sueltos quedan feos en el snippet.
+  return base.replace(/[\s,;:.·-]+$/, '').replace(/\s*[(\[«“"'—–-]+$/, '').replace(/[\s,;:.·-]+$/, '') + '…';
 }
 
 const sinAcentos = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();

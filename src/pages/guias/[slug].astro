@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { obtenerGuias, obtenerExperiencias } from '../../lib/contenido.js';
 import { experienciasDeGuia } from '../../lib/geo.js';
+import { recortar, textoLimpio } from '../../lib/descripciones.js';
 
 export async function getStaticPaths() {
   const [guias, exps] = await Promise.all([obtenerGuias(), obtenerExperiencias()]);
@@ -19,7 +20,10 @@ let textoPlano = guia.cuerpo.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim(
 const tituloCorto = guia.titulo.split(':')[0].trim();
 if (textoPlano.toLowerCase().startsWith(guia.titulo.toLowerCase())) textoPlano = textoPlano.slice(guia.titulo.length).trim();
 else if (textoPlano.toLowerCase().includes(tituloCorto.toLowerCase().slice(0, 25))) textoPlano = textoPlano.slice(textoPlano.indexOf('¿') > -1 ? textoPlano.indexOf('¿') : 0);
-const descripcion = (guia.bajada || textoPlano).slice(0, 157).trim() + '…';
+// El recorte corta en fin de oracion o de palabra entera: hasta el 31/10/2026
+// las 59 guias publicaban la description cortada en mitad de una palabra
+// ("increibles mirad...", "actividades mas destaca...").
+const descripcion = recortar(textoLimpio(guia.bajada || textoPlano), 157);
 
 const schema = [
   { '@context': 'https://schema.org', '@type': 'Article', headline: guia.titulo, image: guia.imagen,

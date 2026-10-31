@@ -3,6 +3,7 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { obtenerExperienciasPt, urlEs, aReales, waPt, relacionadas } from '../../../lib/traducciones.js';
 import Tarjeta from '../../../components/TarjetaPt.astro';
+import { recortar, textoLimpio } from '../../../lib/descripciones.js';
 
 export async function getStaticPaths() {
   const exps = await obtenerExperienciasPt();
@@ -13,8 +14,10 @@ const { exp, rel } = Astro.props;
 const url = new URL(Astro.url.pathname, Astro.site).href;
 const alternos = { es: urlEs(exp.slugEs), pt: url };
 const limpio = exp.descripcion.replace(/<script[\s\S]*?<\/script>/gi, '');
-const textoPlano = limpio.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
-const descripcion = exp.metaDescricao || textoPlano.slice(0, 152).trim() + '…';
+const textoPlano = textoLimpio(limpio);
+// As 59 fichas traduzidas trazem `metaDescricao` escrita a mão. O recorte é só
+// a rede de segurança de uma ficha nova: corta em fim de frase ou de palavra.
+const descripcion = exp.metaDescricao || recortar(textoPlano, 155);
 const etiquetaDuracion = { par_horas: 'Algumas horas', medio_dia: 'Meio dia', dia_completo: 'Dia inteiro' }[exp.duracion] || exp.duracion;
 const fmt = (n) => Number(n).toLocaleString('pt-BR');
 const reales = aReales(exp.precio);

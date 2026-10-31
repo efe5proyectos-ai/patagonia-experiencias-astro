@@ -2,7 +2,8 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { obtenerExperiencias, obtenerGuias } from '../../lib/contenido.js';
 import { traduccionDe, urlPt, relacionadas } from '../../lib/traducciones.js';
-import { guiasDeExperiencia, tituloParaBuscadores } from '../../lib/geo.js';
+import { guiasDeExperiencia, tituloParaBuscadores, localidadDe } from '../../lib/geo.js';
+import { descripcionParaBuscadores, textoLimpio } from '../../lib/descripciones.js';
 
 export async function getStaticPaths() {
   const [exps, guias] = await Promise.all([obtenerExperiencias(), obtenerGuias()]);
@@ -16,8 +17,8 @@ const { exp, rel, guias } = Astro.props;
 const url = new URL(Astro.url.pathname, Astro.site).href;
 const pt = traduccionDe(exp.slug);
 const alternos = pt?.slugPt ? { es: url, pt: urlPt(pt.slugPt) } : null;
-const textoPlano = exp.descripcion.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
-const descripcion = textoPlano.slice(0, 157).trim() + '…';
+const textoPlano = textoLimpio(exp.descripcion);
+const descripcion = descripcionParaBuscadores(exp, localidadDe(exp.destino)?.nombre || null);
 const etiquetaDuracion = { par_horas: 'Un par de horas', medio_dia: 'Medio día', dia_completo: 'Día completo' }[exp.duracion] || exp.duracion;
 
 const schema = [

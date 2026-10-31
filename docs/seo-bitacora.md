@@ -119,16 +119,14 @@ Reglas de la bitácora:
 2. **Slugs duplicados entre prestadores.** Dos agencias que venden el mismo tour
    comparten la misma URL, así que cuál precio se muestra es indeterminado y
    Google ve contenido que cambia solo. Hay que darles URL propia o consolidar.
-3. **Meta descripciones autogeneradas.** Medido el 28/10 sobre las 239 URLs del
-   sitemap: ninguna ficha se queda sin description, pero todas salen de
-   `textoPlano.slice(0, 157)` en `src/pages/experiencias/[slug].astro` (línea 16)
-   y en su gemela de `/pt-br/`. Por eso los 7 grupos de tours repetidos tienen
-   description idéntica. Títulos: ya no hay ninguno
-   duplicado, ni en español ni en portugués (el único par en portugués se
-   arregló el 30/10, ver "Hecho"). Cambiar el recorte por una description armada con
-   destino + duración + categoría + texto mejora las que hoy son únicas, pero
-   **no arregla los grupos repetidos**: ahí los campos también coinciden. Primero
-   la decisión de catálogo, después el recorte.
+3. **Las 7 fichas repetidas del catálogo siguen compitiendo entre ellas.**
+   Resuelto el síntoma visible (31/10: cada ficha tiene su propia meta
+   description escrita a mano, cero duplicadas), pero el cuerpo de la página
+   sigue siendo idéntico en los 7 grupos y Google juzga el duplicado por el
+   contenido, no por la description. **Esto no se arregla desde el código:**
+   la decisión de catálogo está en "Para Marcelo" con los slugs grupo por
+   grupo. Mientras siga abierta, cada grupo le resta posiciones al otro.
+
 4. **Contenido pt-BR traducido a máquina.** Google Brasil premia el texto que
    suena nativo. Revisar las fichas con más impresiones y reescribirlas.
 5. **Guías sin oferta propia que enlazar.** Resuelto el enlazado automático
@@ -172,7 +170,55 @@ Reglas de la bitácora:
    de Marcelo: está anotada arriba. Mientras tanto el script sigue avisando a
    Yandex, que funciona (29/10: aceptó las 241 URLs).
 
+10. **Seis guías con la description corta.** El recorte nuevo cierra en fin de
+    oración, y en 6 de las 60 guías la primera oración del cuerpo es muy corta
+    y la segunda no entra en los 157 caracteres: quedan entre 81 y 109. No es
+    un error (una oración entera lee mejor que un corte ragged), pero esas 6
+    desaprovechan medio snippet. El arreglo es cargarles una `bajada` propia
+    en el admin, o escribirles la description a mano como se hizo con las
+    fichas. Es carga de datos.
+11. **Fichas nuevas sin description escrita.** `src/data/meta-es.json` cubre
+    las 93 fichas que hay hoy. Una ficha que el admin publique mañana cae al
+    respaldo automático de `src/lib/descripciones.js`, que es limpio pero
+    genérico. **Cada corrida tiene que cruzar el sitemap contra las claves de
+    ese archivo** y escribir las que falten: es el trabajo de mantenimiento
+    más barato y de mayor retorno que queda.
+
 ## Hecho
+
+- **31/10/2026** — Meta descriptions escritas a mano en las 93 fichas en
+  español. Hasta hoy salían todas de `textoPlano.slice(0, 157)`, un recorte
+  ciego del cuerpo que carga el prestador. Lo que se publicaba en Google:
+  listas de inventario ("BICICLETA DE MOUNTAIN BIKE 1 de rodado 20 con cambios
+  3 de rodado 26 con 27 velocidades…"), entidades HTML sin decodificar
+  ("Tabla de esquí&nbsp; Bastones" — el admin guarda `&amp;nbsp;`, doble
+  codificado), cortes en mitad de una palabra en el 100% de los casos, y los
+  7 grupos de fichas que comparten texto publicando la **misma** description:
+  17 fichas con snippet clonado. Ahora `src/data/meta-es.json` tiene las 93,
+  una por slug, escritas desde el contenido real de cada ficha: 124–150
+  caracteres, **cero duplicadas**. Es el espejo en español de `metaDescricao`
+  de `traducciones-pt.json`. Verificado en producción: 93 de 93 sirven la
+  description escrita, cero duplicadas, cero cortes.
+- **31/10/2026** — Respaldo automático limpio para las fichas que todavía no
+  tengan description escrita (`src/lib/descripciones.js`): decodifica
+  entidades en dos pasadas, corta en fin de oración o de palabra entera, no
+  deja preposiciones, números ni paréntesis colgados, y agrega la localidad al
+  final si el texto no la nombra. Hoy no aplica a ninguna ficha: es la red
+  para las que cargue el admin mañana.
+- **31/10/2026** — Las 60 guías de viaje dejaron de cortar la description en
+  mitad de una palabra. Las 59 del sitemap publicaban todas 157 caracteres
+  cortados en seco: "increíbles mirad…", "actividades más destaca…",
+  "paisaje impon…", "la cultura fuegu…". Ahora usan el mismo recorte limpio:
+  **56 de 59 cambiaron**, 26 cierran en una oración completa, las 33 que
+  siguen con puntos suspensivos cortan en palabra entera, y el largo medio
+  pasó de 158 a 141 caracteres.
+- **31/10/2026** — Corrección de la bitácora: era **falso** que las fichas en
+  portugués usaran el mismo recorte ciego. Las 59 traducidas traen
+  `metaDescricao` escrita a mano en `traducciones-pt.json` (60 de 60 entradas),
+  con CTA y sin una sola repetida; el `slice` de `/pt-br/` es sólo el respaldo
+  y hoy no se usa en ninguna página. El problema era únicamente del español.
+  Las descriptions en portugués **no se tocaron**: se verificó que las 59
+  siguen idénticas después del deploy.
 
 - **30/10/2026** — Títulos que repetían el lugar. El template de la ficha pegaba
   siempre ` en {destino}` atrás del título, así que las fichas cuyo título ya
@@ -383,3 +429,60 @@ para Marcelo la oportunidad más grande que encontré y **no** toqué: declarar
 cargado en las fichas, pero Google exige reseñas reales de clientes y la pena
 por inventarlas es un castigo manual; el camino correcto es pedir la reseña
 después del tour y recién entonces declararla.
+
+### 31/10/2026 — Meta descriptions escritas a mano en las 93 fichas en español
+
+Los dos pendientes de arriba siguen necesitando Search Console o una decisión
+de catálogo, así que arranqué por el 3, las meta descripciones. La corrida del
+30/10 lo había dejado en espera con el argumento de que arreglar el recorte
+"no arregla los grupos repetidos". Es cierto, pero no era razón para no
+mejorar las otras 76: el recorte estaba publicando basura en el 100% de las
+fichas, no sólo en las repetidas.
+
+Antes de tocar nada rastreé las 93 fichas en español, las 59 en portugués y
+las 59 guías de producción (validando el tamaño de cada respuesta). Tres
+hallazgos. Uno: las 93 descriptions en español salían de `slice(0, 157)` y el
+resultado era malo de maneras concretas y medibles — 7 grupos con la misma
+description (17 fichas), entidades `&amp;nbsp;` sin decodificar que en el
+resultado de Google se leen literalmente, y el 100% cortadas en mitad de una
+palabra. Dos: **en portugués esto ya estaba resuelto** y la bitácora lo tenía
+mal anotado; las 60 entradas de `traducciones-pt.json` traen `metaDescricao`
+escrita a mano, sin una sola repetida. Tres: las 59 guías tenían el mismo
+problema de corte en seco.
+
+Así que el trabajo fue hacer en español lo que ya existía en portugués:
+escribir las 93 a mano, desde el contenido real de cada ficha, y guardarlas en
+`src/data/meta-es.json` — dato, no código, así que se corrigen sin tocar el
+template ni volver a compilar la lógica. El respaldo automático quedó en
+`src/lib/descripciones.js` para las fichas futuras, y lo reusan las guías y el
+respaldo del portugués. No se tocó precio, seña, saldo, checkout ni Make: todo
+el cambio vive en el `<head>`. De regalo, el `textoPlano` que alimenta el
+JSON-LD de `Product` ahora está decodificado, así que el `description` de los
+datos estructurados deja de llevar `&nbsp;`.
+
+Compilé, subí, esperé el deploy y volví a rastrear: **93 de 93 fichas sirven
+exactamente la description escrita, cero duplicadas, cero cortes, largo medio
+137 caracteres**; 56 de las 59 guías cambiaron y ya no hay ninguna cortada en
+mitad de palabra; y las 59 descriptions en portugués quedaron idénticas, como
+correspondía. Avisé por IndexNow: Yandex aceptó, Bing sigue en 403 (falta
+reclamar el sitio, es tarea de Marcelo).
+
+**Qué mido como resultado esperado:** suba del porcentaje de clics en las
+fichas, que es lo que mueve una description. Hoy el snippet de media docena de
+fichas era directamente ilegible (listas de rodados de bicicleta, `&nbsp;`
+crudo) y Google, al no poder usar la description, se inventaba el snippet con
+un trozo cualquiera de la página. Ahora cada ficha dice en 140 caracteres qué
+es, dónde queda, cuánto dura y qué incluye. En las 17 fichas que tenían
+snippet clonado, además, el usuario ya puede distinguir una de otra en la
+lista de resultados — eso no arregla el duplicado de contenido, pero sí la
+elección en el resultado de búsqueda.
+
+**Qué quedó pendiente:** el duplicado real del catálogo sigue abierto y es lo
+que más cuesta (pendiente 3 reescrito: es decisión de Marcelo, grupo por
+grupo). Anoté dos pendientes nuevos y chicos: 6 guías quedaron con la
+description corta (81–109 caracteres) porque su primera oración es breve y la
+segunda no entra, y hay que cargarles una `bajada` propia; y **cada corrida
+tiene que cruzar el sitemap contra las claves de `meta-es.json`** y escribir
+la description de las fichas nuevas que haya publicado el admin, porque si no
+caen al respaldo genérico.
+

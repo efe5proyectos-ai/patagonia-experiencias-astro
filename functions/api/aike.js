@@ -442,7 +442,7 @@ export async function onRequestPost({ request, env, waitUntil }) {
   const conversacion = [...mensajes];
   let texto = '';
   let respaldo = '';
-  let ultimo = '';   // texto de la última vuelta (la respuesta final)
+  const rondas = [];  // texto útil de cada vuelta
 
   const aviso = avisoFauna(mensajes);
   for (let vuelta = 0; vuelta < MAX_VUELTAS; vuelta++) {
@@ -476,7 +476,7 @@ export async function onRequestPost({ request, env, waitUntil }) {
     // Si llegó al tope de largo, se corta en la última oración completa
     const recortado = resp.stop_reason === 'max_tokens' ? (textoVuelta.match(/^[\s\S]*[.!?)](?=\s|$)/) || [textoVuelta])[0] : textoVuelta;
     const util = sinRelleno(recortado);
-    if (util) { texto = texto ? `${texto}\n\n${util}` : util; ultimo = util; }
+    if (util) { texto = texto ? `${texto}\n\n${util}` : util; rondas.push(util); }
     else if (textoVuelta) respaldo = textoVuelta;
     const usos = bloques.filter((b) => b.type === 'tool_use');
     if (resp.stop_reason !== 'tool_use' || !usos.length) break;
@@ -492,7 +492,15 @@ export async function onRequestPost({ request, env, waitUntil }) {
 
   // Si la última vuelta trae una respuesta completa, va sola (sin el borrador de antes de buscar);
   // si es solo un cierre corto, se suma a lo anterior.
-  const final = ultimo && ultimo.split(/\s+/).length >= 35 ? ultimo : texto;
+  // La respuesta es la vuelta más completa (no se suman borradores); si la última es un
+  // cierre corto distinto ("Acá está la excursión…"), se agrega al final.
+  const palabras = (t) => t.split(/\s+/).length;
+  let final = texto;
+  if (rondas.length > 1) {
+    const principal = rondas.reduce((a, b) => (palabras(b) > palabras(a) ? b : a));
+    const ultima = rondas[rondas.length - 1];
+    final = ultima !== principal && palabras(ultima) <= 60 ? `${principal}\n\n${ultima}` : principal;
+  }
   const respuesta = final || respaldo || (idioma === 'pt' ? 'Me conta um pouco mais da sua viagem?' : idioma === 'es' ? '¿Me contás un poco más de tu viaje?' : 'Could you tell me a bit more about your trip?');
   const tarjetas = tarjetasDe(cat, estado.tarjetas, idioma, whatsapp);
 

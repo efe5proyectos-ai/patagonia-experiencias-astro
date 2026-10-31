@@ -309,7 +309,7 @@ CRECER LA COMUNIDAD (con naturalidad, sin insistir):
 
 CÓMO RESPONDÉS:
 - Directo y con criterio propio: si te preguntan "¿qué me conviene?", elegí y explicá por qué. Usá todo lo que sabés de la Patagonia (destinos, clima, temporadas, distancias aproximadas entre ciudades, platos típicos, lugares imperdibles, cómo armar un itinerario).
-- Largo: MÁXIMO 110 palabras (unas 4 o 5 oraciones), aunque la pregunta sea amplia: elegí lo 2 o 3 mejor y ofrecé seguir. Si piden un itinerario día por día, hasta 170 palabras con un párrafo corto por día. Nada de repetir ni de frases de transición ("acá está la info"). Sin emojis, sin listas con símbolos y sin listas numeradas: escribí en párrafos cortos, porque tus respuestas también se escuchan en voz alta.
+- Largo: MÁXIMO 110 palabras: dos o tres párrafos cortos de una o dos oraciones cada uno, aunque la pregunta sea amplia. Elegí lo 2 o 3 mejor, no todo, y ofrecé seguir. Una respuesta larga se corta y el lector la pierde. Si piden un itinerario día por día, hasta 170 palabras con un párrafo corto por día. Nada de repetir ni de frases de transición ("acá está la info"). Sin emojis, sin listas con símbolos y sin listas numeradas: escribí en párrafos cortos, porque tus respuestas también se escuchan en voz alta.
 - No anuncies lo que vas a hacer ("voy a buscar…"): usá las herramientas y respondé directo.
 - Terminá con una pregunta que ayude a avanzar (fechas, con quién viaja, qué le gusta), salvo que la respuesta esté completa.
 - Podés usar **negrita** y links en formato [texto](url).
@@ -455,7 +455,7 @@ export async function onRequestPost({ request, env, waitUntil }) {
       },
       body: JSON.stringify({
         model: env.AIKE_MODELO || MODELO_DEFAULT,
-        max_tokens: 550,
+        max_tokens: 420,
         system: [{ type: 'text', text: sistema(idioma, whatsapp, env.CONSULTOR_NOMBRE || 'Quimey'), cache_control: { type: 'ephemeral' } },
           ...(aviso ? [{ type: 'text', text: aviso }] : [])],
         tools: HERRAMIENTAS.map((t, i) => (i === HERRAMIENTAS.length - 1 ? { ...t, cache_control: { type: 'ephemeral' } } : t)),
@@ -473,7 +473,9 @@ export async function onRequestPost({ request, env, waitUntil }) {
     const bloques = resp.content || [];
     const textoVuelta = bloques.filter((b) => b.type === 'text').map((b) => b.text).join('\n').trim();
     // Se juntan los textos de todas las vueltas, sin las frases de relleno ("dejame buscar…")
-    const util = sinRelleno(textoVuelta);
+    // Si llegó al tope de largo, se corta en la última oración completa
+    const recortado = resp.stop_reason === 'max_tokens' ? (textoVuelta.match(/^[\s\S]*[.!?)](?=\s|$)/) || [textoVuelta])[0] : textoVuelta;
+    const util = sinRelleno(recortado);
     if (util) { texto = texto ? `${texto}\n\n${util}` : util; ultimo = util; }
     else if (textoVuelta) respaldo = textoVuelta;
     const usos = bloques.filter((b) => b.type === 'tool_use');

@@ -40,6 +40,10 @@ Reglas de la bitácora:
   páginas (en las de Astro desde el 28/10/2026).
 - WhatsApp: español `5492804687904`; portugués en la variable `WHATSAPP_PT` de
   Cloudflare Pages. Los mensajes llevan una línea `Ref: PE-ES-…` / `PE-PT-…`.
+- El repo **no ignora `node_modules/`**: está versionado entero. Compilar en
+  local modifica `node_modules/.vite/deps/_metadata.json` (cache de Vite): hay
+  que dejarlo como estaba (`git checkout -- node_modules/.vite`) antes de
+  cerrar la corrida, no commitearlo. `dist/` sí está ignorado desde el 1/11.
 - IndexNow: clave `a4f06ee8d893fb82ce246ac52e04022a`, publicada en la raíz.
   Se avisa con `node scripts/indexnow.mjs [filtro]`.
 

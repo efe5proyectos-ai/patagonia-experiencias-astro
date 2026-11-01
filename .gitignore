@@ -1,0 +1,2 @@
+# Salida del build: la genera Cloudflare Pages en cada deploy.
+dist/

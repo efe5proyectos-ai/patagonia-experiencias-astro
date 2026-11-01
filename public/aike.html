@@ -44,7 +44,21 @@
   </style>
 </head>
 <body>
-  <div id="root"></div>
+  <div id="root">
+    <!-- Contenido inicial del HTML: lo ve el visitante mientras carga la app y lo leen
+         los rastreadores que no ejecutan JavaScript. React lo reemplaza al montar. -->
+    <div style="max-width:40rem;margin:0 auto;padding:2.5rem 1.25rem;color:#fff;font-family:'Montserrat',sans-serif">
+      <h1 style="font-size:2rem;font-weight:900;letter-spacing:-.02em;line-height:1;margin:0">AIKE</h1>
+      <p style="color:#E91E63;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin:.6rem 0 1.6rem">Tu consultor de viajes</p>
+      <p style="color:rgba(255,255,255,.78);line-height:1.65;margin:0 0 1.4rem">AIKE es el asistente de viajes de <strong style="color:#fff">Patagonia Experiencias</strong>. Te hace tres preguntas &mdash; qu&eacute; tipo de experiencia busc&aacute;s, a qu&eacute; zona de la Patagonia quer&eacute;s ir y en qu&eacute; &eacute;poca del a&ntilde;o &mdash; y con eso te arma una escapada a medida con excursiones de prestadores locales verificados, en menos de un minuto.</p>
+      <h2 style="color:#fff;font-size:1rem;font-weight:800;margin:1.8rem 0 .6rem">Qu&eacute; tipo de escapada pod&eacute;s armar</h2>
+      <p style="color:rgba(255,255,255,.7);line-height:1.65;margin:0">Monta&ntilde;a y bosques (cerros, lagos y senderos), mar y fauna (ballenas, ping&uuml;inos y playas), aventura y meseta (estepa y bosques petrificados), pueblos y cultura (historia galesa y tradiciones) y glaciares.</p>
+      <h2 style="color:#fff;font-size:1rem;font-weight:800;margin:1.8rem 0 .6rem">Zonas de la Patagonia que cubre</h2>
+      <p style="color:rgba(255,255,255,.7);line-height:1.65;margin:0">Esquel y Trevelin, Comarca Andina (El Hoyo, Lago Puelo y El Bols&oacute;n), Puerto Madryn y Pen&iacute;nsula Vald&eacute;s, Valle del Chubut (Trelew, Rawson, Playa Uni&oacute;n, Gaiman y Dolavon), Comodoro Rivadavia y Sarmiento, Camarones, Bariloche, y El Calafate y El Chalt&eacute;n.</p>
+      <h2 style="color:#fff;font-size:1rem;font-weight:800;margin:1.8rem 0 .6rem">Mientras AIKE despierta</h2>
+      <p style="color:rgba(255,255,255,.7);line-height:1.65;margin:0 0 2rem">Pod&eacute;s ver <a href="/experiencias/" style="color:#E91E63;font-weight:700">todas las experiencias publicadas</a>, leer las <a href="/guias/" style="color:#E91E63;font-weight:700">gu&iacute;as de viaje por destino</a> o <a href="/cuotas" style="color:#E91E63;font-weight:700">armar tu viaje en cuotas</a>.</p>
+    </div>
+  </div>
 
   <script>
     /* FIREBASE — config real */

@@ -148,36 +148,33 @@ Reglas de la bitácora:
    campo tiene que salir de una fecha de vigencia del precio, y el precio es
    zona prohibida: hay que definir de dónde sale esa fecha antes de tocarlo.
 7. **Core Web Vitals.** Las páginas de `public/` cargan Tailwind por CDN y
-   compilan en el navegador; las guías tienen imágenes pesadas.
+   compilan en el navegador; las guías tienen imágenes pesadas. Eso sigue
+   abierto y es lo que queda de este pendiente.
 
-   Medido el 28/10: `/aike` (77 KB) y `/prestadores` (74 KB) **no traen ni un
-   encabezado en el HTML**: todo el contenido lo arma JavaScript (282 y 301
-   llamadas a `createElement`/`innerHTML`). Google renderiza JS, pero llega
-   tarde y pierde señales. `/calendario-fauna/` sí trae el `<h1>` pero **vacío**,
-   lo rellena el script. Las tres están en el sitemap. Lo barato y seguro es
-   dejar el título y el primer párrafo escritos en el HTML y que el script sólo
-   los reemplace si hace falta; no es cambio de diseño, pero hay que leer bien
-   cada render antes de tocar.
-8. **Páginas huérfanas que sí valen.** `/cuotas` quedó indexable el 28/10 pero
-   sigue sin recibir un solo enlace interno: Google la ve sólo por el sitemap.
-   Lo mismo `/aike`, `/ecosistema` y `/alianzas`. Falta un enlace desde el footer
-   compartido (`public/footer.js`) o desde la home. Es cambio de navegación:
-   chico, pero toca todas las páginas, así que va en una corrida propia.
-9. **Bing rechaza IndexNow.** Yandex acepta las 240 URLs (200 OK); Bing y el
+   La mitad grave ya está resuelta (1/11): `/aike`, `/prestadores` y
+   `/calendario-fauna/` servían su contenido sólo por JavaScript y ahora traen
+   el H1, la bajada y los H2 escritos en el HTML (ver "Hecho"). Lo que falta es
+   rendimiento puro: reemplazar el CDN de Tailwind por una hoja compilada en
+   las páginas de `public/` y comprimir las imágenes de las guías. **Ojo:** el
+   CDN de Tailwind está en `public/patagonia-experiencias.html`, que es zona
+   prohibida; en las demás páginas se puede cambiar, pero conviene una página
+   por corrida y verificando que no se rompa ningún estilo.
+
+8. **Bing rechaza IndexNow.** Yandex acepta las 241 URLs (200 OK); Bing y el
    endpoint compartido devuelven 403 `UserForbiddedToAccessSite` aunque la
    clave esté bien publicada y accesible. Falta reclamar el sitio en Bing
    Webmaster Tools (se importa desde Search Console en dos minutos). Es tarea
    de Marcelo: está anotada arriba. Mientras tanto el script sigue avisando a
    Yandex, que funciona (29/10: aceptó las 241 URLs).
 
-10. **Seis guías con la description corta.** El recorte nuevo cierra en fin de
-    oración, y en 6 de las 60 guías la primera oración del cuerpo es muy corta
-    y la segunda no entra en los 157 caracteres: quedan entre 81 y 109. No es
-    un error (una oración entera lee mejor que un corte ragged), pero esas 6
-    desaprovechan medio snippet. El arreglo es cargarles una `bajada` propia
-    en el admin, o escribirles la description a mano como se hizo con las
-    fichas. Es carga de datos.
-11. **Fichas nuevas sin description escrita.** `src/data/meta-es.json` cubre
+9. **Seis guías con la description corta.** El recorte nuevo cierra en fin de
+   oración, y en 6 de las 60 guías la primera oración del cuerpo es muy corta
+   y la segunda no entra en los 157 caracteres: quedan entre 81 y 109. No es
+   un error (una oración entera lee mejor que un corte ragged), pero esas 6
+   desaprovechan medio snippet. El arreglo es cargarles una `bajada` propia
+   en el admin, o escribirles la description a mano como se hizo con las
+   fichas. Es carga de datos.
+10. **Fichas nuevas sin description escrita.** `src/data/meta-es.json` cubre
     las 93 fichas que hay hoy. Una ficha que el admin publique mañana cae al
     respaldo automático de `src/lib/descripciones.js`, que es limpio pero
     genérico. **Cada corrida tiene que cruzar el sitemap contra las claves de
@@ -185,6 +182,32 @@ Reglas de la bitácora:
     más barato y de mayor retorno que queda.
 
 ## Hecho
+
+- **01/11/2026** — Encabezados y texto en el HTML de las tres páginas que
+  servían todo por JavaScript. `/aike` (77 KB) y `/prestadores` (74 KB) eran
+  aplicaciones React montadas sobre un `<div id="root">` **vacío**: el HTML
+  servido no traía un solo `<h1>` ni `<h2>`, y `/calendario-fauna/` traía el
+  `<h1>` y la bajada vacíos, rellenados por script. Las tres están en el
+  sitemap. Ahora las tres traen el contenido escrito en el HTML, con el mismo
+  patrón que ya usaba la home: el bloque vive dentro de `#root` y React lo
+  reemplaza al montar (`createRoot` limpia el contenedor). En `/aike`: H1
+  "AIKE", la bajada, y tres H2 con los tipos de escapada, las 8 zonas que
+  cubre y enlaces a `/experiencias/`, `/guias/` y `/cuotas`. En `/prestadores`:
+  el H1 real, la bajada y los H2 de las secciones de la página. En
+  `/calendario-fauna/`: el título y la bajada escritos con **el mismo texto**
+  que el script ya ponía (`CONFIG.titulo` / `CONFIG.bajada`), así que no hay
+  ningún cambio visual. Verificado en producción con navegador real: React
+  monta en las dos, reemplaza el bloque, cero errores de JavaScript, y el
+  contenido rendereado es el de siempre.
+- **01/11/2026** — Enlaces internos a `/cuotas` y `/ecosistema`, que estaban en
+  el sitemap sin recibir ni un enlace. Entraron a la columna "Ecosistema" del
+  footer de `BaseLayout.astro` (todas las páginas de Astro: fichas, guías y
+  listados) y al bloque de enlaces del HTML de la home, junto con `/aike`. Los
+  tres van sólo en español (`idioma !== 'pt'`): no tienen versión en portugués.
+  Verificado en producción: aparecen en `/experiencias/` y en la home, y en
+  ninguna página de `/pt-br/`. `/alianzas`, que figuraba como huérfana, está en
+  `noindex, nofollow` **a propósito** (alta por convenio): no corresponde
+  enlazarla. `/aike` ya recibía enlaces de varias guías de viaje.
 
 - **31/10/2026** — Meta descriptions escritas a mano en las 93 fichas en
   español. Hasta hoy salían todas de `textoPlano.slice(0, 157)`, un recorte
@@ -485,4 +508,70 @@ segunda no entra, y hay que cargarles una `bajada` propia; y **cada corrida
 tiene que cruzar el sitemap contra las claves de `meta-es.json`** y escribir
 la description de las fichas nuevas que haya publicado el admin, porque si no
 caen al respaldo genérico.
+
+### 01/11/2026 — Encabezados en el HTML de /aike, /prestadores y /calendario-fauna + enlaces a las huérfanas
+
+Arranqué por el mantenimiento obligatorio: crucé las 93 fichas del sitemap
+contra las claves de `src/data/meta-es.json` y están las 93, ninguna de menos
+y ninguna de más, así que el admin no publicó fichas nuevas desde el 31/10 y
+no hubo descriptions que escribir. El sitemap sigue en 241 URLs (93 fichas en
+español, 59 en portugués, 60 guías y el resto de `public/`).
+
+De los pendientes, los seis primeros siguen trabados por lo mismo de siempre:
+Search Console sin conectar, la decisión de catálogo sobre los 7 grupos
+repetidos, y `priceValidUntil`, que toca la vigencia del precio. Así que el
+trabajo de la corrida fue el 7 y el 8, que sí eran accionables.
+
+El 7 era el más grave de los dos. `/aike` y `/prestadores` son aplicaciones
+React que se montan sobre un `<div id="root">` vacío: el HTML que sirve
+Cloudflare no traía **ningún** encabezado ni una línea de texto, y
+`/calendario-fauna/` traía el `<h1>` vacío. Google renderiza JavaScript, pero
+llega tarde y pondera peor; Bing, DuckDuckGo, Yandex y los rastreadores de los
+modelos de IA no renderizan nada y hoy veían tres páginas en blanco que están
+en el sitemap. Usé el mismo patrón que la home ya tenía escrito desde antes
+(bloque real dentro de `#root`, React lo reemplaza al montar), que además
+mejora lo que ve el visitante: antes era una pantalla negra hasta que bajaban
+Tailwind, React y Firebase desde tres CDNs distintos; ahora lee el título y el
+primer párrafo. En `/calendario-fauna/` escribí exactamente el texto que el
+script ya ponía, así que ahí no cambia ni un píxel.
+
+El 8 era chico: `/cuotas` y `/ecosistema` estaban en el sitemap sin un solo
+enlace interno. Sumé los dos (más `/aike`) a la columna "Ecosistema" del
+footer de `BaseLayout.astro`, que sale en las ~215 páginas de Astro, y al
+bloque de enlaces del HTML de la home. Sólo en español: ninguna de las tres
+tiene versión en portugués, así que `/pt-br/` quedó igual. Corregí también el
+pendiente: `/alianzas` no es una huérfana para arreglar, está en `noindex` a
+propósito porque es el alta por convenio.
+
+De paso barrí las 50 páginas HTML de `public/` buscando más casos de H1
+faltante o vacío y más fugas de indexabilidad: no quedó ninguna. Las únicas
+sin H1 son `billetera-turista` (ya en `noindex`) y una plantilla de email, y
+`guias.html` y `patagonia-experiencias_v11` responden 301. El trabajo del
+28/10 cerró bien ese frente.
+
+Compilé con `DATOS_LOCALES=1 npx astro build` antes de cada push, subí los dos
+commits, esperé el deploy y verifiqué en producción: las tres páginas sirven
+H1 y H2 en el HTML, los enlaces nuevos están en `/experiencias/` y en la home
+y no están en `/pt-br/`, y con un navegador real (Playwright) confirmé que
+React sigue montando en `/aike` y `/prestadores`, reemplaza el bloque y no
+tira ningún error. Avisé por IndexNow: Yandex aceptó las 241 URLs, Bing sigue
+en 403 por el sitio sin reclamar.
+
+**Qué mido como resultado esperado:** que `/aike`, `/prestadores` y
+`/calendario-fauna/` empiecen a aparecer en Bing y DuckDuckGo, donde hoy no
+pueden posicionar porque esos buscadores no ejecutan JavaScript — y en Google,
+que `/prestadores` gane posiciones para "sumar mi agencia de turismo" y
+parecidas, que es la búsqueda que capta prestadores nuevos. De los enlaces
+internos, que `/cuotas` y `/ecosistema` pasen de "descubierta por el sitemap"
+a indexadas: ahora tienen ~215 enlaces internos cada una en vez de cero.
+
+**Qué quedó pendiente:** del 7 queda la parte de rendimiento puro (Tailwind
+por CDN compilando en el navegador en las páginas de `public/`, imágenes
+pesadas en las guías), que conviene hacer de a una página por corrida; y hay
+que tener presente que el CDN de Tailwind también está en
+`public/patagonia-experiencias.html`, que es zona prohibida. Los enlaces que
+puse dentro del bloque de `/aike` y `/prestadores` desaparecen del DOM cuando
+React monta, así que valen para el HTML crudo y para los buscadores que no
+renderizan, no como enlazado interno para Google. Y lo de siempre: Bing sigue
+sin reclamar y las 147 no indexadas siguen necesitando Search Console.
 

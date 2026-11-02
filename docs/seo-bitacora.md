@@ -53,10 +53,11 @@ Reglas de la bitácora:
 - 61 URLs en portugués en el sitemap (home, listado y 59 fichas traducidas).
 - hreflang es-AR / pt-BR recíproco y correcto en las fichas.
 
-Tamaño del sitio al 02/11/2026: **251 URLs** en el sitemap — 98 fichas en
+Tamaño del sitio al 02/11/2026: **265 URLs** en el sitemap — 112 fichas en
 español, 64 fichas en portugués, 60 guías de viaje y el resto de `public/`.
-En Firestore hay 113 tours activos: los 15 que faltan son los slugs repetidos
-(ver "Para Marcelo").
+En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
+único que queda afuera es un duplicado de carga del mismo prestador
+(`navegacion-rio-grande-full-day`), que hay que borrar en el admin.
 
 ## Para Marcelo
 
@@ -67,37 +68,21 @@ En Firestore hay 113 tours activos: los 15 que faltan son los slugs repetidos
   de las páginas no indexadas y las búsquedas reales de Argentina y Brasil.
 - Reclamar el sitio en Bing Webmaster Tools (se importa desde Search Console),
   para destrabar IndexNow en Bing.
-- **15 fichas no tienen página en el sitio: dos prestadores cargaron el mismo
-  tour con el mismo título.** Medido el 02/11 contra Firestore: hay 113 tours
-  activos y el sitio publica 98 fichas. La URL se arma desde el título, así que
-  cuando dos tours se llaman igual los dos apuntan a la misma dirección y **el
-  segundo simplemente no existe para nadie**: no está en el sitemap, no se
-  puede buscar en Google y no se puede reservar desde el sitio. Hoy gana el
-  tour cuyo ID de Firestore es más alto, que es estable mientras no se borre ni
-  se vuelva a crear el documento; si se da de baja el que gana, la página
-  cambia sola de prestador y de precio.
-  Los 15 casos: `alquiler-de-bicicletas`, `lago-bagillt`,
-  `navegacion-rio-grande-full-day`, `panoramicas-de-esquel`,
-  `parque-nacional-los-alerces-full-day`, `parque-nacional-los-alerces-half-day`,
-  `parque-nacional-los-alerces-portada-centro-y-complejo-hidroelectrico-futaleufu`,
-  `peninsula-valdes`, `piedra-parada`, `rafting-en-corcovado`,
-  `ruta-galesa-con-complejo-hidroelectrico-futaleufu`,
-  `ruta-galesa-con-complejo-hidroelectrico-futaleufu-con-visita-al-campo-de-peonias`,
-  `trevelin-full-day`, `trevelin-full-day-con-visita-al-campo-de-peonias`,
-  `valle-de-cholila`.
-  Tres cosas que necesitan tu decisión, no código:
-  1. **`navegacion-rio-grande-full-day` está cargado dos veces por el mismo
-     prestador**, con el mismo texto y el mismo precio (ids `fZ0VBHDYqMvwDDBeDUuI`
-     y `tgm3Dss1qfqQdiiyQ4hc`). Es un duplicado para borrar en el admin.
-  2. **Dos casos publican precios distintos** según cuál gane: `piedra-parada`
-     ($250.000 contra $210.000) y `peninsula-valdes` ($150.000 contra $160.000,
-     y además uno dice Puerto Pirámides y el otro Puerto Madryn). Hoy se publica
-     el más barato de Piedra Parada y el más caro de Península Valdés.
-  3. En los otros 12 el precio es idéntico y lo que cambia es el texto y el
-     prestador. Decidí si cada par se consolida en una ficha (y qué prestador
-     recibe la reserva) o si cada prestador tiene su propia URL. Si querés URL
-     propia, el arreglo es en `src/lib/contenido.js`, que es zona prohibida: lo
-     hago sólo con tu OK.
+- **Borrar en el admin el tour cargado dos veces.** `NAVEGACION RIO GRANDE |
+  FULL-DAY` de MerakiSur está cargado dos veces, idéntico y con precio 0: ids
+  `fZ0VBHDYqMvwDDBeDUuI` y `tgm3Dss1qfqQdiiyQ4hc`. El sitio publica uno solo
+  (el build avisa en el log), así que no molesta para el SEO, pero conviene
+  borrar el sobrante en el admin para que no reaparezca. De paso: el precio 0
+  hace que la ficha se publique sin precio.
+- **Dos fichas hermanas publican precios distintos.** Desde el 02/11 cada
+  prestador tiene su propia URL, así que ahora se ven las dos en Google y la
+  diferencia queda a la vista: `piedra-parada` de LIMITS ADVENTURE ($210.000)
+  contra `piedra-parada-merakisur` ($250.000, y la de MerakiSur dice "día
+  completo" contra las "10 horas" de la otra); y `peninsula-valdes` de
+  Forastero tour ($160.000) contra `peninsula-valdes-sussanich-turismo`
+  ($150.000, que sale de Puerto Pirámides en vez de Puerto Madryn y dura 11
+  horas). No hay nada roto —son dos productos de dos agencias— pero si querés
+  que no compitan por precio, eso se arregla en el admin, no en el código.
 - **Tours repetidos en el catálogo.** Hay 7 grupos de fichas distintas que
   publican exactamente el mismo texto, así que para Google son la misma página
   y compiten entre ellas. Hay que decidir, grupo por grupo, si se consolidan en
@@ -156,23 +141,18 @@ En Firestore hay 113 tours activos: los 15 que faltan son los slugs repetidos
    están resueltas (ver "Hecho"). **Lo que queda del 147 es casi seguro el
    contenido duplicado del catálogo**: ver los 7 grupos anotados en
    "Para Marcelo". Hasta tener Search Console, ése es el camino.
-2. **15 fichas sin página por slug repetido.** Medido el 02/11: 113 tours
-   activos en Firestore, 98 fichas publicadas. Dos prestadores cargaron el
-   mismo tour con el mismo título y la URL se arma desde el título, así que uno
-   de los dos no existe en el sitio. Es lo que más ventas cuesta de todo lo que
-   queda, pero el arreglo toca `src/lib/contenido.js` (zona prohibida) y hace
-   falta decidir prestador por prestador: quedó en "Para Marcelo" con los 15
-   casos, los dos que publican precios distintos y el duplicado exacto que
-   conviene borrar en el admin.
-3. **Las 7 fichas repetidas del catálogo siguen compitiendo entre ellas.**
+2. **Las 7 fichas repetidas del catálogo siguen compitiendo entre ellas.**
    Resuelto el síntoma visible (31/10: cada ficha tiene su propia meta
    description escrita a mano, cero duplicadas), pero el cuerpo de la página
    sigue siendo idéntico en los 7 grupos y Google juzga el duplicado por el
    contenido, no por la description. **Esto no se arregla desde el código:**
    la decisión de catálogo está en "Para Marcelo" con los slugs grupo por
    grupo. Mientras siga abierta, cada grupo le resta posiciones al otro.
-4. **34 fichas no tienen versión en portugués.** Al 02/11 hay 98 fichas en
-   español y 64 en portugués. Una ficha sin traducir **no puede posicionar en
+3. **48 fichas no tienen versión en portugués.** Al 02/11 hay 112 fichas en
+   español y 64 en portugués (las 14 que se publicaron hoy, una por prestador,
+   tampoco tienen traducción: las traducciones están indexadas por el slug
+   compartido, así que hay que escribirles una entrada propia con su slug
+   nuevo). Una ficha sin traducir **no puede posicionar en
    Brasil**: no existe en `/pt-br/` y no recibe hreflang. Las que más duelen,
    por lo que busca un brasileño, son las de fauna y las de Ushuaia:
    `pinguinera-punta-tombo` y `punta-tombo` ("pinguins Punta Tombo" es una de
@@ -186,10 +166,10 @@ En Firestore hay 113 tours activos: los 15 que faltan son los slugs repetidos
    destino, categoría, duración, alt y 2–3 FAQ. El script
    `scripts/traducir-pt.mjs` hace lo mismo con la API de Anthropic, pero pide
    `ANTHROPIC_API_KEY`, que la corrida de la madrugada no tiene.
-5. **Contenido pt-BR traducido a máquina.** Google Brasil premia el texto que
+4. **Contenido pt-BR traducido a máquina.** Google Brasil premia el texto que
    suena nativo. Revisar las fichas con más impresiones y reescribirlas. Las 5
    del 02/11 ya están escritas a mano; las 59 anteriores salieron del script.
-6. **Guías sin oferta propia que enlazar.** Resuelto el enlazado automático
+5. **Guías sin oferta propia que enlazar.** Resuelto el enlazado automático
    (ver "Hecho" del 29/10), quedan **26 de las 60 guías sin ningún enlace a
    ficha** porque no hay nada publicado en ese lugar: 5 de Bariloche, 4 de El
    Calafate / El Chaltén, 4 de Santa Cruz (Cueva de las Manos, Lago Posadas,
@@ -200,7 +180,7 @@ En Firestore hay 113 tours activos: los 15 que faltan son los slugs repetidos
    de código. **Novedad del 02/11:** El Calafate ya tiene una ficha publicada
    (`tour-alternativo-al-glaciar-moreno`) y las guías de El Calafate ya la
    enlazan solas; quedan 25.
-7. **Datos estructurados.** Validar Product/Offer, FAQPage y BreadcrumbList con
+6. **Datos estructurados.** Validar Product/Offer, FAQPage y BreadcrumbList con
    la herramienta de resultados enriquecidos; corregir lo que tire error.
    Revisado el 30/10 en fichas de las dos lenguas: el JSON-LD parsea bien y los
    tipos salen completos (Organization, Product con `offers`, BreadcrumbList y,
@@ -209,13 +189,13 @@ En Firestore hay 113 tours activos: los 15 que faltan son los slugs repetidos
    resultados con precio se muestran igual, pero la validación tira aviso. El
    campo tiene que salir de una fecha de vigencia del precio, y el precio es
    zona prohibida: hay que definir de dónde sale esa fecha antes de tocarlo.
-8. **Las fichas en español no tienen FAQPage.** Las 64 en portugués traen
+7. **Las fichas en español no tienen FAQPage.** Las 64 en portugués traen
    `faq` en `traducciones-pt.json` y publican FAQPage; las 98 en español no
    tienen de dónde sacarlo, así que pierden el bloque de preguntas en el
    resultado de Google. Es carga de datos: un `faq-es.json` espejo del
    portugués, 2–3 preguntas por ficha, escritas sólo con lo que dice la ficha.
    Se puede hacer de a 10 fichas por corrida.
-9. **Core Web Vitals.** Las páginas de `public/` cargan Tailwind por CDN y
+8. **Core Web Vitals.** Las páginas de `public/` cargan Tailwind por CDN y
    compilan en el navegador; las guías tienen imágenes pesadas. Eso sigue
    abierto y es lo que queda de este pendiente.
 
@@ -228,30 +208,58 @@ En Firestore hay 113 tours activos: los 15 que faltan son los slugs repetidos
    prohibida; en las demás páginas se puede cambiar, pero conviene una página
    por corrida y verificando que no se rompa ningún estilo.
 
-10. **Bing rechaza IndexNow.** Yandex acepta las URLs (200 OK); Bing y el
+9. **Bing rechaza IndexNow.** Yandex acepta las URLs (200 OK); Bing y el
     endpoint compartido devuelven 403 `UserForbiddedToAccessSite` aunque la
     clave esté bien publicada y accesible. Falta reclamar el sitio en Bing
     Webmaster Tools (se importa desde Search Console en dos minutos). Es tarea
     de Marcelo: está anotada arriba. Mientras tanto el script sigue avisando a
     Yandex, que funciona (02/11: aceptó las 251 URLs).
 
-11. **Seis guías con la description corta.** El recorte nuevo cierra en fin de
+10. **Seis guías con la description corta.** El recorte nuevo cierra en fin de
     oración, y en 6 de las 60 guías la primera oración del cuerpo es muy corta
     y la segunda no entra en los 157 caracteres: quedan entre 81 y 109. No es
     un error (una oración entera lee mejor que un corte ragged), pero esas 6
     desaprovechan medio snippet. El arreglo es cargarles una `bajada` propia
     en el admin, o escribirles la description a mano como se hizo con las
     fichas. Es carga de datos.
-12. **MANTENIMIENTO DE CADA CORRIDA — fichas nuevas sin description ni
+11. **MANTENIMIENTO DE CADA CORRIDA — fichas nuevas sin description ni
     traducción.** Cruzar el sitemap contra las claves de `src/data/meta-es.json`
     y de `src/data/traducciones-pt.json` y escribir lo que falte. Una ficha que
     el admin publique hoy cae al respaldo automático de
     `src/lib/descripciones.js` (limpio pero genérico, y si el prestador empieza
     el texto con un encabezado la description arranca con esa palabra suelta) y
     no tiene página en portugués. Es el trabajo de mantenimiento más barato y
-    de mayor retorno que queda. Hecho el 02/11 con las 5 fichas nuevas.
+    de mayor retorno que queda. Hecho el 02/11 con las 5 fichas nuevas y con
+    las 14 de "una URL por prestador". **Ojo con el conteo:** desde el 02/11 el
+    sitemap tiene más fichas que claves "base" en Firestore, porque las fichas
+    de un prestador llevan el sufijo del prestador en el slug.
 
 ## Hecho
+
+- **02/11/2026** — Una URL por prestador: 14 tours que no tenían página ahora
+  se publican. Firestore tenía 113 tours activos y el sitio publicaba 98
+  fichas. La URL se arma desde el título, así que cuando dos agencias cargaban
+  el mismo tour con el mismo nombre las dos apuntaban a la misma dirección y
+  Astro resolvía el choque quedándose con una sola: **el otro tour no existía
+  para nadie** —no estaba en el sitemap, no se encontraba en Google y no se
+  podía reservar desde el sitio—. Decidido con Marcelo: cada prestador tiene su
+  URL propia, la que ya está indexada no se toca y la otra pasa a
+  `{slug}-{nombre-del-prestador}` (`piedra-parada-merakisur`,
+  `trevelin-full-day-limits-adventure`, `peninsula-valdes-sussanich-turismo`…).
+  La lógica vive en `src/lib/slugs.js`, una capa nueva de la parte Astro:
+  **no se tocó `src/lib/contenido.js`**, ni el cálculo de precio, seña y saldo,
+  ni el `slugReserva` que viaja en el botón "Reservar" —cada ficha nueva
+  reserva su propio tour con el slug que la app ya usaba—. La ficha que no se
+  queda con la URL limpia lleva el prestador en el `<title>` en lugar del
+  sufijo del lugar, para que no haya dos títulos iguales compitiendo, y las 14
+  tienen meta description escrita a mano (`meta-es.json`, 112 fichas, cero
+  duplicadas). En portugués no cambió nada: las traducciones están indexadas
+  por el slug compartido, así que `/pt-br/` sigue publicando sólo la ficha de
+  la URL limpia. Verificado contra producción antes y después del deploy: las
+  98 fichas ya indexadas sirven el mismo título, description, canonical, precio
+  y link de reserva que antes (**cero diferencias**), las 64 páginas en
+  portugués idénticas, las 14 nuevas con canonical propio, y cero títulos y
+  cero descriptions duplicadas entre las 112. Sitemap: 251 → 265 URLs.
 
 - **02/11/2026** — Las 5 fichas que el admin publicó entre el 31/10 y el 02/11
   (4 de Ushuaia y 1 de El Calafate) quedaron con meta description en español
@@ -723,3 +731,57 @@ lista completa y el método: 5 fichas por corrida, escritas a mano. Y anoté un
 pendiente nuevo (el 8): las 98 fichas en español no publican FAQPage, porque
 las preguntas sólo existen en el archivo de traducciones; hace falta un
 `faq-es.json` espejo.
+
+### 02/11/2026 (segunda parte) — Una URL por prestador
+
+Marcelo contestó la pregunta que había quedado abierta a la mañana: cada
+prestador tiene su URL propia. Antes de tocar nada confirmé dos cosas que
+cambiaban el diseño del arreglo. La primera: el slug que usa el botón
+"Reservar" no es el de la página, es `slugReserva`, que `contenido.js` ya
+calcula desambiguando los títulos repetidos (`valle-de-cholila-2`), así que el
+checkout no se entera de este cambio y no hubo que tocarlo. La segunda: el que
+se queda con la URL ya indexada **no** se puede elegir por ID ni por orden
+alfabético. Lo probé: con un `sort` por ID dos fichas ya indexadas cambiaban de
+prestador, de precio y de título (`valle-de-cholila` y la portada centro de Los
+Alerces), porque Firestore devuelve los documentos en orden de bytes
+—mayúsculas antes que minúsculas— y Astro resuelve el choque de rutas
+quedándose con el último de la lista tal como viene. La regla quedó escrita en
+el archivo: **no ordenar**; gana el último del grupo en el orden de llegada,
+que es exactamente el que se publica hoy.
+
+El arreglo es una capa nueva, `src/lib/slugs.js`, aplicada en los seis lugares
+que listan o enlazan fichas (ficha, listado, guías, sitemap de imágenes,
+llms.txt y el catálogo de AIKE) más la capa pt. `contenido.js` no se tocó: la
+fórmula de venta y el `slugReserva` quedaron intactos. Las fichas que no tienen
+la URL limpia llevan el prestador en el `<title>` en lugar del sufijo del
+lugar: si el título se alargaba, Google lo cortaba justo donde estaba la
+diferencia. Y les escribí las 14 meta descriptions a mano, porque si no caían
+al respaldo automático y una publicaba la lista de rodados de bicicletas del
+prestador.
+
+La verificación fue la parte más larga y era la que importaba: bajé las 98
+fichas en español y las 64 en portugués de producción **antes** de subir,
+comparé una por una contra el build nuevo (título, description, canonical,
+precio y link de reserva) y el diff dio cero en las dos lenguas; después del
+deploy volví a bajar las 14 nuevas y una muestra de 40 ya indexadas y volvió a
+dar cero. Entre las 112 fichas no quedó ningún título ni ninguna description
+duplicada. El sitemap pasó de 251 a 265 URLs y las 14 nuevas entraron con
+canonical propio y enlazadas desde el listado de `/experiencias/`; las guías
+con bloque de fichas pasaron de 34 a 38, porque ahora hay oferta publicada en
+lugares que antes quedaban tapados por el duplicado. Avisé por IndexNow:
+Yandex aceptó las 178 URLs, Bing sigue en 403.
+
+**Qué mido como resultado esperado:** 14 productos que no se podían encontrar
+ni reservar ahora tienen página, sitemap y enlaces internos. Son tours de
+Esquel, Trevelin, Los Alerces, Cholila, Gualjaina, Corcovado y Península
+Valdés, todos con intención de compra. No espero que le resten posiciones a sus
+hermanas: cada una tiene título y description propios, y lo que antes había era
+una sola página, no dos compitiendo.
+
+**Qué quedó pendiente:** las 14 fichas nuevas no tienen versión en portugués
+—las traducciones se buscan por el slug, así que necesitan entrada propia con
+su slug nuevo—, con lo cual el pendiente de cobertura pt pasó de 34 a 48
+fichas. Y quedaron dos cosas para el admin, anotadas en "Para Marcelo": el tour
+de MerakiSur cargado dos veces (que el sitio ya publica una sola vez, pero
+conviene borrar) y las dos fichas hermanas que ahora muestran precios distintos
+en Google para lo que parece el mismo tour.

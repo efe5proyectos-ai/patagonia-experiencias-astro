@@ -53,6 +53,11 @@ Reglas de la bitácora:
 - 61 URLs en portugués en el sitemap (home, listado y 59 fichas traducidas).
 - hreflang es-AR / pt-BR recíproco y correcto en las fichas.
 
+Tamaño del sitio al 02/11/2026: **251 URLs** en el sitemap — 98 fichas en
+español, 64 fichas en portugués, 60 guías de viaje y el resto de `public/`.
+En Firestore hay 113 tours activos: los 15 que faltan son los slugs repetidos
+(ver "Para Marcelo").
+
 ## Para Marcelo
 
 - Confirmar que el número de `WHATSAPP_PT` (+54 9 2945 64-2052) es el del guía
@@ -62,6 +67,37 @@ Reglas de la bitácora:
   de las páginas no indexadas y las búsquedas reales de Argentina y Brasil.
 - Reclamar el sitio en Bing Webmaster Tools (se importa desde Search Console),
   para destrabar IndexNow en Bing.
+- **15 fichas no tienen página en el sitio: dos prestadores cargaron el mismo
+  tour con el mismo título.** Medido el 02/11 contra Firestore: hay 113 tours
+  activos y el sitio publica 98 fichas. La URL se arma desde el título, así que
+  cuando dos tours se llaman igual los dos apuntan a la misma dirección y **el
+  segundo simplemente no existe para nadie**: no está en el sitemap, no se
+  puede buscar en Google y no se puede reservar desde el sitio. Hoy gana el
+  tour cuyo ID de Firestore es más alto, que es estable mientras no se borre ni
+  se vuelva a crear el documento; si se da de baja el que gana, la página
+  cambia sola de prestador y de precio.
+  Los 15 casos: `alquiler-de-bicicletas`, `lago-bagillt`,
+  `navegacion-rio-grande-full-day`, `panoramicas-de-esquel`,
+  `parque-nacional-los-alerces-full-day`, `parque-nacional-los-alerces-half-day`,
+  `parque-nacional-los-alerces-portada-centro-y-complejo-hidroelectrico-futaleufu`,
+  `peninsula-valdes`, `piedra-parada`, `rafting-en-corcovado`,
+  `ruta-galesa-con-complejo-hidroelectrico-futaleufu`,
+  `ruta-galesa-con-complejo-hidroelectrico-futaleufu-con-visita-al-campo-de-peonias`,
+  `trevelin-full-day`, `trevelin-full-day-con-visita-al-campo-de-peonias`,
+  `valle-de-cholila`.
+  Tres cosas que necesitan tu decisión, no código:
+  1. **`navegacion-rio-grande-full-day` está cargado dos veces por el mismo
+     prestador**, con el mismo texto y el mismo precio (ids `fZ0VBHDYqMvwDDBeDUuI`
+     y `tgm3Dss1qfqQdiiyQ4hc`). Es un duplicado para borrar en el admin.
+  2. **Dos casos publican precios distintos** según cuál gane: `piedra-parada`
+     ($250.000 contra $210.000) y `peninsula-valdes` ($150.000 contra $160.000,
+     y además uno dice Puerto Pirámides y el otro Puerto Madryn). Hoy se publica
+     el más barato de Piedra Parada y el más caro de Península Valdés.
+  3. En los otros 12 el precio es idéntico y lo que cambia es el texto y el
+     prestador. Decidí si cada par se consolida en una ficha (y qué prestador
+     recibe la reserva) o si cada prestador tiene su propia URL. Si querés URL
+     propia, el arreglo es en `src/lib/contenido.js`, que es zona prohibida: lo
+     hago sólo con tu OK.
 - **Tours repetidos en el catálogo.** Hay 7 grupos de fichas distintas que
   publican exactamente el mismo texto, así que para Google son la misma página
   y compiten entre ellas. Hay que decidir, grupo por grupo, si se consolidan en
@@ -120,9 +156,14 @@ Reglas de la bitácora:
    están resueltas (ver "Hecho"). **Lo que queda del 147 es casi seguro el
    contenido duplicado del catálogo**: ver los 7 grupos anotados en
    "Para Marcelo". Hasta tener Search Console, ése es el camino.
-2. **Slugs duplicados entre prestadores.** Dos agencias que venden el mismo tour
-   comparten la misma URL, así que cuál precio se muestra es indeterminado y
-   Google ve contenido que cambia solo. Hay que darles URL propia o consolidar.
+2. **15 fichas sin página por slug repetido.** Medido el 02/11: 113 tours
+   activos en Firestore, 98 fichas publicadas. Dos prestadores cargaron el
+   mismo tour con el mismo título y la URL se arma desde el título, así que uno
+   de los dos no existe en el sitio. Es lo que más ventas cuesta de todo lo que
+   queda, pero el arreglo toca `src/lib/contenido.js` (zona prohibida) y hace
+   falta decidir prestador por prestador: quedó en "Para Marcelo" con los 15
+   casos, los dos que publican precios distintos y el duplicado exacto que
+   conviene borrar en el admin.
 3. **Las 7 fichas repetidas del catálogo siguen compitiendo entre ellas.**
    Resuelto el síntoma visible (31/10: cada ficha tiene su propia meta
    description escrita a mano, cero duplicadas), pero el cuerpo de la página
@@ -130,10 +171,25 @@ Reglas de la bitácora:
    contenido, no por la description. **Esto no se arregla desde el código:**
    la decisión de catálogo está en "Para Marcelo" con los slugs grupo por
    grupo. Mientras siga abierta, cada grupo le resta posiciones al otro.
-
-4. **Contenido pt-BR traducido a máquina.** Google Brasil premia el texto que
-   suena nativo. Revisar las fichas con más impresiones y reescribirlas.
-5. **Guías sin oferta propia que enlazar.** Resuelto el enlazado automático
+4. **34 fichas no tienen versión en portugués.** Al 02/11 hay 98 fichas en
+   español y 64 en portugués. Una ficha sin traducir **no puede posicionar en
+   Brasil**: no existe en `/pt-br/` y no recibe hreflang. Las que más duelen,
+   por lo que busca un brasileño, son las de fauna y las de Ushuaia:
+   `pinguinera-punta-tombo` y `punta-tombo` ("pinguins Punta Tombo" es una de
+   las búsquedas más fuertes del mercado), `punta-loma-con-city-tour`,
+   `trekking-laguna-esmeralda`, `sabores-del-beagle`,
+   `trekking-glaciar-torrecillas-glaxiar` y `expedicion-menendez-glaxiar`.
+   El resto son 7 habitaciones y paquetes de alojamiento, 6 restaurantes y
+   varias variantes de Ruta Galesa y tulipanes. **Se traducen a mano, de a 5
+   por corrida** (como se hizo el 02/11): escribir la entrada en
+   `src/data/traducciones-pt.json` con título, meta description, cuerpo,
+   destino, categoría, duración, alt y 2–3 FAQ. El script
+   `scripts/traducir-pt.mjs` hace lo mismo con la API de Anthropic, pero pide
+   `ANTHROPIC_API_KEY`, que la corrida de la madrugada no tiene.
+5. **Contenido pt-BR traducido a máquina.** Google Brasil premia el texto que
+   suena nativo. Revisar las fichas con más impresiones y reescribirlas. Las 5
+   del 02/11 ya están escritas a mano; las 59 anteriores salieron del script.
+6. **Guías sin oferta propia que enlazar.** Resuelto el enlazado automático
    (ver "Hecho" del 29/10), quedan **26 de las 60 guías sin ningún enlace a
    ficha** porque no hay nada publicado en ese lugar: 5 de Bariloche, 4 de El
    Calafate / El Chaltén, 4 de Santa Cruz (Cueva de las Manos, Lago Posadas,
@@ -141,8 +197,10 @@ Reglas de la bitácora:
    Ameghino, Los Altares, Piedra Parada, Río Senguer, Siete Lagos. Son páginas
    que traen visitas y no tienen nada para vender. Es decisión de catálogo
    (sumar prestadores ahí) o de contenido (despublicar las que no aportan), no
-   de código.
-6. **Datos estructurados.** Validar Product/Offer, FAQPage y BreadcrumbList con
+   de código. **Novedad del 02/11:** El Calafate ya tiene una ficha publicada
+   (`tour-alternativo-al-glaciar-moreno`) y las guías de El Calafate ya la
+   enlazan solas; quedan 25.
+7. **Datos estructurados.** Validar Product/Offer, FAQPage y BreadcrumbList con
    la herramienta de resultados enriquecidos; corregir lo que tire error.
    Revisado el 30/10 en fichas de las dos lenguas: el JSON-LD parsea bien y los
    tipos salen completos (Organization, Product con `offers`, BreadcrumbList y,
@@ -151,7 +209,13 @@ Reglas de la bitácora:
    resultados con precio se muestran igual, pero la validación tira aviso. El
    campo tiene que salir de una fecha de vigencia del precio, y el precio es
    zona prohibida: hay que definir de dónde sale esa fecha antes de tocarlo.
-7. **Core Web Vitals.** Las páginas de `public/` cargan Tailwind por CDN y
+8. **Las fichas en español no tienen FAQPage.** Las 64 en portugués traen
+   `faq` en `traducciones-pt.json` y publican FAQPage; las 98 en español no
+   tienen de dónde sacarlo, así que pierden el bloque de preguntas en el
+   resultado de Google. Es carga de datos: un `faq-es.json` espejo del
+   portugués, 2–3 preguntas por ficha, escritas sólo con lo que dice la ficha.
+   Se puede hacer de a 10 fichas por corrida.
+9. **Core Web Vitals.** Las páginas de `public/` cargan Tailwind por CDN y
    compilan en el navegador; las guías tienen imágenes pesadas. Eso sigue
    abierto y es lo que queda de este pendiente.
 
@@ -164,28 +228,51 @@ Reglas de la bitácora:
    prohibida; en las demás páginas se puede cambiar, pero conviene una página
    por corrida y verificando que no se rompa ningún estilo.
 
-8. **Bing rechaza IndexNow.** Yandex acepta las 241 URLs (200 OK); Bing y el
-   endpoint compartido devuelven 403 `UserForbiddedToAccessSite` aunque la
-   clave esté bien publicada y accesible. Falta reclamar el sitio en Bing
-   Webmaster Tools (se importa desde Search Console en dos minutos). Es tarea
-   de Marcelo: está anotada arriba. Mientras tanto el script sigue avisando a
-   Yandex, que funciona (29/10: aceptó las 241 URLs).
+10. **Bing rechaza IndexNow.** Yandex acepta las URLs (200 OK); Bing y el
+    endpoint compartido devuelven 403 `UserForbiddedToAccessSite` aunque la
+    clave esté bien publicada y accesible. Falta reclamar el sitio en Bing
+    Webmaster Tools (se importa desde Search Console en dos minutos). Es tarea
+    de Marcelo: está anotada arriba. Mientras tanto el script sigue avisando a
+    Yandex, que funciona (02/11: aceptó las 251 URLs).
 
-9. **Seis guías con la description corta.** El recorte nuevo cierra en fin de
-   oración, y en 6 de las 60 guías la primera oración del cuerpo es muy corta
-   y la segunda no entra en los 157 caracteres: quedan entre 81 y 109. No es
-   un error (una oración entera lee mejor que un corte ragged), pero esas 6
-   desaprovechan medio snippet. El arreglo es cargarles una `bajada` propia
-   en el admin, o escribirles la description a mano como se hizo con las
-   fichas. Es carga de datos.
-10. **Fichas nuevas sin description escrita.** `src/data/meta-es.json` cubre
-    las 93 fichas que hay hoy. Una ficha que el admin publique mañana cae al
-    respaldo automático de `src/lib/descripciones.js`, que es limpio pero
-    genérico. **Cada corrida tiene que cruzar el sitemap contra las claves de
-    ese archivo** y escribir las que falten: es el trabajo de mantenimiento
-    más barato y de mayor retorno que queda.
+11. **Seis guías con la description corta.** El recorte nuevo cierra en fin de
+    oración, y en 6 de las 60 guías la primera oración del cuerpo es muy corta
+    y la segunda no entra en los 157 caracteres: quedan entre 81 y 109. No es
+    un error (una oración entera lee mejor que un corte ragged), pero esas 6
+    desaprovechan medio snippet. El arreglo es cargarles una `bajada` propia
+    en el admin, o escribirles la description a mano como se hizo con las
+    fichas. Es carga de datos.
+12. **MANTENIMIENTO DE CADA CORRIDA — fichas nuevas sin description ni
+    traducción.** Cruzar el sitemap contra las claves de `src/data/meta-es.json`
+    y de `src/data/traducciones-pt.json` y escribir lo que falte. Una ficha que
+    el admin publique hoy cae al respaldo automático de
+    `src/lib/descripciones.js` (limpio pero genérico, y si el prestador empieza
+    el texto con un encabezado la description arranca con esa palabra suelta) y
+    no tiene página en portugués. Es el trabajo de mantenimiento más barato y
+    de mayor retorno que queda. Hecho el 02/11 con las 5 fichas nuevas.
 
 ## Hecho
+
+- **02/11/2026** — Las 5 fichas que el admin publicó entre el 31/10 y el 02/11
+  (4 de Ushuaia y 1 de El Calafate) quedaron con meta description en español
+  escrita a mano y con versión completa en portugués de Brasil. Son
+  `avistaje-de-pinguinos-en-barco-pequeno`,
+  `parque-nacional-tierra-del-fuego-by-hike`,
+  `parque-nacional-tierra-del-fuego-y-tren-del-fin-del-mundo-opcional`,
+  `puerto-almanza-ruta-de-la-centolla-y-avistaje-de-pinguinos-en-barco-pequeno`
+  y `tour-alternativo-al-glaciar-moreno`. En español caían al respaldo
+  automático: tres cortaban con puntos suspensivos y la del Glaciar Moreno
+  publicaba "Descripción Salimos temprano…", porque el prestador empieza el
+  texto con un encabezado `<h3>Descripción</h3>`. Ahora son 5 descriptions de
+  126 a 140 caracteres, y `meta-es.json` cubre las 98 fichas, cero duplicadas.
+  En portugués no existían: las escribí a mano en `traducciones-pt.json`
+  (título, meta description, cuerpo, destino, categoría, duración, alt y 3 FAQ
+  cada una), con el vocabulario con el que busca un brasileño ("passeio",
+  "pinguins", "observação de pinguins", "trilha", "Terra do Fogo"). El sitemap
+  pasó de 246 a 251 URLs y `/pt-br/experiencias/` de 59 a 64 fichas, todas con
+  hreflang recíproco verificado en producción. **Ushuaia y El Calafate son los
+  dos destinos más buscados de la Patagonia desde Brasil y hasta hoy el sitio
+  no tenía una sola página en portugués de ninguno de los dos.**
 
 - **01/11/2026** — Encabezados y texto en el HTML de las tres páginas que
   servían todo por JavaScript. `/aike` (77 KB) y `/prestadores` (74 KB) eran
@@ -579,3 +666,60 @@ React monta, así que valen para el HTML crudo y para los buscadores que no
 renderizan, no como enlazado interno para Google. Y lo de siempre: Bing sigue
 sin reclamar y las 147 no indexadas siguen necesitando Search Console.
 
+### 02/11/2026 — Las 5 fichas nuevas: description en español y versión pt-BR a mano
+
+Arranqué por el mantenimiento obligatorio y esta vez sí había trabajo: el
+sitemap pasó de 241 a 246 URLs y el cruce contra `meta-es.json` dio 5 fichas
+nuevas sin description escrita — cuatro de Ushuaia (pingüinos de Isla Martillo
+en barco pequeño, Puerto Almanza con la Ruta de la Centolla, y dos del Parque
+Nacional Tierra del Fuego) y una de El Calafate (tour alternativo al Glaciar
+Moreno). El respaldo automático las cubría, pero mal: tres cortaban con puntos
+suspensivos y la del Glaciar Moreno publicaba "Descripción Salimos temprano…",
+porque ese prestador arranca el texto con un `<h3>Descripción</h3>` y el
+recorte se come el encabezado como si fuera la primera palabra de la oración.
+Las escribí a mano, 126–140 caracteres cada una.
+
+El trabajo grande de la corrida fue el otro lado: **ninguna de las 5 tenía
+página en portugués**, y Ushuaia y El Calafate son los dos destinos de la
+Patagonia que más busca un brasileño. Las traduje a mano directamente en
+`src/data/traducciones-pt.json` — título, meta description de 137–141
+caracteres, cuerpo completo, destino, categoría, duración, texto alternativo y
+3 FAQ por ficha — usando las palabras con las que se busca en Brasil
+("passeio", "pinguins", "observação de pinguins da Isla Martillo", "trilha",
+"Parque Nacional Terra do Fogo", "Trem do Fim do Mundo"), no una traducción
+literal del español. Sólo datos: no se tocó el template, ni precio, ni seña, ni
+checkout, ni Make. Compilé contra Firestore real (227 páginas, build limpio),
+subí, esperé el deploy y verifiqué en producción: las 5 URLs nuevas en
+`/pt-br/experiencias/` dan 200, el sitemap pasó a 251 URLs, las 5 fichas en
+español sirven la description escrita y el hreflang es recíproco en los dos
+sentidos. El JSON-LD de las nuevas en portugués sale completo (Organization,
+Product con `offers`, BreadcrumbList y FAQPage con 3 preguntas). Avisé por
+IndexNow: Yandex aceptó, Bing sigue en 403.
+
+**Qué mido como resultado esperado:** que las 5 fichas nuevas aparezcan en
+Google Brasil para búsquedas como "passeio pinguins Ushuaia", "Parque Nacional
+Terra do Fogo passeio" y "Perito Moreno passeio alternativo", que hoy el sitio
+no puede capturar porque no tenía una sola página de esos destinos en
+portugués; y en español, que la ficha del Glaciar Moreno deje de mostrar un
+snippet que empieza con la palabra "Descripción".
+
+**Qué encontré y no toqué:** medí por fin el pendiente de los slugs repetidos y
+es peor de lo que decía la bitácora. Firestore tiene 113 tours activos y el
+sitio publica 98 fichas: **15 tours no tienen página en ninguna parte** porque
+dos prestadores cargaron el mismo tour con el mismo título y la URL se arma
+desde el título. No es sólo contenido duplicado: son 15 productos que no se
+pueden encontrar ni reservar. Hay un caso (`navegacion-rio-grande-full-day`)
+que es el mismo prestador cargado dos veces, para borrar en el admin, y dos
+casos que publican precios distintos según cuál gane (`piedra-parada`
+$250.000 contra $210.000, `peninsula-valdes` $150.000 contra $160.000 y además
+con distinta localidad). Quedó todo en "Para Marcelo" con los 15 slugs, los ids
+y los precios: el arreglo del lado del código toca `src/lib/contenido.js`, que
+es zona prohibida, y además hace falta decidir qué prestador recibe la reserva.
+
+**Qué quedó pendiente:** 34 de las 98 fichas siguen sin versión en portugués, y
+ahí está Punta Tombo, que para el mercado brasileño es tan fuerte como
+Península Valdés ("pinguins Punta Tombo"). Lo anoté como pendiente 4 con la
+lista completa y el método: 5 fichas por corrida, escritas a mano. Y anoté un
+pendiente nuevo (el 8): las 98 fichas en español no publican FAQPage, porque
+las preguntas sólo existen en el archivo de traducciones; hace falta un
+`faq-es.json` espejo.

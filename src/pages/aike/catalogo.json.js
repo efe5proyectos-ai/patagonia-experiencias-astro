@@ -6,6 +6,7 @@
 // ─────────────────────────────────────────────────────────────
 import { readFileSync, existsSync } from 'node:fs';
 import { obtenerExperiencias } from '../../lib/contenido.js';
+import { conSlugsUnicos } from '../../lib/slugs.js';
 import { traduccionDe } from '../../lib/traducciones.js';
 
 const SITIO = 'https://patagoniaexperiencias.com';
@@ -31,7 +32,7 @@ function leerGuia(ruta) {
 
 export async function GET() {
   let exps = [];
-  try { exps = await obtenerExperiencias(); } catch (e) { exps = []; }
+  try { exps = conSlugsUnicos(await obtenerExperiencias()); } catch (e) { exps = []; }
 
   const experiencias = exps
     .filter((e) => e.visibleEnApp !== false && e.titulo)

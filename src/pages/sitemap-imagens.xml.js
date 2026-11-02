@@ -5,18 +5,19 @@
 // ─────────────────────────────────────────────────────────────
 import { obtenerExperiencias } from '../lib/contenido.js';
 import { traduccionDe, urlEs, urlPt } from '../lib/traducciones.js';
+import { conSlugsUnicos, esFichaPrincipal } from '../lib/slugs.js';
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
 
 export async function GET() {
-  const exps = await obtenerExperiencias();
+  const exps = conSlugsUnicos(await obtenerExperiencias());
   const bloques = [];
   for (const e of exps) {
     const fotos = [...new Set([e.imagen, ...(e.imagenes || [])].filter((u) => u && /^https?:\/\//.test(u)))].slice(0, 1000);
     if (!fotos.length) continue;
     const imgs = fotos.map((u) => `    <image:image><image:loc>${esc(u)}</image:loc></image:image>`).join('\n');
     bloques.push(`  <url>\n    <loc>${esc(urlEs(e.slug))}</loc>\n${imgs}\n  </url>`);
-    const pt = traduccionDe(e.slug);
+    const pt = esFichaPrincipal(e) ? traduccionDe(e.slug) : null;
     if (pt?.slugPt) bloques.push(`  <url>\n    <loc>${esc(urlPt(pt.slugPt))}</loc>\n${imgs}\n  </url>`);
   }
   const xml = `<?xml version="1.0" encoding="UTF-8"?>

@@ -4,9 +4,12 @@ import { obtenerExperiencias, obtenerGuias } from '../../lib/contenido.js';
 import { traduccionDe, urlPt, relacionadas } from '../../lib/traducciones.js';
 import { guiasDeExperiencia, tituloParaBuscadores, localidadDe } from '../../lib/geo.js';
 import { descripcionParaBuscadores, textoLimpio } from '../../lib/descripciones.js';
+import { conSlugsUnicos } from '../../lib/slugs.js';
 
 export async function getStaticPaths() {
-  const [exps, guias] = await Promise.all([obtenerExperiencias(), obtenerGuias()]);
+  const [todas, guias] = await Promise.all([obtenerExperiencias(), obtenerGuias()]);
+  // Una URL por prestador cuando dos agencias cargaron el mismo tour
+  const exps = conSlugsUnicos(todas);
   return exps.map((exp) => ({
     params: { slug: exp.slug },
     props: { exp, rel: relacionadas(exp, exps), guias: guiasDeExperiencia(exp, guias) },
@@ -17,6 +20,13 @@ const { exp, rel, guias } = Astro.props;
 const url = new URL(Astro.url.pathname, Astro.site).href;
 const pt = traduccionDe(exp.slug);
 const alternos = pt?.slugPt ? { es: url, pt: urlPt(pt.slugPt) } : null;
+// Si dos agencias cargaron el mismo tour, la ficha que no tiene la URL limpia
+// lleva el prestador en el título para no competir con un título idéntico.
+// En ese caso el prestador reemplaza al sufijo del lugar en vez de sumarse:
+// si el título se alarga, Google lo corta justo donde está la diferencia.
+const tituloSeo = exp.prestadorEnTitulo
+  ? `${exp.titulo} \u00b7 ${exp.prestadorEnTitulo}`
+  : tituloParaBuscadores(exp.titulo, exp.destino);
 const textoPlano = textoLimpio(exp.descripcion);
 const descripcion = descripcionParaBuscadores(exp, localidadDe(exp.destino)?.nombre || null);
 const etiquetaDuracion = { par_horas: 'Un par de horas', medio_dia: 'Medio día', dia_completo: 'Día completo' }[exp.duracion] || exp.duracion;
@@ -34,7 +44,7 @@ const schema = [
     { '@type': 'ListItem', position: 3, name: exp.titulo, item: url } ] },
 ];
 ---
-<BaseLayout titulo={tituloParaBuscadores(exp.titulo, exp.destino)} descripcion={descripcion} imagen={exp.imagen} schema={schema} tipo="product" alternos={alternos}>
+<BaseLayout titulo={tituloSeo} descripcion={descripcion} imagen={exp.imagen} schema={schema} tipo="product" alternos={alternos}>
   <main>
     {exp.imagen && (
       <div class="relative h-[45vh] min-h-[320px] overflow-hidden">

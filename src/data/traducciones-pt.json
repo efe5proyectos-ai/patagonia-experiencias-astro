@@ -161,6 +161,33 @@
     ],
     "traducido": "2026-09-16T19:42:18.407Z"
   },
+  "avistaje-de-pinguinos-en-barco-pequeno": {
+    "hash": "a52857eaa1b87141",
+    "slugPt": "pinguins-isla-martillo-barco-pequeno-ushuaia",
+    "titulo": "Pinguins na Isla Martillo em barco pequeno, Ushuaia",
+    "metaDescricao": "Observação de pinguins na Isla Martillo em barco pequeno, saindo de Ushuaia: grupo reduzido e avistamento da água, em 5 horas. Reserve o seu.",
+    "descricao": "Uma forma diferente de encontrar os pinguins da Terra do Fogo: em barco pequeno, em grupo reduzido e bem perto da colônia da Isla Martillo.\n<br>Saímos de Ushuaia pela Ruta Nacional 3 e depois pela Ruta J, atravessando vales, bosques e montanhas até Puerto Almanza, o pequeno povoado de pescadores na beira do Canal Beagle. O caminho faz parte da experiência: é o lado mais tranquilo e remoto da Terra do Fogo.\n<br>Em Almanza embarcamos no nosso barco pequeno e navegamos até a Isla Martillo. Com pouca gente a bordo, o passeio fica próximo e personalizado, e os pinguins aparecem bem de perto no seu habitat natural. Não há desembarque na ilha: o avistamento é feito da água, respeitando a fauna e o ambiente.\n<br>Os pinguins-gentoo (papua) são vistos durante todo o ano; entre outubro e março chegam também os pinguins-de-magalhães, então nesses meses é possível ver as duas espécies. No inverno navegamos em barco aquecido, com café incluído.\n<br>O passeio opera todo o ano, dura cerca de 5 horas a partir de Ushuaia e é acompanhado por guias locais. Passeio em espanhol e inglês.",
+    "destino": "Ushuaia, Tierra del Fuego",
+    "categoria": "Fauna",
+    "duracao": "5 horas",
+    "temporada": "",
+    "altImagem": "Pinguins na Isla Martillo vistos de um barco pequeno no Canal Beagle, Ushuaia",
+    "faq": [
+      {
+        "pergunta": "Dá para desembarcar na Isla Martillo?",
+        "resposta": "Não. O avistamento é feito da água, sem desembarque na ilha, para respeitar a fauna e o ambiente."
+      },
+      {
+        "pergunta": "Em que época é possível ver as duas espécies de pinguins?",
+        "resposta": "Os pinguins-gentoo (papua) são vistos todo o ano e, entre outubro e março, chegam também os pinguins-de-magalhães."
+      },
+      {
+        "pergunta": "Quanto tempo dura o passeio?",
+        "resposta": "Cerca de 5 horas a partir de Ushuaia, em grupo reduzido e com guias locais. No inverno a navegação é em barco aquecido, com café incluído."
+      }
+    ],
+    "traducido": "2026-11-02T05:42:05.390749Z"
+  },
   "blest-cerveceria": {
     "hash": "87bbf2c72dad854e",
     "slugPt": "blest-cervejaria-trelew",
@@ -967,6 +994,60 @@
     ],
     "traducido": "2026-09-16T19:36:23.871Z"
   },
+  "parque-nacional-tierra-del-fuego-by-hike": {
+    "hash": "f8583d19b000c7e7",
+    "slugPt": "parque-nacional-terra-do-fogo-a-pe-ushuaia",
+    "titulo": "Parque Nacional Terra do Fogo a pé, saindo de Ushuaia",
+    "metaDescricao": "Caminhada no Parque Nacional Terra do Fogo com guia local: trilhas pouco movimentadas, lago Acigami e Bahía Lapataia em 5 horas. Reserve já.",
+    "descricao": "Explore o Parque Nacional Terra do Fogo de um jeito mais ativo e próximo: a pé. Em grupos pequenos e acompanhado por guias locais, você conhece as trilhas menos movimentadas do parque, entre bosques subantárticos, rios e a costa do Canal Beagle. Uma experiência para se conectar com a natureza, observar a flora e a fauna e entender como a vida se forma no extremo sul do continente.\n<br>No percurso você conhece lugares icônicos como a Ensenada Zaratiegui, onde caminhamos pela costa do Canal Beagle; o lago Acigami (lago Roca), um cenário único cercado pelos Andes e pelo bosque; e a Bahía Lapataia, onde termina a Rodovia Panamericana. Ao longo do caminho, os guias compartilham histórias e curiosidades sobre a geografia, a ecologia e a história humana deste canto do planeta.\n<br>Mais que uma excursão, é uma caminhada interpretativa pensada para aproveitar, aprender e se sentir parte do ambiente, sem pressa.\n<br>Inclui busca e retorno ao alojamento, traslados e guia bilíngue. Passeio em espanhol e inglês.",
+    "destino": "Ushuaia, Tierra del Fuego",
+    "categoria": "Trekking",
+    "duracao": "5 horas",
+    "temporada": "",
+    "altImagem": "Trilha pela costa do Canal Beagle no Parque Nacional Terra do Fogo, Ushuaia",
+    "faq": [
+      {
+        "pergunta": "O passeio inclui traslado do hotel?",
+        "resposta": "Sim. Inclui busca e retorno ao alojamento, além dos traslados durante o passeio e guia bilíngue."
+      },
+      {
+        "pergunta": "Que lugares são visitados?",
+        "resposta": "Ensenada Zaratiegui, na costa do Canal Beagle, o lago Acigami (lago Roca) e a Bahía Lapataia, onde termina a Rodovia Panamericana."
+      },
+      {
+        "pergunta": "Como é o ritmo da caminhada?",
+        "resposta": "É uma caminhada interpretativa em grupos pequenos, feita sem pressa por trilhas pouco movimentadas do parque, com cerca de 5 horas de duração."
+      }
+    ],
+    "traducido": "2026-11-02T05:42:05.390749Z"
+  },
+  "parque-nacional-tierra-del-fuego-y-tren-del-fin-del-mundo-opcional": {
+    "hash": "e6c6f6a6f1399533",
+    "slugPt": "parque-terra-do-fogo-e-trem-do-fim-do-mundo-ushuaia",
+    "titulo": "Parque Terra do Fogo e Trem do Fim do Mundo (opcional)",
+    "metaDescricao": "Passeio de 5 horas ao Parque Nacional Terra do Fogo saindo de Ushuaia, com Trem do Fim do Mundo opcional e guia em português. Reserve já.",
+    "descricao": "Viva o Parque Nacional Terra do Fogo entre bosques, mar e montanha, com caminhadas em grupos pequenos e a opção de revivir a história no Trem do Fim do Mundo.\n<br>Saímos de Ushuaia pela Ruta Nacional 3. A primeira parada é a Estação do Fim do Mundo, onde quem quiser pode pegar o antigo Trem dos Presos, hoje um trem turístico que resgata as origens de Ushuaia. Quem não pega o trem segue conhecendo o parque com o guia.\n<br>Depois entramos nos ambientes do parque. Visitamos a Ensenada Zaratiegui (fechada na temporada de inverno), onde montanha, bosque e mar se combinam na mesma paisagem e fica o Correio do Fim do Mundo. Seguimos até o lago Acigami (lago Roca), cercado por bosques e montanhas, e caminhamos pela sua costa.\n<br>Terminamos na Bahía Lapataia, fim da Ruta Nacional 3 e da Rodovia Panamericana, que liga o Alasca ao sul do continente.\n<br>Durante o percurso caminhamos em grupos pequenos para entrar na natureza e conhecer a flora, a fauna e a geografia fueguina, com guias locais. Passeio em espanhol, inglês e português.",
+    "destino": "Ushuaia, Tierra del Fuego",
+    "categoria": "Excursões",
+    "duracao": "5 horas",
+    "temporada": "",
+    "altImagem": "Bahía Lapataia, no Parque Nacional Terra do Fogo, fim da Rodovia Panamericana",
+    "faq": [
+      {
+        "pergunta": "O Trem do Fim do Mundo está incluído?",
+        "resposta": "O trem é opcional: quem quiser embarca na Estação do Fim do Mundo e quem preferir segue conhecendo o parque com o guia."
+      },
+      {
+        "pergunta": "O passeio é guiado em português?",
+        "resposta": "Sim. O passeio é conduzido em espanhol, inglês e português, com guias locais."
+      },
+      {
+        "pergunta": "Quanto tempo dura e por onde passa?",
+        "resposta": "Cerca de 5 horas saindo de Ushuaia pela Ruta Nacional 3, com Ensenada Zaratiegui, lago Acigami (lago Roca) e Bahía Lapataia."
+      }
+    ],
+    "traducido": "2026-11-02T05:42:05.390749Z"
+  },
   "peninsula-valdes": {
     "hash": "5dba0474bf8247cb",
     "slugPt": "excursao-peninsula-valdes-puerto-piramides",
@@ -1020,6 +1101,33 @@
       }
     ],
     "traducido": "2026-09-16T19:37:17.470Z"
+  },
+  "puerto-almanza-ruta-de-la-centolla-y-avistaje-de-pinguinos-en-barco-pequeno": {
+    "hash": "b4ce9e7f0aa35c91",
+    "slugPt": "puerto-almanza-rota-da-centolla-e-pinguins-ushuaia",
+    "titulo": "Puerto Almanza, Rota da Centolla e pinguins, Ushuaia",
+    "metaDescricao": "Puerto Almanza saindo de Ushuaia: Rota da Centolla, pinguins da Isla Martillo em barco pequeno e almoço de frutos do mar frescos. Reserve já.",
+    "descricao": "Veja os pinguins bem de perto e aproveite a gastronomia do mar mais fresca e autêntica da Terra do Fogo em Puerto Almanza, um dos povoados de pescadores mais austrais do mundo.\n<br>Saímos de Ushuaia pela Ruta Nacional 3, atravessando os grandes vales fueguinos entre montanhas, turfeiras e centros de inverno. Depois pegamos a Ruta J, um caminho cercado por bosques centenários que leva até a costa do Canal Beagle, com vistas em que o mar, os Andes e o bosque se encontram.\n<br>Pela costa, conhecida como Rota da Centolla, aparecem os cultivos de mexilhões, os barcos de pesca e as armadilhas de centolla — a king crab da região, o \"ouro vermelho\" local. Chegamos ao povoado e percorremos a sua única rua até o cais dos pescadores.\n<br>Ali embarcamos no nosso barco pequeno e navegamos até a Isla Martillo para ver de perto os pinguins-gentoo (papua) e, entre outubro e março, também os pinguins-de-magalhães, com pouca gente e em um passeio personalizado. O avistamento é feito da água, sem desembarque.\n<br>Para fechar, almoçamos no restaurante de um pescador local, com produtos frescos da região, antes de voltar para Ushuaia.\n<br>Inclui busca e retorno ao alojamento, guia, navegação e almoço. Grupos pequenos e guias locais. Passeio em espanhol e inglês.",
+    "destino": "Ushuaia, Tierra del Fuego",
+    "categoria": "Fauna",
+    "duracao": "7 horas e 30 minutos",
+    "temporada": "",
+    "altImagem": "Cais dos pescadores de Puerto Almanza, na costa do Canal Beagle, Terra do Fogo",
+    "faq": [
+      {
+        "pergunta": "O almoço está incluído?",
+        "resposta": "Sim. O passeio inclui almoço no restaurante de um pescador local, com produtos frescos da região."
+      },
+      {
+        "pergunta": "Dá para desembarcar na Isla Martillo?",
+        "resposta": "Não. O avistamento dos pinguins é feito da água, em barco pequeno e com pouca gente a bordo."
+      },
+      {
+        "pergunta": "Quanto tempo dura o passeio?",
+        "resposta": "Cerca de 7 horas e 30 minutos, com busca e retorno ao alojamento em Ushuaia e guias locais."
+      }
+    ],
+    "traducido": "2026-11-02T05:42:05.390749Z"
   },
   "rafting-en-corcovado": {
     "hash": "778a8cc1ab1ea03b",
@@ -1371,6 +1479,33 @@
       }
     ],
     "traducido": "2026-09-16T19:46:36.802Z"
+  },
+  "tour-alternativo-al-glaciar-moreno": {
+    "hash": "8c6e1fb8b88182f9",
+    "slugPt": "tour-alternativo-glaciar-perito-moreno-el-calafate",
+    "titulo": "Tour alternativo ao Glaciar Perito Moreno, El Calafate",
+    "metaDescricao": "Glaciar Perito Moreno pela rota das estâncias: trilha exclusiva até a praia de icebergs e tempo livre nas passarelas, em 8 horas. Reserve já.",
+    "descricao": "Saímos cedo para aproveitar o trajeto até o glaciar quase sozinhos. É um passeio ativo.\n<br>Pegamos a estrada alternativa, de cascalho e pouco movimentada, vemos animais e aves e subimos a uma cota mais alta, com vistas únicas do Lago Argentino. Atravessamos a histórica rota das estâncias, sem pressa: sempre que você quiser parar para fotografar, pode — e já temos paradas programadas nos melhores pontos de paisagem. Passamos em frente à estância mais emblemática da Patagônia, a Estancia Anita.\n<br>Seguimos pela estepe até o parador Río Mitre, do paisano Echeverría. Esse gaúcho emblemático da região recebe em um parador de caráter gauchesco genuíno, com as suas vistas, os seus animais de granja e a sua decoração. Há tempo para tomar um mate, um café com bolo (não incluído), usar os banheiros ou até ajudar a dar a mamadeira para um cordeirinho. De lá se veem o vale do braço Sul e a Cordilheira dos Andes, e dá para entender o tamanho das estâncias patagônicas.\n<br>Voltamos à estrada asfaltada convencional, já na entrada do Parque Nacional Los Glaciares — seccional Río Mitre. Ali cada pessoa paga a sua entrada (não incluída; recomendamos levar dinheiro em espécie para evitar filas).\n<br>Alguns quilômetros antes de chegar ao Glaciar Perito Moreno paramos para começar uma caminhada em descida até a praia de icebergs, no braço Sul do Lago Argentino: talvez a melhor parte do passeio, e só nós temos permissão para fazê-la. É uma trilha fora dos circuitos convencionais, em silêncio, atravessando um bosque tranquilo onde é possível encontrar pica-paus e catitas australes, sempre com um guia naturalista certificado pela administração dos Parques Nacionais. A caminhada dura cerca de 45 minutos por terreno irregular e agreste, na maior parte em descida (pode ser suspensa por mau tempo; nesse caso não há devolução de valores, por ser força maior, e o passeio continua com as demais atividades, como a visita às passarelas). No fim da trilha o transporte nos espera para seguir até as passarelas.\n<br>Com a ajuda do guia, você também pode reservar uma navegação em frente ao glaciar (não incluída).\n<br>Nas passarelas cada um aproveita o tempo livremente, caminhando, ouvindo o glaciar e buscando o melhor ângulo para ver os desprendimentos de gelo. Para as refeições, sugerimos levar algo na mochila ou usar o restaurante que fica no Perito Moreno.\n<br>Por volta das 15h começamos a volta pela estrada asfaltada, completando um percurso diferente do da manhã, e chegamos a El Calafate entre 16h30 e 17h.\n<br>Por que escolher este passeio: estradas diferentes, com muito mais para descobrir por um preço parecido; veículos preparados para o cascalho patagônico; passagem pelas estâncias e visita ao parador de uma delas; e uma trilha fora dos circuitos convencionais para viver em paz e silêncio o lugar mais visitado da região.\n<br><b>Inclui:</b> traslados de ida e volta a partir de hotéis na área central de El Calafate, seguro e guia em espanhol/inglês.\n<br><b>Não inclui:</b> entrada do Parque Nacional Los Glaciares (paga em pesos argentinos na chegada ao parque; leve documento de identidade ou passaporte), refeições e bebidas e passeios adicionais de barco.",
+    "destino": "El Calafate, Santa Cruz",
+    "categoria": "Excursões",
+    "duracao": "8 horas",
+    "temporada": "",
+    "altImagem": "Glaciar Perito Moreno visto da praia de icebergs no braço Sul do Lago Argentino",
+    "faq": [
+      {
+        "pergunta": "A entrada do Parque Nacional está incluída?",
+        "resposta": "Não. Cada pessoa paga a sua entrada em pesos argentinos na chegada ao parque; recomendamos levar dinheiro em espécie e documento de identidade ou passaporte."
+      },
+      {
+        "pergunta": "Como é a caminhada até a praia de icebergs?",
+        "resposta": "Cerca de 45 minutos por terreno irregular e agreste, na maior parte em descida, com guia naturalista. Pode ser suspensa por mau tempo."
+      },
+      {
+        "pergunta": "A que horas o passeio termina?",
+        "resposta": "A volta começa por volta das 15h e a chegada a El Calafate é entre 16h30 e 17h."
+      }
+    ],
+    "traducido": "2026-11-02T05:42:05.390749Z"
   },
   "tour-valle-inferior-rio-chubut": {
     "hash": "fad5f302c4cac71e",

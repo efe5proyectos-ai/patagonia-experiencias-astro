@@ -3,7 +3,12 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { obtenerExperiencias } from '../../lib/contenido.js';
 import CarruselFotos from '../../components/CarruselFotos.astro';
 import traducciones from '../../data/traducciones-pt.json';
-const exps = await obtenerExperiencias();
+const todas = await obtenerExperiencias();
+// Floraciones: en su mes van primero; fuera de temporada, al final (tulipanes sep-oct, peonías nov-dic)
+const mesHoy = Number(new Date().toLocaleString('en-US', { timeZone: 'America/Argentina/Buenos_Aires', month: 'numeric' }));
+const FLORES = [[/tulip/i, [9, 10]], [/peon/i, [11, 12]]];
+const pesoFlor = (e) => { for (const [re, m] of FLORES) if (re.test(e.titulo || '')) return m.includes(mesHoy) ? -1 : 1; return 0; };
+const exps = todas.map((e, i) => ({ e, i })).sort((a, b) => pesoFlor(a.e) - pesoFlor(b.e) || a.i - b.i).map(({ e }) => e);
 const hayPt = Object.keys(traducciones).length > 0;
 const alternos = hayPt ? { es: 'https://patagoniaexperiencias.com/experiencias/', pt: 'https://patagoniaexperiencias.com/pt-br/experiencias/' } : null;
 const urgColores = { rose:'bg-rose-600/95 border-rose-500', amber:'bg-amber-500/95 border-amber-400', emerald:'bg-emerald-600/95 border-emerald-500', sky:'bg-sky-600/95 border-sky-500', fuchsia:'bg-fuchsia-600/95 border-fuchsia-500', slate:'bg-slate-700/95 border-slate-600' };

@@ -83,8 +83,18 @@ function enTemporada(e, estacion) {
   return !t.length || t.includes(norm(estacion));
 }
 
+// Floraciones de Trevelin y 28 de Julio: fuera de estos meses esas excursiones no se ofrecen
+const FLORACIONES = [[/tulip/, [9, 10]], [/peoni/, [11, 12]]];
+const mesArgentina = () => Number(new Date().toLocaleString('en-US', { timeZone: 'America/Argentina/Buenos_Aires', month: 'numeric' }));
+function enFloracion(e, mes) {
+  const t = norm(e.titulo || '');
+  for (const [re, meses] of FLORACIONES) if (re.test(t)) return meses.includes(mes);
+  return true;
+}
+
 function buscarExperiencias(cat, { consulta = '', destino = '', categoria = '', precio_max = 0, mes = 0, max = 6 }) {
   const estacion = ESTACION_DE_MES[Number(mes)] || '';
+  const mesFlor = Number(mes) || mesArgentina();
   const palabras = norm(`${consulta} ${destino} ${categoria}`).split(/[^a-z0-9]+/).filter((p) => p.length > 2 && !VACIAS.has(p))
     .map((p) => SINONIMOS[p] || p);
   const candidatas = cat.experiencias.map((e) => {
@@ -101,7 +111,7 @@ function buscarExperiencias(cat, { consulta = '', destino = '', categoria = '', 
     if (categoria && norm(e.categoria).includes(norm(categoria))) puntos += 2;
     return { e, puntos };
   })
-    .filter(({ e, puntos }) => (palabras.length ? puntos > 0 : true) && (!precio_max || !e.precio || e.precio <= precio_max));
+    .filter(({ e, puntos }) => (palabras.length ? puntos > 0 : true) && (!precio_max || !e.precio || e.precio <= precio_max) && enFloracion(e, mesFlor));
   // Con el mes del viaje, las que no son de esa temporada no se muestran (si queda alguna que sí)
   const deTemporada = estacion ? candidatas.filter(({ e }) => enTemporada(e, estacion)) : candidatas;
   const lista = (deTemporada.length ? deTemporada : candidatas)
@@ -289,6 +299,8 @@ function sistema(idioma, whatsapp, nombre) {
     (m >= 6 && m <= 12 ? si : no).push(m === 12 ? 'ballenas (las últimas)' : m >= 9 && m <= 10 ? 'ballenas (el mejor momento)' : 'ballenas');
     (m >= 9 || m <= 4 ? si : no).push('pingüinos');
     if ([2, 3, 4, 10, 11].includes(m)) si.push('orcas en Punta Norte (con suerte)');
+    (m === 9 || m === 10 ? si : no).push('tulipanes en Trevelin y 28 de Julio');
+    (m === 11 || m === 12 ? si : no).push('peonías en Trevelin');
     return `sí ${si.join(', ')}${no.length ? `; NO hay ${no.join(' ni ')}` : ''}`;
   };
   const proximos = [0, 1, 2, 3, 4, 5].map((k) => { const m = ((mesHoy - 1 + k) % 12) + 1; return `${MESES[m - 1]} = ${ESTACION_DE_MES[m].replace('otono', 'otoño')} (fauna: ${FAUNA_MES(m)})`; }).join('; ');

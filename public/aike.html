@@ -360,7 +360,17 @@ const num = v => {
   const n = Number(v);
   return isNaN(n) ? 0 : n;
 };
-const dispEn = (t, temp) => !temp || !(t.temporadas || []).length || t.temporadas.includes(temp);
+// Floraciones (tulipanes sep-oct, peonías nov-dic): si el viaje es en la temporada actual, solo se ofrecen en sus meses
+const MES_HOY = new Date().getMonth() + 1;
+const ESTACION_HOY = [null, 'verano', 'verano', 'otono', 'otono', 'otono', 'invierno', 'invierno', 'invierno', 'primavera', 'primavera', 'primavera', 'verano'][MES_HOY];
+const FLORACIONES = [[/tulip/i, [9, 10]], [/peon/i, [11, 12]]];
+const enFloracion = (t, temp) => {
+  if (temp && temp !== ESTACION_HOY) return true;
+  const tit = String(t.titulo || t.nombre || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  for (const [re, meses] of FLORACIONES) if (re.test(tit)) return meses.includes(MES_HOY);
+  return true;
+};
+const dispEn = (t, temp) => (!temp || !(t.temporadas || []).length || t.temporadas.includes(temp)) && enFloracion(t, temp);
 const matchPerfil = (t, p) => p && (t.perfiles || []).includes(p) ? 1 : 0;
 const pre = t => calcularPreciosTour(t);
 const efectivo = t => pre(t).precioPreventa;

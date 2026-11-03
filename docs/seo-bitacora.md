@@ -53,8 +53,8 @@ Reglas de la bitácora:
 - 61 URLs en portugués en el sitemap (home, listado y 59 fichas traducidas).
 - hreflang es-AR / pt-BR recíproco y correcto en las fichas.
 
-Tamaño del sitio al 03/11/2026: **270 URLs** en el sitemap — 112 fichas en
-español, 69 fichas en portugués, 60 guías de viaje y el resto de `public/`.
+Tamaño del sitio al 03/11/2026: **275 URLs** en el sitemap — 112 fichas en
+español, 74 fichas en portugués, 60 guías de viaje y el resto de `public/`.
 En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
 único que queda afuera es un duplicado de carga del mismo prestador
 (`navegacion-rio-grande-full-day`), que hay que borrar en el admin.
@@ -83,6 +83,22 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
   ($150.000, que sale de Puerto Pirámides en vez de Puerto Madryn y dura 11
   horas). No hay nada roto —son dos productos de dos agencias— pero si querés
   que no compitan por precio, eso se arregla en el admin, no en el código.
+- **Seis pares de fichas hermanas publican el mismo texto.** Distinto de la
+  nota de abajo: acá son las 14 fichas que el 02/11 pasaron a tener URL propia
+  por prestador, y en 6 de esos 14 casos las dos agencias cargaron **palabra por
+  palabra el mismo texto** (el del operador que presta el servicio). En español
+  ya están las dos publicadas y compitiendo entre ellas:
+  `trevelin-full-day-con-visita-al-campo-de-peonias-merakisur`,
+  `ruta-galesa-con-complejo-hidroelectrico-futaleufu-merakisur`,
+  `parque-nacional-los-alerces-portada-centro-y-complejo-hidroelectrico-futaleufu-merakisur`,
+  `ruta-galesa-con-complejo-hidroelectrico-futaleufu-con-visita-al-campo-de-peonias-limits-adventure`,
+  `alquiler-de-bicicletas-merakisur` y
+  `parque-nacional-los-alerces-half-day-limits-adventure`. En portugués decidí
+  **no** traducirlas, para no duplicar el problema en el otro idioma. Lo que hace
+  falta es que cada prestador cuente lo suyo (qué incluye, qué no, desde dónde
+  sale, cuánto dura), y eso se carga en el admin. Las otras 8 hermanas sí tienen
+  texto propio y 5 ya tienen su página en portugués.
+
 - **Tours repetidos en el catálogo.** Hay 7 grupos de fichas distintas que
   publican exactamente el mismo texto, así que para Google son la misma página
   y compiten entre ellas. Hay que decidir, grupo por grupo, si se consolidan en
@@ -148,45 +164,53 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    contenido, no por la description. **Esto no se arregla desde el código:**
    la decisión de catálogo está en "Para Marcelo" con los slugs grupo por
    grupo. Mientras siga abierta, cada grupo le resta posiciones al otro.
-3. **43 fichas no tienen versión en portugués.** Al 03/11 hay 112 fichas en
-   español y 69 en portugués. Una ficha sin traducir **no puede posicionar en
-   Brasil**: no existe en `/pt-br/` y no recibe hreflang. De las 43 que faltan,
-   **29 se pueden traducir ya** y **14 están trabadas por código** (ver el
-   pendiente 4). Las 5 de más impacto para Brasil (fauna de Chubut y Ushuaia)
-   se resolvieron el 03/11. De las 29 que quedan, las que más duelen son
+3. **38 fichas no tienen versión en portugués.** Al 03/11 hay 112 fichas en
+   español y 74 en portugués. Una ficha sin traducir **no puede posicionar en
+   Brasil**: no existe en `/pt-br/` y no recibe hreflang. De las 38 que faltan,
+   **32 se pueden traducir ya** y **6 no se deben traducir**: son fichas
+   hermanas que publican exactamente el mismo texto en español que su principal
+   (ver el pendiente 4). Las que más duelen de las 32 son
    `trekking-glaciar-torrecillas-glaxiar` y `expedicion-menendez-glaxiar`
    (glaciares, que es lo que busca un brasileño después de los pingüinos),
    `observacion-de-aves-full-day` y `bird-watching-half-day`. El resto son 7
-   habitaciones y paquetes de alojamiento, 6 restaurantes y varias variantes de
-   Ruta Galesa y tulipanes. **Se traducen a mano, de a 5 por corrida** (como el
-   02/11 y el 03/11): escribir la entrada en `src/data/traducciones-pt.json` con
-   título, meta description, cuerpo, destino, categoría, duración, alt y 2–3 FAQ.
-   El `hash` de cada entrada sale de la huella de la ficha en Firestore
-   (`huella()` de `scripts/traducir-pt.mjs`): si se pone el hash correcto, el
-   script no vuelve a traducir por arriba de lo escrito a mano. Los tours se
-   pueden leer sin credenciales con la API REST pública de Firestore que usa
-   `src/lib/contenido.js`, así que el cuerpo en español se saca de ahí y no hay
-   que rasparlo del HTML. El script `scripts/traducir-pt.mjs` hace lo mismo con
-   la API de Anthropic, pero pide `ANTHROPIC_API_KEY`, que la corrida de la
-   madrugada no tiene.
-4. **Las 14 fichas con sufijo de prestador no pueden tener página en portugués.**
-   `obtenerExperienciasPt()` (`src/lib/traducciones.js`) filtra por
-   `esFichaPrincipal`, y las traducciones están indexadas por el slug compartido:
-   la ficha que se quedó con la URL limpia publica en `/pt-br/` y la hermana con
-   sufijo (`peninsula-valdes-sussanich-turismo`, `piedra-parada-merakisur`,
-   `trevelin-full-day-limits-adventure`, las 6 de MerakiSur en Los Alerces y
-   Ruta Galesa, etc.) **no existe en portugués aunque se la traduzca**. Son 14
-   fichas, varias de ellas de los destinos más buscados desde Brasil
-   (Península Valdés, Los Alerces, Piedra Parada). El arreglo es del lado de
-   Astro y es chico: indexar las traducciones por slug único en lugar de por
-   slug base, y dejar que la capa pt publique también las hermanas con su propio
-   `slugPt`. No toca `contenido.js`, ni el precio, ni el `slugReserva`. Hacerlo
-   en una corrida propia, con el mismo cuidado que el 02/11: verificar antes y
-   después que las 69 páginas pt ya indexadas sirven exactamente lo mismo.
+   habitaciones y paquetes de alojamiento, 6 restaurantes, varias variantes de
+   Ruta Galesa y tulipanes y 3 hermanas con texto propio
+   (`lago-bagillt-merakisur`, `panoramicas-de-esquel-merakisur`,
+   `rafting-en-corcovado-merakisur`). **Se traducen a mano, de a 5 por corrida**
+   (como el 02/11 y el 03/11): escribir la entrada en
+   `src/data/traducciones-pt.json` **con el slug único de la ficha como clave**
+   (desde el 03/11 es el slug único, no el del grupo), con título, meta
+   description, cuerpo, destino, categoría, duración, alt y 2–3 FAQ. El `hash`
+   sale de la huella de la ficha en Firestore (`huella()` de
+   `scripts/traducir-pt.mjs`): con el hash correcto el script no vuelve a
+   traducir por arriba de lo escrito a mano. Los tours se leen sin credenciales
+   con la API REST pública de Firestore que usa `src/lib/contenido.js`, así que
+   el cuerpo en español se saca de ahí y no hay que rasparlo del HTML. El script
+   `scripts/traducir-pt.mjs` hace lo mismo con la API de Anthropic, pero pide
+   `ANTHROPIC_API_KEY`, que la corrida de la madrugada no tiene.
+4. **Seis fichas hermanas publican el mismo texto que su principal.** Resuelto
+   el lado del código el 03/11 (ver "Hecho"): las traducciones se indexan por
+   slug único y una hermana publica en `/pt-br/` en cuanto se le escribe su
+   entrada. Lo que queda es de catálogo: de las 14 hermanas, 8 tienen texto
+   propio y **6 publican en español, palabra por palabra, el mismo texto que su
+   ficha principal** —dos agencias cargaron el texto del mismo operador—. Son
+   `trevelin-full-day-con-visita-al-campo-de-peonias-merakisur`,
+   `ruta-galesa-con-complejo-hidroelectrico-futaleufu-merakisur`,
+   `parque-nacional-los-alerces-portada-centro-y-complejo-hidroelectrico-futaleufu-merakisur`,
+   `ruta-galesa-con-complejo-hidroelectrico-futaleufu-con-visita-al-campo-de-peonias-limits-adventure`,
+   `alquiler-de-bicicletas-merakisur` y
+   `parque-nacional-los-alerces-half-day-limits-adventure`. Para Google son dos
+   páginas iguales compitiendo entre ellas, en español ya hoy; en portugués no
+   se traducen a propósito, para no repetir el problema. **Va en "Para Marcelo":
+   es decisión de catálogo**, no de código.
 5. **Contenido pt-BR traducido a máquina.** Google Brasil premia el texto que
-   suena nativo. Revisar las fichas con más impresiones y reescribirlas. Las 10
-   del 02/11 y el 03/11 ya están escritas a mano; las 59 anteriores salieron
-   del script.
+   suena nativo. Revisar las fichas con más impresiones y reescribirlas. Las 16
+   del 02/11 y el 03/11 ya están escritas a mano; las 58 anteriores salieron
+   del script. **Un caso concreto para empezar:** la pt de
+   `rafting-en-corcovado` traduce sólo el arranque del texto en español y se
+   corta justo antes de "LA ACTIVIDAD INCLUYE", así que la página en portugués
+   no dice qué incluye el rafting. Se detectó el 03/11 comparando la traducción
+   contra las dos fichas hermanas.
 6. **Guías sin oferta propia que enlazar.** Resuelto el enlazado automático
    (ver "Hecho" del 29/10), quedan **26 de las 60 guías sin ningún enlace a
    ficha** porque no hay nada publicado en ese lugar: 5 de Bariloche, 4 de El
@@ -207,7 +231,7 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    resultados con precio se muestran igual, pero la validación tira aviso. El
    campo tiene que salir de una fecha de vigencia del precio, y el precio es
    zona prohibida: hay que definir de dónde sale esa fecha antes de tocarlo.
-8. **Las fichas en español no tienen FAQPage.** Las 69 en portugués traen
+8. **Las fichas en español no tienen FAQPage.** Las 74 en portugués traen
    `faq` en `traducciones-pt.json` y publican FAQPage; las 98 en español no
    tienen de dónde sacarlo, así que pierden el bloque de preguntas en el
    resultado de Google. Es carga de datos: un `faq-es.json` espejo del
@@ -253,6 +277,56 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
     de un prestador llevan el sufijo del prestador en el slug.
 
 ## Hecho
+
+- **03/11/2026 (segunda parte)** — Las traducciones se indexan por **slug único**
+  de la ficha y no por el slug compartido del grupo, así que las fichas hermanas
+  con sufijo de prestador ya pueden publicar en portugués. Hasta hoy
+  `obtenerExperienciasPt()` filtraba por `esFichaPrincipal` y buscaba la
+  traducción por el slug del grupo: las 14 fichas que el 02/11 pasaron a tener
+  URL propia **no podían existir en `/pt-br/` aunque se las tradujera**. Ahora
+  para la ficha que se quedó con la URL limpia los dos slugs coinciden (las 69
+  páginas pt ya indexadas no se mueven) y una hermana publica en cuanto se le
+  escribe su entrada. **Sin entrada propia no hay página, a propósito:** 6 de las
+  14 hermanas publican palabra por palabra el mismo texto en español que su
+  principal y traducirlas sería duplicado en portugués (anotado en
+  "Para Marcelo"). El cambio son 2 archivos, `src/lib/traducciones.js` y
+  `src/pages/sitemap-imagens.xml.js`; verificado con el cambio solo, sin tocar
+  datos: **las 246 páginas del build salen byte a byte idénticas**, lo único que
+  cambia son los timestamps del sitemap y del catálogo de `/aike`.
+
+- **03/11/2026** — **Arreglado un error de emparejamiento en la página pt de
+  Península Valdés**, el destino más buscado del mercado brasileño. La
+  traducción que vivía bajo la clave `peninsula-valdes` es la de SUSSANICH
+  TURISMO (sale de Puerto Pirámides, 11 h), pero desde el 02/11 esa clave es la
+  ficha de Forastero tour (sale de Puerto Madryn, 10 h). Resultado:
+  `/pt-br/experiencias/excursao-peninsula-valdes-puerto-piramides/` describía el
+  itinerario de Sussanich mientras publicaba el precio de Forastero ($144.000) y
+  su link de reserva —**un brasileño leía un tour y reservaba otro**—. La entrada
+  se mudó a la clave `peninsula-valdes-sussanich-turismo` conservando su
+  `slugPt`: la URL indexada no cambia y ahora describe, cobra ($135.000) y
+  reserva el tour correcto; su hreflang es-AR pasó a apuntar a
+  `/experiencias/peninsula-valdes-sussanich-turismo/`. Forastero tiene su página
+  pt nueva. Se buscó el mismo error en los otros 13 grupos comparando cada
+  traducción contra las dos fichas hermanas (coincidencia de números y nombres
+  propios, que no cambian al traducir): **era el único caso**.
+
+- **03/11/2026** — Cinco páginas en portugués nuevas, de fichas hermanas con
+  texto propio: Península Valdés de Forastero
+  (`peninsula-valdes-saindo-de-puerto-madryn`), Los Alerces día completo de
+  MerakiSur (`parque-nacional-los-alerces-dia-inteiro-esquel`), Piedra Parada y
+  el cañadón La Buitrera de MerakiSur
+  (`piedra-parada-canyon-la-buitrera-esquel`), Valle de Cholila de LIMITS
+  ADVENTURE (`valle-de-cholila-butch-cassidy-museu-leleque`) y Trevelin por la
+  Ruta 259 de LIMITS ADVENTURE (`trevelin-rota-259-nant-y-fall-moinho-andes`).
+  Escritas a mano desde el texto real de cada ficha, con título, meta
+  description de 133 a 139 caracteres, cuerpo, destino, categoría, duración, alt
+  y 3 FAQ. Verificado contra producción: de las 112 fichas en español, 106 sin
+  un solo cambio y 6 que sólo ganan o corrigen el hreflang pt-BR; las 69 pt
+  anteriores sin cambios en título, description, canonical, precio ni link de
+  reserva (salvo la de Valdés, que es el arreglo); **cada página pt sirve el
+  mismo precio y el mismo slug de reserva que su ficha en español**; cero
+  títulos, cero descriptions y cero canonicals duplicados entre las 186 fichas.
+  Sitemap 270 → 275.
 
 - **03/11/2026** — Las 5 fichas de más impacto para Brasil, traducidas a mano al
   portugués: `pinguinera-punta-tombo` → `pinguins-punta-tombo-trelew`,
@@ -870,3 +944,58 @@ consultas con "pinguins", "Punta Tombo", "lobos marinhos", "Laguna Esmeralda" y
 Yandex aceptó las 69 URLs pt; Bing sigue devolviendo 403 hasta que Marcelo
 reclame el sitio en Bing Webmaster Tools. Quedó pendiente: 29 fichas traducibles
 a mano (de a 5 por corrida) y las 14 trabadas por el pendiente 4.
+
+### 03/11/2026 (segunda parte) — Las fichas hermanas ya pueden vivir en portugués
+
+Marcelo aprobó el pendiente 4 que había quedado abierto en la corrida de la
+mañana, así que esta corrida lo resolvió. El cambio de código es chico y la
+parte que importa es que se pudo probar que **no mueve nada**: con el cambio
+aplicado y sin tocar los datos, el build genera las 246 páginas byte a byte
+idénticas al build anterior (sólo cambian los timestamps del sitemap y del
+catálogo de `/aike`). Eso es lo que dejaba tranquilo para tocar la capa que
+decide qué se publica en `/pt-br/`.
+
+Lo más valioso de la corrida no era lo que estaba previsto. Al cruzar cada
+traducción contra las dos fichas de su grupo apareció que **la página en
+portugués de Península Valdés estaba emparejada con la ficha equivocada**: el
+texto es el de Sussanich (sale de Puerto Pirámides, 11 h) y la ficha a la que
+estaba atada es la de Forastero (Puerto Madryn, 10 h), así que la página
+publicaba el itinerario de uno con el precio y el botón de reserva del otro.
+Viene así desde el 02/11, cuando cada prestador pasó a tener su URL: la
+traducción estaba indexada por el slug del grupo y ese slug cambió de dueño.
+Es la página de portugués del destino más buscado de la Patagonia desde Brasil,
+y el error no se ve mirando la página: hay que comparar el texto contra las dos
+fichas en español. Se arregló mudando la entrada a la clave de Sussanich **sin
+cambiar el `slugPt`**, así que la URL indexada no se pierde y ahora describe,
+cobra y reserva el tour correcto; Forastero quedó con página pt propia. Busqué
+el mismo error en los otros 13 grupos comparando números y nombres propios
+—que no cambian al traducir— y era el único caso.
+
+El método para esa verificación conviene no volver a inventarlo: comparar la
+traducción contra cada ficha hermana por coincidencia de tokens invariantes
+(números y palabras con mayúscula inicial) y quedarse con la que puntúa más
+alto. Da un falso positivo cuando el texto de una hermana es un prefijo del de
+la otra, que es lo que pasó con `rafting-en-corcovado`: ahí la traducción está
+bien emparejada pero **está incompleta**, se corta antes de "LA ACTIVIDAD
+INCLUYE", y quedó anotada como primer caso concreto del pendiente 5.
+
+Después escribí las 5 traducciones de hermanas con texto propio, priorizando
+por lo que busca un brasileño: Península Valdés de Forastero (ballenas, el
+destino nº 1), Los Alerces día completo de MerakiSur (parque UNESCO, el alerce
+de 500 años y el Glaciar Torrecillas desde la orilla), Piedra Parada y el
+cañadón La Buitrera, el Valle de Cholila con el Museo Leleque y la cabaña de
+Butch Cassidy, y Trevelin por la Ruta 259 con el molino, Nant y Fall y las
+viñas. De las 14 hermanas, 8 tienen texto propio: quedan 3 sin traducir
+(`lago-bagillt-merakisur`, `panoramicas-de-esquel-merakisur`,
+`rafting-en-corcovado-merakisur`) y 6 que **no** se traducen porque repiten
+palabra por palabra el texto de su principal.
+
+Resultado esperado: 5 URLs nuevas en portugués, 4 de ellas de prestadores que
+hasta hoy no tenían ninguna página en Brasil, y una página en el destino más
+buscado del mercado que dejó de contradecirse a sí misma. Se mide en Search
+Console por impresiones de `/pt-br/` en consultas con "Península Valdés",
+"baleias", "Los Alerces", "Piedra Parada" y "Trevelin", y por páginas pt
+indexadas: 69 → 74. IndexNow: Yandex aceptó las 74 pt y las URLs de Valdés en
+los dos idiomas; Bing sigue en 403 hasta que Marcelo reclame el sitio.
+Quedó pendiente: 32 fichas traducibles a mano (de a 5 por corrida) y la
+decisión de catálogo de los 6 pares con texto repetido.

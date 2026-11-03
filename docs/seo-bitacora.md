@@ -53,8 +53,8 @@ Reglas de la bitácora:
 - 61 URLs en portugués en el sitemap (home, listado y 59 fichas traducidas).
 - hreflang es-AR / pt-BR recíproco y correcto en las fichas.
 
-Tamaño del sitio al 02/11/2026: **265 URLs** en el sitemap — 112 fichas en
-español, 64 fichas en portugués, 60 guías de viaje y el resto de `public/`.
+Tamaño del sitio al 03/11/2026: **270 URLs** en el sitemap — 112 fichas en
+español, 69 fichas en portugués, 60 guías de viaje y el resto de `public/`.
 En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
 único que queda afuera es un duplicado de carga del mismo prestador
 (`navegacion-rio-grande-full-day`), que hay que borrar en el admin.
@@ -148,28 +148,46 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    contenido, no por la description. **Esto no se arregla desde el código:**
    la decisión de catálogo está en "Para Marcelo" con los slugs grupo por
    grupo. Mientras siga abierta, cada grupo le resta posiciones al otro.
-3. **48 fichas no tienen versión en portugués.** Al 02/11 hay 112 fichas en
-   español y 64 en portugués (las 14 que se publicaron hoy, una por prestador,
-   tampoco tienen traducción: las traducciones están indexadas por el slug
-   compartido, así que hay que escribirles una entrada propia con su slug
-   nuevo). Una ficha sin traducir **no puede posicionar en
-   Brasil**: no existe en `/pt-br/` y no recibe hreflang. Las que más duelen,
-   por lo que busca un brasileño, son las de fauna y las de Ushuaia:
-   `pinguinera-punta-tombo` y `punta-tombo` ("pinguins Punta Tombo" es una de
-   las búsquedas más fuertes del mercado), `punta-loma-con-city-tour`,
-   `trekking-laguna-esmeralda`, `sabores-del-beagle`,
-   `trekking-glaciar-torrecillas-glaxiar` y `expedicion-menendez-glaxiar`.
-   El resto son 7 habitaciones y paquetes de alojamiento, 6 restaurantes y
-   varias variantes de Ruta Galesa y tulipanes. **Se traducen a mano, de a 5
-   por corrida** (como se hizo el 02/11): escribir la entrada en
-   `src/data/traducciones-pt.json` con título, meta description, cuerpo,
-   destino, categoría, duración, alt y 2–3 FAQ. El script
-   `scripts/traducir-pt.mjs` hace lo mismo con la API de Anthropic, pero pide
-   `ANTHROPIC_API_KEY`, que la corrida de la madrugada no tiene.
-4. **Contenido pt-BR traducido a máquina.** Google Brasil premia el texto que
-   suena nativo. Revisar las fichas con más impresiones y reescribirlas. Las 5
-   del 02/11 ya están escritas a mano; las 59 anteriores salieron del script.
-5. **Guías sin oferta propia que enlazar.** Resuelto el enlazado automático
+3. **43 fichas no tienen versión en portugués.** Al 03/11 hay 112 fichas en
+   español y 69 en portugués. Una ficha sin traducir **no puede posicionar en
+   Brasil**: no existe en `/pt-br/` y no recibe hreflang. De las 43 que faltan,
+   **29 se pueden traducir ya** y **14 están trabadas por código** (ver el
+   pendiente 4). Las 5 de más impacto para Brasil (fauna de Chubut y Ushuaia)
+   se resolvieron el 03/11. De las 29 que quedan, las que más duelen son
+   `trekking-glaciar-torrecillas-glaxiar` y `expedicion-menendez-glaxiar`
+   (glaciares, que es lo que busca un brasileño después de los pingüinos),
+   `observacion-de-aves-full-day` y `bird-watching-half-day`. El resto son 7
+   habitaciones y paquetes de alojamiento, 6 restaurantes y varias variantes de
+   Ruta Galesa y tulipanes. **Se traducen a mano, de a 5 por corrida** (como el
+   02/11 y el 03/11): escribir la entrada en `src/data/traducciones-pt.json` con
+   título, meta description, cuerpo, destino, categoría, duración, alt y 2–3 FAQ.
+   El `hash` de cada entrada sale de la huella de la ficha en Firestore
+   (`huella()` de `scripts/traducir-pt.mjs`): si se pone el hash correcto, el
+   script no vuelve a traducir por arriba de lo escrito a mano. Los tours se
+   pueden leer sin credenciales con la API REST pública de Firestore que usa
+   `src/lib/contenido.js`, así que el cuerpo en español se saca de ahí y no hay
+   que rasparlo del HTML. El script `scripts/traducir-pt.mjs` hace lo mismo con
+   la API de Anthropic, pero pide `ANTHROPIC_API_KEY`, que la corrida de la
+   madrugada no tiene.
+4. **Las 14 fichas con sufijo de prestador no pueden tener página en portugués.**
+   `obtenerExperienciasPt()` (`src/lib/traducciones.js`) filtra por
+   `esFichaPrincipal`, y las traducciones están indexadas por el slug compartido:
+   la ficha que se quedó con la URL limpia publica en `/pt-br/` y la hermana con
+   sufijo (`peninsula-valdes-sussanich-turismo`, `piedra-parada-merakisur`,
+   `trevelin-full-day-limits-adventure`, las 6 de MerakiSur en Los Alerces y
+   Ruta Galesa, etc.) **no existe en portugués aunque se la traduzca**. Son 14
+   fichas, varias de ellas de los destinos más buscados desde Brasil
+   (Península Valdés, Los Alerces, Piedra Parada). El arreglo es del lado de
+   Astro y es chico: indexar las traducciones por slug único en lugar de por
+   slug base, y dejar que la capa pt publique también las hermanas con su propio
+   `slugPt`. No toca `contenido.js`, ni el precio, ni el `slugReserva`. Hacerlo
+   en una corrida propia, con el mismo cuidado que el 02/11: verificar antes y
+   después que las 69 páginas pt ya indexadas sirven exactamente lo mismo.
+5. **Contenido pt-BR traducido a máquina.** Google Brasil premia el texto que
+   suena nativo. Revisar las fichas con más impresiones y reescribirlas. Las 10
+   del 02/11 y el 03/11 ya están escritas a mano; las 59 anteriores salieron
+   del script.
+6. **Guías sin oferta propia que enlazar.** Resuelto el enlazado automático
    (ver "Hecho" del 29/10), quedan **26 de las 60 guías sin ningún enlace a
    ficha** porque no hay nada publicado en ese lugar: 5 de Bariloche, 4 de El
    Calafate / El Chaltén, 4 de Santa Cruz (Cueva de las Manos, Lago Posadas,
@@ -180,7 +198,7 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    de código. **Novedad del 02/11:** El Calafate ya tiene una ficha publicada
    (`tour-alternativo-al-glaciar-moreno`) y las guías de El Calafate ya la
    enlazan solas; quedan 25.
-6. **Datos estructurados.** Validar Product/Offer, FAQPage y BreadcrumbList con
+7. **Datos estructurados.** Validar Product/Offer, FAQPage y BreadcrumbList con
    la herramienta de resultados enriquecidos; corregir lo que tire error.
    Revisado el 30/10 en fichas de las dos lenguas: el JSON-LD parsea bien y los
    tipos salen completos (Organization, Product con `offers`, BreadcrumbList y,
@@ -189,13 +207,13 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    resultados con precio se muestran igual, pero la validación tira aviso. El
    campo tiene que salir de una fecha de vigencia del precio, y el precio es
    zona prohibida: hay que definir de dónde sale esa fecha antes de tocarlo.
-7. **Las fichas en español no tienen FAQPage.** Las 64 en portugués traen
+8. **Las fichas en español no tienen FAQPage.** Las 69 en portugués traen
    `faq` en `traducciones-pt.json` y publican FAQPage; las 98 en español no
    tienen de dónde sacarlo, así que pierden el bloque de preguntas en el
    resultado de Google. Es carga de datos: un `faq-es.json` espejo del
    portugués, 2–3 preguntas por ficha, escritas sólo con lo que dice la ficha.
    Se puede hacer de a 10 fichas por corrida.
-8. **Core Web Vitals.** Las páginas de `public/` cargan Tailwind por CDN y
+9. **Core Web Vitals.** Las páginas de `public/` cargan Tailwind por CDN y
    compilan en el navegador; las guías tienen imágenes pesadas. Eso sigue
    abierto y es lo que queda de este pendiente.
 
@@ -208,21 +226,21 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    prohibida; en las demás páginas se puede cambiar, pero conviene una página
    por corrida y verificando que no se rompa ningún estilo.
 
-9. **Bing rechaza IndexNow.** Yandex acepta las URLs (200 OK); Bing y el
+10. **Bing rechaza IndexNow.** Yandex acepta las URLs (200 OK); Bing y el
     endpoint compartido devuelven 403 `UserForbiddedToAccessSite` aunque la
     clave esté bien publicada y accesible. Falta reclamar el sitio en Bing
     Webmaster Tools (se importa desde Search Console en dos minutos). Es tarea
     de Marcelo: está anotada arriba. Mientras tanto el script sigue avisando a
     Yandex, que funciona (02/11: aceptó las 251 URLs).
 
-10. **Seis guías con la description corta.** El recorte nuevo cierra en fin de
+11. **Seis guías con la description corta.** El recorte nuevo cierra en fin de
     oración, y en 6 de las 60 guías la primera oración del cuerpo es muy corta
     y la segunda no entra en los 157 caracteres: quedan entre 81 y 109. No es
     un error (una oración entera lee mejor que un corte ragged), pero esas 6
     desaprovechan medio snippet. El arreglo es cargarles una `bajada` propia
     en el admin, o escribirles la description a mano como se hizo con las
     fichas. Es carga de datos.
-11. **MANTENIMIENTO DE CADA CORRIDA — fichas nuevas sin description ni
+12. **MANTENIMIENTO DE CADA CORRIDA — fichas nuevas sin description ni
     traducción.** Cruzar el sitemap contra las claves de `src/data/meta-es.json`
     y de `src/data/traducciones-pt.json` y escribir lo que falte. Una ficha que
     el admin publique hoy cae al respaldo automático de
@@ -235,6 +253,25 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
     de un prestador llevan el sufijo del prestador en el slug.
 
 ## Hecho
+
+- **03/11/2026** — Las 5 fichas de más impacto para Brasil, traducidas a mano al
+  portugués: `pinguinera-punta-tombo` → `pinguins-punta-tombo-trelew`,
+  `punta-tombo` → `punta-tombo-pinguins-puerto-madryn`,
+  `punta-loma-con-city-tour` → `punta-loma-lobos-marinhos-city-tour-puerto-madryn`,
+  `trekking-laguna-esmeralda` → `trilha-laguna-esmeralda-ushuaia` y
+  `sabores-del-beagle` → `sabores-do-beagle-puerto-almanza-ushuaia`. Hasta hoy
+  **el sitio no tenía una sola página en portugués de Punta Tombo**, que es la
+  búsqueda de fauna más fuerte del mercado brasileño ("pinguins Punta Tombo"),
+  ni de Punta Loma, ni de la Laguna Esmeralda. Las 5 llevan título, meta
+  description de 124 a 140 caracteres, cuerpo completo, destino, categoría,
+  duración, alt y 3 FAQ cada una, escritas desde el texto real de la ficha en
+  Firestore y con el vocabulario con el que busca un brasileño
+  ("pinguins-de-magalhães", "lobos-marinhos", "trilha", "frutos do mar",
+  "toninha-overa"), no traducción literal. Verificado en producción: las 5
+  sirven 200, hreflang es-AR / pt-BR / x-default recíproco en las dos lenguas,
+  canonical propio, FAQPage, cero títulos y cero descriptions duplicadas entre
+  las 69 páginas pt, y el precio y el link de reserva idénticos a la ficha en
+  español (no se tocó la fórmula de venta ni el checkout). Sitemap 265 → 270.
 
 - **02/11/2026** — Una URL por prestador: 14 tours que no tenían página ahora
   se publican. Firestore tenía 113 tours activos y el sitio publicaba 98
@@ -785,3 +822,51 @@ fichas. Y quedaron dos cosas para el admin, anotadas en "Para Marcelo": el tour
 de MerakiSur cargado dos veces (que el sitio ya publica una sola vez, pero
 conviene borrar) y las dos fichas hermanas que ahora muestran precios distintos
 en Google para lo que parece el mismo tour.
+
+### 03/11/2026 — Cinco fichas de fauna y Ushuaia en portugués de Brasil
+
+Arranqué por el mantenimiento de cada corrida (pendiente 12): crucé las 112
+fichas en español del sitemap de producción contra las claves de
+`src/data/meta-es.json` y de `src/data/traducciones-pt.json`. **Meta
+descriptions: 112 de 112, cero faltantes** — el admin no publicó fichas nuevas
+desde el 02/11, así que no había nada que escribir. Cobertura pt: faltaban 48.
+
+Con eso libre, trabajé el pendiente 3 (cobertura en portugués) y traduje las 5
+de más impacto para Brasil: Punta Tombo por los dos prestadores, Punta Loma con
+city tour, la trilha de la Laguna Esmeralda y Sabores do Beagle. Las dos
+primeras importan más de lo que parece: `pinguins Punta Tombo` es una de las
+búsquedas de fauna más fuertes del mercado brasileño y el sitio no tenía
+**ninguna** página en portugués de Punta Tombo. De paso quedaron cubiertos los
+dos destinos de Ushuaia que faltaban del lado del trekking y la gastronomía.
+
+Un hallazgo del método que conviene no volver a averiguar: el cuerpo en español
+de cada ficha **no hay que raspárselo al HTML de producción** —el JSON-LD lo
+recorta a 300 caracteres y el texto visible viene mezclado con los bloques de
+"Seguí explorando"—. Se lee entero con la API REST pública de Firestore que ya
+usa `src/lib/contenido.js` (mismo endpoint y misma clave que
+`scripts/traducir-pt.mjs`), y de ahí sale también el `hash` de la huella, que
+hay que escribir en la entrada para que el script no pise después lo que se
+escribió a mano. Y para verificar de verdad conviene correr `npx astro build`
+**sin** `DATOS_LOCALES=1`: con los datos locales se generan 9 páginas y las
+nuevas de `/pt-br/` no aparecen; con Firestore se generan las 246 y se puede
+comprobar página por página.
+
+El hallazgo que sí abre pendiente nuevo es el 4: **las 14 fichas con sufijo de
+prestador no pueden tener página en portugués por cómo está escrito el código**,
+no por falta de traducción. `obtenerExperienciasPt()` filtra por
+`esFichaPrincipal` y las traducciones están indexadas por el slug base, así que
+`peninsula-valdes-sussanich-turismo`, `piedra-parada-merakisur`, las 6 de
+MerakiSur en Los Alerces y Ruta Galesa y las demás hermanas quedan fuera de
+`/pt-br/` aunque se las traduzca. Son varias de los destinos que más se buscan
+desde Brasil. El arreglo es chico y del lado de Astro (indexar por slug único),
+pero toca la capa que decide qué se publica en portugués, así que va en su
+propia corrida y con la misma verificación antes/después que se usó el 02/11.
+
+Resultado esperado: 5 URLs nuevas en portugués para búsquedas de alto volumen
+en Brasil que hasta hoy no tenían ninguna página del sitio compitiendo. Se mide
+en Search Console (cuando esté conectado) por impresiones de `/pt-br/` en
+consultas con "pinguins", "Punta Tombo", "lobos marinhos", "Laguna Esmeralda" y
+"Puerto Almanza", y por el total de páginas pt indexadas: 64 → 69. IndexNow:
+Yandex aceptó las 69 URLs pt; Bing sigue devolviendo 403 hasta que Marcelo
+reclame el sitio en Bing Webmaster Tools. Quedó pendiente: 29 fichas traducibles
+a mano (de a 5 por corrida) y las 14 trabadas por el pendiente 4.

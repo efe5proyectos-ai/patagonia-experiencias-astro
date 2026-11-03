@@ -5,7 +5,7 @@
 // ─────────────────────────────────────────────────────────────
 import { obtenerExperiencias } from '../lib/contenido.js';
 import { traduccionDe, urlEs, urlPt } from '../lib/traducciones.js';
-import { conSlugsUnicos, esFichaPrincipal } from '../lib/slugs.js';
+import { conSlugsUnicos } from '../lib/slugs.js';
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
 
@@ -17,7 +17,7 @@ export async function GET() {
     if (!fotos.length) continue;
     const imgs = fotos.map((u) => `    <image:image><image:loc>${esc(u)}</image:loc></image:image>`).join('\n');
     bloques.push(`  <url>\n    <loc>${esc(urlEs(e.slug))}</loc>\n${imgs}\n  </url>`);
-    const pt = esFichaPrincipal(e) ? traduccionDe(e.slug) : null;
+    const pt = traduccionDe(e.slug);
     if (pt?.slugPt) bloques.push(`  <url>\n    <loc>${esc(urlPt(pt.slugPt))}</loc>\n${imgs}\n  </url>`);
   }
   const xml = `<?xml version="1.0" encoding="UTF-8"?>

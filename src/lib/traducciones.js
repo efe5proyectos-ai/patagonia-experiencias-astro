@@ -5,7 +5,7 @@
 // páginas /pt-br/ con texto en español (contenido duplicado).
 // ─────────────────────────────────────────────────────────────
 import { obtenerExperiencias } from './contenido.js';
-import { conSlugsUnicos, esFichaPrincipal } from './slugs.js';
+import { conSlugsUnicos } from './slugs.js';
 import traducciones from '../data/traducciones-pt.json';
 
 const SITIO = 'https://patagoniaexperiencias.com';
@@ -55,9 +55,18 @@ const COTIZ = Number(import.meta.env.COTIZACION_ARS_POR_BRL) || 0;
 export const aReales = (ars) => (COTIZ > 0 && ars > 0 ? Math.round(ars / COTIZ) : 0);
 
 export async function obtenerExperienciasPt() {
-  // Las traducciones están indexadas por el slug compartido, así que en
-  // portugués se publica sólo la ficha que se quedó con la URL limpia.
-  const exps = conSlugsUnicos(await obtenerExperiencias()).filter(esFichaPrincipal);
+  // Las traducciones están indexadas por el slug ÚNICO de la ficha (el que
+  // resuelve `conSlugsUnicos`), no por el slug compartido del grupo. Para la
+  // ficha que se quedó con la URL limpia los dos coinciden, así que las páginas
+  // pt ya indexadas no se mueven; y una ficha hermana con sufijo de prestador
+  // (`peninsula-valdes-sussanich-turismo`) publica en portugués en cuanto se le
+  // escribe su propia entrada, con su propio `slugPt`.
+  //
+  // Sin entrada propia no hay página: eso es a propósito. Seis de las catorce
+  // fichas hermanas publican EXACTAMENTE el mismo texto en español que su
+  // principal (dos agencias cargaron el texto del mismo operador), y traducirlas
+  // sería contenido duplicado en portugués. Para esas no se escribe entrada.
+  const exps = conSlugsUnicos(await obtenerExperiencias());
   return exps
     .filter((e) => traducciones[e.slug]?.slugPt && traducciones[e.slug]?.descricao)
     .map((e) => {

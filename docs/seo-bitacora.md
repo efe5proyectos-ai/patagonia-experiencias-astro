@@ -53,8 +53,8 @@ Reglas de la bitácora:
 - 61 URLs en portugués en el sitemap (home, listado y 59 fichas traducidas).
 - hreflang es-AR / pt-BR recíproco y correcto en las fichas.
 
-Tamaño del sitio al 03/11/2026: **275 URLs** en el sitemap — 112 fichas en
-español, 74 fichas en portugués, 60 guías de viaje y el resto de `public/`.
+Tamaño del sitio al 04/11/2026: **280 URLs** en el sitemap — 112 fichas en
+español, 79 fichas en portugués, 60 guías de viaje y el resto de `public/`.
 En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
 único que queda afuera es un duplicado de carga del mismo prestador
 (`navegacion-rio-grande-full-day`), que hay que borrar en el admin.
@@ -164,30 +164,33 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    contenido, no por la description. **Esto no se arregla desde el código:**
    la decisión de catálogo está en "Para Marcelo" con los slugs grupo por
    grupo. Mientras siga abierta, cada grupo le resta posiciones al otro.
-3. **38 fichas no tienen versión en portugués.** Al 03/11 hay 112 fichas en
-   español y 74 en portugués. Una ficha sin traducir **no puede posicionar en
-   Brasil**: no existe en `/pt-br/` y no recibe hreflang. De las 38 que faltan,
-   **32 se pueden traducir ya** y **6 no se deben traducir**: son fichas
+3. **33 fichas no tienen versión en portugués.** Al 04/11 hay 112 fichas en
+   español y 79 en portugués. Una ficha sin traducir **no puede posicionar en
+   Brasil**: no existe en `/pt-br/` y no recibe hreflang. De las 33 que faltan,
+   **27 se pueden traducir ya** y **6 no se deben traducir**: son fichas
    hermanas que publican exactamente el mismo texto en español que su principal
-   (ver el pendiente 4). Las que más duelen de las 32 son
-   `trekking-glaciar-torrecillas-glaxiar` y `expedicion-menendez-glaxiar`
-   (glaciares, que es lo que busca un brasileño después de los pingüinos),
-   `observacion-de-aves-full-day` y `bird-watching-half-day`. El resto son 7
-   habitaciones y paquetes de alojamiento, 6 restaurantes, varias variantes de
-   Ruta Galesa y tulipanes y 3 hermanas con texto propio
-   (`lago-bagillt-merakisur`, `panoramicas-de-esquel-merakisur`,
-   `rafting-en-corcovado-merakisur`). **Se traducen a mano, de a 5 por corrida**
-   (como el 02/11 y el 03/11): escribir la entrada en
-   `src/data/traducciones-pt.json` **con el slug único de la ficha como clave**
-   (desde el 03/11 es el slug único, no el del grupo), con título, meta
-   description, cuerpo, destino, categoría, duración, alt y 2–3 FAQ. El `hash`
-   sale de la huella de la ficha en Firestore (`huella()` de
-   `scripts/traducir-pt.mjs`): con el hash correcto el script no vuelve a
-   traducir por arriba de lo escrito a mano. Los tours se leen sin credenciales
-   con la API REST pública de Firestore que usa `src/lib/contenido.js`, así que
-   el cuerpo en español se saca de ahí y no hay que rasparlo del HTML. El script
-   `scripts/traducir-pt.mjs` hace lo mismo con la API de Anthropic, pero pide
-   `ANTHROPIC_API_KEY`, que la corrida de la madrugada no tiene.
+   (ver el pendiente 4). Ya están hechas las cuatro que más dolían (glaciares y
+   observación de aves, 04/11). De las 27 que quedan, las de más impacto para
+   Brasil son `paseos-aereos-y-de-bautismo` (vuelo panorámico sobre el valle de
+   Trevelin, los campos de tulipanes y la represa de Futaleufú: "voo panorâmico"
+   es búsqueda con volumen), `astroturismo-y-aventura-en-lago-rosario` y
+   `astroturismo-en-lago-rosario-lodge` (cielo austral, nicho propio sin
+   competencia), `safari-lacustre-al-alerce-milenario-cleona` —**ojo: es del
+   grupo duplicado 1, mejor esperar la decisión de catálogo**— y las 3 hermanas
+   con texto propio (`lago-bagillt-merakisur`, `panoramicas-de-esquel-merakisur`,
+   `rafting-en-corcovado-merakisur`). El resto son 7 habitaciones y paquetes de
+   alojamiento, 6 restaurantes y varias variantes de Ruta Galesa, tulipanes y
+   peonías. **Se traducen a mano, de a 5 por corrida** (como el 02, 03 y 04/11):
+   escribir la entrada en `src/data/traducciones-pt.json` **con el slug único de
+   la ficha como clave**, con título, meta description, cuerpo, destino,
+   categoría, duración, alt y 2–3 FAQ. El `hash` sale de la huella de la ficha
+   en Firestore (`huella()` de `scripts/traducir-pt.mjs`): con el hash correcto
+   el script no vuelve a traducir por arriba de lo escrito a mano. Los tours se
+   leen sin credenciales con la API REST pública de Firestore que usa
+   `src/lib/contenido.js`, así que el cuerpo en español se saca de ahí y no hay
+   que rasparlo del HTML. El script `scripts/traducir-pt.mjs` hace lo mismo con
+   la API de Anthropic, pero pide `ANTHROPIC_API_KEY`, que la corrida de la
+   madrugada no tiene.
 4. **Seis fichas hermanas publican el mismo texto que su principal.** Resuelto
    el lado del código el 03/11 (ver "Hecho"): las traducciones se indexan por
    slug único y una hermana publica en `/pt-br/` en cuanto se le escribe su
@@ -204,13 +207,17 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    se traducen a propósito, para no repetir el problema. **Va en "Para Marcelo":
    es decisión de catálogo**, no de código.
 5. **Contenido pt-BR traducido a máquina.** Google Brasil premia el texto que
-   suena nativo. Revisar las fichas con más impresiones y reescribirlas. Las 16
-   del 02/11 y el 03/11 ya están escritas a mano; las 58 anteriores salieron
-   del script. **Un caso concreto para empezar:** la pt de
-   `rafting-en-corcovado` traduce sólo el arranque del texto en español y se
-   corta justo antes de "LA ACTIVIDAD INCLUYE", así que la página en portugués
-   no dice qué incluye el rafting. Se detectó el 03/11 comparando la traducción
-   contra las dos fichas hermanas.
+   suena nativo. Revisar las fichas con más impresiones y reescribirlas. Las 22
+   del 02, 03 y 04/11 ya están escritas a mano; las 57 anteriores salieron del
+   script. El primer caso concreto —la pt de `rafting-en-corcovado`, que se
+   cortaba antes de "LA ACTIVIDAD INCLUYE"— quedó resuelto el 04/11 (ver
+   "Hecho"). **Cómo buscar más casos del mismo tipo, que es lo que conviene
+   hacer en la próxima corrida de este pendiente:** comparar, entrada por
+   entrada, el largo del `descricao` en portugués contra el largo del cuerpo en
+   español de la ficha en Firestore. Una traducción sana queda entre el 90% y
+   el 115% del original; muy por debajo de eso es texto cortado. Vale también
+   revisar que los bloques en mayúsculas del original ("LA ACTIVIDAD INCLUYE",
+   "NO INCLUYE", "SUGERENCIAS") tengan su equivalente en la traducción.
 6. **Guías sin oferta propia que enlazar.** Resuelto el enlazado automático
    (ver "Hecho" del 29/10), quedan **26 de las 60 guías sin ningún enlace a
    ficha** porque no hay nada publicado en ese lugar: 5 de Bariloche, 4 de El
@@ -272,11 +279,28 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
     el texto con un encabezado la description arranca con esa palabra suelta) y
     no tiene página en portugués. Es el trabajo de mantenimiento más barato y
     de mayor retorno que queda. Hecho el 02/11 con las 5 fichas nuevas y con
-    las 14 de "una URL por prestador". **Ojo con el conteo:** desde el 02/11 el
+    las 14 de "una URL por prestador"; verificado otra vez el 03/11 y el 04/11,
+    con **112 de 112 meta descriptions escritas** las dos veces: el admin no
+    publicó fichas nuevas desde el 02/11. **Ojo con el conteo:** desde el 02/11 el
     sitemap tiene más fichas que claves "base" en Firestore, porque las fichas
     de un prestador llevan el sufijo del prestador en el slug.
 
 ## Hecho
+
+- **04/11/2026** — Cinco fichas nuevas en portugués y la pt de rafting
+  completa. Las cinco: trekking al Glaciar Torrecillas y Expedición Menéndez
+  (las dos de glaciares del Parque Nacional Los Alerces, que es lo que busca un
+  brasileño después de los pingüinos y las ballenas), las dos de observación de
+  aves (Los Alerces + Piedra Parada el full day, Laguna La Zeta el half day) y
+  Lagos Off Road 4x4 de Ushuaia (Paso Garibaldi, lagos Escondido y Fagnano).
+  Escritas a mano, con las 3 FAQ cada una, y con el hash de la huella de
+  Firestore para que el script no las pise. Además se completó la pt de
+  `rafting-en-corcovado`, que se cortaba justo antes de "LA ACTIVIDAD INCLUYE"
+  y por eso la página en portugués no decía qué incluye el rafting: ahora
+  traduce la ficha entera (equipamiento, transfer, refrigerio, qué llevar,
+  servicio de fotógrafo y opción con almuerzo) y se le corrigió el hash, que
+  estaba viejo y la exponía a que el script la pisara. Sitemap: 275 → 280 URLs;
+  páginas pt: 74 → 79.
 
 - **03/11/2026 (segunda parte)** — Las traducciones se indexan por **slug único**
   de la ficha y no por el slug compartido del grupo, así que las fichas hermanas
@@ -999,3 +1023,52 @@ indexadas: 69 → 74. IndexNow: Yandex aceptó las 74 pt y las URLs de Valdés e
 los dos idiomas; Bing sigue en 403 hasta que Marcelo reclame el sitio.
 Quedó pendiente: 32 fichas traducibles a mano (de a 5 por corrida) y la
 decisión de catálogo de los 6 pares con texto repetido.
+
+### 04/11/2026 — Glaciares y aves en portugués, y la pt de rafting que no decía qué incluye
+
+Arranqué por el mantenimiento (pendiente 12): crucé las 112 fichas en español
+del sitemap de producción contra `meta-es.json` y `traducciones-pt.json`. **Meta
+descriptions: 112 de 112**, nada que escribir —el admin no publica fichas nuevas
+desde el 02/11—. Cobertura pt: faltaban 38.
+
+Con eso libre trabajé el pendiente 3 y traduje las 5 de más impacto para Brasil:
+las dos de glaciares del Parque Nacional Los Alerces (trekking al Glaciar
+Torrecillas y Expedición Menéndez, que combina el alerzal milenario con el
+glaciar) y las dos de observación de aves (el full day de Los Alerces más Piedra
+Parada, y el half day de la Laguna La Zeta en Esquel, con sus 150 especies
+censadas). El glaciar es la búsqueda que sigue a los pingüinos y las ballenas en
+el mercado brasileño, y el sitio no tenía **ninguna** página en portugués de
+glaciares de Chubut. Birdwatching es nicho pero de intención altísima y casi sin
+competencia en portugués. La quinta fue Lagos Off Road de Ushuaia: 4x4 por el
+Paso Garibaldi hasta los lagos Escondido y Fagnano, que es uno de los paseos que
+el brasileño compra sí o sí cuando va a Ushuaia, y hasta hoy sólo existía en
+español.
+
+Lo que más valor tuvo no fue lo previsto. Aproveché para cerrar el caso concreto
+que el 03/11 había quedado anotado en el pendiente 5: la página en portugués de
+`rafting-en-corcovado` **se cortaba justo antes de "LA ACTIVIDAD INCLUYE"**, así
+que un brasileño leía la descripción del río y no se enteraba de que el precio
+incluye casco, remo, chaleco, neoprene, transfer de vuelta y refrigerio. Ahora
+traduce la ficha entera, incluida la opción con almuerzo y el servicio de
+fotógrafo. De paso: tenía el `hash` viejo (`778a8cc1…` contra el
+`b1714611…` de la huella actual), así que si alguna vez corre
+`scripts/traducir-pt.mjs` con la clave de API, le pasaba por arriba la máquina a
+lo escrito a mano. Quedó con el hash correcto.
+
+Para la próxima corrida del pendiente 5 dejé anotado el método, que es lo que
+faltaba: comparar el largo del `descricao` en portugués contra el largo del
+cuerpo en español de Firestore —una traducción sana queda entre el 90% y el 115%
+del original— y chequear que los bloques en mayúsculas del original ("NO
+INCLUYE", "SUGERENCIAS") tengan equivalente. Con eso se barren de una las 57
+traducciones viejas que salieron del script, sin leerlas una por una.
+
+Resultado esperado: 5 URLs nuevas en portugués en búsquedas que el sitio no
+disputaba y una sexta que pasó a vender lo que incluye. Se mide en Search
+Console (cuando esté conectado) por impresiones de `/pt-br/` en consultas con
+"glaciar Torrecillas", "Parque Nacional Los Alerces", "observação de pássaros
+Patagônia", "Lago Fagnano", "Paso Garibaldi Ushuaia" y "rafting Patagônia", y
+por el total de páginas pt indexadas: 74 → 79. Sitemap: 275 → 280 URLs.
+IndexNow: Yandex aceptó las URLs nuevas; Bing sigue en 403 hasta que Marcelo
+reclame el sitio en Bing Webmaster Tools. Quedó pendiente: 27 fichas traducibles
+a mano (de a 5 por corrida) y la decisión de catálogo de los 6 pares con texto
+repetido.

@@ -53,8 +53,8 @@ Reglas de la bitácora:
 - 61 URLs en portugués en el sitemap (home, listado y 59 fichas traducidas).
 - hreflang es-AR / pt-BR recíproco y correcto en las fichas.
 
-Tamaño del sitio al 04/11/2026: **280 URLs** en el sitemap — 112 fichas en
-español, 79 fichas en portugués, 60 guías de viaje y el resto de `public/`.
+Tamaño del sitio al 06/11/2026: **285 URLs** en el sitemap — 112 fichas en
+español, 84 fichas en portugués, 60 guías de viaje y el resto de `public/`.
 En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
 único que queda afuera es un duplicado de carga del mismo prestador
 (`navegacion-rio-grande-full-day`), que hay que borrar en el admin.
@@ -98,6 +98,22 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
   falta es que cada prestador cuente lo suyo (qué incluye, qué no, desde dónde
   sale, cuánto dura), y eso se carga en el admin. Las otras 8 hermanas sí tienen
   texto propio y 5 ya tienen su página en portugués.
+
+- **Las dos astroturismo de Lago Rosario son el mismo paseo, cargado dos
+  veces.** `astroturismo-y-aventura-en-lago-rosario` (MerakiSur) y
+  `astroturismo-en-lago-rosario-lodge` cuentan el mismo día, con el mismo
+  itinerario, el mismo lodge a 48 km de Esquel y las mismas tres actividades a
+  elección: la segunda es la versión larga de la primera. No son fichas
+  hermanas (tienen títulos distintos, así que no las agrupa `slugs.js`) y por
+  eso no aparecían en la lista de duplicados de abajo, pero para Google son dos
+  páginas del mismo producto compitiendo entre ellas. En portugués tradujimos
+  **sólo la versión larga** (06/11) para no repetir el problema. Habría que
+  dejar una sola en el admin, o diferenciarlas de verdad.
+- **`PASEOS AEREOS Y DE BAUTISMO` está cargada con la categoría `trekking`.**
+  Es un vuelo en avión sobre el valle de Trevelin: la categoría que se ve en la
+  ficha y la que usa el filtro de la app dicen "trekking". En la versión en
+  portugués se publicó como "passeios aéreos", así que hoy las dos lenguas
+  dicen cosas distintas. Se arregla en el admin, en un campo.
 
 - **Tours repetidos en el catálogo.** Hay 7 grupos de fichas distintas que
   publican exactamente el mismo texto, así que para Google son la misma página
@@ -164,21 +180,29 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    contenido, no por la description. **Esto no se arregla desde el código:**
    la decisión de catálogo está en "Para Marcelo" con los slugs grupo por
    grupo. Mientras siga abierta, cada grupo le resta posiciones al otro.
-3. **33 fichas no tienen versión en portugués.** Al 04/11 hay 112 fichas en
-   español y 79 en portugués. Una ficha sin traducir **no puede posicionar en
-   Brasil**: no existe en `/pt-br/` y no recibe hreflang. De las 33 que faltan,
-   **27 se pueden traducir ya** y **6 no se deben traducir**: son fichas
+3. **28 fichas no tienen versión en portugués.** Al 06/11 hay 112 fichas en
+   español y 84 en portugués. Una ficha sin traducir **no puede posicionar en
+   Brasil**: no existe en `/pt-br/` y no recibe hreflang. De las 28 que faltan,
+   **18 se pueden traducir ya** y **10 no conviene traducirlas**: 6 son fichas
    hermanas que publican exactamente el mismo texto en español que su principal
-   (ver el pendiente 4). Ya están hechas las cuatro que más dolían (glaciares y
-   observación de aves, 04/11). De las 27 que quedan, las de más impacto para
-   Brasil son `paseos-aereos-y-de-bautismo` (vuelo panorámico sobre el valle de
-   Trevelin, los campos de tulipanes y la represa de Futaleufú: "voo panorâmico"
-   es búsqueda con volumen), `astroturismo-y-aventura-en-lago-rosario` y
-   `astroturismo-en-lago-rosario-lodge` (cielo austral, nicho propio sin
-   competencia), `safari-lacustre-al-alerce-milenario-cleona` —**ojo: es del
-   grupo duplicado 1, mejor esperar la decisión de catálogo**— y las 3 hermanas
-   con texto propio (`lago-bagillt-merakisur`, `panoramicas-de-esquel-merakisur`,
-   `rafting-en-corcovado-merakisur`). El resto son 7 habitaciones y paquetes de
+   (ver el pendiente 4), 3 son las hermanas de MerakiSur que **revisadas el
+   06/11 resultaron casi calcos** de su principal (`lago-bagillt-merakisur` es
+   el mismo texto salvo el último párrafo; `rafting-en-corcovado-merakisur` es
+   la primera mitad del texto de LIMITS, sin el bloque de qué incluye;
+   `panoramicas-de-esquel-merakisur` repite el párrafo de LIMITS y le suma
+   recomendaciones propias — ésa es la única de las tres que vale la pena, y
+   recién después de la decisión de catálogo) y 1 es
+   `safari-lacustre-al-alerce-milenario-cleona`, del grupo duplicado 1.
+   Lo de más impacto ya está hecho: glaciares y aves (04/11) y vuelo panorámico
+   de Trevelin, astroturismo de Lago Rosario, los dos paquetes de 3 noches
+   (ski week en La Hoya y peonías en Trevelin) y Cantina Marcelino (06/11).
+   **De las 18 que quedan, por orden de impacto para Brasil:** 6 restaurantes de
+   Comodoro Rivadavia y Rada Tilly (`tunet-restaurante`, `molle-verde`,
+   `puerto-cangrejo`, `cordano`, `hilario`, `in-rada-tilly` — texto propio y
+   bien escrito, pero Comodoro no es destino brasileño: valor bajo), las 6
+   habitaciones del AGUADA HOTEL de Trelew (**ojo: entre ellas son casi
+   calcos**, conviene traducir una o dos y no las seis) y las variantes de Ruta
+   Galesa, tulipanes y peonías que quedan colgadas de la decisión de catálogo. El resto son 7 habitaciones y paquetes de
    alojamiento, 6 restaurantes y varias variantes de Ruta Galesa, tulipanes y
    peonías. **Se traducen a mano, de a 5 por corrida** (como el 02, 03 y 04/11):
    escribir la entrada en `src/data/traducciones-pt.json` **con el slug único de
@@ -218,6 +242,28 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    el 115% del original; muy por debajo de eso es texto cortado. Vale también
    revisar que los bloques en mayúsculas del original ("LA ACTIVIDAD INCLUYE",
    "NO INCLUYE", "SUGERENCIAS") tengan su equivalente en la traducción.
+
+   **El barrido se corrió el 06/11 sobre las 84 traducciones y dio seis casos
+   por debajo del 90%** (ninguno por encima del 115%):
+   `tour-alternativo-al-glaciar-moreno` 64%,
+   `parque-nacional-los-alerces-full-day-merakisur` 70%,
+   `pinguinera-punta-tombo` 73%, `peninsula-valdes` 76%,
+   `trevelin-full-day-limits-adventure` 86% y `piedra-parada-merakisur` 86%.
+   **Corrección importante al método:** se verificaron los tres peores y
+   **ninguno está cortado** — los tres terminan en el mismo punto que el
+   español. Lo que hacen es *resumir*: la máquina condensó párrafos enteros, así
+   que la página en portugués dice lo mismo con menos detalle y, sobre todo, con
+   menos palabras de las que el brasileño escribe en Google. O sea: el ratio
+   bajo no marca truncado, marca **traducción condensada**, que igual conviene
+   reescribir pero no es una urgencia. El caso de `rafting-en-corcovado` del
+   04/11 (que sí estaba cortado) se detectaba por el bloque en mayúsculas
+   faltante, no por el ratio. **Las tres de más valor para reescribir son
+   `peninsula-valdes`, `pinguinera-punta-tombo` y
+   `tour-alternativo-al-glaciar-moreno`**: son las tres búsquedas más grandes
+   del mercado brasileño y son justo las tres más condensadas. El script del
+   barrido no quedó en el repo (son 30 líneas: lee `tours` por la API REST
+   pública, replica `conSlugsUnicos`, limpia el HTML de las dos versiones y
+   divide los largos).
 6. **Guías sin oferta propia que enlazar.** Resuelto el enlazado automático
    (ver "Hecho" del 29/10), quedan **26 de las 60 guías sin ningún enlace a
    ficha** porque no hay nada publicado en ese lugar: 5 de Bariloche, 4 de El
@@ -280,12 +326,27 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
     no tiene página en portugués. Es el trabajo de mantenimiento más barato y
     de mayor retorno que queda. Hecho el 02/11 con las 5 fichas nuevas y con
     las 14 de "una URL por prestador"; verificado otra vez el 03/11 y el 04/11,
-    con **112 de 112 meta descriptions escritas** las dos veces: el admin no
-    publicó fichas nuevas desde el 02/11. **Ojo con el conteo:** desde el 02/11 el
+    con **112 de 112 meta descriptions escritas** las dos veces; verificado
+    otra vez el 06/11, también 112 de 112: el admin no publicó fichas nuevas
+    desde el 02/11. **Ojo con el conteo:** desde el 02/11 el
     sitemap tiene más fichas que claves "base" en Firestore, porque las fichas
     de un prestador llevan el sufijo del prestador en el slug.
 
 ## Hecho
+
+- **06/11/2026** — Cinco fichas nuevas en portugués y el barrido de
+  traducciones condensadas. Las cinco: el vuelo panorámico de Trevelin
+  (`paseos-aereos-y-de-bautismo`, "voo panorâmico" es búsqueda con volumen y el
+  sitio no tenía ninguna página aérea en portugués), el astroturismo de Lago
+  Rosario Lodge, los dos paquetes de 3 noches (Mini Ski Week en La Hoya y el de
+  peonías en Trevelin, que son las dos únicas páginas en portugués con precio de
+  paquete cerrado) y Cantina Marcelino, en el puerto de Rawson, que cae justo en
+  el circuito Madryn–Valdés–Punta Tombo que hace el brasileño. Escritas a mano,
+  con 2–3 FAQ cada una y con el hash de la huella de Firestore para que el
+  script no las pise. Se sacó además la clave muerta `burgermagic` de
+  `traducciones-pt.json` (había quedado de cuando esa ficha se renombró a
+  `super-magic`, que ya tiene su propia entrada). Cobertura pt: 79 → 84.
+  Sitemap: 280 → 285 URLs.
 
 - **04/11/2026** — Cinco fichas nuevas en portugués y la pt de rafting
   completa. Las cinco: trekking al Glaciar Torrecillas y Expedición Menéndez
@@ -1072,3 +1133,68 @@ IndexNow: Yandex aceptó las URLs nuevas; Bing sigue en 403 hasta que Marcelo
 reclame el sitio en Bing Webmaster Tools. Quedó pendiente: 27 fichas traducibles
 a mano (de a 5 por corrida) y la decisión de catálogo de los 6 pares con texto
 repetido.
+
+
+### 06/11/2026 — Vuelo panorámico, astroturismo y paquetes en portugués; y el barrido del pendiente 5
+
+Arranqué por el mantenimiento (pendiente 12): 112 fichas en español en el
+sitemap de producción, **112 de 112 con meta description escrita a mano**, nada
+que corregir — el admin no publica fichas nuevas desde el 02/11. Cobertura pt:
+faltaban 33.
+
+Con eso libre trabajé el pendiente 3, pero antes de traducir las cinco que la
+bitácora tenía anotadas **las leí contra su ficha principal en Firestore, y tres
+de las cinco no había que traducirlas**: `lago-bagillt-merakisur` es el texto de
+LIMITS palabra por palabra salvo el último párrafo, `rafting-en-corcovado-merakisur`
+es la primera mitad del texto de LIMITS (sin el bloque de qué incluye, que es
+justo lo que el 04/11 arreglamos en la otra) y `panoramicas-de-esquel-merakisur`
+repite el párrafo de LIMITS y le suma recomendaciones propias. Traducirlas era
+meter en portugués el mismo duplicado que en español estamos tratando de evitar.
+Quedaron anotadas así en el pendiente 3, con la única que vale la pena
+(`panoramicas-de-esquel-merakisur`) colgada de la decisión de catálogo.
+
+Lo mismo pasó con las dos de astroturismo: `astroturismo-y-aventura-en-lago-rosario`
+y `astroturismo-en-lago-rosario-lodge` son **el mismo paseo cargado dos veces**
+—mismo lodge a 48 km de Esquel, mismas tres actividades a elección, mismo cierre
+con cena— y no las agrupa `slugs.js` porque tienen títulos distintos, así que no
+estaban en la lista de duplicados. Tradujimos **sólo la versión larga** y el par
+quedó anotado en "Para Marcelo".
+
+Las cinco que sí se publicaron: **vuelo panorámico de Trevelin** (lo de más
+impacto que quedaba: "voo panorâmico" tiene volumen en Brasil y el sitio no
+tenía ninguna página aérea en portugués), **astroturismo en Lago Rosario Lodge**
+(cielo austral, nicho sin competencia en portugués), los **dos paquetes de 3
+noches** —Mini Ski Week en La Hoya y el de peonías en Trevelin— que son las dos
+primeras páginas en portugués con un paquete cerrado de varios días, y **Cantina
+Marcelino**, en el puerto de Rawson: no es gran búsqueda por sí misma, pero cae
+en el circuito Madryn–Valdés–Punta Tombo que el brasileño hace sí o sí, y las
+otras seis gastronómicas que faltan son todas de Comodoro, que no es destino
+brasileño. De paso: la ficha del vuelo está cargada en el admin con la categoría
+`trekking`; en portugués se publicó como "passeios aéreos" y el arreglo del lado
+español quedó anotado para Marcelo.
+
+Después corrí el barrido que el 04/11 había quedado planteado para el pendiente
+5: comparar el largo del `descricao` en portugués contra el del cuerpo en
+español, ficha por ficha. **Dieron seis casos por debajo del 90%**, el peor
+`tour-alternativo-al-glaciar-moreno` con 64%. Verifiqué los tres peores y
+**ninguno está cortado**: los tres terminan donde termina el español. Lo que
+hacen es resumir — la máquina condensó párrafos enteros, así que la página en
+portugués dice lo mismo con menos detalle y con menos de las palabras que el
+brasileño escribe en Google. El método entonces no detecta truncado, detecta
+condensación; el caso cortado del 04/11 se veía por el bloque en mayúsculas
+faltante, no por el ratio. Eso quedó corregido en el pendiente 5, con las tres
+de más valor para reescribir identificadas: `peninsula-valdes`,
+`pinguinera-punta-tombo` y `tour-alternativo-al-glaciar-moreno`, que son las tres
+búsquedas más grandes del mercado brasileño y justo las tres más condensadas.
+
+Resultado esperado: 5 URLs nuevas en portugués, tres de ellas en búsquedas que el
+sitio no disputaba (vuelo panorámico, astroturismo, paquetes de varios días). Se
+mide en Search Console (cuando esté conectado) por impresiones de `/pt-br/` en
+consultas con "voo panorâmico Patagônia", "voo panorâmico Trevelin",
+"astroturismo Patagônia", "observação de estrelas Patagônia", "esqui La Hoya",
+"pacote esqui Argentina", "campo de peônias Trevelin" y "frutos do mar Playa
+Unión", y por el total de páginas pt indexadas: 79 → 84. Sitemap: 280 → 285
+URLs. Quedó pendiente: 18 fichas traducibles (las de arriba de la lista valen
+poco para Brasil, así que el pendiente 5 —reescribir las tres grandes
+condensadas— rinde más que seguir traduciendo), la decisión de catálogo de los 6
+pares con texto repetido y la del par de astroturismo.

@@ -53,8 +53,9 @@ Reglas de la bitácora:
 - 61 URLs en portugués en el sitemap (home, listado y 59 fichas traducidas).
 - hreflang es-AR / pt-BR recíproco y correcto en las fichas.
 
-Tamaño del sitio al 06/11/2026: **285 URLs** en el sitemap — 112 fichas en
-español, 84 fichas en portugués, 60 guías de viaje y el resto de `public/`.
+Tamaño del sitio al 07/11/2026: **286 URLs** en el sitemap — 112 fichas en
+español, 84 fichas en portugués, 60 guías de viaje, la primera página
+informativa en portugués y el resto de `public/`.
 En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
 único que queda afuera es un duplicado de carga del mismo prestador
 (`navegacion-rio-grande-full-day`), que hay que borrar en el admin.
@@ -230,7 +231,27 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    páginas iguales compitiendo entre ellas, en español ya hoy; en portugués no
    se traducen a propósito, para no repetir el problema. **Va en "Para Marcelo":
    es decisión de catálogo**, no de código.
-5. **Contenido pt-BR traducido a máquina.** Google Brasil premia el texto que
+5. **`/pt-br/` casi no tiene contenido informativo.** Encontrado el 07/11:
+   el español tiene 60 guías de viaje más 7 páginas informativas
+   (`/calendario-fauna/`, `/que-hacer-patagonia/`, `/que-comer-patagonia/`,
+   `/puerto-madryn`, `/valle-del-chubut`, `/esquel-trevelin`,
+   `/guias-de-viaje/…`); el portugués tenía **84 fichas de venta y cero
+   contenido informativo**. El brasileño que todavía no sabe cuándo viajar
+   busca en informacional ("o que fazer em Puerto Madryn", "melhor época para
+   ver baleias", "quanto tempo ficar em Puerto Madryn") y ahí no existíamos.
+   El primero ya está hecho (07/11: el calendario de fauna en portugués, ver
+   "Hecho"). **Lo que sigue, por orden de impacto:** una guía pt de Puerto
+   Madryn y Península Valdés (el destino que el brasileño busca primero), una
+   de "o que fazer na Patagônia argentina" como puerta de entrada, y una
+   gastronómica. El molde ya está probado: página Astro en
+   `src/pages/pt-br/`, datos del mismo archivo que usa la página en español
+   (una sola verdad), `hreflang` recíproco agregado a mano en el `<head>` de
+   la página española de `public/`, FAQPage con las preguntas con las que
+   busca un brasileño y enlaces a las fichas pt que correspondan. **Ojo:** las
+   páginas informativas en español viven en `public/`, así que la versión en
+   portugués conviene hacerla en Astro (como el calendario) y no duplicando
+   HTML de 200 KB.
+6. **Contenido pt-BR traducido a máquina.** Google Brasil premia el texto que
    suena nativo. Revisar las fichas con más impresiones y reescribirlas. Las 22
    del 02, 03 y 04/11 ya están escritas a mano; las 57 anteriores salieron del
    script. El primer caso concreto —la pt de `rafting-en-corcovado`, que se
@@ -264,7 +285,28 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    barrido no quedó en el repo (son 30 líneas: lee `tours` por la API REST
    pública, replica `conSlugsUnicos`, limpia el HTML de las dos versiones y
    divide los largos).
-6. **Guías sin oferta propia que enlazar.** Resuelto el enlazado automático
+
+   **Segunda corrección, del 07/11: las tres no hay que reescribirlas.** Se
+   leyeron las tres traducciones enteras contra el cuerpo en español de su
+   ficha en Firestore, párrafo por párrafo. **Las tres están completas**: dicen
+   todo lo que dice el original —itinerario, qué incluye, qué no incluye,
+   fauna por época, horarios— y además están bien escritas en portugués de
+   Brasil, con el vocabulario con el que busca un brasileño
+   (`pinguins-de-magalhães`, `lobos-marinhos`, `toninha-overa`,
+   `praia de icebergs`). El ratio bajo sale de que **el español es verboso**,
+   no de que el portugués falte: el cuerpo de
+   `tour-alternativo-al-glaciar-moreno` viene envuelto en `<div>` y con
+   repeticiones del prestador, y los de Valdés y Punta Tombo tienen frases
+   larguísimas que en portugués quedan más cortas diciendo lo mismo. Dos de
+   las tres (`peninsula-valdes` y `pinguinera-punta-tombo`) además son de las
+   escritas a mano el 03/11. **Conclusión: el ratio de largos no sirve para
+   nada en este sitio** y este pendiente baja de prioridad: no hay traducción
+   que reescribir identificada hoy. Si aparece una sospecha nueva, el único
+   método que funcionó es el del 04/11 —buscar los bloques en mayúsculas del
+   original ("LA ACTIVIDAD INCLUYE", "NO INCLUYE", "SUGERENCIAS") que no
+   tengan equivalente en la traducción—. Lo que sí rinde para Brasil es el
+   pendiente 5: contenido informativo nuevo en portugués.
+7. **Guías sin oferta propia que enlazar.** Resuelto el enlazado automático
    (ver "Hecho" del 29/10), quedan **26 de las 60 guías sin ningún enlace a
    ficha** porque no hay nada publicado en ese lugar: 5 de Bariloche, 4 de El
    Calafate / El Chaltén, 4 de Santa Cruz (Cueva de las Manos, Lago Posadas,
@@ -275,7 +317,7 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    de código. **Novedad del 02/11:** El Calafate ya tiene una ficha publicada
    (`tour-alternativo-al-glaciar-moreno`) y las guías de El Calafate ya la
    enlazan solas; quedan 25.
-7. **Datos estructurados.** Validar Product/Offer, FAQPage y BreadcrumbList con
+8. **Datos estructurados.** Validar Product/Offer, FAQPage y BreadcrumbList con
    la herramienta de resultados enriquecidos; corregir lo que tire error.
    Revisado el 30/10 en fichas de las dos lenguas: el JSON-LD parsea bien y los
    tipos salen completos (Organization, Product con `offers`, BreadcrumbList y,
@@ -284,13 +326,24 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    resultados con precio se muestran igual, pero la validación tira aviso. El
    campo tiene que salir de una fecha de vigencia del precio, y el precio es
    zona prohibida: hay que definir de dónde sale esa fecha antes de tocarlo.
-8. **Las fichas en español no tienen FAQPage.** Las 74 en portugués traen
-   `faq` en `traducciones-pt.json` y publican FAQPage; las 98 en español no
-   tienen de dónde sacarlo, así que pierden el bloque de preguntas en el
-   resultado de Google. Es carga de datos: un `faq-es.json` espejo del
-   portugués, 2–3 preguntas por ficha, escritas sólo con lo que dice la ficha.
-   Se puede hacer de a 10 fichas por corrida.
-9. **Core Web Vitals.** Las páginas de `public/` cargan Tailwind por CDN y
+9. **Las fichas en español no tienen FAQ.** Las 84 en portugués traen `faq` en
+   `traducciones-pt.json`; las 112 en español no tienen de dónde sacarlo.
+   **Corrección del 07/11 al motivo:** este pendiente estaba justificado en
+   "pierden el bloque de preguntas en el resultado de Google", y eso ya no
+   existe — **Google dio de baja el resultado enriquecido de FAQ para todos
+   los sitios**, completando el recorte que había empezado en 2023 (antes
+   quedaba sólo para sitios de gobierno y salud). O sea: declarar `FAQPage` no
+   trae más el acordeón de preguntas en el buscador, ni acá ni en las páginas
+   en portugués que ya lo declaran. **No hay que sacar el FAQPage que ya está**
+   (no penaliza y lo leen otros consumidores de datos estructurados), pero el
+   valor de sumarlo en español ya no es el resultado enriquecido: es el texto
+   en sí —preguntas y respuestas reales suman las palabras exactas con las que
+   la gente busca, y son lo que citan las respuestas generadas por IA—. Con
+   ese motivo más flaco, este pendiente baja por debajo del contenido nuevo.
+   Sigue siendo carga de datos: un `faq-es.json` espejo del portugués, 2–3
+   preguntas por ficha, escritas sólo con lo que dice la ficha, de a 10 por
+   corrida.
+10. **Core Web Vitals.** Las páginas de `public/` cargan Tailwind por CDN y
    compilan en el navegador; las guías tienen imágenes pesadas. Eso sigue
    abierto y es lo que queda de este pendiente.
 
@@ -303,21 +356,21 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    prohibida; en las demás páginas se puede cambiar, pero conviene una página
    por corrida y verificando que no se rompa ningún estilo.
 
-10. **Bing rechaza IndexNow.** Yandex acepta las URLs (200 OK); Bing y el
+11. **Bing rechaza IndexNow.** Yandex acepta las URLs (200 OK); Bing y el
     endpoint compartido devuelven 403 `UserForbiddedToAccessSite` aunque la
     clave esté bien publicada y accesible. Falta reclamar el sitio en Bing
     Webmaster Tools (se importa desde Search Console en dos minutos). Es tarea
     de Marcelo: está anotada arriba. Mientras tanto el script sigue avisando a
     Yandex, que funciona (02/11: aceptó las 251 URLs).
 
-11. **Seis guías con la description corta.** El recorte nuevo cierra en fin de
+12. **Seis guías con la description corta.** El recorte nuevo cierra en fin de
     oración, y en 6 de las 60 guías la primera oración del cuerpo es muy corta
     y la segunda no entra en los 157 caracteres: quedan entre 81 y 109. No es
     un error (una oración entera lee mejor que un corte ragged), pero esas 6
     desaprovechan medio snippet. El arreglo es cargarles una `bajada` propia
     en el admin, o escribirles la description a mano como se hizo con las
     fichas. Es carga de datos.
-12. **MANTENIMIENTO DE CADA CORRIDA — fichas nuevas sin description ni
+13. **MANTENIMIENTO DE CADA CORRIDA — fichas nuevas sin description ni
     traducción.** Cruzar el sitemap contra las claves de `src/data/meta-es.json`
     y de `src/data/traducciones-pt.json` y escribir lo que falte. Una ficha que
     el admin publique hoy cae al respaldo automático de
@@ -333,6 +386,31 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
     de un prestador llevan el sufijo del prestador en el slug.
 
 ## Hecho
+
+- **07/11/2026** — **Primera página informativa en portugués: el calendario de
+  fauna.** Hasta hoy `/pt-br/` eran 84 fichas de venta y nada más: un brasileño
+  que todavía no sabe cuándo viajar busca en informacional ("melhor época para
+  ver baleias em Puerto Madryn", "quando ver pinguins em Punta Tombo", "melhor
+  época Península Valdés") y ahí no existíamos, aunque del lado español eso lo
+  cubre `/calendario-fauna/`, que vive en `public/` y nunca se tradujo. Nueva
+  página en `/pt-br/melhor-epoca-fauna-patagonia/` con las **33 especies** del
+  calendario: tira de 12 meses por especie (temporada alta / se ve / no se ve),
+  mejor época, dónde encontrarla, el dato de cada una, un bloque de "o que está
+  no auge em cada mês" y el enlace a las fichas en portugués que la ven —**18
+  fichas pt enlazadas, las 44 referencias del archivo resuelven**—. Lleva
+  FAQPage con las seis preguntas con las que busca un brasileño,
+  BreadcrumbList y **hreflang recíproco**: se le agregaron a mano los tres
+  `<link rel="alternate">` al `<head>` de `/calendario-fauna/`, que hasta hoy
+  no declaraba alternativa en portugués. Enlazada desde la home y desde el
+  listado pt. **Los datos salen del MISMO `public/datos-fauna.json` que usa la
+  página en español**, así que no hay dos verdades: lo único nuevo es
+  `src/data/fauna-pt.json` (nombre, zonas, mejor época y dato de cada especie
+  en pt-BR). Verificado en producción: 200, canonical propio, hreflang
+  recíproco en las dos lenguas, los 18 enlaces internos sirven 200 y el sitemap
+  pasó de 285 a 286 URLs. La página pesa 96 KB (las tiras de meses son 396
+  chips: con las clases de Tailwind repetidas pesaba 124 KB, con tres clases
+  propias quedó en 79 KB de build). No se tocó la fórmula de venta, el
+  checkout, Make ni Firebase.
 
 - **06/11/2026** — Cinco fichas nuevas en portugués y el barrido de
   traducciones condensadas. Las cinco: el vuelo panorámico de Trevelin
@@ -1198,3 +1276,63 @@ URLs. Quedó pendiente: 18 fichas traducibles (las de arriba de la lista valen
 poco para Brasil, así que el pendiente 5 —reescribir las tres grandes
 condensadas— rinde más que seguir traduciendo), la decisión de catálogo de los 6
 pares con texto repetido y la del par de astroturismo.
+
+### 07/11/2026
+
+Arranqué por el pendiente 6 (reescribir las tres traducciones "condensadas"
+que la corrida del 06/11 había identificado: `peninsula-valdes`,
+`pinguinera-punta-tombo` y `tour-alternativo-al-glaciar-moreno`) y **antes de
+escribir las leí enteras contra el cuerpo en español de Firestore. Las tres
+están completas y bien escritas**: dicen todo lo que dice el original
+—itinerario, qué incluye, qué no, fauna por época, horarios— con el
+vocabulario que usa un brasileño. El ratio bajo que las había marcado no viene
+de que falte portugués, viene de que el español es verboso: el de El Calafate
+llega envuelto en `<div>` y con repeticiones, y los de Valdés y Punta Tombo
+tienen frases larguísimas que en portugués quedan más cortas diciendo lo mismo.
+Encima dos de las tres son de las que escribimos a mano el 03/11. Conclusión
+anotada en el pendiente 6: **el ratio de largos no sirve como señal en este
+sitio** y hoy no hay ninguna traducción identificada para reescribir. Reescribir
+esas tres habría sido gastar una corrida en mover texto bueno.
+
+Con eso descartado busqué de dónde sale el crecimiento en Brasil y apareció un
+agujero más grande que cualquiera de los pendientes abiertos: **`/pt-br/` eran
+84 fichas de venta y cero contenido informativo**. En español tenemos 60 guías
+de viaje más 7 páginas informativas; en portugués, nada. Y el brasileño que
+todavía no compró no busca "excursão Península Valdés": busca "melhor época
+para ver baleias em Puerto Madryn", "quando ver pinguins em Punta Tombo", "o
+que fazer em Puerto Madryn". En toda esa capa de la búsqueda no existíamos.
+
+Hice la primera: **`/pt-br/melhor-epoca-fauna-patagonia/`**, el calendario de
+fauna en portugués, con las 33 especies, la tira de 12 meses de cada una, mejor
+época, dónde encontrarla, el dato, el bloque de qué está en su auge mes por mes
+y el enlace a las fichas pt que la ven (18 fichas enlazadas; las 44 referencias
+del archivo de fauna resuelven todas). FAQPage con las seis preguntas reales
+del mercado, BreadcrumbList, y hreflang recíproco con `/calendario-fauna/`, a
+la que le faltaban los `<link rel="alternate">` y se los agregué. **La decisión
+de diseño importante: los datos salen del mismo `public/datos-fauna.json` que
+usa la página en español**, así que las dos lenguas no se pueden desincronizar;
+lo único nuevo es `src/data/fauna-pt.json` con los textos traducidos. Si mañana
+el calendario en español suma una especie, la página en portugués la publica
+sola en cuanto se le escriba su entrada en pt.
+
+De paso, corregí el motivo del pendiente 9: estaba justificado en "las fichas
+en español pierden el bloque de preguntas en el resultado de Google", y eso ya
+no existe —**Google dio de baja el resultado enriquecido de FAQ para todos los
+sitios**—. No hay que sacar el `FAQPage` que ya publican las páginas en
+portugués, pero sumarlo en español ya no compra el acordeón en el buscador: lo
+que compra es el texto en sí. Con ese motivo más flaco el pendiente baja.
+
+Resultado esperado: entrar a la capa informativa del mercado brasileño, que es
+la de más volumen y la que no disputábamos. Se mide en Search Console (cuando
+esté conectado) por impresiones de `/pt-br/melhor-epoca-fauna-patagonia/` en
+"melhor época para ver baleias", "melhor época Península Valdés", "quando ver
+pinguins Punta Tombo", "melhor época para visitar a Patagônia" y "orcas Punta
+Norte", y por los clics que esa página derive a las 18 fichas pt que enlaza.
+Sitemap: 285 → 286 URLs. IndexNow avisó a Yandex las dos URLs (Bing sigue en
+403, pendiente 11).
+
+Quedó pendiente, en orden: las próximas páginas informativas en portugués
+(guía de Puerto Madryn y Península Valdés, "o que fazer na Patagônia
+argentina", una gastronómica — pendiente 5, con el molde ya probado), las 18
+fichas traducibles de bajo valor del pendiente 3, y las decisiones de catálogo
+de "Para Marcelo", que son las que siguen frenando los pendientes 1, 2 y 4.

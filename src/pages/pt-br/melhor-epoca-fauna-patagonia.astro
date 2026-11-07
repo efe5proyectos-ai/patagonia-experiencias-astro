@@ -1,0 +1,187 @@
+---
+// ─────────────────────────────────────────────────────────────
+// CALENDÁRIO DA FAUNA EM PT-BR
+//
+// Primeira página informativa de /pt-br/. Hasta hoy la sección en portugués
+// tenía 84 fichas de venta y cero contenido informativo: un brasileño que
+// busca "melhor época para ver baleias em Puerto Madryn" —que es la consulta
+// más grande del mercado— no encontraba nada nuestro. Del lado español eso lo
+// cubre /calendario-fauna/, que vive en public/ y no está traducida.
+//
+// Los datos de las 33 especies salen del MISMO archivo que usa la página en
+// español (public/datos-fauna.json): meses, zonas y excursiones habilitadas.
+// Lo único nuevo es src/data/fauna-pt.json, que traduce nombre, zonas, mejor
+// época y el dato de cada especie. Así no hay dos verdades: si el calendario
+// en español cambia, esta página cambia con él.
+//
+// Las excursiones de cada especie se enlazan a su ficha en portugués cuando
+// existe (hoy las 44 referencias tienen página pt). No toca precios ni el
+// botón de reserva: sólo enlaza.
+// ─────────────────────────────────────────────────────────────
+import { readFileSync } from 'node:fs';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { obtenerExperienciasPt } from '../../lib/traducciones.js';
+import faunaPt from '../../data/fauna-pt.json';
+
+const faunaEs = JSON.parse(readFileSync(new URL('../../../public/datos-fauna.json', import.meta.url), 'utf8'));
+const exps = await obtenerExperienciasPt();
+const porSlugEs = new Map(exps.map((e) => [e.slugEs, e]));
+
+const MESES = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+const MESES_LARGO = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+const AMBIENTES = [
+  { id: 'mar', titulo: 'No mar e na costa', texto: 'Baleias, pinguins, orcas, lobos-marinhos e golfinhos. É o que traz a maior parte dos brasileiros à Patagônia e se concentra na costa de Chubut.' },
+  { id: 'estepa', titulo: 'Na estepe', texto: 'A paisagem aberta entre a costa e a cordilheira: guanacos, choiques, maras e, com sorte e guia, o puma.' },
+  { id: 'bosque', titulo: 'Na floresta andina', texto: 'Condores, pica-paus, huemules e pudus, nas florestas de Esquel, Bariloche e Terra do Fogo.' },
+  { id: 'lagunas', titulo: 'Em lagoas e salinas', texto: 'Flamingos, gansos-selvagens e o macá-tobiano, que só existe em Santa Cruz.' },
+];
+
+// Especies con el texto en portugués ya pegado, en el orden del calendario español.
+const especies = faunaEs
+  .filter((e) => faunaPt[e.id])
+  .sort((a, b) => (a.rank || 99) - (b.rank || 99))
+  .map((e) => ({
+    ...e,
+    ...faunaPt[e.id],
+    passeios: (e.exc || []).map((x) => porSlugEs.get(x.s)).filter(Boolean),
+  }));
+
+// Qué está en su mejor momento en cada mes (valor 2 = temporada alta).
+const porMes = MESES_LARGO.map((_, i) => especies.filter((e) => e.meses[i] === 2));
+
+// Las tiras de meses son 33 especies x 12 meses: con las clases de Tailwind
+// repetidas en cada chip la página pesaba 124 KB. Tres clases propias y el
+// mismo HTML pesa un tercio.
+const LEYENDA = ['não se vê', 'pode ser visto', 'temporada alta'];
+
+const alternos = {
+  es: 'https://patagoniaexperiencias.com/calendario-fauna/',
+  pt: 'https://patagoniaexperiencias.com/pt-br/melhor-epoca-fauna-patagonia/',
+};
+
+const faq = [
+  { p: 'Qual é a melhor época para ver baleias em Puerto Madryn?', r: 'As baleias-franca-austral entram no Golfo Nuevo e no Golfo San José entre junho e dezembro, e o melhor momento é setembro e outubro, quando há mais mães com filhotes. Em El Doradillo, a poucos quilômetros de Puerto Madryn, elas são vistas da própria praia, sem barco.' },
+  { p: 'Quando dá para ver os pinguins em Punta Tombo?', r: 'Os pinguins-de-magalhães chegam a Punta Tombo em setembro e ficam até abril. O período mais bonito é novembro a janeiro, com os filhotes nos ninhos. Entre maio e agosto a colônia está vazia: eles estão no mar, rumo ao nordeste da América do Sul.' },
+  { p: 'É possível ver orcas em Península Valdés?', r: 'Sim, em março e abril, em Punta Norte e Caleta Valdés. É um dos dois lugares do mundo onde as orcas encalham de propósito na beira para caçar filhotes de lobo-marinho. Depende da maré, então a visita precisa ser no horário da tábua de marés, não em qualquer hora do dia.' },
+  { p: 'Qual é a melhor época do ano para visitar a Península Valdés?', r: 'Entre setembro e novembro você junta baleias, elefantes-marinhos e o começo da temporada de pinguins — é a combinação mais completa. De dezembro a março o clima é melhor para praia, golfinhos e lobos-marinhos com crias; em março e abril entram as orcas.' },
+  { p: 'Precisa de barco para ver as baleias?', r: 'Não necessariamente. A navegação sai de Puerto Pirámides, o único lugar autorizado, e é opcional em quase todos os passeios. Quem não quiser embarcar pode ver as baleias da costa em El Doradillo, perto de Puerto Madryn.' },
+  { p: 'Dá para ver tudo em uma só viagem?', r: 'Não: a fauna da Patagônia é sazonal. Baleias e elefantes-marinhos são do inverno e da primavera austral; golfinhos, pinguins com filhotes e lobos-marinhos com crias são do verão; orcas, do outono. Por isso vale escolher as datas pelo animal que você mais quer ver.' },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org', '@type': 'FAQPage', inLanguage: 'pt-BR',
+    mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.p, acceptedAnswer: { '@type': 'Answer', text: f.r } })),
+  },
+  {
+    '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Patagônia argentina', item: 'https://patagoniaexperiencias.com/pt-br/' },
+      { '@type': 'ListItem', position: 2, name: 'Calendário da fauna', item: alternos.pt },
+    ],
+  },
+];
+---
+<BaseLayout
+  titulo="Melhor época para ver baleias, pinguins e orcas na Patagônia"
+  descripcion="Calendário da fauna da Patagônia argentina: em que mês ver baleias, pinguins, orcas e mais 30 espécies, em que lugar e com qual passeio ir."
+  idioma="pt"
+  alternos={alternos}
+  schema={schema}
+>
+  <main>
+    <section class="bg-brand-oxford text-white">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20">
+        <p class="text-brand-fuchsia text-xs font-black uppercase tracking-[0.3em] mb-4"><i class="fa-solid fa-calendar-days mr-2"></i>Calendário da fauna</p>
+        <h1 class="font-sans font-extrabold text-3xl sm:text-5xl leading-tight">Melhor época para ver baleias, pinguins e orcas na Patagônia argentina</h1>
+        <p class="text-white/75 text-lg max-w-3xl mt-5">A fauna patagônica é sazonal: cada animal tem o seu mês e o seu lugar. Aqui estão 33 espécies, em que mês aparecem, onde encontrá-las e com qual passeio ir buscá-las.</p>
+        <p class="text-white/60 text-sm mt-4">Os meses são do hemisfério sul: setembro é primavera e janeiro é verão.</p>
+      </div>
+    </section>
+
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-6">O que está no auge em cada mês</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {porMes.map((lista, i) => (
+          <div class="bg-white border border-slate-200 rounded-2xl p-5">
+            <p class="font-sans font-bold text-brand-oxford capitalize mb-2">{MESES_LARGO[i]}</p>
+            {lista.length > 0
+              ? <p class="text-slate-600 text-sm leading-relaxed">{lista.map((e) => e.nome).join(' · ')}</p>
+              : <p class="text-slate-400 text-sm">Fora do auge das espécies principais, mas a estepe e a floresta se veem todo o ano.</p>}
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-4">
+      <p class="text-sm text-slate-500 flex flex-wrap items-center gap-x-4 gap-y-2">
+        <span class="inline-flex items-center gap-2"><span class="mes m2">Set</span> temporada alta</span>
+        <span class="inline-flex items-center gap-2"><span class="mes m1">Set</span> pode ser visto</span>
+        <span class="inline-flex items-center gap-2"><span class="mes m0">Set</span> não se vê</span>
+      </p>
+    </section>
+
+    {AMBIENTES.map((amb) => {
+      const lista = especies.filter((e) => e.amb === amb.id);
+      return lista.length > 0 && (
+        <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+          <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-2">{amb.titulo}</h2>
+          <p class="text-slate-600 mb-7 max-w-3xl">{amb.texto}</p>
+          <div class="space-y-5">
+            {lista.map((e) => (
+              <article class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6">
+                <h3 class="font-sans font-bold text-lg text-brand-oxford">{e.nome}</h3>
+                <p class="text-slate-400 text-xs italic mb-3">{e.cientifico}</p>
+                <div class="flex flex-wrap gap-1.5 mb-4" aria-label={`Meses para ver ${e.nome}`}>
+                  {e.meses.map((v, i) => (
+                    <span class={`mes m${v}`} title={`${MESES_LARGO[i]}: ${LEYENDA[v]}`}>{MESES[i]}</span>
+                  ))}
+                </div>
+                <p class="text-slate-700 text-sm mb-1.5"><span class="font-bold text-brand-oxford">Melhor época:</span> {e.melhor}</p>
+                <p class="text-slate-700 text-sm mb-1.5"><span class="font-bold text-brand-oxford">Onde:</span> {e.zonas}</p>
+                <p class="text-slate-600 text-sm leading-relaxed mt-3">{e.dado}</p>
+                {e.passeios.length > 0 && (
+                  <div class="mt-4 pt-4 border-t border-slate-100">
+                    <p class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">Passeios para ver</p>
+                    <ul class="space-y-1.5">
+                      {e.passeios.map((p) => (
+                        <li>
+                          <a href={`/pt-br/experiencias/${p.slug}/`} class="text-brand-fuchsia font-semibold text-sm hover:underline inline-flex items-start gap-2">
+                            <i class="fa-solid fa-arrow-right text-[10px] mt-1.5"></i><span>{p.titulo}</span>
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </article>
+            ))}
+          </div>
+        </section>
+      );
+    })}
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 pb-12">
+      <h2 class="font-sans font-extrabold text-2xl text-brand-oxford mb-4">Perguntas frequentes</h2>
+      <div class="space-y-3">
+        {faq.map((f) => (
+          <details class="bg-white border border-slate-200 rounded-2xl p-5">
+            <summary class="font-sans font-bold text-brand-oxford cursor-pointer">{f.p}</summary>
+            <p class="mt-3 text-slate-600 leading-relaxed">{f.r}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 pb-16 text-center">
+      <a href="/pt-br/experiencias/" class="inline-flex items-center gap-2 bg-brand-fuchsia text-white font-bold text-sm uppercase tracking-widest px-7 py-3.5 rounded-full shadow-lg shadow-brand-fuchsia/30 hover:bg-brand-fuchsiaDark transition-all"><i class="fa-solid fa-compass"></i> Ver todos os passeios</a>
+    </section>
+  </main>
+
+  <style is:global>
+    .mes { font-size: 11px; font-weight: 700; padding: 0.25rem 0.5rem; border-radius: 0.375rem; border: 1px solid; line-height: 1.25; }
+    .m2 { background: #E91E63; color: #fff; border-color: #E91E63; }
+    .m1 { background: #fde7ef; color: #C2185B; border-color: #f7c2d6; }
+    .m0 { background: #f1f5f9; color: #94a3b8; border-color: #e2e8f0; }
+  </style>
+</BaseLayout>

@@ -1,0 +1,200 @@
+{
+  "ballena-franca": {
+    "nome": "Baleia-franca-austral",
+    "zonas": "Península Valdés, Puerto Pirámides, El Doradillo, Golfo San José",
+    "melhor": "Setembro e outubro",
+    "dado": "Em El Doradillo as baleias são vistas da praia, sem barco: a água profunda chega quase até a beira."
+  },
+  "pinguino-magallanes": {
+    "nome": "Pinguim-de-magalhães",
+    "zonas": "Punta Tombo, Cabo Dos Bahías, Isla Escondida, Estancia San Lorenzo, Cabo Vírgenes, Monte León, Isla Martillo",
+    "melhor": "Novembro a janeiro",
+    "dado": "Chegam em setembro, põem os ovos em outubro e os filhotes nascem em novembro. Em fevereiro trocam as penas e ficam parados em terra."
+  },
+  "orca": {
+    "nome": "Orca",
+    "zonas": "Punta Norte e Caleta Valdés, Península Valdés",
+    "melhor": "Março e abril",
+    "dado": "Punta Norte é um dos dois lugares do mundo onde as orcas encalham de propósito para caçar filhotes de lobo-marinho. Depende da maré: é preciso ir no horário da tábua, não em qualquer hora."
+  },
+  "lobo-marino": {
+    "nome": "Lobo-marinho-de-um-pelo",
+    "zonas": "Punta Loma, Punta Pirámide, Punta León, Punta Bermeja, Isla de los Pájaros",
+    "melhor": "Dezembro a fevereiro",
+    "dado": "Estão ali todo o ano, mas em dezembro e janeiro nascem as crias e a colônia fica cheia de som."
+  },
+  "elefante-marino": {
+    "nome": "Elefante-marinho-do-sul",
+    "zonas": "Punta Delgada, Caleta Valdés, Península Valdés",
+    "melhor": "Setembro a novembro",
+    "dado": "A única colônia continental do mundo está em Península Valdés. Um macho adulto pesa o mesmo que uma caminhonete."
+  },
+  "ballena-sei": {
+    "nome": "Baleia-sei",
+    "zonas": "Península Valdés, Camarones, Golfo San Jorge",
+    "melhor": "Janeiro a março",
+    "dado": "É a segunda baleia mais rápida do mar e há alguns anos quase não era registrada aqui. Hoje o norte de Chubut é um dos poucos lugares do mundo onde ela se concentra no verão."
+  },
+  "tonina-overa": {
+    "nome": "Toninha-overa (golfinho-de-commerson)",
+    "zonas": "Playa Unión e Rawson, Camarones, Puerto Deseado, Bahía San Antonio",
+    "melhor": "Dezembro a março",
+    "dado": "Branca e preta, do tamanho de uma criança. A saída de Rawson é às 8 da manhã, porque o mar está mais calmo e a visibilidade é melhor."
+  },
+  "delfin-oscuro": {
+    "nome": "Golfinho-escuro",
+    "zonas": "Golfo Nuevo, Golfo San José, Punta Loma",
+    "melhor": "Dezembro a março",
+    "dado": "Andam em grupos grandes e são os que mais saltam e giram. Costumam se aproximar sozinhos da embarcação."
+  },
+  "guanaco": {
+    "nome": "Guanaco",
+    "zonas": "Toda a estepe, Península Valdés, Cabo Dos Bahías, Lihué Calel, Parque Patagonia",
+    "melhor": "Novembro a janeiro, quando nascem os chulengos",
+    "dado": "O chulengo (filhote) caminha 15 minutos depois de nascer. Se você vê um guanaco sozinho parado numa lomba, olhando fixo, é o sentinela do grupo."
+  },
+  "condor": {
+    "nome": "Condor-dos-andes",
+    "zonas": "Cânions e cornijas da cordilheira, Esquel, Bariloche, Parque Patagonia",
+    "melhor": "Primavera e verão, no meio da manhã",
+    "dado": "Precisa de correntes de ar quente para voar: por isso aparece quando o sol já esquentou as paredes de rocha, e não ao amanhecer."
+  },
+  "huemul": {
+    "nome": "Huemul (cervo-dos-andes-do-sul)",
+    "zonas": "Los Alerces, Nahuel Huapi, Parque Patagonia, Los Glaciares",
+    "melhor": "Todo o ano, com muita sorte",
+    "dado": "Está no escudo nacional argentino e restam menos de 2.000 no mundo. Se você vê um, vale avisar o guarda-parque: serve para o monitoramento."
+  },
+  "puma": {
+    "nome": "Puma",
+    "zonas": "Parque Patagonia, Cañadón Pinturas, Lihué Calel, estâncias de planalto",
+    "melhor": "Abril a outubro",
+    "dado": "No inverno o pasto está baixo e há menos horas de sol forte: é quando mais se consegue vê-lo. Sempre com guia habilitado."
+  },
+  "pinguino-papua": {
+    "nome": "Pinguim-gentoo (papua)",
+    "zonas": "Isla Martillo, Canal Beagle",
+    "melhor": "Novembro a fevereiro",
+    "dado": "Convive com o pinguim-de-magalhães na mesma ilha. É o do bico laranja e a mancha branca sobre o olho."
+  },
+  "pinguino-penacho": {
+    "nome": "Pinguim-de-penacho-amarelo",
+    "zonas": "Isla Pingüino, Puerto Deseado",
+    "melhor": "Novembro a fevereiro",
+    "dado": "É a única colônia acessível do continente. Chega-se só por navegação e depende do vento."
+  },
+  "choique": {
+    "nome": "Choique (ema-de-darwin)",
+    "zonas": "Estepe patagônica, Península Valdés, Punta Tombo, Lihué Calel, estradas de planalto",
+    "melhor": "Novembro a janeiro",
+    "dado": "O macho faz o ninho, choca os ovos de várias fêmeas e cria os filhotes sozinho. Não confunda com a ema do norte: o choique é menor e é o da Patagônia."
+  },
+  "ballena-jorobada": {
+    "nome": "Baleia-jubarte",
+    "zonas": "Golfo Nuevo, plataforma patagônica",
+    "melhor": "Outono",
+    "dado": "Não tem temporada fixa na Patagônia: aparece de passagem. Se você a vê saltando inteira fora da água, é ela."
+  },
+  "loro-barranquero": {
+    "nome": "Papagaio-patagônico (loro barranquero)",
+    "zonas": "Balneario El Cóndor (Río Negro), barrancas do rio Colorado, Lihué Calel, falésias de planalto",
+    "melhor": "Novembro a janeiro",
+    "dado": "A colônia do Balneario El Cóndor é a maior do mundo: dezenas de milhares de ninhos escavados numa falésia de vários quilômetros. No fim da tarde voltam todos juntos e o barulho cobre o do mar."
+  },
+  "delfin-austral": {
+    "nome": "Golfinho-austral",
+    "zonas": "Ría Deseado, canais fueguinos, Canal Beagle",
+    "melhor": "Verão",
+    "dado": "É um dos golfinhos menos vistos do país: vive quase sempre em canais fechados e águas frias do sul."
+  },
+  "flamenco": {
+    "nome": "Flamingo-chileno",
+    "zonas": "Laguna Cacique Chiquichano, salinas e lagoas de La Pampa, lagoas de planalto, baías costeiras",
+    "melhor": "Primavera e verão",
+    "dado": "O rosa vem dos crustáceos que ele filtra da lama. Os jovens são cinzas e levam anos para ganhar cor."
+  },
+  "cormoran-imperial": {
+    "nome": "Corvo-marinho-imperial",
+    "zonas": "Punta Loma, Punta Tombo, Isla de los Pájaros, Ría Deseado, Canal Beagle",
+    "melhor": "Outubro a janeiro",
+    "dado": "Mergulha mais de 50 metros para pescar. Na primavera a cara fica laranja intenso: é época reprodutiva."
+  },
+  "albatros": {
+    "nome": "Albatrozes e petréis",
+    "zonas": "Canal Beagle, mar aberto em frente a Puerto Madryn e Puerto Deseado",
+    "melhor": "Outono e inverno",
+    "dado": "O albatroz-de-sobrancelha abre quase dois metros e meio de asas e pode passar anos sem tocar a terra."
+  },
+  "aves-playeras": {
+    "nome": "Aves migratórias de praia",
+    "zonas": "San Antonio Oeste, Península Valdés, Río Gallegos, Playa Unión",
+    "melhor": "Outubro e novembro, fevereiro e março",
+    "dado": "O maçarico-de-papo-vermelho faz 15.000 km do Ártico até aqui. Para para comer na costa patagônica e segue viagem."
+  },
+  "ciervo-colorado": {
+    "nome": "Cervo-vermelho na berra",
+    "zonas": "Reserva Provincial Parque Luro (La Pampa), parques e estâncias da cordilheira de Neuquén e Río Negro",
+    "melhor": "Março e abril",
+    "dado": "No outono os machos berram para marcar território e se escuta a quilômetros. Parque Luro, em La Pampa, é o lugar clássico do país para ouvir: no fim da tarde e à noite, com guia."
+  },
+  "zorro": {
+    "nome": "Graxaim-colorado e graxaim-cinza",
+    "zonas": "Toda a Patagônia, do caldenal pampeano à cordilheira e à costa",
+    "melhor": "Todo o ano, ao amanhecer e no fim da tarde",
+    "dado": "O colorado é o segundo maior canídeo da América do Sul. Nunca dê comida: ele perde o medo e acaba atropelado na estrada."
+  },
+  "mara": {
+    "nome": "Mara patagônica",
+    "zonas": "Península Valdés, planalto de Chubut, Punta Tombo, Lihué Calel",
+    "melhor": "Todo o ano, cedo ou no fim da tarde",
+    "dado": "Parece uma lebre com pernas de cervo e só existe na Argentina. Forma casal para toda a vida."
+  },
+  "castor": {
+    "nome": "Castor",
+    "zonas": "Rios e turfeiras da Terra do Fogo",
+    "melhor": "Verão, no fim da tarde",
+    "dado": "Foi trazido em 1946 para a indústria de peles e hoje é a principal praga da floresta fueguina. As represas se veem da estrada."
+  },
+  "carpintero": {
+    "nome": "Pica-pau-magalhânico",
+    "zonas": "Florestas de lenga e coihue, Los Alerces, Terra do Fogo",
+    "melhor": "Primavera",
+    "dado": "É o maior pica-pau da América do Sul. Você o escuta antes de ver: duas batidas secas e espaçadas contra o tronco."
+  },
+  "huillin": {
+    "nome": "Huillín (lontra-do-sul)",
+    "zonas": "Lagos andinos, Nahuel Huapi, Canal Beagle",
+    "melhor": "Todo o ano, cedo pela manhã",
+    "dado": "Lontra nativa em perigo. É confundida com o visão, que é introduzido e justamente uma das causas do declínio do huillín."
+  },
+  "maca-tobiano": {
+    "nome": "Macá-tobiano",
+    "zonas": "Planaltos de Santa Cruz, Parque Patagonia, estuário do rio Santa Cruz no inverno",
+    "melhor": "Novembro a fevereiro",
+    "dado": "Existe somente em Santa Cruz e não chega a 800 casais. Vê-lo é uma das coisas mais difíceis de conseguir na Patagônia."
+  },
+  "pudu": {
+    "nome": "Pudu",
+    "zonas": "Floresta úmida de Nahuel Huapi, Lanín e Los Alerces",
+    "melhor": "Todo o ano, muito esquivo",
+    "dado": "É o menor cervo do mundo: 40 cm de altura. Move-se no sub-bosque fechado e quase nunca se deixa ver."
+  },
+  "cauquenes": {
+    "nome": "Gansos-selvagens (cauquenes)",
+    "zonas": "Lagoas e campos de La Pampa e Río Negro no inverno, estepe de Santa Cruz e Terra do Fogo no verão",
+    "melhor": "Outono e inverno em La Pampa, primavera no sul",
+    "dado": "Criam no sul e sobem para passar o inverno no norte da Patagônia. O cauquén-colorado está em perigo crítico: restam poucas centenas e sua caça é proibida em todo o país."
+  },
+  "vizcacha": {
+    "nome": "Vizcacha-das-planícies",
+    "zonas": "Caldenal pampeano, Lihué Calel, Parque Luro, campos do norte da Patagônia",
+    "melhor": "Todo o ano, no fim da tarde e à noite",
+    "dado": "Vive em tocas subterrâneas comunais que podem ter décadas de uso. Junta ossos, galhos e qualquer coisa que brilhe e empilha tudo na entrada."
+  },
+  "piche": {
+    "nome": "Tatu-peludo patagônico (piche)",
+    "zonas": "Estepe, caldenal e matagal, beiras das estradas de planalto",
+    "melhor": "Primavera e verão",
+    "dado": "É o único tatu que hiberna. Em pleno inverno fica debaixo da terra e não aparece."
+  }
+}

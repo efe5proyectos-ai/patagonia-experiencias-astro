@@ -100,6 +100,18 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
   sale, cuánto dura), y eso se carga en el admin. Las otras 8 hermanas sí tienen
   texto propio y 5 ya tienen su página en portugués.
 
+- **Dos fichas distintas venden El Doradillo.** `doradillo` y
+  `el-doradillo-avistaje-costero-ballena-franca-austral` son el mismo lugar y
+  el mismo producto (avistaje costero de ballena franca en el área protegida de
+  El Doradillo), de dos prestadores distintos. **No es el caso de los
+  duplicados de abajo: los textos son propios de cada uno**, con datos que ni
+  siquiera coinciden (una dice 18 km de Puerto Madryn, la otra 19 km y 30 km de
+  costa desde Punta Arco hasta el Cerro Prismático). Están las dos publicadas
+  en español y en portugués, así que compiten entre ellas por la misma
+  búsqueda. No hay nada roto y no hace falta tocar nada; si querés que no se
+  pisen, lo que diferencia de verdad es que cada ficha diga desde dónde sale,
+  cuánto dura y qué incluye, y eso se carga en el admin.
+
 - **Las dos astroturismo de Lago Rosario son el mismo paseo, cargado dos
   veces.** `astroturismo-y-aventura-en-lago-rosario` (MerakiSur) y
   `astroturismo-en-lago-rosario-lodge` cuentan el mismo día, con el mismo
@@ -239,11 +251,15 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    contenido informativo**. El brasileño que todavía no sabe cuándo viajar
    busca en informacional ("o que fazer em Puerto Madryn", "melhor época para
    ver baleias", "quanto tempo ficar em Puerto Madryn") y ahí no existíamos.
-   El primero ya está hecho (07/11: el calendario de fauna en portugués, ver
-   "Hecho"). **Lo que sigue, por orden de impacto:** una guía pt de Puerto
-   Madryn y Península Valdés (el destino que el brasileño busca primero), una
-   de "o que fazer na Patagônia argentina" como puerta de entrada, y una
-   gastronómica. El molde ya está probado: página Astro en
+   Ya están hechas **dos**: el calendario de fauna (07/11) y la guía de
+   destino de Puerto Madryn y Península Valdés (08/11), las dos en "Hecho".
+   **Lo que sigue, por orden de impacto:** una de "o que fazer na Patagônia
+   argentina" como puerta de entrada general (es la consulta más amplia del
+   mercado y hoy entra por la home, que es comercial), una gastronómica
+   ("o que comer na Patagônia", espejo de `/que-comer-patagonia/`) y, más
+   abajo, una de Esquel y Trevelin —la cordillera es el segundo destino del
+   brasileño después de la costa y tiene 25 fichas pt publicadas, más que
+   Madryn—. El molde ya está probado dos veces: página Astro en
    `src/pages/pt-br/`, datos del mismo archivo que usa la página en español
    (una sola verdad), `hreflang` recíproco agregado a mano en el `<head>` de
    la página española de `public/`, FAQPage con las preguntas con las que
@@ -383,9 +399,54 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
     otra vez el 06/11, también 112 de 112: el admin no publicó fichas nuevas
     desde el 02/11. **Ojo con el conteo:** desde el 02/11 el
     sitemap tiene más fichas que claves "base" en Firestore, porque las fichas
-    de un prestador llevan el sufijo del prestador en el slug.
+    de un prestador llevan el sufijo del prestador en el slug. **Y sumale el barrido
+    de slugs:** el 08/11 apareció un `slugPt` que decía "puerto-madrid" en vez
+    de "puerto-madryn" (ver "Hecho"). Cada vez que el script de traducción
+    genere slugs nuevos conviene leerlos buscando palabras en español y
+    erratas en los nombres de los destinos, antes de que la URL se indexe y
+    haya que redirigirla.
 
 ## Hecho
+
+- **08/11/2026** — **Segunda página informativa en portugués: la guía de
+  destino de Puerto Madryn y Península Valdés.** El calendario de fauna del
+  07/11 cubrió el "cuándo"; faltaba el "qué hago cuando llegue", que es la otra
+  mitad de la búsqueda informativa del brasileño ("o que fazer em Puerto
+  Madryn", "quantos dias ficar em Puerto Madryn", "como ir de Puerto Madryn a
+  Península Valdés", "precisa alugar carro"). Del lado español eso lo cubre
+  `/puerto-madryn`, que vive en `public/` y nunca se tradujo. Nueva página en
+  `/pt-br/o-que-fazer-em-puerto-madryn/` con por qué el destino, las cuatro
+  temporadas del año, **seis bloques de qué hacer** (ballenas con la
+  navegación de Pirámides y El Doradillo desde la playa, circuito de la
+  península, pingüinos de Punta Tombo, lobos de Punta Loma con el city tour,
+  el valle galés de Gaiman–Trelew–Dolavon y dónde comer), **roteiro de 4
+  días**, cómo llegar desde Brasil (sin vuelo directo, conexión por Buenos
+  Aires, PMY a 10 km y REL a 65 km) y **8 preguntas frecuentes** escritas con
+  las búsquedas reales del mercado. Lleva `TouristDestination`, `FAQPage` y
+  `BreadcrumbList`, y **hreflang recíproco**: se le agregaron a mano los tres
+  `<link rel="alternate">` al `<head>` de `public/puerto-madryn.html`, que
+  hasta hoy no declaraba alternativa en portugués. **Los enlaces a los paseos
+  salen de las traducciones reales** (`obtenerExperienciasPt`), no de una
+  lista escrita a mano: una ficha sin página en portugués no se enlaza, y la
+  que se traduzca mañana aparece sola. Verificado en producción: 200, canonical
+  propio, hreflang recíproco en las dos lenguas, **las 13 fichas pt enlazadas
+  sirven 200** y el sitemap pasó de 286 a 287 URLs. La página pesa 41 KB.
+  Enlazada desde `/pt-br/`, desde el listado pt y desde el calendario de fauna
+  en portugués. No se tocó la fórmula de venta, el checkout, Make ni Firebase.
+
+- **08/11/2026** — **Corregido un slug pt con el nombre del destino mal
+  escrito.** La ficha costera de El Doradillo se publicaba en
+  `/pt-br/experiencias/doradillo-avistagem-baleias-puerto-madrid/`: el script
+  de traducción había escrito **"madrid" en vez de "madryn"**, justo en la
+  palabra que la página necesita para posicionar. Se corrigió el `slugPt` en
+  `traducciones-pt.json` y se agregaron **dos reglas 301** en
+  `public/_redirects` para trasladar el posicionamiento de la URL vieja, que ya
+  estaba en el sitemap. Verificado en producción: la nueva sirve 200 y la vieja
+  responde 301. **Se barrieron los otros 83 `slugPt` buscando palabras en
+  español, acentos sueltos y erratas**: los dos sospechosos que quedaron son
+  nombres propios reales ("Delicias de la Fuente", "Nant y Fall") y no se
+  tocan. Conviene repetir ese barrido cada vez que el script de traducción
+  genere slugs nuevos.
 
 - **07/11/2026** — **Primera página informativa en portugués: el calendario de
   fauna.** Hasta hoy `/pt-br/` eran 84 fichas de venta y nada más: un brasileño
@@ -1336,3 +1397,59 @@ Quedó pendiente, en orden: las próximas páginas informativas en portugués
 argentina", una gastronómica — pendiente 5, con el molde ya probado), las 18
 fichas traducibles de bajo valor del pendiente 3, y las decisiones de catálogo
 de "Para Marcelo", que son las que siguen frenando los pendientes 1, 2 y 4.
+
+### 08/11/2026
+
+Pendiente 5, segunda página informativa en portugués: **la guía de destino de
+Puerto Madryn y Península Valdés**, en `/pt-br/o-que-fazer-em-puerto-madryn/`.
+El calendario de fauna del 07/11 resolvió el "cuándo viajar"; esta resuelve la
+otra mitad de la búsqueda informativa, que es la más grande del destino: "o que
+fazer em Puerto Madryn", "quantos dias ficar", "como ir de Puerto Madryn a
+Península Valdés", "precisa alugar carro em Puerto Madryn", "Puerto Madryn ou
+Puerto Pirámides". Esas consultas no las disputaba nadie de nuestro lado:
+`/puerto-madryn` existe en español, vive en `public/` y nunca se tradujo.
+
+La página tiene por qué el destino, las cuatro temporadas del año (con el
+criterio de que setiembre–noviembre es la ventana más completa), seis bloques
+de qué hacer, un roteiro de 4 días con el orden de los días explicado, cómo
+llegar desde Brasil y 8 preguntas frecuentes. **La decisión de diseño
+importante, igual que en el calendario: los enlaces a los paseos no son una
+lista escrita a mano, salen de `obtenerExperienciasPt()`.** Se enlaza por el
+slug español de la ficha y la página resuelve el slug portugués sola: una
+ficha sin traducir no se enlaza y no deja un 404, y la que se traduzca mañana
+aparece sin tocar la guía. Hoy quedan 13 fichas pt enlazadas, todas verificadas
+en producción con 200, de todo el circuito Madryn–Valdés–Punta Tombo–Rawson–
+valle galés. Lleva `TouristDestination`, `FAQPage` y `BreadcrumbList`, y
+hreflang recíproco con `/puerto-madryn`, a la que le faltaban los
+`<link rel="alternate">` y se los agregué. Enlazada desde `/pt-br/`, desde el
+listado pt y desde el calendario de fauna en portugués, que ahora cierra
+mandando a esta.
+
+De paso, revisando los slugs para armar los enlaces, apareció una errata que
+estaba publicada e indexada: la ficha costera de El Doradillo se servía en
+`/pt-br/experiencias/doradillo-avistagem-baleias-puerto-madrid/`. El script de
+traducción había escrito **"madrid" en vez de "madryn"**, justo en la palabra
+que esa página necesita para posicionar en Brasil. Corregí el `slugPt` y agregué
+dos reglas 301 en `public/_redirects`; verificado: la nueva sirve 200 y la vieja
+responde 301. Después barrí los otros 83 `slugPt` buscando palabras en español
+y erratas de destino: los dos sospechosos que quedaron son nombres propios
+("Delicias de la Fuente", "Nant y Fall") y se quedan como están. Sumé el
+barrido al pendiente 13, que es el de mantenimiento de cada corrida.
+
+Resultado esperado: entrar a la capa informativa de la búsqueda del destino más
+buscado del sitio en el mercado brasileño, que es también la que alimenta las
+fichas. Se mide en Search Console (cuando esté conectado) por impresiones de
+`/pt-br/o-que-fazer-em-puerto-madryn/` en "o que fazer em Puerto Madryn",
+"quantos dias ficar em Puerto Madryn", "Puerto Madryn Península Valdés",
+"como ir de Puerto Madryn a Península Valdés" y "Puerto Madryn vale a pena", y
+por los clics que derive a las 13 fichas pt que enlaza. Sitemap: 286 → 287 URLs.
+IndexNow avisó a Yandex las 85 URLs de `/pt-br/` y las dos de Puerto Madryn en
+español (Bing sigue en 403, pendiente 11: le falta reclamar el sitio en Bing
+Webmaster Tools).
+
+Quedó pendiente, en orden: las próximas informativas en portugués ("o que fazer
+na Patagônia argentina" como puerta de entrada general, una gastronómica y,
+más abajo, una de Esquel y Trevelin, que tiene 25 fichas pt publicadas —más que
+Madryn— y ninguna página informativa), las 18 fichas traducibles de bajo valor
+del pendiente 3, y las decisiones de catálogo de "Para Marcelo", que son las que
+siguen frenando los pendientes 1, 2 y 4.

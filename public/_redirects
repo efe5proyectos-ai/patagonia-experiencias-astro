@@ -41,3 +41,11 @@ https://cattdf.patagoniaexperiencias.com/* https://patagoniaexperiencias.com/pre
 /sitemap-guias.xml /sitemap-index.xml 301
 # Archivo con credenciales: bloqueado mientras se borra del repo
 /meta-conversion.php / 301
+
+# ── 08/11/2026: erratta en un slug pt generado por el script de traducción.
+#    La ficha costera de El Doradillo había salido con "puerto-madrid" en vez
+#    de "puerto-madryn": URL con la palabra equivocada justo en la consulta
+#    que la página busca. Se corrigió el slug y esta regla traslada a Google
+#    el posicionamiento de la URL vieja. ──
+/pt-br/experiencias/doradillo-avistagem-baleias-puerto-madrid/ /pt-br/experiencias/doradillo-avistagem-baleias-puerto-madryn/ 301
+/pt-br/experiencias/doradillo-avistagem-baleias-puerto-madrid /pt-br/experiencias/doradillo-avistagem-baleias-puerto-madryn/ 301

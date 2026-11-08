@@ -1,0 +1,293 @@
+---
+// ─────────────────────────────────────────────────────────────
+// GUÍA DE DESTINO EN PT-BR — PUERTO MADRYN Y PENÍNSULA VALDÉS
+//
+// Segunda página informativa de /pt-br/ (la primera fue el calendario de
+// fauna, 07/11). El brasileño que todavía no compró no busca "excursão
+// Península Valdés": busca "o que fazer em Puerto Madryn", "quantos dias
+// ficar em Puerto Madryn", "como ir de Puerto Madryn a Península Valdés".
+// Esa capa de la búsqueda es la de más volumen del destino y no la
+// disputábamos: del lado español la cubre /puerto-madryn, que vive en
+// public/ y nunca se tradujo.
+//
+// La página no repite el HTML de 28 KB de la versión española: es Astro y
+// los enlaces a los paseos salen de las traducciones reales
+// (obtenerExperienciasPt), así que una ficha que todavía no tiene página en
+// portugués simplemente no se enlaza, y la que se traduzca mañana aparece
+// sola. No toca precios, ni el botón de reserva, ni el checkout.
+//
+// hreflang recíproco con /puerto-madryn: los tres <link rel="alternate"> se
+// agregaron a mano al <head> de public/puerto-madryn.html.
+// ─────────────────────────────────────────────────────────────
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { obtenerExperienciasPt } from '../../lib/traducciones.js';
+
+const exps = await obtenerExperienciasPt();
+const porSlugEs = new Map(exps.map((e) => [e.slugEs, e]));
+
+// Un paseo se enlaza por el slug español de su ficha (la clave de
+// traducciones-pt.json). Si no tiene página en portugués, no se enlaza.
+const paseos = (...slugs) => slugs.map((s) => porSlugEs.get(s)).filter(Boolean);
+
+const BLOQUES = [
+  {
+    id: 'baleias',
+    etiqueta: 'Junho a dezembro',
+    titulo: 'Ver as baleias-franca-austral',
+    texto:
+      'É o motivo pelo qual a maioria dos brasileiros chega a Puerto Madryn. As baleias-franca entram nos golfos Nuevo e San José para parir e amamentar, e ficam ali meses, muito perto da costa. A navegação de observação sai de Puerto Pirámides, o único porto autorizado, e costuma ser opcional dentro do passeio de Península Valdés. Quem não quiser embarcar vê as baleias da própria praia em El Doradillo, a cerca de 15 km da cidade: na maré alta elas passam a poucos metros da areia, e isso não existe em nenhum outro lugar do mundo com essa facilidade.',
+    fichas: paseos('solo-ballenas-tour-y-traslados-a-peninsula-valdes', 'el-doradillo-avistaje-costero-ballena-franca-austral', 'doradillo'),
+  },
+  {
+    id: 'valdes',
+    etiqueta: 'Patrimônio da UNESCO',
+    titulo: 'O circuito da Península Valdés',
+    texto:
+      'A península é uma reserva de 3.600 km² ligada ao continente por um istmo estreito, Patrimônio Mundial da UNESCO desde 1999. O passeio clássico é de dia inteiro: Centro de Interpretação no istmo, Puerto Pirámides, e depois — conforme a época e a estrada — Isla de los Pájaros, Caleta Valdés com os elefantes-marinhos e Punta Norte, onde entre março e abril as orcas encalham de propósito na beira para caçar filhotes de lobo-marinho. São muitos quilômetros de estrada de terra dentro da reserva: vale ir com guia e transporte, não de carro alugado na primeira viagem.',
+    fichas: paseos('peninsula-valdes', 'peninsula-valdes-sussanich-turismo'),
+  },
+  {
+    id: 'pinguins',
+    etiqueta: 'Setembro a abril',
+    titulo: 'Os pinguins de Punta Tombo',
+    texto:
+      'Punta Tombo é a maior colônia continental de pinguins-de-magalhães da América do Sul, cerca de 180 km ao sul de Puerto Madryn. Eles chegam em setembro para nidificar e vão embora em abril; de novembro a janeiro estão com os filhotes nos ninhos, que é o período mais bonito. A visita é por passarelas e trilhas sinalizadas, com os pinguins caminhando ao lado — é o passeio mais fácil de fazer com crianças de todo o destino. Quase sempre se combina com Gaiman ou com Trelew no mesmo dia.',
+    fichas: paseos('punta-tombo', 'pinguinera-punta-tombo'),
+  },
+  {
+    id: 'lobos',
+    etiqueta: 'Todo o ano',
+    titulo: 'Lobos-marinhos em Punta Loma e a cidade',
+    texto:
+      'A reserva de Punta Loma fica a 17 km de Puerto Madryn e tem uma colônia de lobos-marinhos-de-um-pelo que se vê dos mirantes sobre as falésias, durante todo o ano. É meia manhã ou meia tarde, combina bem com o city tour pela costanera, o Eco Centro e o monumento ao índio tehuelche, e serve de "plano B" perfeito para o dia em que o mar não deixa navegar.',
+    fichas: paseos('punta-loma-con-city-tour'),
+  },
+  {
+    id: 'gales',
+    etiqueta: 'Cultura galesa',
+    titulo: 'O vale galês: Gaiman, Trelew e Dolavon',
+    texto:
+      'A uma hora de Puerto Madryn está o Valle Inferior do Río Chubut, colonizado por galeses em 1865. Em Gaiman se toma o chá galês nas casas de chá de família, com torta negra e sete tipos de bolo; em Dolavon ficam os canais de irrigação e o velho moinho; e em Trelew está o Museu Paleontológico Egidio Feruglio, com os dinossauros patagônicos — entre eles o maior animal terrestre já encontrado. É o contraponto cultural à fauna, e o melhor dia para quando o tempo fecha.',
+    fichas: paseos('valle-inferior', 'tour-valle-inferior-rio-chubut'),
+  },
+  {
+    id: 'comer',
+    etiqueta: 'Gastronomia',
+    titulo: 'Onde comer frutos do mar',
+    texto:
+      'O Golfo Nuevo dá vieiras, camarões, polvo e caranguejo, e o cordeiro patagônico está em quase toda carta. Em Puerto Madryn os restaurantes da costanera trabalham com peixe do dia e vista para o golfo. E se o roteiro passar por Rawson — a caminho de Punta Tombo ou de Playa Unión — vale almoçar nas cantinas do porto, que é onde comem os locais.',
+    fichas: paseos('abelino-puerto-madryn', 'finca-caballo-blanco', 'cantina-marcelino'),
+  },
+];
+
+const TEMPORADAS = [
+  {
+    meses: 'Junho a agosto',
+    nome: 'Inverno austral',
+    texto: 'Começa a temporada de baleias e os elefantes-marinhos chegam a Caleta Valdés. Frio seco, poucos turistas, preços de baixa temporada. Não há pinguins.',
+  },
+  {
+    meses: 'Setembro a novembro',
+    nome: 'Primavera — a melhor janela',
+    texto: 'A combinação mais completa do ano: baleias no auge com mães e filhotes, elefantes-marinhos com crias e os pinguins voltando a Punta Tombo. É também quando as baleias passam mais perto da praia em El Doradillo.',
+  },
+  {
+    meses: 'Dezembro a fevereiro',
+    nome: 'Verão',
+    texto: 'Pinguins com filhotes nos ninhos, golfinhos toninha-overa em Playa Unión, lobos-marinhos com crias e mar bom para mergulho e snorkel. As baleias vão embora ao longo de dezembro. É alta temporada argentina: reserve com antecedência.',
+  },
+  {
+    meses: 'Março e abril',
+    nome: 'Outono — temporada das orcas',
+    texto: 'Em Punta Norte e Caleta Valdés as orcas caçam na arrebentação; depende da tábua de marés, então a visita precisa ser no horário certo. Os pinguins ainda estão até abril e há muito menos gente que no verão.',
+  },
+];
+
+const ROTEIRO = [
+  { dia: 'Dia 1', titulo: 'Chegada e a cidade', texto: 'Costanera de Puerto Madryn, Eco Centro e, se a maré ajudar, a tarde em El Doradillo para ver as baleias da praia. Jantar de frutos do mar no centro.' },
+  { dia: 'Dia 2', titulo: 'Península Valdés', texto: 'Dia inteiro: istmo, Puerto Pirámides com a navegação de baleias, e os mirantes da reserva. Saída cedo, volta no fim da tarde.' },
+  { dia: 'Dia 3', titulo: 'Punta Tombo e o vale', texto: 'Pinguins pela manhã e chá galês em Gaiman na volta, ou o museu de dinossauros em Trelew. É o dia mais longo de estrada.' },
+  { dia: 'Dia 4', titulo: 'Punta Loma ou mergulho', texto: 'Lobos-marinhos em Punta Loma, snorkel no golfo ou um dia livre antes do voo. Com um quinto dia dá para incluir Playa Unión e os golfinhos.' },
+];
+
+const alternos = {
+  es: 'https://patagoniaexperiencias.com/puerto-madryn',
+  pt: 'https://patagoniaexperiencias.com/pt-br/o-que-fazer-em-puerto-madryn/',
+};
+
+const faq = [
+  {
+    p: 'Quantos dias ficar em Puerto Madryn?',
+    r: 'Três dias cheios é o mínimo para não correr: um para a Península Valdés, um para Punta Tombo e um para a cidade, Punta Loma e El Doradillo. Com quatro ou cinco dias entram o vale galês, Playa Unión e um dia de folga para o caso de o mar não deixar navegar — o que acontece com alguma frequência.',
+  },
+  {
+    p: 'Como ir de Puerto Madryn à Península Valdés?',
+    r: 'A entrada da península fica a cerca de 80 km de Puerto Madryn e Puerto Pirámides a cerca de 105 km, pela RP-2 e RP-3. Quase todos os passeios incluem o transporte de ida e volta com guia, e é o jeito recomendado na primeira viagem: dentro da reserva são muitos quilômetros de estrada de terra e as distâncias entre os mirantes são grandes.',
+  },
+  {
+    p: 'Qual é a melhor época para visitar Puerto Madryn?',
+    r: 'Setembro, outubro e novembro reúnem o maior número de espécies ao mesmo tempo: baleias no auge, elefantes-marinhos com crias e o começo da temporada de pinguins. Dezembro a fevereiro é melhor para pinguins com filhotes, golfinhos e mar; março e abril, para as orcas de Punta Norte.',
+  },
+  {
+    p: 'Dá para ver baleias sem pegar barco?',
+    r: 'Sim. Em El Doradillo, a cerca de 15 km de Puerto Madryn, as baleias se aproximam a poucos metros da praia entre junho e dezembro, e são vistas da areia, de graça e sem embarcar. A navegação sai de Puerto Pirámides e mostra os animais de outra distância, mas não é obrigatória para ver baleias.',
+  },
+  {
+    p: 'Como chegar a Puerto Madryn saindo do Brasil?',
+    r: 'Não há voo direto: a conexão habitual é por Buenos Aires e de lá um voo doméstico até o aeroporto de Puerto Madryn (PMY), a 10 km da cidade, ou até Trelew (REL), a 65 km, com transfer. Também há ônibus-leito desde Buenos Aires, que leva cerca de 18 horas.',
+  },
+  {
+    p: 'Onde é melhor ficar: Puerto Madryn ou Puerto Pirámides?',
+    r: 'Puerto Madryn é a base natural: tem hotéis, restaurantes, agências e é de onde saem todos os passeios. Puerto Pirámides é um povoado pequeno dentro da península, com poucas vagas, e faz sentido para quem quer dormir ali para a primeira navegação do dia ou para mergulhar. Para uma viagem de três ou quatro dias, Madryn resolve melhor.',
+  },
+  {
+    p: 'Precisa alugar carro em Puerto Madryn?',
+    r: 'Não é necessário. Os passeios à Península Valdés, Punta Tombo e Punta Loma já incluem transporte e guia, e dentro das reservas há trechos de terra e distâncias longas sem combustível nem sinal de celular. O carro faz sentido para quem vai ficar mais de uma semana e quer repetir El Doradillo em várias marés.',
+  },
+  {
+    p: 'Dá para reservar os passeios pela internet, do Brasil?',
+    r: 'Sim. Na Patagonia Experiencias você vê a disponibilidade real dos operadores locais de Chubut, compara passeios e reserva online, com atendimento em português pelo WhatsApp antes e depois da compra.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'TouristDestination',
+    name: 'Puerto Madryn e Península Valdés',
+    description:
+      'Puerto Madryn, no golfo Nuevo, é a base para a fauna marinha da Patagônia argentina: baleias-franca, pinguins-de-magalhães, lobos e elefantes-marinhos, orcas e golfinhos, e a Península Valdés, Patrimônio Mundial da UNESCO.',
+    url: alternos.pt,
+    inLanguage: 'pt-BR',
+    geo: { '@type': 'GeoCoordinates', latitude: -42.7692, longitude: -65.0385 },
+    containedInPlace: { '@type': 'AdministrativeArea', name: 'Chubut, Argentina' },
+    touristType: ['Famílias', 'Casais', 'Amantes da natureza', 'Aventura'],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    inLanguage: 'pt-BR',
+    mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.p, acceptedAnswer: { '@type': 'Answer', text: f.r } })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Patagônia argentina', item: 'https://patagoniaexperiencias.com/pt-br/' },
+      { '@type': 'ListItem', position: 2, name: 'Puerto Madryn e Península Valdés', item: alternos.pt },
+    ],
+  },
+];
+---
+<BaseLayout
+  titulo="O que fazer em Puerto Madryn e na Península Valdés"
+  descripcion="Guia de Puerto Madryn e Península Valdés: o que fazer, quantos dias ficar, quando ver baleias, pinguins e orcas, como chegar e roteiro de 4 dias."
+  idioma="pt"
+  alternos={alternos}
+  schema={schema}
+>
+  <main>
+    <section class="bg-brand-oxford text-white">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20">
+        <p class="text-brand-fuchsia text-xs font-black uppercase tracking-[0.3em] mb-4"><i class="fa-solid fa-location-dot mr-2"></i>Chubut · Patagônia argentina</p>
+        <h1 class="font-sans font-extrabold text-3xl sm:text-5xl leading-tight">O que fazer em Puerto Madryn e na Península Valdés</h1>
+        <p class="text-white/75 text-lg max-w-3xl mt-5">Baleias que chegam perto da praia, a maior colônia continental de pinguins da América do Sul, lobos e elefantes-marinhos, orcas no outono e uma península inteira declarada Patrimônio da UNESCO. Este é o guia para montar a viagem: quando ir, quantos dias ficar e o que fazer em cada um.</p>
+        <div class="flex flex-wrap gap-3 mt-7">
+          <a href="#roteiro" class="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white font-bold text-xs uppercase tracking-widest px-5 py-3 rounded-full hover:bg-white/20 transition-all"><i class="fa-solid fa-route"></i> Roteiro de 4 dias</a>
+          <a href="/pt-br/melhor-epoca-fauna-patagonia/" class="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white font-bold text-xs uppercase tracking-widest px-5 py-3 rounded-full hover:bg-white/20 transition-all"><i class="fa-solid fa-calendar-days"></i> Calendário da fauna</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-5">Por que Puerto Madryn</h2>
+      <div class="space-y-4 text-slate-700 leading-relaxed">
+        <p>Puerto Madryn é uma cidade de porte médio na costa do golfo Nuevo, no nordeste da província de Chubut, e funciona como a porta de entrada de uma das maiores concentrações de vida selvagem do planeta. A poucos quilômetros começa a <strong>Península Valdés</strong>, onde convivem baleias-franca, lobos e elefantes-marinhos, pinguins, guanacos e orcas — cada um na sua época.</p>
+        <p>O que torna o destino diferente de qualquer outro na América do Sul é a <strong>distância curta entre a cidade e os animais</strong>: as baleias são vistas da praia, os lobos-marinhos ficam a 17 km do centro e a península inteira se faz em um dia. Não é um safári de uma semana: é uma viagem de três a cinco dias com fauna todos os dias.</p>
+        <p>A contrapartida é que <strong>a fauna é sazonal</strong>. Nenhuma época tem tudo ao mesmo tempo, e a diferença entre acertar e errar o mês é ver baleias com filhotes ou um golfo vazio. Por isso este guia começa pelas datas.</p>
+      </div>
+    </section>
+
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-2">Quando ir</h2>
+      <p class="text-slate-600 mb-7 max-w-3xl">Os meses são do hemisfério sul: setembro é primavera e janeiro é verão. Para escolher as datas por animal, o <a href="/pt-br/melhor-epoca-fauna-patagonia/" class="text-brand-fuchsia font-semibold hover:underline">calendário da fauna</a> traz as 33 espécies mês a mês.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        {TEMPORADAS.map((t) => (
+          <div class="bg-white border border-slate-200 rounded-2xl p-6">
+            <p class="text-brand-fuchsia text-[11px] font-bold uppercase tracking-widest mb-2">{t.meses}</p>
+            <h3 class="font-sans font-bold text-lg text-brand-oxford mb-2">{t.nome}</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">{t.texto}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-2">O que fazer</h2>
+      <p class="text-slate-600 mb-7 max-w-3xl">Seis coisas que justificam a viagem, com os passeios que saem de Puerto Madryn para cada uma.</p>
+      <div class="space-y-6">
+        {BLOQUES.map((b) => (
+          <article id={b.id} class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8">
+            <p class="text-brand-fuchsia text-[11px] font-bold uppercase tracking-widest mb-2">{b.etiqueta}</p>
+            <h3 class="font-sans font-extrabold text-xl sm:text-2xl text-brand-oxford mb-3">{b.titulo}</h3>
+            <p class="text-slate-600 leading-relaxed">{b.texto}</p>
+            {b.fichas.length > 0 && (
+              <div class="mt-5 pt-5 border-t border-slate-100">
+                <p class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">Passeios</p>
+                <ul class="space-y-1.5">
+                  {b.fichas.map((p) => (
+                    <li>
+                      <a href={`/pt-br/experiencias/${p.slug}/`} class="text-brand-fuchsia font-semibold text-sm hover:underline inline-flex items-start gap-2">
+                        <i class="fa-solid fa-arrow-right text-[10px] mt-1.5"></i><span>{p.titulo}{p.duracion ? ` · ${p.duracion}` : ''}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section id="roteiro" class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-2">Roteiro de 4 dias</h2>
+      <p class="text-slate-600 mb-7 max-w-3xl">A ordem importa: a Península Valdés e Punta Tombo são dias inteiros e saem cedo, então convém deixá-los no meio da viagem e guardar a cidade para o dia de chegada e o de partida.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {ROTEIRO.map((d) => (
+          <div class="bg-white border border-slate-200 rounded-2xl p-6">
+            <p class="text-brand-fuchsia text-[11px] font-bold uppercase tracking-widest mb-2">{d.dia}</p>
+            <h3 class="font-sans font-bold text-base text-brand-oxford mb-2">{d.titulo}</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">{d.texto}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-5">Como chegar e como se locomover</h2>
+      <div class="space-y-4 text-slate-700 leading-relaxed">
+        <p>Do Brasil não há voo direto: a conexão se faz em <strong>Buenos Aires</strong> e de lá sai o voo doméstico. São dois aeroportos possíveis — <strong>Puerto Madryn (PMY)</strong>, a 10 km da cidade, e <strong>Trelew (REL)</strong>, a 65 km, com mais frequências e transfer rodoviário até Madryn. Também há ônibus-leito desde Buenos Aires, cerca de 18 horas de viagem.</p>
+        <p>Dentro do destino, os passeios saem com transporte e guia incluídos, e isso resolve a logística: a Península Valdés tem trechos de estrada de terra, distâncias longas entre mirantes e lugares sem sinal de celular. Alugar carro só compensa para quem vai ficar mais de uma semana ou quer voltar a El Doradillo em várias marés.</p>
+        <p>Dentro de Puerto Madryn tudo é a pé: a costanera, os restaurantes e as agências estão no mesmo eixo de uns dois quilômetros.</p>
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 pb-12">
+      <h2 class="font-sans font-extrabold text-2xl text-brand-oxford mb-4">Perguntas frequentes</h2>
+      <div class="space-y-3">
+        {faq.map((f) => (
+          <details class="bg-white border border-slate-200 rounded-2xl p-5">
+            <summary class="font-sans font-bold text-brand-oxford cursor-pointer">{f.p}</summary>
+            <p class="mt-3 text-slate-600 leading-relaxed">{f.r}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 pb-16 text-center">
+      <a href="/pt-br/experiencias/" class="inline-flex items-center gap-2 bg-brand-fuchsia text-white font-bold text-sm uppercase tracking-widest px-7 py-3.5 rounded-full shadow-lg shadow-brand-fuchsia/30 hover:bg-brand-fuchsiaDark transition-all"><i class="fa-solid fa-compass"></i> Ver todos os passeios</a>
+      <p class="text-slate-500 text-sm mt-5">Ainda escolhendo as datas? Veja a <a href="/pt-br/melhor-epoca-fauna-patagonia/" class="text-brand-fuchsia font-semibold hover:underline">melhor época para ver baleias, pinguins e orcas</a>.</p>
+    </section>
+  </main>
+</BaseLayout>

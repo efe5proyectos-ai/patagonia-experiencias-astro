@@ -64,6 +64,18 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
 
 - Confirmar que el número de `WHATSAPP_PT` (+54 9 2945 64-2052) es el del guía
   que atiende en portugués.
+- **`www.patagoniaexperiencias.com` sirve el sitio entero con 200, no redirige.**
+  Encontrado el 08/11 probando lo de Bing. En `public/_redirects` hay una regla
+  `https://www.patagoniaexperiencias.com/* → https://patagoniaexperiencias.com/:splat 301`
+  que **no se está aplicando**: el `www` devuelve 200 en la home, en
+  `/puerto-madryn` y en `/pt-br/`, y tiene su propio `robots.txt`. No es grave
+  —todas las páginas declaran el `<link rel="canonical">` al dominio sin `www`,
+  así que Google consolida ahí— pero es el sitio entero duplicado en un segundo
+  hostname. **El arreglo no es de código:** el `www` está enganchado al proyecto
+  de Cloudflare Pages y Pages lo sirve antes de mirar `_redirects`. Se resuelve
+  en el panel de Cloudflare, con una Redirect Rule de `www` al dominio sin `www`,
+  o sacando el `www` de los dominios personalizados del proyecto. Eso necesita
+  tu acceso a Cloudflare.
 - Conectar Google Analytics para el informe semanal automático de consultas.
 - Conectar Search Console, para que la tarea de la madrugada pueda ver el detalle
   de las páginas no indexadas y las búsquedas reales de Argentina y Brasil.
@@ -378,6 +390,19 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
     Webmaster Tools (se importa desde Search Console en dos minutos). Es tarea
     de Marcelo: está anotada arriba. Mientras tanto el script sigue avisando a
     Yandex, que funciona (02/11: aceptó las 251 URLs).
+
+    **Probado otra vez el 08/11, después de que Marcelo dijera que ya reclamó el
+    sitio: sigue 403.** Se probó con `host` sin `www` y con `www`, y las dos
+    devuelven el mismo `UserForbiddedToAccessSite`, así que **no es un
+    desajuste de forma del dominio**. La clave está publicada y accesible
+    (`/a4f06ee8d893fb82ce246ac52e04022a.txt` sirve 200 y su contenido es
+    exactamente la clave), así que tampoco es la clave. Quedan dos
+    explicaciones: que el alta en Bing Webmaster Tools no haya terminado de
+    verificarse, o que el servicio de IndexNow de Bing todavía no la haya
+    tomado (puede tardar horas desde el alta). **La corrida siguiente tiene que
+    volver a probar antes de hacer cualquier otra cosa con esto**, y si sigue en
+    403, el camino determinista es la verificación por archivo XML: Marcelo pasa
+    el token y la corrida lo sube a `public/`.
 
 12. **Seis guías con la description corta.** El recorte nuevo cierra en fin de
     oración, y en 6 de las 60 guías la primera oración del cuerpo es muy corta

@@ -49,3 +49,7 @@ https://cattdf.patagoniaexperiencias.com/* https://patagoniaexperiencias.com/pre
 #    el posicionamiento de la URL vieja. ──
 /pt-br/experiencias/doradillo-avistagem-baleias-puerto-madrid/ /pt-br/experiencias/doradillo-avistagem-baleias-puerto-madryn/ 301
 /pt-br/experiencias/doradillo-avistagem-baleias-puerto-madrid /pt-br/experiencias/doradillo-avistagem-baleias-puerto-madryn/ 301
+
+# ── Plan Free: alta gratuita a cambio de beneficios en Patagonia Puntos (mismo formulario que /alianzas) ──
+/plan-free /alianzas 200
+/plan-free/ /alianzas 200

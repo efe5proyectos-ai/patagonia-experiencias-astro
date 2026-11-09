@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Enlace privado para alianzas con camaras y asociaciones. No se indexa. -->
 <meta name="robots" content="noindex, nofollow">
-<title>Patagonia Experiencias + Beneficios · Alta por convenio</title>
+<title>Plan Free · Patagonia Experiencias</title>
 <meta name="description" content="Alta bonificada en Patagonia Experiencias para prestadores de asociaciones y cámaras adheridas, a cambio de un beneficio para el turista en Patagonia Puntos.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -158,10 +158,10 @@
       </svg>
       <div class="wordmark">Patagonia<span class="e">Experiencias</span></div>
     </div>
-    <p class="kicker" id="kicker">Alta por convenio</p>
+    <p class="kicker" id="kicker">Plan Free</p>
     <h1>Sumá tu servicio a la vidriera.<br><span>Sin costo de suscripción.</span></h1>
-    <p class="lead">Acceso bonificado para prestadores de asociaciones y cámaras adheridas. A cambio, ofrecés un beneficio real al turista dentro de Patagonia Puntos.</p>
-    <div class="badge">Invitación para <b id="orgBadge">asociaciones adheridas</b></div>
+    <p class="lead" id="lead">Publicá todas tus excursiones sin pagar suscripción. A cambio, ofrecés de uno a cuatro beneficios reales al turista dentro de Patagonia Puntos.</p>
+    <div class="badge" id="orgWrap">Abierto a todos los <b id="orgBadge">prestadores habilitados</b></div>
   </div>
 
   <!-- ===================== FORMULARIO ===================== -->
@@ -172,7 +172,7 @@
         <div class="col">
           <h3>Lo que recibís</h3>
           <ul>
-            <li>Ficha publicada en Patagonia Experiencias</li>
+            <li>Ficha publicada en Patagonia Experiencias, con todas las excursiones que quieras</li>
             <li>Reservas y pago online, sin cargo de suscripción</li>
             <li>Panel propio para gestionar tus servicios</li>
             <li>Tu servicio dentro de los itinerarios que arma AIKE</li>
@@ -182,7 +182,7 @@
           <h3>Lo que aportás</h3>
           <ul>
             <li>Al menos un beneficio para el turista en Patagonia Puntos</li>
-            <li>Mínimo 20% de descuento, o un 2x1, 3x2 o 4x3</li>
+            <li>Mínimo 15% de descuento, o un 2x1, 3x2 o 4x3</li>
             <li>Vos elegís los días, el cupo y la vigencia</li>
             <li>Comisión del 20% solo sobre lo que efectivamente vendas</li>
           </ul>
@@ -280,7 +280,7 @@
         <!-- 3. BENEFICIOS -->
         <div class="sec">
           <div class="sec-h"><div class="sec-n">3</div><div class="sec-t">Tu beneficio en Patagonia Puntos</div></div>
-          <p class="sec-s">Obligatorio. Podés cargar hasta tres. Vos ponés las condiciones.</p>
+          <p class="sec-s">Obligatorio. Podés cargar hasta cuatro. Vos ponés las condiciones. A mayor beneficio, más puntos recibís para promocionarte.</p>
 
           <div id="beneficios"></div>
           <button type="button" class="mas" id="masBen">+ Agregar otro beneficio</button>
@@ -358,12 +358,12 @@ var PANEL_URL = "https://panel.patagoniaexperiencias.com/";
 var COLECCION_PATH = "artifacts/" + APP_ID + "/public/data/solicitudes_prestadores";
 
 var CONVENIO = {
-  campania: "ALIANZAS_BENEFICIOS_2026",
+  campania: "PLAN_FREE_2026",            // con ?org= pasa a ALIANZAS_BENEFICIOS_2026
   plan: "esencial",
   bonificado: true,
   comisionPct: 20,
-  descuentoMinimo: 20,
-  maxBeneficios: 3
+  descuentoMinimo: 15,
+  maxBeneficios: 4
 };
 
 /* Organizaciones con convenio. La clave es lo que va en ?org=
@@ -397,12 +397,16 @@ var ORG_NOMBRE = "";
       ORG_NOMBRE = ORGANIZACIONES[ORG_CLAVE] || ORG_CLAVE;
       $("orgBadge").textContent = ORG_NOMBRE;
       $("kicker").textContent = "Alta por convenio";
+      $("orgWrap").firstChild.textContent = "Invitación para ";
+      CONVENIO.campania = "ALIANZAS_BENEFICIOS_2026";
+      $("lead").textContent = "Acceso bonificado para prestadores de asociaciones y cámaras adheridas. A cambio, ofrecés de uno a cuatro beneficios reales al turista dentro de Patagonia Puntos.";
     }
   } catch (e) {}
 })();
 
 /* ================= BENEFICIOS ================= */
 var TIPOS = [
+  { v: "desc15", t: "15% de descuento", clase: "descuento", valor: 15, deal: "15%" },
   { v: "desc20", t: "20% de descuento", clase: "descuento", valor: 20, deal: "20%" },
   { v: "desc25", t: "25% de descuento", clase: "descuento", valor: 25, deal: "25%" },
   { v: "desc30", t: "30% de descuento", clase: "descuento", valor: 30, deal: "30%" },
@@ -414,7 +418,7 @@ var TIPOS = [
 ];
 /* Puntos que paga el turista y recibe el prestador en cada canje. Se actualiza en vivo
    con la grilla de Patagonia Puntos (gestión → Reglas); esto es solo el respaldo. */
-var PUNTOS = { "20%": 3000, "25%": 4500, "30%": 6000, "40%": 8000, "50%": 10000, "2x1": 10000, "3x2": 6500, "4x3": 4500 };
+var PUNTOS = { "15%": 2000, "20%": 3000, "25%": 4500, "30%": 6000, "40%": 8000, "50%": 10000, "2x1": 10000, "3x2": 6500, "4x3": 4500 };
 function fmtPts(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, "."); }
 function etiquetaTipo(x) { var p = PUNTOS[x.deal]; return x.t + (p ? " \u00b7 " + fmtPts(p) + " pts por canje" : ""); }
 function refrescarTipos() {
@@ -466,7 +470,7 @@ function agregarBeneficio() {
     '<div class="row">' +
       '<label>Qué ofrecés <span class="req">*</span></label>' +
       '<select class="b-tipo">' + htmlTipos() + '</select>' +
-      '<p class="hint">El mínimo del convenio es 20% de descuento, o un 2x1, 3x2 o 4x3. A mayor beneficio, más puntos te llevás en cada canje para promocionarte.</p>' +
+      '<p class="hint">El mínimo es 15% de descuento, o un 2x1, 3x2 o 4x3. A mayor beneficio, más puntos te llevás en cada canje para promocionarte.</p>' +
     '</div>' +
     '<div class="row b-otro" style="display:none">' +
       '<label>Describí el beneficio <span class="req">*</span></label>' +
@@ -774,6 +778,7 @@ $("altaForm").addEventListener("submit", async function (ev) {
 
   var datosNuevo = Object.assign({}, datosContacto, {
     origen: "alianzas",
+    modalidad: ORG_CLAVE ? "convenio" : "free",
     campania: CONVENIO.campania,
     organizacion: ORG_CLAVE || "directo",
     organizacionNombre: ORG_NOMBRE || "",

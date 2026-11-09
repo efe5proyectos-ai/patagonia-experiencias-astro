@@ -812,7 +812,18 @@ function App() {
     onClick: () => setBillingCycle('anual')
   }, "Anual ", React.createElement("span", {
     className: `text-[10px] uppercase tracking-widest px-2 py-0.5 rounded-full ${billingCycle === 'anual' ? 'bg-white/20' : 'bg-green-100 text-green-700'}`
-  }, "Ahorr\xE1 20%")))), React.createElement("div", {
+  }, "Ahorr\xE1 20%")))), React.createElement("a", {
+    href: "/plan-free",
+    className: "block max-w-5xl mx-auto mt-6 rounded-2xl border-2 border-dashed border-pink-300 bg-pink-50 px-5 py-4 text-left no-underline hover:bg-pink-100 transition"
+  }, React.createElement("span", {
+    className: "block text-xs font-black uppercase tracking-widest text-pink-600"
+  }, "Plan Free \xB7 $0 por mes"), React.createElement("span", {
+    className: "block text-lg font-extrabold text-slate-900 mt-1"
+  }, "Public\xE1 todas tus excursiones gratis a cambio de un beneficio en Patagonia Puntos"), React.createElement("span", {
+    className: "block text-sm text-slate-600 mt-1"
+  }, "De uno a cuatro beneficios desde 15% de descuento, 2x1, 3x2 o 4x3. Solo pag\xE1s la comisi\xF3n sobre lo que vendas. ", React.createElement("b", {
+    className: "text-pink-600"
+  }, "Sumarme gratis \u2192"))), React.createElement("div", {
     className: `grid grid-cols-1 ${planesOrdenados.length >= 3 ? 'md:grid-cols-3' : planesOrdenados.length === 2 ? 'md:grid-cols-2' : ''} gap-5 max-w-5xl mx-auto items-stretch pt-5`
   }, planesOrdenados.map(plan => {
     const esDestacado = plan.destacado === true;

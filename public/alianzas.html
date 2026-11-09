@@ -182,7 +182,7 @@
           <h3>Lo que aportás</h3>
           <ul>
             <li>Al menos un beneficio para el turista en Patagonia Puntos</li>
-            <li>Mínimo 20% de descuento, o un 3x2 o 2x1 equivalente</li>
+            <li>Mínimo 20% de descuento, o un 2x1, 3x2 o 4x3</li>
             <li>Vos elegís los días, el cupo y la vigencia</li>
             <li>Comisión del 20% solo sobre lo que efectivamente vendas</li>
           </ul>
@@ -403,23 +403,43 @@ var ORG_NOMBRE = "";
 
 /* ================= BENEFICIOS ================= */
 var TIPOS = [
-  { v: "desc20", t: "20% de descuento", clase: "descuento", valor: 20 },
-  { v: "desc25", t: "25% de descuento", clase: "descuento", valor: 25 },
-  { v: "desc30", t: "30% de descuento", clase: "descuento", valor: 30 },
-  { v: "desc40", t: "40% o más de descuento", clase: "descuento", valor: 40 },
-  { v: "3x2",    t: "3x2 (pagás dos, llevás tres)", clase: "combo", valor: 33 },
-  { v: "2x1",    t: "2x1 (pagás uno, llevás dos)", clase: "combo", valor: 50 },
-  { v: "acomp",  t: "Acompañante sin cargo", clase: "combo", valor: 50 },
-  { v: "upgrade",t: "Mejora de categoría sin cargo", clase: "upgrade", valor: 20 },
-  { v: "otro",   t: "Otro beneficio equivalente", clase: "otro", valor: 20 }
+  { v: "desc20", t: "20% de descuento", clase: "descuento", valor: 20, deal: "20%" },
+  { v: "desc25", t: "25% de descuento", clase: "descuento", valor: 25, deal: "25%" },
+  { v: "desc30", t: "30% de descuento", clase: "descuento", valor: 30, deal: "30%" },
+  { v: "desc40", t: "40% de descuento", clase: "descuento", valor: 40, deal: "40%" },
+  { v: "desc50", t: "50% de descuento", clase: "descuento", valor: 50, deal: "50%" },
+  { v: "2x1",    t: "2x1 (pagás uno, llevás dos)", clase: "combo", valor: 50, deal: "2x1" },
+  { v: "3x2",    t: "3x2 (pagás dos, llevás tres)", clase: "combo", valor: 33, deal: "3x2" },
+  { v: "4x3",    t: "4x3 (pagás tres, llevás cuatro)", clase: "combo", valor: 25, deal: "4x3" }
 ];
+/* Puntos que paga el turista y recibe el prestador en cada canje. Se actualiza en vivo
+   con la grilla de Patagonia Puntos (gestión → Reglas); esto es solo el respaldo. */
+var PUNTOS = { "20%": 3000, "25%": 4500, "30%": 6000, "40%": 8000, "50%": 10000, "2x1": 10000, "3x2": 6500, "4x3": 4500 };
+function fmtPts(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, "."); }
+function etiquetaTipo(x) { var p = PUNTOS[x.deal]; return x.t + (p ? " \u00b7 " + fmtPts(p) + " pts por canje" : ""); }
+function refrescarTipos() {
+  var sels = document.querySelectorAll(".b-tipo");
+  for (var i = 0; i < sels.length; i++) {
+    for (var k = 0; k < sels[i].options.length; k++) {
+      var o = sels[i].options[k], x = null;
+      for (var t = 0; t < TIPOS.length; t++) if (TIPOS[t].v === o.value) x = TIPOS[t];
+      if (x) o.textContent = etiquetaTipo(x);
+    }
+  }
+}
+try {
+  fetch("https://us-central1-patagonia-experiencias.cloudfunctions.net/ppTablaPrecios", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ data: {} }) })
+    .then(function (r) { return r.json(); })
+    .then(function (j) { var pr = j && j.result && j.result.precios; if (pr) { for (var k in PUNTOS) if (pr[k] != null) PUNTOS[k] = pr[k]; refrescarTipos(); } })
+    .catch(function () {});
+} catch (e) {}
 var DIAS = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
 var nBen = 0;
 
 function htmlTipos() {
   var s = '<option value="">Elegí el beneficio</option>';
   for (var i = 0; i < TIPOS.length; i++) {
-    s += '<option value="' + TIPOS[i].v + '">' + TIPOS[i].t + '</option>';
+    s += '<option value="' + TIPOS[i].v + '">' + etiquetaTipo(TIPOS[i]) + '</option>';
   }
   return s;
 }
@@ -446,7 +466,7 @@ function agregarBeneficio() {
     '<div class="row">' +
       '<label>Qué ofrecés <span class="req">*</span></label>' +
       '<select class="b-tipo">' + htmlTipos() + '</select>' +
-      '<p class="hint">El mínimo del convenio es 20% de descuento, o un combo equivalente.</p>' +
+      '<p class="hint">El mínimo del convenio es 20% de descuento, o un 2x1, 3x2 o 4x3. A mayor beneficio, más puntos te llevás en cada canje para promocionarte.</p>' +
     '</div>' +
     '<div class="row b-otro" style="display:none">' +
       '<label>Describí el beneficio <span class="req">*</span></label>' +

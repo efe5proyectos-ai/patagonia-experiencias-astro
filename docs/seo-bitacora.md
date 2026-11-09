@@ -81,6 +81,14 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
   de las páginas no indexadas y las búsquedas reales de Argentina y Brasil.
 - Reclamar el sitio en Bing Webmaster Tools (se importa desde Search Console),
   para destrabar IndexNow en Bing.
+- **Pasame el token de verificación por archivo XML de Bing.** Dijiste que ya
+  reclamaste el sitio, pero IndexNow sigue devolviendo 403 el 08/11 y otra vez
+  el 09/11, 24 horas después, con la clave publicada y accesible. En Bing
+  Webmaster Tools, en Settings → Verify ownership → **Option 1 (XML file)**,
+  hay un archivo `BingSiteAuth.xml` para descargar: pasame su contenido (o el
+  código que trae adentro) y la corrida lo sube a la raíz del sitio. Eso cierra
+  la verificación sin depender de la importación desde Search Console, que es
+  lo que sospecho que quedó a medias.
 - **Borrar en el admin el tour cargado dos veces.** `NAVEGACION RIO GRANDE |
   FULL-DAY` de MerakiSur está cargado dos veces, idéntico y con precio 0: ids
   `fZ0VBHDYqMvwDDBeDUuI` y `tgm3Dss1qfqQdiiyQ4hc`. El sitio publica uno solo
@@ -265,13 +273,15 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    ver baleias", "quanto tempo ficar em Puerto Madryn") y ahí no existíamos.
    Ya están hechas **dos**: el calendario de fauna (07/11) y la guía de
    destino de Puerto Madryn y Península Valdés (08/11), las dos en "Hecho".
-   **Lo que sigue, por orden de impacto:** una de "o que fazer na Patagônia
-   argentina" como puerta de entrada general (es la consulta más amplia del
-   mercado y hoy entra por la home, que es comercial), una gastronómica
-   ("o que comer na Patagônia", espejo de `/que-comer-patagonia/`) y, más
-   abajo, una de Esquel y Trevelin —la cordillera es el segundo destino del
-   brasileño después de la costa y tiene 25 fichas pt publicadas, más que
-   Madryn—. El molde ya está probado dos veces: página Astro en
+   Ya están hechas **tres**: el calendario de fauna (07/11), la guía de
+   destino de Puerto Madryn y Península Valdés (08/11) y la puerta de entrada
+   general "o que fazer na Patagônia argentina" (09/11), las tres en "Hecho".
+   **Lo que sigue, por orden de impacto:** una de **Esquel y Trevelin** —la
+   cordillera es el segundo destino del brasileño después de la costa y tiene
+   25 fichas pt publicadas, más que Madryn, y la página general del 09/11 ya
+   le abrió el enlace interno desde arriba— y una **gastronómica** ("o que
+   comer na Patagônia", espejo de `/que-comer-patagonia/`). Más abajo, una de
+   Ushuaia (8 fichas pt) y una de El Calafate, que hoy tiene una sola ficha. El molde ya está probado dos veces: página Astro en
    `src/pages/pt-br/`, datos del mismo archivo que usa la página en español
    (una sola verdad), `hreflang` recíproco agregado a mano en el `<head>` de
    la página española de `public/`, FAQPage con las preguntas con las que
@@ -404,6 +414,16 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
     403, el camino determinista es la verificación por archivo XML: Marcelo pasa
     el token y la corrida lo sube a `public/`.
 
+    **Probado otra vez el 09/11, 24 horas después: sigue 403** en los dos
+    endpoints (Bing y el compartido), con la clave sirviendo 200 en la raíz.
+    Ya no es "puede tardar horas desde el alta": pasó un día entero. **Se deja
+    de reintentar a ciegas y queda a la espera de Marcelo**, por el camino
+    determinista: el token de verificación por archivo XML de Bing Webmaster
+    Tools (Settings → Verify ownership → Option 1, BingSiteAuth.xml). Con ese
+    token la corrida sube el archivo a `public/` y la verificación deja de
+    depender de que la importación desde Search Console haya quedado bien.
+    Yandex sigue aceptando todo (09/11: 200 OK con las 87 URLs de `/pt-br/`).
+
 12. **Seis guías con la description corta.** El recorte nuevo cierra en fin de
     oración, y en 6 de las 60 guías la primera oración del cuerpo es muy corta
     y la segunda no entra en los 157 caracteres: quedan entre 81 y 109. No es
@@ -432,6 +452,51 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
     haya que redirigirla.
 
 ## Hecho
+
+- **09/11/2026** — **Tercera página informativa en portugués: la puerta de
+  entrada general, "o que fazer na Patagônia argentina".** Era el primero de
+  los pendientes del punto 5 y la consulta más amplia de todo el mercado
+  brasileño ("o que fazer na Patagônia argentina", "roteiro Patagônia
+  argentina", "quantos dias na Patagônia", "melhor época para visitar a
+  Patagônia", "Patagônia argentina é caro"). Hasta hoy esa búsqueda entraba
+  por la home, que es comercial y no responde nada de eso. Nueva página Astro
+  en `/pt-br/o-que-fazer-na-patagonia-argentina/`: arranca por el dato que
+  define todo el viaje (casi un millón de km², más de 2.000 km de Madryn a
+  Ushuaia, ninguna semana alcanza para más de una región), **las ocho regiones
+  una por una** con los días que pide cada una —costa de Chubut, valle galés,
+  Esquel–Trevelin–Los Alerces, nieve de La Hoya, Ushuaia y el Beagle, El
+  Calafate y El Chaltén, la capa de aventura que ningún roteiro brasileño
+  incluye (Corcovado, Piedra Parada, Cholila, astroturismo de Lago Rosario) y
+  qué comer—, **las cuatro ventanas de temporada**, **cuatro roteiros** (7,
+  10, 15 y 20+ días), cómo llegar desde Brasil con los cuatro aeropuertos
+  (PMY/REL, EQS, FTE, USH) y el aviso de Aeroparque contra Ezeiza, y **8
+  preguntas frecuentes** escritas con las búsquedas reales del mercado. Lleva
+  `TouristDestination` con `includesAttraction`, `FAQPage` y `BreadcrumbList`,
+  y **hreflang recíproco** con `/que-hacer-patagonia/`: los tres
+  `<link rel="alternate">` se agregaron a mano al `<head>` de
+  `public/que-hacer-patagonia/index.html`, que no declaraba alternativa en
+  portugués. **Los enlaces a los paseos salen de `obtenerExperienciasPt()`**,
+  no de una lista a mano: **36 fichas pt enlazadas, las 36 sirven 200**, y la
+  que se traduzca mañana aparece sola. Verificado en producción: 200, canonical
+  propio, hreflang recíproco en los dos sentidos, 54 KB, y el sitemap pasó de
+  287 a **288 URLs**. Enlazada desde `/pt-br/` (tarjeta destacada "Comece por
+  aqui", arriba de las otras dos), desde el calendario de fauna, desde la guía
+  de Puerto Madryn y desde el listado de `/pt-br/experiencias/`: no queda
+  aislada y reparte hacia las dos informativas que ya existían. No se tocó la
+  fórmula de venta, el checkout, Make ni Firebase.
+
+- **09/11/2026** — **Mantenimiento del pendiente 13, verificado contra
+  producción.** Cruzado el sitemap real (`/sitemap-0.xml`, 287 URLs antes del
+  push) contra `src/data/meta-es.json` y `src/data/traducciones-pt.json`:
+  **112 de 112 fichas en español tienen meta description escrita a mano** y
+  las 84 traducciones pt siguen en pie. El admin no publicó fichas nuevas
+  desde el 02/11. Barrido de `slugPt` buscando palabras en español y erratas
+  de destino: **ningún caso nuevo** después del `puerto-madrid` corregido el
+  08/11. **Nota de método para la próxima corrida:** este cruce hay que
+  hacerlo contra el sitemap de producción, no reimplementando el armado de
+  slugs en un script aparte — probé eso y `conSlugsUnicos` sobre datos crudos
+  de la API REST da slugs repetidos, porque el pipeline real de
+  `contenido.js` normaliza antes. El sitemap ya es la verdad publicada.
 
 - **08/11/2026** — **Segunda página informativa en portugués: la guía de
   destino de Puerto Madryn y Península Valdés.** El calendario de fauna del
@@ -1478,3 +1543,53 @@ más abajo, una de Esquel y Trevelin, que tiene 25 fichas pt publicadas —más 
 Madryn— y ninguna página informativa), las 18 fichas traducibles de bajo valor
 del pendiente 3, y las decisiones de catálogo de "Para Marcelo", que son las que
 siguen frenando los pendientes 1, 2 y 4.
+
+### 09/11/2026
+
+Arranqué por lo que pedía el pendiente 11: reprobar IndexNow en Bing antes de
+tocar nada más. Sigue en **403** en los dos endpoints, 24 horas después del
+reintento del 08/11 y con la clave sirviendo 200 en la raíz. Eso descarta la
+explicación de "tarda unas horas desde el alta", así que dejo de reintentar a
+ciegas y lo pasé a "Para Marcelo" con el pedido concreto: el token del archivo
+`BingSiteAuth.xml` de Bing Webmaster Tools, que es la verificación determinista
+y no depende de que la importación desde Search Console haya quedado bien.
+
+El trabajo grande de la corrida fue el primero del pendiente 5: **la puerta de
+entrada general en portugués**, `/pt-br/o-que-fazer-na-patagonia-argentina/`.
+Es la consulta más amplia del mercado brasileño y la única capa de la búsqueda
+que todavía caía en la home, que es comercial. La página explica primero el
+dato que define el viaje —el tamaño, y que ninguna semana alcanza para más de
+una región—, después las ocho regiones una por una con los días que pide cada
+una, las cuatro ventanas de temporada, cuatro roteiros (7, 10, 15 y 20+ días),
+cómo llegar desde Brasil con los cuatro aeropuertos, y 8 FAQ con las preguntas
+reales del mercado. Usé el mismo molde que ya funcionó dos veces: Astro, los
+enlaces a paseos salidos de `obtenerExperienciasPt()` —así que **36 fichas pt
+quedaron enlazadas y las 36 sirven 200**—, `TouristDestination` + `FAQPage` +
+`BreadcrumbList`, y hreflang recíproco con `/que-hacer-patagonia/` agregado a
+mano en el `<head>` de la página española. La enlacé desde `/pt-br/` con una
+tarjeta destacada arriba de las otras dos, y desde el calendario de fauna, la
+guía de Madryn y el listado pt: no queda aislada y ahora `/pt-br/` tiene una
+jerarquía informativa de tres niveles (país → destino → calendario) en lugar
+de dos páginas sueltas.
+
+De paso corrí el mantenimiento del pendiente 13 contra el sitemap de
+producción: **112 de 112 meta descriptions escritas**, 84 traducciones pt en
+pie, ningún `slugPt` con erratas nuevas. Dejé anotado en "Hecho" el método
+correcto, porque probé hacerlo con un script propio que reimplementaba el
+armado de slugs y da falsos positivos: el sitemap publicado es la verdad.
+
+Resultado esperado: entrar a la capa de "todavía no sé a dónde voy" del mercado
+brasileño, que es la de más volumen y la que después alimenta las guías de
+destino y las fichas. Se mide en Search Console (cuando esté conectado) por
+impresiones de `/pt-br/o-que-fazer-na-patagonia-argentina/` en "o que fazer na
+Patagônia argentina", "roteiro Patagônia argentina", "quantos dias na
+Patagônia", "melhor época para visitar a Patagônia" y "Patagônia argentina é
+caro", y por los clics que derive a las tres regiones con más fichas pt
+publicadas. Sitemap: 287 → **288 URLs**. IndexNow avisó a Yandex las 87 URLs
+de `/pt-br/`.
+
+Quedó pendiente, en orden: la informativa de **Esquel y Trevelin** en portugués
+(25 fichas pt publicadas, más que Madryn, y ninguna página informativa), la
+gastronómica, las 18 fichas traducibles de bajo valor del pendiente 3, y las
+decisiones de catálogo de "Para Marcelo", que son las que siguen frenando los
+pendientes 1, 2 y 4.

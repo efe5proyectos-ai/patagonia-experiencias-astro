@@ -160,7 +160,7 @@
     </div>
     <p class="kicker" id="kicker">Plan Free</p>
     <h1>Sumá tu servicio a la vidriera.<br><span>Sin costo de suscripción.</span></h1>
-    <p class="lead" id="lead">Publicá todas tus excursiones sin pagar suscripción. A cambio, ofrecés de uno a cuatro beneficios reales al turista dentro de Patagonia Puntos.</p>
+    <p class="lead" id="lead">Publicá hasta 5 excursiones sin pagar suscripción. A cambio, ofrecés de uno a cuatro beneficios reales al turista dentro de Patagonia Puntos.</p>
     <div class="badge" id="orgWrap">Abierto a todos los <b id="orgBadge">prestadores habilitados</b></div>
   </div>
 
@@ -172,7 +172,7 @@
         <div class="col">
           <h3>Lo que recibís</h3>
           <ul>
-            <li>Ficha publicada en Patagonia Experiencias, con todas las excursiones que quieras</li>
+            <li id="liFicha">Ficha publicada en Patagonia Experiencias, con hasta 5 excursiones</li>
             <li>Reservas y pago online, sin cargo de suscripción</li>
             <li>Panel propio para gestionar tus servicios</li>
             <li>Tu servicio dentro de los itinerarios que arma AIKE</li>
@@ -267,8 +267,8 @@
 
           <div class="dos row">
             <div>
-              <label for="cantidad">Cuántos servicios distintos</label>
-              <input type="number" id="cantidad" min="1" max="99" placeholder="3">
+              <label for="cantidad">Cuántos servicios distintos (hasta 5)</label>
+              <input type="number" id="cantidad" min="1" max="5" placeholder="3">
             </div>
             <div>
               <label for="desde">Desde qué precio</label>
@@ -363,7 +363,8 @@ var CONVENIO = {
   bonificado: true,
   comisionPct: 20,
   descuentoMinimo: 15,
-  maxBeneficios: 4
+  maxBeneficios: 4,
+  maxExcursiones: 5
 };
 
 /* Organizaciones con convenio. La clave es lo que va en ?org=
@@ -399,6 +400,8 @@ var ORG_NOMBRE = "";
       $("kicker").textContent = "Alta por convenio";
       $("orgWrap").firstChild.textContent = "Invitación para ";
       CONVENIO.campania = "ALIANZAS_BENEFICIOS_2026";
+      $("liFicha").textContent = "Ficha publicada en Patagonia Experiencias";
+      $("cantidad").removeAttribute("max");
       $("lead").textContent = "Acceso bonificado para prestadores de asociaciones y cámaras adheridas. A cambio, ofrecés de uno a cuatro beneficios reales al turista dentro de Patagonia Puntos.";
     }
   } catch (e) {}
@@ -779,6 +782,7 @@ $("altaForm").addEventListener("submit", async function (ev) {
   var datosNuevo = Object.assign({}, datosContacto, {
     origen: "alianzas",
     modalidad: ORG_CLAVE ? "convenio" : "free",
+    limiteExcursiones: ORG_CLAVE ? null : CONVENIO.maxExcursiones,   // el convenio con cámaras no tiene tope
     campania: CONVENIO.campania,
     organizacion: ORG_CLAVE || "directo",
     organizacionNombre: ORG_NOMBRE || "",

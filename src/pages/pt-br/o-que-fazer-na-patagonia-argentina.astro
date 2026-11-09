@@ -1,0 +1,359 @@
+---
+// ─────────────────────────────────────────────────────────────
+// PUERTA DE ENTRADA GENERAL EN PT-BR — "O QUE FAZER NA PATAGÔNIA ARGENTINA"
+//
+// Tercera página informativa de /pt-br/ (07/11 calendario de fauna,
+// 08/11 guía de Puerto Madryn). Esta es la consulta más amplia del
+// mercado brasileño —"o que fazer na Patagônia argentina", "roteiro
+// Patagônia", "quantos dias na Patagônia", "melhor época para visitar a
+// Patagônia"— y hasta hoy esa búsqueda entraba por la home, que es
+// comercial y no responde nada de eso.
+//
+// Es la página de nivel país: reparte hacia las dos guías de destino que
+// ya existen en portugués y hacia las fichas pt de cada región. Los
+// enlaces a paseos salen de las traducciones reales
+// (obtenerExperienciasPt), así que una ficha sin página en portugués no
+// se enlaza y la que se traduzca mañana aparece sola.
+//
+// hreflang recíproco con /que-hacer-patagonia/: los tres
+// <link rel="alternate"> se agregaron a mano en el <head> de
+// public/que-hacer-patagonia/index.html.
+//
+// No toca precios, ni el botón de reserva, ni el checkout.
+// ─────────────────────────────────────────────────────────────
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { obtenerExperienciasPt } from '../../lib/traducciones.js';
+
+const exps = await obtenerExperienciasPt();
+const porSlugEs = new Map(exps.map((e) => [e.slugEs, e]));
+
+// Un paseo se enlaza por el slug español de su ficha (la clave de
+// traducciones-pt.json). Si no tiene página en portugués, no se enlaza.
+const paseos = (...slugs) => slugs.map((s) => porSlugEs.get(s)).filter(Boolean);
+
+const REGIOES = [
+  {
+    id: 'madryn',
+    etiqueta: 'Chubut · Costa atlântica',
+    titulo: 'Puerto Madryn e Península Valdés',
+    texto:
+      'É a região da fauna marinha e, para a maioria dos brasileiros, a primeira Patagônia. A Península Valdés é Patrimônio Mundial da UNESCO desde 1999 e reúne baleias-franca-austral de junho a dezembro, elefantes e lobos-marinhos durante todo o ano e orcas caçando na arrebentação em março e abril. A 180 km ao sul está Punta Tombo, a maior colônia continental de pinguins-de-magalhães da América do Sul. E em El Doradillo, a 15 km da cidade, as baleias se aproximam a poucos metros da areia: dá para vê-las da praia, sem barco.',
+    dias: '3 a 4 dias',
+    guia: { href: '/pt-br/o-que-fazer-em-puerto-madryn/', texto: 'Guia completo de Puerto Madryn e Península Valdés' },
+    fichas: paseos('peninsula-valdes', 'punta-tombo', 'doradillo', 'punta-loma-con-city-tour', 'solo-ballenas-tour-y-traslados-a-peninsula-valdes'),
+  },
+  {
+    id: 'vale-gales',
+    etiqueta: 'Chubut · Vale do Río Chubut',
+    titulo: 'O vale galês: Trelew, Gaiman e Dolavon',
+    texto:
+      'Uma hora para dentro, no vale do Río Chubut, estão os povoados fundados por colonos galeses em 1865 — o único lugar das Américas onde ainda se fala galês no dia a dia. Em Gaiman se toma o chá galês nas casas de chá de família; em Dolavon ficam os canais de irrigação e o velho moinho de 1880; e em Trelew está o Museu Paleontológico Egidio Feruglio, com os dinossauros patagônicos, entre eles o maior animal terrestre já encontrado. É o contraponto cultural à fauna e o melhor programa para o dia em que o vento não deixa navegar.',
+    dias: '1 dia',
+    fichas: paseos('valle-inferior', 'tour-valle-inferior-rio-chubut', 'el-viejo-molino-de-dolavon', 'pinguinera-punta-tombo'),
+  },
+  {
+    id: 'alerces',
+    etiqueta: 'Chubut · Cordilheira',
+    titulo: 'Esquel, Trevelin e o Parque Nacional Los Alerces',
+    texto:
+      'Do outro lado da província, a 600 km da costa, a estepe vira floresta andina. O Parque Nacional Los Alerces é Patrimônio Mundial da UNESCO desde 2017 e protege alerces de mais de dois mil anos — árvores que estavam ali antes do Império Romano —, alcançados por uma navegação entre lagos de água transparente. Em Trevelin continua a história galesa com os campos de tulipas em outubro e as peônias em dezembro, e Esquel é a base para cavalgadas, trilhas e o trem a vapor La Trochita.',
+    dias: '3 a 5 dias',
+    fichas: paseos('parque-nacional-los-alerces-full-day', 'bosque-de-alerces-milenarios-glaxiar', 'trekking-glaciar-torrecillas-glaxiar', 'trevelin-full-day', 'panoramicas-de-esquel', 'cabalgatas-en-esquel'),
+  },
+  {
+    id: 'neve',
+    etiqueta: 'Junho a setembro',
+    titulo: 'Neve em La Hoya',
+    texto:
+      'La Hoya fica a 13 km de Esquel e é uma das estações de esqui com melhor relação custo-benefício da Argentina: menos fila, menos gente e neve que dura até setembro por causa da orientação da encosta, que recebe pouco sol direto. Funciona bem para quem esquia pela primeira vez, e quem não quer esquiar faz caminhada com raquetes de neve na mesma montanha.',
+    dias: '3 a 7 dias',
+    fichas: paseos('combo-2-dias-de-esqui-o-snowboard-con-traslado', 'traslados-a-la-hoya-ida-y-vuelta-desde-esquel', 'mini-ski-week-3-noches-de-alojamiento-base-doble-triple-cuadruple', 'caminata-con-raquetas'),
+  },
+  {
+    id: 'ushuaia',
+    etiqueta: 'Terra do Fogo',
+    titulo: 'Ushuaia e o Canal Beagle',
+    texto:
+      'A cidade mais austral do mundo, entre o canal Beagle e os últimos Andes. O Parque Nacional Tierra del Fuego é onde a Ruta 3 termina, 3.079 km depois de Buenos Aires; a navegação pelo Beagle passa pelas ilhas de lobos-marinhos e pelo farol Les Éclaireurs; e em Puerto Almanza, do outro lado, se come centolla recém-pescada. No verão dá para ver pinguins em barco pequeno na Isla Martillo e fazer a trilha da Laguna Esmeralda; no inverno é o destino de neve mais ao sul do planeta.',
+    dias: '3 a 4 dias',
+    fichas: paseos('parque-nacional-tierra-del-fuego', 'trekking-laguna-esmeralda', 'avistaje-de-pinguinos-en-barco-pequeno', 'sabores-del-beagle', 'puerto-almanza-ruta-de-la-centolla-y-avistaje-de-pinguinos-en-barco-pequeno'),
+  },
+  {
+    id: 'glaciares',
+    etiqueta: 'Santa Cruz',
+    titulo: 'El Calafate, os glaciares e El Chaltén',
+    texto:
+      'O Parque Nacional Los Glaciares, também Patrimônio da UNESCO, tem o Perito Moreno — um dos poucos glaciares do mundo que não recuou e que rompe sozinho, com blocos de gelo caindo a 70 metros de altura. El Calafate é a base. A 220 km ao norte está El Chaltén, a capital argentina do trekking, com as trilhas até a Laguna de los Tres, aos pés do Fitz Roy, e a Laguna Torre: duas caminhadas de dia inteiro que se fazem sem guia e sem pagar entrada.',
+    dias: '4 a 5 dias',
+    fichas: paseos('tour-alternativo-al-glaciar-moreno'),
+  },
+  {
+    id: 'aventura',
+    etiqueta: 'Fora do roteiro clássico',
+    titulo: 'Rios, cânions e céu escuro',
+    texto:
+      'A Patagônia de Chubut tem uma camada que quase nenhum roteiro brasileiro inclui: o rafting no Río Corcovado, na fronteira com o Chile; o cânion de Piedra Parada, uma chaminé vulcânica de 210 metros que é um dos melhores lugares de escalada esportiva da América do Sul; o Valle de Cholila, onde Butch Cassidy e Sundance Kid se esconderam em 1901; e o astroturismo em Lago Rosario, onde a ausência total de luz artificial deixa a Via Láctea visível a olho nu como quase em nenhum outro lugar.',
+    dias: '1 a 2 dias cada',
+    fichas: paseos('rafting-en-corcovado', 'piedra-parada', 'valle-de-cholila', 'astroturismo-en-lago-rosario-lodge', 'canopy-tour', 'comarca-andina'),
+  },
+  {
+    id: 'comer',
+    etiqueta: 'Gastronomia',
+    titulo: 'O que comer',
+    texto:
+      'Cordeiro patagônico assado lentamente na cruz, frutos do mar do golfo Nuevo — vieiras, camarões, polvo —, centolla em Ushuaia, truta dos lagos andinos, chá galês no vale do Chubut e cervejas artesanais em quase toda cidade. Nos portos de Rawson e Puerto Almanza se come onde comem os pescadores, que é sempre o melhor sinal.',
+    dias: null,
+    fichas: paseos('cantina-marcelino', 'abelino-puerto-madryn', 'blest-cerveceria', 'maximino-bistro-cafe', 'finca-caballo-blanco'),
+  },
+];
+
+const TEMPORADAS = [
+  {
+    meses: 'Dezembro a fevereiro',
+    nome: 'Verão — a janela dos glaciares e do sul',
+    texto:
+      'A única época em que tudo está aberto: Ushuaia, El Chaltén e as trilhas de altura, com dias de até 17 horas de luz. Pinguins com filhotes em Punta Tombo e golfinhos na costa de Chubut. É alta temporada argentina e brasileira ao mesmo tempo: reserve com meses de antecedência. As baleias de Madryn já foram embora.',
+  },
+  {
+    meses: 'Março e abril',
+    nome: 'Outono — a melhor relação de todas',
+    texto:
+      'Para quem pode escolher, é a melhor época da Patagônia: menos gente, preços mais baixos, as florestas de lenga ficam vermelhas e o vento cede. As orcas caçam em Punta Norte e os pinguins ainda estão até abril. Os glaciares seguem acessíveis até meados de abril.',
+  },
+  {
+    meses: 'Junho a agosto',
+    nome: 'Inverno — baleias e neve',
+    texto:
+      'Começa a temporada de baleias em Puerto Madryn e abre o esqui em La Hoya e no Cerro Castor de Ushuaia. El Chaltén e boa parte das trilhas de altura fecham. Frio seco, pouquíssimos turistas e os preços mais baixos do ano na costa.',
+  },
+  {
+    meses: 'Setembro a novembro',
+    nome: 'Primavera — a janela da fauna',
+    texto:
+      'A combinação mais completa do ano na costa: baleias no auge com mães e filhotes, elefantes-marinhos com crias e os pinguins voltando a Punta Tombo. Em Trevelin florescem as tulipas em outubro. O sul começa a abrir em novembro.',
+  },
+];
+
+const ROTEIROS = [
+  {
+    dias: '7 dias',
+    titulo: 'Uma região só',
+    texto:
+      'Com uma semana não vale a pena cruzar a Patagônia. Escolha um bloco: a costa de Chubut (Península Valdés, Punta Tombo, El Doradillo e o vale galês) ou a cordilheira (Los Alerces, Trevelin e Esquel). Um voo de ida e um de volta, zero logística perdida.',
+  },
+  {
+    dias: '10 dias',
+    titulo: 'Costa e cordilheira de Chubut',
+    texto:
+      'Quatro dias em Puerto Madryn e Península Valdés, um dia no vale galês, e depois os 600 km até Esquel para o Parque Nacional Los Alerces e Trevelin. Tudo dentro da mesma província, com um só voo doméstico ou um trecho de ônibus no meio.',
+  },
+  {
+    dias: '15 dias',
+    titulo: 'O clássico de três pontas',
+    texto:
+      'Puerto Madryn, El Calafate com o Perito Moreno e El Chaltén, e Ushuaia. São três voos domésticos porque as distâncias são enormes — de Madryn a Calafate são mais de 1.500 km — mas é o roteiro que a maioria procura na primeira viagem.',
+  },
+  {
+    dias: '20 dias ou mais',
+    titulo: 'Com a cordilheira inteira',
+    texto:
+      'Ao clássico de três pontas se somam Esquel, Trevelin e Los Alerces, e eventualmente Bariloche e a Comarca Andina. É quando a Ruta 40 e as travessias de lago para o Chile começam a fazer sentido.',
+  },
+];
+
+const alternos = {
+  es: 'https://patagoniaexperiencias.com/que-hacer-patagonia/',
+  pt: 'https://patagoniaexperiencias.com/pt-br/o-que-fazer-na-patagonia-argentina/',
+};
+
+const faq = [
+  {
+    p: 'O que fazer na Patagônia argentina?',
+    r: 'A Patagônia argentina se divide em quatro blocos que quase não se parecem entre si: a costa de Chubut, com baleias, pinguins e a Península Valdés; a cordilheira de Chubut, com o Parque Nacional Los Alerces, Trevelin e a neve de La Hoya; Santa Cruz, com o glaciar Perito Moreno em El Calafate e o trekking do Fitz Roy em El Chaltén; e Ushuaia, na Terra do Fogo, com o canal Beagle. Nenhuma viagem curta cobre mais de um ou dois.',
+  },
+  {
+    p: 'Quantos dias são necessários para conhecer a Patagônia argentina?',
+    r: 'Para uma região só, de cinco a sete dias. Para o roteiro clássico de Puerto Madryn, El Calafate e Ushuaia, no mínimo quinze — são mais de 2.000 km entre o primeiro e o último ponto, com voos domésticos no meio. Com dez dias dá para fazer muito bem a costa e a cordilheira de Chubut, que é a combinação mais barata e com menos tempo perdido em deslocamento.',
+  },
+  {
+    p: 'Qual é a melhor época para viajar à Patagônia argentina?',
+    r: 'Depende do que você quer ver, porque não existe uma época que tenha tudo. De dezembro a fevereiro é a única janela em que o extremo sul e as trilhas de altura estão plenamente abertos. De junho a dezembro é a temporada de baleias em Puerto Madryn, e de junho a setembro a de neve. Março e abril são o melhor equilíbrio entre clima, preço e quantidade de gente.',
+  },
+  {
+    p: 'Como chegar à Patagônia argentina saindo do Brasil?',
+    r: 'A conexão habitual é por Buenos Aires e de lá um voo doméstico até o destino: Puerto Madryn (PMY) ou Trelew (REL) para a costa de Chubut, Esquel (EQS) para a cordilheira, El Calafate (FTE) para os glaciares e Ushuaia (USH) para a Terra do Fogo. Os voos domésticos do sul saem tanto de Aeroparque quanto de Ezeiza, então vale conferir o aeroporto antes de fechar as passagens: a troca entre os dois leva cerca de uma hora de carro.',
+  },
+  {
+    p: 'A Patagônia argentina é caro?',
+    r: 'É mais caro que o resto da Argentina, porque quase tudo chega de longe e a temporada é curta. A costa de Chubut é a parte mais acessível — e Esquel e Trevelin, a mais barata da cordilheira. El Calafate e Ushuaia são os destinos mais caros. Viajar em março, abril ou setembro reduz bastante hospedagem e passagens em relação a janeiro.',
+  },
+  {
+    p: 'Precisa alugar carro na Patagônia?',
+    r: 'Para a costa de Chubut, não: os passeios à Península Valdés, a Punta Tombo e a Punta Loma já incluem transporte e guia, e dentro das reservas há trechos longos de estrada de terra sem combustível nem sinal de celular. O carro compensa na cordilheira, para o Parque Nacional Los Alerces e os lagos, e em El Chaltén, onde as trilhas saem do próprio povoado.',
+  },
+  {
+    p: 'Dá para combinar a Patagônia argentina com o Chile?',
+    r: 'Sim, e é comum. De El Calafate se cruza por terra para Puerto Natales e Torres del Paine em cerca de cinco horas; de Esquel e da Comarca Andina há passos de fronteira para a região dos lagos chilenos. Leve em conta que a Argentina e o Chile não deixam passar alimentos frescos na fronteira e que cada travessia soma meio dia ao roteiro.',
+  },
+  {
+    p: 'Precisa de visto ou vacina para brasileiros?',
+    r: 'Brasileiros entram na Argentina sem visto e podem usar o RG ou o passaporte válido. Não há exigência de vacina para a Patagônia. Menores de idade viajando sem os dois responsáveis precisam de autorização — conferir as regras atualizadas da Polícia Federal antes de embarcar.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'TouristDestination',
+    name: 'Patagônia argentina',
+    description:
+      'A Patagônia argentina reúne a fauna marinha da Península Valdés, os glaciares de Santa Cruz, o trekking de El Chaltén, as florestas e lagos do Parque Nacional Los Alerces e Ushuaia, a cidade mais austral do mundo.',
+    url: alternos.pt,
+    inLanguage: 'pt-BR',
+    containedInPlace: { '@type': 'Country', name: 'Argentina' },
+    touristType: ['Famílias', 'Casais', 'Amantes da natureza', 'Aventura', 'Primeira viagem'],
+    includesAttraction: [
+      { '@type': 'TouristAttraction', name: 'Península Valdés' },
+      { '@type': 'TouristAttraction', name: 'Punta Tombo' },
+      { '@type': 'TouristAttraction', name: 'Parque Nacional Los Alerces' },
+      { '@type': 'TouristAttraction', name: 'Glaciar Perito Moreno' },
+      { '@type': 'TouristAttraction', name: 'Parque Nacional Tierra del Fuego' },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    inLanguage: 'pt-BR',
+    mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.p, acceptedAnswer: { '@type': 'Answer', text: f.r } })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Patagônia argentina', item: 'https://patagoniaexperiencias.com/pt-br/' },
+      { '@type': 'ListItem', position: 2, name: 'O que fazer na Patagônia argentina', item: alternos.pt },
+    ],
+  },
+];
+---
+<BaseLayout
+  titulo="O que fazer na Patagônia argentina: regiões, roteiros e épocas"
+  descripcion="Guia da Patagônia argentina para brasileiros: o que fazer em cada região, quantos dias ficar, melhor época para baleias, glaciares e trekking, e roteiros de 7 a 20 dias."
+  idioma="pt"
+  alternos={alternos}
+  schema={schema}
+>
+  <main>
+    <section class="bg-brand-oxford text-white">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20">
+        <p class="text-brand-fuchsia text-xs font-black uppercase tracking-[0.3em] mb-4"><i class="fa-solid fa-earth-americas mr-2"></i>Argentina · Patagônia</p>
+        <h1 class="font-sans font-extrabold text-3xl sm:text-5xl leading-tight">O que fazer na Patagônia argentina</h1>
+        <p class="text-white/75 text-lg max-w-3xl mt-5">Baleias que chegam até a praia, glaciares que rompem sozinhos, florestas de árvores com dois mil anos e a cidade mais austral do mundo — tudo isso é "Patagônia", e estão a milhares de quilômetros uma coisa da outra. Este guia explica o que tem em cada região, quanto tempo exige cada uma e em que mês vale a pena ir.</p>
+        <div class="flex flex-wrap gap-3 mt-7">
+          <a href="#regioes" class="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white font-bold text-xs uppercase tracking-widest px-5 py-3 rounded-full hover:bg-white/20 transition-all"><i class="fa-solid fa-map-location-dot"></i> As regiões</a>
+          <a href="#roteiros" class="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white font-bold text-xs uppercase tracking-widest px-5 py-3 rounded-full hover:bg-white/20 transition-all"><i class="fa-solid fa-route"></i> Roteiros</a>
+          <a href="/pt-br/melhor-epoca-fauna-patagonia/" class="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white font-bold text-xs uppercase tracking-widest px-5 py-3 rounded-full hover:bg-white/20 transition-all"><i class="fa-solid fa-calendar-days"></i> Calendário da fauna</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-5">O tamanho é o primeiro dado</h2>
+      <div class="space-y-4 text-slate-700 leading-relaxed">
+        <p>A Patagônia argentina ocupa quase <strong>um milhão de quilômetros quadrados</strong> — mais que o estado do Pará — e vai do rio Colorado até o canal Beagle, por cinco províncias: Neuquén, Río Negro, Chubut, Santa Cruz e Terra do Fogo. De Puerto Madryn a Ushuaia há mais de 2.000 km, e entre um ponto e outro não existe nada parecido com uma estrada rápida.</p>
+        <p>Por isso o erro mais comum de quem monta a primeira viagem é querer juntar baleias, glaciares e o fim do mundo em uma semana. <strong>Nenhuma viagem curta cobre mais de uma ou duas regiões</strong>, e cada troca de região custa um voo doméstico ou um dia inteiro de estrada.</p>
+        <p>A outra coisa que define tudo é a <strong>estação</strong>. A Patagônia não tem um "melhor mês": tem janelas. As baleias estão de junho a dezembro, os pinguins de setembro a abril, as trilhas de altura de novembro a março e a neve de junho a setembro. Acertar o mês é a diferença entre ver o que você veio ver e olhar um golfo vazio.</p>
+      </div>
+    </section>
+
+    <section id="regioes" class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-2">As regiões, uma por uma</h2>
+      <p class="text-slate-600 mb-7 max-w-3xl">Oito blocos, com quanto tempo cada um pede e os passeios que já estão disponíveis em português.</p>
+      <div class="space-y-6">
+        {REGIOES.map((r) => (
+          <article id={r.id} class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8">
+            <div class="flex flex-wrap items-center gap-3 mb-2">
+              <p class="text-brand-fuchsia text-[11px] font-bold uppercase tracking-widest">{r.etiqueta}</p>
+              {r.dias && <span class="text-[11px] font-bold uppercase tracking-widest text-slate-400 border border-slate-200 rounded-full px-3 py-1">{r.dias}</span>}
+            </div>
+            <h3 class="font-sans font-extrabold text-xl sm:text-2xl text-brand-oxford mb-3">{r.titulo}</h3>
+            <p class="text-slate-600 leading-relaxed">{r.texto}</p>
+            {r.guia && (
+              <p class="mt-4">
+                <a href={r.guia.href} class="text-brand-fuchsia font-bold text-sm hover:underline inline-flex items-center gap-2"><i class="fa-solid fa-book-open text-[11px]"></i>{r.guia.texto}</a>
+              </p>
+            )}
+            {r.fichas.length > 0 && (
+              <div class="mt-5 pt-5 border-t border-slate-100">
+                <p class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">Passeios</p>
+                <ul class="space-y-1.5">
+                  {r.fichas.map((p) => (
+                    <li>
+                      <a href={`/pt-br/experiencias/${p.slug}/`} class="text-brand-fuchsia font-semibold text-sm hover:underline inline-flex items-start gap-2">
+                        <i class="fa-solid fa-arrow-right text-[10px] mt-1.5"></i><span>{p.titulo}{p.duracion ? ` · ${p.duracion}` : ''}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-2">Quando ir</h2>
+      <p class="text-slate-600 mb-7 max-w-3xl">Os meses são do hemisfério sul: setembro é primavera e janeiro é verão. Para escolher as datas animal por animal, o <a href="/pt-br/melhor-epoca-fauna-patagonia/" class="text-brand-fuchsia font-semibold hover:underline">calendário da fauna</a> traz as espécies mês a mês.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        {TEMPORADAS.map((t) => (
+          <div class="bg-white border border-slate-200 rounded-2xl p-6">
+            <p class="text-brand-fuchsia text-[11px] font-bold uppercase tracking-widest mb-2">{t.meses}</p>
+            <h3 class="font-sans font-bold text-lg text-brand-oxford mb-2">{t.nome}</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">{t.texto}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section id="roteiros" class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-2">Quantos dias e que roteiro</h2>
+      <p class="text-slate-600 mb-7 max-w-3xl">A regra prática: conte um dia inteiro perdido em cada troca de região, e não monte mais de uma troca por semana de viagem.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        {ROTEIROS.map((r) => (
+          <div class="bg-white border border-slate-200 rounded-2xl p-6">
+            <p class="text-brand-fuchsia text-[11px] font-bold uppercase tracking-widest mb-2">{r.dias}</p>
+            <h3 class="font-sans font-bold text-lg text-brand-oxford mb-2">{r.titulo}</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">{r.texto}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-5">Como chegar e como se locomover</h2>
+      <div class="space-y-4 text-slate-700 leading-relaxed">
+        <p>Do Brasil a conexão habitual é por <strong>Buenos Aires</strong>, e de lá sai o voo doméstico para o destino: <strong>Puerto Madryn (PMY)</strong> ou <strong>Trelew (REL)</strong> para a costa de Chubut, <strong>Esquel (EQS)</strong> para a cordilheira, <strong>El Calafate (FTE)</strong> para os glaciares e <strong>Ushuaia (USH)</strong> para a Terra do Fogo. Confirme de qual aeroporto de Buenos Aires sai o voo doméstico antes de fechar as passagens: trocar entre Aeroparque e Ezeiza leva cerca de uma hora de carro.</p>
+        <p>Dentro da Patagônia, as distâncias enganam. De Puerto Madryn a Esquel são <strong>cerca de 600 km</strong> de estepe; de El Calafate a El Chaltén, 220 km; e Ushuaia só se alcança por terra atravessando o Chile duas vezes. Por isso, em roteiros de mais de uma região, o avião quase sempre sai mais barato que o tempo que o ônibus consome.</p>
+        <p>Dentro de cada destino a lógica muda: na costa de Chubut os passeios já vêm com transporte e guia, e é o jeito recomendado na primeira viagem; na cordilheira e em El Chaltén o carro alugado rende mais, porque as trilhas e os lagos ficam espalhados.</p>
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 pb-12">
+      <h2 class="font-sans font-extrabold text-2xl text-brand-oxford mb-4">Perguntas frequentes</h2>
+      <div class="space-y-3">
+        {faq.map((f) => (
+          <details class="bg-white border border-slate-200 rounded-2xl p-5">
+            <summary class="font-sans font-bold text-brand-oxford cursor-pointer">{f.p}</summary>
+            <p class="mt-3 text-slate-600 leading-relaxed">{f.r}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 pb-16 text-center">
+      <a href="/pt-br/experiencias/" class="inline-flex items-center gap-2 bg-brand-fuchsia text-white font-bold text-sm uppercase tracking-widest px-7 py-3.5 rounded-full shadow-lg shadow-brand-fuchsia/30 hover:bg-brand-fuchsiaDark transition-all"><i class="fa-solid fa-compass"></i> Ver todos os passeios</a>
+      <p class="text-slate-500 text-sm mt-5">Já escolheu o destino? Veja o guia de <a href="/pt-br/o-que-fazer-em-puerto-madryn/" class="text-brand-fuchsia font-semibold hover:underline">Puerto Madryn e Península Valdés</a> ou a <a href="/pt-br/melhor-epoca-fauna-patagonia/" class="text-brand-fuchsia font-semibold hover:underline">melhor época para ver baleias, pinguins e orcas</a>.</p>
+    </section>
+  </main>
+</BaseLayout>

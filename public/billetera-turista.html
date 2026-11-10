@@ -890,5 +890,18 @@ root.render(React.createElement(App, null));
 </script>
     <!-- Sprint 28: voucher-generator (debe ir después del JSX para que window.db ya esté disponible) -->
     <script src="voucher-generator.js"></script>
+<script>
+/* PATAGONIA PUNTOS (nov 2026): entrada directa. Si la persona tiene sesión de Google en Patagonia Experiencias,
+   los enlaces a patagoniapuntos.com la hacen entrar sin volver a loguearse. Solo agrega; no cambia nada existente. */
+(function(){document.addEventListener('click',function(e){
+  var a=e.target.closest&&e.target.closest('a[href*="patagoniapuntos.com"]');if(!a)return;
+  var u=window.firebase&&firebase.auth&&firebase.auth().currentUser;
+  if(!u||u.isAnonymous||!u.providerData.some(function(p){return p.providerId==='google.com'}))return;
+  e.preventDefault();var nueva=a.target==='_blank'?window.open('about:blank','_blank'):null,dest=a.href;
+  u.getIdToken().then(function(t){return fetch('https://us-central1-patagonia-experiencias.cloudfunctions.net/ppTokenPuntos',{method:'POST',headers:{'content-type':'application/json',authorization:'Bearer '+t},body:'{"data":{}}'})})
+   .then(function(r){return r.json()}).then(function(j){if(j&&j.result&&j.result.token)dest='https://patagoniapuntos.com/v2/#sso='+encodeURIComponent(j.result.token)+'&rol=viajero'})
+   .catch(function(){}).then(function(){if(nueva)nueva.location=dest;else location.href=dest});
+},true)})();
+</script>
 </body>
 </html>

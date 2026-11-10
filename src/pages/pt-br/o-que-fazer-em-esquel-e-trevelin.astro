@@ -1,0 +1,317 @@
+---
+// ─────────────────────────────────────────────────────────────
+// GUÍA DE DESTINO EN PT-BR — ESQUEL, TREVELIN Y LOS ALERCES
+//
+// Cuarta página informativa de /pt-br/ (calendario de fauna 07/11, guía de
+// Puerto Madryn 08/11, puerta de entrada general 09/11). Es el pendiente 5
+// de la bitácora: la cordillera de Chubut es el segundo destino del brasileño
+// después de la costa y tiene MÁS fichas pt publicadas que Madryn (unas 45
+// entre Esquel, Trevelin, Los Alerces, Cholila, Comarca Andina, Corcovado y
+// Gualjaina), pero no tenía ninguna página informativa en portugués.
+//
+// La capa de búsqueda que ataca: "o que fazer em Esquel", "Parque Nacional
+// Los Alerces como visitar", "La Hoya esqui", "trem La Trochita",
+// "Trevelin tulipas", "quantos dias em Esquel". Del lado español la cubre
+// /esquel-trevelin, que vive en public/ y nunca se tradujo.
+//
+// Mismo molde que las otras tres: Astro (no se duplica el HTML de 29 KB de
+// la española), enlaces a paseos salidos de obtenerExperienciasPt() —una
+// ficha sin traducir no se enlaza y no deja un 404—, y UN SOLO paseo por
+// cada grupo de fichas duplicadas de "Para Marcelo", para no reforzar la
+// competencia interna. No toca precios, ni el botón de reserva, ni el checkout.
+//
+// hreflang recíproco con /esquel-trevelin: los tres <link rel="alternate">
+// se agregaron a mano al <head> de public/esquel-trevelin.html.
+// ─────────────────────────────────────────────────────────────
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { obtenerExperienciasPt } from '../../lib/traducciones.js';
+
+const exps = await obtenerExperienciasPt();
+const porSlugEs = new Map(exps.map((e) => [e.slugEs, e]));
+
+// Un paseo se enlaza por el slug español de su ficha (la clave de
+// traducciones-pt.json). Si no tiene página en portugués, no se enlaza.
+const paseos = (...slugs) => slugs.map((s) => porSlugEs.get(s)).filter(Boolean);
+
+const BLOQUES = [
+  {
+    id: 'alerces',
+    etiqueta: 'Patrimônio da UNESCO',
+    titulo: 'O Parque Nacional Los Alerces',
+    texto:
+      'É o motivo principal da viagem. O parque protege 2.600 km² de floresta andino-patagônica com lagos de água transparente — Futalaufquen, Verde, Rivadavia, Menéndez — e, no fundo de um deles, o alerzal milenar: um bosque de alerces (Fitzroya cupressoides) com árvores de mais de dois mil anos, entre elas "El Abuelo", de cerca de 2.600 anos, o segundo ser vivo mais velho da América do Sul. Chega-se por uma navegação pelo Lago Menéndez, saindo de Puerto Chucao, mais uma caminhada curta dentro da floresta. A UNESCO declarou o parque Patrimônio Mundial em 2017, e é a visita que mais vale reservar com antecedência: a navegação tem vagas limitadas por dia.',
+    fichas: paseos('parque-nacional-los-alerces-full-day', 'bosque-de-alerces-milenarios-glaxiar', 'expedicion-menendez-glaxiar', 'trekking-glaciar-torrecillas-glaxiar', 'parque-nacional-los-alerces-half-day'),
+  },
+  {
+    id: 'trevelin',
+    etiqueta: 'Cultura galesa',
+    titulo: 'Trevelin, o chá galês e o moinho',
+    texto:
+      'Trevelin fica a 25 km de Esquel, meia hora de carro, e foi fundada por colonos galeses que atravessaram a cordilheira em 1885 vindos do vale do Río Chubut. O nome é galês e quer dizer "povoado do moinho": o moinho de 1918 ainda está de pé e hoje é museu. Numa tarde dá para tomar o chá galês de verdade — torta negra, bolos caseiros e pão com manteiga, servidos em casas de chá de família —, ver a cascata Nant y Fall e passar pela represa de Futaleufú, a hidrelétrica que formou o lago Amutui Quimei. É o dia cultural do destino e o melhor programa para quando o tempo fecha na montanha.',
+    fichas: paseos('trevelin-full-day', 'ruta-galesa-trevelin', 'ruta-galesa-con-complejo-hidroelectrico-futaleufu', 'trevelin-full-day-limits-adventure'),
+  },
+  {
+    id: 'neve',
+    etiqueta: 'Junho a setembro',
+    titulo: 'Esqui e neve em La Hoya',
+    texto:
+      'La Hoya fica a 13 km de Esquel e é uma das estações de esqui com melhor relação custo-benefício da Argentina: menos fila, menos gente e neve seca que dura até setembro, porque a encosta é voltada para o sul e recebe pouco sol direto. Tem pistas para quem nunca esquiou e escola com aula em grupo, e os passeios combinam transfer, passe e aluguel de equipamento, o que resolve a logística de quem chega sem material. Quem não quer esquiar faz caminhada com raquetes de neve na mesma montanha ou na Curva de los Guanacos, trenó e um dia na neve sem esquis.',
+    fichas: paseos('combo-2-dias-de-esqui-o-snowboard-con-traslado', 'traslados-a-la-hoya-ida-y-vuelta-desde-esquel', 'mini-ski-week-3-noches-de-alojamiento-base-doble-triple-cuadruple', 'alquiler-equipo-de-ski-por-3-dias', 'caminata-con-raquetas', 'senderismo-con-raquetas-de-nieve-por-la-curva-de-los-guanacos'),
+  },
+  {
+    id: 'flores',
+    etiqueta: 'Setembro a dezembro',
+    titulo: 'Os campos de tulipas e as peônias de Trevelin',
+    texto:
+      'Entre meados de setembro e meados de outubro os campos de Trevelin se cobrem de centenas de milhares de tulipas de todas as cores, com a cordilheira ainda nevada no fundo — é a floração mais fotografada da Patagônia e dura poucas semanas, então a data manda. Em dezembro vêm as peônias, que florescem em quantidade parecida e quase ninguém de fora conhece. As duas se visitam dentro do passeio de Trevelin ou da rota galesa, sem dia extra, e as datas mudam um pouco a cada temporada conforme o inverno.',
+    fichas: paseos('trevelin-full-day-con-visita-al-campo-de-tulipanes', 'ruta-galesa-medio-dia-con-visita-al-campo-de-tulipanes', 'trevelin-full-day-con-visita-al-campo-de-peonias', 'peonias-3-noches-de-alojamiento'),
+  },
+  {
+    id: 'esquel',
+    etiqueta: 'Todo o ano',
+    titulo: 'Esquel, La Trochita e os arredores',
+    texto:
+      'Esquel é a cidade-base: tem aeroporto, hotéis, restaurantes e as agências, e de lá sai tudo. Na própria cidade está La Trochita, o Viejo Expreso Patagónico — um trem a vapor de bitola estreita de 1945 que ainda circula até a estação de Nahuel Pan, e que inspirou "O Expresso da Patagônia" de Paul Theroux. Em meia manhã se fazem os miradouros panorâmicos da cidade, a Laguna La Zeta com observação de pássaros, cavalgadas no campo, bicicleta e canopy. É o que se encaixa no dia de chegada ou de partida, quando não dá tempo de um passeio de dia inteiro.',
+    fichas: paseos('panoramicas-de-esquel', 'cabalgatas-en-esquel', 'bird-watching-half-day', 'alquiler-de-bicicletas', 'canopy-tour', 'lago-bagillt'),
+  },
+  {
+    id: 'aventura',
+    etiqueta: 'Outubro a abril',
+    titulo: 'Rafting, cânions e rios',
+    texto:
+      'O verão da cordilheira é de água. O Río Corcovado tem rafting de classe III em paisagem aberta de montanha, a duas horas e meia de Esquel; Piedra Parada e o cânion de La Buitrera, em Gualjaina, formam uma caldeira vulcânica de 20 km de paredões que é um dos destinos de escalada mais conhecidos da América do Sul e se caminha sem ser escalador; e o Río Grande se navega em dia inteiro, na mata de Aldea Escolar. São os passeios de quem já viu o parque e quer mais um dia forte.',
+    fichas: paseos('rafting-en-corcovado', 'piedra-parada', 'navegacion-rio-grande-full-day'),
+  },
+  {
+    id: 'cultura-ceu',
+    etiqueta: 'Experiências locais',
+    titulo: 'Turismo ancestral e o céu de Lago Rosario',
+    texto:
+      'A 40 km de Trevelin, a comunidade mapuche-tehuelche de Lago Rosario e Sierra Colorada recebe visitantes no próprio território: caminhada guiada por quem mora ali, comida feita na hora e a história contada em primeira pessoa. No mesmo lago funciona o astroturismo: a cordilheira de Chubut tem alguns dos céus mais escuros do país, sem poluição luminosa a dezenas de quilômetros, e a noite se faz com telescópio. São as duas experiências que o brasileiro não encontra em nenhum outro destino da Patagônia.',
+    fichas: paseos('turismo-ancestral-sierra-colorada-lago-rosario', 'astroturismo-en-lago-rosario-lodge'),
+  },
+  {
+    id: 'arredores',
+    etiqueta: 'Bate-volta',
+    titulo: 'Cholila, Leleque e a Comarca Andina',
+    texto:
+      'Para o norte, pela Ruta 40, o vale de Cholila guarda a cabana onde Butch Cassidy e Sundance Kid viveram entre 1901 e 1905, e o Museu Leleque conta a história tehuelche e da colonização em um galpão de estância restaurado. Mais ao norte ainda começa a Comarca Andina, com El Bolsón, a feira de artesãos e as cervejarias e produtores de frutas finas. São dias de estrada com paradas, e fecham bem um roteiro de cinco dias ou mais na cordilheira.',
+    fichas: paseos('valle-de-cholila-limits-adventure', 'comarca-andina'),
+  },
+];
+
+const TEMPORADAS = [
+  {
+    meses: 'Dezembro a março',
+    nome: 'Verão — a melhor janela',
+    texto: 'Tudo aberto e os dias mais longos do ano: a navegação do alerzal milenar funciona todos os dias, os lagos dão para nadar, as trilhas estão livres de neve e o rafting está na melhor época. É alta temporada argentina, então hospedagem e navegação se reservam com antecedência.',
+  },
+  {
+    meses: 'Junho a setembro',
+    nome: 'Inverno — temporada de neve',
+    texto: 'La Hoya com neve seca, preços de pacote de esqui e a cidade cheia de argentinos nas férias de julho. O Parque Nacional Los Alerces fica com acesso reduzido e a navegação do alerzal normalmente não opera: inverno aqui é neve, não é parque.',
+  },
+  {
+    meses: 'Setembro a novembro',
+    nome: 'Primavera — flores e poucos turistas',
+    texto: 'As tulipas de Trevelin entre meados de setembro e meados de outubro, os rios cheios de degelo, a cordilheira ainda branca no fundo das fotos e muito menos gente que no verão. O parque vai reabrindo ao longo da primavera. É a melhor relação entre preço e paisagem.',
+  },
+  {
+    meses: 'Abril e maio',
+    nome: 'Outono',
+    texto: 'A estação mais bonita e a menos visitada: as lengas ficam vermelhas e douradas em todo o parque, e os lagos ficam espelhados, sem vento. Alguns serviços fecham entre temporadas, então vale confirmar a navegação e as casas de chá antes de ir.',
+  },
+];
+
+const ROTEIRO = [
+  { dia: 'Dia 1', titulo: 'Chegada e Esquel', texto: 'Voo até Esquel (EQS), miradouros panorâmicos da cidade e a Laguna La Zeta no fim da tarde. Se o trem estiver circulando, La Trochita até Nahuel Pan cabe neste dia.' },
+  { dia: 'Dia 2', titulo: 'Parque Nacional Los Alerces', texto: 'Dia inteiro: os lagos, Puerto Chucao e a navegação pelo Lago Menéndez até o alerzal milenar, com a caminhada até El Abuelo. Saída cedo, volta no fim da tarde.' },
+  { dia: 'Dia 3', titulo: 'Trevelin e a rota galesa', texto: 'Moinho e museu, cascata Nant y Fall, represa de Futaleufú e o chá galês à tarde. Entre setembro e outubro, os campos de tulipas entram no mesmo dia.' },
+  { dia: 'Dia 4', titulo: 'Escolha o seu', texto: 'No verão, rafting em Corcovado, Piedra Parada ou cavalgada; no inverno, o dia de esqui em La Hoya; e com um quinto dia, Cholila, o Museu Leleque e a Comarca Andina.' },
+];
+
+const alternos = {
+  es: 'https://patagoniaexperiencias.com/esquel-trevelin',
+  pt: 'https://patagoniaexperiencias.com/pt-br/o-que-fazer-em-esquel-e-trevelin/',
+};
+
+const faq = [
+  {
+    p: 'Quantos dias ficar em Esquel e Trevelin?',
+    r: 'Três dias cheios é o mínimo: um para o Parque Nacional Los Alerces, um para Trevelin e a rota galesa, e um para Esquel e os arredores. Com quatro ou cinco dias entram o rafting em Corcovado, Piedra Parada, Cholila e o Museu Leleque, ou um dia de esqui se for inverno. Quem vem para esquiar normalmente fica de cinco a sete dias.',
+  },
+  {
+    p: 'Qual é a melhor época para visitar Esquel?',
+    r: 'Depende do que você quer. De dezembro a março está tudo aberto e é quando a navegação do alerzal milenar funciona todos os dias — é a melhor época para o parque e as trilhas. De junho a setembro é temporada de neve em La Hoya, mas o parque fica com acesso reduzido. Entre meados de setembro e meados de outubro acontecem as tulipas de Trevelin, com menos turistas e preços melhores.',
+  },
+  {
+    p: 'Como visitar o Parque Nacional Los Alerces e o alerzal milenar?',
+    r: 'A entrada do parque fica a cerca de 50 km de Esquel. Para chegar ao bosque de alerces de mais de dois mil anos é preciso navegar o Lago Menéndez a partir de Puerto Chucao e depois caminhar um trecho curto dentro da floresta, sempre com guia. A navegação tem vagas limitadas por dia e, na alta temporada, esgota: convém reservar antes de viajar. Também há passeios de meio dia que ficam pelos lagos e pelos miradouros, sem a navegação.',
+  },
+  {
+    p: 'Qual a distância entre Esquel e Trevelin?',
+    r: 'São 25 km, cerca de meia hora de carro pela Ruta 259. Pela proximidade as duas se visitam na mesma viagem, com base em Esquel, que tem mais hotéis e de onde saem os passeios.',
+  },
+  {
+    p: 'Quando florescem as tulipas em Trevelin?',
+    r: 'Entre meados de setembro e meados de outubro, conforme o inverno de cada ano. A janela é de poucas semanas, então vale confirmar a floração antes de fechar as datas. Em dezembro florescem as peônias, em quantidade parecida e com muito menos gente.',
+  },
+  {
+    p: 'Como chegar a Esquel saindo do Brasil?',
+    r: 'Não há voo direto: a conexão é por Buenos Aires e de lá sai o voo doméstico até o aeroporto de Esquel (EQS), a 20 km da cidade. Outra opção é voar até Bariloche, que tem mais frequências, e fazer os cerca de 290 km até Esquel de ônibus ou de carro alugado — um trecho de estrada bonito, pela Ruta 40 e a Comarca Andina.',
+  },
+  {
+    p: 'Precisa alugar carro em Esquel?',
+    r: 'Não é obrigatório: os passeios ao parque, a Trevelin e a La Hoya saem com transporte e guia incluídos. O carro rende mais aqui do que na costa, porque os lagos e as trilhas do parque ficam espalhados e dá para repetir lugares; mas para uma primeira viagem de três ou quatro dias, os passeios resolvem melhor e sem a estrada de terra da Ruta 71.',
+  },
+  {
+    p: 'O trem La Trochita está funcionando?',
+    r: 'La Trochita circula por temporada e com dias fixos, e o calendário muda a cada ano. O trecho turístico habitual é Esquel–Nahuel Pan, de cerca de duas horas de ida e volta. Pergunte pelo WhatsApp antes de contar com ele no roteiro: é a única atração do destino que depende de um calendário que muda.',
+  },
+  {
+    p: 'Dá para combinar Esquel com Puerto Madryn na mesma viagem?',
+    r: 'Sim, e é o roteiro de dez dias mais pedido de Chubut: quatro dias na costa (Península Valdés, Punta Tombo e o vale galês) e quatro na cordilheira. São cerca de 600 km de estepe entre as duas, que se fazem de ônibus à noite ou de avião via Buenos Aires. Dentro da mesma província, com um só trecho longo no meio.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'TouristDestination',
+    name: 'Esquel, Trevelin e o Parque Nacional Los Alerces',
+    description:
+      'Esquel e Trevelin são a base da cordilheira de Chubut, na Patagônia argentina: o Parque Nacional Los Alerces (Patrimônio Mundial da UNESCO), o alerzal milenar, a estação de esqui La Hoya, o trem a vapor La Trochita, o chá galês e os campos de tulipas de Trevelin.',
+    url: alternos.pt,
+    inLanguage: 'pt-BR',
+    geo: { '@type': 'GeoCoordinates', latitude: -42.9122, longitude: -71.3194 },
+    containedInPlace: { '@type': 'AdministrativeArea', name: 'Chubut, Argentina' },
+    touristType: ['Famílias', 'Casais', 'Amantes da natureza', 'Aventura', 'Esqui'],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    inLanguage: 'pt-BR',
+    mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.p, acceptedAnswer: { '@type': 'Answer', text: f.r } })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Patagônia argentina', item: 'https://patagoniaexperiencias.com/pt-br/' },
+      { '@type': 'ListItem', position: 2, name: 'Esquel, Trevelin e Los Alerces', item: alternos.pt },
+    ],
+  },
+];
+---
+<BaseLayout
+  titulo="O que fazer em Esquel e Trevelin"
+  descripcion="Guia de Esquel e Trevelin: Parque Nacional Los Alerces e o alerzal milenar, esqui em La Hoya, o trem La Trochita, chá galês, tulipas e roteiro de 4 dias."
+  idioma="pt"
+  alternos={alternos}
+  schema={schema}
+>
+  <main>
+    <section class="bg-brand-oxford text-white">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20">
+        <p class="text-brand-fuchsia text-xs font-black uppercase tracking-[0.3em] mb-4"><i class="fa-solid fa-mountain-sun mr-2"></i>Cordilheira · Chubut · Patagônia argentina</p>
+        <h1 class="font-sans font-extrabold text-3xl sm:text-5xl leading-tight">O que fazer em Esquel e Trevelin</h1>
+        <p class="text-white/75 text-lg max-w-3xl mt-5">Árvores de 2.600 anos alcançadas por uma navegação entre lagos, uma estação de esqui a 13 km da cidade, um trem a vapor de bitola estreita, chá galês em casas de família e campos de tulipas na primavera. Este é o guia para montar a viagem pela cordilheira de Chubut: quando ir, quantos dias ficar e o que fazer em cada um.</p>
+        <div class="flex flex-wrap gap-3 mt-7">
+          <a href="#roteiro" class="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white font-bold text-xs uppercase tracking-widest px-5 py-3 rounded-full hover:bg-white/20 transition-all"><i class="fa-solid fa-route"></i> Roteiro de 4 dias</a>
+          <a href="#alerces" class="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white font-bold text-xs uppercase tracking-widest px-5 py-3 rounded-full hover:bg-white/20 transition-all"><i class="fa-solid fa-tree"></i> Parque Los Alerces</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-5">Por que a cordilheira de Chubut</h2>
+      <div class="space-y-4 text-slate-700 leading-relaxed">
+        <p>Quase todo brasileiro que chega à Patagônia argentina conhece primeiro a costa — baleias, pinguins, Península Valdés — e depois descobre que, 600 km para dentro da mesma província, a estepe vira <strong>floresta andina</strong>. Esse é o outro Chubut: Esquel, Trevelin e o <strong>Parque Nacional Los Alerces</strong>, com lagos de água transparente, montanhas nevadas e árvores que já estavam ali antes do Império Romano.</p>
+        <p>O que diferencia este destino dos outros da cordilheira argentina é a <strong>escala</strong>. Não é Bariloche: Esquel é uma cidade de 40 mil habitantes, sem fila nem multidão, e o parque recebe uma fração dos visitantes de um parque equivalente mais ao norte. Isso se traduz em preços mais baixos, em estações de esqui sem espera e em um alerzal milenar que se visita em grupo pequeno, com guia.</p>
+        <p>A contrapartida é que <strong>a temporada manda mais que em qualquer outro lugar</strong>: no inverno o parque fecha trechos e a navegação do alerzal normalmente não opera, e no verão é a neve que não existe. Nenhuma época tem as duas coisas. Por isso este guia começa pelas datas.</p>
+      </div>
+    </section>
+
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-2">Quando ir</h2>
+      <p class="text-slate-600 mb-7 max-w-3xl">Os meses são do hemisfério sul: setembro é primavera e janeiro é verão. Se a viagem também passar pela costa, o <a href="/pt-br/melhor-epoca-fauna-patagonia/" class="text-brand-fuchsia font-semibold hover:underline">calendário da fauna</a> traz as épocas de cada animal.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        {TEMPORADAS.map((t) => (
+          <div class="bg-white border border-slate-200 rounded-2xl p-6">
+            <p class="text-brand-fuchsia text-[11px] font-bold uppercase tracking-widest mb-2">{t.meses}</p>
+            <h3 class="font-sans font-bold text-lg text-brand-oxford mb-2">{t.nome}</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">{t.texto}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-2">O que fazer</h2>
+      <p class="text-slate-600 mb-7 max-w-3xl">Oito blocos que justificam a viagem, com os passeios que saem de Esquel e de Trevelin para cada um.</p>
+      <div class="space-y-6">
+        {BLOQUES.map((b) => (
+          <article id={b.id} class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8">
+            <p class="text-brand-fuchsia text-[11px] font-bold uppercase tracking-widest mb-2">{b.etiqueta}</p>
+            <h3 class="font-sans font-extrabold text-xl sm:text-2xl text-brand-oxford mb-3">{b.titulo}</h3>
+            <p class="text-slate-600 leading-relaxed">{b.texto}</p>
+            {b.fichas.length > 0 && (
+              <div class="mt-5 pt-5 border-t border-slate-100">
+                <p class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">Passeios</p>
+                <ul class="space-y-1.5">
+                  {b.fichas.map((p) => (
+                    <li>
+                      <a href={`/pt-br/experiencias/${p.slug}/`} class="text-brand-fuchsia font-semibold text-sm hover:underline inline-flex items-start gap-2">
+                        <i class="fa-solid fa-arrow-right text-[10px] mt-1.5"></i><span>{p.titulo}{p.duracion ? ` · ${p.duracion}` : ''}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section id="roteiro" class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-2">Roteiro de 4 dias</h2>
+      <p class="text-slate-600 mb-7 max-w-3xl">A ordem importa: o Parque Nacional Los Alerces é dia inteiro e sai cedo, então convém deixá-lo para o segundo dia, com a navegação já reservada, e guardar a cidade para a chegada e a partida.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {ROTEIRO.map((d) => (
+          <div class="bg-white border border-slate-200 rounded-2xl p-6">
+            <p class="text-brand-fuchsia text-[11px] font-bold uppercase tracking-widest mb-2">{d.dia}</p>
+            <h3 class="font-sans font-bold text-base text-brand-oxford mb-2">{d.titulo}</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">{d.texto}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-5">Como chegar e como se locomover</h2>
+      <div class="space-y-4 text-slate-700 leading-relaxed">
+        <p>Do Brasil não há voo direto: a conexão se faz em <strong>Buenos Aires</strong> e de lá sai o voo doméstico até o <strong>aeroporto de Esquel (EQS)</strong>, a 20 km da cidade. Há menos frequências que na costa, então a alternativa comum é voar até <strong>Bariloche (BRC)</strong> e fazer os cerca de 290 km até Esquel de ônibus ou de carro — um trecho bonito, pela Comarca Andina e El Bolsón, que já funciona como parte do roteiro.</p>
+        <p>Dentro do destino, os passeios saem com transporte e guia incluídos, e isso resolve o acesso ao parque: a Ruta 71, que atravessa Los Alerces de ponta a ponta, tem trechos de terra e as distâncias entre os lagos são grandes. Alugar carro compensa para quem fica cinco dias ou mais e quer voltar aos lagos por conta própria.</p>
+        <p>Se a viagem combinar costa e cordilheira, são <strong>cerca de 600 km</strong> entre Trelew e Esquel, de estepe, feitos de ônibus à noite ou de avião via Buenos Aires. É o roteiro de dez dias mais pedido de Chubut e <a href="/pt-br/o-que-fazer-na-patagonia-argentina/" class="text-brand-fuchsia font-semibold hover:underline">o mais barato de toda a Patagônia argentina</a>.</p>
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 pb-12">
+      <h2 class="font-sans font-extrabold text-2xl text-brand-oxford mb-4">Perguntas frequentes</h2>
+      <div class="space-y-3">
+        {faq.map((f) => (
+          <details class="bg-white border border-slate-200 rounded-2xl p-5">
+            <summary class="font-sans font-bold text-brand-oxford cursor-pointer">{f.p}</summary>
+            <p class="mt-3 text-slate-600 leading-relaxed">{f.r}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 pb-16 text-center">
+      <a href="/pt-br/experiencias/" class="inline-flex items-center gap-2 bg-brand-fuchsia text-white font-bold text-sm uppercase tracking-widest px-7 py-3.5 rounded-full shadow-lg shadow-brand-fuchsia/30 hover:bg-brand-fuchsiaDark transition-all"><i class="fa-solid fa-compass"></i> Ver todos os passeios</a>
+      <p class="text-slate-500 text-sm mt-5">A viagem também passa pela costa? Veja <a href="/pt-br/o-que-fazer-em-puerto-madryn/" class="text-brand-fuchsia font-semibold hover:underline">o que fazer em Puerto Madryn e na Península Valdés</a>. Ainda decidindo o destino? Comece por <a href="/pt-br/o-que-fazer-na-patagonia-argentina/" class="text-brand-fuchsia font-semibold hover:underline">o que fazer na Patagônia argentina</a>.</p>
+    </section>
+  </main>
+</BaseLayout>

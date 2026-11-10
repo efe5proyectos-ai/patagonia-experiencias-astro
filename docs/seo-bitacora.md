@@ -53,9 +53,10 @@ Reglas de la bitácora:
 - 61 URLs en portugués en el sitemap (home, listado y 59 fichas traducidas).
 - hreflang es-AR / pt-BR recíproco y correcto en las fichas.
 
-Tamaño del sitio al 07/11/2026: **286 URLs** en el sitemap — 112 fichas en
-español, 84 fichas en portugués, 60 guías de viaje, la primera página
-informativa en portugués y el resto de `public/`.
+Tamaño del sitio al 10/11/2026: **289 URLs** en el sitemap — 112 fichas en
+español, 84 fichas en portugués, 60 guías de viaje, **cuatro páginas
+informativas en portugués** (calendario de fauna, Puerto Madryn, la puerta de
+entrada general y Esquel–Trevelin) y el resto de `public/`.
 En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
 único que queda afuera es un duplicado de carga del mismo prestador
 (`navegacion-rio-grande-full-day`), que hay que borrar en el admin.
@@ -273,15 +274,19 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    ver baleias", "quanto tempo ficar em Puerto Madryn") y ahí no existíamos.
    Ya están hechas **dos**: el calendario de fauna (07/11) y la guía de
    destino de Puerto Madryn y Península Valdés (08/11), las dos en "Hecho".
-   Ya están hechas **tres**: el calendario de fauna (07/11), la guía de
-   destino de Puerto Madryn y Península Valdés (08/11) y la puerta de entrada
-   general "o que fazer na Patagônia argentina" (09/11), las tres en "Hecho".
-   **Lo que sigue, por orden de impacto:** una de **Esquel y Trevelin** —la
-   cordillera es el segundo destino del brasileño después de la costa y tiene
-   25 fichas pt publicadas, más que Madryn, y la página general del 09/11 ya
-   le abrió el enlace interno desde arriba— y una **gastronómica** ("o que
-   comer na Patagônia", espejo de `/que-comer-patagonia/`). Más abajo, una de
-   Ushuaia (8 fichas pt) y una de El Calafate, que hoy tiene una sola ficha. El molde ya está probado dos veces: página Astro en
+   Ya están hechas **cuatro**: el calendario de fauna (07/11), la guía de
+   destino de Puerto Madryn y Península Valdés (08/11), la puerta de entrada
+   general "o que fazer na Patagônia argentina" (09/11) y la guía de **Esquel,
+   Trevelin y Los Alerces** (10/11, con 32 fichas pt enlazadas), las cuatro en
+   "Hecho". Con eso `/pt-br/` ya cubre los dos destinos grandes —costa y
+   cordillera— más el país y el calendario.
+   **Lo que sigue, por orden de impacto:** una **gastronómica** ("o que comer
+   na Patagônia", espejo de `/que-comer-patagonia/`, que además le da por fin
+   una página informativa a las 14 fichas de restaurantes y bares de Trelew,
+   Madryn y Rawson que hoy no cuelgan de ninguna); después **Ushuaia** (8
+   fichas pt, destino caro pero muy buscado por el brasileño) y, más abajo,
+   **El Calafate**, que hoy tiene una sola ficha publicada y conviene esperar
+   a que el catálogo crezca. El molde ya está probado cuatro veces: página Astro en
    `src/pages/pt-br/`, datos del mismo archivo que usa la página en español
    (una sola verdad), `hreflang` recíproco agregado a mano en el `<head>` de
    la página española de `public/`, FAQPage con las preguntas con las que
@@ -424,6 +429,12 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
     depender de que la importación desde Search Console haya quedado bien.
     Yandex sigue aceptando todo (09/11: 200 OK con las 87 URLs de `/pt-br/`).
 
+    **10/11: sigue 403**, 48 horas después del primer reintento. Se avisó en la
+    corrida sin dedicarle trabajo (es un envío que el script hace igual) y
+    **no se vuelve a probar hasta que Marcelo pase el token XML**: tres
+    reintentos en tres días con el mismo error ya son evidencia suficiente.
+    Yandex aceptó las tres tandas del día (200 OK).
+
 12. **Seis guías con la description corta.** El recorte nuevo cierra en fin de
     oración, y en 6 de las 60 guías la primera oración del cuerpo es muy corta
     y la segunda no entra en los 157 caracteres: quedan entre 81 y 109. No es
@@ -451,7 +462,63 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
     erratas en los nombres de los destinos, antes de que la URL se indexe y
     haya que redirigirla.
 
+    **Hallazgo del 10/11, del mismo barrido: un `slugPt` con sufijo numérico.**
+    La ficha `ruta-galesa-con-complejo-hidroelectrico-futaleufu-con-visita-al-campo-de-peonias`
+    publica en `/pt-br/experiencias/rota-galesa-represa-futaleufu-trevelin-2/`.
+    El `-2` sale de que el script evitó la colisión con
+    `rota-galesa-represa-futaleufu-trevelin`, que es la ficha sin peonías: o
+    sea, **la URL perdió justo la palabra que distingue a esta ficha de la
+    otra** (`campo de peônias`) y quedó con un número que no significa nada
+    para Google ni para el que lo lee. No está roto y no es urgente —la página
+    sirve 200 y ya está indexada—, pero conviene cambiarla a
+    `rota-galesa-represa-futaleufu-trevelin-campo-de-peonias` **con su 301 en
+    `public/_redirects`**, igual que se hizo con el "puerto-madrid" del 08/11.
+    Es el único caso del barrido: los otros 13 slugs que la búsqueda marcó como
+    sospechosos son nombres propios de lugares (`Parque Nacional Los Alerces`,
+    `Tierra del Fuego`, `La Curva de los Guanacos`, `Nant y Fall`,
+    `Delicias de la Fuente`) y se quedan como están. **Y hay que sumarle al
+    barrido la búsqueda de sufijos `-\d+`**, que es la que lo encontró.
+    Ojo también con el método: el cruce del sitemap contra `meta-es.json` tiene
+    que filtrar las URLs **por el prefijo completo** `https://.../experiencias/`,
+    porque un `/experiencias/<slug>/` al final del patrón matchea también las
+    84 de `/pt-br/experiencias/` y da 83 falsos positivos de "ficha sin meta
+    description".
+
 ## Hecho
+
+- **10/11/2026** — **Cuarta página informativa en portugués: la guía de destino
+  de Esquel, Trevelin y el Parque Nacional Los Alerces.** Era lo que seguía en
+  el pendiente 5: la cordillera de Chubut es el segundo destino del brasileño
+  después de la costa y es el que **más fichas en portugués tiene publicadas**
+  —32 quedaron enlazadas desde esta página, contra 13 de la guía de Madryn—,
+  pero no tenía ninguna página informativa en portugués. Toda la capa
+  informacional de esa búsqueda ("o que fazer em Esquel", "Parque Nacional Los
+  Alerces como visitar", "La Hoya esqui", "trem La Trochita", "Trevelin
+  tulipas", "quantos dias em Esquel") caía en la home, que es comercial.
+  Nueva página Astro en `/pt-br/o-que-fazer-em-esquel-e-trevelin/`: por qué la
+  cordillera de Chubut y no Bariloche (escala, precio, el alerzal en grupo
+  chico), **ocho bloques de qué hacer** —Los Alerces y el alerzal milenar con
+  la navegación del Lago Menéndez desde Puerto Chucao, Trevelin y el té galés
+  con el molino de 1918, nieve en La Hoya, tulipanes de setiembre–octubre y
+  peonías de diciembre, Esquel con La Trochita y los alrededores, rafting en
+  Corcovado y Piedra Parada, turismo ancestral y astroturismo en Lago Rosario,
+  y Cholila–Leleque–Comarca Andina—, **las cuatro temporadas** con el criterio
+  que importa y que la española no dice (**el invierno cierra trechos del
+  parque y la navegación del alerzal normalmente no opera**: nieve e invierno
+  no son la misma visita), **roteiro de 4 días**, cómo llegar desde Brasil por
+  EQS o por Bariloche con los 290 km, y **9 FAQ** con las preguntas reales del
+  mercado. Lleva `TouristDestination`, `FAQPage` y `BreadcrumbList`.
+  Dos decisiones de método, además del molde ya probado tres veces: los
+  enlaces a paseos salen de `obtenerExperienciasPt()` (una ficha sin traducir
+  no se enlaza y no deja un 404), y **se enlaza un solo paseo por cada grupo de
+  fichas duplicadas de "Para Marcelo"**, para no reforzar desde una página
+  nueva la competencia interna del catálogo. Las 32 verificadas con 200 en
+  producción. `hreflang` recíproco con `/esquel-trevelin`, a la que le faltaban
+  los tres `<link rel="alternate">` y el `og:locale:alternate`, y se los
+  agregué. Enlazada desde `/pt-br/` (tarjeta nueva), desde la puerta de entrada
+  general (el bloque de la cordillera ahora tiene su enlace de guía, como ya
+  tenía el de Madryn) y desde la guía de Puerto Madryn, que ahora cierra
+  ofreciendo seguir a la cordillera. Sitemap: 288 → **289 URLs**.
 
 - **09/11/2026** — **Tercera página informativa en portugués: la puerta de
   entrada general, "o que fazer na Patagônia argentina".** Era el primero de
@@ -1593,3 +1660,58 @@ Quedó pendiente, en orden: la informativa de **Esquel y Trevelin** en portugué
 gastronómica, las 18 fichas traducibles de bajo valor del pendiente 3, y las
 decisiones de catálogo de "Para Marcelo", que son las que siguen frenando los
 pendientes 1, 2 y 4.
+
+### 10/11/2026
+
+Trabajé lo que seguía en el pendiente 5: **la guía de destino de Esquel,
+Trevelin y el Parque Nacional Los Alerces en portugués**,
+`/pt-br/o-que-fazer-em-esquel-e-trevelin/`. El dato que la ordenaba por
+encima de la gastronómica es que **la cordillera de Chubut es el bloque con
+más fichas en portugués de todo el sitio** —la página terminó enlazando 32,
+contra 13 de la guía de Madryn— y hasta hoy no tenía ni una página
+informativa en portugués: toda la búsqueda de "o que fazer em Esquel",
+"Parque Nacional Los Alerces como visitar", "La Hoya esqui", "trem La
+Trochita" y "Trevelin tulipas" caía en la home, que es comercial.
+
+Mismo molde que las tres anteriores —Astro, nada de duplicar los 29 KB de
+HTML de `/esquel-trevelin`, enlaces salidos de `obtenerExperienciasPt()`,
+`TouristDestination` + `FAQPage` + `BreadcrumbList`, hreflang recíproco
+agregado a mano en el `<head>` de la española— con dos cosas propias. La
+primera es de contenido: la página dice algo que la versión en español no
+dice y que define el viaje, que **el invierno cierra trechos del parque y la
+navegación del alerzal normalmente no opera**, así que nieve y parque no son
+la misma visita y hay que elegir. La segunda es de método: **se enlaza un solo
+paseo por cada grupo de fichas duplicadas de "Para Marcelo"**. Tenía a mano
+las dos de cada grupo y enlazar las dos habría sido reforzar desde una página
+nueva la competencia interna que los pendientes 2 y 4 están tratando de
+cerrar. Las 32 fichas enlazadas verificadas con 200 en producción.
+
+De paso corrí el mantenimiento del pendiente 13 contra el sitemap de
+producción: **112 de 112 meta descriptions escritas**, 84 traducciones pt en
+pie, ninguna página pt huérfana en el sitemap y las mismas 28 fichas sin
+traducir que el 06/11 (el admin no publicó fichas nuevas). El barrido de
+slugs encontró un caso nuevo, anotado en el pendiente 13:
+`rota-galesa-represa-futaleufu-trevelin-2`, donde el `-2` se comió el "campo
+de peônias" que es justo lo que distingue a esa ficha de su hermana. No lo
+toqué en esta corrida —cambiar un slug publicado pide su 301 y la regla es
+una cosa por corrida, bien hecha— pero queda con el arreglo escrito. También
+quedó anotado el falso positivo del método de cruce, que me costó una pasada:
+el patrón `/experiencias/<slug>/` matchea también las 84 de `/pt-br/`.
+
+Resultado esperado: cubrir la capa informativa del segundo destino del
+mercado brasileño, que es el que más oferta traducida tiene y el que menos
+contenido propio tenía. Se mide en Search Console (cuando esté conectado) por
+impresiones de `/pt-br/o-que-fazer-em-esquel-e-trevelin/` en "o que fazer em
+Esquel", "Parque Nacional Los Alerces", "La Hoya esqui", "Trevelin tulipas",
+"quantos dias em Esquel" y "Esquel ou Bariloche", y por los clics que derive a
+las 32 fichas pt que enlaza. Sitemap: 288 → **289 URLs**. IndexNow avisó a
+Yandex las tres tandas (Esquel, Trevelin y las informativas); **Bing sigue en
+403 por tercer día**, así que se deja de reintentar hasta que llegue el token
+XML (pendiente 11).
+
+Quedó pendiente, en orden: la informativa **gastronómica** en portugués ("o
+que comer na Patagônia"), que además le daría por fin una página de la que
+colgar a las 14 fichas de restaurantes y bares que hoy están sueltas; después
+Ushuaia; el arreglo del slug `-2` con su 301; las 18 fichas traducibles de
+bajo valor del pendiente 3; y las decisiones de catálogo de "Para Marcelo",
+que son las que siguen frenando los pendientes 1, 2 y 4.

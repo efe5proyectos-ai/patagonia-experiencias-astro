@@ -53,10 +53,10 @@ Reglas de la bitácora:
 - 61 URLs en portugués en el sitemap (home, listado y 59 fichas traducidas).
 - hreflang es-AR / pt-BR recíproco y correcto en las fichas.
 
-Tamaño del sitio al 10/11/2026: **289 URLs** en el sitemap — 112 fichas en
-español, 84 fichas en portugués, 60 guías de viaje, **cuatro páginas
+Tamaño del sitio al 11/11/2026: **290 URLs** en el sitemap — 112 fichas en
+español, 84 fichas en portugués, 60 guías de viaje, **cinco páginas
 informativas en portugués** (calendario de fauna, Puerto Madryn, la puerta de
-entrada general y Esquel–Trevelin) y el resto de `public/`.
+entrada general, Esquel–Trevelin y la gastronómica) y el resto de `public/`.
 En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
 único que queda afuera es un duplicado de carga del mismo prestador
 (`navegacion-rio-grande-full-day`), que hay que borrar en el admin.
@@ -274,19 +274,18 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    ver baleias", "quanto tempo ficar em Puerto Madryn") y ahí no existíamos.
    Ya están hechas **dos**: el calendario de fauna (07/11) y la guía de
    destino de Puerto Madryn y Península Valdés (08/11), las dos en "Hecho".
-   Ya están hechas **cuatro**: el calendario de fauna (07/11), la guía de
+   Ya están hechas **cinco**: el calendario de fauna (07/11), la guía de
    destino de Puerto Madryn y Península Valdés (08/11), la puerta de entrada
-   general "o que fazer na Patagônia argentina" (09/11) y la guía de **Esquel,
-   Trevelin y Los Alerces** (10/11, con 32 fichas pt enlazadas), las cuatro en
-   "Hecho". Con eso `/pt-br/` ya cubre los dos destinos grandes —costa y
-   cordillera— más el país y el calendario.
-   **Lo que sigue, por orden de impacto:** una **gastronómica** ("o que comer
-   na Patagônia", espejo de `/que-comer-patagonia/`, que además le da por fin
-   una página informativa a las 14 fichas de restaurantes y bares de Trelew,
-   Madryn y Rawson que hoy no cuelgan de ninguna); después **Ushuaia** (8
+   general "o que fazer na Patagônia argentina" (09/11), la guía de **Esquel,
+   Trevelin y Los Alerces** (10/11, con 32 fichas pt enlazadas) y la
+   **gastronómica** "o que comer na Patagônia" (11/11, con 20 fichas pt
+   enlazadas), las cinco en "Hecho". Con eso `/pt-br/` ya cubre los dos
+   destinos grandes —costa y cordillera—, el país, el calendario de fauna y
+   la gastronomía.
+   **Lo que sigue, por orden de impacto:** **Ushuaia** (8
    fichas pt, destino caro pero muy buscado por el brasileño) y, más abajo,
    **El Calafate**, que hoy tiene una sola ficha publicada y conviene esperar
-   a que el catálogo crezca. El molde ya está probado cuatro veces: página Astro en
+   a que el catálogo crezca. El molde ya está probado cinco veces: página Astro en
    `src/pages/pt-br/`, datos del mismo archivo que usa la página en español
    (una sola verdad), `hreflang` recíproco agregado a mano en el `<head>` de
    la página española de `public/`, FAQPage con las preguntas con las que
@@ -484,7 +483,63 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
     84 de `/pt-br/experiencias/` y da 83 falsos positivos de "ficha sin meta
     description".
 
+14. **MANTENIMIENTO — `gastronomia-es.json` es una copia, no la fuente.** La
+    guía gastronómica en portugués (11/11) lee los 34 platos, productos y
+    experiencias de `src/data/gastronomia-es.json`, que es la copia exacta del
+    array `GASTRO` que vive **adentro** de `public/que-comer-patagonia/index.html`.
+    La página en español sigue usando su copia propia, así que **las dos pueden
+    derivar**: si se agrega, se saca o se cambia un plato en la página
+    española, hay que regenerar el JSON. Se regenera leyendo el HTML y
+    parseando el array que va entre `let GASTRO = ` y el cierre `];` siguiente.
+    Es el mismo arreglo que ya tenía `public/datos-fauna.json` con
+    `/calendario-fauna/`, y la salida limpia de los dos casos sería que la
+    página en español leyera el JSON en vez de llevar el array adentro — pero
+    eso es tocarle el JavaScript a dos páginas de producción y conviene hacerlo
+    una por corrida, con tiempo.
+
 ## Hecho
+
+- **11/11/2026** — **Quinta página informativa en portugués: la guía
+  gastronómica "o que comer na Patagônia".** Era lo que seguía en el
+  pendiente 5, por dos motivos. Uno: la búsqueda gastronómica del brasileño es
+  informacional pura ("o que comer na Patagônia", "comida típica da Patagônia
+  argentina", "quanto custa comer na Argentina", "onde comer em Puerto
+  Madryn", "chá galês Gaiman") y no existía nada nuestro en portugués. Dos:
+  las **15 fichas de restaurantes, cafés, cantinas y cervecerías ya traducidas**
+  (12 de Trelew y el valle galés, 3 de Madryn y Playa Unión) no colgaban de
+  ninguna página informativa: eran hojas sueltas del árbol de `/pt-br/`, y
+  ahora tienen padre. Con los 5 paseos gastronómicos (té galés de Gaiman
+  dentro del tour del valle inferior, rota da centolla de Puerto Almanza,
+  Sabores do Beagle y los viñedos de la ruta galesa) quedaron **20 fichas pt
+  enlazadas, las 20 verificadas con 200 en producción**.
+  Nueva página Astro en `/pt-br/o-que-comer-na-patagonia/`: la mesa patagónica
+  en tres ideas (la escala —acá la comida viene para compartir y pedir un plato
+  por persona es el error caro del visitante—, la temporada y la distancia: no
+  hay una cocina patagónica, hay cuatro), los **34 platos, productos y
+  experiencias** agrupados en tres bloques con su mejor época y sus lugares,
+  una **tabla de temporada mes a mes** con los 34 ítems, el bloque de "onde
+  comer" por ciudad, cómo funciona la mesa en Argentina (horarios de cena
+  después de las 21, cubierto, propina, el mate que no se pide en el
+  restaurante) y 9 preguntas frecuentes.
+  **Datos, mismo arreglo que el calendario de fauna:** `src/data/gastronomia-es.json`
+  es la copia exacta del array `GASTRO` de la página en español (meses,
+  lugares, provincia, tipo, destacado) y `src/data/gastronomia-pt.json` traduce
+  nombre, mejor época y el dato de cada ítem. **Ojo con el mantenimiento:** la
+  página en español sigue teniendo su propia copia del array adentro del HTML,
+  así que si ahí se agrega o se cambia un plato, hay que regenerar
+  `gastronomia-es.json` (anotado en el pendiente 14).
+  **No se duplicó la app de filtros** de la versión española (128 KB que
+  compilan en el navegador): los 34 ítems se sirven escritos en el HTML, que es
+  lo que Google puede leer. La tabla mes a mes son 34 filas por 12 celdas y con
+  clases de utilidad por celda el HTML se iba a 122 KB; con cinco reglas de CSS
+  propias bajó a 87 KB.
+  `Article` + `FAQPage` + `BreadcrumbList`, los tres validados parseando el
+  JSON-LD de producción. hreflang recíproco con `/que-comer-patagonia/`: los
+  tres `<link rel="alternate">` agregados a mano al `<head>` de
+  `public/que-comer-patagonia/index.html`, verificados en los dos sentidos en
+  producción. Enlace interno nuevo desde `/pt-br/` (cuarta tarjeta del grid,
+  que además lo completa en dos columnas) y desde `/pt-br/experiencias/`.
+  Sitemap: 289 → **290 URLs**.
 
 - **10/11/2026** — **Cuarta página informativa en portugués: la guía de destino
   de Esquel, Trevelin y el Parque Nacional Los Alerces.** Era lo que seguía en
@@ -1715,3 +1770,70 @@ colgar a las 14 fichas de restaurantes y bares que hoy están sueltas; después
 Ushuaia; el arreglo del slug `-2` con su 301; las 18 fichas traducibles de
 bajo valor del pendiente 3; y las decisiones de catálogo de "Para Marcelo",
 que son las que siguen frenando los pendientes 1, 2 y 4.
+
+### 11/11/2026
+
+Trabajé lo que seguía en el pendiente 5: **la guía gastronómica en portugués**,
+`/pt-br/o-que-comer-na-patagonia/`. Lo que la ordenaba por encima de Ushuaia
+son dos cosas. La primera es el tipo de búsqueda: la gastronómica es
+informacional pura y el brasileño la hace antes de elegir fecha ("o que comer
+na Patagônia", "comida típica da Patagônia argentina", "quanto custa comer na
+Argentina", "onde comer em Puerto Madryn", "chá galês Gaiman"), y ahí no
+existíamos en portugués. La segunda es de estructura interna: había **15 fichas
+de restaurantes, cafés, cantinas y cervecerías ya traducidas** —12 de Trelew y
+el valle galés, 3 de Madryn y Playa Unión— que no colgaban de ninguna página
+informativa. Eran hojas sueltas: recibían el enlace del listado y nada más.
+Ahora tienen padre, y con los 5 paseos gastronómicos del catálogo (té galés de
+Gaiman dentro del tour del valle inferior, rota da centolla de Puerto Almanza,
+Sabores do Beagle y los viñedos de la ruta galesa) la página enlaza **20 fichas
+pt, las 20 verificadas con 200 en producción**.
+
+Mismo molde que las cuatro anteriores, con una decisión propia de formato. La
+versión en español, `/que-comer-patagonia/`, es una app de 128 KB con filtros
+que compilan en el navegador: **no la dupliqué**. Los 34 platos, productos y
+experiencias se sirven escritos en el HTML, agrupados en tres bloques con su
+mejor época y sus lugares, más una tabla de temporada mes a mes con los 34
+ítems. Eso es lo que Google puede leer; los filtros no le aportan nada. Los
+datos salen de `src/data/gastronomia-es.json` (copia exacta del array `GASTRO`
+de la página española) y `src/data/gastronomia-pt.json` (nombre, mejor época y
+el dato de cada ítem en portugués de Brasil), el mismo arreglo que el
+calendario de fauna con `datos-fauna.json`. Detalle de peso: la tabla son 34
+filas por 12 celdas y con clases de utilidad por celda el HTML se iba a 122 KB;
+con cinco reglas de CSS propias quedó en 87 KB.
+
+De contenido, la página dice tres cosas que la versión en español no dice y que
+son específicas del lector brasileño: que acá la comida viene para compartir y
+que pedir un plato por persona es el error caro del visitante; que la cena
+empieza después de las 21 y cómo funcionan el cubierto, la propina y el mate; y
+que no hay una cocina patagónica sino cuatro, por los 1.900 km de norte a sur.
+`Article` + `FAQPage` + `BreadcrumbList` validados parseando el JSON-LD de
+producción, hreflang recíproco verificado en los dos sentidos, y enlace interno
+nuevo desde `/pt-br/` —cuarta tarjeta, que además completa el grid de dos
+columnas— y desde `/pt-br/experiencias/`.
+
+De paso corrí el mantenimiento del pendiente 13 contra el sitemap de
+producción: **112 de 112 meta descriptions escritas**, 84 traducciones pt en
+pie, ninguna página pt huérfana en el sitemap y las mismas 28 fichas sin
+traducir que el 06/11 (el admin no publicó fichas nuevas desde el 02/11). El
+barrido de sufijos numéricos sigue dando un solo caso, el
+`rota-galesa-represa-futaleufu-trevelin-2` del 10/11, todavía sin tocar.
+
+Resultado esperado: cubrir la capa de búsqueda gastronómica en portugués, que
+es de las que se hacen antes de elegir destino, y darle por fin estructura
+interna a las 15 fichas de restaurantes traducidas, que hasta hoy no recibían
+enlace de ninguna página informativa. Se mide en Search Console (cuando esté
+conectado) por impresiones de `/pt-br/o-que-comer-na-patagonia/` en "o que
+comer na Patagônia", "comida típica da Patagônia argentina", "cordeiro
+patagônico", "centolla", "chá galês Gaiman" y "quanto custa comer na
+Argentina", y por los clics que derive a las 20 fichas pt que enlaza. Sitemap:
+289 → **290 URLs**. IndexNow avisó a Yandex las tres tandas (la página nueva,
+la española y las 91 de `/pt-br/`); **Bing sigue en 403 por cuarto día** y no
+se le dedicó trabajo: queda esperando el token XML de Marcelo (pendiente 11).
+
+Quedó pendiente, en orden: la informativa de **Ushuaia** en portugués (8 fichas
+pt, destino caro pero muy buscado por el brasileño); el arreglo del slug `-2`
+con su 301; el mantenimiento nuevo del pendiente 14 (`gastronomia-es.json` es
+una copia del array que vive dentro de la página en español y las dos pueden
+derivar); las 18 fichas traducibles de bajo valor del pendiente 3; y las
+decisiones de catálogo de "Para Marcelo", que son las que siguen frenando los
+pendientes 1, 2 y 4.

@@ -1,0 +1,334 @@
+---
+// ─────────────────────────────────────────────────────────────
+// GUÍA GASTRONÓMICA EN PT-BR — O QUE COMER NA PATAGÔNIA
+//
+// Quinta página informativa de /pt-br/ (calendario de fauna 07/11, Puerto
+// Madryn 08/11, puerta de entrada general 09/11, Esquel y Trevelin 10/11).
+// Es el pendiente 5 de la bitácora, y era lo que seguía por dos motivos:
+//  1. La búsqueda gastronómica del brasileño es informacional pura ("o que
+//     comer na Patagônia", "comida típica da Patagônia argentina",
+//     "quanto custa comer na Argentina", "chá galês Gaiman") y no existía
+//     nada nuestro en portugués.
+//  2. Las 15 fichas de restaurantes, bares y cervecerías traducidas al
+//     portugués (Trelew, Puerto Madryn, Playa Unión, Dolavon) no colgaban de
+//     ninguna página informativa: eran hojas sueltas del árbol de /pt-br/.
+//     Esta página es su padre y les da enlace interno por primera vez.
+//
+// Del lado español lo cubre /que-comer-patagonia/, que vive en public/ y es
+// una app con filtros en el navegador (128 KB). Acá NO se duplica esa app:
+// los 34 platos, productos y experiencias se sirven escritos en el HTML, con
+// su temporada, que es lo que Google puede leer e indexar.
+//
+// Datos: src/data/gastronomia-es.json es la copia exacta del array GASTRO de
+// la página en español (meses, lugares, provincia, tipo, destacado), extraída
+// tal cual; src/data/gastronomia-pt.json traduce nombre, mejor época y el dato
+// de cada ítem. Mismo arreglo que el calendario de fauna con datos-fauna.json.
+// OJO para el mantenimiento: si en la página española se agrega o cambia un
+// plato, hay que regenerar gastronomia-es.json (está anotado en la bitácora).
+//
+// hreflang recíproco con /que-comer-patagonia/: los tres <link rel="alternate">
+// se agregaron a mano al <head> de public/que-comer-patagonia/index.html.
+// No toca precios, ni el botón de reserva, ni el checkout.
+// ─────────────────────────────────────────────────────────────
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { obtenerExperienciasPt } from '../../lib/traducciones.js';
+import gastroEs from '../../data/gastronomia-es.json';
+import gastroPt from '../../data/gastronomia-pt.json';
+
+const exps = await obtenerExperienciasPt();
+const porSlugEs = new Map(exps.map((e) => [e.slugEs, e]));
+const paseos = (...slugs) => slugs.map((s) => porSlugEs.get(s)).filter(Boolean);
+
+const MESES = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+
+// Los topónimos quedan como están (son nombres propios); sólo se traduce lo
+// que no es nombre propio.
+const LUGAR_PT = { 'Toda la Patagonia': 'Toda a Patagônia', 'Tierra del Fuego': 'Terra do Fogo' };
+
+const items = gastroEs
+  .filter((g) => gastroPt[g.id])
+  .map((g) => {
+    const t = gastroPt[g.id];
+    const todoElAnio = g.meses.every((m) => m === 2);
+    return {
+      id: g.id,
+      tipo: g.tipo,
+      destacado: g.dest === 1,
+      nome: t.nome,
+      melhor: t.melhor,
+      dado: t.dado,
+      todoElAnio,
+      meses: g.meses,
+      lugares: (g.lugares || []).map((l) => LUGAR_PT[l.l] || l.l),
+    };
+  });
+
+const GRUPOS = [
+  {
+    id: 'pratos',
+    tipo: 'plato',
+    icono: 'fa-utensils',
+    titulo: 'Os pratos',
+    texto: 'O que se pede num restaurante da Patagônia e não se encontra igual em nenhum outro lugar da Argentina. Quase todos vêm para compartilhar: a porção patagônica é generosa.',
+  },
+  {
+    id: 'produtos',
+    tipo: 'producto',
+    icono: 'fa-jar',
+    titulo: 'Os produtos regionais',
+    texto: 'O que vale levar na mala ou comprar na feira. Vários têm denominação de origem ou indicação geográfica, e quase todos têm uma janela de colheita curta.',
+  },
+  {
+    id: 'experiencias',
+    tipo: 'experiencia',
+    icono: 'fa-wine-glass',
+    titulo: 'As experiências gastronômicas',
+    texto: 'Visitas que se reservam como passeio: vinícolas, cervejarias, destilarias, chácaras de frutas vermelhas, salinas e feiras de produtores.',
+  },
+];
+
+// Las fichas de gastronomía con página en portugués, agrupadas por ciudad.
+const MESAS = [
+  {
+    cidade: 'Trelew e o vale galês',
+    texto: 'Trelew é a cidade da Patagônia com mais restaurantes traduzidos aqui, e a base para Punta Tombo e Gaiman. A 35 km, Dolavon guarda o moinho histórico e as massas artesanais do vale.',
+    fichas: paseos('sugar', 'maximino-bistro-cafe', 'bulevu', 'roselli-pizza-bar', 'genesis-resto-bar', 'fidel-cafe-concert', 'blest-cerveceria', 'jyglo-bar', 'delicias-de-la-fuente-cafe', 'super-magic', 'el-viejo-molino-de-dolavon', 'la-queseria-pastas-artesanales'),
+  },
+  {
+    cidade: 'Puerto Madryn e a costa',
+    texto: 'Aqui se come o que sai do Golfo Nuevo — vieiras, mexilhões, camarões — na mesma baía onde nadam as baleias. Em Playa Unión, a 20 minutos de Rawson, as cantinas servem o peixe do dia direto do porto.',
+    fichas: paseos('abelino-puerto-madryn', 'finca-caballo-blanco', 'cantina-marcelino'),
+  },
+];
+
+const TOURS = [
+  {
+    titulo: 'Passeios com a comida no roteiro',
+    texto: 'Alguns passeios do catálogo são, na prática, gastronômicos: o chá galês de Gaiman dentro do tour do vale inferior do Río Chubut, a rota da centolla em Puerto Almanza e os vinhedos da rota galesa de Trevelin.',
+    fichas: paseos('tour-valle-inferior-rio-chubut', 'valle-inferior', 'sabores-del-beagle', 'puerto-almanza-ruta-de-la-centolla-y-avistaje-de-pinguinos-en-barco-pequeno', 'ruta-galesa-trevelin'),
+  },
+];
+
+const alternos = {
+  es: 'https://patagoniaexperiencias.com/que-comer-patagonia/',
+  pt: 'https://patagoniaexperiencias.com/pt-br/o-que-comer-na-patagonia/',
+};
+
+const faq = [
+  {
+    p: 'O que comer na Patagônia argentina?',
+    r: 'Os três pratos que definem a mesa patagônica são o cordeiro no espeto, assado de lado em fogo baixo por três a cinco horas; a centolla da Terra do Fogo, que só se pesca de julho a novembro; e a truta, defumada ou em sorrentinos com molho da floresta. Somam-se os frutos do mar do Golfo Nuevo em Puerto Madryn, o chá galês com torta negra no vale do Chubut, o cervo-vermelho na cordilheira e, em Ushuaia, a merluza-negra. Para levar: chocolate artesanal, geleia de calafate, mel da estepe, sal em escamas de Península Valdés e vinhos de clima frio.',
+  },
+  {
+    p: 'Quanto custa comer num restaurante na Patagônia?',
+    r: 'Varia muito por destino: Trelew, Puerto Madryn e Esquel são bem mais baratos que Ushuaia e El Calafate, que são os dois destinos mais caros da Argentina. Em geral um prato principal de restaurante médio fica abaixo do equivalente no Brasil, e o cordeiro no espeto e as tábuas de defumados vêm para duas pessoas, o que derruba o preço por pessoa. A centolla e a merluza-negra são as duas exceções: são os itens mais caros de qualquer menu. Peça para dividir antes de pedir dois pratos.',
+  },
+  {
+    p: 'Qual é a comida típica de Puerto Madryn?',
+    r: 'Frutos do mar do Golfo Nuevo: vieiras, mexilhões e camarões pescados na mesma baía das baleias, quase sempre servidos com vinho branco patagônico. Fora do mar, o cordeiro está em toda carta e a salicórnia — um aspargo-do-mar que cresce na marisma salgada — aparece nos restaurantes mais autorais. A temporada boa dos frutos do mar vai de setembro a abril, que é também a temporada de baleias e pinguins.',
+  },
+  {
+    p: 'Onde tomar o chá galês de verdade?',
+    r: 'Em Gaiman, a 17 km de Trelew, que foi o primeiro povoado galês do vale do Río Chubut e tem casas de chá de família abertas à tarde; e em Trevelin, do outro lado da província, na cordilheira. A mesa inclui torta negra — feita com meses de antecedência e deixada para maturar —, bolos caseiros, pão com manteiga e geleias. Uma mesa serve duas pessoas: não peça duas. Em Trelew e Dolavon também há casas de chá e confeitarias com a mesma tradição.',
+  },
+  {
+    p: 'Em que época se come centolla na Patagônia?',
+    r: 'A pesca da centolla é permitida de julho a novembro, com o pico em agosto, setembro e outubro. É o inverno e o começo da primavera do hemisfério sul, justamente quando Ushuaia tem neve. Fora dessa janela o que se serve é congelado — legítimo, mas não é a mesma coisa. Se oferecerem centolla fresca em janeiro, desconfie.',
+  },
+  {
+    p: 'O cordeiro patagônico é diferente do cordeiro comum?',
+    r: 'Sim, e tem Indicação Geográfica protegida. É criado a campo aberto na estepe, sem confinamento, comendo pasto natural: a carne fica mais magra e com sabor menos forte que a do cordeiro de criação intensiva. O corte clássico é o animal inteiro aberto na estaca, cruzado, assado de lado por três a cinco horas. Em Chubut, Santa Cruz e Terra do Fogo é o prato de qualquer celebração.',
+  },
+  {
+    p: 'Dá para comer bem na Patagônia sendo vegetariano?',
+    r: 'Dá, e melhor do que a fama da região sugere, mas exige escolher o restaurante. O que funciona: sorrentinos e massas artesanais com molhos de cogumelos de pinheiro, tábuas de queijos de montanha, as massas e os queijos do vale galês, as frutas vermelhas da cordilheira na temporada e a mesa de chá galês, que é toda doce e salgada sem carne. Nas cidades maiores — Puerto Madryn, Trelew, Bariloche, Ushuaia — há restaurantes com menu vegetariano próprio; nos povoados pequenos da estepe a oferta cai bastante e vale avisar na reserva.',
+  },
+  {
+    p: 'O que levar da Patagônia de lembrança comestível?',
+    r: 'Chocolate artesanal (Bariloche e El Bolsón), geleia e licor de calafate, mel da estepe, sal em escamas de Península Valdés, rosa mosqueta em geleia ou chá, cogumelos de pinheiro desidratados, queijos de montanha e vinhos de clima frio — pinot noir e merlot da Patagônia. Todos passam na bagagem despachada; para o Brasil, confira as regras de ingresso de produtos de origem animal antes de levar queijo ou carne.',
+  },
+  {
+    p: 'Precisa reservar mesa nos restaurantes da Patagônia?',
+    r: 'Na alta temporada — dezembro a fevereiro, mais julho em destinos de neve — vale reservar nos restaurantes de Puerto Madryn, Ushuaia, El Calafate e Bariloche, sobretudo para o jantar, que na Argentina começa depois das 21h. O curanto e algumas visitas a vinícolas e destilarias precisam de reserva com dias de antecedência. Se precisar de ajuda para reservar, chame no WhatsApp: a equipe atende em português.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'O que comer na Patagônia argentina',
+    description:
+      'Guia da gastronomia patagônica em português: cordeiro no espeto, centolla da Terra do Fogo, truta defumada, frutos do mar do Golfo Nuevo, chá galês, frutas vermelhas, vinhos de clima frio e cerveja artesanal, com a época de cada um e onde comer.',
+    inLanguage: 'pt-BR',
+    mainEntityOfPage: alternos.pt,
+    author: { '@type': 'Organization', name: 'Patagonia Experiencias' },
+    publisher: { '@type': 'Organization', name: 'Patagonia Experiencias', url: 'https://patagoniaexperiencias.com' },
+    about: items.filter((i) => i.destacado).map((i) => ({ '@type': 'Thing', name: i.nome })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    inLanguage: 'pt-BR',
+    mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.p, acceptedAnswer: { '@type': 'Answer', text: f.r } })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Patagônia argentina', item: 'https://patagoniaexperiencias.com/pt-br/' },
+      { '@type': 'ListItem', position: 2, name: 'O que comer na Patagônia', item: alternos.pt },
+    ],
+  },
+];
+---
+<BaseLayout
+  titulo="O que comer na Patagônia argentina"
+  descripcion="Cordeiro no espeto, centolla, truta defumada, frutos do mar do Golfo Nuevo, chá galês e mais 30: o que comer na Patagônia, em que mês e onde."
+  idioma="pt"
+  alternos={alternos}
+  schema={schema}
+>
+  <main>
+    <section class="bg-brand-oxford text-white">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20">
+        <p class="text-brand-fuchsia text-xs font-black uppercase tracking-[0.3em] mb-4"><i class="fa-solid fa-utensils mr-2"></i>Gastronomia · Patagônia argentina</p>
+        <h1 class="font-sans font-extrabold text-3xl sm:text-5xl leading-tight">O que comer na Patagônia argentina</h1>
+        <p class="text-white/75 text-lg max-w-3xl mt-5">Um cordeiro inteiro assando de lado por cinco horas, um caranguejo-real que só se pesca meio ano, vieiras da mesma baía onde nadam as baleias e chá galês com torta negra no meio da estepe. São {items.length} pratos, produtos e experiências — com a época de cada um e onde provar.</p>
+        <div class="flex flex-wrap gap-3 mt-7">
+          <a href="#pratos" class="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white font-bold text-xs uppercase tracking-widest px-5 py-3 rounded-full hover:bg-white/20 transition-all"><i class="fa-solid fa-utensils"></i> Os pratos</a>
+          <a href="#temporada" class="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white font-bold text-xs uppercase tracking-widest px-5 py-3 rounded-full hover:bg-white/20 transition-all"><i class="fa-regular fa-calendar"></i> Mês a mês</a>
+          <a href="#mesas" class="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white font-bold text-xs uppercase tracking-widest px-5 py-3 rounded-full hover:bg-white/20 transition-all"><i class="fa-solid fa-location-dot"></i> Onde comer</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-5">A mesa patagônica em três ideias</h2>
+      <div class="space-y-4 text-slate-700 leading-relaxed">
+        <p>A primeira é a <strong>escala</strong>. Na Patagônia a comida vem para compartilhar: o cordeiro é um animal inteiro na estaca, a tábua de defumados serve duas pessoas e a mesa de chá galês também. Pedir um prato por pessoa é o erro mais comum do visitante — e o mais caro.</p>
+        <p>A segunda é a <strong>temporada</strong>. Quase nada aqui existe o ano inteiro: a centolla tem defeso e só se pesca de julho a novembro, as frutas vermelhas da cordilheira duram janeiro e fevereiro, os cogumelos de pinheiro são de outono e a vindima é março e abril. Os meses abaixo são do hemisfério sul, então setembro é primavera e janeiro é verão.</p>
+        <p>A terceira é a <strong>distância</strong>. A Patagônia argentina tem 1.900 km de norte a sul e cada trecho come o seu: frutos do mar e cordeiro na costa de Chubut, truta, cervo e cogumelos na floresta andina, centolla e merluza-negra na Terra do Fogo, chá galês no vale do Río Chubut e em Trevelin. Não há uma cozinha patagônica: há quatro.</p>
+      </div>
+    </section>
+
+    {GRUPOS.map((gr) => (
+      <section id={gr.id} class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+        <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-2"><i class={`fa-solid ${gr.icono} text-brand-fuchsia mr-2`}></i>{gr.titulo}</h2>
+        <p class="text-slate-600 mb-7 max-w-3xl">{gr.texto}</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          {items.filter((i) => i.tipo === gr.tipo).map((i) => (
+            <article id={i.id} class="bg-white border border-slate-200 rounded-2xl p-6">
+              <div class="flex items-start justify-between gap-3 mb-2">
+                <h3 class="font-sans font-bold text-lg text-brand-oxford leading-tight">{i.nome}</h3>
+                {i.destacado && <span class="shrink-0 text-[10px] font-bold uppercase tracking-widest text-brand-fuchsia border border-brand-fuchsia/30 rounded-full px-2.5 py-1">Imperdível</span>}
+              </div>
+              <p class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-3"><i class="fa-regular fa-calendar mr-1"></i>{i.melhor}</p>
+              <p class="text-slate-600 text-sm leading-relaxed">{i.dado}</p>
+              {i.lugares.length > 0 && (
+                <p class="mt-4 pt-4 border-t border-slate-100 text-slate-500 text-xs"><i class="fa-solid fa-location-dot mr-1.5"></i>{i.lugares.join(' · ')}</p>
+              )}
+            </article>
+          ))}
+        </div>
+      </section>
+    ))}
+
+    <section id="temporada" class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-2">Mês a mês</h2>
+      <p class="text-slate-600 mb-7 max-w-3xl">Os meses em destaque são a melhor época de cada item; os claros, quando ainda se encontra. O que está disponível o ano inteiro aparece como tal. Se a viagem já tem data, esta é a tabela que diz o que pedir.</p>
+      <div class="overflow-x-auto bg-white border border-slate-200 rounded-2xl">
+        <table class="gcal w-full text-sm min-w-[620px]">
+          <thead>
+            <tr class="border-b border-slate-200">
+              <th class="text-left font-sans font-bold text-brand-oxford p-4">Item</th>
+              {MESES.map((m) => <th class="font-sans font-bold text-[10px] uppercase text-slate-400 p-1.5">{m}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {items.map((i) => (
+              <tr class="border-b border-slate-100 last:border-0">
+                <td class="p-4 text-slate-700 font-semibold"><a href={`#${i.id}`} class="hover:text-brand-fuchsia">{i.nome}</a></td>
+                {i.meses.map((m) => (<td class="c"><span class={`d${m}`}></span></td>))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="text-slate-500 text-sm mt-4">A fauna também tem calendário próprio: veja <a href="/pt-br/melhor-epoca-fauna-patagonia/" class="text-brand-fuchsia font-semibold hover:underline">a melhor época para ver baleias, pinguins e orcas</a>.</p>
+    </section>
+
+    <section id="mesas" class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-2">Onde comer</h2>
+      <p class="text-slate-600 mb-7 max-w-3xl">Restaurantes, cafés, cantinas e cervejarias do Chubut que estão no nosso catálogo, com página em português.</p>
+      <div class="space-y-6">
+        {MESAS.filter((m) => m.fichas.length > 0).map((m) => (
+          <article class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8">
+            <h3 class="font-sans font-extrabold text-xl text-brand-oxford mb-3">{m.cidade}</h3>
+            <p class="text-slate-600 leading-relaxed">{m.texto}</p>
+            <ul class="mt-5 pt-5 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-2 gap-y-1.5 gap-x-6">
+              {m.fichas.map((p) => (
+                <li>
+                  <a href={`/pt-br/experiencias/${p.slug}/`} class="text-brand-fuchsia font-semibold text-sm hover:underline inline-flex items-start gap-2">
+                    <i class="fa-solid fa-arrow-right text-[10px] mt-1.5"></i><span>{p.titulo}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))}
+        {TOURS.filter((m) => m.fichas.length > 0).map((m) => (
+          <article class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8">
+            <h3 class="font-sans font-extrabold text-xl text-brand-oxford mb-3">{m.titulo}</h3>
+            <p class="text-slate-600 leading-relaxed">{m.texto}</p>
+            <ul class="mt-5 pt-5 border-t border-slate-100 space-y-1.5">
+              {m.fichas.map((p) => (
+                <li>
+                  <a href={`/pt-br/experiencias/${p.slug}/`} class="text-brand-fuchsia font-semibold text-sm hover:underline inline-flex items-start gap-2">
+                    <i class="fa-solid fa-arrow-right text-[10px] mt-1.5"></i><span>{p.titulo}{p.duracion ? ` · ${p.duracion}` : ''}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-5">Como funciona a mesa na Argentina</h2>
+      <div class="space-y-4 text-slate-700 leading-relaxed">
+        <p>Os <strong>horários</strong> são mais tarde que no Brasil: o almoço vai das 13h às 15h e o jantar começa às 21h — muitos restaurantes nem abrem antes das 20h30. Nas cidades pequenas da estepe a cozinha fecha cedo, por volta das 23h, e em algumas o domingo à noite não tem serviço.</p>
+        <p>O <strong>cobre</strong> (couvert) existe e vem como pão e manteiga; a gorjeta não entra na conta e o costume é deixar cerca de 10% em dinheiro. Cartão estrangeiro funciona na maioria dos restaurantes das cidades turísticas, mas vale levar pesos em dinheiro para cantinas, feiras e casas de chá de família.</p>
+        <p>O <strong>mate</strong> não se pede no restaurante: é bebida de casa e de passeio, e se compartilha de uma cuia só, em roda. Se alguém te oferecer, é um gesto de hospitalidade — aceite, beba até o fim e devolva. Já o <strong>café</strong> depois do almoço é ritual, e sempre vem com um copo de água com gás.</p>
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 pb-12">
+      <h2 class="font-sans font-extrabold text-2xl text-brand-oxford mb-4">Perguntas frequentes</h2>
+      <div class="space-y-3">
+        {faq.map((f) => (
+          <details class="bg-white border border-slate-200 rounded-2xl p-5">
+            <summary class="font-sans font-bold text-brand-oxford cursor-pointer">{f.p}</summary>
+            <p class="mt-3 text-slate-600 leading-relaxed">{f.r}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 pb-16 text-center">
+      <a href="/pt-br/experiencias/" class="inline-flex items-center gap-2 bg-brand-fuchsia text-white font-bold text-sm uppercase tracking-widest px-7 py-3.5 rounded-full shadow-lg shadow-brand-fuchsia/30 hover:bg-brand-fuchsiaDark transition-all"><i class="fa-solid fa-compass"></i> Ver todos os passeios</a>
+      <p class="text-slate-500 text-sm mt-5">Montando o roteiro? Comece por <a href="/pt-br/o-que-fazer-na-patagonia-argentina/" class="text-brand-fuchsia font-semibold hover:underline">o que fazer na Patagônia argentina</a>, e veja <a href="/pt-br/o-que-fazer-em-puerto-madryn/" class="text-brand-fuchsia font-semibold hover:underline">Puerto Madryn e a Península Valdés</a> ou <a href="/pt-br/o-que-fazer-em-esquel-e-trevelin/" class="text-brand-fuchsia font-semibold hover:underline">Esquel, Trevelin e Los Alerces</a>.</p>
+    </section>
+  </main>
+</BaseLayout>
+
+<style is:global>
+  /* La tabla mes a mes son 34 filas x 12 celdas: con clases de utilidad por
+     celda el HTML se iba a 122 KB. Con estas cuatro reglas baja a la mitad. */
+  .gcal td.c { padding: 6px 4px; text-align: center; }
+  .gcal td.c span { display: inline-block; width: 14px; height: 14px; border-radius: 9999px; }
+  .gcal td.c span.d2 { background: #E91E63; }
+  .gcal td.c span.d1 { background: rgba(233, 30, 99, 0.3); }
+  .gcal td.c span.d0 { background: #f1f5f9; }
+</style>

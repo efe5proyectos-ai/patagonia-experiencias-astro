@@ -1,0 +1,1370 @@
+[
+ {
+  "id": "cordero-asador",
+  "nombre": "Cordero patagónico al asador",
+  "tipo": "plato",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "El Calafate",
+    "p": "santacruz"
+   },
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   },
+   {
+    "l": "Trelew",
+    "p": "chubut"
+   },
+   {
+    "l": "Río Gallegos",
+    "p": "santacruz"
+   }
+  ],
+  "dato": "Se cocina cruzado al palo entre tres y cinco horas, a fuego lento y de costado. Es el plato que define la mesa patagónica y casi siempre se come compartido.",
+  "dest": 1,
+  "img": "",
+  "locales": [],
+  "rank": 1
+ },
+ {
+  "id": "centolla",
+  "nombre": "Centolla fueguina",
+  "tipo": "plato",
+  "meses": [
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2,
+   2,
+   1,
+   0
+  ],
+  "lugares": [
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   },
+   {
+    "l": "Tolhuin",
+    "p": "tdf"
+   },
+   {
+    "l": "Río Grande",
+    "p": "tdf"
+   }
+  ],
+  "dato": "Tiene veda: se captura de julio a noviembre. Si te la ofrecen fresca en enero, desconfiá. Fuera de temporada es congelada, que está bien, pero no es lo mismo.",
+  "dest": 1,
+  "img": "",
+  "locales": [],
+  "rank": 2
+ },
+ {
+  "id": "sorrentinos-trucha",
+  "nombre": "Sorrentinos de trucha con salsa del bosque",
+  "tipo": "plato",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "El Bolsón",
+    "p": "rionegro"
+   },
+   {
+    "l": "Villa La Angostura",
+    "p": "neuquen"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   }
+  ],
+  "dato": "La salsa del bosque lleva hongos de pino, ciervo o crema de morillas según la casa. Es el plato más representativo de la cocina de lagos.",
+  "dest": 1,
+  "img": "",
+  "locales": [],
+  "rank": 3
+ },
+ {
+  "id": "trucha-ahumada",
+  "nombre": "Trucha ahumada",
+  "tipo": "plato",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   },
+   {
+    "l": "Junín de los Andes",
+    "p": "neuquen"
+   },
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   },
+   {
+    "l": "Trevelin",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Se ahúma en frío con maderas nativas. Va como entrada o en tabla; la de arroyo tiene la carne más firme que la de criadero.",
+  "dest": 1,
+  "img": "",
+  "locales": [],
+  "rank": 4
+ },
+ {
+  "id": "ciervo",
+  "nombre": "Ciervo colorado",
+  "tipo": "plato",
+  "meses": [
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   1,
+   1,
+   1
+  ],
+  "lugares": [
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Villa La Angostura",
+    "p": "neuquen"
+   },
+   {
+    "l": "San Martín de los Andes",
+    "p": "neuquen"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Es especie introducida, así que comerlo ayuda al control poblacional. En otoño, durante la brama, es cuando más aparece en las cartas.",
+  "dest": 1,
+  "img": "",
+  "locales": [],
+  "rank": 5
+ },
+ {
+  "id": "mariscos-golfo",
+  "nombre": "Mariscos del Golfo Nuevo",
+  "tipo": "plato",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   },
+   {
+    "l": "Rawson",
+    "p": "chubut"
+   },
+   {
+    "l": "Camarones",
+    "p": "chubut"
+   },
+   {
+    "l": "Puerto Deseado",
+    "p": "santacruz"
+   }
+  ],
+  "dato": "Vieiras, mejillones y langostinos de la misma bahía donde nadan las ballenas. En Camarones el salmón de mar es el plato de la casa.",
+  "dest": 1,
+  "img": "",
+  "locales": [],
+  "rank": 6
+ },
+ {
+  "id": "te-gales",
+  "nombre": "Té galés con torta negra",
+  "tipo": "plato",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Gaiman",
+    "p": "chubut"
+   },
+   {
+    "l": "Trevelin",
+    "p": "chubut"
+   },
+   {
+    "l": "Trelew",
+    "p": "chubut"
+   },
+   {
+    "l": "Dolavon",
+    "p": "chubut"
+   }
+  ],
+  "dato": "La torta negra se hace con meses de anticipación y se deja madurar. Una mesa alcanza para dos personas con hambre: no pidas de más.",
+  "dest": 1,
+  "img": "",
+  "locales": [],
+  "rank": 7
+ },
+ {
+  "id": "frutos-finos",
+  "nombre": "Frutos finos",
+  "tipo": "producto",
+  "meses": [
+   2,
+   2,
+   1,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "El Bolsón",
+    "p": "rionegro"
+   },
+   {
+    "l": "Lago Puelo",
+    "p": "chubut"
+   },
+   {
+    "l": "Trevelin",
+    "p": "chubut"
+   },
+   {
+    "l": "El Hoyo",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Frambuesa, grosella, cassis y boysenberry. La cosecha es enero y febrero: fuera de eso es dulce o congelado. El Hoyo es la capital nacional de la fruta fina.",
+  "dest": 1,
+  "img": "",
+  "locales": [],
+  "rank": 8
+ },
+ {
+  "id": "chocolate",
+  "nombre": "Chocolate artesanal",
+  "tipo": "producto",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "El Bolsón",
+    "p": "rionegro"
+   },
+   {
+    "l": "Villa La Angostura",
+    "p": "neuquen"
+   }
+  ],
+  "dato": "La calle Mitre de Bariloche concentra las chocolaterías históricas, varias con más de sesenta años. La Fiesta del Chocolate es en Semana Santa.",
+  "dest": 1,
+  "img": "",
+  "locales": [],
+  "rank": 9
+ },
+ {
+  "id": "cerveza",
+  "nombre": "Cerveza artesanal",
+  "tipo": "producto",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "El Bolsón",
+    "p": "rionegro"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   },
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   }
+  ],
+  "dato": "El lúpulo de El Bolsón abastece a buena parte de la industria cervecera del país. Pedí una IPA con lúpulo local y notás la diferencia.",
+  "dest": 1,
+  "img": "",
+  "locales": [],
+  "rank": 10
+ },
+ {
+  "id": "vinos",
+  "nombre": "Vinos de clima frío",
+  "tipo": "producto",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "San Patricio del Chañar",
+    "p": "neuquen"
+   },
+   {
+    "l": "Alto Valle",
+    "p": "rionegro"
+   },
+   {
+    "l": "Trevelin",
+    "p": "chubut"
+   },
+   {
+    "l": "Sarmiento",
+    "p": "chubut"
+   }
+  ],
+  "dato": "La Patagonia es la frontera sur del vino argentino. El pinot noir de acá tiene más acidez y menos alcohol que el de Mendoza.",
+  "dest": 1,
+  "img": "",
+  "locales": [],
+  "rank": 11
+ },
+ {
+  "id": "bodegas",
+  "nombre": "Visita a bodega con degustación",
+  "tipo": "experiencia",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "San Patricio del Chañar",
+    "p": "neuquen"
+   },
+   {
+    "l": "General Roca",
+    "p": "rionegro"
+   },
+   {
+    "l": "Trevelin",
+    "p": "chubut"
+   },
+   {
+    "l": "Sarmiento",
+    "p": "chubut"
+   }
+  ],
+  "dato": "La vendimia es en marzo y abril, y varias bodegas dejan participar. El resto del año es recorrida de viñedo y sala de barricas.",
+  "dest": 1,
+  "img": "",
+  "locales": [],
+  "rank": 12
+ },
+ {
+  "id": "curanto",
+  "nombre": "Curanto",
+  "tipo": "plato",
+  "meses": [
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "El Bolsón",
+    "p": "rionegro"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Villa La Angostura",
+    "p": "neuquen"
+   }
+  ],
+  "dato": "Se cocina bajo tierra sobre piedras calientes, tapado con hojas de maqui o nalca. Tarda unas cuatro horas y hay que reservarlo con días.",
+  "dest": 0,
+  "img": "",
+  "locales": [],
+  "rank": 13
+ },
+ {
+  "id": "cazuela-cordero",
+  "nombre": "Cazuela de cordero",
+  "tipo": "plato",
+  "meses": [
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   1,
+   1,
+   1
+  ],
+  "lugares": [
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   },
+   {
+    "l": "Trevelin",
+    "p": "chubut"
+   },
+   {
+    "l": "Río Gallegos",
+    "p": "santacruz"
+   },
+   {
+    "l": "Perito Moreno",
+    "p": "santacruz"
+   }
+  ],
+  "dato": "Es el plato de invierno de la estepa. Cordero desmenuzado, verduras de estación y caldo espeso; llena y es barato.",
+  "dest": 0,
+  "img": "",
+  "locales": [],
+  "rank": 14
+ },
+ {
+  "id": "merluza-negra",
+  "nombre": "Merluza negra",
+  "tipo": "plato",
+  "meses": [
+   2,
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   },
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   },
+   {
+    "l": "Río Grande",
+    "p": "tdf"
+   }
+  ],
+  "dato": "Pesca de profundidad del Atlántico Sur, carne blanca y mantecosa. Es de los pescados más caros del país y en Ushuaia se consigue fresco.",
+  "dest": 0,
+  "img": "",
+  "locales": [],
+  "rank": 15
+ },
+ {
+  "id": "chivito",
+  "nombre": "Chivito del norte neuquino",
+  "tipo": "plato",
+  "meses": [
+   0,
+   0,
+   0,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2,
+   1,
+   0,
+   0
+  ],
+  "lugares": [
+   {
+    "l": "Chos Malal",
+    "p": "neuquen"
+   },
+   {
+    "l": "Villa Pehuenia",
+    "p": "neuquen"
+   },
+   {
+    "l": "Aluminé",
+    "p": "neuquen"
+   }
+  ],
+  "dato": "Denominación de origen: el chivito criollo del norte neuquino es el único con esa protección en la Patagonia. Temporada de faena en otoño.",
+  "dest": 0,
+  "img": "",
+  "locales": [],
+  "rank": 16
+ },
+ {
+  "id": "picada-ahumados",
+  "nombre": "Picada de ahumados patagónicos",
+  "tipo": "plato",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "El Bolsón",
+    "p": "rionegro"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   },
+   {
+    "l": "Villa La Angostura",
+    "p": "neuquen"
+   }
+  ],
+  "dato": "Ciervo, jabalí, trucha y quesos de la zona. Es la entrada obligada antes de cualquier plato fuerte y suele alcanzar para dos.",
+  "dest": 0,
+  "img": "",
+  "locales": [],
+  "rank": 17
+ },
+ {
+  "id": "sidra",
+  "nombre": "Sidra del Alto Valle",
+  "tipo": "producto",
+  "meses": [
+   2,
+   2,
+   1,
+   1,
+   0,
+   0,
+   0,
+   0,
+   1,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "General Roca",
+    "p": "rionegro"
+   },
+   {
+    "l": "Cipolletti",
+    "p": "rionegro"
+   },
+   {
+    "l": "Neuquén",
+    "p": "neuquen"
+   }
+  ],
+  "dato": "El Alto Valle produce la mayor parte de la manzana del país. Las sidras chicas de método champenoise no tienen nada que ver con la industrial.",
+  "dest": 0,
+  "img": "",
+  "locales": [],
+  "rank": 18
+ },
+ {
+  "id": "whisky",
+  "nombre": "Whisky patagónico",
+  "tipo": "producto",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Trevelin",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Destilerías chicas que aprovechan el agua de deshielo y el frío para la maduración. Varias hacen visita guiada con degustación.",
+  "dest": 0,
+  "img": "",
+  "locales": [],
+  "rank": 19
+ },
+ {
+  "id": "sal-marina",
+  "nombre": "Sal marina de Península Valdés",
+  "tipo": "producto",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   },
+   {
+    "l": "Península Valdés",
+    "p": "chubut"
+   },
+   {
+    "l": "Trelew",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Sale de las salinas naturales del Istmo, a 42 metros bajo el nivel del mar. Es sal en escamas, para terminar el plato, no para cocinar.",
+  "dest": 0,
+  "img": "",
+  "locales": [],
+  "rank": 20
+ },
+ {
+  "id": "salicornia",
+  "nombre": "Salicornia",
+  "tipo": "producto",
+  "meses": [
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   },
+   {
+    "l": "Rawson",
+    "p": "chubut"
+   },
+   {
+    "l": "Península Valdés",
+    "p": "chubut"
+   }
+  ],
+  "dato": "También le dicen espárrago de mar. Crece en la marisma, es naturalmente salada y va cruda en ensalada o salteada con mariscos.",
+  "dest": 0,
+  "img": "",
+  "locales": [],
+  "rank": 21
+ },
+ {
+  "id": "miel",
+  "nombre": "Miel de meseta",
+  "tipo": "producto",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Trelew",
+    "p": "chubut"
+   },
+   {
+    "l": "Gaiman",
+    "p": "chubut"
+   },
+   {
+    "l": "Dolavon",
+    "p": "chubut"
+   },
+   {
+    "l": "Lago Puelo",
+    "p": "chubut"
+   }
+  ],
+  "dato": "La de flores de la estepa es más oscura y con más carácter que la de pradera. Buscá la de molle o la de alfilerillo.",
+  "dest": 0,
+  "img": "",
+  "locales": [],
+  "rank": 22
+ },
+ {
+  "id": "rosa-mosqueta",
+  "nombre": "Rosa mosqueta",
+  "tipo": "producto",
+  "meses": [
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1
+  ],
+  "lugares": [
+   {
+    "l": "El Bolsón",
+    "p": "rionegro"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Es una planta invasora que llegó de Europa, así que consumirla ayuda. Se cosecha en otoño y va como dulce, aceite o té.",
+  "dest": 0,
+  "img": "",
+  "locales": [],
+  "rank": 23
+ },
+ {
+  "id": "calafate",
+  "nombre": "Calafate",
+  "tipo": "producto",
+  "meses": [
+   2,
+   2,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Toda la Patagonia",
+    "p": "santacruz"
+   },
+   {
+    "l": "El Calafate",
+    "p": "santacruz"
+   },
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   }
+  ],
+  "dato": "Dice la leyenda que el que come calafate vuelve. Se cosecha en verano y se encuentra como dulce, licor o helado todo el año.",
+  "dest": 0,
+  "img": "",
+  "locales": [],
+  "rank": 24
+ },
+ {
+  "id": "hongos-pino",
+  "nombre": "Hongos de pino",
+  "tipo": "producto",
+  "meses": [
+   1,
+   1,
+   1,
+   2,
+   2,
+   0,
+   0,
+   0,
+   0,
+   0,
+   1,
+   1
+  ],
+  "lugares": [
+   {
+    "l": "El Bolsón",
+    "p": "rionegro"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Villa La Angostura",
+    "p": "neuquen"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   }
+  ],
+  "dato": "El otoño es la temporada. Los frescos aparecen en las ferias de marzo y abril; el resto del año se consiguen deshidratados.",
+  "dest": 0,
+  "img": "",
+  "locales": [],
+  "rank": 25
+ },
+ {
+  "id": "quesos",
+  "nombre": "Quesos de montaña",
+  "tipo": "producto",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "El Bolsón",
+    "p": "rionegro"
+   },
+   {
+    "l": "Trevelin",
+    "p": "chubut"
+   },
+   {
+    "l": "Villa La Angostura",
+    "p": "neuquen"
+   }
+  ],
+  "dato": "Producción chica, varias de oveja y cabra. Las tablas de la zona casi siempre incluyen alguno de estos.",
+  "dest": 0,
+  "img": "",
+  "locales": [],
+  "rank": 26
+ },
+ {
+  "id": "cordero-marca",
+  "nombre": "Cordero patagónico con denominación",
+  "tipo": "producto",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Santa Cruz",
+    "p": "santacruz"
+   },
+   {
+    "l": "Chubut",
+    "p": "chubut"
+   },
+   {
+    "l": "Tierra del Fuego",
+    "p": "tdf"
+   }
+  ],
+  "dato": "El cordero patagónico tiene Indicación Geográfica protegida: se cría a campo abierto, sin encierro. Por eso la carne es más magra.",
+  "dest": 0,
+  "img": "",
+  "locales": [],
+  "rank": 27
+ },
+ {
+  "id": "cerveceria-visita",
+  "nombre": "Visita a cervecería artesanal",
+  "tipo": "experiencia",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "El Bolsón",
+    "p": "rionegro"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   },
+   {
+    "l": "Esquel",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Varias tienen la fábrica al lado del salón y hacen la recorrida gratis si consumís. En El Bolsón podés ver el lupulario en enero y febrero.",
+  "dest": 0,
+  "img": "",
+  "locales": [],
+  "rank": 28
+ },
+ {
+  "id": "destileria",
+  "nombre": "Visita a destilería",
+  "tipo": "experiencia",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Ushuaia",
+    "p": "tdf"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Trevelin",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Producción chica de whisky, gin y licores de frutos nativos. La visita termina en degustación y suele durar una hora.",
+  "dest": 0,
+  "img": "",
+  "locales": [],
+  "rank": 29
+ },
+ {
+  "id": "chacra",
+  "nombre": "Chacra de frutos finos",
+  "tipo": "experiencia",
+  "meses": [
+   2,
+   2,
+   1,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   1,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "El Hoyo",
+    "p": "chubut"
+   },
+   {
+    "l": "Lago Puelo",
+    "p": "chubut"
+   },
+   {
+    "l": "El Bolsón",
+    "p": "rionegro"
+   }
+  ],
+  "dato": "En enero y febrero muchas chacras dejan cosechar y pagar por lo que te llevás. Es la actividad más linda para hacer con chicos.",
+  "dest": 0,
+  "img": "",
+  "locales": [],
+  "rank": 30
+ },
+ {
+  "id": "feria",
+  "nombre": "Feria regional de productores",
+  "tipo": "experiencia",
+  "meses": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "El Bolsón",
+    "p": "rionegro"
+   },
+   {
+    "l": "Bariloche",
+    "p": "rionegro"
+   },
+   {
+    "l": "Trelew",
+    "p": "chubut"
+   },
+   {
+    "l": "Gaiman",
+    "p": "chubut"
+   }
+  ],
+  "dato": "La feria de El Bolsón funciona desde 1980 y es la más conocida. Es donde se consigue el producto directo del que lo hace.",
+  "dest": 0,
+  "img": "",
+  "locales": [],
+  "rank": 31
+ },
+ {
+  "id": "salina",
+  "nombre": "Recorrida por las salinas",
+  "tipo": "experiencia",
+  "meses": [
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Península Valdés",
+    "p": "chubut"
+   },
+   {
+    "l": "Puerto Madryn",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Las salinas del Istmo Ameghino están 42 metros bajo el nivel del mar. Se visitan en la misma salida a Península Valdés.",
+  "dest": 0,
+  "img": "",
+  "locales": [],
+  "rank": 32
+ },
+ {
+  "id": "apiario",
+  "nombre": "Visita a apiario",
+  "tipo": "experiencia",
+  "meses": [
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2
+  ],
+  "lugares": [
+   {
+    "l": "Gaiman",
+    "p": "chubut"
+   },
+   {
+    "l": "Dolavon",
+    "p": "chubut"
+   },
+   {
+    "l": "Lago Puelo",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Se ve la extracción y se cata miel de distintas floraciones. Poca oferta formal todavía: casi siempre hay que coordinar antes.",
+  "dest": 0,
+  "img": "",
+  "locales": [],
+  "rank": 33
+ },
+ {
+  "id": "cosecha-vendimia",
+  "nombre": "Cosecha y vendimia",
+  "tipo": "experiencia",
+  "meses": [
+   0,
+   0,
+   2,
+   2,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0
+  ],
+  "lugares": [
+   {
+    "l": "San Patricio del Chañar",
+    "p": "neuquen"
+   },
+   {
+    "l": "General Roca",
+    "p": "rionegro"
+   },
+   {
+    "l": "Trevelin",
+    "p": "chubut"
+   }
+  ],
+  "dato": "Solo marzo y abril. Se cosecha a la mañana temprano y termina con almuerzo en la bodega. Hay que reservar con anticipación.",
+  "dest": 0,
+  "img": "",
+  "locales": [],
+  "rank": 34
+ }
+]

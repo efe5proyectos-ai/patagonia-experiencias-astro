@@ -1,0 +1,172 @@
+{
+  "cordero-asador": {
+    "nome": "Cordeiro patagônico no espeto",
+    "melhor": "Todo o ano",
+    "dado": "Assa cruzado na estaca, de lado e em fogo baixo, entre três e cinco horas. É o prato que define a mesa patagônica e quase sempre vem para compartilhar: um cordeiro inteiro serve de seis a oito pessoas."
+  },
+  "centolla": {
+    "nome": "Centolla da Terra do Fogo (caranguejo-real)",
+    "melhor": "Julho a novembro",
+    "dado": "Tem defeso: só se pesca de julho a novembro. Se oferecerem centolla fresca em janeiro, desconfie — fora da temporada é congelada, o que é aceitável, mas não é a mesma coisa."
+  },
+  "sorrentinos-trucha": {
+    "nome": "Sorrentinos de truta com molho da floresta",
+    "melhor": "Todo o ano",
+    "dado": "O molho da floresta leva cogumelos de pinheiro, cervo ou creme de morilles, conforme a casa. É o prato mais representativo da cozinha dos lagos andinos."
+  },
+  "trucha-ahumada": {
+    "nome": "Truta defumada",
+    "melhor": "Todo o ano",
+    "dado": "Defumada a frio com madeiras nativas. Vai como entrada ou na tábua; a truta de riacho tem a carne mais firme que a de criação."
+  },
+  "ciervo": {
+    "nome": "Cervo-vermelho",
+    "melhor": "Abril a setembro",
+    "dado": "É espécie introduzida na Patagônia, então comer ajuda no controle populacional. No outono, época do cio, é quando mais aparece nos menus."
+  },
+  "mariscos-golfo": {
+    "nome": "Frutos do mar do Golfo Nuevo",
+    "melhor": "Setembro a abril",
+    "dado": "Vieiras, mexilhões e camarões da mesma baía onde nadam as baleias. Em Camarones o prato da casa é o salmão-do-mar."
+  },
+  "te-gales": {
+    "nome": "Chá galês com torta negra",
+    "melhor": "Todo o ano",
+    "dado": "A torta negra é feita meses antes e deixada para maturar. Uma mesa de chá galês serve duas pessoas com fome: não peça duas."
+  },
+  "frutos-finos": {
+    "nome": "Frutas vermelhas da cordilheira",
+    "melhor": "Janeiro e fevereiro",
+    "dado": "Framboesa, groselha, cassis e boysenberry. A colheita é em janeiro e fevereiro: fora disso, só geleia ou congelado. El Hoyo é a capital nacional da fruta fina."
+  },
+  "chocolate": {
+    "nome": "Chocolate artesanal",
+    "melhor": "Todo o ano",
+    "dado": "A rua Mitre, em Bariloche, concentra as chocolaterias históricas, várias com mais de sessenta anos. A Festa do Chocolate acontece na Semana Santa."
+  },
+  "cerveza": {
+    "nome": "Cerveja artesanal",
+    "melhor": "Todo o ano",
+    "dado": "O lúpulo de El Bolsón abastece boa parte da indústria cervejeira argentina. Peça uma IPA com lúpulo local e a diferença aparece."
+  },
+  "vinos": {
+    "nome": "Vinhos de clima frio",
+    "melhor": "Todo o ano",
+    "dado": "A Patagônia é a fronteira sul do vinho argentino. O pinot noir daqui tem mais acidez e menos álcool que o de Mendoza."
+  },
+  "bodegas": {
+    "nome": "Visita a vinícola com degustação",
+    "melhor": "Setembro a abril",
+    "dado": "A vindima é em março e abril, e várias vinícolas deixam participar. No resto do ano a visita é vinhedo e sala de barricas."
+  },
+  "curanto": {
+    "nome": "Curanto",
+    "melhor": "Novembro a fevereiro",
+    "dado": "Cozinha debaixo da terra, sobre pedras quentes e coberto com folhas de maqui ou nalca. Leva umas quatro horas e precisa ser reservado com dias de antecedência."
+  },
+  "cazuela-cordero": {
+    "nome": "Caçarola de cordeiro",
+    "melhor": "Abril a setembro",
+    "dado": "É o prato de inverno da estepe: cordeiro desfiado, legumes da estação e caldo encorpado. Enche e é barato."
+  },
+  "merluza-negra": {
+    "nome": "Merluza-negra",
+    "melhor": "Setembro a março",
+    "dado": "Pesca de profundidade do Atlântico Sul, de carne branca e manteigosa. É um dos peixes mais caros da Argentina e em Ushuaia se consegue fresco."
+  },
+  "chivito": {
+    "nome": "Cabrito do norte de Neuquén",
+    "melhor": "Junho a agosto",
+    "dado": "Tem denominação de origem: o cabrito criollo do norte neuquino é o único da Patagônia com essa proteção. A temporada é no outono e inverno."
+  },
+  "picada-ahumados": {
+    "nome": "Tábua de defumados patagônicos",
+    "melhor": "Todo o ano",
+    "dado": "Cervo, javali, truta e queijos da região. É a entrada obrigatória antes de qualquer prato principal e normalmente serve duas pessoas."
+  },
+  "sidra": {
+    "nome": "Sidra do Alto Valle",
+    "melhor": "Novembro a fevereiro",
+    "dado": "O Alto Valle produz a maior parte da maçã da Argentina. As sidras pequenas, feitas pelo método champenoise, não têm nada a ver com a industrial."
+  },
+  "whisky": {
+    "nome": "Whisky patagônico",
+    "melhor": "Todo o ano",
+    "dado": "Destilarias pequenas que aproveitam a água de degelo e o frio para a maturação. Várias fazem visita guiada com degustação."
+  },
+  "sal-marina": {
+    "nome": "Sal marinho de Península Valdés",
+    "melhor": "Setembro a abril",
+    "dado": "Sai das salinas naturais do Istmo, a 42 metros abaixo do nível do mar. É sal em escamas, para finalizar o prato, não para cozinhar."
+  },
+  "salicornia": {
+    "nome": "Salicórnia (aspargo-do-mar)",
+    "melhor": "Setembro a fevereiro",
+    "dado": "Cresce na marisma, é naturalmente salgada e vai crua na salada ou refogada com frutos do mar. Poucos restaurantes do mundo a têm no menu."
+  },
+  "miel": {
+    "nome": "Mel da estepe",
+    "melhor": "Todo o ano",
+    "dado": "O mel das flores da estepe é mais escuro e com mais caráter que o de pradaria. Procure o de molle ou o de alfilerillo."
+  },
+  "rosa-mosqueta": {
+    "nome": "Rosa mosqueta",
+    "melhor": "Abril a junho",
+    "dado": "É uma planta invasora que chegou da Europa, então consumir ajuda. A colheita é no outono e vira geleia, óleo ou chá."
+  },
+  "calafate": {
+    "nome": "Calafate",
+    "melhor": "Dezembro a fevereiro",
+    "dado": "Diz a lenda que quem come calafate volta à Patagônia. A colheita é no verão e se encontra como geleia, licor ou sorvete o ano inteiro."
+  },
+  "hongos-pino": {
+    "nome": "Cogumelos de pinheiro",
+    "melhor": "Abril e maio",
+    "dado": "O outono é a temporada. Os frescos aparecem nas feiras de março e abril; no resto do ano, desidratados."
+  },
+  "quesos": {
+    "nome": "Queijos de montanha",
+    "melhor": "Todo o ano",
+    "dado": "Produção pequena, vários de ovelha e de cabra. As tábuas da região quase sempre incluem algum deles."
+  },
+  "cordero-marca": {
+    "nome": "Cordeiro patagônico com Indicação Geográfica",
+    "melhor": "Todo o ano",
+    "dado": "O cordeiro patagônico tem Indicação Geográfica protegida: é criado a campo aberto, sem confinamento. Por isso a carne é mais magra que a do cordeiro de feedlot."
+  },
+  "cerveceria-visita": {
+    "nome": "Visita a cervejaria artesanal",
+    "melhor": "Todo o ano",
+    "dado": "Várias têm a fábrica ao lado do salão e fazem a visita de graça para quem consome. Em El Bolsón dá para ver o lupulário em janeiro e fevereiro."
+  },
+  "destileria": {
+    "nome": "Visita a destilaria",
+    "melhor": "Todo o ano",
+    "dado": "Produção pequena de whisky, gim e licores de frutas nativas. A visita termina em degustação e dura cerca de uma hora."
+  },
+  "chacra": {
+    "nome": "Colher frutas vermelhas na chácara",
+    "melhor": "Janeiro e fevereiro",
+    "dado": "Em janeiro e fevereiro muitas chácaras deixam colher e você paga pelo que leva. É o programa mais bonito para fazer com crianças."
+  },
+  "feria": {
+    "nome": "Feira regional de produtores",
+    "melhor": "Todo o ano",
+    "dado": "A feira de El Bolsón funciona desde 1980 e é a mais conhecida da Patagônia. É onde se compra direto de quem produz."
+  },
+  "salina": {
+    "nome": "Visita às salinas",
+    "melhor": "Setembro a abril",
+    "dado": "As salinas do Istmo Ameghino ficam 42 metros abaixo do nível do mar. Se visitam na mesma saída para a Península Valdés."
+  },
+  "apiario": {
+    "nome": "Visita a apiário",
+    "melhor": "Setembro a abril",
+    "dado": "Vê-se a extração e se degustam méis de floradas diferentes. Ainda há pouca oferta formal: quase sempre é preciso combinar antes."
+  },
+  "cosecha-vendimia": {
+    "nome": "Colheita e vindima",
+    "melhor": "Março e abril",
+    "dado": "Só março e abril. Colhe-se de manhã cedo e termina com almoço na vinícola. Precisa reservar com antecedência."
+  }
+}

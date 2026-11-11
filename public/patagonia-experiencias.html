@@ -2085,6 +2085,29 @@ const limpiarTextoWord = valor => {
   s = s.replace(/\u00A0/g, ' ').replace(/[ \t]{2,}/g, ' ').replace(/\n{3,}/g, '\n\n').trim();
   return s;
 };
+/* ── Temporada del home: lo que no se puede hacer ahora (nieve en verano, etc.) no aparece en el home y va al final del catálogo.
+   Se calcula por mes; desde el panel se puede forzar (configuracion/temporada.forzada). ── */
+const PE_MES_TEMP = { verano: [12, 1, 2], otono: [3, 4, 5], invierno: [6, 7, 8], primavera: [9, 10, 11] };
+window.PE_TEMP_CFG = window.PE_TEMP_CFG || { forzada: '' };
+function temporadaActual() {
+  const f = window.PE_TEMP_CFG && window.PE_TEMP_CFG.forzada;
+  if (PE_MES_TEMP[f]) return f;
+  const m = new Date().getMonth() + 1;
+  return Object.keys(PE_MES_TEMP).find(k => PE_MES_TEMP[k].includes(m));
+}
+const RX_NIEVE = /nieve|\bski\b|\bsky\b|esqu[ií]|snowboard|la hoya|raqueta/i;
+/** 0 = es su temporada fuerte · 1 = todo el año o sin datos · 2 = fuera de temporada */
+function encajeTemporada(t) {
+  if (!t) return 1;
+  const temp = temporadaActual();
+  const txt = [t.titulo, t.categoria, t.categoriaSecundaria, t.subcategoria, t.etiqueta].filter(Boolean).join(' ');
+  if (t.categoria === 'nieve__sky' || RX_NIEVE.test(txt)) return temp === 'invierno' ? 0 : 2;
+  if (/ballena/i.test(txt)) return temp === 'invierno' || temp === 'primavera' ? 0 : 2; // Ballena franca: junio a diciembre
+  const ts = Array.isArray(t.temporadas) ? t.temporadas : [];
+  if (!ts.length || ts.length >= 4) return 1;
+  return ts.includes(temp) ? 0 : 2;
+}
+window.PEtemporada = { actual: temporadaActual, encaje: encajeTemporada };
 function temporadaVigente(tour, mes) {
   if (!tour || !Array.isArray(tour.temporadasPrecio)) return null;
   const m = Number(mes);
@@ -7832,6 +7855,12 @@ function HomePage({
     return () => clearInterval(t);
   }, [heroItems, heroIntervaloMs]);
   const tieneCarrusel = Array.isArray(heroItems) && heroItems.length > 0;
+  const [tempVer, setTempVer] = useState(0);
+  useEffect(() => {
+    const h = () => setTempVer(v => v + 1);
+    window.addEventListener('pe-temporada', h);
+    return () => window.removeEventListener('pe-temporada', h);
+  }, []);
   const ordenSeedRef = useRef(Date.now() + Math.floor(Math.random() * 1000000));
   const ordenEstable = id => {
     const str = String(id) + '_' + ordenSeedRef.current;
@@ -7856,7 +7885,7 @@ function HomePage({
       resumen: (a.contenido || '').replace(/<[^>]+>/g, '').slice(0, 110),
       raw: a
     }));
-    const toursPagos = (toursDisponibles || []).map(t => {
+    const toursPagos = (toursDisponibles || []).filter(t => encajeTemporada(t) !== 2).map(t => {
       const calc = calcularPreciosTour(tourConPrecioTemporada(t), agencias && agencias.length ? agencias : _agenciasGlobal, _planesGlobal);
       const precioLista = calc && calc.precioBase > 0 ? calc.precioBase : Number(t.precio) || 0;
       const precioVenta = calc && calc.precioPreventa > 0 ? calc.precioPreventa : precioLista;
@@ -7889,7 +7918,7 @@ function HomePage({
       if (toursMix[i]) out.push(toursMix[i]);
     }
     return out.slice(0, 6);
-  }, [articulos, toursDisponibles, agencias]);
+  }, [articulos, toursDisponibles, agencias, tempVer]);
   const [magazineFading, setMagazineFading] = useState(false);
   const handleClickSubcategoriaMagazine = subId => {
     const scrollY = window.scrollY;
@@ -7914,12 +7943,16 @@ function HomePage({
       'esencial': 1
     };
     return [...toursGeo].sort((a, b) => {
+      const ta = encajeTemporada(a),
+        tb = encajeTemporada(b);
+      if (ta !== tb) return ta - tb;
       const weightA = planWeights[a.plan] || 0;
       const weightB = planWeights[b.plan] || 0;
       if (weightA !== weightB) return weightB - weightA;
       return ordenEstable(a.id) - ordenEstable(b.id);
     });
-  }, [toursGeo]);
+  }, [toursGeo, tempVer]);
+  const toursHome = shuffledTours.filter(t => encajeTemporada(t) !== 2);
   const normalizar = txt => (txt || '').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   const STOPWORDS = ['de', 'del', 'la', 'el', 'los', 'las', 'en', 'y', 'a', 'con', 'por', 'para', 'un', 'una'];
   const toursFiltrados = useMemo(() => {
@@ -7977,18 +8010,18 @@ function HomePage({
   itemsQueHacer.forEach(it => {
     if (it && it._tipo === 'tour' && it.id != null) usadosHome.add(String(it.id));
   });
-  const ofertasFlash = shuffledTours.filter(t => tieneDescuento(t) && !usadosHome.has(String(t.id))).slice(0, 8);
+  const ofertasFlash = toursHome.filter(t => tieneDescuento(t) && !usadosHome.has(String(t.id))).slice(0, 8);
   ofertasFlash.forEach(t => usadosHome.add(String(t.id)));
   const toursImperdibles = (() => {
-    const disp = shuffledTours.filter(t => !usadosHome.has(String(t.id)));
+    const disp = toursHome.filter(t => !usadosHome.has(String(t.id)));
     const rankeados = disp.filter(t => typeof t.rating === 'number' && t.rating >= 4.9);
     const nuevos = disp.filter(t => !t.rating || t.rating === 0);
     return [...rankeados, ...nuevos].slice(0, 4);
   })();
   toursImperdibles.forEach(t => usadosHome.add(String(t.id)));
-  const toursAventuras = shuffledTours.filter(t => ['excursiones', 'trekking', 'fauna', 'glaciares'].includes(t.categoria) && !usadosHome.has(String(t.id))).slice(0, 4);
+  const toursAventuras = toursHome.filter(t => ['excursiones', 'trekking', 'fauna', 'glaciares'].includes(t.categoria) && !usadosHome.has(String(t.id))).slice(0, 4);
   toursAventuras.forEach(t => usadosHome.add(String(t.id)));
-  const todosLosGastro = shuffledTours.filter(t => t.categoria === 'gastronomia' && !usadosHome.has(String(t.id)));
+  const todosLosGastro = toursHome.filter(t => t.categoria === 'gastronomia' && !usadosHome.has(String(t.id)));
   todosLosGastro.forEach(t => usadosHome.add(String(t.id)));
   const ordenarPorRating = lista => {
     return [...lista].sort((a, b) => {
@@ -9192,6 +9225,11 @@ function App() {
         });
       }
     }, () => {});
+    const tempRef = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('configuracion').doc('temporada');
+    const unsubTemp = tempRef.onSnapshot(snap => {
+      window.PE_TEMP_CFG = snap.exists ? snap.data() || { forzada: '' } : { forzada: '' };
+      window.dispatchEvent(new Event('pe-temporada'));
+    }, () => {});
     const cartRef = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('configuracion').doc('carteles_urgencia');
     const unsubCart = cartRef.onSnapshot(snap => {
       if (snap.exists) setCartelesDB(snap.data().lista || []);else setCartelesDB([]);
@@ -9215,6 +9253,7 @@ function App() {
       unsubAg();
       unsubCfg();
       unsubCart();
+      unsubTemp();
       unsubRes();
     };
   }, []);

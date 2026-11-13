@@ -1,0 +1,358 @@
+---
+// ─────────────────────────────────────────────────────────────
+// GUÍA DE DESTINO EN ESPAÑOL — USHUAIA Y TIERRA DEL FUEGO
+//
+// Pendiente 15 de la bitácora, abierto el 12/11 al publicar la versión en
+// portugués: en public/ hay páginas informativas de Puerto Madryn,
+// Esquel–Trevelin, el valle del Chubut, el calendario de fauna y las dos
+// generales, y ninguna de Tierra del Fuego. Dos consecuencias: el mercado
+// argentino no tenía por dónde entrar a Ushuaia por búsqueda informacional,
+// y la página en portugués había quedado sin hreflang por no tener par.
+//
+// Esta página cierra las dos cosas: es la entrada en español y es el `alternos`
+// de /pt-br/o-que-fazer-em-ushuaia/, que se actualiza en la misma corrida.
+//
+// NO es una traducción de la portuguesa. El argentino busca otra cosa:
+// cómo llegar (vuelo desde Buenos Aires, la Ruta 3 por Chile), cuánto cuesta,
+// vacaciones de invierno de julio, tarifa de residente en el Parque Nacional,
+// qué hacer con chicos. Eso es lo que decide la página.
+//
+// La capa de búsqueda que ataca: "qué hacer en Ushuaia", "cuántos días en
+// Ushuaia", "mejor época para ir a Ushuaia", "Ushuaia en invierno", "cómo
+// llegar a Ushuaia", "Ushuaia con chicos", "tren del fin del mundo",
+// "laguna Esmeralda", "pingüinos en Ushuaia", "centolla Ushuaia".
+//
+// Va en Astro y no en public/ porque es página nueva: no hay HTML viejo que
+// respetar y así comparte layout, medición y footer con el resto.
+//
+// Honestidad de catálogo (igual que en la portuguesa): la navegación por el
+// canal Beagle y el esquí en el Cerro Castor son las dos búsquedas más
+// grandes del destino y no las vendemos —las dos fichas de "Navegación Canal
+// Beagle" están inactivas en Firestore—. Se cuentan igual, porque una guía
+// que las omite no le sirve al lector, pero sin enlace falso: se deriva a lo
+// que sí tenemos. El hueco está anotado en "Para Marcelo".
+//
+// No toca precios, ni el botón de reserva, ni el checkout.
+// ─────────────────────────────────────────────────────────────
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { obtenerExperiencias } from '../lib/contenido.js';
+import { conSlugsUnicos } from '../lib/slugs.js';
+
+const todas = conSlugsUnicos(await obtenerExperiencias());
+const porSlug = new Map(todas.map((e) => [e.slug, e]));
+
+// Un paseo se enlaza por su slug publicado. Si la ficha se despublica en el
+// admin, desaparece el enlace y la página no queda con un 404 adentro.
+const paseos = (...slugs) => slugs.map((s) => porSlug.get(s)).filter(Boolean);
+
+const BLOQUES = [
+  {
+    id: 'parque',
+    etiqueta: 'El imperdible',
+    titulo: 'Parque Nacional Tierra del Fuego y la bahía Lapataia',
+    texto:
+      'Es el paseo que nadie se saltea. El parque empieza a 12 km de Ushuaia y protege la única franja de costa marina protegida del país: bosques de lenga, ñire y coihue que bajan hasta el agua, turbales, ríos y el canal Beagle de fondo. El punto que todo el mundo viene a buscar es la bahía Lapataia, donde la Ruta Nacional 3 termina de verdad —3.079 km después de Buenos Aires— y donde se corta el camino que viene desde Alaska: es el lugar más austral del continente al que se llega en auto. En el camino quedan la ensenada Zaratiegui, con el Correo del Fin del Mundo, y el lago Acigami (lago Roca), que se camina por la orilla. Medio día alcanza para el circuito clásico; a pie y en grupo chico se entra a las sendas donde no llega el micro. La entrada se paga aparte, tiene tarifa diferenciada para residentes argentinos y conviene sacarla online antes de salir.',
+    fichas: paseos('parque-nacional-tierra-del-fuego', 'parque-nacional-tierra-del-fuego-y-tren-del-fin-del-mundo-opcional', 'parque-nacional-tierra-del-fuego-by-hike'),
+  },
+  {
+    id: 'tren',
+    etiqueta: 'Historia',
+    titulo: 'El Tren del Fin del Mundo',
+    texto:
+      'Es el tren a vapor de trocha angosta más austral del mundo y nació como tren de carga del presidio de Ushuaia: eran los presos los que iban a buscar leña al bosque a principios del siglo XX. Hoy hace un tramo turístico corto, de unos 45 minutos, que entra al parque por el valle del río Pipo y pasa por la cascada La Macarena. Es una visita histórica y breve, no una travesía de paisaje: rinde mucho más sumada al paseo del parque, el mismo día y con el mismo traslado, que contratada aparte. Con chicos suele ser lo más recordado del viaje, y la historia completa se cierra en el Museo Marítimo y del Presidio, en el edificio de la antigua cárcel, ya en la ciudad.',
+    fichas: paseos('parque-nacional-tierra-del-fuego-y-tren-del-fin-del-mundo-opcional'),
+  },
+  {
+    id: 'pinguinos',
+    etiqueta: 'Todo el año',
+    titulo: 'Pingüinos en la isla Martillo y Puerto Almanza',
+    texto:
+      'La colonia de la isla Martillo, en el canal Beagle, es la única de Tierra del Fuego que se visita, y tiene una ventaja que casi nadie conoce: los pingüinos papúa (gentoo) están en la isla todo el año, así que en julio se ven pingüinos en Ushuaia, algo que no pasa ni en Punta Tombo ni en Península Valdés, donde el magallánico sólo está de septiembre a marzo. Entre octubre y marzo llegan además los magallánicos y se ven las dos especies juntas. En barco chico, saliendo de Puerto Almanza en lugar del puerto de Ushuaia, el grupo es reducido y la aproximación mucho más cercana; no hay desembarco en la isla, el avistaje se hace desde el agua. El camino hasta Almanza por la Ruta J es la mitad del paseo: es el lado más remoto y más lindo de la isla.',
+    fichas: paseos('avistaje-de-pinguinos-en-barco-pequeno', 'puerto-almanza-ruta-de-la-centolla-y-avistaje-de-pinguinos-en-barco-pequeno'),
+  },
+  {
+    id: 'beagle',
+    etiqueta: 'El clásico de la ciudad',
+    titulo: 'La navegación por el canal Beagle',
+    texto:
+      'El canal que Darwin cruzó en 1833 a bordo del HMS Beagle es la imagen de Ushuaia. Las navegaciones salen del puerto, en pleno centro, y pasan por la isla de los Lobos y la isla de los Pájaros —lobos marinos de uno y dos pelos, cormoranes imperiales en colonia— hasta el faro Les Éclaireurs, el faro colorado y blanco que todos llaman "del fin del mundo" (el verdadero está en la isla de los Estados y no se visita). Duran entre dos y cuatro horas y salen casi todos los días del año, con viento. Esta navegación no la vendemos: se contrata en el puerto o en las agencias de la avenida Maipú, y es fácil de conseguir en el lugar. Lo que sí ofrecemos es el otro lado del mismo canal —Puerto Almanza, en barco chico y con la colonia de pingüinos—, que es el programa de quien prefiere grupo reducido a barco grande.',
+    fichas: paseos('puerto-almanza-ruta-de-la-centolla-y-avistaje-de-pinguinos-en-barco-pequeno'),
+  },
+  {
+    id: 'sendas',
+    etiqueta: 'Octubre a abril',
+    titulo: 'Laguna Esmeralda y las sendas fueguinas',
+    texto:
+      'La laguna Esmeralda es la caminata emblemática del destino y la puerta de entrada de quien nunca hizo trekking: 9 km ida y vuelta, unos 220 m de desnivel y cerca de cuatro horas de movimiento, por bosque de lenga, turbales y un valle glaciario viejo, hasta una laguna color turquesa con el glaciar Albino de fondo. No tiene dificultad técnica, pero tiene barro: calzado y campera impermeables son obligatorios, en cualquier época. Quien quiere menos esfuerzo se queda en las sendas del Parque Nacional; quien quiere más sube al glaciar Martial, en los cerros arriba de la ciudad, con vista al canal —el tramo a pie funciona igual cuando la aerosilla no está operando, que pasa seguido—.',
+    fichas: paseos('trekking-laguna-esmeralda', 'parque-nacional-tierra-del-fuego-by-hike'),
+  },
+  {
+    id: 'lagos',
+    etiqueta: 'Aventura sin caminar',
+    titulo: 'Lagos Escondido y Fagnano, paso Garibaldi y 4x4',
+    texto:
+      'Hacia el norte, la Ruta 3 sube al paso Garibaldi, el mirador más abierto de la isla, con los lagos Escondido y Fagnano abajo. El Fagnano tiene más de 100 km de largo y cruza la frontera con Chile: es el lago más grande de Tierra del Fuego y casi no tiene gente en la orilla. El día completo en 4x4 se sale de la ruta y entra en huellas de turbal y bosque donde no pasa un auto común, con almuerzo en refugio en el medio. Es el programa de quien quiere paisaje remoto y aventura de verdad sin caminar: dificultad baja, sin exigencia física, y funciona todo el año —en invierno, con nieve—.',
+    fichas: paseos('lagos-off-road'),
+  },
+  {
+    id: 'centolla',
+    etiqueta: 'Gastronomía',
+    titulo: 'Centolla, Puerto Almanza y la Ruta de la Centolla',
+    texto:
+      'La centolla es el plato de Ushuaia, y la diferencia entre comerla en un restaurante del centro y comerla en Puerto Almanza es la misma que hay entre un pescado de pescadería y un pescado de puerto. Almanza es el pueblo de pescadores más austral del país, a unas dos horas de Ushuaia por la Ruta J, con una sola calle, cultivos de mejillones, lanchas y las trampas de centolla en la orilla. La travesía costera es la llamada Ruta de la Centolla, con vista a Puerto Williams, en Chile, y a la isla Gable. La temporada de pesca va del otoño al invierno, que es cuando se come fresca; en verano buena parte de lo que se sirve es congelado, lo que no es un problema pero conviene saberlo antes de pagar precio de fresca.',
+    fichas: paseos('sabores-del-beagle', 'puerto-almanza-ruta-de-la-centolla-y-avistaje-de-pinguinos-en-barco-pequeno'),
+  },
+  {
+    id: 'invierno',
+    etiqueta: 'Junio a octubre',
+    titulo: 'Nieve, Cerro Castor y el invierno austral',
+    texto:
+      'Ushuaia es el destino de nieve más austral del planeta y el de temporada más larga de Sudamérica. El Cerro Castor está a 26 km de la ciudad por la Ruta 3, suele abrir de junio a comienzos de octubre y es uno de los pocos centros del mundo con base casi a nivel del mar, lo que le da nieve seca con poca altura. Fuera del esquí, el invierno tiene trineo tirado por perros, caminata con raquetas y motos de nieve en los valles de Tierra Mayor y Valle de Lobos, a mitad de camino del Castor. Esas actividades se contratan en la ciudad: de nuestro catálogo, lo que funciona bien en invierno son los pingüinos en barco calefaccionado, el Parque Nacional y los lagos en 4x4. Ojo con julio: son las vacaciones de invierno de todo el país y es la semana más cara y más llena del año.',
+    fichas: paseos('avistaje-de-pinguinos-en-barco-pequeno', 'lagos-off-road'),
+  },
+  {
+    id: 'antartida',
+    etiqueta: 'Noviembre a marzo',
+    titulo: 'Ushuaia como puerta de la Antártida',
+    texto:
+      'Más del 90% de los cruceros que van a la Antártida salen del puerto de Ushuaia, porque desde acá el cruce del pasaje de Drake es el más corto del mundo: unos dos días de navegación hasta la península Antártica. La temporada va de noviembre a marzo, los viajes duran entre 10 y 20 días y los precios arrancan en varios miles de dólares: no es una excursión y no se compra sobre la hora, aunque existen plazas de último momento que se negocian en el propio puerto cuando un barco sale con camarotes libres. Para la mayoría queda como proyecto futuro, pero conviene entender que la ciudad entera gira alrededor de ese puerto: es lo que explica la cantidad de hoteles, restaurantes y locales de equipamiento que tiene una ciudad de 80 mil habitantes.',
+    fichas: [],
+  },
+];
+
+const TEMPORADAS = [
+  {
+    meses: 'Diciembre a marzo',
+    nombre: 'Verano — todo abierto y días enormes',
+    texto: 'La mejor ventana: hasta 17 horas de luz, el sol se pone después de las 22 en diciembre, todas las sendas abiertas y las dos especies de pingüinos en la isla Martillo. Las máximas van de 14 a 16 °C, así que es verano de campera, no de remera, ningún día. Es temporada alta argentina, brasileña y de cruceros al mismo tiempo: alojamiento y excursiones se reservan con meses de anticipación.',
+  },
+  {
+    meses: 'Junio a octubre',
+    nombre: 'Invierno — nieve y la ciudad iluminada',
+    texto: 'Temporada del Cerro Castor, trineo con perros y raquetas, con la ciudad tapada de blanco. Los días son cortos, con 7 u 8 horas de luz en junio, y algunas sendas y la ensenada Zaratiegui cierran. Junio y agosto son los meses más tranquilos y más baratos; julio, en cambio, son las vacaciones de invierno de todo el país y es cuando el destino está más caro y más lleno.',
+  },
+  {
+    meses: 'Octubre y noviembre',
+    nombre: 'Primavera — la mejor relación precio-paisaje',
+    texto: 'Todavía hay nieve en los cerros, las sendas ya abrieron, llegan los pingüinos magallánicos y los precios no son de temporada alta. Es la época preferida por quien ya conoce el destino, y la mejor para fotografiar: montaña blanca y bosque verde en la misma imagen.',
+  },
+  {
+    meses: 'Abril y mayo',
+    nombre: 'Otoño — color y centolla',
+    texto: 'Las lengas se ponen rojas y doradas en todo el parque, baja el viento y arranca la temporada de pesca de la centolla, que es cuando se come fresca. En contra: entre temporadas algunos servicios reducen la frecuencia y los días ya son cortos, así que conviene confirmar las salidas antes de cerrar las fechas.',
+  },
+];
+
+const ITINERARIO = [
+  { dia: 'Día 1', titulo: 'Llegada y la ciudad', texto: 'Vuelo a Ushuaia (USH), a 4 km del centro. A la tarde, la avenida Maipú sobre la costa del canal, el Museo Marítimo y del Presidio y el mirador del glaciar Martial al final del día, que es cuando la luz es mejor sobre el Beagle.' },
+  { dia: 'Día 2', titulo: 'Parque Nacional Tierra del Fuego', texto: 'Medio día o día completo en el parque: ensenada Zaratiegui, lago Acigami y bahía Lapataia, con el Tren del Fin del Mundo sumado a la ida. A la tarde, la navegación por el canal Beagle desde el puerto.' },
+  { dia: 'Día 3', titulo: 'Puerto Almanza y los pingüinos', texto: 'Día completo al otro lado de la isla: la Ruta J, la Ruta de la Centolla, la navegación en barco chico hasta la isla Martillo y almuerzo de mariscos en el pueblo de pescadores.' },
+  { dia: 'Día 4', titulo: 'El que elijas', texto: 'En verano, el trekking a la laguna Esmeralda o los lagos Escondido y Fagnano en 4x4; en invierno, un día de nieve en el Cerro Castor o trineo con perros en Tierra Mayor. Con un quinto día entran los dos.' },
+];
+
+const faq = [
+  {
+    p: '¿Cuántos días hacen falta para Ushuaia?',
+    r: 'Tres días completos es el mínimo razonable: uno para el Parque Nacional Tierra del Fuego con el Tren del Fin del Mundo, uno para la navegación por el canal Beagle y la ciudad, y uno para Puerto Almanza y los pingüinos de la isla Martillo. Con cuatro o cinco entran el trekking a la laguna Esmeralda y los lagos Escondido y Fagnano en 4x4, o un día de nieve en el Cerro Castor si es invierno. Menos de tres días casi siempre significa dejar afuera justo lo que se vino a buscar.',
+  },
+  {
+    p: '¿Cuál es la mejor época para ir a Ushuaia?',
+    r: 'De diciembre a marzo está todo abierto, con días de hasta 17 horas de luz y las dos especies de pingüinos en la isla Martillo: es la mejor época para sendas y navegación, y también la más cara. De junio a octubre es temporada de nieve en el Cerro Castor, la más larga de Sudamérica, con julio como el mes más lleno por las vacaciones de invierno. Octubre, noviembre, abril y mayo son el mejor equilibrio: menos gente, precios más bajos y paisaje con cerro nevado y bosque de color al mismo tiempo.',
+  },
+  {
+    p: '¿Cómo llegar a Ushuaia?',
+    r: 'En avión, que es lo que hace casi todo el mundo: hay vuelos directos desde Buenos Aires —unas 3 horas y 30 minutos— y, según la temporada, desde Córdoba, Rosario, El Calafate y Trelew. El Aeropuerto Internacional Malvinas Argentinas (USH) está a 4 km del centro y el taxi al hotel tarda diez minutos. Si el tramo sale de Buenos Aires, confirmá de qué aeropuerto: cambiar entre Aeroparque y Ezeiza lleva cerca de una hora de auto.',
+  },
+  {
+    p: '¿Se puede ir a Ushuaia en auto?',
+    r: 'Sí, pero hay que cruzar Chile dos veces: la isla Grande de Tierra del Fuego es mitad chilena y mitad argentina, y el cruce del estrecho de Magallanes se hace en barcaza, en Punta Delgada o en Punta Arenas. Desde Río Gallegos son unos dos días de manejo. Hay que llevar la documentación del auto en regla, seguro con cobertura para Chile y permiso del titular si el vehículo no es propio, y tener en cuenta que Chile no deja pasar frutas, verduras ni carnes. Es un viaje lindo y largo: en invierno, con nieve y viento en la Ruta 3, no es para improvisar.',
+  },
+  {
+    p: '¿Es caro Ushuaia?',
+    r: 'Es, junto con El Calafate, el destino más caro de la Patagonia argentina: casi todo llega de lejos, la temporada es corta y el puerto de cruceros de la Antártida empuja los precios del alojamiento en verano. Alojamiento y restaurantes están bastante arriba del promedio del país. Se baja bastante viajando en abril, mayo, octubre o noviembre, evitando julio, y eligiendo excursiones que ya incluyan almuerzo y traslado desde el hotel, que es donde el gasto suelto se dispara.',
+  },
+  {
+    p: '¿Qué hacer en Ushuaia en invierno?',
+    r: 'Esquiar o pisar nieve por primera vez en el Cerro Castor, a 26 km de la ciudad, que tiene la temporada más larga de Sudamérica —normalmente de junio a comienzos de octubre—. Fuera de las pistas hay trineo tirado por perros, caminata con raquetas y motos de nieve en los valles de Tierra Mayor y Valle de Lobos. El Parque Nacional sigue abierto con acceso reducido, los lagos se hacen en 4x4 con nieve y los pingüinos papúa siguen en la isla Martillo, con navegación en barco calefaccionado.',
+  },
+  {
+    p: '¿Se ven pingüinos en Ushuaia? ¿En qué época?',
+    r: 'Sí, en la colonia de la isla Martillo, en el canal Beagle, con salida en barco chico desde Puerto Almanza. Los pingüinos papúa (gentoo) están en la isla todo el año, incluso en invierno, y entre octubre y marzo llegan también los magallánicos, cuando se ven las dos especies juntas. No hay desembarco en la isla: el avistaje se hace desde el agua, de cerca, respetando la colonia.',
+  },
+  {
+    p: '¿Vale la pena el Tren del Fin del Mundo?',
+    r: 'Vale como visita histórica corta, no como paseo de paisaje: son unos 45 minutos por el valle del río Pipo, en el tren a vapor de trocha angosta que usaban los presos del viejo presidio para buscar leña. Rinde mucho más sumado al paseo del Parque Nacional Tierra del Fuego, el mismo día y con el mismo traslado, que contratado aparte. Si viajás con chicos, suele ser el momento más recordado del día.',
+  },
+  {
+    p: '¿Cuánto dura la navegación por el canal Beagle y qué se ve?',
+    r: 'Entre dos y cuatro horas, según el recorrido. Las salidas pasan por la isla de los Lobos, con lobos marinos de uno y dos pelos, por la isla de los Pájaros, con colonia de cormoranes, y por el faro Les Éclaireurs, el faro colorado y blanco de las fotos. Sale del puerto, en el centro de la ciudad, casi todos los días del año. No es un paseo que vendamos: se contrata en el propio puerto o en las agencias de la avenida Maipú.',
+  },
+  {
+    p: '¿Hace falta alquilar auto en Ushuaia?',
+    r: 'No. El aeropuerto está a 4 km del centro, la ciudad se camina y todas las excursiones salen con traslado desde el hotel y guía incluidos, incluso las de Puerto Almanza y los lagos, que son las más lejanas. El auto sólo rinde para quien se queda muchos días y quiere repetir el Parque Nacional por su cuenta; en invierno, con nieve en la Ruta 3, no conviene.',
+  },
+  {
+    p: '¿Qué ropa llevar a Ushuaia?',
+    r: 'En cualquier época: campera rompeviento impermeable, capas abajo (el viento cambia la sensación térmica más que el termómetro) y calzado de trekking impermeable, porque las sendas fueguinas tienen barro y turbal todo el año. En verano las máximas quedan entre 14 y 16 °C y puede llover, nevar y salir el sol el mismo día. En invierno, ropa térmica de verdad, guantes y gorro; el equipo de esquí se alquila en el destino.',
+  },
+  {
+    p: '¿Se puede combinar Ushuaia con El Calafate o Puerto Madryn?',
+    r: 'Sí, y es el circuito clásico de primer viaje al sur: Puerto Madryn, El Calafate y Ushuaia. Pero pide quince días como mínimo y tres tramos de avión, porque son más de 2.000 km entre el primer punto y el último y no hay ruta rápida en el medio. Con diez días o menos rinde más elegir una sola región. La combinación más barata y con menos tiempo de traslado es la costa y la cordillera de Chubut, dentro de la misma provincia.',
+  },
+];
+
+const alternos = {
+  es: 'https://patagoniaexperiencias.com/que-hacer-en-ushuaia/',
+  pt: 'https://patagoniaexperiencias.com/pt-br/o-que-fazer-em-ushuaia/',
+};
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'TouristDestination',
+    name: 'Ushuaia y Tierra del Fuego',
+    description:
+      'Ushuaia es la ciudad más austral del mundo, en Tierra del Fuego: el Parque Nacional Tierra del Fuego y la bahía Lapataia, donde termina la Ruta Nacional 3, la navegación por el canal Beagle, los pingüinos de la isla Martillo, la centolla de Puerto Almanza, el trekking a la laguna Esmeralda y la nieve del Cerro Castor.',
+    url: 'https://patagoniaexperiencias.com/que-hacer-en-ushuaia/',
+    inLanguage: 'es-AR',
+    geo: { '@type': 'GeoCoordinates', latitude: -54.8019, longitude: -68.302 },
+    containedInPlace: { '@type': 'AdministrativeArea', name: 'Tierra del Fuego, Argentina' },
+    touristType: ['Parejas', 'Familias', 'Naturaleza', 'Aventura', 'Cruceros', 'Esquí'],
+    includesAttraction: [
+      { '@type': 'TouristAttraction', name: 'Parque Nacional Tierra del Fuego' },
+      { '@type': 'TouristAttraction', name: 'Bahía Lapataia' },
+      { '@type': 'TouristAttraction', name: 'Canal Beagle' },
+      { '@type': 'TouristAttraction', name: 'Isla Martillo' },
+      { '@type': 'TouristAttraction', name: 'Laguna Esmeralda' },
+      { '@type': 'TouristAttraction', name: 'Puerto Almanza' },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    inLanguage: 'es-AR',
+    mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.p, acceptedAnswer: { '@type': 'Answer', text: f.r } })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Patagonia Experiencias', item: 'https://patagoniaexperiencias.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Ushuaia y Tierra del Fuego', item: 'https://patagoniaexperiencias.com/que-hacer-en-ushuaia/' },
+    ],
+  },
+];
+---
+<BaseLayout
+  titulo="Qué hacer en Ushuaia"
+  descripcion="Guía de Ushuaia: Parque Nacional Tierra del Fuego y bahía Lapataia, canal Beagle, pingüinos de la isla Martillo, laguna Esmeralda, centolla e itinerario de 4 días."
+  idioma="es"
+  alternos={alternos}
+  schema={schema}
+>
+  <main>
+    <section class="bg-brand-oxford text-white">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20">
+        <p class="text-brand-fuchsia text-xs font-black uppercase tracking-[0.3em] mb-4"><i class="fa-solid fa-ship mr-2"></i>Tierra del Fuego · Fin del mundo · Patagonia argentina</p>
+        <h1 class="font-sans font-extrabold text-3xl sm:text-5xl leading-tight">Qué hacer en Ushuaia</h1>
+        <p class="text-white/75 text-lg max-w-3xl mt-5">La ciudad más austral del mundo, entre el canal Beagle y los últimos Andes: la ruta que termina en la bahía Lapataia, pingüinos que están todo el año, centolla recién pescada en el pueblo más al sur del país, la nieve más austral del planeta y el puerto del que sale casi toda la Antártida. Esta es la guía para armar el viaje: cuándo ir, cuántos días quedarse y qué hacer cada día.</p>
+        <div class="flex flex-wrap gap-3 mt-7">
+          <a href="#itinerario" class="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white font-bold text-xs uppercase tracking-widest px-5 py-3 rounded-full hover:bg-white/20 transition-all"><i class="fa-solid fa-route"></i> Itinerario de 4 días</a>
+          <a href="#parque" class="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white font-bold text-xs uppercase tracking-widest px-5 py-3 rounded-full hover:bg-white/20 transition-all"><i class="fa-solid fa-tree"></i> Parque Nacional</a>
+          <a href="#pinguinos" class="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white font-bold text-xs uppercase tracking-widest px-5 py-3 rounded-full hover:bg-white/20 transition-all"><i class="fa-solid fa-feather"></i> Pingüinos</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-5">Por qué Ushuaia</h2>
+      <div class="space-y-4 text-slate-700 leading-relaxed">
+        <p>Ushuaia es la única ciudad del mundo que vende, con razón, la idea de <strong>llegar al final</strong>. Está a 54 grados de latitud sur, sobre la orilla norte del canal Beagle, encajada entre el mar y la última fila de los Andes antes de la Antártida, y la ruta que la atraviesa —la <strong>Ruta Nacional 3</strong>— termina de verdad, a 3.079 km de Buenos Aires, adentro de un parque nacional. Ese punto final es lo que la mayoría viene a buscar, y vale el viaje.</p>
+        <p>Pero lo que convierte a Ushuaia en un destino de varios días no es el cartel de Lapataia: es la <strong>densidad</strong>. En un radio de 60 km hay bosque subantártico, turbales, una colonia de pingüinos que no se va en invierno, un pueblo de pescadores donde se come centolla del día, lagos que cruzan la frontera con Chile, un centro de esquí con la temporada más larga de Sudamérica y el puerto por donde sale más del 90% de los cruceros a la Antártida. Ningún otro destino de la Patagonia argentina junta tantas cosas distintas tan cerca.</p>
+        <p>La contra son el <strong>precio y el clima</strong>. Es, junto con El Calafate, el destino más caro del sur argentino, y el tiempo no colabora: en verano la máxima queda en 14 o 16 grados y puede llover, nevar y salir el sol el mismo día. El que llega esperando verano pasa frío; el que llega con rompeviento y calzado impermeable aprovecha todo, en cualquier mes.</p>
+      </div>
+    </section>
+
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-2">Cuándo ir</h2>
+      <p class="text-slate-600 mb-7 max-w-3xl">Si el viaje también pasa por la costa de Chubut, el <a href="/calendario-fauna/" class="text-brand-fuchsia font-semibold hover:underline">calendario de fauna</a> tiene la época de cada animal, mes por mes.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        {TEMPORADAS.map((t) => (
+          <div class="bg-white border border-slate-200 rounded-2xl p-6">
+            <p class="text-brand-fuchsia text-[11px] font-bold uppercase tracking-widest mb-2">{t.meses}</p>
+            <h3 class="font-sans font-bold text-lg text-brand-oxford mb-2">{t.nombre}</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">{t.texto}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-2">Qué hacer</h2>
+      <p class="text-slate-600 mb-7 max-w-3xl">Nueve bloques que justifican el viaje, con las excursiones que salen de Ushuaia para cada uno. Donde no vendemos la actividad, está dicho.</p>
+      <div class="space-y-6">
+        {BLOQUES.map((b) => (
+          <article id={b.id} class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8">
+            <p class="text-brand-fuchsia text-[11px] font-bold uppercase tracking-widest mb-2">{b.etiqueta}</p>
+            <h3 class="font-sans font-extrabold text-xl sm:text-2xl text-brand-oxford mb-3">{b.titulo}</h3>
+            <p class="text-slate-600 leading-relaxed">{b.texto}</p>
+            {b.fichas.length > 0 && (
+              <div class="mt-5 pt-5 border-t border-slate-100">
+                <p class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">Excursiones</p>
+                <ul class="space-y-1.5">
+                  {b.fichas.map((p) => (
+                    <li>
+                      <a href={`/experiencias/${p.slug}/`} class="text-brand-fuchsia font-semibold text-sm hover:underline inline-flex items-start gap-2">
+                        <i class="fa-solid fa-arrow-right text-[10px] mt-1.5"></i><span>{p.titulo}{p.duracion ? ` · ${p.duracion}` : ''}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section id="itinerario" class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-2">Itinerario de 4 días</h2>
+      <p class="text-slate-600 mb-7 max-w-3xl">El orden importa por dos motivos: Puerto Almanza es día completo y queda del otro lado de la isla, así que pide un día propio; y el Parque Nacional rinde más con el Tren del Fin del Mundo en el mismo traslado.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {ITINERARIO.map((d) => (
+          <div class="bg-white border border-slate-200 rounded-2xl p-6">
+            <p class="text-brand-fuchsia text-[11px] font-bold uppercase tracking-widest mb-2">{d.dia}</p>
+            <h3 class="font-sans font-bold text-base text-brand-oxford mb-2">{d.titulo}</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">{d.texto}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-5">Cómo llegar y cómo moverse</h2>
+      <div class="space-y-4 text-slate-700 leading-relaxed">
+        <p>Lo habitual es el <strong>avión</strong>: hay vuelos directos desde <strong>Buenos Aires</strong> —unas 3 horas y 30 minutos— y, según la temporada, desde Córdoba, Rosario, El Calafate y Trelew. El <strong>Aeropuerto Internacional Malvinas Argentinas (USH)</strong> está a <strong>4 km del centro</strong>, sobre la costa del canal, y el taxi a los hoteles tarda diez minutos. Si el tramo sale de Buenos Aires, confirmá de qué aeropuerto antes de comprar: cambiar entre Aeroparque y Ezeiza lleva cerca de una hora de auto.</p>
+        <p>Por tierra, a Ushuaia se llega <strong>cruzando Chile dos veces</strong>: la isla Grande de Tierra del Fuego es mitad chilena y mitad argentina, y el cruce del estrecho de Magallanes se hace en barcaza. Desde Río Gallegos son unos dos días de manejo. Hay que llevar la documentación del auto, seguro con cobertura para Chile y permiso del titular si el vehículo no es propio, y recordar que Chile no deja pasar frutas, verduras ni carnes.</p>
+        <p>Dentro del destino no hace falta alquilar auto: la ciudad se camina y todas las excursiones salen con <strong>traslado desde el hotel y guía incluidos</strong>, incluso las de Puerto Almanza y los lagos, que son las más lejanas. Si el viaje combina Ushuaia con otra región, mirá <a href="/que-hacer-patagonia/" class="text-brand-fuchsia font-semibold hover:underline">qué hacer en la Patagonia</a> antes de cerrar las fechas: las distancias entre regiones engañan y casi siempre piden avión.</p>
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 pb-12">
+      <h2 class="font-sans font-extrabold text-2xl text-brand-oxford mb-4">Preguntas frecuentes</h2>
+      <div class="space-y-3">
+        {faq.map((f) => (
+          <details class="bg-white border border-slate-200 rounded-2xl p-5">
+            <summary class="font-sans font-bold text-brand-oxford cursor-pointer">{f.p}</summary>
+            <p class="mt-3 text-slate-600 leading-relaxed">{f.r}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 pb-16 text-center">
+      <a href="/experiencias/" class="inline-flex items-center gap-2 bg-brand-fuchsia text-white font-bold text-sm uppercase tracking-widest px-7 py-3.5 rounded-full shadow-lg shadow-brand-fuchsia/30 hover:bg-brand-fuchsiaDark transition-all"><i class="fa-solid fa-compass"></i> Ver todas las experiencias</a>
+      <p class="text-slate-500 text-sm mt-5">¿El viaje también pasa por la costa? Mirá <a href="/puerto-madryn" class="text-brand-fuchsia font-semibold hover:underline">Puerto Madryn y Península Valdés</a>. ¿Por la cordillera? <a href="/guias-de-viaje/esquel-trevelin/" class="text-brand-fuchsia font-semibold hover:underline">Esquel, Trevelin y Los Alerces</a>. Y para comer bien en el camino, <a href="/que-comer-patagonia/" class="text-brand-fuchsia font-semibold hover:underline">qué comer en la Patagonia</a>.</p>
+    </section>
+  </main>
+</BaseLayout>

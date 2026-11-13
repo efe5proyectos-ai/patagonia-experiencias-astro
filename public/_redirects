@@ -53,3 +53,31 @@ https://cattdf.patagoniaexperiencias.com/* https://patagoniaexperiencias.com/pre
 # ── Plan Free: alta gratuita a cambio de beneficios en Patagonia Puntos (mismo formulario que /alianzas) ──
 /plan-free /alianzas 200
 /plan-free/ /alianzas 200
+
+# ── 13/11/2026: rutas cortas de destino que devolvían 404.
+#    Las tres landings informativas de public/ (/puerto-madryn,
+#    /esquel-trevelin, /valle-del-chubut) enlazaban "Otros destinos de la
+#    Patagonia" a /peninsula-valdes, /esquel, /trevelin, /puerto-piramides,
+#    /gaiman, /punta-tombo y /trelew: 17 enlaces internos a páginas que
+#    nunca existieron. Los href se corrigieron a la página real de cada
+#    destino; estas reglas cubren además a quien tenga la URL corta guardada
+#    o enlazada desde afuera. ──
+/peninsula-valdes /guias-de-viaje/peninsula-valdes/ 301
+/peninsula-valdes/ /guias-de-viaje/peninsula-valdes/ 301
+/esquel /esquel-trevelin 301
+/esquel/ /esquel-trevelin 301
+/trevelin /esquel-trevelin 301
+/trevelin/ /esquel-trevelin 301
+/puerto-piramides /guias/puerto-piramides-el-pueblo-sonado-escondido-entre-acantilados-y-ballenas/ 301
+/puerto-piramides/ /guias/puerto-piramides-el-pueblo-sonado-escondido-entre-acantilados-y-ballenas/ 301
+/gaiman /guias-de-viaje/valle-del-chubut/gaiman/ 301
+/gaiman/ /guias-de-viaje/valle-del-chubut/gaiman/ 301
+/punta-tombo /guias/pinguinera-punta-tombo-un-viaje-al-corazon-de-la-naturaleza-mas-salvaje-del-planeta/ 301
+/punta-tombo/ /guias/pinguinera-punta-tombo-un-viaje-al-corazon-de-la-naturaleza-mas-salvaje-del-planeta/ 301
+/trelew /guias-de-viaje/valle-del-chubut/trelew/ 301
+/trelew/ /guias-de-viaje/valle-del-chubut/trelew/ 301
+
+# ── 13/11/2026: alias de la guía de Ushuaia en español, por si alguien
+#    escribe la forma corta del destino. ──
+/ushuaia /que-hacer-en-ushuaia/ 301
+/ushuaia/ /que-hacer-en-ushuaia/ 301

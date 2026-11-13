@@ -18,9 +18,9 @@
 // Ushuaia**. En public/ están /puerto-madryn, /esquel-trevelin,
 // /valle-del-chubut, /que-hacer-patagonia, /que-comer-patagonia y
 // /calendario-fauna, pero ninguna de Tierra del Fuego. Así que esta página
-// va **sin hreflang** (no se pasa `alternos`): sólo canonical propio. Queda
-// anotado en la bitácora que la versión en español es trabajo pendiente, y
-// el día que exista hay que agregarle el hreflang recíproco a las dos.
+// salió **sin hreflang** el 12/11, porque no existía con qué emparejarla.
+// RESUELTO el 13/11: se publicó /que-hacer-en-ushuaia/ en español y las dos
+// páginas ya se declaran mutuamente.
 //
 // Honestidad de catálogo: la navegación por el canal Beagle y el esquí en el
 // Cerro Castor son las dos cosas más buscadas del destino y **no las
@@ -197,7 +197,12 @@ const faq = [
   },
 ];
 
-const alternos = null; // no existe la versión en español de Ushuaia todavía
+// hreflang recíproco cerrado el 13/11 con la publicación de la página en
+// español (/que-hacer-en-ushuaia/), que era el pendiente 15 de la bitácora.
+const alternos = {
+  es: 'https://patagoniaexperiencias.com/que-hacer-en-ushuaia/',
+  pt: 'https://patagoniaexperiencias.com/pt-br/o-que-fazer-em-ushuaia/',
+};
 
 const schema = [
   {

@@ -53,11 +53,11 @@ Reglas de la bitácora:
 - 61 URLs en portugués en el sitemap (home, listado y 59 fichas traducidas).
 - hreflang es-AR / pt-BR recíproco y correcto en las fichas.
 
-Tamaño del sitio al 12/11/2026: **291 URLs** en el sitemap — 112 fichas en
+Tamaño del sitio al 13/11/2026: **292 URLs** en el sitemap — 112 fichas en
 español, 84 fichas en portugués, 60 guías de viaje, **seis páginas
 informativas en portugués** (calendario de fauna, Puerto Madryn, la puerta de
-entrada general, Esquel–Trevelin, la gastronómica y Ushuaia) y el resto de
-`public/`.
+entrada general, Esquel–Trevelin, la gastronómica y Ushuaia), **la guía de
+Ushuaia en español** (13/11, en Astro) y el resto de `public/`.
 En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
 único que queda afuera es un duplicado de carga del mismo prestador
 (`navegacion-rio-grande-full-day`), que hay que borrar en el admin.
@@ -317,15 +317,10 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    páginas informativas en español viven en `public/`, así que la versión en
    portugués conviene hacerla en Astro (como el calendario) y no duplicando
    HTML de 200 KB.
-   **Excepción del 12/11, la primera: la guía de Ushuaia salió sin hreflang.**
-   En `public/` hay páginas informativas de Madryn, Esquel–Trevelin, el valle,
-   el calendario de fauna y las dos generales, pero **ninguna de Tierra del
-   Fuego**: no hay con qué emparejar la página en portugués. Se publicó igual
-   (una página sin hreflang posiciona perfecto en su idioma; lo que pierde es
-   el cruce entre los dos mercados) y **la versión en español quedó como
-   pendiente nuevo, el 15**. El día que exista hay que agregarle el hreflang
-   recíproco a las dos; la página de Astro ya tiene el `alternos = null`
-   marcado con el comentario de dónde va.
+   **La excepción del 12/11 —la guía de Ushuaia sin hreflang— quedó cerrada
+   el 13/11**: se publicó `/que-hacer-en-ushuaia/` en español, en Astro, y las
+   dos páginas se declaran mutuamente. Las seis páginas informativas en
+   portugués tienen hoy su par en español.
 6. **Contenido pt-BR traducido a máquina.** Google Brasil premia el texto que
    suena nativo. Revisar las fichas con más impresiones y reescribirlas. Las 22
    del 02, 03 y 04/11 ya están escritas a mano; las 57 anteriores salieron del
@@ -529,6 +524,18 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
     **sumar al barrido de cada corrida la búsqueda de grafías inconsistentes
     para un mismo topónimo**, no sólo las erratas y los sufijos numéricos.
 
+    **Sumado al barrido el 13/11: los enlaces internos rotos.** Se recorren
+    los 316 HTML del `dist` y se resuelve cada `href`/`src` interno contra el
+    árbol compilado. La primera corrida encontró **17 enlaces muertos** en las
+    tres landings en español (ver "Hecho" del 13/11) y nada más: los otros
+    diez avisos son artefactos de Cloudflare (`/cdn-cgi/…`, que existen en
+    producción y no en el `dist`), una ruta que tiene su 301 en `_redirects`
+    y un `src="/assets/logos/NOMBRE.png"` que está dentro de un comentario de
+    `ecosistema.html`, no en un `<img>` real. **Ojo con el método:** el
+    chequeo contra el `dist` no conoce `public/_redirects`, así que todo lo
+    que marque hay que contrastarlo con un `curl` antes de tocarlo. El script
+    son 20 líneas y no quedó en el repo.
+
 14. **MANTENIMIENTO — `gastronomia-es.json` es una copia, no la fuente.** La
     guía gastronómica en portugués (11/11) lee los 34 platos, productos y
     experiencias de `src/data/gastronomia-es.json`, que es la copia exacta del
@@ -543,23 +550,47 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
     eso es tocarle el JavaScript a dos páginas de producción y conviene hacerlo
     una por corrida, con tiempo.
 
-15. **Falta la página informativa de Ushuaia en español.** Encontrado el
-    12/11 al publicar la versión en portugués: en `public/` hay páginas de
-    Puerto Madryn, Esquel–Trevelin, el valle del Chubut, el calendario de fauna
-    y las dos generales, y **ninguna de Tierra del Fuego**, que es el destino
-    más buscado del sur después de los glaciares. Las consecuencias son dos:
-    el mercado argentino no tiene adónde entrar por búsqueda informacional de
-    Ushuaia ("qué hacer en Ushuaia", "cuántos días en Ushuaia", "mejor época
-    para ir a Ushuaia"), y la página en portugués quedó **sin hreflang**, así
-    que las dos lenguas no se refuerzan. El material ya está escrito y
-    verificado: la versión en portugués tiene nueve bloques, cuatro
-    temporadas, itinerario de 4 días y 12 preguntas, todo apoyado en las
-    fichas del catálogo. **Conviene hacerla en Astro, en `src/pages/`, no en
-    `public/`** —es página nueva, no hay HTML viejo que respetar— y agregarle
-    el hreflang recíproco a las dos. Es la tarea de contenido más barata que
-    queda, porque el trabajo de investigación ya está hecho.
-
 ## Hecho
+
+- **13/11/2026** — **La guía de Ushuaia en español y el hreflang recíproco
+  cerrado.** Era el pendiente 15, abierto el 12/11 al publicar la versión en
+  portugués. Nueva página Astro en `/que-hacer-en-ushuaia/`, con los mismos
+  nueve bloques, cuatro temporadas, itinerario de 4 días y 12 preguntas
+  frecuentes, y las **8 fichas activas de Tierra del Fuego** enlazadas por
+  slug (si una se despublica en el admin desaparece el enlace y no queda un
+  404 adentro de la página). **No es una traducción de la portuguesa:** el
+  argentino busca otra cosa y la página responde eso —vuelos directos desde
+  Buenos Aires y, según la temporada, Córdoba, Rosario, El Calafate y Trelew;
+  el cruce por tierra atravesando Chile dos veces, con la barcaza del
+  estrecho de Magallanes y la prohibición de pasar frutas y carnes; julio como
+  la semana más cara y más llena del año por las vacaciones de invierno; la
+  tarifa diferenciada de residente en el Parque Nacional; el Tren del Fin del
+  Mundo como lo que más recuerdan los chicos—. `TouristDestination` +
+  `FAQPage` + `BreadcrumbList` validados parseando el JSON-LD de producción,
+  y el `hreflang` recíproco agregado a las dos páginas de Ushuaia. Enlaces
+  entrantes: el **footer compartido de Astro** —que ahora lleva una entrada
+  "Ushuaia" en los dos idiomas, apuntando cada una a la página de su idioma,
+  así que la guía recibe enlace desde las 268 páginas de Astro— y el bloque
+  "Otros destinos" de las tres landings en español. Sitemap: 291 → **292
+  URLs**.
+
+- **13/11/2026** — **17 enlaces internos rotos en las tres landings en
+  español.** Encontrado buscando dónde enganchar la guía de Ushuaia. El
+  bloque "Otros destinos de la Patagonia" de `/puerto-madryn`,
+  `/esquel-trevelin` y `/valle-del-chubut` enlazaba a `/peninsula-valdes`,
+  `/esquel`, `/trevelin`, `/puerto-piramides`, `/gaiman`, `/punta-tombo` y
+  `/trelew`: **siete rutas que devuelven 404 y que nunca existieron** —son
+  nombres de destino que alguien supuso que eran páginas—, en 17 enlaces
+  repartidos en tres páginas indexadas. Los `href` pasaron a la página real
+  de cada destino, todas verificadas con 200
+  (`/guias-de-viaje/peninsula-valdes/`, `/esquel-trevelin`,
+  `/guias-de-viaje/valle-del-chubut/gaiman/` y `/…/trelew/`, más las guías de
+  Puerto Pirámides y Punta Tombo), y además se sumaron las **301 de las siete
+  rutas cortas** en `public/_redirects`, por si alguien las tiene guardadas o
+  enlazadas desde afuera, más `/ushuaia` → la guía nueva. Las nueve
+  verificadas en producción. **De paso se corrió el barrido completo de
+  enlaces internos sobre los 316 HTML del `dist` y el resto del sitio está
+  limpio** (el método quedó anotado en el pendiente 13).
 
 - **12/11/2026** — **Sexta página informativa en portugués: la guía de
   destino de Ushuaia y Tierra del Fuego.** Era lo que seguía en el pendiente 5
@@ -2033,3 +2064,98 @@ fichas pt pero sólo recibe enlace desde la gastronómica; el arreglo del slug
 de bajo valor del pendiente 3; y las decisiones de catálogo de "Para Marcelo",
 que ahora suman el hueco del canal Beagle a las que ya frenaban los
 pendientes 1, 2 y 4.
+
+### 13/11/2026
+
+**La guía de Ushuaia en español**, en `/que-hacer-en-ushuaia/`. Era el
+pendiente 15, el último que había dejado abierto la corrida del 12/11: la
+versión en portugués se había publicado sin `hreflang` porque no existía la
+página en español con la que emparejarla, y el mercado argentino no tenía por
+dónde entrar a Ushuaia por búsqueda informacional. Las dos cosas quedaron
+cerradas con una sola página.
+
+La elegí por encima de las dos informativas en portugués que seguían en el
+pendiente 5 (El Calafate y el valle del Chubut galés) por una razón de costo:
+el trabajo de investigación ya estaba hecho y verificado el 12/11 contra el
+catálogo, así que el español salía en una fracción del tiempo. Y porque
+arregla un desperfecto, no sólo agrega: el `hreflang` suelto era una pérdida
+de refuerzo entre los dos mercados que no se recupera con nada más.
+
+**No la traduje.** El brasileño y el argentino no buscan lo mismo de Ushuaia,
+así que los nueve bloques, las cuatro temporadas y el itinerario de 4 días son
+los mismos, pero el resto cambió: afuera el pasaporte, el Mercosur y el vuelo
+desde Brasil; adentro los vuelos directos desde Buenos Aires y —según la
+temporada— Córdoba, Rosario, El Calafate y Trelew, el cruce por tierra
+atravesando Chile dos veces con la barcaza del estrecho de Magallanes y la
+aduana que no deja pasar frutas ni carnes, julio como la semana más cara y más
+llena del año por las vacaciones de invierno, la tarifa diferenciada de
+residente en el Parque Nacional y el Tren del Fin del Mundo contado como lo
+que más recuerdan los chicos. Doce preguntas frecuentes escritas sobre las
+consultas argentinas ("cuántos días", "se puede ir en auto", "es caro", "qué
+hacer en invierno", "qué ropa llevar", "se puede combinar con El Calafate").
+Mantuve la honestidad de catálogo de la portuguesa: la navegación por el canal
+Beagle y el Cerro Castor se cuentan, porque una guía que los omite no le sirve
+al lector, pero sin enlace falso y derivando a lo que sí vendemos.
+
+Las **8 fichas activas de Tierra del Fuego** quedaron enlazadas por slug, con
+el mismo criterio que la portuguesa: el enlace se arma buscando el slug
+publicado, así que si el admin despublica una ficha desaparece el enlace y la
+página no se queda con un 404 adentro. Las ocho verificadas con 200 en
+producción. `TouristDestination` + `FAQPage` + `BreadcrumbList` validados
+parseando el JSON-LD de la página servida.
+
+**Lo que no estaba buscando y apareció: 17 enlaces internos rotos.** Fui a ver
+dónde enganchar la guía nueva y el bloque "Otros destinos de la Patagonia" de
+las tres landings en español (`/puerto-madryn`, `/esquel-trevelin`,
+`/valle-del-chubut`) enlazaba a `/peninsula-valdes`, `/esquel`, `/trevelin`,
+`/puerto-piramides`, `/gaiman`, `/punta-tombo` y `/trelew`. Las siete
+devuelven 404 y **nunca existieron**: son nombres de destino que alguien
+supuso que eran páginas. Tres páginas indexadas tirando 17 enlaces al vacío,
+que es señal de abandono para Google y un callejón sin salida para el que las
+clickea. Los `href` pasaron a la página real de cada destino —todas
+verificadas con 200— y sumé las 301 de las siete rutas cortas en
+`public/_redirects`, porque si estaban enlazadas acá bien pueden estar
+enlazadas afuera. De paso corrí el barrido completo de enlaces internos sobre
+los 316 HTML del `dist`: **el resto del sitio está limpio**. Los otros diez
+avisos son artefactos de Cloudflare, una ruta que ya tiene su 301 y un
+`src` que vive dentro de un comentario. El método quedó anotado en el
+pendiente 13 como barrido de cada corrida.
+
+Enlaces entrantes para la guía nueva: el **footer compartido de Astro**, que
+ahora lleva una entrada "Ushuaia" en los dos idiomas apuntando cada una a la
+página de su idioma —así la guía recibe enlace desde las 268 páginas de
+Astro y la portuguesa gana el suyo— y el bloque "Otros destinos" de las tres
+landings. Todo verificado en producción.
+
+Mantenimiento del pendiente 13: **112 de 112 meta descriptions escritas**, 84
+traducciones pt en pie, cero URLs pt huérfanas en el sitemap, cero `slugPt`
+que falten, las mismas 28 fichas sin traducir (el admin no publica fichas
+nuevas desde el 02/11). El barrido de slugs dio lo mismo que el 10 y el 12/11:
+el `rota-galesa-represa-futaleufu-trevelin-2` sin tocar y los nombres propios
+en español, que se quedan como están. **Corrección al método del barrido:** el
+script lee `slugPt`, no `slug`, en `traducciones-pt.json`; con el nombre
+equivocado el chequeo de URLs pt huérfanas da 84 falsos positivos y el de
+sufijos numéricos no encuentra nada.
+
+Resultado esperado: entrar en la capa informacional argentina de Ushuaia
+—"qué hacer en Ushuaia", "cuántos días en Ushuaia", "mejor época para ir a
+Ushuaia", "Ushuaia en invierno", "cómo llegar a Ushuaia", "Ushuaia con
+chicos"—, que es la mitad del mercado que no estaba cubierta de un destino que
+ya tiene 8 fichas publicadas; que las dos lenguas se refuercen con el
+`hreflang` recíproco; y recuperar la autoridad que se perdía en 17 enlaces a
+404 en tres páginas indexadas. Se mide en Search Console (cuando esté
+conectado) por impresiones de `/que-hacer-en-ushuaia/` en esas consultas y por
+los clics que derive a las 8 fichas. Sitemap: 291 → **292 URLs**. IndexNow
+avisó a Yandex las cinco tandas (la guía nueva, la portuguesa y las tres
+landings corregidas); **Bing sigue en 403 por sexto día** y no se le dedicó
+trabajo: queda esperando el token XML de Marcelo (pendiente 11).
+
+Quedó pendiente, en orden: las dos informativas en portugués que faltan del
+pendiente 5 —**El Calafate** (una sola ficha publicada, pero "Perito Moreno"
+es probablemente la búsqueda más grande del brasileño en toda la Patagonia) y
+el **valle del Chubut galés**, que tiene muchas fichas pt y hoy sólo recibe
+enlace desde la gastronómica—; el arreglo del slug `-2` con su 301; el
+mantenimiento del pendiente 14 (`gastronomia-es.json` es copia y puede
+derivar); las 18 fichas traducibles de bajo valor del pendiente 3; y las
+decisiones de catálogo de "Para Marcelo", donde lo de más valor por hora sigue
+siendo reactivar una de las dos navegaciones del canal Beagle.

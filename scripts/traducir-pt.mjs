@@ -116,7 +116,25 @@ async function traducir(t, intento = 1) {
 
 const cache = existsSync(ARCHIVO) ? JSON.parse(readFileSync(ARCHIVO, 'utf8')) : {};
 const tours = await leerTours();
-const vigentes = new Set();
+
+// ── OJO: las dos familias de claves de traducciones-pt.json ──
+// Este script escribe con la clave BASE (`slugificar(titulo)`), que es la de
+// la ficha que se queda con la URL limpia. Pero las fichas hermanas —dos
+// agencias con el mismo título— publican en `{base}-{prestador}`, y esas
+// entradas se escriben A MANO en el JSON con ese slug único como clave
+// (traducciones.js las lee así: ver `obtenerExperienciasPt`).
+//
+// Hasta el 14/11/2026 la poda de abajo sólo conocía las claves base, así que
+// borraba TODAS las entradas de las hermanas escritas a mano: la próxima
+// corrida de este script habría dado de baja 8 páginas pt ya indexadas.
+// Ahora `vigentes` lleva también los slugs únicos, calculados con la misma
+// función que usa el sitio, así que sólo se poda lo que de verdad se dio de
+// baja en el admin.
+const { conSlugsUnicos } = await import('../src/lib/slugs.js');
+const unicos = conSlugsUnicos(
+  tours.map((t) => ({ tourId: t.id, slug: slugificar(t.titulo || t.id), titulo: t.titulo, proveedor: t.proveedorNombre })),
+);
+const vigentes = new Set(unicos.map((e) => e.slug).filter(Boolean));
 const slugsPt = new Set(Object.values(cache).map((c) => c.slugPt));
 let hechos = 0, errores = 0;
 

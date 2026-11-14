@@ -247,7 +247,20 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    Lo de más impacto ya está hecho: glaciares y aves (04/11) y vuelo panorámico
    de Trevelin, astroturismo de Lago Rosario, los dos paquetes de 3 noches
    (ski week en La Hoya y peonías en Trevelin) y Cantina Marcelino (06/11).
-   **De las 18 que quedan, por orden de impacto para Brasil:** 6 restaurantes de
+   **Novedad del 14/11: son 20, y las dos nuevas van primero.** El admin
+   publicó dos fichas de VÉRTICE EXPEDICIONES en Ushuaia —
+   `packrafting-rio-olivia` (actividad nueva: no había packrafting en el
+   catálogo) y `trekking-laguna-esmeralda-vertice-expediciones` (hermana con
+   texto propio de verdad, 5 horas con bastones y crampones incluidos contra
+   las 6 horas de la de Noelia Ferrario)—. Las dos ya tienen su meta
+   description en español. **Son las dos de más valor para traducir que hay
+   hoy**, por tres razones: Ushuaia es de los destinos más buscados por el
+   brasileño, la guía pt de Ushuaia ya está publicada y las enlazaría, y el
+   packrafting no compite con nada del catálogo. **Ojo con la clave de la
+   hermana:** va con el slug único
+   (`trekking-laguna-esmeralda-vertice-expediciones`), no con el base, porque
+   la base la tiene la ficha de Noelia Ferrario, que ya está en portugués.
+   **De las otras 18, por orden de impacto para Brasil:** 6 restaurantes de
    Comodoro Rivadavia y Rada Tilly (`tunet-restaurante`, `molle-verde`,
    `puerto-cangrejo`, `cordano`, `hilario`, `in-rada-tilly` — texto propio y
    bien escrito, pero Comodoro no es destino brasileño: valor bajo), las 6
@@ -302,14 +315,22 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    Ya están hechas **seis**: con la guía de **Ushuaia y Tierra del Fuego**
    (12/11, las 8 fichas pt del destino enlazadas) `/pt-br/` cubre los tres
    destinos grandes de la Patagonia argentina.
-   **Lo que sigue, por orden de impacto:** **El Calafate y los glaciares**, que
-   hoy tiene una sola ficha publicada (`tour-alternativo-al-glaciar-moreno`) y
-   conviene esperar a que el catálogo crezca —aunque "Perito Moreno" es
-   probablemente la búsqueda más grande del brasileño en toda la Patagonia, así
-   que vale evaluar hacerla igual, con una sola ficha y mucho contenido
-   informativo—; y el **valle del Chubut galés** (Trelew, Gaiman, Rawson,
-   Playa Unión), que tiene muchas fichas pt publicadas y hoy sólo recibe enlace
-   desde la gastronómica. El molde ya está probado seis veces: página Astro en
+   Ya están hechas **siete**: el 14/11 se publicó el **valle del Chubut**
+   (`/pt-br/o-que-fazer-em-trelew-e-gaiman/`), con las 17 fichas pt del valle
+   enlazadas y `hreflang` recíproco contra `/valle-del-chubut`.
+   **Lo que queda es una sola: El Calafate y los glaciares.** Hoy tiene una
+   ficha publicada (`tour-alternativo-al-glaciar-moreno`) y nada más, así que
+   una guía de destino de allá no tiene a dónde derivar el clic: por eso el
+   14/11 se eligió el valle, que tenía 17. Pero **"Perito Moreno" es
+   probablemente la búsqueda más grande del brasileño en toda la Patagonia**,
+   y la página se sostiene sola con contenido informativo (cuántos días, cómo
+   llegar desde Brasil, la pasarela del glaciar, el minitrekking, El Chaltén y
+   las dos caminatas que se hacen sin guía ni entrada, cuándo se rompe el
+   frente de hielo). Dos caminos, los dos válidos: hacerla igual con la ficha
+   que hay y aceptar que casi todo el clic se va a ir a `/pt-br/experiencias/`,
+   o esperar a que Marcelo sume prestadores en Santa Cruz. **Si se hace, el
+   molde ya está probado siete veces y el trabajo es de una corrida.**
+   El molde: página Astro en
    `src/pages/pt-br/`, datos del mismo archivo que usa la página en español
    (una sola verdad), `hreflang` recíproco agregado a mano en el `<head>` de
    la página española de `public/`, FAQPage con las preguntas con las que
@@ -524,6 +545,20 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
     **sumar al barrido de cada corrida la búsqueda de grafías inconsistentes
     para un mismo topónimo**, no sólo las erratas y los sufijos numéricos.
 
+    **Sumado al barrido el 14/11, y es el más barato de todos: contar las
+    fichas del sitemap contra las claves de `meta-es.json`.** Ese cruce fue el
+    que encontró las dos fichas nuevas del 14/11 (el sitemap había pasado de
+    292 a 295 URLs y una sola era la página nueva). El script del barrido
+    completo —fichas sin description, URLs pt huérfanas, entradas sin
+    `slugPt`, sufijos `-\d+` y palabras en español en los slugs pt— son 25
+    líneas y lee el sitemap servido más los dos JSON del repo.
+
+    **Y el barrido de enlaces internos ya no hay que reescribirlo**: quedó en
+    `scripts/barrido-enlaces.mjs` el 14/11, con las dos advertencias del
+    método anotadas adentro (no conoce `_redirects`, ignora `/cdn-cgi/` y las
+    URLs protocol-relative). Se corre con
+    `DATOS_LOCALES=1 npx astro build && node scripts/barrido-enlaces.mjs`.
+
     **Sumado al barrido el 13/11: los enlaces internos rotos.** Se recorren
     los 316 HTML del `dist` y se resuelve cada `href`/`src` interno contra el
     árbol compilado. La primera corrida encontró **17 enlaces muertos** en las
@@ -552,6 +587,75 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
 
 ## Hecho
 
+- **14/11/2026** — **La guía del valle del Chubut en portugués, el footer de
+  `/pt-br/` enlazando en portugués y una poda que iba a borrar 5 páginas.**
+  Séptima informativa de `/pt-br/`: `/pt-br/o-que-fazer-em-trelew-e-gaiman/`,
+  con `hreflang` recíproco contra `/valle-del-chubut`. **Se eligió el valle y
+  no El Calafate** —los dos que quedaban del pendiente 5— porque el valle
+  tiene **17 fichas pt vivas** detrás (las dos excursiones del Valle Inferior,
+  Punta Tombo desde Trelew, el dique Ameghino y 13 de gastronomía en Trelew,
+  Dolavon y Playa Unión; las 17 verificadas con 200 antes de escribir) y El
+  Calafate tiene una sola: mismo trabajo, mucho más catálogo donde derivar el
+  clic. Ocho bloques, cuatro temporadas, itinerario de 3 días, una sección de
+  mesas agrupada por localidad y 12 preguntas frecuentes escritas sobre las
+  consultas del brasileño. **No se inventó un solo dato:** todo sale de
+  material ya verificado del propio sitio —la landing `/valle-del-chubut` y
+  las cinco guías de `/guias-de-viaje/valle-del-chubut/` (Rawson, Trelew,
+  Gaiman, Dolavon, 28 de Julio)—, con el Mimosa y los 153 colonos de 1865,
+  Dyffryn Camwy, el trigo premiado en París y Chicago, Gaiman reconocido por
+  ONU Turismo y hermanado con Llanuwchllyn en 2024, el único túnel
+  ferroviario de la Patagonia, las norias de Dolavon, Bryn Gwyn y las
+  distancias reales desde la Plaza Independencia.
+  `TouristDestination` + `FAQPage` + `BreadcrumbList` validados parseando el
+  JSON-LD servido, y las 17 fichas verificadas enlazadas en producción.
+  Sitemap: 292 → **295 URLs** (la guía nueva más dos fichas que publicó el
+  admin, ver abajo).
+- **14/11/2026** — **El footer de `/pt-br/` dejó de mandar al brasileño a las
+  páginas en español.** Apareció enganchando la guía nueva. El bloque
+  "Destinos" del footer compartido de Astro enlazaba a `/puerto-madryn`,
+  `/guias-de-viaje/valle-del-chubut/`, `/guias-de-viaje/esquel-trevelin/`,
+  `/guias-de-viaje/peninsula-valdes/` y `/calendario-fauna/` **en los dos
+  idiomas**: sólo Ushuaia era condicional. O sea que las más de 100 páginas de
+  `/pt-br/` gastaban casi todo su enlazado interno de footer en páginas en
+  español, con las seis guías en portugués ya publicadas y sin recibir nada.
+  Ahora el footer en portugués apunta a las siete páginas pt (Puerto Madryn,
+  Trelew y el valle, Esquel y Trevelin, Ushuaia, calendario de fauna, qué
+  comer y la puerta de entrada general). El footer en español quedó igual y
+  ganó `/valle-del-chubut` junto a la Huella Galesa. Verificado en los dos
+  idiomas sobre el `dist` compilado.
+- **14/11/2026** — **`scripts/traducir-pt.mjs` iba a borrar 5 páginas pt ya
+  indexadas la próxima vez que se corriera.** Encontrado mirando el script
+  para calcular el `hash` de dos fichas nuevas. El script escribe en
+  `traducciones-pt.json` con la clave **base** (`slugificar(titulo)`), pero
+  las fichas hermanas se escriben a mano con su **slug único**
+  (`{base}-{prestador}`), que es como las lee `obtenerExperienciasPt`. La poda
+  del final —"tours dados de baja: se sacan para no publicar páginas
+  huérfanas"— sólo conocía las claves base, así que daba de baja todas las
+  hermanas escritas a mano. Comprobado contra Firestore: **habría borrado 5**
+  (`parque-nacional-los-alerces-full-day-merakisur`,
+  `peninsula-valdes-sussanich-turismo`, `piedra-parada-merakisur`,
+  `trevelin-full-day-limits-adventure`,
+  `valle-de-cholila-limits-adventure`), las cinco sirviendo 200 hoy. Ahora
+  `vigentes` se arma con `conSlugsUnicos`, la misma función que usa el sitio,
+  así que lleva los slugs únicos además de los base: la poda pasó de borrar 5
+  a borrar 0. El script no corre en la madrugada (pide `ANTHROPIC_API_KEY`),
+  así que era una mina para la próxima corrida manual.
+- **14/11/2026** — **Mantenimiento del pendiente 13: el admin publicó dos
+  fichas nuevas** y las dos salieron sin description escrita a mano. Son las
+  dos de VÉRTICE EXPEDICIONES en Ushuaia: `packrafting-rio-olivia` (actividad
+  nueva en el catálogo, no había packrafting) y
+  `trekking-laguna-esmeralda-vertice-expediciones` (hermana de la de Noelia
+  Ferrario: **textos distintos de verdad**, 5 horas con bastones y crampones
+  incluidos contra 6 horas, así que no es una hermana calco). Las dos con su
+  description escrita a mano: **114 de 114**. Les falta la versión en
+  portugués, que quedó en el pendiente 3.
+- **14/11/2026** — **El barrido de enlaces internos quedó en el repo**, en
+  `scripts/barrido-enlaces.mjs`. Hasta ahora se reescribía en cada corrida.
+  Corrido hoy: **cero enlaces rotos reales**; los 7 avisos son dos páginas de
+  `/guias/` que existen en producción (200 las dos, el `dist` local no las
+  genera sin credenciales de Firestore), el 301 de `/guiadeviajeros.html` que
+  ya está en `_redirects` y un `src` que vive dentro de un comentario de
+  `ecosistema.html`.
 - **13/11/2026** — **La guía de Ushuaia en español y el hreflang recíproco
   cerrado.** Era el pendiente 15, abierto el 12/11 al publicar la versión en
   portugués. Nueva página Astro en `/que-hacer-en-ushuaia/`, con los mismos
@@ -2159,3 +2263,93 @@ mantenimiento del pendiente 14 (`gastronomia-es.json` es copia y puede
 derivar); las 18 fichas traducibles de bajo valor del pendiente 3; y las
 decisiones de catálogo de "Para Marcelo", donde lo de más valor por hora sigue
 siendo reactivar una de las dos navegaciones del canal Beagle.
+
+### 14/11/2026
+
+**La guía del valle del Chubut en portugués**, en
+`/pt-br/o-que-fazer-em-trelew-e-gaiman/`. Era el pendiente 5 y quedaban dos
+candidatas: El Calafate y el valle. **Elegí el valle por catálogo.** El
+Calafate tiene una sola ficha publicada, así que una guía de destino de allá
+escribe mucho y después no tiene a dónde mandar el clic; el valle tiene **17
+fichas pt vivas** —las dos excursiones del Valle Inferior, Punta Tombo desde
+Trelew, el dique Ameghino y 13 de gastronomía en Trelew, Dolavon y Playa
+Unión— y hoy sólo recibía un enlace desde la guía gastronómica. Mismo trabajo,
+mucho más retorno. Las 17 verificadas con 200 antes de escribir una línea, y
+las 17 enlazadas y verificadas otra vez en producción después del deploy.
+
+Ocho bloques, cuatro temporadas, itinerario de 3 días, una sección de mesas
+agrupada por localidad y 12 preguntas frecuentes. La capa que ataca es la
+informacional brasileña del valle: "o que fazer em Trelew", "Gaiman chá
+galês", "colônia galesa Patagônia", "Punta Tombo pinguins", "museu do
+dinossauro Trelew", "toninha overa", "Trelew ou Puerto Madryn", "quantos dias
+em Trelew". **No inventé un solo dato:** todo el contenido sale de material ya
+verificado del propio sitio —la landing `/valle-del-chubut` y las cinco guías
+de `/guias-de-viaje/valle-del-chubut/`—, que tenían la historia del Mimosa y
+los 153 colonos de 1865, Dyffryn Camwy, el trigo premiado en París y Chicago,
+Gaiman fundado en 1874 y reconocido por ONU Turismo, el hermanamiento con
+Llanuwchllyn de 2024, el único túnel ferroviario de la Patagonia, las norias
+de Dolavon, Bryn Gwyn y las distancias reales desde la Plaza Independencia.
+Mantuve la honestidad de catálogo: el MEF, el avistaje de toninas desde el
+puerto de Rawson, Bryn Gwyn y el campo de tulipanes de 28 de Julio se cuentan
+porque el brasileño los busca, pero sin enlace falso, porque no son fichas
+nuestras (el MEF y las toninas entran como opcional dentro de las dos
+excursiones del valle, y así está dicho).
+
+**Lo que no estaba buscando y apareció, primero: el footer de `/pt-br/`
+mandaba al brasileño a las páginas en español.** El bloque "Destinos" del
+footer compartido enlazaba a `/puerto-madryn`,
+`/guias-de-viaje/valle-del-chubut/`, `/guias-de-viaje/esquel-trevelin/`,
+`/guias-de-viaje/peninsula-valdes/` y `/calendario-fauna/` en los dos idiomas
+—sólo Ushuaia era condicional, porque se hizo así el 13/11—. O sea: más de 100
+páginas de `/pt-br/` gastando casi todo su enlazado interno de footer en
+páginas en español, con las seis guías en portugués ya publicadas y sin
+recibir nada de ahí. Ahora el footer en portugués apunta a las siete páginas
+pt y el español quedó igual, con `/valle-del-chubut` sumado junto a la Huella
+Galesa.
+
+**Y segundo, el más serio: `scripts/traducir-pt.mjs` iba a borrar 5 páginas pt
+ya indexadas.** Lo encontré mirando el script para calcular el `hash` de las
+fichas nuevas. El script escribe con la clave base (`slugificar(titulo)`),
+pero las fichas hermanas se escriben a mano con su slug único, que es como las
+lee `obtenerExperienciasPt`; y la poda del final sólo conocía las claves base.
+Comprobado contra Firestore: la próxima corrida manual habría dado de baja
+`parque-nacional-los-alerces-full-day-merakisur`,
+`peninsula-valdes-sussanich-turismo`, `piedra-parada-merakisur`,
+`trevelin-full-day-limits-adventure` y `valle-de-cholila-limits-adventure`,
+las cinco sirviendo 200 hoy. Ahora `vigentes` se arma con `conSlugsUnicos`,
+la misma función que usa el sitio: la poda pasó de borrar 5 a borrar 0.
+
+Mantenimiento del pendiente 13: el cruce del sitemap contra `meta-es.json`
+encontró que **el admin publicó dos fichas nuevas** después de dos semanas sin
+publicar —`packrafting-rio-olivia` y
+`trekking-laguna-esmeralda-vertice-expediciones`, las dos de VÉRTICE
+EXPEDICIONES en Ushuaia—, las dos sin description escrita a mano. Escritas:
+**114 de 114**. Les falta la versión en portugués, y quedaron primeras en el
+pendiente 3 porque son de Ushuaia, porque la guía pt de Ushuaia ya existe para
+enlazarlas y porque el packrafting no compite con nada del catálogo. Cero URLs
+pt huérfanas, cero entradas sin `slugPt`, el `-2` de la Ruta Galesa sin tocar
+y los nombres propios en español igual que el 10, 12 y 13/11. El barrido de
+enlaces internos quedó en el repo como `scripts/barrido-enlaces.mjs`: cero
+roto real, los 7 avisos ya contrastados con `curl`.
+
+Resultado esperado: entrar en la capa informacional brasileña del valle galés
+—que es el único destino de la provincia con contenido propio y sin
+competencia en portugués— y convertirla en las 17 fichas que ya están
+publicadas; que las dos lenguas del valle se refuercen con el `hreflang`
+recíproco; y que las más de 100 páginas de `/pt-br/` empiecen a pasarse
+autoridad entre ellas en vez de regalarla al español. Se mide en Search
+Console (cuando esté conectado) por impresiones de
+`/pt-br/o-que-fazer-em-trelew-e-gaiman/` en esas consultas y por los clics que
+derive a las 17 fichas. Sitemap: 292 → **295 URLs**. IndexNow avisó a Yandex
+las dos tandas (la guía nueva y las siete URLs del valle en español); **Bing
+sigue en 403 por séptimo día** y no se le dedicó trabajo: espera el token XML
+de Marcelo (pendiente 11).
+
+Quedó pendiente, en orden: **las dos traducciones pt de las fichas nuevas de
+Ushuaia** (pendiente 3, lo más barato y de más retorno que hay hoy); **El
+Calafate en portugués**, la última del pendiente 5, con la decisión de si se
+hace con una sola ficha o se espera catálogo; el arreglo del slug `-2` con su
+301; el mantenimiento del pendiente 14 (`gastronomia-es.json` es copia y puede
+derivar); y las decisiones de catálogo de "Para Marcelo", donde lo de más
+valor por hora sigue siendo reactivar una de las dos navegaciones del canal
+Beagle.

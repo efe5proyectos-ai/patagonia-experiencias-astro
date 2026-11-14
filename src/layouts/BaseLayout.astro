@@ -113,14 +113,35 @@ const schemaOrg = {
         <div>
           <p class="text-xs font-bold uppercase tracking-widest text-white/40 mb-4">{idioma === 'pt' ? 'Destinos e guias' : 'Destinos y guías'}</p>
           <ul class="space-y-2 text-sm">
-            <li><a href="/guias-de-viaje/peninsula-valdes/" class="text-white/70 hover:text-brand-fuchsia transition-colors">Península Valdés</a></li>
-            <li><a href="/puerto-madryn" class="text-white/70 hover:text-brand-fuchsia transition-colors">Puerto Madryn</a></li>
-            <li><a href="/guias-de-viaje/valle-del-chubut/" class="text-white/70 hover:text-brand-fuchsia transition-colors">Valle del Chubut</a></li>
-            <li><a href="/guias-de-viaje/valle-del-chubut/trelew/" class="text-white/70 hover:text-brand-fuchsia transition-colors">Trelew</a></li>
-            <li><a href="/guias-de-viaje/valle-del-chubut/gaiman/" class="text-white/70 hover:text-brand-fuchsia transition-colors">Gaiman</a></li>
-            <li><a href="/guias-de-viaje/esquel-trevelin/" class="text-white/70 hover:text-brand-fuchsia transition-colors">Esquel y Trevelin</a></li>
-            <li><a href={idioma === 'pt' ? '/pt-br/o-que-fazer-em-ushuaia/' : '/que-hacer-en-ushuaia/'} class="text-white/70 hover:text-brand-fuchsia transition-colors">Ushuaia</a></li>
-            <li><a href="/calendario-fauna/" class="text-white/70 hover:text-brand-fuchsia transition-colors">{idioma === 'pt' ? 'Calendário de fauna' : 'Calendario de fauna'}</a></li>
+            {/* Las guías de destino en portugués existen para casi todos estos
+                lugares, así que el footer de /pt-br/ ya no manda al visitante
+                brasileño a la versión en español: cada entrada apunta a la
+                página de su idioma. Antes todas menos Ushuaia iban a `public/`
+                en español, y las 100+ páginas de /pt-br/ perdían ahí todo su
+                enlazado interno. */}
+            {idioma === 'pt' ? (
+              <>
+                <li><a href="/pt-br/o-que-fazer-em-puerto-madryn/" class="text-white/70 hover:text-brand-fuchsia transition-colors">Puerto Madryn e Península Valdés</a></li>
+                <li><a href="/pt-br/o-que-fazer-em-trelew-e-gaiman/" class="text-white/70 hover:text-brand-fuchsia transition-colors">Trelew, Gaiman e o Vale do Chubut</a></li>
+                <li><a href="/pt-br/o-que-fazer-em-esquel-e-trevelin/" class="text-white/70 hover:text-brand-fuchsia transition-colors">Esquel e Trevelin</a></li>
+                <li><a href="/pt-br/o-que-fazer-em-ushuaia/" class="text-white/70 hover:text-brand-fuchsia transition-colors">Ushuaia</a></li>
+                <li><a href="/pt-br/melhor-epoca-fauna-patagonia/" class="text-white/70 hover:text-brand-fuchsia transition-colors">Calendário de fauna</a></li>
+                <li><a href="/pt-br/o-que-comer-na-patagonia/" class="text-white/70 hover:text-brand-fuchsia transition-colors">O que comer na Patagônia</a></li>
+                <li><a href="/pt-br/o-que-fazer-na-patagonia-argentina/" class="text-white/70 hover:text-brand-fuchsia transition-colors">O que fazer na Patagônia</a></li>
+              </>
+            ) : (
+              <>
+                <li><a href="/guias-de-viaje/peninsula-valdes/" class="text-white/70 hover:text-brand-fuchsia transition-colors">Península Valdés</a></li>
+                <li><a href="/puerto-madryn" class="text-white/70 hover:text-brand-fuchsia transition-colors">Puerto Madryn</a></li>
+                <li><a href="/valle-del-chubut" class="text-white/70 hover:text-brand-fuchsia transition-colors">Valle del Chubut</a></li>
+                <li><a href="/guias-de-viaje/valle-del-chubut/" class="text-white/70 hover:text-brand-fuchsia transition-colors">La Huella Galesa</a></li>
+                <li><a href="/guias-de-viaje/valle-del-chubut/trelew/" class="text-white/70 hover:text-brand-fuchsia transition-colors">Trelew</a></li>
+                <li><a href="/guias-de-viaje/valle-del-chubut/gaiman/" class="text-white/70 hover:text-brand-fuchsia transition-colors">Gaiman</a></li>
+                <li><a href="/guias-de-viaje/esquel-trevelin/" class="text-white/70 hover:text-brand-fuchsia transition-colors">Esquel y Trevelin</a></li>
+                <li><a href="/que-hacer-en-ushuaia/" class="text-white/70 hover:text-brand-fuchsia transition-colors">Ushuaia</a></li>
+                <li><a href="/calendario-fauna/" class="text-white/70 hover:text-brand-fuchsia transition-colors">Calendario de fauna</a></li>
+              </>
+            )}
             <li><a href={idioma === 'pt' ? '/' : '/pt-br/'} hreflang={idioma === 'pt' ? 'es-AR' : 'pt-BR'} class="text-white/70 hover:text-brand-fuchsia transition-colors">{idioma === 'pt' ? 'Versión en español' : 'Em português 🇧🇷'}</a></li>
           </ul>
         </div>

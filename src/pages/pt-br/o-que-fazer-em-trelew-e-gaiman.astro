@@ -1,0 +1,383 @@
+---
+// ─────────────────────────────────────────────────────────────
+// GUÍA DE DESTINO EN PT-BR — VALLE DEL CHUBUT: TRELEW, GAIMAN,
+// DOLAVON, RAWSON Y 28 DE JULIO
+//
+// Séptima página informativa de /pt-br/ (calendario de fauna 07/11, Puerto
+// Madryn 08/11, puerta de entrada general 09/11, Esquel y Trevelin 10/11,
+// gastronómica 11/11, Ushuaia 12/11). Es el pendiente 5 de la bitácora.
+//
+// POR QUÉ ÉSTA Y NO EL CALAFATE: las dos eran las que quedaban. El Calafate
+// tiene UNA sola ficha publicada (`tour-alternativo-al-glaciar-moreno`), así
+// que una guía de destino de allá no tiene a dónde derivar el clic. El valle
+// tiene **17 fichas pt vivas** (las 17 verificadas con 200 el 14/11): dos
+// excursiones del Valle Inferior, Punta Tombo desde Trelew, el dique
+// Ameghino y 13 de gastronomía en Trelew, Dolavon y Playa Unión. Y hoy el
+// valle sólo recibe un enlace desde la guía gastronómica. O sea: mismo
+// trabajo, mucho más catálogo detrás. El Calafate queda anotado.
+//
+// La capa de búsqueda que ataca: "o que fazer em Trelew", "Gaiman chá
+// galês", "colônia galesa Patagônia", "Punta Tombo pinguins", "como chegar a
+// Punta Tombo", "museu do dinossauro Trelew", "maior dinossauro do mundo",
+// "toninha overa Playa Unión", "Trelew ou Puerto Madryn", "quantos dias em
+// Trelew", "Vale do Chubut", "Dolavon norias".
+//
+// Todo el contenido sale de material ya verificado del propio sitio: la
+// landing /valle-del-chubut y las cinco guías de
+// /guias-de-viaje/valle-del-chubut/ (Rawson, Trelew, Gaiman, Dolavon,
+// 28 de Julio). No se inventó ni un dato nuevo.
+//
+// Honestidad de catálogo: el avistaje de toninas overas desde el puerto de
+// Rawson, el MEF, el parque Bryn Gwyn y el campo de tulipanes de 28 de Julio
+// se cuentan porque el lector los busca, pero **no son fichas nuestras**
+// (el MEF y las toninas entran como opcional dentro de las dos excursiones
+// del valle). No se les pone enlace falso.
+//
+// hreflang recíproco con /valle-del-chubut (la landing en español, igual que
+// Puerto Madryn y Esquel-Trevelin). El `<link>` del lado español se agrega a
+// mano en public/valle-del-chubut.html.
+//
+// No toca precios, ni el botón de reserva, ni el checkout.
+// ─────────────────────────────────────────────────────────────
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { obtenerExperienciasPt } from '../../lib/traducciones.js';
+
+const exps = await obtenerExperienciasPt();
+const porSlugEs = new Map(exps.map((e) => [e.slugEs, e]));
+
+// Un paseo se enlaza por el slug español de su ficha (la clave de
+// traducciones-pt.json). Si no tiene página en portugués, no se enlaza.
+const paseos = (...slugs) => slugs.map((s) => porSlugEs.get(s)).filter(Boolean);
+
+const BLOQUES = [
+  {
+    id: 'dinossauros',
+    etiqueta: 'O imperdível',
+    titulo: 'O MEF e o maior dinossauro do mundo, em Trelew',
+    texto:
+      'No centro de Trelew, a metros da Plaza Independencia, está o Museu Paleontológico Egidio Feruglio — o MEF —, e dentro dele a réplica em tamanho real do Patagotitan mayorum, o maior dinossauro já encontrado no planeta. Não é um museu de vitrines: é também um centro de pesquisa em atividade, com laboratório à vista, onde se vê o trabalho de limpar e montar fósseis que ainda estão saindo da estepe do Chubut. Para quem viaja com crianças é o ponto alto da região inteira, e para quem viaja sem elas também — a escala do bicho não se entende em foto. A réplica do mesmo dinossauro ao ar livre, na entrada da cidade, é a primeira parada das duas excursões do vale. A entrada do museu é opcional nos dois passeios: se o MEF é o motivo da sua viagem, avise na reserva.',
+    fichas: paseos('valle-inferior', 'tour-valle-inferior-rio-chubut'),
+  },
+  {
+    id: 'gaiman',
+    etiqueta: 'Único na América',
+    titulo: 'Gaiman, o chá galês e o povoado mais galês fora do País de Gales',
+    texto:
+      'A 17 km de Trelew, Gaiman é a razão pela qual este vale não se parece com nenhum outro lugar da América do Sul. Foi fundado em 1874 por David D. Roberts, foi o primeiro município com eleições de todo o Chubut em 1885 e hoje a ONU Turismo o reconhece entre os melhores povoados turísticos do mundo. O chá galês da tarde se toma com uma seriedade quase litúrgica: bule, torta negra (a *teisen ddu*), pão caseiro, scones e manteiga, em casas de chá centenárias de tijolo vermelho que são casas de família de verdade. Cantam-se em galês no Eisteddfod, o festival de canto e poesia que o vale realiza desde 1865, e em setembro acontece o juvenil — não é encenação para turista, é a cultura passando de uma geração para a outra. Caminhando se chega às capelas, à primeira casa do povoado (de 1874) e ao único túnel ferroviário de toda a Patagônia. Em 2024 Gaiman virou cidade-irmã de Llanuwchllyn, no País de Gales, o povoado de Michael D. Jones, o grande impulsor da colonização.',
+    fichas: paseos('tour-valle-inferior-rio-chubut', 'valle-inferior'),
+  },
+  {
+    id: 'pinguins',
+    etiqueta: 'Setembro a abril',
+    titulo: 'Punta Tombo: a maior colônia continental de pinguins',
+    texto:
+      'Punta Tombo fica 178 km ao sul de Trelew pela Ruta 3 e é a maior reserva continental de pinguins-de-magalhães do mundo. Os pinguins chegam em setembro e ficam até abril, quando partem para o nordeste da América do Sul — ou seja, para o litoral do Brasil. Nesses meses eles fazem os ninhos, acasalam e criam os filhotes, e a visita é feita por trilhas muito bem sinalizadas, caminhando entre eles: você escuta os gritos com que se comunicam e vê as brigas dos machos pelo ninho, pela fêmea ou só para marcar território. Dividem o lugar com gaivotas, corvos-marinhos, pombas antárticas, trinta-réis, petréis-gigantes e guanacos, e às vezes aparecem choiques, tatus-peludos e maras. A paisagem é a faixa de rocha avermelhada, a areia da praia e a aridez da estepe. **Trelew é a cidade mais perto de Punta Tombo**: 120 km pela estrada direta, mais perto do que de qualquer outro ponto.',
+    fichas: paseos('pinguinera-punta-tombo'),
+  },
+  {
+    id: 'toninhas',
+    etiqueta: 'O ano inteiro',
+    titulo: 'Playa Unión, o porto de Rawson e a toninha overa',
+    texto:
+      'Rawson é a capital da província do Chubut e a mais antiga das cidades do vale: foi fundada em 15 de setembro de 1865, poucas semanas depois do desembarque galês, sobre o sítio do Fuerte Viejo, onde a bandeira argentina foi hasteada por primeira vez nesta terra. Para o viajante, no entanto, Rawson é o mar. A 20 minutos de Trelew ficam Playa Unión, o balneário do vale, e o porto de Rawson com sua inconfundível frota amarela de barcos de camarão. Desse porto sai uma das experiências mais bonitas da Patagônia: a observação da **toninha overa**, o golfinho preto e branco mais pequeno e mais brincalhão do mundo, que acompanha as lanchas surfando a onda da proa. Acontece o ano inteiro, e as manhãs de primavera, com o mar liso, são o melhor momento. A saída de barco se contrata no próprio porto; nas nossas duas excursões do vale ela entra como opcional, e na de Puerto Madryn também.',
+    fichas: paseos('tour-valle-inferior-rio-chubut', 'cantina-marcelino'),
+  },
+  {
+    id: 'dolavon',
+    etiqueta: 'O segredo do vale',
+    titulo: 'Dolavon, as norias de madeira e o velho moinho',
+    texto:
+      'Dolavon — "prado junto ao rio", em galês — é o povoado mais tranquilo do corredor e provavelmente o mais autêntico. Um canal atravessa o centro e sobre ele ainda giram as norias de madeira que levantavam a água para as chácaras: é uma imagem única em toda a Patagônia e, o mais impressionante, continua funcionando de verdade, não como cenário. Foi fundado oficialmente em 1919 e soma às norias o velho moinho de farinha, as ruas de terra e tijolo e a sensação de ter achado um lugar que o turismo de massa ainda não descobriu. O moinho hoje é um dos melhores restaurantes do vale, e a 36 km de Trelew também fica uma queijaria que faz massas artesanais. Se você tem meio dia e quer o vale na sua versão mais pura, é aqui.',
+    fichas: paseos('valle-inferior', 'el-viejo-molino-de-dolavon', 'la-queseria-pastas-artesanales'),
+  },
+  {
+    id: 'chacras',
+    etiqueta: 'Setembro e outubro',
+    titulo: '28 de Julio, as chácaras e o campo de tulipas',
+    texto:
+      'É o único povoado do país que leva uma data por nome: 28 de julho de 1865, o dia em que o veleiro Mimosa desembarcou os 153 colonos galeses na costa onde hoje está Puerto Madryn. A 46 km de Trelew, aqui o corredor vira chácara pura — alfafa, gado, moinhos de vento girando no horizonte e um silêncio de campo que, depois das cidades, se agradece. É a paisagem que justificou toda a epopeia: a estepe árida convertida em terra fértil pelos canais galeses. A região se chamava Tir Halen, "terra salgada", e ganhou vida com a chegada da ferrovia. E agora estreia o seu próprio campo de tulipas, que floresce em setembro: as fileiras de vermelho, amarelo e laranja que fizeram a fama de Trevelin, na cordilheira, agora também no coração do vale galês. Não vendemos uma excursão só para 28 de Julio: o povoado entra nos circuitos do vale e se faz muito bem de carro no mesmo dia de Dolavon.',
+    fichas: [],
+  },
+  {
+    id: 'bryn-gwyn',
+    etiqueta: 'Único na América do Sul',
+    titulo: 'Bryn Gwyn: 40 milhões de anos a céu aberto',
+    texto:
+      'A 8 km ao sul de Gaiman, sobre a barranca que fecha o vale, está o único museu paleontológico ao ar livre da América do Sul. Bryn Gwyn — "colina branca", em galês — é uma trilha autoguiada em que se caminha, literalmente, por 40 milhões de anos de história: as camadas atravessam desde quando a Patagônia era uma savana parecida com a africana, passando por um mar de 23 milhões de anos atrás povoado de tubarões, pinguins e golfinhos carnívoros, até as focas e ostras de 10 milhões de anos. Faz parte do mesmo MEF que guarda o maior dinossauro do mundo em Trelew, só que aqui a paleontologia se vê ao ar livre, com a paisagem real do vale como cenário. Melhor na primavera, antes do calor do verão; leve água, chapéu e calçado fechado. Não é uma ficha nossa: a entrada se paga no parque.',
+    fichas: [],
+  },
+  {
+    id: 'base',
+    etiqueta: 'Por que ficar aqui',
+    titulo: 'Trelew como base: a região inteira a um dia de distância',
+    texto:
+      'Trelew nasceu em 1886 como ponta de trilhos da Ferrovia Central do Chubut — o nome vem do galês *tre* (povoado) e *lew*, por Lewis Jones, o líder galês que impulsionou aquele trem — e esse DNA de cruzamento de caminhos nunca a abandonou. Não é a cidade mais bonita do vale: é a mais estratégica, e é a razão pela qual muita gente dorme aqui e sai todas as manhãs para um cenário diferente. Da Plaza Independencia, as distâncias reais: Gaiman a 17 km, o mar de Rawson a 20 minutos, Playa Unión a 25, Dolavon a 36 km, 28 de Julio a 46 km, Puerto Madryn a uma hora, Punta Tombo a 120 km e o dique Florentino Ameghino, com suas paredes de rocha vermelha represando o rio Chubut, a um dia inteiro de passeio. É o centro exato do triângulo turístico do Chubut, com hotéis, restaurantes e aeroporto próprio.',
+    fichas: paseos('dique-florentino-ameghino-lugar-de-ensueno', 'valle-inferior'),
+  },
+];
+
+const TEMPORADAS = [
+  {
+    meses: 'Setembro a novembro',
+    nome: 'Primavera — a melhor época do vale',
+    texto: 'A estação em que tudo coincide: chegam os pinguins a Punta Tombo, o mar fica liso de manhã para as toninhas, as norias de Dolavon giram com o maior volume de água do ano pelo degelo, floresce o campo de tulipas de 28 de Julio e na costa vizinha ainda é plena temporada de baleias francas. Se você pode escolher o mês, escolha outubro.',
+  },
+  {
+    meses: 'Dezembro a fevereiro',
+    nome: 'Verão — praia, pinguins e dias longos',
+    texto: 'Calor seco de estepe, com máximas que passam dos 30 °C, e o vale vive na água: Playa Unión enche, as toninhas estão ativas e em Punta Tombo é a época dos filhotes. É alta temporada argentina, então hospedagem e passeios se reservam antes. Leve protetor solar e chapéu de verdade: o sol aqui é forte e o vento engana.',
+  },
+  {
+    meses: 'Março a maio',
+    nome: 'Outono — o vale sem ninguém',
+    texto: 'Os pinguins vão embora em abril, as chácaras ficam douradas e o vento baixa. É a melhor relação preço-tranquilidade do ano para quem vem pela parte galesa — chá, capelas, norias, museus — e não pela fauna. As toninhas continuam, porque estão o ano inteiro.',
+  },
+  {
+    meses: 'Junho a agosto',
+    nome: 'Inverno — chá, museus e as baleias chegando',
+    texto: 'Frio seco, dias curtos e nenhuma fila: é quando o chá galês de Gaiman faz mais sentido. Punta Tombo está sem pinguins, mas as baleias francas começam a chegar à costa de Puerto Madryn em junho, a uma hora de Trelew. Em 28 de julho o vale celebra a Festa do Desembarque, a data que dá nome ao povoado.',
+  },
+];
+
+const ROTEIRO = [
+  { dia: 'Dia 1', titulo: 'Trelew e os dinossauros', texto: 'Chegada ao aeroporto de Trelew (REL), a poucos minutos do centro. O MEF e o Patagotitan de manhã, a Plaza Independencia e a capela Moriah — onde descansam os colonos que começaram tudo — à tarde, e jantar na cidade, que é onde está a maior parte dos restaurantes do vale.' },
+  { dia: 'Dia 2', titulo: 'A Ruta 7, de Gaiman a 28 de Julio', texto: 'O circuito galês completo: Gaiman de manhã com o museu histórico, as capelas e o túnel da ferrovia, chá galês no fim da tarde, e no meio Dolavon com as norias e o velho moinho. Com carro, 28 de Julio fecha os 72 km do corredor.' },
+  { dia: 'Dia 3', titulo: 'Punta Tombo ou o mar de Rawson', texto: 'De setembro a abril, dia inteiro em Punta Tombo com a colônia de pinguins. Fora dessa janela, o porto de Rawson para as toninhas overas, Playa Unión e frutos do mar na beira do mar, que rende meio dia e deixa a tarde livre.' },
+  { dia: 'Dia 4', titulo: 'Esticar para a costa', texto: 'Puerto Madryn fica a uma hora: baleias de junho a dezembro, Península Valdés e a lobaria de Punta Loma. O vale e a costa funcionam muito bem como uma viagem só, com uma base de cada lado ou com Trelew como base única.' },
+];
+
+const faq = [
+  {
+    p: 'O que é o Vale do Chubut e por que visitá-lo?',
+    r: 'É uma faixa fértil e verde no meio da estepe patagônica, irrigada pelo rio Chubut, onde colonos galeses se instalaram em 1865 e cavaram canais até transformar o deserto em terra de cultivo. A Ruta Provincial 7, conhecida como Rota das Chácaras, percorre os seus 72 km unindo Rawson, Trelew, Gaiman, Dolavon e 28 de Julio. É o único lugar da América do Sul onde se toma chá galês em casas centenárias, e é também onde está o maior dinossauro já encontrado no mundo e a maior colônia continental de pinguins do planeta.',
+  },
+  {
+    p: 'Quantos dias ficar em Trelew e no Vale do Chubut?',
+    r: 'Três dias cheios é a medida certa: um para Trelew e o MEF, um para o circuito galês da Ruta 7 (Gaiman, Dolavon e 28 de Julio) e um para Punta Tombo ou para o mar de Rawson e Playa Unión. Com dois dias dá para fazer o museu e o circuito galês, deixando os pinguins de fora. Como quase todo mundo combina o vale com Puerto Madryn e a Península Valdés, que ficam a uma hora, o cálculo mais realista é de cinco a sete dias para a região toda.',
+  },
+  {
+    p: 'Melhor ficar em Trelew ou em Puerto Madryn?',
+    r: 'Depende do que você vem buscar. Puerto Madryn é a base da fauna marinha: baleias, Península Valdés, mergulho, e tem a praia na cidade. Trelew é a base do vale galês e dos dinossauros, fica mais perto de Punta Tombo (120 km contra cerca de 180 de Madryn) e tem aeroporto próprio. As duas estão a uma hora de distância, então a solução mais confortável para uma viagem de cinco dias ou mais é dormir duas ou três noites em cada uma, em vez de ir e voltar todos os dias.',
+  },
+  {
+    p: 'Como chegar a Trelew saindo do Brasil?',
+    r: 'Não há voo direto: a conexão se faz em Buenos Aires e de lá sai o voo doméstico até o Aeroporto Almirante Marcos A. Zar (REL), em Trelew, que fica a poucos minutos do centro. Confirme de qual aeroporto de Buenos Aires sai o trecho doméstico antes de comprar, porque trocar entre Aeroparque e Ezeiza leva cerca de uma hora de carro. A outra porta de entrada da região é o aeroporto de Puerto Madryn (PMY), a uma hora de Trelew: vale comparar os dois para as suas datas, porque a frequência muda com a temporada.',
+  },
+  {
+    p: 'Quando dá para ver pinguins em Punta Tombo?',
+    r: 'De setembro a abril. Os pinguins-de-magalhães chegam em setembro para nidificar, acasalam, criam os filhotes e partem em abril para o nordeste da América do Sul — inclusive para o litoral brasileiro. O melhor mês para ver filhotes é entre dezembro e fevereiro; setembro e outubro são os meses da chegada e do acasalamento, com a reserva mais vazia de gente. Entre maio e agosto a colônia está desocupada e o passeio não se faz.',
+  },
+  {
+    p: 'O que é a toninha overa e onde se vê?',
+    r: 'É o golfinho preto e branco mais pequeno do mundo, chamado em português de toninha overa ou golfinho de Commerson. Vê-se saindo de barco do porto de Rawson, a 20 minutos de Trelew, o ano inteiro, e é uma das experiências mais divertidas da costa patagônica porque os animais se aproximam sozinhos e surfam a onda da proa das lanchas. As manhãs calmas, sobretudo na primavera, são o melhor momento. A saída se contrata no próprio porto e entra como opcional nas excursões do vale.',
+  },
+  {
+    p: 'Vale a pena o chá galês de Gaiman?',
+    r: 'Vale, e é o motivo pelo qual muita gente viaja até o vale. Não é uma atração montada para turista: as casas de chá são casas de família de tijolo vermelho, algumas centenárias, e a mesa vem completa — bule, torta negra galesa, pão caseiro, scones, manteiga e várias tortas. É servido à tarde, costuma durar mais de uma hora e substitui o jantar, então o planejamento do dia conta. Em alta temporada convém reservar mesa.',
+  },
+  {
+    p: 'Dá para percorrer o vale em um dia?',
+    r: 'Sim. São 72 km de ponta a ponta pela Ruta 7, e os dois passeios de dia inteiro que saem de Trelew e de Puerto Madryn cobrem o essencial: a réplica do dinossauro, o MEF (opcional), Gaiman com o chá galês e Dolavon com as norias e o museu regional. Um dia resolve o circuito; dois dias permitem fazer tudo sem apuro e entrar no Parque Paleontológico Bryn Gwyn, perto de Gaiman.',
+  },
+  {
+    p: 'Precisa alugar carro no Vale do Chubut?',
+    r: 'Não é imprescindível. As excursões saem com traslado do hotel e guia incluídos, e dentro de Trelew a área central se caminha. O carro rende para quem quer esticar até 28 de Julio, voltar a Gaiman num horário próprio ou fazer o circuito em dois dias no seu ritmo: as estradas do vale são asfaltadas, planas e muito tranquilas. Para Punta Tombo, a excursão compensa mais do que o carro, porque o último trecho é de terra e o passeio é longo.',
+  },
+  {
+    p: 'Brasileiro precisa de passaporte para ir ao Chubut?',
+    r: 'Não. Pelo acordo do Mercosul, o RG válido e em bom estado é suficiente para entrar na Argentina, e toda a viagem ao vale é doméstica depois de Buenos Aires. Passaporte só se a sua rota passar pelo Chile em algum trecho, o que não é o caso de quem chega pelo ar a Trelew ou a Puerto Madryn.',
+  },
+  {
+    p: 'Onde comer bem no Vale do Chubut?',
+    r: 'A maior parte dos restaurantes está em Trelew, que concentra a oferta do vale: cozinha de autor, bistrôs, cervejarias artesanais, pizzarias e cafés. Em Playa Unión se come peixe e frutos do mar na beira do mar, no povoado de pescadores, e em Dolavon há um restaurante dentro do velho moinho de farinha e uma queijaria com massas artesanais. Gaiman é o endereço do chá galês da tarde, não do jantar. Nós publicamos treze endereços do vale com reserva online.',
+  },
+  {
+    p: 'Dá para combinar o vale com a Península Valdés?',
+    r: 'Sim, e é o roteiro mais comum da região: as duas estão na mesma província e Puerto Madryn fica a uma hora de Trelew pela Ruta 3. Com cinco a sete dias cabem as baleias ou a Península Valdés, Punta Tombo, o circuito galês e o MEF sem correr. A melhor janela para fazer tudo junto é de setembro a dezembro, quando a temporada de baleias e a dos pinguins se sobrepõem.',
+  },
+];
+
+const alternos = {
+  es: 'https://patagoniaexperiencias.com/valle-del-chubut',
+  pt: 'https://patagoniaexperiencias.com/pt-br/o-que-fazer-em-trelew-e-gaiman/',
+};
+
+// Los 13 restaurantes del valle, agrupados por localidad. El enlace se arma
+// con el slug publicado: si el admin despublica una ficha, desaparece el
+// enlace y la página no se queda con un 404 adentro.
+const MESAS = [
+  { lugar: 'Trelew', fichas: paseos('sugar', 'maximino-bistro-cafe', 'bulevu', 'genesis-resto-bar', 'roselli-pizza-bar', 'blest-cerveceria', 'jyglo-bar', 'fidel-cafe-concert', 'delicias-de-la-fuente-cafe', 'super-magic') },
+  { lugar: 'Dolavon', fichas: paseos('el-viejo-molino-de-dolavon', 'la-queseria-pastas-artesanales') },
+  { lugar: 'Playa Unión, Rawson', fichas: paseos('cantina-marcelino') },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'TouristDestination',
+    name: 'Vale do Chubut: Trelew, Gaiman, Dolavon, Rawson e 28 de Julio',
+    description:
+      'O Vale Inferior do Rio Chubut, na Patagônia argentina: a colônia galesa de 1865, o chá galês de Gaiman, o maior dinossauro do mundo no MEF de Trelew, as norias de Dolavon, a toninha overa no porto de Rawson e a maior colônia continental de pinguins, em Punta Tombo.',
+    url: 'https://patagoniaexperiencias.com/pt-br/o-que-fazer-em-trelew-e-gaiman/',
+    inLanguage: 'pt-BR',
+    geo: { '@type': 'GeoCoordinates', latitude: -43.2489, longitude: -65.3051 },
+    containedInPlace: { '@type': 'AdministrativeArea', name: 'Chubut, Argentina' },
+    touristType: ['Famílias', 'Casais', 'Cultura e história', 'Amantes da natureza', 'Gastronomia'],
+    includesAttraction: [
+      { '@type': 'TouristAttraction', name: 'Museu Paleontológico Egidio Feruglio (MEF)' },
+      { '@type': 'TouristAttraction', name: 'Gaiman e as casas de chá galês' },
+      { '@type': 'TouristAttraction', name: 'Punta Tombo' },
+      { '@type': 'TouristAttraction', name: 'Norias de Dolavon' },
+      { '@type': 'TouristAttraction', name: 'Playa Unión e o porto de Rawson' },
+      { '@type': 'TouristAttraction', name: 'Parque Paleontológico Bryn Gwyn' },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    inLanguage: 'pt-BR',
+    mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.p, acceptedAnswer: { '@type': 'Answer', text: f.r } })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Patagônia argentina', item: 'https://patagoniaexperiencias.com/pt-br/' },
+      { '@type': 'ListItem', position: 2, name: 'Trelew, Gaiman e o Vale do Chubut', item: 'https://patagoniaexperiencias.com/pt-br/o-que-fazer-em-trelew-e-gaiman/' },
+    ],
+  },
+];
+---
+<BaseLayout
+  titulo="O que fazer em Trelew e Gaiman"
+  descripcion="Guia do Vale do Chubut: o maior dinossauro do mundo no MEF de Trelew, o chá galês de Gaiman, os pinguins de Punta Tombo, as norias de Dolavon e roteiro de 3 dias."
+  idioma="pt"
+  alternos={alternos}
+  schema={schema}
+>
+  <main>
+    <section class="bg-brand-oxford text-white">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20">
+        <p class="text-brand-fuchsia text-xs font-black uppercase tracking-[0.3em] mb-4"><i class="fa-solid fa-mug-hot mr-2"></i>Vale do Chubut · Ruta 7 · Patagônia argentina</p>
+        <h1 class="font-sans font-extrabold text-3xl sm:text-5xl leading-tight">O que fazer em Trelew e Gaiman</h1>
+        <p class="text-white/75 text-lg max-w-3xl mt-5">Um povoado galês atravessou o oceano em 1865 e transformou a estepe em um vale fértil. Hoje são 72 km de estrada à beira do rio Chubut que reúnem o maior dinossauro já encontrado no mundo, o único chá galês da América do Sul, norias de madeira que ainda giram, o golfinho mais pequeno do planeta e a maior colônia continental de pinguins. Este é o guia para montar a viagem: quando ir, quantos dias ficar e o que fazer em cada um.</p>
+        <div class="flex flex-wrap gap-3 mt-7">
+          <a href="#roteiro" class="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white font-bold text-xs uppercase tracking-widest px-5 py-3 rounded-full hover:bg-white/20 transition-all"><i class="fa-solid fa-route"></i> Roteiro de 3 dias</a>
+          <a href="#gaiman" class="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white font-bold text-xs uppercase tracking-widest px-5 py-3 rounded-full hover:bg-white/20 transition-all"><i class="fa-solid fa-mug-saucer"></i> Chá galês</a>
+          <a href="#pinguins" class="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white font-bold text-xs uppercase tracking-widest px-5 py-3 rounded-full hover:bg-white/20 transition-all"><i class="fa-solid fa-feather"></i> Punta Tombo</a>
+          <a href="#mesa" class="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white font-bold text-xs uppercase tracking-widest px-5 py-3 rounded-full hover:bg-white/20 transition-all"><i class="fa-solid fa-utensils"></i> Onde comer</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-5">153 galeses, um veleiro e um vale que ainda não existia</h2>
+      <div class="space-y-4 text-slate-700 leading-relaxed">
+        <p>Em <strong>28 de julho de 1865</strong>, o veleiro <strong>Mimosa</strong> desembarcou 153 colonos galeses em uma costa vazia da Patagônia. Procuravam um lugar onde pudessem ser livres: falar a própria língua, rezar nas próprias capelas, viver do próprio jeito. Encontraram uma estepe árida que parecia impossível — até terem a ideia que mudou tudo: usar o rio para irrigar. Cavaram canais, domaram a água e transformaram o deserto em <strong>Dyffryn Camwy</strong>, o Vale do Chubut. Em vinte anos, o trigo daqui ganhava medalhas de ouro em Paris e em Chicago.</p>
+        <p>Essa história é a razão pela qual este vale não se parece com nenhum outro lugar da América do Sul, e também o motivo pelo qual se visita hoje. A <strong>Ruta Provincial 7</strong>, a Rota das Chácaras, percorre 72 km à beira do rio unindo cinco povoados: <strong>Rawson</strong>, a capital da província, onde o rio chega ao mar; <strong>Trelew</strong>, a cidade-base e a do museu dos dinossauros; <strong>Gaiman</strong>, o coração galês; <strong>Dolavon</strong>, o povoado da água; e <strong>28 de Julio</strong>, a chácara pura no fim da estrada.</p>
+        <p>O que torna o vale um destino de vários dias, e não uma parada de passagem, é o contraste: no mesmo dia se caminha entre fósseis de 40 milhões de anos, se toma chá numa casa de tijolo de 1874 e se vê um golfinho surfar a onda de uma lancha. E tudo isso fica a <strong>uma hora de Puerto Madryn</strong> e da Península Valdés, o que faz do vale a outra metade natural de uma viagem de fauna à costa do Chubut.</p>
+      </div>
+    </section>
+
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-2">Quando ir</h2>
+      <p class="text-slate-600 mb-7 max-w-3xl">Os meses são do hemisfério sul: julho é inverno e janeiro é verão. Para a época de cada animal da costa, veja o <a href="/pt-br/melhor-epoca-fauna-patagonia/" class="text-brand-fuchsia font-semibold hover:underline">calendário da fauna da Patagônia</a>.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        {TEMPORADAS.map((t) => (
+          <div class="bg-white border border-slate-200 rounded-2xl p-6">
+            <p class="text-brand-fuchsia text-[11px] font-bold uppercase tracking-widest mb-2">{t.meses}</p>
+            <h3 class="font-sans font-bold text-lg text-brand-oxford mb-2">{t.nome}</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">{t.texto}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-2">O que fazer</h2>
+      <p class="text-slate-600 mb-7 max-w-3xl">Oito blocos que justificam a viagem, com os passeios que saem de Trelew e de Puerto Madryn para cada um. Onde não vendemos a atividade, está dito.</p>
+      <div class="space-y-6">
+        {BLOQUES.map((b) => (
+          <article id={b.id} class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8">
+            <p class="text-brand-fuchsia text-[11px] font-bold uppercase tracking-widest mb-2">{b.etiqueta}</p>
+            <h3 class="font-sans font-extrabold text-xl sm:text-2xl text-brand-oxford mb-3">{b.titulo}</h3>
+            <p class="text-slate-600 leading-relaxed" set:html={b.texto.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\*(.+?)\*/g, '<em>$1</em>')}></p>
+            {b.fichas.length > 0 && (
+              <div class="mt-5 pt-5 border-t border-slate-100">
+                <p class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">Passeios</p>
+                <ul class="space-y-1.5">
+                  {b.fichas.map((p) => (
+                    <li>
+                      <a href={`/pt-br/experiencias/${p.slug}/`} class="text-brand-fuchsia font-semibold text-sm hover:underline inline-flex items-start gap-2">
+                        <i class="fa-solid fa-arrow-right text-[10px] mt-1.5"></i><span>{p.titulo}{p.duracion ? ` · ${p.duracion}` : ''}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section id="roteiro" class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-2">Roteiro de 3 dias (e o quarto, se der)</h2>
+      <p class="text-slate-600 mb-7 max-w-3xl">A ordem importa por dois motivos: Punta Tombo é dia inteiro e fica 178 km ao sul, então pede um dia próprio; e o chá galês de Gaiman é servido à tarde e substitui o jantar, então o dia do circuito galês não leva outra refeição no fim.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {ROTEIRO.map((d) => (
+          <div class="bg-white border border-slate-200 rounded-2xl p-6">
+            <p class="text-brand-fuchsia text-[11px] font-bold uppercase tracking-widest mb-2">{d.dia}</p>
+            <h3 class="font-sans font-bold text-base text-brand-oxford mb-2">{d.titulo}</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">{d.texto}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section id="mesa" class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-2">Onde comer no vale</h2>
+      <p class="text-slate-600 mb-7 max-w-3xl">Trelew concentra a oferta de restaurantes da região; Playa Unión é o endereço dos frutos do mar e Dolavon tem o moinho e a queijaria. Gaiman é o chá da tarde, não o jantar. Para entender os pratos patagônicos antes de pedir, veja <a href="/pt-br/o-que-comer-na-patagonia/" class="text-brand-fuchsia font-semibold hover:underline">o que comer na Patagônia</a>.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+        {MESAS.filter((m) => m.fichas.length > 0).map((m) => (
+          <div class="bg-white border border-slate-200 rounded-2xl p-6">
+            <p class="text-brand-fuchsia text-[11px] font-bold uppercase tracking-widest mb-3">{m.lugar}</p>
+            <ul class="space-y-2">
+              {m.fichas.map((p) => (
+                <li>
+                  <a href={`/pt-br/experiencias/${p.slug}/`} class="text-slate-700 text-sm font-semibold hover:text-brand-fuchsia hover:underline">{p.titulo}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-5">Como chegar e como se locomover</h2>
+      <div class="space-y-4 text-slate-700 leading-relaxed">
+        <p>Do Brasil não há voo direto: a conexão se faz em <strong>Buenos Aires</strong> e de lá sai o voo doméstico até o <strong>Aeroporto Almirante Marcos A. Zar (REL)</strong>, em Trelew, a poucos minutos do centro. A outra porta de entrada é o <strong>aeroporto de Puerto Madryn (PMY)</strong>, a uma hora de Trelew: vale comparar os dois para as suas datas, porque a frequência de voos muda com a temporada. Confirme de qual aeroporto de Buenos Aires sai o trecho doméstico antes de comprar — trocar entre Aeroparque e Ezeiza leva cerca de uma hora de carro.</p>
+        <p>Dentro do vale as estradas são asfaltadas, planas e muito tranquilas, e as distâncias são curtas: da Plaza Independencia de Trelew, <strong>Gaiman fica a 17 km, Rawson a 20 minutos, Playa Unión a 25, Dolavon a 36 km e 28 de Julio a 46 km</strong>. As excursões saem com traslado do hotel e guia incluídos, então o carro não é imprescindível: ele rende para quem quer esticar até 28 de Julio ou fazer o circuito em dois dias no seu próprio ritmo.</p>
+        <p>Se a viagem continuar pela costa, veja <a href="/pt-br/o-que-fazer-em-puerto-madryn/" class="text-brand-fuchsia font-semibold hover:underline">o que fazer em Puerto Madryn e na Península Valdés</a>, que fica a uma hora. Se continuar pela cordilheira, <a href="/pt-br/o-que-fazer-em-esquel-e-trevelin/" class="text-brand-fuchsia font-semibold hover:underline">Esquel, Trevelin e o Parque Nacional Los Alerces</a> estão na mesma província, 600 km a oeste — e ali também há história galesa, porque foram os mesmos colonos que remontaram o rio até a cordilheira. Para montar a viagem inteira, <a href="/pt-br/o-que-fazer-na-patagonia-argentina/" class="text-brand-fuchsia font-semibold hover:underline">o que fazer na Patagônia argentina</a>.</p>
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 pb-12">
+      <h2 class="font-sans font-extrabold text-2xl text-brand-oxford mb-4">Perguntas frequentes</h2>
+      <div class="space-y-3">
+        {faq.map((f) => (
+          <details class="bg-white border border-slate-200 rounded-2xl p-5">
+            <summary class="font-sans font-bold text-brand-oxford cursor-pointer">{f.p}</summary>
+            <p class="mt-3 text-slate-600 leading-relaxed">{f.r}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 pb-16 text-center">
+      <a href="/pt-br/experiencias/" class="inline-flex items-center gap-2 bg-brand-fuchsia text-white font-bold text-sm uppercase tracking-widest px-7 py-3.5 rounded-full shadow-lg shadow-brand-fuchsia/30 hover:bg-brand-fuchsiaDark transition-all"><i class="fa-solid fa-compass"></i> Ver todos os passeios</a>
+      <p class="text-slate-500 text-sm mt-5">A viagem também passa pela costa? Veja <a href="/pt-br/o-que-fazer-em-puerto-madryn/" class="text-brand-fuchsia font-semibold hover:underline">Puerto Madryn e a Península Valdés</a>. Pela cordilheira? <a href="/pt-br/o-que-fazer-em-esquel-e-trevelin/" class="text-brand-fuchsia font-semibold hover:underline">Esquel e Trevelin</a>. Pelo extremo sul? <a href="/pt-br/o-que-fazer-em-ushuaia/" class="text-brand-fuchsia font-semibold hover:underline">Ushuaia e a Terra do Fogo</a>.</p>
+    </section>
+  </main>
+</BaseLayout>

@@ -231,7 +231,38 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    contenido, no por la description. **Esto no se arregla desde el código:**
    la decisión de catálogo está en "Para Marcelo" con los slugs grupo por
    grupo. Mientras siga abierta, cada grupo le resta posiciones al otro.
-3. **28 fichas no tienen versión en portugués.** Al 06/11 hay 112 fichas en
+3. **19 fichas no tienen versión en portugués.** (Eran 28 al 06/11 y 20 al
+   14/11.) **Las cinco de Ushuaia de VÉRTICE se tradujeron el 15/11** y están
+   en "Hecho": con eso Ushuaia pasó de 8 a 13 fichas pt y es el destino pt
+   mejor cubierto después del valle. **De las 19 que quedan, por orden de
+   impacto para Brasil:** las dos variantes que aparecieron en el barrido del
+   15/11 y que **hay que revisar antes de traducir**
+   (`comarca-andina-full-day` y `astroturismo-y-aventura-en-lago-rosario`:
+   tienen description propia en español y su ficha principal —`comarca-andina`
+   y `astroturismo-en-lago-rosario-lodge`— ya está en portugués, así que
+   primero hay que leer si el texto es propio o un calco, como pasó con las
+   tres de MerakiSur); después los 6 restaurantes de Comodoro Rivadavia y Rada
+   Tilly (`tunet-restaurante`, `molle-verde`, `puerto-cangrejo`, `cordano`,
+   `hilario`, `in-rada-tilly` — texto propio y bien escrito, pero Comodoro no
+   es destino brasileño: valor bajo); las 6 habitaciones del AGUADA HOTEL de
+   Trelew (**ojo: entre ellas son casi calcos**, conviene traducir una o dos y
+   no las seis, y ahora el valle tiene guía pt que las enlazaría); las 4
+   variantes de Ruta Galesa, tulipanes y peonías, colgadas de la decisión de
+   catálogo; y `safari-lacustre-al-alerce-milenario-cleona`, del grupo
+   duplicado 1.
+
+   **Ojo con el método del barrido, corregido el 15/11:** el cruce contra
+   `traducciones-pt.json` que da "fichas sin pt" **tiene falsos negativos con
+   las hermanas**. Si se acepta como traducida una ficha cuya clave *base*
+   existe en el JSON (`pt[slugUnico] || pt[slugificar(titulo)]`), la hermana
+   queda tapada por la principal: así
+   `trekking-laguna-esmeralda-vertice-expediciones` no aparecía como faltante
+   aunque no tenía página pt. **El cruce tiene que ser sólo por slug único.**
+
+   *(Lo de abajo es el detalle histórico del pendiente, que sigue valiendo
+   como molde de trabajo.)*
+
+   **Detalle anterior — 28 fichas no tienen versión en portugués.** Al 06/11 hay 112 fichas en
    español y 84 en portugués. Una ficha sin traducir **no puede posicionar en
    Brasil**: no existe en `/pt-br/` y no recibe hreflang. De las 28 que faltan,
    **18 se pueden traducir ya** y **10 no conviene traducirlas**: 6 son fichas
@@ -553,6 +584,19 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
     `slugPt`, sufijos `-\d+` y palabras en español en los slugs pt— son 25
     líneas y lee el sitemap servido más los dos JSON del repo.
 
+    **Hallazgo del 15/11 — el admin publica de a tandas y el conteo del
+    sitemap no las ve el mismo día.** Las tres fichas nuevas
+    (`trekking-balcones-del-susana`, `trekking-lagunas-gemelas`,
+    `trekking-glaciar-ojo-del-albino`) estaban en Firestore desde el 14/11 a
+    las 20:11–20:46 UTC, o sea **después** del build de esa corrida: el sitemap
+    servido no las tenía y el cruce contra el sitemap no las habría encontrado.
+    Lo que sí las encontró fue **cruzar los tours activos de Firestore contra
+    las claves de `meta-es.json`** (118 activos contra 114 claves). Conclusión
+    para el barrido: **la fuente del cruce es Firestore, no el sitemap**; el
+    sitemap sólo sirve para verificar después del deploy. Y el mismo cruce
+    contra `traducciones-pt.json` tiene que hacerse **sólo por slug único**,
+    por el falso negativo de las hermanas que está anotado en el pendiente 3.
+
     **Y el barrido de enlaces internos ya no hay que reescribirlo**: quedó en
     `scripts/barrido-enlaces.mjs` el 14/11, con las dos advertencias del
     método anotadas adentro (no conoce `_redirects`, ignora `/cdn-cgi/` y las
@@ -587,6 +631,38 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
 
 ## Hecho
 
+- **15/11/2026** — **Las cinco fichas de Ushuaia de VÉRTICE EXPEDICIONES en
+  portugués, y las tres nuevas con meta description en español.** El admin
+  publicó cinco fichas en Ushuaia: `packrafting-rio-olivia` y
+  `trekking-laguna-esmeralda-vertice-expediciones` (detectadas el 14/11) y
+  otras tres cargadas después de esa corrida —`trekking-balcones-del-susana`,
+  `trekking-lagunas-gemelas` y `trekking-glaciar-ojo-del-albino`—. Las tres
+  nuevas no tenían meta description escrita a mano: escritas, **117 de 117**.
+  Las cinco traducidas a mano a pt-BR en `traducciones-pt.json`, con el `hash`
+  de la huella de Firestore (para que el script no las pise), `slugPt` propio
+  verificado contra colisiones, `altImagem` y 3 FAQ cada una escritas sólo con
+  lo que dice la ficha. La hermana de Laguna Esmeralda va con su slug único
+  como clave (`trekking-laguna-esmeralda-vertice-expediciones`) y publica en
+  `/pt-br/experiencias/trilha-laguna-esmeralda-ushuaia-meio-dia/`, que es lo
+  que la distingue de la de Noelia Ferrario (6 horas contra 5, con bastones y
+  crampones incluidos). **Ocho URLs nuevas en producción**, las ocho con 200,
+  canonical propio, `hreflang` recíproco es-AR/pt-BR/x-default y JSON-LD
+  completo (Product con Offer, BreadcrumbList, FAQPage, Organization).
+- **15/11/2026** — **Las dos guías de Ushuaia enlazan las fichas nuevas.** El
+  bloque de sendas suma las tres trekkings en los dos idiomas (ahora enlaza 6
+  fichas en vez de 2) y se abrió un **bloque nuevo de packrafting en el río
+  Olivia**, también en los dos idiomas: es la única actividad de agua del
+  catálogo fueguino y no competía con nada. Las dos guías quedaron con 10
+  bloques y el `hreflang` recíproco que ya tenían del 13/11.
+- **15/11/2026** — **Los enlaces internos a `/guiadeviajeros.html` dejaron de
+  pasar por el 301.** El barrido de `scripts/barrido-enlaces.mjs` los marcó
+  como sospechosos y el `curl` mostró que la URL vieja responde 301 a
+  `/guias-de-viaje/`: no estaban rotos, pero cada enlace interno gastaba un
+  salto de rastreo. Cambiados en `ecosistema.html` (2), `esquel-trevelin.html`,
+  `valle-del-chubut.html`, `guias.html` y en el **footer compartido**
+  (`public/footer.js`, que lo servía como enlace relativo). El redirect en
+  `_redirects` se deja, que es para los enlaces de afuera. Barrido limpio
+  después del cambio: 327 HTML revisados, cero roto real.
 - **14/11/2026** — **La guía del valle del Chubut en portugués, el footer de
   `/pt-br/` enlazando en portugués y una poda que iba a borrar 5 páginas.**
   Séptima informativa de `/pt-br/`: `/pt-br/o-que-fazer-em-trelew-e-gaiman/`,
@@ -2353,3 +2429,82 @@ hace con una sola ficha o se espera catálogo; el arreglo del slug `-2` con su
 derivar); y las decisiones de catálogo de "Para Marcelo", donde lo de más
 valor por hora sigue siendo reactivar una de las dos navegaciones del canal
 Beagle.
+
+### 15/11/2026
+
+**Las cinco fichas de Ushuaia en portugués, que era el pendiente 3 y lo más
+barato que había.** Arranqué por el mantenimiento del pendiente 13 y el cruce
+dio más de lo esperado: el admin no publicó dos fichas, publicó **cinco**. Las
+dos que la corrida del 14/11 ya había detectado (`packrafting-rio-olivia` y
+`trekking-laguna-esmeralda-vertice-expediciones`) y **tres más cargadas esa
+misma noche, después del build**: Balcones del Susana, Lagunas Gemelas y
+Glaciar Ojo del Albino, las tres de VÉRTICE EXPEDICIONES en Ushuaia, las tres
+sin meta description en español y ninguna en el sitemap servido todavía.
+Escribí las tres descriptions a mano (**117 de 117**) y traduje las cinco a
+pt-BR.
+
+**Por qué estas cinco y no otras:** Ushuaia es de los destinos más buscados
+por el brasileño, la guía pt de Ushuaia ya estaba publicada para enlazarlas, y
+las cinco tienen texto propio de verdad —no son calcos de nada del catálogo—.
+El packrafting del río Olivia además es una actividad que no existía en el
+sitio, así que no le compite a ninguna ficha nuestra. Las traducciones salieron
+a mano con el `hash` de la huella de Firestore calculado ficha por ficha, para
+que la próxima corrida de `scripts/traducir-pt.mjs` no las pise, con `slugPt`
+propio verificado contra las 84 claves que ya existían, `altImagem` y 3 FAQ
+cada una **escritas sólo con lo que dice la ficha**: nada de horarios, precios
+ni servicios que el prestador no haya cargado. La hermana de Laguna Esmeralda
+va con su slug único como clave —el que la bitácora del 14/11 marcaba como
+trampa— y publica en `trilha-laguna-esmeralda-ushuaia-meio-dia`, que es lo que
+la diferencia de la de Noelia Ferrario: 5 horas con bastones y crampones
+incluidos contra las 6 de la otra.
+
+Después las enlacé desde las dos guías de Ushuaia: el bloque de sendas pasó de
+2 a 6 fichas en los dos idiomas y abrí un **bloque nuevo de packrafting**,
+también en los dos, con dos párrafos escritos sobre lo que dice la ficha más
+la explicación de qué es un packraft, que el brasileño no necesariamente sabe.
+Las dos guías quedaron con 10 bloques.
+
+**Lo que no estaba buscando y apareció:** el barrido de enlaces internos marcó
+`/guiadeviajeros.html` en tres landings, y el `curl` mostró que no está roto
+—devuelve 301 a `/guias-de-viaje/`— pero que **cada enlace interno del sitio a
+esa URL gastaba un salto de rastreo**. Lo cambié en `ecosistema.html` (dos
+veces), `esquel-trevelin.html`, `valle-del-chubut.html`, `guias.html` y, el que
+más pesa, en el **footer compartido** `public/footer.js`, que lo servía como
+enlace relativo. El redirect en `_redirects` queda, que es para los enlaces de
+afuera. Barrido después del cambio: 327 HTML, cero roto real, único aviso el
+`NOMBRE.png` que está dentro de un comentario de `ecosistema.html` y ya está
+anotado desde el 13/11.
+
+**Corrección al método del barrido, que vale para todas las corridas que
+vienen.** Dos cosas: (1) el conteo del sitemap **no sirve para encontrar fichas
+nuevas el mismo día**, porque el sitemap se regenera en el deploy y el admin
+carga cuando quiere —las tres de anoche estaban en Firestore y no en el
+sitemap—; la fuente del cruce tiene que ser Firestore y el sitemap sirve para
+verificar después. (2) El cruce de "fichas sin traducción pt" **tapa a las
+hermanas** si se acepta la clave base: `trekking-laguna-esmeralda-vertice-expediciones`
+no aparecía como faltante porque existía `trekking-laguna-esmeralda`. Las dos
+correcciones quedaron escritas en los pendientes 13 y 3.
+
+Resultado esperado: entrar en la capa de búsqueda fueguina de trekking en
+portugués —"trilha Laguna Esmeralda", "glaciar Ojo del Albino", "trekking
+Ushuaia", "o que fazer em Ushuaia no verão"— que hasta hoy tenía una sola
+ficha nuestra en pt y ahora tiene cinco, más el packrafting, que no tiene
+competencia en el catálogo; y que las 13 fichas pt de Ushuaia se refuercen
+entre ellas desde la guía de destino en vez de depender del listado. Se mide
+en Search Console (cuando esté conectado) por impresiones de
+`/pt-br/experiencias/trilha-*-ushuaia*` y por el clic que derive
+`/pt-br/o-que-fazer-em-ushuaia/`. Sitemap: 295 → **303 URLs** (8 nuevas: 3 es
+y 5 pt). IndexNow avisó a Yandex las tres tandas (200 OK); **Bing sigue en 403
+por octavo día** y no se le dedicó trabajo: espera el token XML de Marcelo
+(pendiente 11).
+
+Quedó pendiente, en orden: **revisar si `comarca-andina-full-day` y
+`astroturismo-y-aventura-en-lago-rosario` tienen texto propio o son calcos de
+su ficha principal** antes de traducirlas (pendiente 3, es media hora de
+lectura y define si se traducen o si van a la decisión de catálogo); **El
+Calafate en portugués**, la última del pendiente 5, con la decisión de si se
+hace con una sola ficha o se espera catálogo; el arreglo del slug `-2` de la
+Ruta Galesa con su 301; el mantenimiento del pendiente 14
+(`gastronomia-es.json` es copia y puede derivar); y las decisiones de catálogo
+de "Para Marcelo", donde lo de más valor por hora sigue siendo reactivar una
+de las dos navegaciones del canal Beagle.

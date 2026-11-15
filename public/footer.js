@@ -74,7 +74,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="guiadeviajeros.html" class="flex items-center gap-2 text-gray-300 hover:text-[#E91E63] transition-colors">
+                            <a href="/guias-de-viaje/" class="flex items-center gap-2 text-gray-300 hover:text-[#E91E63] transition-colors">
                                 <i class="fa-solid fa-book-open text-xs" style="color:#E91E63;"></i>
                                 <span>Guía de Viajeros</span>
                             </a>

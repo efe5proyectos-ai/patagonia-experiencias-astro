@@ -2096,11 +2096,19 @@ function temporadaActual() {
   return Object.keys(PE_MES_TEMP).find(k => PE_MES_TEMP[k].includes(m));
 }
 const RX_NIEVE = /nieve|\bski\b|\bsky\b|esqu[ií]|snowboard|la hoya|raqueta/i;
-/** 0 = es su temporada fuerte · 1 = todo el año o sin datos · 2 = fuera de temporada */
+/* Floraciones de Trevelin: tulipanes ~20/9 al 31/10, peonías 1/11 al 31/12 (fecha mmdd). */
+const PE_FLORES = [{ rx: /tulip/i, desde: 920, hasta: 1031 }, { rx: /pe[oó]n[ií]a/i, desde: 1101, hasta: 1231 }];
+const mmddHoy = () => { const d = new Date(); return (d.getMonth() + 1) * 100 + d.getDate(); };
+const palabras = v => (Array.isArray(v) ? v : String(v || '').split(',')).map(x => String(x).trim().toLowerCase()).filter(Boolean);
+/** -1 = destacado ahora (va primero) · 0 = es su temporada fuerte · 1 = todo el año o sin datos · 2 = fuera de temporada (no va en el home) */
 function encajeTemporada(t) {
   if (!t) return 1;
   const temp = temporadaActual();
   const txt = [t.titulo, t.categoria, t.categoriaSecundaria, t.subcategoria, t.etiqueta].filter(Boolean).join(' ');
+  const low = txt.toLowerCase(), cfg = window.PE_TEMP_CFG || {};
+  if (palabras(cfg.ocultar).some(w => low.includes(w))) return 2;
+  if (palabras(cfg.destacar).some(w => low.includes(w))) return -1;
+  for (const f of PE_FLORES) if (f.rx.test(txt)) { const h = mmddHoy(); return h >= f.desde && h <= f.hasta ? -1 : 2; }
   if (t.categoria === 'nieve__sky' || RX_NIEVE.test(txt)) return temp === 'invierno' ? 0 : 2;
   if (/ballena/i.test(txt)) return temp === 'invierno' || temp === 'primavera' ? 0 : 2; // Ballena franca: junio a diciembre
   const ts = Array.isArray(t.temporadas) ? t.temporadas : [];

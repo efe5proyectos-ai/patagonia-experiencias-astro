@@ -53,7 +53,8 @@ Reglas de la bitácora:
 - 61 URLs en portugués en el sitemap (home, listado y 59 fichas traducidas).
 - hreflang es-AR / pt-BR recíproco y correcto en las fichas.
 
-Tamaño del sitio al 13/11/2026: **292 URLs** en el sitemap — 112 fichas en
+Tamaño del sitio al 16/11/2026: **305 URLs** (303 el 15/11 + las dos
+guías de El Calafate). Detalle histórico al 13/11/2026: **292 URLs** en el sitemap — 112 fichas en
 español, 84 fichas en portugués, 60 guías de viaje, **seis páginas
 informativas en portugués** (calendario de fauna, Puerto Madryn, la puerta de
 entrada general, Esquel–Trevelin, la gastronómica y Ushuaia), **la guía de
@@ -64,6 +65,31 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
 
 ## Para Marcelo
 
+- **Hueco de catálogo en Santa Cruz: tenemos una sola ficha en todo El
+  Calafate.** Anotado el 16/11 al publicar la guía de destino en los dos
+  idiomas. Lo único publicado es `tour-alternativo-al-glaciar-moreno`, y es una
+  ficha buena —la ruta de las estancias y la playa de icebergs, que casi nadie
+  vende—, pero **"Perito Moreno" es probablemente la búsqueda más grande del
+  brasileño en toda la Patagonia** y de todo lo que la página cuenta no
+  vendemos nada más. Las tres que más valdrían, por orden: el **minitrekking**
+  sobre el glaciar (es lo que todo el mundo busca después de ver las
+  pasarelas), la **navegación Todo Glaciares** a Upsala y Spegazzini, y
+  cualquier prestador de **El Chaltén** (las caminatas son gratis, pero el
+  traslado El Calafate–El Chaltén, las cabalgatas y las salidas guiadas sí se
+  venden). Con la guía ya publicada en las dos lenguas, una ficha nueva en
+  Santa Cruz empieza con enlace interno desde una página de destino el mismo
+  día en que se carga: es el lugar del catálogo donde un prestador nuevo rinde
+  más rápido.
+- **Dos fichas más publican el mismo texto que otra ficha nuestra, y éstas no
+  son hermanas de slug.** Revisado el 16/11 (ver "Hecho"):
+  `comarca-andina-full-day` de MerakiSur es palabra por palabra `comarca-andina`
+  de LIMITS ADVENTURE, y `astroturismo-y-aventura-en-lago-rosario` de MerakiSur
+  es la versión recortada de `astroturismo-en-lago-rosario-lodge` de LIMITS.
+  Las dos agencias cargaron el texto del mismo operador. **Son dos páginas
+  nuestras compitiendo entre ellas en Google hoy**, y a diferencia de los otros
+  seis casos acá no hay nada en el código que lo detecte, porque los títulos
+  son distintos. Decidir: una se queda con el texto y la otra se reescribe en
+  el admin, o se despublica la repetida.
 - Confirmar que el número de `WHATSAPP_PT` (+54 9 2945 64-2052) es el del guía
   que atiende en portugués.
 - **Hueco de catálogo en Ushuaia: no vendemos la navegación del canal Beagle.**
@@ -231,7 +257,26 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    contenido, no por la description. **Esto no se arregla desde el código:**
    la decisión de catálogo está en "Para Marcelo" con los slugs grupo por
    grupo. Mientras siga abierta, cada grupo le resta posiciones al otro.
-3. **19 fichas no tienen versión en portugués.** (Eran 28 al 06/11 y 20 al
+3. **19 fichas no tienen versión en portugués, y de las 19 ninguna es de
+   impacto alto.** (Eran 28 al 06/11 y 20 al 14/11.) **Revisión del 16/11: las
+   dos variantes que encabezaban este pendiente —`comarca-andina-full-day` y
+   `astroturismo-y-aventura-en-lago-rosario`— resultaron calcos de su ficha
+   principal y no se traducen** (ver "Hecho" del 16/11): pasan a la decisión de
+   catálogo. Con eso **la cola de este pendiente queda sin nada de valor alto**:
+   quedan los 6 restaurantes de Comodoro y Rada Tilly (texto propio pero
+   Comodoro no es destino brasileño), las 6 habitaciones del AGUADA HOTEL de
+   Trelew (casi calcos entre ellas: conviene traducir una o dos y no las seis,
+   y ahora el valle tiene guía pt que las enlazaría), las 4 variantes de Ruta
+   Galesa, tulipanes y peonías colgadas de la decisión de catálogo, y
+   `safari-lacustre-al-alerce-milenario-cleona`, del grupo duplicado 1.
+   **Recomendación para la corrida que agarre esto:** traducir una o dos
+   habitaciones del AGUADA (la doble y la matrimonial superior) y cerrar;
+   los restaurantes de Comodoro rinden menos que casi cualquier otra cosa de
+   esta cola.
+
+   *(Detalle del pendiente, que sigue valiendo como molde de trabajo.)*
+
+   **Detalle anterior — 19 fichas no tienen versión en portugués.** (Eran 28 al 06/11 y 20 al
    14/11.) **Las cinco de Ushuaia de VÉRTICE se tradujeron el 15/11** y están
    en "Hecho": con eso Ushuaia pasó de 8 a 13 fichas pt y es el destino pt
    mejor cubierto después del valle. **De las 19 que quedan, por orden de
@@ -325,7 +370,36 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    páginas iguales compitiendo entre ellas, en español ya hoy; en portugués no
    se traducen a propósito, para no repetir el problema. **Va en "Para Marcelo":
    es decisión de catálogo**, no de código.
-5. **`/pt-br/` casi no tiene contenido informativo.** Encontrado el 07/11:
+
+   **Sumado el 16/11: son ocho, no seis, y dos de ellas no comparten slug.**
+   `comarca-andina-full-day` (MerakiSur) publica palabra por palabra el texto
+   de `comarca-andina` (LIMITS ADVENTURE), y
+   `astroturismo-y-aventura-en-lago-rosario` (MerakiSur) es la versión
+   condensada de `astroturismo-en-lago-rosario-lodge` (LIMITS), con un solo
+   párrafo propio al final. **Estos dos casos son peores que los seis
+   anteriores**, porque no son fichas hermanas de un mismo slug —tienen títulos
+   distintos, así que `conSlugsUnicos` no los agrupa— y las dos se publican con
+   URL limpia y compiten de verdad en español, hoy, sin que nada en el código
+   lo marque. Revisarlos fue lo que pedía la bitácora del 15/11.
+5. **`/pt-br/` casi no tiene contenido informativo. — CERRADO el 16/11/2026.**
+   Las ocho páginas informativas en portugués están publicadas y las ocho
+   tienen su par en español con `hreflang` recíproco: calendario de fauna
+   (07/11), Puerto Madryn (08/11), la puerta de entrada general (09/11),
+   Esquel–Trevelin (10/11), la gastronómica (11/11), Ushuaia (12/11, par en
+   español el 13/11), el valle del Chubut (14/11) y **El Calafate y los
+   glaciares (16/11, las dos lenguas en la misma corrida)**. Con eso
+   `/pt-br/` cubre los cuatro destinos grandes de la Patagonia argentina,
+   el país, el calendario de fauna y la gastronomía. **Lo que sigue de este
+   pendiente, si se reabre, no es cobertura sino profundidad:** páginas de
+   sub-destino (Puerto Pirámides, Gaiman, El Chaltén propio) o informacional
+   de tema (quanto custa viajar pela Patagônia, roteiros de 7/10/15 dias en
+   página propia). Antes de escribir una nueva conviene ver en Search
+   Console, cuando esté conectado, qué consultas ya traen las ocho que hay.
+   El molde quedó probado ocho veces y está descrito abajo.
+
+   *(Lo de abajo es el detalle histórico del pendiente.)*
+
+   **Detalle anterior.** Encontrado el 07/11:
    el español tiene 60 guías de viaje más 7 páginas informativas
    (`/calendario-fauna/`, `/que-hacer-patagonia/`, `/que-comer-patagonia/`,
    `/puerto-madryn`, `/valle-del-chubut`, `/esquel-trevelin`,
@@ -597,6 +671,19 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
     contra `traducciones-pt.json` tiene que hacerse **sólo por slug único**,
     por el falso negativo de las hermanas que está anotado en el pendiente 3.
 
+    **El barrido de mantenimiento quedó versionado el 16/11** en
+    `scripts/barrido-mantenimiento.mjs`: hace los cinco cruces de este
+    pendiente (fichas sin description, fichas sin pt por slug único, sufijos
+    `-\d+`, `slugPt` duplicados o faltantes y palabras en español en los
+    slugs) con las advertencias del método escritas adentro. Se corre con
+    `node scripts/barrido-mantenimiento.mjs` y no necesita credenciales.
+    **Hallazgo de su primera corrida:** el `slugPt` de `cabalgatas-familiares`
+    es `cabalgatas-familiares-esquel`, con "cabalgatas" en español — en
+    portugués de Brasil es `cavalgadas`. Tercer caso del mismo tipo después del
+    "puerto-madrid" (08/11) y las dos grafías del Parque Nacional Tierra del
+    Fuego (12/11). Prioridad baja: cambiarlo cuesta un 301 sobre una URL ya
+    indexada.
+
     **Y el barrido de enlaces internos ya no hay que reescribirlo**: quedó en
     `scripts/barrido-enlaces.mjs` el 14/11, con las dos advertencias del
     método anotadas adentro (no conoce `_redirects`, ignora `/cdn-cgi/` y las
@@ -631,6 +718,46 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
 
 ## Hecho
 
+- **16/11/2026** — **El Calafate y los glaciares: guía de destino en portugués
+  y en español. Cerrado el pendiente 5.** Era la última página informativa que
+  le faltaba a `/pt-br/`: con ésta el portugués cubre los cuatro destinos
+  grandes de la Patagonia argentina (costa de Chubut, cordillera de Chubut,
+  Tierra del Fuego y los glaciares de Santa Cruz). `/pt-br/o-que-fazer-em-el-calafate/`
+  y `/que-hacer-en-el-calafate/`, las dos en Astro, nueve bloques, cuatro
+  temporadas, itinerario de 4 días, 12 preguntas en portugués y 10 en español,
+  `hreflang` recíproco es-AR/pt-BR/x-default y JSON-LD completo
+  (TouristDestination + FAQPage + BreadcrumbList, los tres parsean).
+  **Las dos salieron en la misma corrida a propósito**, para no repetir lo de
+  Ushuaia, que quedó una corrida entera sin par en español. No son traducción
+  una de la otra: la española responde la tarifa de residente del Parque
+  Nacional, si conviene alquilar auto, qué se hace gratis en El Chaltén y la
+  confusión entre el glaciar Perito Moreno y el **Parque Nacional** Perito
+  Moreno, que son dos lugares distintos a cientos de kilómetros.
+- **16/11/2026** — **La guía española de El Calafate le da enlace interno a
+  ocho guías huérfanas de Santa Cruz** (pendiente 7): Perito Moreno, El
+  Chaltén, Glaciarium, Todo Glaciares, Cueva de las Manos, Lago Posadas y
+  Pueyrredón, PN Perito Moreno y península Belgrano. Las ocho verificadas con
+  `curl`: 200. Eran páginas que traían visitas y no tenían nada que enlazar ni
+  nada que las enlazara desde un contexto de destino.
+- **16/11/2026** — **Las dos variantes que faltaba revisar del pendiente 3
+  resultaron calcos: no se traducen.** Leídas contra el cuerpo en español de
+  su ficha principal en Firestore. `comarca-andina-full-day` (MerakiSur, 1.680
+  caracteres) es **palabra por palabra** el mismo texto que `comarca-andina`
+  (LIMITS ADVENTURE, 1.600): sólo cambian las viñetas y la duración declarada
+  (8 horas contra 10). `astroturismo-y-aventura-en-lago-rosario` (MerakiSur,
+  1.996) es la **versión condensada** de
+  `astroturismo-en-lago-rosario-lodge` (LIMITS, 3.097): misma apertura, mismas
+  tres actividades, mismos 48 km, misma cena; lo único propio es el párrafo
+  final de "¿Qué llevar?". Es el mismo caso de `panoramicas-de-esquel-merakisur`
+  del 06/11. **Las dos pasan a la decisión de catálogo** (pendiente 4 y "Para
+  Marcelo"): en portugués no se traducen, para no duplicar el problema, y en
+  español ya hoy son dos páginas compitiendo entre ellas.
+- **16/11/2026** — **Mantenimiento del pendiente 13, limpio.** Cruce desde
+  Firestore (118 tours activos, 117 publicables tras descontar el duplicado de
+  carga de MerakiSur): **117 de 117 con meta description escrita a mano**, cero
+  fichas nuevas desde el 15/11, cero entradas de `traducciones-pt.json` sin
+  `slugPt`, cero `slugPt` duplicados y el único sufijo `-\d+` sigue siendo el
+  `rota-galesa-represa-futaleufu-trevelin-2` ya anotado el 10/11.
 - **15/11/2026** — **Las cinco fichas de Ushuaia de VÉRTICE EXPEDICIONES en
   portugués, y las tres nuevas con meta description en español.** El admin
   publicó cinco fichas en Ushuaia: `packrafting-rio-olivia` y
@@ -2508,3 +2635,112 @@ Ruta Galesa con su 301; el mantenimiento del pendiente 14
 (`gastronomia-es.json` es copia y puede derivar); y las decisiones de catálogo
 de "Para Marcelo", donde lo de más valor por hora sigue siendo reactivar una
 de las dos navegaciones del canal Beagle.
+
+### 16/11/2026
+
+**El Calafate y los glaciares, en portugués y en español. Con eso queda cerrado
+el pendiente 5.** Arranqué, como siempre, por el mantenimiento del pendiente 13,
+y esta vez dio limpio: cruce desde Firestore —118 tours activos, 117 publicables
+después de descontar el duplicado de carga de MerakiSur— contra `meta-es.json`,
+**117 de 117 con description escrita a mano**, ninguna ficha nueva desde anoche,
+ningún `slugPt` faltante ni duplicado, y el único sufijo numérico sigue siendo el
+`rota-galesa-represa-futaleufu-trevelin-2` del 10/11. **Y el barrido de mantenimiento ya no hay que reescribirlo**: quedó en
+`scripts/barrido-mantenimiento.mjs`, con las cinco advertencias del método
+escritas adentro (la fuente es Firestore y no el sitemap, el cruce pt sólo por
+slug único, los sufijos `-\d+`, los `slugPt` duplicados o faltantes y las
+palabras en español en los slugs, que tira falsos positivos a propósito). Se
+corre con `node scripts/barrido-mantenimiento.mjs`, sin credenciales. Era el
+trabajo que se repetía todas las noches de cero.
+
+**Después revisé las dos variantes que la bitácora del 15/11 pedía leer antes de
+traducir, y las dos son calcos.** `comarca-andina-full-day` de MerakiSur es
+palabra por palabra el mismo texto que `comarca-andina` de LIMITS ADVENTURE
+—cambian las viñetas y la duración declarada, 8 horas contra 10— y
+`astroturismo-y-aventura-en-lago-rosario` de MerakiSur es la versión condensada
+de `astroturismo-en-lago-rosario-lodge` de LIMITS, con un único párrafo propio
+("¿Qué llevar?") al final. **No se traducen**: van a la decisión de catálogo. Lo
+importante del hallazgo es otra cosa: **estos dos casos no son hermanas de slug**
+—los títulos son distintos, así que `conSlugsUnicos` no las agrupa—, así que son
+dos páginas nuestras con URL limpia compitiendo de verdad en español hoy, y nada
+en el código lo detecta. Quedó anotado en el pendiente 4 y en "Para Marcelo".
+Con esas dos fuera, la cola del pendiente 3 se quedó sin nada de valor alto, y
+eso liberó la corrida para la última página del pendiente 5.
+
+**Lo que se publicó.** `/pt-br/o-que-fazer-em-el-calafate/` y
+`/que-hacer-en-el-calafate/`, las dos en Astro, las dos en la misma corrida a
+propósito: con Ushuaia la portuguesa salió sola el 12/11 y costó una corrida
+entera cerrar el `hreflang` el 13/11. Nueve bloques cada una, cuatro temporadas,
+itinerario de 4 días, 12 preguntas en portugués y 10 en español, `hreflang`
+recíproco es-AR/pt-BR/x-default, JSON-LD con TouristDestination, FAQPage y
+BreadcrumbList (los tres parsean), y enlazado desde la tarjeta nueva de
+`/pt-br/`, el footer compartido en los dos idiomas, las dos páginas de Ushuaia y
+—en español— Puerto Madryn, Esquel–Trevelin y el valle del Chubut.
+**No son traducción una de la otra:** la española responde la tarifa de residente
+del Parque Nacional, si conviene alquilar auto, qué se hace gratis en El Chaltén
+y la confusión entre el glaciar Perito Moreno y el Parque Nacional Perito Moreno,
+que son dos lugares distintos a cientos de kilómetros; la portuguesa responde
+cómo se llega desde Brasil, si hace falta pasaporte (no para la Argentina, sí
+para cruzar a Torres del Paine) y El Calafate contra Ushuaia si sólo da para uno.
+
+**Se publicó con una sola ficha de catálogo, que era la decisión que la bitácora
+dejaba abierta.** Se eligió hacerla igual, por tres razones: "Perito Moreno" es
+probablemente la búsqueda más grande del brasileño en toda la Patagonia, la
+página se sostiene sola con contenido informativo, y el clic que no tenemos a
+dónde derivar cae en `/pt-br/experiencias/`, que es mejor que no recibir la
+visita. Donde no vendemos la actividad está dicho con todas las letras
+—minitrekking, Big Ice, navegaciones a Upsala y Spegazzini— y sin enlace falso,
+igual que en Ushuaia. El hueco de catálogo de Santa Cruz quedó anotado en
+"Para Marcelo" con las tres fichas que más valdrían, por orden.
+
+**El diferencial de contenido, y lo que hay que mantener al día.** Casi todo lo
+que hay escrito en internet sobre la ruptura del puente de hielo está viejo, y
+las dos páginas lo corrigen con fuentes de 2026 verificadas en la corrida: el
+frente se alejó **910 m de la península de Magallanes entre el 24/02 y el
+04/06/2026** en el sector de referencia (medición con drones del Glaciarium
+junto con la intendencia del PN Los Glaciares), el mayor retroceso registrado
+desde los 750 m que midió Hauthal en 1899; **3,27 km² de superficie perdida
+desde mayo de 2018**; entre 1999 y 2013 el frente había variado menos de 50 m;
+y la **última ruptura ampliamente documentada fue en marzo de 2018**, de
+madrugada y sin público, con una ruptura clásica improbable mientras el hielo no
+vuelva a cerrar el paso entre el brazo Rico y el canal de los Témpanos. Las
+pasarelas (más de 4,5 km) están abiertas y el destino se visita con normalidad.
+Las dos páginas lo cuentan así —ni catástrofe ni folleto viejo— y las dos tienen
+el aviso escrito en el comentario de cabecera: **si esto cambia hay que
+actualizar el bloque `ruptura` y su pregunta en la FAQ, en los dos idiomas**.
+
+**Lo que apareció de paso:** la guía española le dio enlace interno a **ocho
+guías de viaje de Santa Cruz que estaban huérfanas** (pendiente 7): Perito
+Moreno, El Chaltén, Glaciarium, Todo Glaciares, Cueva de las Manos, Lago Posadas
+y Pueyrredón, PN Perito Moreno y península Belgrano. Las ocho dan 200 en
+producción, verificadas con `curl`, porque el barrido de enlaces las marca como
+sospechosas: con `DATOS_LOCALES=1` las páginas de `/guias/` no se generan, así
+que el aviso del barrido es un falso positivo esperable y hay que contrastarlo
+con `curl`, como ya dice el método.
+
+Resultado esperado: entrar en la capa informacional brasileña del glaciar
+—"geleira Perito Moreno", "o que fazer em El Calafate", "quantos dias em El
+Calafate", "ruptura do Perito Moreno", "minitrekking Perito Moreno", "El Chaltén
+Fitz Roy"—, que es la más grande de toda la Patagonia para ese mercado y donde
+hasta hoy no existíamos con nada informativo; y, en español, capturar la búsqueda
+de destino de El Calafate dándole además enlace interno a ocho guías que traían
+visitas sin tener a dónde derivarlas. Se mide en Search Console (cuando esté
+conectado) por impresiones de las dos URLs nuevas y por el clic que derive cada
+una al listado y a la ficha de la ruta de las estancias. Sitemap servido:
+303 → **305 URLs**, las dos nuevas con 200, canonical propio y `hreflang`
+recíproco verificado en producción. IndexNow: **Yandex 202 Accepted** con las
+tres URLs (las dos páginas más la ficha pt del glaciar); **Bing sigue en 403 por
+noveno día** y no se le dedicó trabajo, espera el token XML de Marcelo
+(pendiente 11).
+
+Quedó pendiente, en orden: **las decisiones de catálogo de "Para Marcelo"**, que
+hoy son lo que más vale por hora —reactivar una de las dos navegaciones del
+canal Beagle y sumar minitrekking o navegación en El Calafate, los dos destinos
+donde ya hay guía publicada esperando ficha—; el arreglo del slug `-2` de la
+Ruta Galesa con su 301; el mantenimiento del pendiente 14
+(`gastronomia-es.json` es copia y puede derivar); **el `slugPt` de
+`cabalgatas-familiares`**, que publica en `cabalgatas-familiares-esquel` con la
+palabra en español —en portugués de Brasil es `cavalgadas`— y que lo encontró
+el barrido nuevo (es un 301 sobre una URL ya indexada, prioridad baja como los
+otros dos casos del mismo tipo); y, del
+pendiente 3, traducir una o dos habitaciones del AGUADA HOTEL, que es lo único
+que queda con algo de valor en esa cola.

@@ -1,0 +1,371 @@
+---
+// ─────────────────────────────────────────────────────────────
+// GUÍA DE DESTINO EN PT-BR — EL CALAFATE Y LOS GLACIARES
+//
+// Octava página informativa de /pt-br/ y **la última del pendiente 5**:
+// calendario de fauna (07/11), Puerto Madryn (08/11), puerta de entrada
+// general (09/11), Esquel y Trevelin (10/11), gastronómica (11/11), Ushuaia
+// (12/11) y el valle del Chubut (14/11). Con ésta `/pt-br/` cubre los cuatro
+// destinos grandes de la Patagonia argentina.
+//
+// POR QUÉ SE HACE CON UNA SOLA FICHA PUBLICADA. La bitácora dejaba abiertos
+// dos caminos: hacerla igual o esperar a que haya catálogo en Santa Cruz.
+// Se eligió hacerla porque **"Perito Moreno" es la búsqueda más grande del
+// brasileño en toda la Patagonia** y la página se sostiene sola con contenido
+// informativo: cuántos días, cómo llegar desde Brasil, las pasarelas, el
+// minitrekking, El Chaltén y las dos caminatas que se hacen sin guía ni
+// entrada, y el estado real del glaciar. El clic que no tenemos a dónde
+// derivar se va al listado de `/pt-br/experiencias/`, que es mejor que no
+// recibir la visita.
+//
+// La capa de búsqueda que ataca: "o que fazer em El Calafate", "geleira
+// Perito Moreno", "quantos dias em El Calafate", "melhor época para ir a El
+// Calafate", "ruptura do Perito Moreno", "minitrekking Perito Moreno",
+// "El Chaltén Fitz Roy", "quanto custa a entrada do Parque Nacional Los
+// Glaciares", "El Calafate ou Ushuaia".
+//
+// HONESTIDAD DE CATÁLOGO, como en Ushuaia: de todo lo que se cuenta acá
+// **vendemos una sola cosa**, el tour alternativo por la ruta de las
+// estancias hasta la playa de icebergs. El minitrekking, el Big Ice y las
+// navegaciones a Upsala y Spegazzini no los vendemos y se dice con todas las
+// letras, sin enlace falso. El hueco de catálogo de Santa Cruz queda anotado
+// en "Para Marcelo".
+//
+// DATO QUE HAY QUE MANTENER AL DÍA (verificado el 16/11/2026): el glaciar
+// **ya no es el glaciar estable** que dice casi todo el contenido viejo de
+// internet. Entre el 24/02 y el 04/06/2026 el frente se alejó 910 m de la
+// península de Magallanes en el sector de referencia (medición de Glaciarium
+// con la Intendencia del Parque Nacional Los Glaciares, con drones), el mayor
+// retroceso documentado desde los 750 m que midió Hauthal en 1899; la
+// superficie perdida desde mayo de 2018 llega a 3,27 km². La última ruptura
+// del puente de hielo ampliamente documentada fue en **marzo de 2018**, y
+// mientras el hielo no vuelva a cerrar el paso entre el brazo Rico y el canal
+// de los Témpanos una ruptura clásica es improbable. Las pasarelas (más de
+// 4,5 km) siguen abiertas y el destino se visita con normalidad. Acá se
+// cuenta así: ni catástrofe ni folleto viejo. **Si esto cambia, hay que
+// actualizar el bloque `ruptura` y la FAQ correspondiente.**
+//
+// No toca precios, ni el botón de reserva, ni el checkout.
+// ─────────────────────────────────────────────────────────────
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { obtenerExperienciasPt } from '../../lib/traducciones.js';
+
+const exps = await obtenerExperienciasPt();
+const porSlugEs = new Map(exps.map((e) => [e.slugEs, e]));
+
+// Un paseo se enlaza por el slug español de su ficha (la clave de
+// traducciones-pt.json). Si no tiene página en portugués, no se enlaza.
+const paseos = (...slugs) => slugs.map((s) => porSlugEs.get(s)).filter(Boolean);
+
+const BLOQUES = [
+  {
+    id: 'geleira',
+    etiqueta: 'O imperdível',
+    titulo: 'O Glaciar Perito Moreno e as passarelas',
+    texto:
+      'É o motivo da viagem. A geleira fica a cerca de 80 km de El Calafate, dentro do Parque Nacional Los Glaciares, e chega-se de carro em pouco mais de uma hora por estrada asfaltada. O que a torna diferente de qualquer outra geleira do mundo não é o tamanho — há muitas maiores no Campo de Gelo Patagônico Sul — mas a distância: a frente de gelo termina na água a poucas centenas de metros de uma península com mais de 4,5 km de passarelas e mirantes em vários níveis, então você vê a parede de gelo de frente, de cima e de perto, a pé, sem barco e sem guia. As paredes sobressaem uns 60 metros acima da água, e o som é metade do espetáculo: um estrondo seco, parecido com um trovão, cada vez que um pedaço se desprende. Reserve o dia inteiro e leve agasalho: o vento que desce do gelo é bem mais frio do que o termômetro de El Calafate.',
+    fichas: paseos('tour-alternativo-al-glaciar-moreno'),
+  },
+  {
+    id: 'ruptura',
+    etiqueta: 'O que mudou em 2026',
+    titulo: 'A ruptura do puente de hielo e o estado real da geleira',
+    texto:
+      'Quase todo o conteúdo que você vai encontrar na internet sobre a ruptura do Perito Moreno está desatualizado, e vale saber antes de escolher as datas. A ruptura é o fenômeno em que a geleira avança até tocar a península de Magallanes, represa o braço Rico, e a água acaba perfurando um túnel no gelo que desaba em arcos de dezenas de metros. A última grande ruptura amplamente documentada foi em março de 2018 — de madrugada, sem público. Desde então a geleira mudou de comportamento: entre fevereiro e junho de 2026 a frente se afastou 910 metros da península no setor de referência, segundo as medições com drone do Glaciarium junto com a administração do Parque Nacional, o maior recuo registrado desde 1899, e a superfície perdida desde 2018 chega a 3,27 km². Enquanto o gelo não voltar a fechar a passagem entre o braço Rico e o canal de los Témpanos, uma ruptura clássica é improvável. Nada disso tira o passeio do mapa: as passarelas estão abertas, a frente continua ali e os desprendimentos seguem acontecendo todos os dias. O que mudou é a expectativa: não programe a viagem em função da ruptura, porque ela nunca teve data e hoje depende de um ciclo que não está em curso.',
+    fichas: [],
+  },
+  {
+    id: 'estancias',
+    etiqueta: 'Fora do circuito',
+    titulo: 'A rota das estâncias e a praia de icebergs',
+    texto:
+      'O ônibus turístico comum faz o caminho asfaltado, para no estacionamento e devolve você à cidade. Há uma forma diferente de chegar à mesma geleira: a estrada velha de cascalho, a rota histórica das estâncias, que sai cedo, atravessa a estepe com vistas altas do Lago Argentino, passa em frente à Estancia Anita e para num parador de campo onde se toma mate com um paisano da região. No meio do caminho entra a parte que quase ninguém faz — uma trilha de descida de cerca de 45 minutos, com guia naturalista credenciado pelo Parque Nacional, por bosque nativo até a praia de icebergs do braço Sul do Lago Argentino, onde os blocos de gelo encalham na areia. Depois disso, tempo livre nas passarelas. É um dia inteiro, ativo, e é o único passeio do Parque que vendemos: tudo o mais que está nesta página se contrata em El Calafate.',
+    fichas: paseos('tour-alternativo-al-glaciar-moreno'),
+  },
+  {
+    id: 'minitrekking',
+    etiqueta: 'Caminhar no gelo',
+    titulo: 'Minitrekking e Big Ice: andar sobre a geleira',
+    texto:
+      'Pisar a geleira é um passeio à parte, com saída de barco do Puerto Bajo las Sombras, atravessando o braço Rico até a margem onde o gelo encosta na rocha. O minitrekking são cerca de uma hora e meia a duas horas de caminhada sobre o gelo com crampons colocados pelos guias, sem exigência técnica mas com limite de idade (costuma ir dos 10 aos 65 anos) e atestado de aptidão em alguns casos; é a versão que a maioria faz e que fecha com um uísque no gelo. O Big Ice é a versão longa, de três a quatro horas sobre a geleira, chegando a sumidouros e lagoas azuis, com faixa de idade mais estreita e exigência física real. Nenhum dos dois é nosso: contratam-se em El Calafate ou pela internet com antecedência, porque a lotação é limitada e esgota na alta temporada. Vale pedir confirmação antes de viajar, porque as caminhadas sobre o gelo precisam de setores de acesso estáveis e o recuo da frente mexeu com a geometria da geleira.',
+    fichas: [],
+  },
+  {
+    id: 'navegacoes',
+    etiqueta: 'As outras geleiras',
+    titulo: 'Navegações: Upsala, Spegazzini e o safári náutico',
+    texto:
+      'O Parque Nacional Los Glaciares tem 47 geleiras grandes e o Perito Moreno é só a mais acessível. As duas maiores se veem de barco: a Upsala, que foi a maior da Argentina e hoje tem a frente recuada atrás de um labirinto de icebergs, e a Spegazzini, que é a mais alta de todas, com paredes que passam de 100 metros. A navegação clássica que visita as duas sai do Puerto Punta Bandera, a 45 km de El Calafate, e leva o dia inteiro; há versões com desembarque e caminhada curta em Spegazzini. Separado disso, existe o safári náutico, uma volta de uma hora pelo canal de los Témpanos que aproxima da frente do Perito Moreno pela água e se contrata no mesmo dia da visita às passarelas, do próprio parque. Nenhuma das duas é nossa — contratam-se na cidade — mas são o que justifica um segundo dia de gelo em El Calafate.',
+    fichas: [],
+  },
+  {
+    id: 'chalten',
+    etiqueta: 'A 3 horas de carro',
+    titulo: 'El Chaltén, o Fitz Roy e as trilhas de graça',
+    texto:
+      'El Chaltén fica a cerca de 215 km de El Calafate, umas três horas por estrada asfaltada, e é a capital argentina do trekking: um povoado de poucas ruas no pé do Cerro Fitz Roy, que os tehuelches chamavam Chaltén, "a montanha que fuma", por causa da nuvem que quase sempre tapa o cume. Aqui está o dado que mais surpreende o brasileiro: as trilhas saem de dentro do povoado, não cobram entrada e não exigem guia. A Laguna de los Tres, que é o mirante do Fitz Roy, são uns 20 km de ida e volta e 8 a 10 horas, com o último quilômetro em subida forte; a Laguna Torre, com vista do Cerro Torre, são uns 18 km mais tranquilos, em 6 ou 7 horas. Quem tem meio dia faz o mirante de los Cóndores, de uma hora. Dá para ir e voltar no mesmo dia desde El Calafate, mas o dia fica longuíssimo e você perde o melhor horário de luz: se a viagem permitir, durma uma ou duas noites no povoado.',
+    fichas: [],
+  },
+  {
+    id: 'cidade',
+    etiqueta: 'Na própria cidade',
+    titulo: 'El Calafate: Glaciarium, Laguna Nimez e a fruta que dá nome',
+    texto:
+      'El Calafate não é só base logística, e isso resolve bem a tarde de chegada ou um dia de tempo ruim. O Glaciarium, a 6 km do centro, é um museu de gelo de verdade — explica como se forma o Campo de Gelo Patagônico Sul, por que as geleiras são azuis e o que está acontecendo com elas — e tem embaixo o Glaciobar, um bar construído inteiramente de gelo. A Laguna Nimez, uma reserva urbana a dez minutos a pé do centro, tem flamingos austrais, cisnes de pescoço negro e um circuito de passarelas que se faz em uma hora. A cidade fica na margem sul do Lago Argentino, o maior lago da Argentina, e leva o nome do calafate, o arbusto de frutinha roxa que dá geleia, sorvete e cerveja em toda a Patagônia — e que tem a lenda que todo guia conta: quem come calafate sempre volta.',
+    fichas: [],
+  },
+  {
+    id: 'estepe',
+    etiqueta: 'Para quem tem mais dias',
+    titulo: 'Estâncias, cavalgadas e a estepe de Santa Cruz',
+    texto:
+      'A província de Santa Cruz é maior que o estado de São Paulo e tem menos de 400 mil habitantes: a estepe entre um ponto e outro é parte do que se vem ver. Perto de El Calafate funcionam estâncias de ovelhas que recebem por um dia com cordeiro assado, demonstração de tosquia e cavalgada — a Nibepo Aike, na margem do braço Sur, e a Cristina, que só se alcança navegando pelo Lago Argentino, são as duas mais conhecidas. Mais longe, no caminho para o norte, está a Cueva de las Manos, no cânion do rio Pinturas, com pinturas de mãos de 9.000 anos reconhecidas pela Unesco. E atenção a uma confusão frequente: o Parque Nacional Perito Moreno não é onde está a geleira do mesmo nome — é outra área protegida, muito mais remota, a centenas de quilômetros, sem serviços e praticamente sem visitantes.',
+    fichas: [],
+  },
+  {
+    id: 'combinar',
+    etiqueta: 'Montando a viagem',
+    titulo: 'Combinar com Ushuaia, Torres del Paine ou a costa',
+    texto:
+      'El Calafate quase nunca é viagem única: entra num roteiro. A combinação mais comum do brasileiro é com Ushuaia, uma hora e vinte de voo, que se resolve com dois ou três dias em cada um. Para o Chile, Torres del Paine fica a cerca de cinco horas de ônibus por Cerro Castillo e exige passaporte, porque é fronteira internacional — o RG não serve nesse trecho. Com a costa de Chubut (Puerto Madryn e a Península Valdés) a distância é grande e pede voo por Buenos Aires ou por Trelew, mas é a soma que mais muda a viagem: baleias e pinguins de um lado, gelo do outro, nada parecido entre os dois. O que não funciona é tentar os três num feriado de dez dias: são mais de 2.000 km de ponta a ponta e três trechos aéreos.',
+    fichas: [],
+  },
+];
+
+const TEMPORADAS = [
+  {
+    meses: 'Dezembro a fevereiro',
+    nome: 'Verão — tudo aberto e dias longos',
+    texto: 'Até 16 horas de luz, todas as trilhas de El Chaltén abertas, todas as navegações operando e máximas de 19 a 22 °C, que para a Patagônia é calor. É também a temporada mais cara e cheia: hospedagem em El Calafate e no Chaltén se reserva com meses de antecedência, e o minitrekking esgota. O vento é mais forte justamente nesses meses.',
+  },
+  {
+    meses: 'Março e abril',
+    nome: 'Outono — a melhor época, e quase ninguém sabe',
+    texto: 'As lengas ficam vermelhas e douradas, o vento baixa bastante, os preços cedem e ainda há luz suficiente para as trilhas longas. É a época preferida de fotógrafo e de quem já conhece o destino. Em contrapartida, no fim de abril alguns serviços começam a reduzir frequência.',
+  },
+  {
+    meses: 'Maio a agosto',
+    nome: 'Inverno — a geleira com neve e sem fila',
+    texto: 'A geleira se visita o ano inteiro e as passarelas continuam abertas com neve, o que dá a foto mais bonita e com menos gente de toda a temporada. O preço é o dia curto (cerca de 8 horas de luz), o frio de verdade e serviços reduzidos: várias navegações param, o Big Ice não opera e as trilhas de El Chaltén ficam com neve e gelo.',
+  },
+  {
+    meses: 'Setembro a novembro',
+    nome: 'Primavera — equilíbrio de preço e paisagem',
+    texto: 'As montanhas ainda estão brancas, o campo floresce, as navegações voltam a operar e os preços ainda não são de alta temporada. É a melhor relação custo-benefício do ano. O vento começa a subir em novembro, e algumas trilhas altas do Chaltén só liberam no fim da primavera.',
+  },
+];
+
+const ROTEIRO = [
+  { dia: 'Dia 1', titulo: 'Chegada e a cidade', texto: 'Voo até El Calafate (FTE), a uns 20 km do centro. À tarde, o Glaciarium para entender o que você vai ver no dia seguinte, e a Laguna Nimez no fim do dia, com os flamingos e a luz sobre o Lago Argentino.' },
+  { dia: 'Dia 2', titulo: 'O Perito Moreno, dia inteiro', texto: 'Saída cedo para a geleira. Se o passeio for pela rota das estâncias, entra a trilha até a praia de icebergs antes das passarelas. Reserve as horas do meio do dia para os mirantes: é quando os desprendimentos são mais frequentes.' },
+  { dia: 'Dia 3', titulo: 'Gelo por água ou El Chaltén', texto: 'Dois caminhos: a navegação do dia inteiro até a Upsala e a Spegazzini, saindo de Punta Bandera, ou a viagem a El Chaltén para a trilha da Laguna Torre. Com quatro dias dá para fazer os dois.' },
+  { dia: 'Dia 4', titulo: 'El Chaltén com calma', texto: 'Dormir no povoado e subir à Laguna de los Tres bem cedo, que é quando o Fitz Roy costuma estar sem nuvem. São 8 a 10 horas de caminhada, de graça e sem guia, e é a imagem que fecha a viagem.' },
+];
+
+const faq = [
+  {
+    p: 'Quantos dias ficar em El Calafate?',
+    r: 'Três dias cheios é o mínimo razoável: um para o Glaciar Perito Moreno com tempo de verdade nas passarelas, um para a navegação até as geleiras Upsala e Spegazzini ou para o minitrekking, e um para El Chaltén. Com quatro ou cinco você dorme no Chaltén e faz a trilha da Laguna de los Tres com calma, que é o que a maioria lamenta não ter feito. Dois dias dá para ver a geleira e voltar, mas é viagem apertada para a distância que se percorre até chegar.',
+  },
+  {
+    p: 'Qual é a melhor época para ir a El Calafate?',
+    r: 'De dezembro a fevereiro está tudo aberto, com dias de até 16 horas de luz — e é a época mais cara, mais cheia e mais ventosa. Março e abril são a melhor janela para a maioria: bosque colorido, vento mais baixo, preços menores e luz suficiente para as trilhas. De maio a agosto a geleira se visita com neve e quase sem fila, mas os dias são curtos e várias navegações param. Setembro a novembro é o melhor equilíbrio entre preço e paisagem.',
+  },
+  {
+    p: 'Como chegar a El Calafate saindo do Brasil?',
+    r: 'A rota habitual é voar até Buenos Aires e pegar o voo doméstico até o Aeroporto Comandante Armando Tola (FTE), a cerca de 20 km de El Calafate, com aproximadamente 3 horas de voo. Confirme de qual aeroporto de Buenos Aires sai o trecho doméstico antes de comprar, porque trocar entre Aeroparque e Ezeiza leva cerca de uma hora de carro. Em algumas temporadas há voos sazonais diretos do Brasil e também conexões por Córdoba, Ushuaia ou Bariloche: vale conferir as suas datas com a companhia aérea.',
+  },
+  {
+    p: 'Brasileiro precisa de passaporte para ir a El Calafate?',
+    r: 'Para entrar na Argentina, não: pelo acordo do Mercosul o RG válido e em bom estado resolve, inclusive para o voo doméstico até El Calafate. O passaporte passa a ser necessário se a viagem cruzar para o Chile — por exemplo para ir a Torres del Paine por Cerro Castillo, ou para chegar a Ushuaia por terra, que atravessa território chileno duas vezes.',
+  },
+  {
+    p: 'Quando acontece a ruptura do Glaciar Perito Moreno?',
+    r: 'Não há data e não se pode programar a viagem em função dela. A última grande ruptura amplamente documentada foi em março de 2018, de madrugada e sem público, e desde então a geleira passou a recuar: entre fevereiro e junho de 2026 a frente se afastou 910 metros da península de Magallanes no setor de referência, segundo as medições com drone do Glaciarium com a administração do Parque Nacional. Enquanto o gelo não voltar a fechar a passagem entre o braço Rico e o canal de los Témpanos, uma ruptura clássica é improvável. Os desprendimentos de blocos, que é o que o visitante vê e ouve nas passarelas, continuam acontecendo todos os dias.',
+  },
+  {
+    p: 'O Glaciar Perito Moreno está desaparecendo?',
+    r: 'Não, mas também já não é o glaciar estável que o conteúdo antigo descreve. Durante décadas ele foi a exceção entre as geleiras do mundo, com a frente praticamente no mesmo lugar: entre 1999 e 2013 variou menos de 50 metros. Isso mudou a partir de 2018: a superfície perdida desde então somava 3,27 km² em meados de 2026 e o recuo da frente já é visível em imagens de satélite. A geleira continua enorme, as passarelas estão abertas e a visita se faz com normalidade — a mudança é de tendência, não de disponibilidade.',
+  },
+  {
+    p: 'Vale a pena fazer o minitrekking sobre a geleira?',
+    r: 'Vale, se você tem condicionamento para uma caminhada de uma hora e meia a duas sobre o gelo e está na faixa de idade aceita, que costuma ir dos 10 aos 65 anos. É uma experiência diferente da das passarelas: ali você olha a geleira de frente, no minitrekking você anda sobre ela, entre fendas e lagoas azuis, com crampons colocados pelos guias. O Big Ice é a versão longa, de três a quatro horas, com exigência física real e faixa de idade mais estreita. Os dois se contratam em El Calafate com antecedência, porque a lotação é limitada; não são passeios do nosso catálogo.',
+  },
+  {
+    p: 'Precisa pagar entrada no Parque Nacional Los Glaciares?',
+    r: 'Sim, no setor do Perito Moreno (seccional Río Mitre) a entrada se paga na portaria e tem valor diferenciado para estrangeiros, argentinos e residentes da província, atualizado todos os anos pela Administração de Parques Nacionais. Quase nenhum passeio inclui a entrada no preço, então conte esse valor à parte e leve dinheiro em espécie para não depender da fila do cartão. No setor de El Chaltén, ao contrário, o acesso às trilhas é gratuito.',
+  },
+  {
+    p: 'Dá para ir a El Chaltén num bate-volta desde El Calafate?',
+    r: 'Dá, e muita gente faz: são cerca de 215 km e três horas de estrada asfaltada em cada sentido. O problema é o que cabe no meio — com o bate-volta você faz no máximo uma trilha curta, como o mirante de los Cóndores, ou a Laguna Capri. Para a Laguna de los Tres, que são 8 a 10 horas de caminhada, é preciso dormir no povoado. Se a viagem tiver cinco dias ou mais, duas noites em El Chaltén valem mais do que duas noites extras em El Calafate.',
+  },
+  {
+    p: 'El Calafate ou Ushuaia: qual escolher se só der para um?',
+    r: 'Se a imagem que você quer é o gelo, El Calafate: o Perito Moreno não tem equivalente em nenhum outro lugar do mundo, e El Chaltén some trekking de primeira linha a três horas de carro. Se o que atrai é "o fim do mundo", com navegação no Canal Beagle, pinguins durante todo o ano e neve no inverno, Ushuaia entrega mais variedade em menos distância. Os dois são os destinos mais caros da Patagônia argentina e estão a uma hora e vinte de voo um do outro, então o roteiro clássico de primeira viagem pega os dois com dois ou três dias em cada.',
+  },
+  {
+    p: 'Precisa alugar carro em El Calafate?',
+    r: 'Não é obrigatório. Todos os passeios à geleira, às navegações e a El Chaltén saem com transporte e guia, e a cidade se caminha. O carro rende para quem fica muitos dias, quer voltar às passarelas por conta própria num segundo dia ou pretende ir ao Chaltén com paradas pelo caminho. No inverno, com neve e gelo na estrada, pense duas vezes: as distâncias são longas e há pouquíssimo posto de combustível entre um ponto e outro.',
+  },
+  {
+    p: 'Que roupa levar para El Calafate?',
+    r: 'Em qualquer época: corta-vento impermeável, camadas por baixo, gorro e luvas. O vento patagônico é o fator que o termômetro não mostra, e em frente à geleira ele desce do gelo: mesmo num dia de verão de 20 °C, nas passarelas você vai sentir perto de 10. Para as trilhas de El Chaltén, calçado de trekking de verdade e proteção solar forte, porque o sol da estepe queima com frio. No inverno, roupa térmica e calçado com boa sola, que as passarelas podem estar com gelo.',
+  },
+];
+
+const alternos = {
+  es: 'https://patagoniaexperiencias.com/que-hacer-en-el-calafate/',
+  pt: 'https://patagoniaexperiencias.com/pt-br/o-que-fazer-em-el-calafate/',
+};
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'TouristDestination',
+    name: 'El Calafate e os glaciares',
+    description:
+      'El Calafate, na província de Santa Cruz, é a base para visitar o Glaciar Perito Moreno e o Parque Nacional Los Glaciares: as passarelas em frente à frente de gelo, o minitrekking sobre a geleira, as navegações até a Upsala e a Spegazzini e as trilhas do Fitz Roy em El Chaltén.',
+    url: 'https://patagoniaexperiencias.com/pt-br/o-que-fazer-em-el-calafate/',
+    inLanguage: 'pt-BR',
+    geo: { '@type': 'GeoCoordinates', latitude: -50.3379, longitude: -72.2648 },
+    containedInPlace: { '@type': 'AdministrativeArea', name: 'Santa Cruz, Argentina' },
+    touristType: ['Casais', 'Famílias', 'Amantes da natureza', 'Aventura', 'Trekking', 'Fotografia'],
+    includesAttraction: [
+      { '@type': 'TouristAttraction', name: 'Glaciar Perito Moreno' },
+      { '@type': 'TouristAttraction', name: 'Parque Nacional Los Glaciares' },
+      { '@type': 'TouristAttraction', name: 'Glaciar Upsala' },
+      { '@type': 'TouristAttraction', name: 'Glaciar Spegazzini' },
+      { '@type': 'TouristAttraction', name: 'El Chaltén e o Cerro Fitz Roy' },
+      { '@type': 'TouristAttraction', name: 'Lago Argentino' },
+      { '@type': 'TouristAttraction', name: 'Glaciarium' },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    inLanguage: 'pt-BR',
+    mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.p, acceptedAnswer: { '@type': 'Answer', text: f.r } })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Patagônia argentina', item: 'https://patagoniaexperiencias.com/pt-br/' },
+      { '@type': 'ListItem', position: 2, name: 'El Calafate e os glaciares', item: 'https://patagoniaexperiencias.com/pt-br/o-que-fazer-em-el-calafate/' },
+    ],
+  },
+];
+---
+<BaseLayout
+  titulo="O que fazer em El Calafate"
+  descripcion="Guia de El Calafate: o Glaciar Perito Moreno e as passarelas, minitrekking, navegações até Upsala e Spegazzini, El Chaltén e o Fitz Roy, e roteiro de 4 dias."
+  idioma="pt"
+  alternos={alternos}
+  schema={schema}
+>
+  <main>
+    <section class="bg-brand-oxford text-white">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20">
+        <p class="text-brand-fuchsia text-xs font-black uppercase tracking-[0.3em] mb-4"><i class="fa-solid fa-icicles mr-2"></i>Santa Cruz · Glaciares · Patagônia argentina</p>
+        <h1 class="font-sans font-extrabold text-3xl sm:text-5xl leading-tight">O que fazer em El Calafate</h1>
+        <p class="text-white/75 text-lg max-w-3xl mt-5">A geleira que se olha de frente, a pé, a poucas centenas de metros: o Perito Moreno é a única parede de gelo do mundo com uma cidade inteira montada em volta dela. E a três horas de carro está El Chaltén, onde as trilhas do Fitz Roy saem do povoado, sem guia e sem entrada. Este é o guia para montar a viagem: quando ir, quantos dias ficar, o que fazer em cada um e o que mudou na geleira em 2026.</p>
+        <div class="flex flex-wrap gap-3 mt-7">
+          <a href="#roteiro" class="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white font-bold text-xs uppercase tracking-widest px-5 py-3 rounded-full hover:bg-white/20 transition-all"><i class="fa-solid fa-route"></i> Roteiro de 4 dias</a>
+          <a href="#geleira" class="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white font-bold text-xs uppercase tracking-widest px-5 py-3 rounded-full hover:bg-white/20 transition-all"><i class="fa-solid fa-snowflake"></i> O Perito Moreno</a>
+          <a href="#ruptura" class="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white font-bold text-xs uppercase tracking-widest px-5 py-3 rounded-full hover:bg-white/20 transition-all"><i class="fa-solid fa-circle-info"></i> A ruptura</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-5">Por que El Calafate</h2>
+      <div class="space-y-4 text-slate-700 leading-relaxed">
+        <p>Há geleiras maiores que o Perito Moreno, inclusive dentro do mesmo parque. O que não existe em nenhum outro lugar é a <strong>distância</strong>: a frente de gelo termina na água a poucas centenas de metros de uma península com mais de 4,5 km de passarelas, então você chega de carro, caminha dez minutos e fica de frente para uma parede de gelo de uns 60 metros de altura, ouvindo os blocos se desprenderem. Em quase todo o resto do mundo ver uma geleira assim exige barco, helicóptero ou dias de aproximação.</p>
+        <p>O segundo motivo é o que vem junto. El Calafate é a base de um <strong>parque nacional com 47 geleiras</strong>: a Upsala e a Spegazzini se visitam de barco num dia inteiro, e as caminhadas sobre o gelo saem de outro ponto do mesmo lago. E a três horas de carro está <strong>El Chaltén</strong>, que é um destino completo por si só, com as duas trilhas mais fotografadas da Patagônia saindo de dentro do povoado, de graça e sem guia obrigatório.</p>
+        <p>A contrapartida é o <strong>preço e a distância</strong>. É, junto com Ushuaia, o destino mais caro da Patagônia argentina — temporada curta, tudo chega de longe, demanda internacional alta — e está a 2.700 km de Buenos Aires, então chegar sempre significa um voo doméstico. Também não é destino de "passar o dia": com menos de três dias cheios você vê a geleira e pouco mais.</p>
+      </div>
+    </section>
+
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-2">Quando ir</h2>
+      <p class="text-slate-600 mb-7 max-w-3xl">Os meses são do hemisfério sul: julho é inverno e janeiro é verão. A geleira se visita o ano inteiro; o que muda com a estação são as navegações, as trilhas e o preço. Se a viagem também passar pela costa de Chubut, o <a href="/pt-br/melhor-epoca-fauna-patagonia/" class="text-brand-fuchsia font-semibold hover:underline">calendário da fauna</a> traz a época de cada animal.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        {TEMPORADAS.map((t) => (
+          <div class="bg-white border border-slate-200 rounded-2xl p-6">
+            <p class="text-brand-fuchsia text-[11px] font-bold uppercase tracking-widest mb-2">{t.meses}</p>
+            <h3 class="font-sans font-bold text-lg text-brand-oxford mb-2">{t.nome}</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">{t.texto}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-2">O que fazer</h2>
+      <p class="text-slate-600 mb-7 max-w-3xl">Nove blocos que justificam a viagem. De todos eles vendemos um só passeio — o tour pela rota das estâncias até a praia de icebergs —, e onde não vendemos a atividade está dito: o resto se contrata em El Calafate.</p>
+      <div class="space-y-6">
+        {BLOQUES.map((b) => (
+          <article id={b.id} class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8">
+            <p class="text-brand-fuchsia text-[11px] font-bold uppercase tracking-widest mb-2">{b.etiqueta}</p>
+            <h3 class="font-sans font-extrabold text-xl sm:text-2xl text-brand-oxford mb-3">{b.titulo}</h3>
+            <p class="text-slate-600 leading-relaxed">{b.texto}</p>
+            {b.fichas.length > 0 && (
+              <div class="mt-5 pt-5 border-t border-slate-100">
+                <p class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">Passeios</p>
+                <ul class="space-y-1.5">
+                  {b.fichas.map((p) => (
+                    <li>
+                      <a href={`/pt-br/experiencias/${p.slug}/`} class="text-brand-fuchsia font-semibold text-sm hover:underline inline-flex items-start gap-2">
+                        <i class="fa-solid fa-arrow-right text-[10px] mt-1.5"></i><span>{p.titulo}{p.duracion ? ` · ${p.duracion}` : ''}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section id="roteiro" class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-2">Roteiro de 4 dias</h2>
+      <p class="text-slate-600 mb-7 max-w-3xl">A ordem importa por dois motivos: o Glaciarium no primeiro dia muda o que você entende no segundo, e El Chaltén rende muito mais com uma noite no povoado do que como bate-volta.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {ROTEIRO.map((d) => (
+          <div class="bg-white border border-slate-200 rounded-2xl p-6">
+            <p class="text-brand-fuchsia text-[11px] font-bold uppercase tracking-widest mb-2">{d.dia}</p>
+            <h3 class="font-sans font-bold text-base text-brand-oxford mb-2">{d.titulo}</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">{d.texto}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+      <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-5">Como chegar e como se locomover</h2>
+      <div class="space-y-4 text-slate-700 leading-relaxed">
+        <p>Do Brasil a rota habitual passa por <strong>Buenos Aires</strong>, e de lá sai o voo doméstico até o <strong>Aeroporto Comandante Armando Tola (FTE)</strong>, a cerca de 20 km de El Calafate, com aproximadamente 3 horas de voo. Confirme de qual aeroporto de Buenos Aires sai o trecho doméstico antes de comprar as passagens: trocar entre Aeroparque e Ezeiza leva cerca de uma hora de carro. Em algumas temporadas há voos sazonais diretos do Brasil e conexões por Córdoba, Ushuaia ou Bariloche.</p>
+        <p>Do aeroporto ao centro há transfer compartilhado e táxi; os hotéis ficam quase todos sobre a Avenida del Libertador ou a poucas ruas dela, e a cidade se caminha. <strong>Para a geleira são 80 km de estrada asfaltada</strong>, e todos os passeios saem com transporte e guia. Para <strong>El Chaltén</strong> são 215 km, três horas, com ônibus de linha várias vezes por dia na alta temporada.</p>
+        <p>Se a viagem combinar El Calafate com outra região, veja <a href="/pt-br/o-que-fazer-na-patagonia-argentina/" class="text-brand-fuchsia font-semibold hover:underline">o que fazer na Patagônia argentina</a> antes de fechar as datas: as distâncias entre regiões enganam e quase sempre pedem avião. Para o Chile — Torres del Paine, Puerto Natales — o trecho é de ônibus por Cerro Castillo e <strong>exige passaporte</strong>.</p>
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 pb-12">
+      <h2 class="font-sans font-extrabold text-2xl text-brand-oxford mb-4">Perguntas frequentes</h2>
+      <div class="space-y-3">
+        {faq.map((f) => (
+          <details class="bg-white border border-slate-200 rounded-2xl p-5">
+            <summary class="font-sans font-bold text-brand-oxford cursor-pointer">{f.p}</summary>
+            <p class="mt-3 text-slate-600 leading-relaxed">{f.r}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 pb-16 text-center">
+      <a href="/pt-br/experiencias/" class="inline-flex items-center gap-2 bg-brand-fuchsia text-white font-bold text-sm uppercase tracking-widest px-7 py-3.5 rounded-full shadow-lg shadow-brand-fuchsia/30 hover:bg-brand-fuchsiaDark transition-all"><i class="fa-solid fa-compass"></i> Ver todos os passeios</a>
+      <p class="text-slate-500 text-sm mt-5">A viagem também passa pelo fim do mundo? Veja <a href="/pt-br/o-que-fazer-em-ushuaia/" class="text-brand-fuchsia font-semibold hover:underline">o que fazer em Ushuaia</a>. Pela costa das baleias? <a href="/pt-br/o-que-fazer-em-puerto-madryn/" class="text-brand-fuchsia font-semibold hover:underline">Puerto Madryn e a Península Valdés</a>. Pela cordilheira de Chubut? <a href="/pt-br/o-que-fazer-em-esquel-e-trevelin/" class="text-brand-fuchsia font-semibold hover:underline">Esquel, Trevelin e o Parque Nacional Los Alerces</a>.</p>
+    </section>
+  </main>
+</BaseLayout>

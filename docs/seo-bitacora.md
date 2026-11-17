@@ -65,6 +65,26 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
 
 ## Para Marcelo
 
+- **El footer del buscador de reservas sigue enlazando con `.html`, y es zona
+  prohibida.** El 17/11 se sacaron los `.html` de los enlaces internos de nueve
+  páginas de `public/` (ver "Hecho"), pero `public/patagonia-experiencias.html`
+  no se tocó porque es el checkout. Esa página enlaza `prestadores.html`,
+  `manual-prestador.html`, `ecosistema.html`, `terminos.html`,
+  `privacidad.html` y `patagonia-experiencias.html` —seis enlaces que pasan por
+  una redirección 308 cada vez que un buscador la rastrea—, y es la página con
+  más tráfico del sitio. **Es cambiar seis `href`: no toca precios, ni el
+  cálculo de seña y saldo, ni Mercado Pago, ni los webhooks de Make.** Decime
+  si lo hago y lo hago en una corrida, con el diff a la vista antes de pushear.
+- **`/aike` y `/cuotas` son callejones sin salida para Google.** Medido el
+  17/11 renderizando las dos con Chromium: la página ya montada **no tiene un
+  solo enlace** (`<a href>` = 0), ni al buscador de reservas, ni a la home, ni
+  al footer del resto del sitio. El rastreador entra, lee y no tiene por dónde
+  seguir, y ninguna de las dos le pasa autoridad a nada. No es un bug —las dos
+  funcionan— pero las dos están fuera del tejido del sitio. El arreglo es el
+  mismo footer que ya tienen las demás páginas, que es justo lo que pediste
+  para todo el ecosistema; lo dejo anotado porque `/cuotas` es una landing de
+  venta y prefiero no tocarle el diseño sin tu OK.
+
 - **Hueco de catálogo en Santa Cruz: tenemos una sola ficha en todo El
   Calafate.** Anotado el 16/11 al publicar la guía de destino en los dos
   idiomas. Lo único publicado es `tour-alternativo-al-glaciar-moreno`, y es una
@@ -539,6 +559,24 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    Sigue siendo carga de datos: un `faq-es.json` espejo del portugués, 2–3
    preguntas por ficha, escritas sólo con lo que dice la ficha, de a 10 por
    corrida.
+9b. **MANTENIMIENTO NUEVO — lo que Google ve de una página de `public/` es
+   lo que queda DESPUÉS de que corre el JavaScript, y no siempre es lo que
+   dice el HTML.** Encontrado el 17/11 en la home: el bloque de respaldo
+   `pe-seo` tenía 16 enlaces internos escritos en el HTML y React los
+   **borraba** al montar, así que lo que se indexaba eran 8 (ver "Hecho").
+   La auditoría que se hacía hasta ahora —leer el HTML servido con `curl`— no
+   podía verlo. **El chequeo nuevo, que conviene hacer cada vez que se toca o
+   se mira una página de `public/`:** renderizarla con Chromium, esperar a que
+   monte, y contar `document.querySelectorAll('a[href]')` y los `h1`. Son 15
+   líneas de Playwright, que ya está instalado en la corrida. Lo que apareció
+   en el primer barrido, por orden: **`/aike` y `/cuotas` renderizan CERO
+   enlaces** (callejones sin salida, anotado en "Para Marcelo"),
+   `/billetera-turista` tiene uno solo, y `/prestadores`, `/ecosistema` y
+   `/patagonia-experiencias` enlazaban con `.html` (resuelto el 17/11 en las
+   dos primeras; la tercera es zona prohibida). **Ojo con el método:** no sirve
+   `waitUntil: 'networkidle'` —Firestore y el píxel de Meta dejan conexiones
+   abiertas y nunca resuelve—; hay que usar `'load'` y después esperar unos
+   3,5 segundos a que React monte.
 10. **Core Web Vitals.** Las páginas de `public/` cargan Tailwind por CDN y
    compilan en el navegador; las guías tienen imágenes pesadas. Eso sigue
    abierto y es lo que queda de este pendiente.
@@ -717,6 +755,37 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
     una por corrida, con tiempo.
 
 ## Hecho
+
+- **17/11/2026** — **La home le devolvió los enlaces internos a la versión que
+  ve Google.** `public/index.html` monta React sobre `#root` y, al montar,
+  **reemplaza** el bloque de respaldo `<main class="pe-seo">` con sus 16
+  enlaces internos. Google renderiza JavaScript, así que lo que indexaba de la
+  página más autoritaria del sitio eran **8 enlaces: 6 externos y 2 internos**
+  (`patagonia-experiencias.html` y `prestadores.html`), y los dos al `.html`,
+  que responde 308. Es decir: **la home no le pasaba autoridad a
+  `/experiencias/`, ni a `/guias-de-viaje/`, ni a ninguna página de destino, ni
+  a `/pt-br/`**. Se agregó un `<nav>` de 16 enlaces en el pie del panel
+  izquierdo —que ya scrolleaba— con la tipografía y los colores que la página
+  ya usaba: no cambia el diseño ni el hero. Los dos enlaces de las tarjetas y
+  el `window.location` de la billetera pasan a la URL limpia. El bloque de
+  respaldo suma las cuatro páginas de destino en español, para que las dos
+  versiones declaren lo mismo. **Verificado en producción con Chromium: 24
+  enlaces renderizados, 18 internos, todos 200, cero errores de consola, y el
+  panel idéntico en 1366×860 y en 390×844.**
+- **17/11/2026** — **73 enlaces internos dejaron de pasar por una redirección.**
+  Cloudflare Pages responde **308** a toda URL `.html` y la manda a la limpia,
+  que es la que lleva el canonical. Nueve páginas de `public/` seguían
+  enlazando con `.html` —entre ellas `/puerto-madryn`, `/valle-del-chubut` y
+  `/esquel-trevelin`, tres de las informativas con más tráfico—, así que cada
+  rastreo gastaba un salto por enlace. Reescritos en `ecosistema`,
+  `esquel-trevelin`, `guia-peninsula-valle-2026`, `guias`, `manual-prestador`,
+  `privacidad`, `puerto-madryn`, `terminos` y `valle-del-chubut`. **Se
+  conservan tal cual los parámetros (`?destino=…&actividad=…`) y los fragmentos
+  (`#tour/…`)**: el 308 sólo saca el `.html`, verificado con `curl -D-`.
+  `index.html` pasa a `/`. No se tocó `patagonia-experiencias.html`, `pago-*`
+  ni `_v11`: zona prohibida (queda anotado en "Para Marcelo"). El diff, token
+  por token, son **sólo `href`**: nada de texto, estilos ni lógica. Verificado
+  en producción: cero `.html` en las cinco páginas revisadas.
 
 - **16/11/2026** — **El Calafate y los glaciares: guía de destino en portugués
   y en español. Cerrado el pendiente 5.** Era la última página informativa que
@@ -2744,3 +2813,68 @@ el barrido nuevo (es un 301 sobre una URL ya indexada, prioridad baja como los
 otros dos casos del mismo tipo); y, del
 pendiente 3, traducir una o dos habitaciones del AGUADA HOTEL, que es lo único
 que queda con algo de valor en esa cola.
+
+### 17/11/2026
+
+**El hallazgo de la corrida: la home no le pasaba autoridad a nada.** Arranqué
+por el mantenimiento del pendiente 13 con `scripts/barrido-mantenimiento.mjs`,
+que dio limpio otra vez —118 tours activos, 117 publicables, **117 de 117 con
+meta description escrita a mano**, ninguna ficha nueva desde anoche, ningún
+`slugPt` faltante ni duplicado— y seguían los dos casos conocidos de prioridad
+baja: el sufijo `-2` de la Ruta Galesa y el `cabalgatas-familiares-esquel` con
+la palabra en español. Con la cola del pendiente 3 ya sin nada de valor alto y
+el 5 cerrado, me metí con el pendiente 10 (Core Web Vitals) y, midiendo la home
+con Chromium para tener números antes de tocar nada, apareció otra cosa mucho
+más grande.
+
+**`public/index.html` monta React sobre `#root` y, al montar, reemplaza el
+bloque de respaldo `<main class="pe-seo">`**, que es justo el que tiene los 16
+enlaces internos escritos a mano. Google renderiza JavaScript: lo que indexaba
+de la página más autoritaria del sitio eran **8 enlaces —6 externos y 2
+internos—**, y los dos internos apuntaban al `.html`, que responde 308. O sea
+que la home **no enlazaba** `/experiencias/`, ni `/guias-de-viaje/`, ni ninguna
+de las seis páginas de destino en español, ni `/pt-br/`. Todo el trabajo de
+contenido de las últimas tres semanas colgaba de un árbol cuya raíz no lo
+señalaba. Ninguna auditoría anterior podía verlo, porque todas leían el HTML
+servido con `curl` y ahí los 16 enlaces están.
+
+**Lo que se publicó.** Un `<nav>` de 16 enlaces internos en el pie del panel
+izquierdo de la home —que ya scrolleaba—, con la tipografía, los tamaños y los
+colores que la página ya usa: el hero y las dos tarjetas quedan intactos, y el
+panel se ve igual en 1366×860 y en 390×844 (comparado con captura antes y
+después). Los dos `href` de las tarjetas y el `window.location` de la billetera
+pasan a la URL limpia. El bloque de respaldo suma las cuatro páginas de destino
+en español, para que la versión con y sin JavaScript declaren lo mismo.
+Verificado en producción: **24 enlaces renderizados, 18 internos, todos 200,
+cero errores de consola**.
+
+**Y de paso, el segundo commit: 73 enlaces internos que pasaban por una
+redirección.** Cloudflare Pages responde 308 a toda URL `.html`. Nueve páginas
+de `public/` seguían enlazando con `.html` —entre ellas `/puerto-madryn`,
+`/valle-del-chubut` y `/esquel-trevelin`, tres de las informativas con más
+tráfico—, así que cada enlace costaba un salto en cada rastreo. Se reescribieron
+los 73 conservando parámetros y fragmentos (verifiqué con `curl -D-` que el 308
+sólo saca el `.html` y preserva el `?destino=…&actividad=…`). El diff, token por
+token, son sólo `href`. **No se tocó `public/patagonia-experiencias.html`**, que
+tiene seis enlaces del mismo tipo y es la página con más tráfico del sitio: es
+zona prohibida y quedó anotado en "Para Marcelo" como seis `href` que no tocan
+precios ni checkout, esperando su OK.
+
+Resultado esperado: que la autoridad de la home —la URL que más enlaces
+externos recibe— empiece a repartirse hacia las páginas de destino y hacia
+`/pt-br/`, que hasta hoy no recibían nada desde ahí; y que el rastreo deje de
+gastar 73 saltos de 308 por recorrido del sitio. Se mide en Search Console,
+cuando esté conectado, por páginas indexadas (hoy 240 de 387) y por la caída de
+los avisos de "Página con redirección". El sitemap sigue en **305 URLs**.
+IndexNow: **Yandex 200 OK** con las 305; **Bing sigue en 403 por décimo día**,
+sin dedicarle trabajo, esperando el token XML (pendiente 11).
+
+**Lo que apareció midiendo y queda pendiente**, en orden: **`/aike` y `/cuotas`
+renderizan CERO enlaces** —son callejones sin salida para el rastreador, y
+`/cuotas` además es una landing de venta, así que fue a "Para Marcelo" en vez de
+tocarle el diseño—; los seis `.html` del footer del buscador de reservas, que
+esperan el OK; el pendiente 10 propiamente dicho, que sigue entero (el CDN de
+Tailwind compila en el navegador en las 14 páginas de `public/`); y el chequeo
+nuevo que quedó anotado como pendiente 9b: **auditar las páginas de `public/`
+renderizándolas, no leyendo el HTML**, porque en este sitio las dos cosas no
+dicen lo mismo.

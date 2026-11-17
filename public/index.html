@@ -113,6 +113,10 @@
                 <a href="/guias-de-viaje/valle-del-chubut/">Gu&iacute;a del Valle del Chubut: Trelew, Gaiman, Dolavon y Rawson</a>
                 <a href="/guias-de-viaje/esquel-trevelin/">Gu&iacute;a de Esquel y Trevelin</a>
                 <a href="/puerto-madryn">Qu&eacute; hacer en Puerto Madryn</a>
+                <a href="/valle-del-chubut">Valle del Chubut: Trelew, Gaiman y Dolavon</a>
+                <a href="/esquel-trevelin">Qu&eacute; hacer en Esquel y Trevelin</a>
+                <a href="/que-hacer-en-ushuaia/">Qu&eacute; hacer en Ushuaia</a>
+                <a href="/que-hacer-en-el-calafate/">Qu&eacute; hacer en El Calafate y los glaciares</a>
                 <a href="/calendario-fauna/">Calendario de fauna: ballenas, ping&uuml;inos y orcas</a>
                 <a href="/que-hacer-patagonia/">Qu&eacute; hacer en la Patagonia</a>
                 <a href="/que-comer-patagonia/">Qu&eacute; comer en la Patagonia</a>
@@ -316,7 +320,7 @@ function App() {
         if (authTarget === 'prestador') perfilBase.puntosPartner = 0;
         await userRef.set(perfilBase);
       }
-      if (authTarget === 'turista') window.location.href = 'billetera-turista.html';else if (authTarget === 'prestador') window.location.href = 'https://panel.patagoniaexperiencias.com';else window.location.href = 'https://gestion.patagoniaexperiencias.com';
+      if (authTarget === 'turista') window.location.href = '/billetera-turista';else if (authTarget === 'prestador') window.location.href = 'https://panel.patagoniaexperiencias.com';else window.location.href = 'https://gestion.patagoniaexperiencias.com';
     } catch (error) {
       console.error("Error en login:", error);
       setLoginError("No se pudo completar el acceso con Google. Verificá tu conexión e intentá de nuevo.");
@@ -353,7 +357,7 @@ function App() {
   }, "Para Turistas & Viajeros")), React.createElement("div", {
     className: "space-y-4"
   }, React.createElement("a", {
-    href: "patagonia-experiencias.html",
+    href: "/patagonia-experiencias",
     className: "w-full card-link block bg-brand-fuchsia rounded-2xl p-4 md:p-5 flex items-center justify-between group shadow-lg hover:bg-brand-fuchsiaDark transition-all duration-300 transform scale-[1.02] text-left"
   }, React.createElement("div", {
     className: "flex items-center gap-3 md:gap-4"
@@ -412,7 +416,7 @@ function App() {
   }, "Para Prestadores Tur\xEDsticos")), React.createElement("div", {
     className: "space-y-4"
   }, React.createElement("a", {
-    href: "prestadores.html",
+    href: "/prestadores",
     className: "card-link block bg-white rounded-2xl p-4 md:p-5 flex items-center justify-between group border border-gray-100 shadow-sm hover:bg-brand-fuchsia transition-all duration-300"
   }, React.createElement("div", {
     className: "flex items-center gap-3 md:gap-4"
@@ -437,7 +441,19 @@ function App() {
     className: "mt-auto border-t border-brand-border pt-8 pb-6 px-6 bg-white w-full"
   }, React.createElement("div", {
     className: "max-w-2xl mx-auto flex flex-col gap-6 w-full"
-  }, React.createElement("div", {
+  }, React.createElement("nav", {
+    "aria-label": "Secciones de Patagonia Experiencias",
+    className: "w-full"
+  }, React.createElement("p", {
+    className: "text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center mb-3"
+  }, "Explor\xE1 la Patagonia"), React.createElement("div", {
+    className: "flex flex-wrap justify-center gap-x-4 gap-y-2"
+  }, [["/experiencias/", "Experiencias y excursiones", null], ["/guias-de-viaje/", "Gu\xEDas de viaje", null], ["/puerto-madryn", "Puerto Madryn y Pen\xEDnsula Vald\xE9s", null], ["/valle-del-chubut", "Valle del Chubut", null], ["/esquel-trevelin", "Esquel y Trevelin", null], ["/que-hacer-en-ushuaia/", "Ushuaia", null], ["/que-hacer-en-el-calafate/", "El Calafate y los glaciares", null], ["/calendario-fauna/", "Calendario de fauna", null], ["/que-hacer-patagonia/", "Qu\xE9 hacer en la Patagonia", null], ["/que-comer-patagonia/", "Qu\xE9 comer en la Patagonia", null], ["/guias/", "Revista Patagonia", null], ["/aike", "AIKE: arm\xE1 tu escapada", null], ["/cuotas", "Viaj\xE1 en cuotas", null], ["/prestadores", "Soy prestador tur\xEDstico", null], ["/ecosistema", "El ecosistema", null], ["/pt-br/", "Passeios na Patag\xF4nia (Portugu\xEAs)", "pt-BR"]].map(e => React.createElement("a", {
+    key: e[0],
+    href: e[0],
+    hrefLang: e[2] || undefined,
+    className: "text-[11px] font-medium text-gray-500 hover:text-brand-fuchsia transition-colors"
+  }, e[1])))), React.createElement("div", {
     className: "flex flex-wrap justify-center items-center gap-8 md:gap-12 opacity-60 grayscale hover:grayscale-0 transition-all duration-500"
   }, React.createElement("a", {
     href: "https://tienda.patagoniapuntos.com",

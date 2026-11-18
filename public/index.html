@@ -26,6 +26,76 @@
     <link rel="alternate" hreflang="es-AR" href="https://patagoniaexperiencias.com/">
     <link rel="alternate" hreflang="pt-BR" href="https://patagoniaexperiencias.com/pt-br/">
     <link rel="alternate" hreflang="x-default" href="https://patagoniaexperiencias.com/">
+
+    <!-- Tarjeta al compartir (WhatsApp, Facebook, X, LinkedIn). La home no tenía
+         ninguna etiqueta Open Graph: el link se compartía pelado, sin título ni
+         imagen. La imagen es la misma /og-image.jpg que ya usan otras páginas. -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Patagonia Experiencias">
+    <meta property="og:url" content="https://patagoniaexperiencias.com/">
+    <meta property="og:title" content="Patagonia Experiencias | Conectando la Patagonia">
+    <meta property="og:description" content="Tours, excursiones y gastronomía en la Patagonia argentina con prestadores locales verificados: Puerto Madryn, Península Valdés, Trelew, Gaiman y Esquel. Reservá online.">
+    <meta property="og:image" content="https://patagoniaexperiencias.com/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Patagonia Experiencias · tours y experiencias en la Patagonia argentina">
+    <meta property="og:locale" content="es_AR">
+    <meta property="og:locale:alternate" content="pt_BR">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Patagonia Experiencias | Conectando la Patagonia">
+    <meta name="twitter:description" content="Tours, excursiones y gastronomía en la Patagonia argentina con prestadores locales verificados: Puerto Madryn, Península Valdés, Trelew, Gaiman y Esquel. Reservá online.">
+    <meta name="twitter:image" content="https://patagoniaexperiencias.com/og-image.jpg">
+
+    <!-- Identidad del sitio para los buscadores. Va en el <head>, no en #root:
+         React reemplaza #root al montar y se lo llevaría puesto. Todos los datos
+         están declarados en el sitio (el domicilio y la razón social, en /terminos;
+         las redes, en el pie de esta misma página). -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://patagoniaexperiencias.com/#organizacion",
+          "name": "Patagonia Experiencias",
+          "legalName": "efe5 proyectos srl",
+          "url": "https://patagoniaexperiencias.com/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://patagoniaexperiencias.com/img/marca/logo-horizontal.png",
+            "width": 1712,
+            "height": 831
+          },
+          "image": "https://patagoniaexperiencias.com/og-image.jpg",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Trelew",
+            "addressRegion": "Chubut",
+            "addressCountry": "AR"
+          },
+          "areaServed": { "@type": "Place", "name": "Patagonia argentina" },
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "customer support",
+            "telephone": "+54 9 2804 687904",
+            "availableLanguage": ["es", "pt"]
+          },
+          "sameAs": [
+            "https://www.instagram.com/patagoniaexperienciasok/",
+            "https://www.facebook.com/patagoniaexperiencias"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://patagoniaexperiencias.com/#sitio",
+          "name": "Patagonia Experiencias",
+          "url": "https://patagoniaexperiencias.com/",
+          "inLanguage": "es-AR",
+          "publisher": { "@id": "https://patagoniaexperiencias.com/#organizacion" }
+        }
+      ]
+    }
+    </script>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

@@ -65,6 +65,52 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
 
 ## Para Marcelo
 
+- **Faltan 35 fotos del micrositio del valle del Chubut, y cuatro guías
+  publicadas se ven con todas las imágenes rotas.** Medido el 18/11
+  renderizando las seis páginas. En
+  `public/guias-de-viaje/valle-del-chubut/img/` están subidas las de Trelew
+  (9 de 9) y las dos del valle, y **no está ninguna de las otras cuatro
+  localidades**: Gaiman pide 10, Dolavon 9, Rawson 9 y 28 de Julio 7. Además,
+  en la portada del micrositio las tarjetas de esas cuatro localidades piden
+  `28julio-hero.jpg`, `dolavon-hero.jpg`, `gaiman-hero.jpg` y
+  `rawson-hero.jpg`, que tampoco están: la portada se ve con un hueco por
+  tarjeta. Son **cuatro páginas que están en el sitemap y que Google ya
+  rastrea**, sirviendo con todas las fotos en 404. El nombre de cada archivo
+  que falta sale de correr
+  `node scripts/barrido-render.mjs --fallos <url>` sobre cada una. **Esto no se
+  arregla con código: hacen falta las fotos.** Van en esa carpeta, con
+  exactamente ese nombre. Mientras tanto, la `og:image` de las cuatro apunta a
+  `valle-hero.jpg` para que al menos se compartan con una foto del valle.
+- **26 de los 40 logos de prestadores de `/ecosistema` no existen.** Medido el
+  18/11: la página pide `assets/logos/Logo 01.png` a `Logo 40.png` y en el repo
+  sólo están 01–09 y 12–16, así que **26 imágenes dan 404** y se ven como
+  huecos. O se suben los 26 logos que faltan, o se sacan de la página las
+  tarjetas que no tienen logo; lo que no conviene es dejarla así, porque es la
+  página que muestra el ecosistema a un prestador que está decidiendo si entra.
+- **`/sumar-gastronomia` es el tercer callejón sin salida, además de `/aike` y
+  `/cuotas`.** Medido el 18/11: renderiza **cero enlaces** y tampoco tiene Open
+  Graph, así que al compartirla no muestra tarjeta. Es una página de captación
+  de restaurantes y está en el sitemap. Mismo arreglo que las otras dos: el
+  footer compartido. Lo anoto junto a ellas y no lo toco por lo mismo —es una
+  landing de captación y no quiero cambiarle el diseño sin tu OK—, pero las tres
+  juntas son un arreglo de una corrida.
+- **Corrección sobre los seis `.html` del buscador de reservas: viven en un
+  archivo aparte, no adentro del checkout.** El 17/11 te los anoté como "seis
+  `href` dentro de `public/patagonia-experiencias.html`". Revisado el 18/11:
+  están en **`public/footer.js`**, el footer compartido que inyectan cinco
+  páginas (`patagonia-experiencias`, `prestadores`, `ecosistema`,
+  `manual-prestador` y la copia vieja `_v11`). O sea que **el arreglo es más
+  barato de lo que te dije**: se cambian seis `href` en un solo archivo, que no
+  tiene una línea de precios, de seña y saldo, de Mercado Pago ni de los
+  webhooks de Make —sólo arma el HTML del pie—, y quedan arregladas las cinco
+  páginas de una vez. No lo hice igual, porque ese archivo se inyecta en el
+  checkout y vos todavía no me contestaste. Decime que sí y va en la próxima
+  corrida, con el diff a la vista. (De paso: el footer compartido enlaza hoy
+  sólo siete páginas internas, y no enlaza `/experiencias/`, ni las páginas de
+  destino, ni `/pt-br/`. Si querés, en la misma corrida le sumo esos enlaces y
+  el footer pasa a repartir autoridad en todo el ecosistema, que es lo que
+  pediste.)
+
 - **El footer del buscador de reservas sigue enlazando con `.html`, y es zona
   prohibida.** El 17/11 se sacaron los `.html` de los enlaces internos de nueve
   páginas de `public/` (ver "Hecho"), pero `public/patagonia-experiencias.html`
@@ -577,6 +623,60 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    `waitUntil: 'networkidle'` —Firestore y el píxel de Meta dejan conexiones
    abiertas y nunca resuelve—; hay que usar `'load'` y después esperar unos
    3,5 segundos a que React monte.
+
+   **El barrido quedó versionado el 18/11** en `scripts/barrido-render.mjs`:
+   ya no hay que reescribirlo cada corrida. Se corre
+   `node scripts/barrido-render.mjs` (todo el sitemap servido) o con URLs
+   sueltas, y `--fallos <url>` lista los recursos en 404. Por cada URL informa
+   enlaces totales e internos, enlaces `.html`, `h1`, datos estructurados,
+   `hreflang`, Open Graph, largo del texto renderizado y recursos que no
+   cargan, y cierra con la lista de lo que hay que revisar. **Sumale al método
+   una trampa más, descubierta el 18/11:** las imágenes con `loading="lazy"` no
+   se piden hasta que se scrollea, así que el conteo de 404 **subcuenta** lo que
+   hay abajo del pliegue —Gaiman informaba 3 recursos caídos y en realidad le
+   faltan 10 fotos—; para el inventario real hay que cruzar las referencias del
+   HTML contra los archivos del repo, no fiarse del render.
+
+   **Lo que encontró el barrido completo del 18/11, sobre las 37 URLs del
+   sitemap que no son fichas ni guías de Firestore:** los 124 enlaces `.html`
+   inyectados por JavaScript (resueltos, ver "Hecho"); la home sin datos
+   estructurados ni Open Graph (resuelto); **`/sumar-gastronomia` con cero
+   enlaces renderizados**, el tercer callejón sin salida después de `/aike` y
+   `/cuotas` (va a "Para Marcelo" con las otras dos); **26 logos en 404 en
+   `/ecosistema`** y **35 fotos faltantes en el micrositio del valle del
+   Chubut** (las dos cosas en "Para Marcelo": hacen falta archivos, no código);
+   y el hueco de datos estructurados del pendiente 9c. Lo que dio bien: las
+   37 páginas tienen **exactamente un `h1`**, las 37 tienen meta description, y
+   las 8 informativas de `/pt-br/` tienen sus 2 bloques de JSON-LD y su
+   `hreflang` recíproco. Las tres copias viejas que parecían contenido
+   duplicado —`/patagonia-experiencias_v11`,
+   `/guias-de-viaje/peninsula-valdes/peninsula-valle` y
+   `/guia-peninsula-valle-2026`— **ya responden 301 a la página buena** por
+   `public/_redirects`: no hay nada que hacer ahí y no hace falta volver a
+   revisarlo.
+
+9c. **Las siete guías de `public/guias-de-viaje/` no declaran ningún dato
+   estructurado.** Encontrado el 18/11 con el barrido renderizado: la portada
+   del micrositio del valle y las cinco de localidad, más Península Valdés y
+   Esquel–Trevelin, renderizan **cero** bloques de JSON-LD, mientras las páginas
+   equivalentes en Astro (`/que-hacer-en-ushuaia/`, las ocho de `/pt-br/`)
+   declaran dos cada una. Son páginas largas y buenas —entre 9.000 y 33.000
+   caracteres de texto renderizado— que hoy no le dicen a Google qué son. Lo que
+   corresponde es un `Article` (o `TravelGuide`) con `headline`, `image`,
+   `datePublished`, `author`/`publisher` colgando del `@id` de la
+   `Organization` que la home declara desde el 18/11, más un `BreadcrumbList`
+   con la jerarquía que ya tienen (`/guias-de-viaje/` → valle → localidad).
+   **Es una página por corrida y en el `<head>`**, nunca dentro del bloque que
+   React reemplaza. Ojo con `image`: en cuatro de las siete la foto de cabecera
+   no existe (ver "Para Marcelo"), así que ahí hay que esperar las fotos o
+   declarar una que sí esté.
+
+   **Y de paso, las descriptions de estas siete son las más cortas del sitio**
+   (92, 102, 109, 122, 123, 125 y 131 caracteres contra los 140–200 del resto):
+   es el mismo problema del pendiente 12 pero en las guías de `public/`, y acá
+   sí se arregla en el código, porque la description está escrita a mano en
+   cada archivo.
+
 10. **Core Web Vitals.** Las páginas de `public/` cargan Tailwind por CDN y
    compilan en el navegador; las guías tienen imágenes pesadas. Eso sigue
    abierto y es lo que queda de este pendiente.
@@ -755,6 +855,64 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
     una por corrida, con tiempo.
 
 ## Hecho
+
+- **18/11/2026** — **Los 124 enlaces internos con `.html` que el JavaScript
+  inyectaba, y que `curl` no podía ver.** La corrida del 17/11 sacó los `.html`
+  de los enlaces escritos en el HTML de nueve páginas de `public/`. El barrido
+  renderizado de hoy —Chromium, lo que ve Google— mostró que quedaban 124 más,
+  invisibles para `curl` porque los arma el JavaScript al montar la página:
+  **`src/layouts/BaseLayout.astro`** enlazaba `prestadores.html` en absoluto
+  desde el footer de **todas** las páginas de Astro en español (fichas, guías e
+  informativas: un 308 por página, en más de doscientas); las tres constantes de
+  `CONFIG` con las que `/calendario-fauna/`, `/que-hacer-patagonia/` y
+  `/que-comer-patagonia/` arman los enlaces en tiempo de ejecución (`urlApp`,
+  `urlPrestadores`, `baseExcursion`) más sus `href` escritos a mano —
+  `/calendario-fauna/` renderizaba 58 enlaces internos y **48 pasaban por un
+  308**—; las guías de `public/guias-de-viaje/` (Península Valdés, Esquel y
+  Trevelin, y las cinco del valle del Chubut); y el `og:url` de `/terminos`,
+  `/privacidad` y `/ecosistema`, que declaraba el `.html` mientras el canonical
+  declara la URL limpia. El destino no cambia: se conservan los fragmentos
+  (`#tour/<slug>`, `#prestador/<slug>`) y el `target="_blank"` donde estaba.
+  Verificado en producción con el barrido renderizado: las siete páginas tocadas
+  dan **`html=0`** con el mismo conteo de enlaces que antes, un solo `h1` y cero
+  errores de consola. No se tocó `public/footer.js` (ver "Para Marcelo"),
+  ni `public/firebase-messaging-sw.js`, ni `public/patagonia-experiencias.html`.
+
+- **18/11/2026** — **La home declara por fin la identidad del sitio y muestra
+  tarjeta al compartirse.** `public/index.html` —la URL que más enlaces externos
+  recibe— no declaraba **nada**: cero datos estructurados y cero etiquetas Open
+  Graph. Las páginas de Astro declaran un `Organization` mínimo desde
+  `BaseLayout.astro`, pero la raíz del sitio no declaraba ninguno, y compartir
+  patagoniaexperiencias.com por WhatsApp, Facebook o X mostraba el link pelado,
+  sin título ni imagen, mientras las demás páginas de `public/` ya tenían su
+  `og:image`. Se agregó en el `<head>`: un `@graph` con **`Organization` +
+  `WebSite`** —logo (`/img/marca/logo-horizontal.png`, 1712×831), razón social,
+  domicilio, teléfono de atención, idiomas y las dos redes de la marca, **cada
+  dato tomado del propio sitio** (la razón social y el domicilio de efe5
+  proyectos srl están en `/terminos`; las redes, en el pie de la home)— y Open
+  Graph y Twitter Card completos con la `/og-image.jpg` que ya existe y mide
+  1200×630, más `og:locale:alternate` en `pt_BR`. Va en el `<head>` a propósito:
+  React reemplaza `#root` al montar y se lo llevaría puesto. Verificado en
+  producción renderizando: **`ld=1`** después de que monta React, 24 enlaces /
+  19 internos sin cambios, un `h1`, cero errores.
+
+- **18/11/2026** — **La `og:image` del micrositio del valle del Chubut era
+  relativa en las seis páginas, y en cuatro apuntaba a una foto que no existe.**
+  Open Graph pide URL absoluta y la mayoría de los lectores de tarjetas no
+  resuelve una relativa: las seis se compartían sin imagen. Ahora las seis
+  declaran la URL completa, y las cuatro que apuntaban a archivos inexistentes
+  (`28julio-hero.jpg`, `dolavon-hero.jpg`, `gaiman-hero.jpg`,
+  `rawson-hero.jpg`) pasan provisoriamente a `valle-hero.jpg`, que sí está
+  subida. Las 35 fotos que faltan quedaron listadas en "Para Marcelo".
+
+- **18/11/2026** — **El barrido renderizado quedó versionado** en
+  `scripts/barrido-render.mjs`, con las tres trampas del método escritas
+  adentro. Era el chequeo del pendiente 9b, que hasta hoy se reescribía a mano
+  en cada corrida. Se corre `node scripts/barrido-render.mjs` (todo el sitemap)
+  o con URLs sueltas, y `--fallos <url>` lista los recursos 404. Por cada URL
+  informa enlaces totales e internos, enlaces `.html`, `h1`, datos
+  estructurados, `hreflang`, Open Graph, largo del texto renderizado y recursos
+  que no cargan, y cierra con la lista de lo que hay que revisar.
 
 - **17/11/2026** — **La home le devolvió los enlaces internos a la versión que
   ve Google.** `public/index.html` monta React sobre `#root` y, al montar,
@@ -2878,3 +3036,101 @@ Tailwind compila en el navegador en las 14 páginas de `public/`); y el chequeo
 nuevo que quedó anotado como pendiente 9b: **auditar las páginas de `public/`
 renderizándolas, no leyendo el HTML**, porque en este sitio las dos cosas no
 dicen lo mismo.
+
+### 18/11/2026
+
+**Arranqué por el mantenimiento y terminé auditando el sitio como lo ve
+Google.** El barrido del pendiente 13 (`scripts/barrido-mantenimiento.mjs`) dio
+limpio otra vez: 118 tours activos, 117 publicables, **117 de 117 con meta
+description escrita a mano**, ninguna ficha nueva desde ayer, ningún `slugPt`
+faltante ni duplicado, y los dos casos conocidos de prioridad baja sin cambios
+(el sufijo `-2` de la Ruta Galesa y `cabalgatas-familiares-esquel` con la
+palabra en español). Con la cola del pendiente 3 ya sin nada de valor alto —la
+recomendación que quedaba era traducir una o dos habitaciones de hotel en
+Trelew— elegí el pendiente **9b**, que ayer quedó anotado como el chequeo nuevo
+y todavía no se había corrido completo: **renderizar las páginas con Chromium en
+vez de leer el HTML con `curl`**. Lo corrí sobre las 37 URLs del sitemap que no
+son fichas ni guías de Firestore, y de ahí salió todo lo del día.
+
+**El hallazgo grande: quedaban 124 enlaces internos con `.html`, y ninguna
+auditoría anterior podía verlos.** Ayer se sacaron 73, los que están escritos en
+el HTML. Los 124 de hoy los arma el JavaScript al montar la página, así que
+`curl` ve una cosa y Google ve otra. El peor caso no era una página: era
+**`src/layouts/BaseLayout.astro`**, el footer de *todas* las páginas de Astro en
+español —las 112 fichas, las 60 guías y las informativas—, donde el enlace a
+`prestadores.html` era el único del footer que no era raíz-relativo. Un 308 por
+página, en más de doscientas. Después, `/calendario-fauna/`, que renderizaba 58
+enlaces internos y **48 pasaban por una redirección**, porque las tres
+constantes de `CONFIG` con las que arma los enlaces en tiempo de ejecución
+(`urlApp`, `urlPrestadores`, `baseExcursion`) llevaban el `.html` adentro; lo
+mismo en `/que-hacer-patagonia/` y `/que-comer-patagonia/`. Y las guías de
+`public/guias-de-viaje/`. El destino de cada enlace no cambia: se conservaron
+los fragmentos `#tour/<slug>` y `#prestador/<slug>` y el `target="_blank"` donde
+estaba, y el diff, token por token, son sólo `href`, las tres constantes y tres
+`og:url`. **Verificado en producción con el mismo barrido**: las siete páginas
+tocadas dan `html=0` con el mismo conteo de enlaces que antes, un solo `h1` y
+cero errores de consola.
+
+**El segundo hallazgo: la home no declaraba identidad ni mostraba tarjeta.**
+`public/index.html` —la URL que más enlaces externos recibe de todo el sitio— no
+tenía **un solo** bloque de datos estructurados ni **una sola** etiqueta Open
+Graph. Las páginas de Astro declaran un `Organization` mínimo desde
+`BaseLayout.astro`; la raíz, ninguno. Y compartir patagoniaexperiencias.com por
+WhatsApp —que en Argentina y en Brasil es por donde se comparte todo— mostraba
+el link pelado, sin título, sin bajada y sin imagen, mientras las demás páginas
+de `public/` ya tenían su `og:image` y la `/og-image.jpg` de 1200×630 estaba
+subida desde siempre. Se agregó en el `<head>` un `@graph` con `Organization` +
+`WebSite` —logo, razón social, domicilio, teléfono, idiomas y las dos redes de la
+marca, **cada dato tomado del propio sitio**: la razón social y el domicilio de
+efe5 proyectos srl están en `/terminos` y las redes en el pie de la home— y Open
+Graph y Twitter Card completos. Va en el `<head>` a propósito, porque React
+reemplaza `#root` al montar: verificado en producción que después de montar sigue
+ahí (`ld=1`), con los 24 enlaces y el `h1` intactos.
+
+**Lo que apareció de paso y necesita archivos, no código.** El barrido con
+`--fallos` encontró **26 logos en 404 en `/ecosistema`** (la página pide `Logo
+01.png` a `Logo 40.png` y están subidos 01–09 y 12–16) y **35 fotos faltantes en
+el micrositio del valle del Chubut**: Trelew está completa, y de Gaiman, Dolavon,
+Rawson y 28 de Julio no está subida **ninguna**. Son cuatro páginas del sitemap
+que Google ya rastrea sirviendo con todas las imágenes rotas, más la portada del
+micrositio con un hueco por tarjeta. Las dos cosas quedaron en "Para Marcelo" con
+el detalle. Lo único que sí se pudo arreglar desde el código es la `og:image`:
+las seis páginas del valle la declaraban **relativa** —que la mayoría de los
+lectores de tarjetas no resuelve— y cuatro apuntaban además a un archivo
+inexistente; ahora las seis son absolutas y esas cuatro usan provisoriamente
+`valle-hero.jpg`. También apareció que **`/sumar-gastronomia` renderiza cero
+enlaces**, el tercer callejón sin salida después de `/aike` y `/cuotas`, y que
+**las siete guías de `public/guias-de-viaje/` no declaran ningún dato
+estructurado**, que quedó como pendiente 9c.
+
+**Y una corrección a lo que te anoté ayer:** los seis enlaces `.html` del footer
+del buscador de reservas **no están dentro de `public/patagonia-experiencias.html`**
+sino en `public/footer.js`, el footer compartido que inyectan cinco páginas. El
+arreglo es más barato de lo que decía la nota —seis `href` en un solo archivo que
+no tiene una línea de precios, de seña y saldo, de Mercado Pago ni de webhooks— y
+alcanza a las cinco páginas de una vez. No se tocó igual, porque se inyecta en el
+checkout y la pregunta sigue sin respuesta.
+
+Resultado esperado: que el rastreo deje de gastar ~124 saltos de 308 por
+recorrido (los 200+ de las páginas de Astro son el grueso) y que la autoridad
+llegue entera a `/prestadores` y a las fichas enlazadas desde el calendario de
+fauna y las guías; que Google tenga por fin una entidad que leer en la raíz del
+sitio, con logo y redes, que es la base de un panel de conocimiento y de que las
+fichas puedan colgar su `seller` del mismo `@id`; y que todo link del sitio
+compartido por WhatsApp muestre tarjeta. Se mide en Search Console, cuando esté
+conectado, por la caída de los avisos de "Página con redirección" y por
+impresiones de la home. Sitemap servido: **305 URLs**, sin cambios. IndexNow:
+**Yandex 200 OK** con las 305 y 202 en la tanda del calendario; **Bing sigue en
+403 por undécimo día**, sin dedicarle trabajo, esperando el token XML
+(pendiente 11).
+
+Quedó pendiente, en orden: **las fotos y los logos que faltan** (35 + 26: son
+cuatro páginas indexadas que hoy se ven rotas, y es lo más visible que tiene el
+sitio); el **OK para `footer.js`**, que arregla cinco páginas de una vez y que
+además podría pasar a enlazar `/experiencias/`, las páginas de destino y
+`/pt-br/`; el footer de las tres páginas sin salida (`/aike`, `/cuotas`,
+`/sumar-gastronomia`); el pendiente **9c** (datos estructurados y descriptions de
+las siete guías de `public/`, una página por corrida); y las decisiones de
+catálogo de "Para Marcelo", que siguen siendo lo que más vale por hora —reactivar
+una navegación del canal Beagle y sumar minitrekking o navegación en El Calafate,
+los dos destinos con guía publicada esperando ficha—.

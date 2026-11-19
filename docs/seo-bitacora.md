@@ -65,6 +65,23 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
 
 ## Para Marcelo
 
+- **¿Neuquén entra al sistema? El catálogo estrenó Caviahue y el volcán
+  Copahue, y necesito que me digas si se queda.** Visto el 19/11: el sitemap
+  pasó de 305 a 308 URLs y las tres nuevas son de un prestador de geoturismo de
+  **Caviahue, Neuquén** —el ascenso al cráter del volcán más activo del país, el
+  ascenso a la cumbre (2.960 msnm, con glaciar) y el Salto del Agrio—. Es la
+  primera vez que el catálogo sale de Chubut, Tierra del Fuego y Santa Cruz. Las
+  tres fichas están bien y ya les escribí la meta description a mano, pero están
+  **sueltas**: ninguna guía ni página de destino del sitio nombra Caviahue, así
+  que cuelgan sólo del listado, y el bloque de "seguí explorando la zona" les
+  pone al lado Trevelin, Valdés y Ushuaia, que están a mil kilómetros. Si el
+  prestador se queda, el trabajo es claro y lo hago en una corrida: una página
+  informativa de Caviahue–Copahue en español (el volcán, el salto, las termas y
+  la nieve), el destino sumado al menú y al footer, y después la versión en
+  portugués. **Si fue una prueba, decime y las dejo como están** sin gastar
+  corridas en tejerlas. No lo decido yo porque el sitio se presenta como
+  experiencias "de todo el Chubut y la región" y abrir provincia es tu decisión.
+
 - **Faltan 35 fotos del micrositio del valle del Chubut, y cuatro guías
   publicadas se ven con todas las imágenes rotas.** Medido el 18/11
   renderizando las seis páginas. En
@@ -421,6 +438,27 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    que rasparlo del HTML. El script `scripts/traducir-pt.mjs` hace lo mismo con
    la API de Anthropic, pero pide `ANTHROPIC_API_KEY`, que la corrida de la
    madrugada no tiene.
+3b. **NUEVO — el catálogo estrenó un destino, Caviahue y el volcán Copahue
+   (Neuquén), y está suelto del resto del sitio.** Encontrado el 19/11 midiendo
+   el sitemap: pasó de 305 a **308 URLs**, y las tres nuevas son
+   `ascenso-crater-volcan-copahue`, `ascenso-cumbre-volcan-copahue` y
+   `salto-del-agrio`, de un prestador de geoturismo de Caviahue. Es la primera
+   vez que el catálogo sale de Chubut, Tierra del Fuego y Santa Cruz. Lo que les
+   falta, por orden: **ninguna página informativa del sitio nombra Caviahue ni
+   Copahue**, así que las tres cuelgan sólo del listado `/experiencias/` y del
+   bloque "seguí explorando la zona", que les ofrece Trevelin, Valdés y Ushuaia
+   —a mil kilómetros— porque no hay nada cerca; **ninguna tiene versión en
+   portugués** (con eso el hueco pt del pendiente 3 pasa de 19 a 22 fichas, y
+   éstas tres sí tienen texto propio); y **el footer y el menú no ofrecen
+   Neuquén** como destino. Las descriptions escritas a mano ya se resolvieron
+   hoy (ver "Hecho"). Lo que sigue, cuando Marcelo confirme que Neuquén es
+   destino y no una prueba: una página informativa corta de Caviahue–Copahue en
+   español que las enlace (el volcán activo, el salto multicolor, las termas y
+   la nieve de Caviahue), y recién después la traducción pt. **Antes de
+   escribirla hay que preguntarle a Marcelo** si el prestador se queda, porque
+   el sitio se vende como "experiencias de todo el Chubut y la región" y abrir
+   un destino nuevo es decisión suya, no de SEO.
+
 4. **Seis fichas hermanas publican el mismo texto que su principal.** Resuelto
    el lado del código el 03/11 (ver "Hecho"): las traducciones se indexan por
    slug único y una hermana publica en `/pt-br/` en cuanto se le escribe su
@@ -655,8 +693,10 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    `public/_redirects`: no hay nada que hacer ahí y no hace falta volver a
    revisarlo.
 
-9c. **Las siete guías de `public/guias-de-viaje/` no declaran ningún dato
-   estructurado.** Encontrado el 18/11 con el barrido renderizado: la portada
+9c. **Las guías de `public/guias-de-viaje/` no declaraban ningún dato
+   estructurado. — CERRADO el 19/11/2026** (ver "Hecho"; son **ocho**, no
+   siete: la portada del valle, las cinco de localidad, Península Valdés y
+   Esquel–Trevelin). Encontrado el 18/11 con el barrido renderizado: la portada
    del micrositio del valle y las cinco de localidad, más Península Valdés y
    Esquel–Trevelin, renderizan **cero** bloques de JSON-LD, mientras las páginas
    equivalentes en Astro (`/que-hacer-en-ushuaia/`, las ocho de `/pt-br/`)
@@ -855,6 +895,51 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
     una por corrida, con tiempo.
 
 ## Hecho
+
+- **19/11/2026** — **Las ocho guías de `public/guias-de-viaje/` declaran por fin
+  qué son, y sus descriptions dejaron de ser las más cortas del sitio.**
+  Pendiente 9c. Eran las únicas páginas largas del sitio —entre 8.000 y 33.000
+  caracteres de texto renderizado— con **cero** bloques de JSON-LD, contra los
+  dos que declaran las equivalentes en Astro. Se agregó en el `<head>` de las
+  ocho (portada del valle, Rawson, Trelew, Gaiman, Dolavon, 28 de Julio,
+  Península Valdés y Esquel–Trevelin) un `@graph` con **`Organization` +
+  `Article` + `BreadcrumbList`**: `headline`, `description` y `articleSection`
+  escritos con el contenido de cada página, `image` apuntando **sólo a fotos que
+  existen** (las cuatro localidades sin foto propia usan `valle-hero.jpg`),
+  `datePublished` del primer commit que las trae (23/07) y `dateModified` de hoy,
+  `author`/`publisher` colgando del `@id` de la `Organization` que la home
+  declara desde el 18/11 —y repetida inline, mínima, para que la referencia
+  resuelva sola y el validador no avise— y el breadcrumb con la jerarquía real
+  (`/` → `/guias-de-viaje/` → valle → localidad; verificado que
+  `/guias-de-viaje/` responde 200). Va en el `<head>` a propósito.
+  **De paso, las siete descriptions más cortas del sitio** (92 a 131 caracteres)
+  pasaron a **189–201**, escritas con los términos con los que se busca cada
+  lugar: Punta Tombo, tonina overa, Eisteddfod, parque Bryn Gwyn, las norias de
+  Dolavon, La Hoya, La Trochita, los tulipanes. La de la portada del valle ya
+  medía 230 y quedó como estaba.
+  **Y dos `og:image` arregladas:** las dos guías grandes la declaraban
+  **relativa** —que la mayoría de los lectores de tarjetas no resuelve— y la de
+  Península Valdés apuntaba además a `imagenes/01_portada_ballena_amanecer.jpg`,
+  una carpeta que no existe en esa guía (la foto vive en `img/00-portada.jpg`,
+  verificado 200 en producción). Verificado en producción con
+  `scripts/barrido-render.mjs` y parseando el JSON-LD de las ocho: **`ld=1` en
+  todas**, un solo `h1`, `html=0`, el mismo conteo de enlaces que antes y el
+  `Article` + `BreadcrumbList` completos. IndexNow: las 9 URLs de
+  `/guias-de-viaje/` aceptadas por Yandex (200 OK).
+
+- **19/11/2026** — **Las tres fichas nuevas de Caviahue servían como meta
+  description el texto crudo del prestador.** `ascenso-crater-volcan-copahue`,
+  `ascenso-cumbre-volcan-copahue` y `salto-del-agrio` eran las únicas tres de
+  las 121 fichas en español **sin entrada en `src/data/meta-es.json`**, así que
+  caían al respaldo que recorta el cuerpo: una terminaba en puntos suspensivos y
+  otra publicaba en el `<head>` de Google un "um volcán activo" con la errata del
+  prestador. Se les escribió la description a mano con lo que dice cada ficha
+  —el cráter del volcán más activo del país y las 4 horas; la cumbre a 2.960
+  msnm, el glaciar y las 8 horas con equipo y seguro; el salto de aguas
+  multicolores y las 3 horas— de 153 a 173 caracteres, en el mismo molde que las
+  otras 117. Con eso **las 120 fichas publicadas tienen description escrita a
+  mano y ninguna repetida**. El destino en sí quedó como pendiente 3b: es nuevo,
+  está fuera de Chubut y no lo nombra ninguna página informativa del sitio.
 
 - **18/11/2026** — **Los 124 enlaces internos con `.html` que el JavaScript
   inyectaba, y que `curl` no podía ver.** La corrida del 17/11 sacó los `.html`
@@ -3134,3 +3219,48 @@ las siete guías de `public/`, una página por corrida); y las decisiones de
 catálogo de "Para Marcelo", que siguen siendo lo que más vale por hora —reactivar
 una navegación del canal Beagle y sumar minitrekking o navegación en El Calafate,
 los dos destinos con guía publicada esperando ficha—.
+
+### 19/11/2026
+
+**Qué se hizo.** El pendiente 9c, completo y no de a una página: las **ocho**
+guías de `public/guias-de-viaje/` (la bitácora decía siete, pero son ocho si se
+cuentan la portada del micrositio del valle, las cinco de localidad, Península
+Valdés y Esquel–Trevelin) pasaron a declarar `Organization` + `Article` +
+`BreadcrumbList` en el `<head>`, con el `headline` y la `description` escritos
+con el contenido real de cada página y el `author`/`publisher` colgando del
+`@id` de la `Organization` que la home declara desde ayer. Eran las páginas más
+largas del sitio sin una línea de datos estructurados. En la misma pasada, las
+siete descriptions más cortas del sitio (92–131 caracteres) se reescribieron a
+189–201 con los términos de búsqueda de cada lugar, y se arreglaron las dos
+`og:image` relativas de las guías grandes —una de ellas apuntando a una carpeta
+que no existe—. Después, midiendo el sitemap, apareció que el catálogo creció de
+305 a 308 URLs con **un destino nuevo, Caviahue y el volcán Copahue, en
+Neuquén**, y que sus tres fichas eran las únicas sin description escrita a mano:
+se les escribió.
+
+**Qué se mide como resultado.** Que Google pueda clasificar las ocho guías como
+artículos de una entidad conocida en vez de HTML suelto: eso es lo que habilita
+el breadcrumb en el resultado y lo que hace que una guía pueda aparecer en
+Discover y ser citada por las respuestas generadas. Y, más inmediato, que el
+fragmento que se muestra en el resultado de esas ocho páginas lo escriba el
+sitio y no Google recortando el primer párrafo: las descriptions de 92
+caracteres se completaban solas. Se mide en Search Console, cuando esté
+conectado, por impresiones y CTR de `/guias-de-viaje/*` y por la aparición del
+tipo "Artículo" en el informe de resultados enriquecidos. Sitemap servido: **308
+URLs** (121 fichas es, 90 pt, 60 guías). IndexNow: **Yandex 200 OK** con las 9
+URLs de las guías; **Bing sigue en 403 por duodécimo día**, esperando el token
+XML (pendiente 11).
+
+**Qué quedó pendiente.** Lo nuevo y lo que necesita a Marcelo: **decidir si
+Caviahue–Copahue se queda** como destino (pendiente 3b) —hoy son tres fichas
+sueltas que ninguna página informativa nombra y que el bloque de "seguí
+explorando" acompaña con Trevelin y Ushuaia, a mil kilómetros—; las **fotos y
+los logos que faltan** (35 + 26, cuatro páginas indexadas que se ven rotas, y
+ahora además son el motivo de que cuatro guías del valle declaren en su
+`Article` una foto que no es la suya); el **OK para `footer.js`**, que arregla
+cinco páginas de una vez; el footer de las tres páginas sin salida (`/aike`,
+`/cuotas`, `/sumar-gastronomia`); y las decisiones de catálogo de siempre. De
+código queda, por impacto: sumarles `TouristDestination` con coordenadas a las
+cinco páginas de localidad (hoy sólo declaran `Article`), el `faq-es.json` del
+pendiente 9, y reemplazar el CDN de Tailwind del pendiente 10, una página por
+corrida.

@@ -89,7 +89,9 @@
     font-size:11px;letter-spacing:.22em;text-transform:uppercase;
     color:rgba(250,250,247,.8);
   }
-  .cover h1{
+  /* El texto del h1 va escrito en minúsculas y lo grita el CSS: lo que lee
+     Google es el texto del HTML, no lo que pinta text-transform. */
+  .cover h1{text-transform:uppercase;
     font-family:'Poppins',sans-serif;font-weight:700;
     font-size:clamp(48px,14vw,80px);line-height:1;letter-spacing:-.02em;
     margin-bottom:14px;position:relative;z-index:2;color:var(--blanco);
@@ -570,7 +572,7 @@
     <div class="cover-img"><img src="img/00-portada.jpg?v=2" alt="Ballena franca austral en Península Valdés al amanecer" fetchpriority="high"></div>
     <div class="ed">Patagonia Magazine · 2026</div>
     <div class="cover-in">
-      <h1>PENÍNSULA<br><em>VALDÉS</em><br>&amp; EL VALLE</h1>
+      <h1>Península<br><em>Valdés</em><br>y el valle</h1>
       <div class="st">Patagonia Secreta · 2026</div>
       <div class="rule"></div>
       <div class="cl">La guía inteligente de los que viajan distinto.</div>

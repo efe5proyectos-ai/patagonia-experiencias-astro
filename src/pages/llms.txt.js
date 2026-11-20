@@ -5,6 +5,7 @@
 // ─────────────────────────────────────────────────────────────
 import { obtenerExperiencias, obtenerGuias } from '../lib/contenido.js';
 import { conSlugsUnicos } from '../lib/slugs.js';
+import { conTitulosLegibles } from '../lib/titulos.js';
 import { traduccionDe } from '../lib/traducciones.js';
 
 const SITIO = 'https://patagoniaexperiencias.com';
@@ -14,7 +15,7 @@ const corto = (t, n = 150) => (limpio(t).length > n ? limpio(t).slice(0, n).trim
 export async function GET() {
   let exps = [];
   let guias = [];
-  try { exps = conSlugsUnicos(await obtenerExperiencias()); } catch (e) { exps = []; }
+  try { exps = conTitulosLegibles(conSlugsUnicos(await obtenerExperiencias())); } catch (e) { exps = []; }
   try { guias = (await obtenerGuias?.()) || []; } catch (e) { guias = []; }
 
   const porDestino = {};

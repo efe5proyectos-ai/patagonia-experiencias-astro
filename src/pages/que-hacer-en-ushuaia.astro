@@ -37,8 +37,9 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { obtenerExperiencias } from '../lib/contenido.js';
 import { conSlugsUnicos } from '../lib/slugs.js';
+import { conTitulosLegibles } from '../lib/titulos.js';
 
-const todas = conSlugsUnicos(await obtenerExperiencias());
+const todas = conTitulosLegibles(conSlugsUnicos(await obtenerExperiencias()));
 const porSlug = new Map(todas.map((e) => [e.slug, e]));
 
 // Un paseo se enlaza por su slug publicado. Si la ficha se despublica en el

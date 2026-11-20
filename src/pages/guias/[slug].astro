@@ -4,10 +4,11 @@ import { obtenerGuias, obtenerExperiencias } from '../../lib/contenido.js';
 import { experienciasDeGuia } from '../../lib/geo.js';
 import { recortar, textoLimpio } from '../../lib/descripciones.js';
 import { conSlugsUnicos } from '../../lib/slugs.js';
+import { conTitulosLegibles } from '../../lib/titulos.js';
 
 export async function getStaticPaths() {
   const [guias, todas] = await Promise.all([obtenerGuias(), obtenerExperiencias()]);
-  const exps = conSlugsUnicos(todas);
+  const exps = conTitulosLegibles(conSlugsUnicos(todas));
   return guias.map((guia) => ({
     params: { slug: guia.slug },
     props: { guia, reservables: experienciasDeGuia(guia, exps) },

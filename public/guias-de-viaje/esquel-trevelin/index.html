@@ -160,7 +160,10 @@ img { max-width: 100%; display: block; }
     letter-spacing: 0.1em;
     text-transform: uppercase;
 }
+/* El texto del h1 va escrito en minúsculas y lo grita el CSS: lo que lee
+   Google es el texto del HTML, no lo que pinta text-transform. */
 .hero-titulo {
+    text-transform: uppercase;
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
     font-size: clamp(40px, 12vw, 72px);
@@ -971,7 +974,7 @@ img { max-width: 100%; display: block; }
 <section class="hero">
     <p class="hero-tag">PATAGONIA MAGAZINE · 2026</p>
     <div>
-        <h1 class="hero-titulo">ESQUEL<br>& TREVELIN</h1>
+        <h1 class="hero-titulo">Esquel<br>y Trevelin</h1>
         <p class="hero-subtitulo">Patagonia Secreta · 2026</p>
         <hr>
         <p class="hero-tagline">La guia inteligente de los que viajan distinto.</p>

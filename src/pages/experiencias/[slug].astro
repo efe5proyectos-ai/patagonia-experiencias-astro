@@ -5,11 +5,12 @@ import { traduccionDe, urlPt, relacionadas } from '../../lib/traducciones.js';
 import { guiasDeExperiencia, tituloParaBuscadores, localidadDe } from '../../lib/geo.js';
 import { descripcionParaBuscadores, textoLimpio } from '../../lib/descripciones.js';
 import { conSlugsUnicos } from '../../lib/slugs.js';
+import { conTitulosLegibles } from '../../lib/titulos.js';
 
 export async function getStaticPaths() {
   const [todas, guias] = await Promise.all([obtenerExperiencias(), obtenerGuias()]);
   // Una URL por prestador cuando dos agencias cargaron el mismo tour
-  const exps = conSlugsUnicos(todas);
+  const exps = conTitulosLegibles(conSlugsUnicos(todas));
   return exps.map((exp) => ({
     params: { slug: exp.slug },
     props: { exp, rel: relacionadas(exp, exps), guias: guiasDeExperiencia(exp, guias) },

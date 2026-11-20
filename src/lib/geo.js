@@ -10,6 +10,8 @@
 // detecta la localidad por alias en lugar de comparar strings.
 // ─────────────────────────────────────────────────────────────
 
+import { lugarLegible } from './titulos.js';
+
 export const LOCALIDADES = [
   // ── Cordillera de Chubut ──
   { id: 'los-alerces', nombre: 'Parque Nacional Los Alerces', zona: 'cordillera-chubut',
@@ -165,7 +167,9 @@ export function guiasDeExperiencia(exp, guias, n = 2) {
  * Google. Solo se limpia cuando hay números: el resto queda como está.
  */
 export function destinoParaTitulo(destino) {
-  const texto = String(destino || '').trim();
+  // El lugar también viene gritado ("ESQUEL", "Esquel, CHUBUT") o con la barra
+  // pegada ("Caviahue/ Neuquén"): se normaliza antes de pegarlo al título.
+  const texto = lugarLegible(destino);
   if (!/\d/.test(texto)) return texto;
   return localidadDe(texto)?.nombre || texto;
 }

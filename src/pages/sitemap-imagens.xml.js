@@ -6,11 +6,12 @@
 import { obtenerExperiencias } from '../lib/contenido.js';
 import { traduccionDe, urlEs, urlPt } from '../lib/traducciones.js';
 import { conSlugsUnicos } from '../lib/slugs.js';
+import { conTitulosLegibles } from '../lib/titulos.js';
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
 
 export async function GET() {
-  const exps = conSlugsUnicos(await obtenerExperiencias());
+  const exps = conTitulosLegibles(conSlugsUnicos(await obtenerExperiencias()));
   const bloques = [];
   for (const e of exps) {
     const fotos = [...new Set([e.imagen, ...(e.imagenes || [])].filter((u) => u && /^https?:\/\//.test(u)))].slice(0, 1000);

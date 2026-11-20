@@ -3355,7 +3355,9 @@ real si el título que aparece es el del sitio. El segundo efecto, más lento, s
 las tildes: "peonías", "navegación", "hidroeléctrico" y "degustación" ahora
 están escritas como se buscan. Sitemap compilado: **309 URLs** (308 el 19/11 +
 la ficha nueva de Gema). Catálogo: 123 tours activos, 121 publicables, **121 de
-121 con meta description escrita a mano**.
+121 con meta description escrita a mano**. IndexNow: **Yandex 200 OK** con las
+122 URLs de `/experiencias/` y las 9 de las guías; **Bing sigue en 403 por
+decimotercer día**, esperando el token XML (pendiente 11).
 
 **Qué quedó pendiente.** Lo nuevo para Marcelo es **renombrar la ficha del Hotel
 Gema en el admin**: se llama "Alojamiento" a secas y por eso su URL quedó

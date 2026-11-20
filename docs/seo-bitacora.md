@@ -65,6 +65,25 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
 
 ## Para Marcelo
 
+- **La ficha nueva del Hotel Gema se llama "Alojamiento" y por eso su URL es
+  `/experiencias/alojamiento/`. Conviene renombrarla en el admin HOY, antes de
+  que Google la indexe.** Apareció el 20/11: un prestador nuevo de Comodoro
+  Rivadavia, Gema Hotel Cr. La URL de una ficha se arma con su título, así que
+  un título de una palabra genérica deja la dirección más pobre del catálogo:
+  `/experiencias/alojamiento/` no dice ni el hotel ni la ciudad, y es la que
+  queda indexada para siempre. **Lo que hay que hacer es un renombre en el
+  admin**, por ejemplo "Alojamiento para grupos y empresas — Hotel Gema": con
+  eso la URL pasa a `/experiencias/alojamiento-para-grupos-y-empresas-hotel-gema/`
+  sola. Mientras tanto el título y el `h1` que se publican ya están corregidos
+  desde el código ("Hotel Gema, alojamiento para grupos y empresas en Comodoro
+  Rivadavia") y la meta description está escrita a mano, así que **la página no
+  está rota**: lo único que no se puede arreglar desde acá es la URL. **Ojo
+  también: la ficha está cargada dos veces** (ids `RiV0GqfYMCOPpbfwYJPL` y
+  `h40W75qxG8LaAiiMEj1Q`, texto idéntico); se publica una sola, pero conviene
+  borrar la sobrante en el admin. Es el segundo duplicado de carga del
+  catálogo, junto con `navegacion-rio-grande-full-day` de MerakiSur, que
+  seguís teniendo anotado.
+
 - **¿Neuquén entra al sistema? El catálogo estrenó Caviahue y el volcán
   Copahue, y necesito que me digas si se queda.** Visto el 19/11: el sitemap
   pasó de 305 a 308 URLs y las tres nuevas son de un prestador de geoturismo de
@@ -894,7 +913,47 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
     eso es tocarle el JavaScript a dos páginas de producción y conviene hacerlo
     una por corrida, con tiempo.
 
+15. **MANTENIMIENTO DE CADA CORRIDA — títulos gritados y datos sucios que
+    entran por el admin.** Resuelto el fondo el 20/11 (ver "Hecho"): las 53
+    fichas con el título TODO EN MAYÚSCULAS ya se publican en mayúscula de
+    oración, y `src/lib/titulos.js` arregla solo lo que el admin cargue
+    mañana. **Lo que queda es el chequeo**, que es barato y hay que hacerlo
+    con el barrido de mantenimiento: después de cada tanda del admin,
+    controlar si apareció un título gritado nuevo y, si el respaldo
+    algorítmico no lo deja bien (nombres propios raros, marcas, erratas),
+    escribirlo a mano en `src/data/titulos-es.json`. **Dos trampas del
+    método:** el respaldo sólo mira las letras, así que un título gritado a
+    medias ("TREVELIN Full Day") no es un `esGrito` completo y se arregla por
+    tramos; y **no todo lo que parece errata lo es** — "(GLAXIAR)" y
+    "(CLEONA)" son los nombres de las dos embarcaciones del lago Menéndez, no
+    "glaciar" mal escrito, y por eso van escritos a mano. Lo mismo vale para
+    el campo `destino`, que también viene gritado ("ESQUEL", "Esquel, CHUBUT")
+    y con la barra pegada ("Caviahue/ Neuquén  "): eso ya lo limpia
+    `lugarLegible()` antes de pegarlo al `<title>`.
+
 ## Hecho
+
+- **20/11/2026** — **Los títulos de las fichas dejaron de estar TODO EN
+  MAYÚSCULAS: 53 de 123, el 43% del catálogo.** El admin deja cargar el
+  título como lo escriba el prestador, y 53 fichas activas lo tenían gritado
+  ("TREVELIN FULL DAY –– CON VISITA AL CAMPO DE PEONIAS"). Ese texto es el
+  `<h1>`, el `<title>`, el `name` del `Product` y el nombre del breadcrumb.
+  Se resolvió con el mismo molde de dos capas que `meta-es.json` +
+  `descripciones.js`: **`src/data/titulos-es.json`** con 49 títulos escritos a
+  mano (la clave puede ser el título original exacto —así una entrada arregla
+  las dos fichas cuando dos agencias cargaron el mismo tour— o el slug único,
+  para los títulos genéricos como "Alojamiento") y **`src/lib/titulos.js`**
+  como respaldo algorítmico para lo que se publique mañana: mayúscula de
+  oración, tabla de topónimos y marcas, tabla de tildes y arreglo por tramos
+  para los títulos gritados a medias. Se aplica **después** de
+  `conSlugsUnicos`, cuando la URL ya está resuelta: 285 páginas compiladas
+  antes y después, cero URLs movidas. En la misma pasada, el lugar del
+  `<title>` se normaliza igual (`lugarLegible()`), se le escribió a mano la
+  meta description a la única ficha que no la tenía (Gema Hotel, Comodoro
+  Rivadavia) y los dos `h1` gritados de las guías de `public/`
+  ("ESQUEL& TREVELIN" y "PENÍNSULA VALDÉS & EL VALLE") pasaron a texto en
+  minúsculas con `text-transform: uppercase` en el CSS: Google lee el HTML, el
+  diseño quedó idéntico (verificado con captura a 390 y 1280 px).
 
 - **19/11/2026** — **Las ocho guías de `public/guias-de-viaje/` declaran por fin
   qué son, y sus descriptions dejaron de ser las más cortas del sitio.**
@@ -3264,3 +3323,48 @@ código queda, por impacto: sumarles `TouristDestination` con coordenadas a las
 cinco páginas de localidad (hoy sólo declaran `Article`), el `faq-es.json` del
 pendiente 9, y reemplazar el CDN de Tailwind del pendiente 10, una página por
 corrida.
+
+### 20/11/2026
+
+**Qué se hizo.** El hallazgo de la corrida salió del barrido de mantenimiento y
+no estaba en la cola: **53 de las 123 fichas activas —el 43% del catálogo—
+publicaban el título TODO EN MAYÚSCULAS**, tal cual lo cargó el prestador en el
+admin. Ese texto es el `<h1>`, el `<title>`, el `name` del `Product` y el
+nombre del breadcrumb: el elemento de SEO on-page que más pesa, gritado, y
+además sin tildes ("PEONIAS", "HIDROELECTRICO", "NAVEGACION"), que es como NO
+se escribe el término que la gente busca. Se arregló con el molde de dos capas
+que ya usa este repo para las descriptions: 49 títulos escritos a mano en
+`src/data/titulos-es.json` y un respaldo algorítmico en `src/lib/titulos.js`
+para lo que el admin publique mañana. Se aplica después de `conSlugsUnicos`, o
+sea cuando la URL ya está resuelta, así que ninguna dirección indexada se
+movió: 285 páginas compiladas antes y después del cambio. En la misma pasada se
+normalizó el lugar del `<title>` (el campo `destino` también viene gritado y con
+la barra pegada), se le escribió la meta description a mano a la única ficha que
+no la tenía —la del prestador nuevo, Gema Hotel de Comodoro Rivadavia— y se
+arreglaron los dos `h1` gritados de las guías de `public/`, pasándolos a texto
+en minúsculas con `text-transform: uppercase` en el CSS: el diseño quedó
+idéntico y lo que cambia es sólo lo que lee Google.
+
+**Qué se mide como resultado.** Lo concreto es que Google **deje de reescribir**
+el `<title>` de esas 53 fichas: las mayúsculas sostenidas son uno de los casos
+de baja calidad que Google documenta para quedarse con el título, y con el
+título reescrito el sitio no controla el fragmento que se muestra. Se mide en
+Search Console, cuando esté conectado, por CTR de `/experiencias/*` —un título
+que se lee sube el clic sin que cambie la posición— y mirando en el resultado
+real si el título que aparece es el del sitio. El segundo efecto, más lento, son
+las tildes: "peonías", "navegación", "hidroeléctrico" y "degustación" ahora
+están escritas como se buscan. Sitemap compilado: **309 URLs** (308 el 19/11 +
+la ficha nueva de Gema). Catálogo: 123 tours activos, 121 publicables, **121 de
+121 con meta description escrita a mano**.
+
+**Qué quedó pendiente.** Lo nuevo para Marcelo es **renombrar la ficha del Hotel
+Gema en el admin**: se llama "Alojamiento" a secas y por eso su URL quedó
+`/experiencias/alojamiento/`, la más pobre del catálogo; el título y el `h1`
+publicados ya están corregidos desde el código, pero la URL sólo se arregla
+renombrando, y conviene hacerlo antes de que Google la indexe. Está cargada dos
+veces, además. Lo demás sigue igual que ayer: la decisión sobre
+**Caviahue–Copahue** (pendiente 3b), las **fotos y los logos que faltan**
+(35 + 26), el OK para `footer.js` y el footer de las tres páginas sin salida.
+De código queda, por impacto: `TouristDestination` con coordenadas en las cinco
+páginas de localidad del valle, el `faq-es.json` del pendiente 9 y el CDN de
+Tailwind del pendiente 10, una página por corrida.

@@ -770,6 +770,60 @@
     ],
     "traducido": "2026-09-16T19:55:33.512Z"
   },
+  "habitacion-matrimonial-superior": {
+    "titulo": "Quarto casal superior em Trelew — AGUADA HOTEL",
+    "slugPt": "quarto-casal-superior-trelew",
+    "metaDescricao": "Quarto casal superior no AGUADA HOTEL, em Trelew: cama de casal ampla, Smart TV, frigobar e banheira. Reserve sua noite no Vale do Chubut.",
+    "descricao": "<p><b>O descanso que você merece, em um quarto pensado para o seu conforto.</b></p><p>Aproveite uma estadia inesquecível no nosso <b>Quarto Casal Superior</b>, um ambiente desenhado para oferecer a combinação perfeita entre tranquilidade, privacidade e conforto.</p><p>Equipado com uma ampla cama de casal e uma Smart TV para os seus momentos de entretenimento, este quarto é o refúgio ideal tanto para uma escapada a dois como para uma viagem de descanso. Conta também com frigobar à sua disposição e um cômodo antebanheiro que liga a um banheiro completo (com vaso sanitário, bidê e banheira), perfeito para relaxar no fim do dia.</p><p>Venha viver a experiência de se sentir em casa, com a atenção e a elegância que nos caracterizam.</p>",
+    "destino": "Trelew, Chubut",
+    "categoria": "Hospedagem",
+    "duracao": "Por noite",
+    "temporada": "",
+    "altImagem": "Quarto casal superior do AGUADA HOTEL em Trelew, com cama de casal ampla e Smart TV",
+    "faq": [
+      {
+        "pergunta": "Onde fica o AGUADA HOTEL em Trelew?",
+        "resposta": "O hotel fica em Trelew, no Vale do Chubut, na Patagônia argentina — a cidade que funciona como base da região: Gaiman está a 17 km, Playa Unión a 25 minutos, Dolavon a 36 km, Puerto Madryn a uma hora e Punta Tombo a 120 km. Trelew tem aeroporto próprio (REL), a poucos minutos do centro."
+      },
+      {
+        "pergunta": "O que está incluído no quarto casal superior?",
+        "resposta": "Uma ampla cama de casal, Smart TV, frigobar, antebanheiro e banheiro privativo completo com vaso sanitário, bidê e banheira. O hotel oferece ainda café da manhã incluído, Wi-Fi de alta velocidade, piscina climatizada, aquecimento central, recepção 24 horas, quartos adaptados para mobilidade reduzida e aceita animais de estimação."
+      },
+      {
+        "pergunta": "Qual é o horário de check-in e de check-out?",
+        "resposta": "O check-in é a partir das 12:00 e o check-out até as 10:00. A tarifa é por noite, para duas pessoas."
+      }
+    ],
+    "hash": "a76af7ace1d7eeac",
+    "traducido": "2026-11-21T00:00:00.000Z"
+  },
+  "habitacion-triple-twin-superior": {
+    "titulo": "Quarto triplo twin superior em Trelew — AGUADA HOTEL",
+    "slugPt": "quarto-triplo-twin-superior-trelew",
+    "metaDescricao": "Quarto triplo superior no AGUADA HOTEL, em Trelew: três camas de solteiro, Smart TV, frigobar e banheira. Ideal para família ou grupo no Vale do Chubut.",
+    "descricao": "<p><b>Espaço, conforto e tranquilidade para viajar em família ou em grupo.</b></p><p>O nosso <b>Quarto Triplo Twin Superior</b> foi concebido para oferecer uma hospedagem superior, combinando espaço, comodidade e elegância para três pessoas.</p><p>Este ambiente amplo e acolhedor conta com <b>três camas de solteiro (twin)</b> de máxima qualidade, ideais para garantir um descanso bom e independente para cada um. Equipado com frigobar e Smart TV para os momentos de relax, o quarto dispõe ainda de um cômodo antebanheiro e de um banheiro privativo completo com vaso sanitário, bidê e banheira, perfeito para desligar no fim do dia.</p><p>A escolha certa para famílias ou equipes de trabalho que procuram espaço e a atenção cuidadosa que nos distingue.</p>",
+    "destino": "Trelew, Chubut",
+    "categoria": "Hospedagem",
+    "duracao": "Por noite",
+    "temporada": "",
+    "altImagem": "Quarto triplo twin superior do AGUADA HOTEL em Trelew, com três camas de solteiro",
+    "faq": [
+      {
+        "pergunta": "Quantas pessoas cabem no quarto triplo twin superior?",
+        "resposta": "Até três pessoas, em três camas de solteiro (twin) separadas, o que o torna prático tanto para uma família como para um grupo de trabalho. A tarifa é por noite."
+      },
+      {
+        "pergunta": "O que está incluído no quarto?",
+        "resposta": "Três camas de solteiro, Smart TV, frigobar, antebanheiro e banheiro privativo completo com vaso sanitário, bidê e banheira. O hotel oferece ainda café da manhã incluído, Wi-Fi de alta velocidade, piscina climatizada, aquecimento central, recepção 24 horas, quartos adaptados para mobilidade reduzida e aceita animais de estimação."
+      },
+      {
+        "pergunta": "Vale a pena ficar em Trelew para conhecer o Vale do Chubut?",
+        "resposta": "Sim: Trelew é o centro do triângulo turístico do Chubut e tem aeroporto próprio. De lá, Gaiman fica a 17 km, o mar de Rawson a 20 minutos, Playa Unión a 25, Dolavon a 36 km, 28 de Julio a 46 km, Puerto Madryn a uma hora e Punta Tombo a 120 km. Muita gente dorme em Trelew e sai cada manhã para um cenário diferente."
+      }
+    ],
+    "hash": "c94a896249ab3c2d",
+    "traducido": "2026-11-21T00:00:00.000Z"
+  },
   "jyglo-bar": {
     "hash": "e7e19d96bad1a650",
     "slugPt": "jyglo-bar-trelew-patagonia-argentina",

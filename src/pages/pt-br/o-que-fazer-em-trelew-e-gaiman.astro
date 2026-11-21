@@ -160,6 +160,10 @@ const faq = [
     r: 'Depende do que você vem buscar. Puerto Madryn é a base da fauna marinha: baleias, Península Valdés, mergulho, e tem a praia na cidade. Trelew é a base do vale galês e dos dinossauros, fica mais perto de Punta Tombo (120 km contra cerca de 180 de Madryn) e tem aeroporto próprio. As duas estão a uma hora de distância, então a solução mais confortável para uma viagem de cinco dias ou mais é dormir duas ou três noites em cada uma, em vez de ir e voltar todos os dias.',
   },
   {
+    p: 'Onde dormir em Trelew?',
+    r: 'Publicamos quartos do AGUADA HOTEL, em Trelew, com reserva online e tarifa por noite: um quarto de casal superior, para duas pessoas, e um triplo twin superior com três camas de solteiro, para família ou grupo de trabalho. Os dois têm Smart TV, frigobar, antebanheiro e banheiro privativo completo com banheira. O hotel inclui café da manhã, Wi-Fi de alta velocidade, piscina climatizada, aquecimento central, recepção 24 horas, quartos adaptados para mobilidade reduzida e aceita animais de estimação. O check-in é a partir das 12:00 e o check-out até as 10:00.',
+  },
+  {
     p: 'Como chegar a Trelew saindo do Brasil?',
     r: 'Não há voo direto: a conexão se faz em Buenos Aires e de lá sai o voo doméstico até o Aeroporto Almirante Marcos A. Zar (REL), em Trelew, que fica a poucos minutos do centro. Confirme de qual aeroporto de Buenos Aires sai o trecho doméstico antes de comprar, porque trocar entre Aeroparque e Ezeiza leva cerca de uma hora de carro. A outra porta de entrada da região é o aeroporto de Puerto Madryn (PMY), a uma hora de Trelew: vale comparar os dois para as suas datas, porque a frequência muda com a temporada.',
   },
@@ -205,6 +209,10 @@ const alternos = {
 // Los 13 restaurantes del valle, agrupados por localidad. El enlace se arma
 // con el slug publicado: si el admin despublica una ficha, desaparece el
 // enlace y la página no se queda con un 404 adentro.
+// Hospedagem: os quartos do AGUADA HOTEL que já têm página em portugués
+// (21/11). Se um quarto não está traduzido, não se enlaça: `paseos` filtra.
+const QUARTOS = paseos('habitacion-matrimonial-superior', 'habitacion-triple-twin-superior');
+
 const MESAS = [
   { lugar: 'Trelew', fichas: paseos('sugar', 'maximino-bistro-cafe', 'bulevu', 'genesis-resto-bar', 'roselli-pizza-bar', 'blest-cerveceria', 'jyglo-bar', 'fidel-cafe-concert', 'delicias-de-la-fuente-cafe', 'super-magic') },
   { lugar: 'Dolavon', fichas: paseos('el-viejo-molino-de-dolavon', 'la-queseria-pastas-artesanales') },
@@ -266,6 +274,7 @@ const schema = [
           <a href="#gaiman" class="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white font-bold text-xs uppercase tracking-widest px-5 py-3 rounded-full hover:bg-white/20 transition-all"><i class="fa-solid fa-mug-saucer"></i> Chá galês</a>
           <a href="#pinguins" class="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white font-bold text-xs uppercase tracking-widest px-5 py-3 rounded-full hover:bg-white/20 transition-all"><i class="fa-solid fa-feather"></i> Punta Tombo</a>
           <a href="#mesa" class="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white font-bold text-xs uppercase tracking-widest px-5 py-3 rounded-full hover:bg-white/20 transition-all"><i class="fa-solid fa-utensils"></i> Onde comer</a>
+          <a href="#dormir" class="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white font-bold text-xs uppercase tracking-widest px-5 py-3 rounded-full hover:bg-white/20 transition-all"><i class="fa-solid fa-bed"></i> Onde dormir</a>
         </div>
       </div>
     </section>
@@ -353,6 +362,23 @@ const schema = [
         ))}
       </div>
     </section>
+
+    {QUARTOS.length > 0 && (
+      <section id="dormir" class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+        <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-2">Onde dormir em Trelew</h2>
+        <p class="text-slate-600 mb-7 max-w-3xl">Trelew é a base mais prática do vale: fica no centro do triângulo turístico do Chubut, tem aeroporto próprio a poucos minutos do centro e, de manhã, qualquer cenário da região está ao alcance de um dia — Gaiman a 17 km, o mar de Rawson a 20 minutos, Dolavon a 36 km, Puerto Madryn a uma hora e Punta Tombo a 120 km. Estes são os quartos que publicamos na cidade, com reserva online e tarifa por noite.</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          {QUARTOS.map((q) => (
+            <a href={`/pt-br/experiencias/${q.slug}/`} class="group bg-white border border-slate-200 rounded-2xl p-6 hover:border-brand-fuchsia transition-colors">
+              <p class="text-brand-fuchsia text-[11px] font-bold uppercase tracking-widest mb-2">Trelew{q.duracion ? ` · ${q.duracion}` : ''}</p>
+              <h3 class="font-sans font-bold text-lg text-brand-oxford mb-2 group-hover:text-brand-fuchsia transition-colors">{q.titulo}</h3>
+              <p class="text-slate-600 text-sm leading-relaxed">{q.metaDescricao}</p>
+            </a>
+          ))}
+        </div>
+        <p class="text-slate-500 text-sm mt-5">O hotel tem café da manhã incluído, Wi-Fi de alta velocidade, piscina climatizada, aquecimento central, recepção 24 horas, quartos adaptados para mobilidade reduzida e aceita animais de estimação.</p>
+      </section>
+    )}
 
     <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
       <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-5">Como chegar e como se locomover</h2>

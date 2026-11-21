@@ -376,6 +376,22 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    los restaurantes de Comodoro rinden menos que casi cualquier otra cosa de
    esta cola.
 
+   **HECHO el 21/11/2026, y el pendiente queda prácticamente cerrado.** Se
+   tradujeron **dos habitaciones del AGUADA HOTEL** —la matrimonial superior
+   (casal) y la triple twin superior (família ou grupo)—, que son las dos más
+   diferenciadas de las seis: una cubre la búsqueda de pareja y la otra la de
+   familia, y entre ellas no se pisan. **Las otras cuatro no se traducen a
+   propósito** (son casi calcos entre sí: cambia el tipo de cama y la ducha
+   por la bañera, y seis páginas pt casi iguales serían contenido duplicado
+   en portugués). Con eso, **lo que queda de este pendiente no tiene nada que
+   valga una corrida entera**: los 6 restaurantes de Comodoro y Rada Tilly
+   (texto propio pero Comodoro no es destino brasileño), las 4 variantes de
+   Ruta Galesa/tulipanes/peonías y `safari-lacustre-al-alerce-milenario-cleona`
+   —todas colgadas de la decisión de catálogo— y las tres de Caviahue, que
+   están en el pendiente 3b esperando a Marcelo. **Se puede dar por cerrado
+   salvo que el admin publique fichas nuevas con texto propio**, que es el
+   chequeo del pendiente 13.
+
    *(Detalle del pendiente, que sigue valiendo como molde de trabajo.)*
 
    **Detalle anterior — 19 fichas no tienen versión en portugués.** (Eran 28 al 06/11 y 20 al
@@ -477,6 +493,53 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    escribirla hay que preguntarle a Marcelo** si el prestador se queda, porque
    el sitio se vende como "experiencias de todo el Chubut y la región" y abrir
    un destino nuevo es decisión suya, no de SEO.
+
+3c. **NUEVO Y DE LOS MÁS GRANDES QUE QUEDAN — las páginas informativas de
+   `public/` no enlazan ni una sola ficha: mandan los 130 enlaces a un ancla
+   de la app de reservas.** Encontrado el 21/11 al sumarle el bloque de
+   alojamiento a la guía de Trelew. Las guías y landings de `public/` enlazan
+   cada tour como
+   `href="/patagonia-experiencias#tour/<slug>" target="_blank"`, o sea **a un
+   fragmento (`#tour/...`) de la app de reservas**. Para Google un `#` no es
+   una URL distinta: los 130 enlaces cuentan como 130 enlaces a
+   `/patagonia-experiencias` y **cero** a las 121 fichas de `/experiencias/`.
+   O sea que las mejores páginas informativas del sitio —las que tienen el
+   texto largo, los datos estructurados y las visitas— no le pasan
+   absolutamente nada de autoridad interna a las páginas que venden, y toda
+   la fuerza interna se concentra en una sola URL, que además es la de la app.
+   El reparto medido hoy:
+
+   | Página | enlaces a la app | enlaces a ficha |
+   |---|---|---|
+   | `/calendario-fauna/` | 45 | 0 |
+   | `/que-hacer-patagonia/` | 40 | 0 |
+   | `/guias-de-viaje/peninsula-valdes/` | 13 | 0 |
+   | `/guia-peninsula-valle-2026` | 13 | 0 |
+   | `.../peninsula-valdes/peninsula-valle` | 13 | 0 |
+   | `/guias-de-viaje/valle-del-chubut/` (las 4 de localidad) | 2 c/u | 0 |
+   | `/que-comer-patagonia/` | 1 | 0 |
+   | `/guias-de-viaje/valle-del-chubut/trelew/` | 5 | **6** (21/11) |
+
+   **La buena noticia es que el arreglo es determinista y ya está medido:**
+   los 130 enlaces usan **19 slugs distintos y los 19 resuelven hoy a una
+   ficha publicada** (cruce contra el sitemap servido, 21/11: 19 de 19). O
+   sea que es un reemplazo de `href="/patagonia-experiencias#tour/<slug>"` por
+   `href="/experiencias/<slug>/"`, sacando el `target="_blank"` para que sea
+   un enlace interno de verdad. **Cómo hacerlo, que es lo que pide cuidado:**
+   una página por corrida, verificando con `curl` que cada slug sirva 200
+   antes de tocarlo (los slugs de ficha llevan sufijo de prestador desde el
+   02/11 y el ancla de la app puede quedar viejo), renderizando después con
+   `scripts/barrido-render.mjs` para confirmar que los enlaces sobreviven al
+   JavaScript, y **sin tocar `public/patagonia-experiencias.html`**, que es
+   zona prohibida: acá no se toca la app, sólo los enlaces que apuntan a
+   ella desde las guías. El orden por impacto es el de la tabla:
+   `/calendario-fauna/` y `/que-hacer-patagonia/` primero, que son 85 de los
+   130. **Ojo con no romper la venta:** la ficha tiene su propio botón de
+   reserva que lleva a la app, así que el camino a la compra sigue existiendo
+   y gana un paso con contenido indexable en el medio; si Marcelo prefiere
+   que el clic siga yendo derecho a la app, la alternativa es dejar el CTA
+   como está y **sumar** un enlace de texto a la ficha, pero eso es decisión
+   suya y conviene preguntarlo antes de hacer las dos páginas grandes.
 
 4. **Seis fichas hermanas publican el mismo texto que su principal.** Resuelto
    el lado del código el 03/11 (ver "Hecho"): las traducciones se indexan por
@@ -932,6 +995,36 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
     `lugarLegible()` antes de pegarlo al `<title>`.
 
 ## Hecho
+
+- **21/11/2026** — **El alojamiento del valle entró al sistema: títulos
+  propios en español, dos habitaciones en portugués y una sección "dónde
+  dormir" que las enlaza.** Las seis fichas del AGUADA HOTEL de Trelew
+  publicaban el título tal cual lo cargó el prestador —"Habitacion
+  Matrimonial Superior", sin tilde, sin el nombre del hotel y sin la ciudad—
+  y no las agarraba el respaldo de `titulos.js` porque no están gritadas: son
+  seis `<h1>`, seis `<title>`, seis `name` de `Product` diciendo nada más que
+  el tipo de cama. Se escribieron **las seis a mano en
+  `src/data/titulos-es.json`** ("Habitación matrimonial superior en AGUADA
+  HOTEL, Trelew"), sin mover ninguna URL. Del lado de Brasil, **dos de las
+  seis se tradujeron a mano** en `traducciones-pt.json` con título, meta
+  description, cuerpo, alt y tres FAQ cada una —la matrimonial superior
+  (`quarto-casal-superior-trelew`) y la triple twin superior
+  (`quarto-triplo-twin-superior-trelew`)—, escritas con los datos de la propia
+  ficha: camas, frigobar, Smart TV, bañera, los servicios del hotel (café da
+  manhã, Wi-Fi, piscina climatizada, aquecimento central, recepção 24h, pet
+  friendly, mobilidade reduzida) y el check-in/check-out. Las otras cuatro
+  quedan sin traducir a propósito, por casi calcos. Y para que las páginas
+  nuevas no quedaran colgando del listado, **las dos guías del valle
+  estrenaron bloque de alojamiento**: `/pt-br/o-que-fazer-em-trelew-e-gaiman/`
+  con la sección "Onde dormir em Trelew" (armada leyendo
+  `traducciones-pt.json`, así que si mañana se traduce otra habitación
+  aparece sola), su chip en la portada y una FAQ nueva que entra al `FAQPage`;
+  y `/guias-de-viaje/valle-del-chubut/trelew/` con "Dónde dormir en Trelew" y
+  **las seis habitaciones enlazadas a `/experiencias/<slug>/`**, que eran seis
+  fichas sin un solo enlace interno en todo el sitio. Verificado renderizando
+  con Chromium (1 `h1`, 8 `h2`, los 6 enlaces vivos después de que monta el
+  JavaScript, diseño idéntico al bloque de excursiones) y contra producción:
+  311 URLs en el sitemap servido, 92 fichas pt (eran 90).
 
 - **20/11/2026** — **Los títulos de las fichas dejaron de estar TODO EN
   MAYÚSCULAS: 53 de 123, el 43% del catálogo.** El admin deja cargar el
@@ -3370,3 +3463,54 @@ veces, además. Lo demás sigue igual que ayer: la decisión sobre
 De código queda, por impacto: `TouristDestination` con coordenadas en las cinco
 páginas de localidad del valle, el `faq-es.json` del pendiente 9 y el CDN de
 Tailwind del pendiente 10, una página por corrida.
+
+### 21/11/2026
+
+**Qué se hizo.** El pendiente 3 (fichas sin versión en portugués), que era el
+primero de la cola que no dependía de una decisión de Marcelo. Se agarró su
+rincón más barato —el alojamiento de Trelew— y se lo resolvió entero, de las
+tres puntas: **en español**, las seis habitaciones del AGUADA HOTEL publicaban
+un título que no decía ni el hotel ni la ciudad ("Habitacion Matrimonial
+Superior", sin tilde), y no las tocaba el respaldo de `titulos.js` porque no
+están gritadas: se escribieron las seis a mano en `titulos-es.json`. **En
+portugués**, se tradujeron a mano las dos más diferenciadas —la matrimonial
+superior para pareja y la triple twin superior para familia o grupo—, con FAQ
+escrita con los servicios reales del hotel; las otras cuatro quedan afuera a
+propósito, porque entre ellas son casi calcos y seis páginas pt iguales serían
+contenido duplicado. **Y en enlazado**, que es lo que le da sentido a lo
+anterior: las dos guías del valle (la pt y la de Trelew de
+`/guias-de-viaje/`) estrenaron bloque de "dónde dormir", con las dos fichas pt
+una y las seis fichas en español la otra. Seis páginas que hasta hoy colgaban
+sólo del listado `/experiencias/` ya tienen un enlace interno desde una página
+que Google rastrea.
+
+**Qué se mide como resultado.** Tres cosas distintas: que las seis fichas de
+alojamiento puedan aparecer por "hotel en Trelew", "dónde dormir en Trelew" y
+"habitación matrimonial Trelew" —hoy su título no contenía ninguna de esas
+palabras—; que el brasileño que lee la guía del valle encuentre dónde dormir
+sin salir del sitio ("onde ficar em Trelew", "hotel em Trelew"), que es la
+consulta que hoy se nos iba entera a Booking; y que las fichas dejen de ser
+huérfanas, que es lo que el pendiente 1 viene marcando desde el 28/10 como
+causa probable de buena parte de las páginas no indexadas. Se mide en Search
+Console, cuando esté conectado, por impresiones de `/experiencias/habitacion-*`
+y por el estado de indexación de esas seis URLs. Sitio servido después del
+deploy: **311 URLs** en el sitemap (309 el 20/11 + las dos pt nuevas), 121
+fichas es, 92 pt. IndexNow: **Yandex 200/202 OK** con las 2 URLs nuevas, las 6
+fichas en español y las dos guías; **Bing sigue en 403 por decimocuarto día**,
+esperando el token XML (pendiente 11).
+
+**Qué quedó pendiente.** Lo nuevo, y es grande: **las páginas informativas de
+`public/` no enlazan ni una sola ficha** (pendiente 3c). Enlazan cada tour como
+`/patagonia-experiencias#tour/<slug>`, que para Google es un ancla de la app de
+reservas y no una URL distinta: son **130 enlaces** —45 del calendario de
+fauna, 40 de "qué hacer en Patagonia", 13 de cada guía de Valdés— que no le
+pasan nada a las 121 fichas. Los 19 slugs que usan resuelven hoy a una ficha
+publicada, así que el arreglo está medido y es mecánico, pero son 130 CTA de
+venta: conviene hacerlo una página por corrida y preguntarle a Marcelo si
+prefiere reemplazar el enlace o sumarle uno de texto a la ficha. Lo demás sigue
+igual: la decisión sobre **Caviahue–Copahue**, el **renombre de la ficha del
+Hotel Gema** en el admin (sigue siendo `/experiencias/alojamiento/`), las
+**fotos y los logos que faltan** (35 + 26), el OK para `footer.js` y el footer
+de las tres páginas sin salida. De código queda `TouristDestination` en las
+cinco páginas de localidad del valle, el `faq-es.json` del pendiente 9 y el CDN
+de Tailwind del pendiente 10.

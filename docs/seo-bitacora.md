@@ -511,7 +511,7 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
 
    | Página | enlaces a la app | enlaces a ficha |
    |---|---|---|
-   | `/calendario-fauna/` | 45 | 0 |
+   | `/calendario-fauna/` | 44 | **17** (22/11) |
    | `/que-hacer-patagonia/` | 40 | 0 |
    | `/guias-de-viaje/peninsula-valdes/` | 13 | 0 |
    | `/guia-peninsula-valle-2026` | 13 | 0 |
@@ -520,12 +520,33 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    | `/que-comer-patagonia/` | 1 | 0 |
    | `/guias-de-viaje/valle-del-chubut/trelew/` | 5 | **6** (21/11) |
 
-   **La buena noticia es que el arreglo es determinista y ya está medido:**
-   los 130 enlaces usan **19 slugs distintos y los 19 resuelven hoy a una
-   ficha publicada** (cruce contra el sitemap servido, 21/11: 19 de 19). O
-   sea que es un reemplazo de `href="/patagonia-experiencias#tour/<slug>"` por
-   `href="/experiencias/<slug>/"`, sacando el `target="_blank"` para que sea
-   un enlace interno de verdad. **Cómo hacerlo, que es lo que pide cuidado:**
+   **OJO — CORRECCIÓN DEL 22/11: el reemplazo mecánico `#tour/<slug>` →
+   `/experiencias/<slug>/` ES INCORRECTO y manda a la ficha del prestador
+   equivocado.** El slug del ancla de la app es el `slugReserva`
+   (`slugApp(titulo)` + sufijo `-2`, `-3` cuando dos prestadores cargaron el
+   mismo título), y **no es el slug de la URL de Astro**, que desde el 02/11
+   lleva sufijo de prestador. Medido hoy sobre los 17 slugs de
+   `/calendario-fauna/`: **5 de 17 apuntaban a otra ficha**. El peor caso es
+   `#tour/peninsula-valdes`, el más enlazado de la página (12 veces), que es
+   el tour de SUSSANICH y cuya ficha es
+   `/experiencias/peninsula-valdes-sussanich-turismo/` — mientras que
+   `/experiencias/peninsula-valdes/` es **de otro prestador**. También estaban
+   mal `piedra-parada`, `parque-nacional-los-alerces-full-day`,
+   `panoramicas-de-esquel` y `trekking-laguna-esmeralda`.
+   **El mapeo correcto sale de `/aike/catalogo.json`**, que publica
+   `urlReserva` (el ancla de la app) y `urlFicha` (la URL de Astro) del mismo
+   tour: se cruza `urlReserva` que termine en `#tour/<slug>` y se lee
+   `urlFicha`. Cualquier corrida que siga con este pendiente tiene que usar
+   ese cruce, nunca el slug pelado.
+
+   **Y sobre reemplazar o sumar: el 22/11 se eligió SUMAR, y conviene seguir
+   así.** En `/calendario-fauna/` los 44 enlaces `#tour/` **son el único
+   camino a la oferta que tiene la página** (no hay ningún otro CTA de
+   reserva), así que cambiarles el destino es tocar la venta. Lo que se hizo
+   es lo que ya había funcionado en la guía de Trelew el 21/11: **un bloque
+   nuevo al final que enlaza las fichas**, sin tocar un solo enlace existente.
+   Cero riesgo de venta, reversible, y la página pasa de 0 a 17 enlaces a
+   ficha. **Cómo hacerlo, que es lo que pide cuidado:**
    una página por corrida, verificando con `curl` que cada slug sirva 200
    antes de tocarlo (los slugs de ficha llevan sufijo de prestador desde el
    02/11 y el ancla de la app puede quedar viejo), renderizando después con
@@ -995,6 +1016,40 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
     `lugarLegible()` antes de pegarlo al `<title>`.
 
 ## Hecho
+
+- **22/11/2026** — **El calendario de fauna estrenó bloque de excursiones y
+  pasó de 0 a 17 enlaces internos a fichas.** Es la primera página del
+  pendiente 3c, y la más grande: `/calendario-fauna/` tenía 44 enlaces
+  `#tour/<slug>` —anclas de la app de reservas, que para Google no son URLs
+  distintas— y **ni un solo enlace a las fichas de `/experiencias/`**. Se le
+  sumó una sección nueva, "Las 17 excursiones de fauna del calendario",
+  después de las 33 fichas de especie y antes del bloque de prestadores:
+  las 17 excursiones agrupadas por zona (Madryn–Valdés, Trelew y el valle,
+  Esquel y la cordillera, Ushuaia), cada una con enlace a su ficha, prestador,
+  destino, duración y la lista de especies de este calendario que cubre. Se
+  le sumó también un botón "LAS 17 EXCURSIONES" junto al de "VER LAS FICHAS
+  COMPLETAS". **No se tocó ninguno de los 44 enlaces a la app**: son el único
+  camino a la oferta que tiene la página, así que el bloque suma y no
+  reemplaza (la alternativa que estaba anotada para preguntarle a Marcelo).
+  Verificado: los 17 destinos sirven 200, los 17 enlaces sobreviven al
+  JavaScript al renderizar, cero errores de consola, cero desborde horizontal
+  a 390 px y las clases del bloque existen en el Tailwind compilado de la
+  página (el primer intento usó `sm:grid-cols-2`, que **no está** en ese CSS
+  y colapsaba el grid: esa página no tiene Tailwind por CDN, tiene un build
+  recortado, así que hay que usar sólo clases ya presentes en el archivo).
+
+- **22/11/2026** — **Encontrado y documentado: el mapeo `#tour/<slug>` →
+  ficha no es el slug pelado, y el reemplazo mecánico del pendiente 3c
+  mandaba 5 de 17 enlaces a la ficha del prestador equivocado.** El ancla de
+  la app usa `slugReserva` (título slugificado, con sufijo `-2` cuando dos
+  prestadores cargaron el mismo título) y la URL de Astro lleva sufijo de
+  prestador desde el 02/11. `#tour/peninsula-valdes` —el slug más enlazado
+  del sitio, 12 veces sólo en el calendario— es el tour de SUSSANICH, cuya
+  ficha es `/experiencias/peninsula-valdes-sussanich-turismo/`, mientras que
+  `/experiencias/peninsula-valdes/` **es de otro prestador**. El mapeo bueno
+  sale de cruzar `urlReserva` contra `urlFicha` en `/aike/catalogo.json`.
+  Queda escrito en el pendiente 3c para las corridas que sigan con
+  `/que-hacer-patagonia/` y las guías de Valdés.
 
 - **21/11/2026** — **El alojamiento del valle entró al sistema: títulos
   propios en español, dos habitaciones en portugués y una sección "dónde
@@ -3514,3 +3569,56 @@ Hotel Gema** en el admin (sigue siendo `/experiencias/alojamiento/`), las
 de las tres páginas sin salida. De código queda `TouristDestination` en las
 cinco páginas de localidad del valle, el `faq-es.json` del pendiente 9 y el CDN
 de Tailwind del pendiente 10.
+
+### 22/11/2026
+
+**Qué se hizo.** El pendiente 3c, que era el primero de la cola que podía
+avanzar sin una decisión de Marcelo, y se empezó por donde más pesa:
+`/calendario-fauna/`, 44 de los 130 enlaces del problema. La página mandaba
+cada excursión a `/patagonia-experiencias#tour/<slug>`, un ancla de la app de
+reservas, y **no enlazaba ni una ficha**: las 33 fichas de especie, el texto
+largo, los datos estructurados y las visitas de esa página no le pasaban nada
+a las 121 fichas de `/experiencias/`. Se le sumó una sección nueva —"Las 17
+excursiones de fauna del calendario"— con las 17 excursiones agrupadas por
+zona, cada una enlazando su ficha y contando prestador, destino, duración y
+las especies del calendario que cubre, más un botón de navegación interna.
+**No se tocó ningún enlace existente**: en esa página los 44 `#tour/` son el
+único camino a la oferta, así que se eligió sumar en vez de reemplazar, que
+era justamente la alternativa que el 21/11 quedó anotada para preguntarle a
+Marcelo. Así no hace falta preguntar nada ni arriesgar una venta.
+
+**Y un hallazgo que cambia el plan del pendiente.** El reemplazo mecánico que
+estaba anotado —`#tour/<slug>` → `/experiencias/<slug>/`— **está mal y manda
+al prestador equivocado**: el ancla de la app usa `slugReserva` y la URL de
+Astro lleva sufijo de prestador desde el 02/11. Sobre los 17 slugs de esta
+página, **5 apuntaban a otra ficha**, y el peor es el más enlazado de todos,
+`#tour/peninsula-valdes` (12 veces acá), que es el tour de SUSSANICH:
+`/experiencias/peninsula-valdes/` es de otro prestador. El mapeo bueno sale de
+cruzar `urlReserva` contra `urlFicha` en `/aike/catalogo.json`; quedó escrito
+en el pendiente 3c para las corridas que sigan.
+
+**Qué se mide como resultado.** Que las 17 fichas de fauna dejen de depender
+sólo del listado `/experiencias/` y reciban autoridad desde una de las páginas
+informativas más fuertes del sitio —es la causa probable de buena parte del
+147 no indexado del pendiente 1—; y que el calendario empiece a rankear
+también por nombre de excursión ("excursión Punta Tombo", "avistaje de
+ballenas El Doradillo", "trekking laguna Esmeralda"), que hoy no tenía ningún
+enlace con ese texto apuntando a una página indexable. Verificado antes de
+pushear: los 17 destinos sirven 200, el build compila, los 17 enlaces
+sobreviven al JavaScript, 44 enlaces a la app intactos, cero errores de
+consola y cero desborde a 390 px.
+
+**Qué quedó pendiente.** El resto del 3c, ahora con el mapeo corregido:
+`/que-hacer-patagonia/` (40 enlaces, la más grande que queda), las dos guías
+de Península Valdés (13 cada una) y las cinco del valle. Una por corrida, con
+el cruce de `/aike/catalogo.json` y el mismo criterio de sumar sin tocar los
+CTA. Lo demás sigue igual que ayer: **Caviahue–Copahue** esperando que Marcelo
+diga si Neuquén se queda, el **renombre de la ficha del Hotel Gema** en el
+admin (sigue siendo `/experiencias/alojamiento/`), las **35 fotos y los 26
+logos** que faltan, el OK para `footer.js`, y de código el `TouristDestination`
+de las cinco páginas del valle, el `faq-es.json` del pendiente 9 y el CDN de
+Tailwind del pendiente 10. **Ojo con ese pendiente 10:** el calendario de
+fauna **no** usa Tailwind por CDN, tiene un build recortado embebido, así que
+cualquier bloque nuevo ahí tiene que usar sólo clases que ya estén en el
+archivo (`sm:grid-cols-2` no está, y el primer intento de hoy se vio en una
+sola columna por eso).

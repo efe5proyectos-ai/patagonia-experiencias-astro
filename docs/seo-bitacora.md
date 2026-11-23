@@ -512,7 +512,7 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    | Página | enlaces a la app | enlaces a ficha |
    |---|---|---|
    | `/calendario-fauna/` | 44 | **17** (22/11) |
-   | `/que-hacer-patagonia/` | 40 | 0 |
+   | `/que-hacer-patagonia/` | 39 | **19** (23/11) |
    | `/guias-de-viaje/peninsula-valdes/` | 13 | 0 |
    | `/guia-peninsula-valle-2026` | 13 | 0 |
    | `.../peninsula-valdes/peninsula-valle` | 13 | 0 |
@@ -538,6 +538,18 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    tour: se cruza `urlReserva` que termine en `#tour/<slug>` y se lee
    `urlFicha`. Cualquier corrida que siga con este pendiente tiene que usar
    ese cruce, nunca el slug pelado.
+
+   **Avance al 23/11: van dos páginas de ocho, y son las dos más grandes.**
+   `/calendario-fauna/` (22/11, 17 fichas) y `/que-hacer-patagonia/` (23/11,
+   19 fichas). Entre las dos eran 83 de los 130 enlaces del problema, o sea
+   **el grueso ya está**. Lo que queda son páginas chicas: las dos de
+   Península Valdés (13 enlaces cada una, pero las dos son copias de la misma
+   guía y una de ellas, `/guia-peninsula-valle-2026`, ya responde 301), la
+   portada del micrositio del valle y las cuatro de localidad (2 enlaces cada
+   una) y `/que-comer-patagonia/` (1). El método quedó probado dos veces y no
+   tiene vueltas: cruzar `/aike/catalogo.json`, verificar 200 con `curl`,
+   sumar la sección al final sin tocar un solo enlace existente, renderizar
+   con Playwright a 1280 y a 390 px, y recién ahí pushear.
 
    **Y sobre reemplazar o sumar: el 22/11 se eligió SUMAR, y conviene seguir
    así.** En `/calendario-fauna/` los 44 enlaces `#tour/` **son el único
@@ -1016,6 +1028,36 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
     `lugarLegible()` antes de pegarlo al `<title>`.
 
 ## Hecho
+
+- **23/11/2026** — **"Qué hacer en la Patagonia" estrenó bloque de excursiones
+  y pasó de 0 a 19 enlaces internos a fichas.** Segunda página del pendiente
+  3c y la más grande que quedaba: `/que-hacer-patagonia/` es el índice de 85
+  actividades en 93 destinos —de las páginas con más texto del sitio— y sus
+  39 enlaces a excursión iban todos a `/patagonia-experiencias#tour/<slug>`,
+  o sea a un ancla de la app de reservas, que para Google no es una URL
+  distinta: **cero autoridad interna hacia `/experiencias/`**. Se le sumó una
+  sección nueva, "Las 19 excursiones con prestador habilitado", después del
+  índice por provincia y antes del bloque de prestadores: las 19 excursiones
+  agrupadas por zona de salida (Madryn–Valdés 6, Trelew y el valle 4, Esquel
+  y la cordillera 5, Ushuaia 4), cada una con enlace a su ficha, prestador,
+  destino, duración y **las actividades de este índice que cubre** —que es el
+  equivalente a las especies del calendario y lo que hace que el enlace tenga
+  contexto—. También un botón "LAS 19 EXCURSIONES" junto al de "VER EL ÍNDICE
+  COMPLETO", y un enlace al listado `/experiencias/` al pie del bloque.
+  **No se tocó ninguno de los 39 enlaces a la app** (mismo criterio que el
+  22/11: en esta página son el único camino a la oferta) ni
+  `public/patagonia-experiencias.html`, que es zona prohibida.
+  El mapeo salió del cruce `urlReserva`/`urlFicha` de `/aike/catalogo.json`,
+  como quedó anotado ayer, y volvió a hacer falta: **5 de los 19 slugs no
+  coinciden con la URL de la ficha** —`peninsula-valdes` es de SUSSANICH
+  (`/experiencias/peninsula-valdes-sussanich-turismo/`), `piedra-parada`,
+  `panoramicas-de-esquel` y `parque-nacional-los-alerces-full-day` llevan
+  sufijo `-merakisur`, y `trekking-laguna-esmeralda` es el de VERTICE, no el
+  de Noelia Ferrario—. Verificado antes de pushear: los 19 destinos sirven
+  200, el build compila, los 19 enlaces sobreviven al JavaScript a 1280 y a
+  390 px, los 39 enlaces a la app siguen renderizando, cero errores de
+  consola y cero desborde horizontal. Verificado después del deploy: la
+  página en producción sirve los 19 enlaces y la sección `#excursiones`.
 
 - **22/11/2026** — **El calendario de fauna estrenó bloque de excursiones y
   pasó de 0 a 17 enlaces internos a fichas.** Es la primera página del
@@ -3622,3 +3664,57 @@ fauna **no** usa Tailwind por CDN, tiene un build recortado embebido, así que
 cualquier bloque nuevo ahí tiene que usar sólo clases que ya estén en el
 archivo (`sm:grid-cols-2` no está, y el primer intento de hoy se vio en una
 sola columna por eso).
+
+### 23/11/2026
+
+**Qué se hizo.** El pendiente 3c otra vez, en la página más grande que
+quedaba: `/que-hacer-patagonia/`, 39 de los 130 enlaces del problema. Es el
+índice de 85 actividades en 93 destinos y mandaba cada excursión a
+`/patagonia-experiencias#tour/<slug>`, un ancla de la app: para Google, 39
+enlaces a una sola URL y **ninguno** a las 121 fichas de `/experiencias/`. Se
+le sumó la sección "Las 19 excursiones con prestador habilitado", con las 19
+excursiones agrupadas por zona de salida y cada una enlazando su ficha, más el
+prestador, el destino, la duración y las actividades del índice que cubre.
+**Cero enlaces existentes tocados**, mismo criterio que el 22/11: en esta
+página los `#tour/` son el único camino a la oferta, así que el bloque suma y
+no reemplaza, y no hace falta preguntarle nada a Marcelo ni arriesgar una
+venta. El mapeo volvió a salir de `/aike/catalogo.json` y volvió a hacer
+falta: 5 de los 19 slugs del ancla no coinciden con la URL de su ficha.
+
+**Qué se mide como resultado.** Que las 19 fichas con prestador habilitado
+dejen de depender sólo del listado y reciban autoridad desde la página más
+larga del sitio —otra vez, la causa probable de buena parte del 147 no
+indexado del pendiente 1—; y que el índice empiece a rankear también por
+nombre de excursión ("Punta Loma city tour", "Piedra Parada cañadón",
+"Lagos Off Road Ushuaia"), que hoy no tenía ningún enlace con ese texto
+apuntando a una página indexable. Con esta página y el calendario de fauna,
+**83 de los 130 enlaces del pendiente 3c ya tienen su contrapartida indexable**.
+
+**Mantenimiento de la corrida (pendiente 13).** El barrido no encontró nada
+que hacer: 121 fichas publicables y 121 meta descriptions escritas, cero
+`slugPt` duplicados o faltantes. El admin no publicó fichas nuevas desde el
+20/11 —el sitemap está en 311 URLs, las mismas tres de Caviahue del 19/11 más
+las dos páginas nuevas—. Siguen marcados los dos de siempre, los dos de
+prioridad baja porque cuestan un 301 sobre una URL ya indexada: el `-2` de
+`rota-galesa-represa-futaleufu-trevelin-2` y el `cabalgatas` en español del
+slug pt de `cabalgatas-familiares`. IndexNow: Yandex 200 OK; **Bing sigue en
+403**, el cuarto intento, a la espera del token XML de Marcelo (pendiente 11).
+
+**Qué quedó pendiente.** Del 3c quedan sólo páginas chicas: las dos de
+Península Valdés (13 enlaces cada una, y una de ellas ya es un 301), las cinco
+del micrositio del valle (2 cada una) y `/que-comer-patagonia/` (1). Se pueden
+hacer dos o tres en una sola corrida, con el mismo método. Lo demás sigue
+igual: **Caviahue–Copahue** esperando que Marcelo diga si Neuquén se queda, el
+**renombre de la ficha del Hotel Gema** en el admin (sigue siendo
+`/experiencias/alojamiento/`), las **35 fotos y los 26 logos** que faltan, el
+OK para `footer.js` y el token de Bing. De código queda el `TouristDestination`
+de las cinco páginas del valle, el `faq-es.json` del pendiente 9 y el CDN de
+Tailwind del pendiente 10. **Dato nuevo para ese pendiente 10:**
+`/que-hacer-patagonia/` tampoco usa el CDN de Tailwind —tiene un build
+recortado embebido, igual que el calendario de fauna—, así que cualquier
+bloque nuevo ahí tiene que usar sólo clases que ya estén en el archivo.
+**Y un hallazgo chico para anotar:** la página renderiza **un solo bloque de
+JSON-LD** (FAQPage), mientras las equivalentes en Astro declaran dos. Le falta
+el `Article`/`BreadcrumbList` colgado del `@id` de la `Organization`, que es
+exactamente el arreglo del pendiente 9c que ya se hizo en las ocho guías de
+`public/guias-de-viaje/`: el mismo molde, una página más.

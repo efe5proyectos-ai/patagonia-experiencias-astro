@@ -494,7 +494,44 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    el sitio se vende como "experiencias de todo el Chubut y la región" y abrir
    un destino nuevo es decisión suya, no de SEO.
 
-3c. **NUEVO Y DE LOS MÁS GRANDES QUE QUEDAN — las páginas informativas de
+3c. **Las páginas informativas de `public/` no enlazaban ni una sola ficha.
+   — CERRADO el 24/11/2026.** Las ocho páginas del problema ya tienen su
+   bloque de enlaces indexables: `/calendario-fauna/` (22/11, 17 fichas),
+   `/que-hacer-patagonia/` (23/11, 19), `/guias-de-viaje/peninsula-valdes/`
+   (24/11, 11), las cinco del micrositio del valle del Chubut (24/11: portada
+   6, Dolavon 5, Rawson 4, Gaiman 3 y 28 de Julio 3, más Trelew que ya estaba
+   del 21/11) y `/que-comer-patagonia/` (24/11, 21). **Los 130 enlaces a
+   `/patagonia-experiencias#tour/` siguen intactos**: en las ocho páginas se
+   sumó, nunca se reemplazó, así que el camino a la venta no cambió en
+   ninguna. Lo que cambió es que ahora hay **87 enlaces internos nuevos a
+   fichas de `/experiencias/`** desde las páginas con más texto y más visitas
+   del sitio. Las dos copias viejas de la guía de Valdés que figuraban en la
+   tabla (`/guia-peninsula-valle-2026` y `.../peninsula-valdes/peninsula-valle`)
+   **no hacían falta: las dos responden 301** a la guía buena por
+   `public/_redirects`. **Lo que queda de este pendiente para las corridas que
+   vienen es sólo mantenimiento:** cada vez que el admin publique una ficha
+   nueva en un destino que ya tiene página informativa, sumarla al bloque de
+   esa página. Y el método no cambia: el mapeo sale del cruce
+   `urlReserva`/`urlFicha` de `/aike/catalogo.json`, nunca del slug pelado del
+   ancla.
+
+   **Hallazgo de la corrida del 24/11, para Marcelo o para una corrida de
+   contenido: la página de Rawson del micrositio del valle tiene un enlace
+   mal rotulado.** Su único enlace de excursión dice "Avistaje de toninas
+   overas · desde el Puerto de Rawson, los 365 días del año" y apunta a
+   `#tour/el-doradillo-avistaje-costero-ballena-franca-austral`, que es el
+   avistaje de **ballenas** desde Puerto Madryn: ni el animal ni la ciudad
+   coinciden. **No se tocó**, porque es el único camino a la oferta que tiene
+   esa página y cambiarlo es tocar la venta. El catálogo **no tiene hoy
+   ninguna ficha de avistaje de toninas**: el prestador de Rawson
+   (Estación Marítima) está sólo como beneficio de Patagonia Puntos. Las dos
+   salidas son: que Marcelo sume esa excursión al catálogo, o reescribir el
+   rótulo para que diga lo que el enlace realmente vende.
+
+   *(Lo de abajo es el detalle histórico del pendiente, que sigue valiendo
+   como molde de trabajo.)*
+
+   **Detalle anterior — las páginas informativas de
    `public/` no enlazan ni una sola ficha: mandan los 130 enlaces a un ancla
    de la app de reservas.** Encontrado el 21/11 al sumarle el bloque de
    alojamiento a la guía de Trelew. Las guías y landings de `public/` enlazan
@@ -1028,6 +1065,43 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
     `lugarLegible()` antes de pegarlo al `<title>`.
 
 ## Hecho
+
+- **24/11/2026** — **Cerrado el pendiente 3c: las seis páginas que quedaban
+  ya enlazan fichas, y son 38 enlaces internos nuevos.** Tres commits.
+  **(1) `/guias-de-viaje/peninsula-valdes/`**: tenía 13 enlaces a la app y
+  cero a ficha. Se le sumó, justo después del bloque de reservas, la sección
+  "Las 11 experiencias de Valdés y el Valle con prestador habilitado",
+  agrupada por zona de salida —Península Valdés y Pirámides (3), Puerto
+  Madryn y su costa (3), Punta Tombo (2) y las tres mesas de la zona—, con
+  prestador, destino y duración de cada una, más su entrada en el índice
+  lateral. **(2) El micrositio del valle del Chubut**, las cinco páginas que
+  faltaban: la portada estrenó "Las experiencias del valle con prestador
+  habilitado" (6 fichas: los dos tours del valle inferior, Punta Tombo desde
+  Trelew y las tres mesas) y las cuatro de localidad sumaron sus fichas en la
+  sección de excursiones que ya tenían —Gaiman 3, Dolavon 3, 28 de Julio 3 y
+  Rawson 3—; a Dolavon, que no tenía sección gastronómica, se le agregó una
+  con sus dos mesas (El Viejo Molino y La Quesería, las únicas del catálogo
+  en el pueblo) y su entrada en el índice, y Rawson sumó Cantina Marcelino a
+  la suya. **(3) `/que-comer-patagonia/`**: la guía gastronómica tenía un
+  solo enlace de excursión y ninguno a ficha, aunque lista 34 platos y
+  productos. Se le sumó "Las 21 mesas con ficha y reserva online", agrupadas
+  en Trelew y el valle (13), Puerto Madryn (2) y Comodoro Rivadavia con Rada
+  Tilly (6), con dirección y tipo de servicio. **Cero enlaces existentes
+  tocados en las seis páginas** y cero toques a `public/patagonia-experiencias.html`.
+  El mapeo salió otra vez del cruce `urlReserva`/`urlFicha` de
+  `/aike/catalogo.json`, y volvió a hacer falta: en la guía de Valdés
+  `#tour/peninsula-valdes` —el ancla más repetida de la página— es la ficha
+  de SUSSANICH (`/experiencias/peninsula-valdes-sussanich-turismo/`), no
+  `/experiencias/peninsula-valdes/`, que es de Forastero tour; las dos están
+  en el bloque, cada una con su texto. Verificado antes de pushear: las 38
+  fichas sirven 200, el build compila y las seis páginas renderizadas con
+  Playwright a 1280 y 390 px conservan los enlaces nuevos y los viejos.
+  Verificado después del deploy: producción sirve 11, 6, 3, 5, 4, 3 y 21
+  enlaces a ficha. **Ojo con el estilo:** la guía de Valdés y el micrositio
+  del valle tienen CSS propio (nada de Tailwind) y `/que-comer-patagonia/`
+  lleva un build recortado embebido, así que los tres bloques se escribieron
+  con clases propias y acotadas, reusando las variables de color de cada
+  página.
 
 - **23/11/2026** — **"Qué hacer en la Patagonia" estrenó bloque de excursiones
   y pasó de 0 a 19 enlaces internos a fichas.** Segunda página del pendiente
@@ -3718,3 +3792,50 @@ JSON-LD** (FAQPage), mientras las equivalentes en Astro declaran dos. Le falta
 el `Article`/`BreadcrumbList` colgado del `@id` de la `Organization`, que es
 exactamente el arreglo del pendiente 9c que ya se hizo en las ocho guías de
 `public/guias-de-viaje/`: el mismo molde, una página más.
+
+### 24/11/2026
+
+**Qué se hizo.** Se cerró el pendiente 3c, que venía desde el 21/11 y era el
+más grande que quedaba de código. Las seis páginas informativas de `public/`
+que todavía mandaban todos sus enlaces de excursión al ancla `#tour/` de la
+app de reservas ahora tienen su bloque de enlaces a las fichas de
+`/experiencias/`: la guía de Península Valdés (11), la portada del micrositio
+del valle (6), Dolavon (5), Rawson (4), Gaiman (3), 28 de Julio (3) y la guía
+gastronómica (21). Con las dos del 22 y 23/11 y la de Trelew del 21/11, las
+ocho páginas del problema están hechas y el sitio sumó **87 enlaces internos
+a fichas** que antes no existían. En las seis de hoy no se tocó un solo
+enlace existente: el camino a la venta es exactamente el de ayer.
+
+**Qué se mide como resultado.** Que las fichas dejen de depender del listado
+`/experiencias/` para recibir autoridad interna —que es la causa probable de
+buena parte de las 147 páginas no indexadas del pendiente 1— y que las
+páginas largas empiecen a rankear también por nombre de prestador y de mesa
+("Cantina Marcelino", "El Viejo Molino de Dolavon", "Puerto Cangrejo
+Comodoro"), que hoy no tenían ningún enlace con ese texto apuntando a una
+página indexable. En la guía gastronómica el salto es el más grande del
+pendiente: de 0 a 21 enlaces, y son 21 fichas de gastronomía que hasta hoy
+sólo colgaban del listado.
+
+**Mantenimiento de la corrida (pendiente 13).** El barrido no encontró nada
+que hacer: 121 fichas publicables y 121 meta descriptions escritas, cero
+`slugPt` duplicados o faltantes. El admin no publicó fichas nuevas desde el
+20/11: el sitemap sigue en 311 URLs. Siguen marcados los dos de siempre, los
+dos de prioridad baja porque cuestan un 301 sobre una URL ya indexada: el
+`-2` de `rota-galesa-represa-futaleufu-trevelin-2` y el `cabalgatas` en
+español del slug pt de `cabalgatas-familiares`. IndexNow: Yandex aceptó las
+tres tandas (200/202); **Bing sigue en 403**, el quinto intento, a la espera
+del token XML de Marcelo (pendiente 11).
+
+**Qué quedó pendiente.** Del 3c ya no queda nada de código, sólo el
+mantenimiento de sumar las fichas nuevas al bloque de la página informativa
+que corresponda. Lo que sigue arriba en la cola: **Caviahue–Copahue**
+esperando que Marcelo diga si Neuquén se queda (pendiente 3b), el `Article` /
+`BreadcrumbList` que le falta a `/que-hacer-patagonia/` —hoy declara un solo
+bloque de JSON-LD, el mismo molde del 9c que ya se aplicó ocho veces—, el
+`TouristDestination` de las cinco páginas del valle, el `faq-es.json` del
+pendiente 9 y el CDN de Tailwind del pendiente 10. **Y un hallazgo nuevo,
+anotado en el 3c:** el único enlace de excursión de la página de Rawson dice
+"avistaje de toninas overas" y apunta al avistaje de ballenas de El
+Doradillo, que es otro animal y otra ciudad; no se tocó porque es el único
+camino a la oferta de esa página, y el catálogo no tiene hoy ninguna ficha de
+toninas. Decisión de Marcelo: sumar la excursión o reescribir el rótulo.

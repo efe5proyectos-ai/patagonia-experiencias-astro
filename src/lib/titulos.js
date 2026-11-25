@@ -100,6 +100,22 @@ const ACENTOS = new Map(Object.entries({
 }));
 const conTildes = (tramo) => tramo.replace(new RegExp(`[${MINUS}]+`, 'g'), (p) => ACENTOS.get(p) || p);
 
+// Los nombres propios de la tabla, escritos como se escriben, sin tocar nada
+// más del texto ni su capitalización. Es lo que necesita el campo `destino`,
+// que no viene gritado pero sí sin tildes ("Peninsula Valdes, Chubut") o con
+// la provincia en minúscula ("Cholila, chubut"): ahí no hay que recapitalizar
+// la frase, sólo arreglar el topónimo.
+function conNombresPropios(texto) {
+  let t = texto;
+  for (const clave of CLAVES) {
+    const escapada = clave.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const re = new RegExp(`(^|[^${MINUS}${MAYUS}])(${escapada})(?![${MINUS}${MAYUS}])`, 'gi');
+    t = t.replace(re, (todo, antes, hallado) =>
+      (sinTildes(hallado) === clave ? `${antes}${TABLA.get(clave)}` : todo));
+  }
+  return t;
+}
+
 function mayusculaDeOracion(texto) {
   let t = texto.toLowerCase();
   // Los nombres propios primero, marcados con \u0000 para que los pasos
@@ -169,7 +185,17 @@ export function conTitulosLegibles(experiencias) {
  * ("Caviahue/ Neuquén  "), y eso terminaba publicado tal cual.
  */
 export function lugarLegible(destino) {
-  const t = String(destino || '').replace(/\s*\/\s*/g, ', ').replace(/\s+/g, ' ').trim();
+  let t = String(destino || '').replace(/\s*\/\s*/g, ', ').replace(/\s+/g, ' ').trim();
   if (!t) return t;
-  return t.split(/(,\s*)/).map((tramo) => (esGrito(tramo) ? mayusculaDeOracion(tramo) : tramo)).join('');
+  // El mismo lugar entra escrito de cuatro maneras distintas: el 25/11/2026
+  // el catálogo tenía "Ushuaia, Tierra del Fuego", "Ushuaia-Tierra del
+  // Fuego", "Ushuaia - Tierra del Fuego" y "Ushuaia. Tierra del Fuego", y las
+  // cuatro se publicaban tal cual en el `<title>`. Se unifican en la coma.
+  // Sólo cuando no hay números, para no tocar las direcciones de calle
+  // ("Belgrano 320 -Trelew, CHUBUT"), que `destinoParaTitulo` ya resuelve por
+  // localidad.
+  if (!/\d/.test(t)) t = t.replace(/\s*[-\u2013]\s*/g, ', ').replace(/\.\s+/g, ', ');
+  return t.split(/(,\s*)/)
+    .map((tramo) => (esGrito(tramo) ? mayusculaDeOracion(tramo) : conNombresPropios(tramo)))
+    .join('');
 }

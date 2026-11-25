@@ -20,7 +20,15 @@
 //   3. Si el mismo prestador cargó el tour dos veces, es un duplicado de carga:
 //      se publica una sola página y el resto se deja afuera. (Hay que borrarlo
 //      en el admin; queda avisado en el log del build.)
+//
+// Corrección del 25/11/2026: "la última del grupo" no alcanzaba para cumplir
+// la regla 1. El orden de llegada es el de los IDs de documento de Firestore,
+// así que una ficha nueva cuyo ID ordena después de la que hoy tiene la URL
+// limpia se la quedaba, y la indexada se iba a `{slug}-{prestador}`. Para eso
+// está `src/data/slugs-fijos.js`: ancla el slug al tour que lo tiene
+// publicado. Si hay ancla, gana el ancla; si no, sigue mandando el orden.
 // ─────────────────────────────────────────────────────────────
+import fijos from '../data/slugs-fijos.js';
 
 function slugificar(texto) {
   return String(texto || '').toLowerCase().normalize('NFD')
@@ -48,13 +56,16 @@ export function conSlugsUnicos(experiencias) {
     if (lista.length === 1) continue;
 
     const orden = lista; // orden de llegada: el mismo con el que Astro resuelve el choque
-    const principal = orden[orden.length - 1];
+    // El ancla de `slugs-fijos.js` gana, para que una ficha nueva no le saque
+    // la URL ya indexada a la que la tiene publicada.
+    const anclado = fijos[slug] ? orden.find((e) => e.tourId === fijos[slug]) : null;
+    const principal = anclado || orden[orden.length - 1];
     asignado.set(principal.tourId, { slug, slugBase: slug, prestadorEnTitulo: '' });
 
     const usados = new Set([slug]);
     const prestadores = new Set([clavePrestador(principal)]);
 
-    for (const exp of orden.slice(0, -1)) {
+    for (const exp of orden.filter((e) => e !== principal)) {
       const prestador = clavePrestador(exp);
       if (prestador && prestadores.has(prestador)) {
         console.warn(`[slugs] "${exp.titulo}" está cargado dos veces por ${exp.proveedor} (${exp.tourId}): se publica una sola ficha`);
@@ -69,7 +80,9 @@ export function conSlugsUnicos(experiencias) {
         propio = `${slug}-${n}`;
       }
       usados.add(propio);
-      asignado.set(exp.tourId, { slug: propio, slugBase: slug, prestadorEnTitulo: exp.proveedor || '' });
+      // El nombre del prestador viene del admin y a veces trae espacios de
+      // sobra ("All patagonia "), que terminaban pegados al `<title>`.
+      asignado.set(exp.tourId, { slug: propio, slugBase: slug, prestadorEnTitulo: String(exp.proveedor || '').trim() });
     }
   }
 

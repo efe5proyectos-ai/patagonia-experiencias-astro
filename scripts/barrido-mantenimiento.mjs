@@ -128,3 +128,35 @@ bloque('slugPt DUPLICADOS — dos fichas peleándose la misma URL en portugués'
 const sospechoso = /(paseo|excursion|navegacion|pinguinera|caminata|visita|medio-dia|dia-completo|avistaje|cabalgata|salida|desde|madrid)/;
 bloque('slugPt con palabras posiblemente en español o con errata — LEER, no corregir a ciegas',
   slugsPt.filter(([, s]) => sospechoso.test(s)).map(([k, s]) => `${s}   (${k})`));
+
+// ─────────────────────────────────────────────────────────────
+//  6. URLS YA PUBLICADAS QUE CAMBIARÍAN DE FICHA EN EL PRÓXIMO DEPLOY
+//
+// Agregado el 25/11/2026, después de encontrarlo a mano. `conSlugsUnicos`
+// resuelve el choque de dos prestadores con el mismo título quedándose con la
+// última ficha del grupo en el orden en que llegan los tours, que es el orden
+// de los IDs de documento de Firestore. Si el admin carga una ficha nueva con
+// un título que ya existe y su ID ordena después, la ficha nueva se queda con
+// la URL limpia —que ya está indexada, con su meta description y su
+// traducción al portugués— y la vieja se va a `{slug}-{prestador}`.
+//
+// El chequeo es el único que mira el sitemap servido, y acá sí corresponde:
+// la pregunta no es qué fichas hay nuevas (eso sale de Firestore) sino qué
+// URLs están publicadas hoy. Lo que aparezca acá se arregla anclando el slug
+// en `src/data/slugs-fijos.js`, nunca dejando que la URL cambie de dueño.
+// ─────────────────────────────────────────────────────────────
+let vivas = null;
+try {
+  const res = await fetch('https://patagoniaexperiencias.com/sitemap-0.xml');
+  const xml = await res.text();
+  vivas = new Set([...xml.matchAll(/https:\/\/patagoniaexperiencias\.com\/experiencias\/([a-z0-9-]+)\//g)].map((m) => m[1]));
+} catch (e) {
+  console.log(`\n### URLs publicadas que cambiarían de ficha\n  — no se pudo leer el sitemap servido (${e.message}) —`);
+}
+if (vivas) {
+  const calculadas = new Set(exps.map((e) => e.slug));
+  bloque('URLs de ficha publicadas que DESAPARECERÍAN en el próximo deploy — anclar en slugs-fijos.js',
+    [...vivas].filter((s) => !calculadas.has(s)));
+  bloque('URLs de ficha nuevas que todavía no están en el sitemap servido',
+    [...calculadas].filter((s) => !vivas.has(s)));
+}

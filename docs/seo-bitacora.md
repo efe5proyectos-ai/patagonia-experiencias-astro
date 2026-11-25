@@ -65,6 +65,22 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
 
 ## Para Marcelo
 
+- **Entró un prestador nuevo en Ushuaia, All patagonia, con cinco fichas, y
+  dos cosas de catálogo quedan para vos.** Visto el 25/11. Las cinco fichas
+  están bien, tienen texto propio y ya les escribí la meta description a mano,
+  así que están publicadas y funcionando. Lo que necesita tu decisión es:
+  **(a) el nombre del prestador está cargado como "All patagonia " —con la p
+  minúscula y un espacio al final—**, y ese nombre se publica en el título de
+  las fichas que comparten URL con otro prestador y en los datos
+  estructurados; el espacio ya lo recorta el código, pero la "p" minúscula
+  sólo se arregla en el admin (debería ser "All Patagonia"). **(b) All
+  patagonia cargó dos excursiones que ya vendía Noelia Ferrario**: "Parque
+  Nacional Tierra del Fuego" (mismo título exacto) y "Lagos 4x4 Off Road",
+  que es el mismo paseo que "Lagos Off Road". Los textos son distintos —no es
+  contenido duplicado— pero son dos fichas del mismo paseo compitiendo entre
+  ellas en Google. Si las dos se quedan, está bien; si una sobra, decime cuál
+  y la saco de los bloques de la guía.
+
 - **La ficha nueva del Hotel Gema se llama "Alojamiento" y por eso su URL es
   `/experiencias/alojamiento/`. Conviene renombrarla en el admin HOY, antes de
   que Google la indexe.** Apareció el 20/11: un prestador nuevo de Comodoro
@@ -391,6 +407,28 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    están en el pendiente 3b esperando a Marcelo. **Se puede dar por cerrado
    salvo que el admin publique fichas nuevas con texto propio**, que es el
    chequeo del pendiente 13.
+
+   **REABIERTO el 25/11/2026, y con la cola mejor que nunca: las cinco fichas
+   nuevas de All patagonia en Ushuaia son hoy lo de más valor para traducir
+   que hay en todo el catálogo.** Son `parque-nacional-tierra-del-fuego-all-patagonia`,
+   `lagos-escondido-y-fagnano`, `lagos-4x4-off-road`,
+   `cabalgata-en-lago-escondido-1-hora` y `heliexperience-laguna-esmeralda`.
+   Tres razones, las mismas tres del 14/11 cuando se tradujeron las de
+   VÉRTICE: Ushuaia es de los destinos más buscados por el brasileño, la guía
+   pt de Ushuaia ya está publicada y las enlazaría, y **dos de las cinco no
+   compiten con nada del catálogo** —la cabalgata al lago Escondido y el
+   sobrevuelo en helicóptero a la Laguna Esmeralda son actividades que no
+   existían—. El helicóptero además es la clase de búsqueda que el brasileño
+   hace entera en portugués ("sobrevoo de helicóptero Ushuaia"). **Ojo con dos
+   claves:** la del Parque Nacional va con el slug único
+   (`...-all-patagonia`), porque la base la tiene la ficha de Noelia Ferrario,
+   que ya está en portugués; y `lagos-4x4-off-road` se pisa con
+   `lagos-off-road`, que ya tiene pt, así que si se traduce hay que escribirle
+   un texto que no sea el mismo. **Recomendación: traducir tres —la cabalgata,
+   el helicóptero y los Lagos Escondido y Fagnano— y dejar las otras dos
+   colgadas de la decisión de catálogo del bullet de "Para Marcelo".**
+   (El barrido cuenta 35 fichas sin pt por slug único; las otras 30 son las
+   que ya estaban anotadas acá como de valor bajo o colgadas de catálogo.)
 
    *(Detalle del pendiente, que sigue valiendo como molde de trabajo.)*
 
@@ -1014,6 +1052,32 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
     Fuego (12/11). Prioridad baja: cambiarlo cuesta un 301 sobre una URL ya
     indexada.
 
+    **Hallazgo del 25/11/2026, el más grave que encontró este pendiente hasta
+    hoy: una ficha nueva le saca la URL limpia a una ya indexada.** El admin
+    publicó cinco fichas de All patagonia en Ushuaia, y una de ellas se llama
+    "Parque Nacional Tierra del Fuego", **el mismo título exacto** que la de
+    Noelia Ferrario, dueña de `/experiencias/parque-nacional-tierra-del-fuego/`
+    y de `/pt-br/experiencias/passeio-parque-nacional-tierra-del-fuego-ushuaia/`.
+    La regla 1 de `src/lib/slugs.js` dice que la URL ya indexada no cambia, y
+    la implementaba quedándose con **la última ficha del grupo en el orden en
+    que llegan los tours** — pero ese orden es el de los **IDs de documento de
+    Firestore**, no el de publicación. El ID de la ficha nueva
+    (`wcBT3PyU5H1ly403nSNe`) ordena después del de Noelia
+    (`OlG4wkZ16iYXYS5oiHSv`), así que en el deploy siguiente la URL indexada
+    habría pasado a mostrar el tour de otro prestador, con la meta description
+    y la traducción al portugués del tour viejo encima. **Arreglado el 25/11
+    con `src/data/slugs-fijos.js`**, que ancla un slug ya publicado a su
+    `tourId` (ver "Hecho"). Es un archivo de datos, no una regla nueva: si el
+    tour anclado se despublica, la tabla no hace nada.
+
+    **Y el chequeo quedó en el barrido**, como sexto cruce: lee el sitemap
+    **servido** y compara las URLs de ficha publicadas contra las que calcula
+    el código con los datos de Firestore de hoy. Lo que aparezca en "URLs de
+    ficha publicadas que DESAPARECERÍAN en el próximo deploy" se ancla en
+    `slugs-fijos.js` antes de pushear, nunca se deja pasar. Es el único cruce
+    del barrido que mira el sitemap y no Firestore, y ahí corresponde: la
+    pregunta no es qué hay nuevo sino **qué URLs están publicadas hoy**.
+
     **Y el barrido de enlaces internos ya no hay que reescribirlo**: quedó en
     `scripts/barrido-enlaces.mjs` el 14/11, con las dos advertencias del
     método anotadas adentro (no conoce `_redirects`, ignora `/cdn-cgi/` y las
@@ -1064,7 +1128,64 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
     y con la barra pegada ("Caviahue/ Neuquén  "): eso ya lo limpia
     `lugarLegible()` antes de pegarlo al `<title>`.
 
+    **Chequeo del 25/11: apareció uno gritado nuevo y se escribió a mano.**
+    `HELIEXPERIENCE LAGUNA ESMERALDA`, de All patagonia. El respaldo
+    algorítmico lo dejaba en "Heliexperience Laguna Esmeralda", que está bien
+    escrito pero **no dice qué es**: es un sobrevuelo en helicóptero de 15
+    minutos, y "helicóptero" es la palabra con la que se busca. Quedó escrito
+    a mano en `titulos-es.json` como "HeliExperience: sobrevuelo en
+    helicóptero a la Laguna Esmeralda". Es el mismo caso que "ALOJAMIENTO" del
+    Hotel Gema: cuando el título original no dice qué se vende, el JSON
+    escrito a mano puede sumar palabras; el respaldo automático nunca.
+
+    **Y el campo `destino` dio tres variantes nuevas del mismo lugar.** Las
+    cinco fichas nuevas lo traen escrito de cuatro maneras distintas —
+    "Ushuaia, Tierra del Fuego", "Ushuaia-Tierra del Fuego",
+    "Ushuaia - Tierra del Fuego" y "Ushuaia. Tierra del Fuego"—, y las cuatro
+    se publicaban tal cual en el `<title>`. Desde el 25/11 `lugarLegible()`
+    unifica los separadores en la coma (sólo cuando el destino no tiene
+    números, para no tocar las direcciones de calle, que `destinoParaTitulo`
+    ya resuelve por localidad) y además escribe bien los topónimos de la tabla
+    `PROPIOS` aunque no vengan gritados: eso arregló de paso
+    "Peninsula Valdes, Chubut" → "Península Valdés, Chubut" y
+    "Cholila, chubut" → "Cholila, Chubut", que venían del admin desde antes.
+    **Lo que queda sucio en el admin y no se arregla desde el código:** el
+    nombre del prestador "All patagonia " (ver "Para Marcelo").
+
 ## Hecho
+
+- **25/11/2026** — **Las cinco fichas nuevas de Ushuaia, y una URL indexada
+  que estuvo a un deploy de cambiar de prestador.** Un commit. **(1)** El
+  barrido de mantenimiento encontró 126 fichas publicables contra 121 meta
+  descriptions: el admin había cargado cinco fichas de **All patagonia**,
+  prestador nuevo en Ushuaia. Las cinco descriptions quedaron escritas a mano
+  (150–159 caracteres, con el dato que diferencia a cada una: los 15 km fuera
+  de ruta de los Lagos 4x4, los 15 minutos de sobrevuelo del helicóptero, la
+  cascada Velo de Novia de los Lagos Escondido y Fagnano). **(2)** Una de las
+  cinco se llama "Parque Nacional Tierra del Fuego", el mismo título exacto
+  que la de Noelia Ferrario, y **se iba a quedar con
+  `/experiencias/parque-nacional-tierra-del-fuego/`**, que está indexada desde
+  antes y tiene además su página en portugués: el criterio de
+  `conSlugsUnicos` ("gana la última del grupo") ordena por ID de documento de
+  Firestore, no por fecha de publicación. Se agregó
+  **`src/data/slugs-fijos.js`**, que ancla un slug ya publicado a su `tourId`;
+  la ficha nueva pasó a `/experiencias/parque-nacional-tierra-del-fuego-all-patagonia/`
+  y la vieja no se movió (verificado en producción: la URL sigue sirviendo el
+  tour de Noelia Ferrario). **(3)** El chequeo quedó en
+  `scripts/barrido-mantenimiento.mjs` como sexto cruce —sitemap servido contra
+  slugs calculados—, así que esto no vuelve a pasar sin aviso. **(4)** Dos
+  limpiezas de título: `prestadorEnTitulo` se recorta (el admin tenía
+  "All patagonia " con espacio al final, que quedaba pegado al `<title>`) y
+  `lugarLegible()` unifica los separadores del campo `destino` —las cinco
+  fichas traían el mismo lugar escrito de cuatro maneras— y escribe bien los
+  topónimos de la tabla `PROPIOS` aunque no vengan gritados, lo que arregló de
+  paso "Peninsula Valdes, Chubut" y "Cholila, chubut". **(5)** El título
+  gritado `HELIEXPERIENCE LAGUNA ESMERALDA` quedó escrito a mano como
+  "HeliExperience: sobrevuelo en helicóptero a la Laguna Esmeralda". **(6)**
+  Las cinco fichas quedaron enlazadas desde `/que-hacer-en-ushuaia/`, que pasó
+  de 14 a **18 enlaces a ficha**, con dos frases nuevas en los bloques de las
+  sendas y de los lagos para que el enlace tenga contexto y no cuelgue solo.
+  Sitemap: 311 → **316 URLs**. No se tocó precio, seña, checkout ni Make.
 
 - **24/11/2026** — **Cerrado el pendiente 3c: las seis páginas que quedaban
   ya enlazan fichas, y son 38 enlaces internos nuevos.** Tres commits.
@@ -3839,3 +3960,70 @@ anotado en el 3c:** el único enlace de excursión de la página de Rawson dice
 Doradillo, que es otro animal y otra ciudad; no se tocó porque es el único
 camino a la oferta de esa página, y el catálogo no tiene hoy ninguna ficha de
 toninas. Decisión de Marcelo: sumar la excursión o reescribir el rótulo.
+
+### 25/11/2026
+
+**Qué se hizo.** El pendiente 13, que esta vez trajo trabajo de verdad: el
+barrido abrió con 126 fichas publicables contra 121 meta descriptions. El
+admin había cargado cinco fichas de **All patagonia**, un prestador nuevo en
+Ushuaia —el Parque Nacional Tierra del Fuego, los Lagos Escondido y Fagnano,
+los Lagos 4x4 Off Road, la cabalgata de una hora en el lago Escondido y el
+sobrevuelo en helicóptero a la Laguna Esmeralda—. Se les escribió la meta
+description a mano a las cinco, se les arregló el título gritado al
+helicóptero, y se las enlazó desde `/que-hacer-en-ushuaia/`, que pasó de 14 a
+18 enlaces a ficha.
+
+**Y en el medio apareció lo importante de la corrida, que no estaba en ningún
+pendiente: una de las fichas nuevas estaba a un deploy de quedarse con una URL
+ya indexada de otro prestador.** La ficha nueva del Parque Nacional Tierra del
+Fuego tiene el **mismo título exacto** que la de Noelia Ferrario, dueña de
+`/experiencias/parque-nacional-tierra-del-fuego/` desde antes y con su página
+en portugués publicada. La regla 1 de `src/lib/slugs.js` —"la URL que ya está
+indexada no cambia"— se implementaba quedándose con la última ficha del grupo
+en el orden en que llegan los tours, y ese orden es el de los IDs de documento
+de Firestore, no el de publicación: el ID de la ficha nueva ordena después, así
+que en el próximo deploy la URL indexada habría pasado a mostrar el tour de
+otro prestador, con la meta description y la traducción al portugués del tour
+viejo encima. Se arregló con `src/data/slugs-fijos.js`, una tabla de datos que
+ancla un slug publicado a su `tourId`: la ficha nueva pasó a
+`/experiencias/parque-nacional-tierra-del-fuego-all-patagonia/` y la vieja no
+se movió. **Verificado en producción después del deploy:** la URL sigue
+sirviendo el tour de Noelia Ferrario, las cinco nuevas dan 200 y el sitemap
+pasó de 311 a 316 URLs sin que desaparezca ninguna.
+
+**Qué se mide como resultado.** Lo primero, que no se pierda nada: una URL
+indexada que cambia de contenido pierde el historial que tiene en Google y
+arranca de cero con un texto que no es el que la trajo hasta acá, y eso no
+pasó. Después, que las cinco fichas nuevas entren al índice ya con su
+description escrita en vez del respaldo genérico, enlazadas desde la guía del
+destino y no sólo desde el listado. Y de paso, que los títulos de las fichas
+de Ushuaia dejen de publicar cuatro grafías del mismo lugar: el `<title>` es
+el elemento que más pesa y venía diciendo "Ushuaia. Tierra del Fuego" en una
+ficha y "Ushuaia-Tierra del Fuego" en la de al lado.
+
+**Mantenimiento de la corrida (pendiente 13).** Las cinco fichas sin
+description quedaron resueltas: 126 de 126. Cero `slugPt` duplicados o
+faltantes. Siguen marcados los dos de siempre, de prioridad baja porque
+cuestan un 301 sobre una URL ya indexada: el `-2` de
+`rota-galesa-represa-futaleufu-trevelin-2` y el `cabalgatas` en español del
+slug pt de `cabalgatas-familiares`. Siguen los dos duplicados de carga del
+admin (`alojamiento` del Hotel Gema y `navegacion-rio-grande-full-day` de
+MerakiSur). IndexNow: Yandex 200 OK; **Bing sigue en 403**, el sexto intento,
+a la espera del token XML de Marcelo (pendiente 11). **Y el barrido creció:**
+ahora hace seis cruces, el nuevo es el del sitemap servido contra los slugs
+que calcula el código, que es el que habría cantado este problema solo.
+
+**Qué quedó pendiente.** Arriba de la cola queda ahora el **pendiente 3
+reabierto**: las cinco fichas nuevas no tienen versión en portugués y son hoy
+lo de más valor para traducir que hay en el catálogo —Ushuaia es destino
+grande para Brasil, la guía pt del destino ya está publicada, y la cabalgata y
+el helicóptero no compiten con nada—. La recomendación concreta está escrita
+en el pendiente: traducir tres y dejar dos colgadas de catálogo. Después sigue
+igual: **Caviahue–Copahue** esperando que Marcelo diga si Neuquén se queda
+(3b), el `Article`/`BreadcrumbList` que le falta a `/que-hacer-patagonia/`, el
+`TouristDestination` de las cinco páginas del valle, el `faq-es.json` del
+pendiente 9 y el CDN de Tailwind del 10. **Nuevo para Marcelo:** el nombre del
+prestador cargado como "All patagonia " (p minúscula y espacio al final, sólo
+se arregla en el admin) y la decisión de si se quedan las dos fichas del mismo
+paseo que ahora comparten catálogo con Noelia Ferrario (Parque Nacional y
+Lagos Off Road).

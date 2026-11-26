@@ -95,8 +95,16 @@ const BLOQUES = [
     etiqueta: 'Aventura sem trekking',
     titulo: 'Lagos Escondido e Fagnano, Paso Garibaldi e 4x4',
     texto:
-      'Para o norte, a Ruta 3 sobe até o Paso Garibaldi, o mirante mais aberto da ilha, com os lagos Escondido e Fagnano lá embaixo. O Fagnano tem mais de 100 km de comprimento e atravessa a fronteira com o Chile; é o maior lago da Terra do Fogo e quase não tem gente na margem. O passeio de dia inteiro em 4x4 sai da estrada e entra em caminhos de turfeira e bosque onde carro comum não passa, com almoço em refúgio no meio. É o programa de quem quer paisagem remota e aventura de verdade sem caminhar: dificuldade baixa, sem exigência física, e funciona o ano inteiro — no inverno, com neve.',
-    fichas: paseos('lagos-off-road'),
+      'Para o norte, a Ruta 3 sobe até o Paso Garibaldi, o mirante mais aberto da ilha, com os lagos Escondido e Fagnano lá embaixo. O Fagnano tem mais de 100 km de comprimento e atravessa a fronteira com o Chile; é o maior lago da Terra do Fogo e quase não tem gente na margem. O passeio de dia inteiro em 4x4 sai da estrada e entra em caminhos de turfeira e bosque onde carro comum não passa, com almoço em refúgio no meio. É o programa de quem quer paisagem remota e aventura de verdade sem caminhar: dificuldade baixa, sem exigência física, e funciona o ano inteiro — no inverno, com neve. Quem prefere o clássico tem a excursão de dia inteiro pela Ruta 3, com a cascata Velo de Novia, o Valle Carbajal, o mirante do Paso Garibaldi e a margem do Fagnano, com parada para o cordeiro fueguino na volta. E quem quer trocar a estrada pelo cavalo tem a cavalgada de uma hora dentro da floresta subantártica até a beira do Lago Escondido, com lanche de campo no refúgio: opera todo o ano e não pede experiência nenhuma.',
+    fichas: paseos('lagos-off-road', 'lagos-escondido-y-fagnano', 'cabalgata-en-lago-escondido-1-hora'),
+  },
+  {
+    id: 'helicoptero',
+    etiqueta: 'Do alto',
+    titulo: 'Sobrevoo de helicóptero sobre a Laguna Esmeralda',
+    texto:
+      'A maneira mais curta de entender a geografia da Terra do Fogo é vê-la de cima. O sobrevoo sai do aeroclube de Ushuaia, sobe sobre a baía, o porto e a cidade e entra no Valle del Río Olivia, com o Monte Olivia e o Monte Cinco Hermanos de um lado; depois cruza o Valle Carbajal, o vale de turfa que uma língua glaciar deixou atrás de si, e chega à Laguna Esmeralda — a mesma lagoa que, a pé, custa quatro horas de caminhada e barro. São 15 minutos de voo e cerca de 40 minutos de excursão com o traslado, o que faz dele o programa possível num dia de chegada ou de voo à noite. Depende do tempo: o piloto pode mudar o percurso ou cancelar por segurança, e nesse caso o valor é devolvido.',
+    fichas: paseos('heliexperience-laguna-esmeralda'),
   },
   {
     id: 'centolla',
@@ -295,7 +303,7 @@ const schema = [
 
     <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
       <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-2">O que fazer</h2>
-      <p class="text-slate-600 mb-7 max-w-3xl">Nove blocos que justificam a viagem, com os passeios que saem de Ushuaia para cada um. Onde não vendemos a atividade, está dito.</p>
+      <p class="text-slate-600 mb-7 max-w-3xl">Dez blocos que justificam a viagem, com os passeios que saem de Ushuaia para cada um. Onde não vendemos a atividade, está dito.</p>
       <div class="space-y-6">
         {BLOQUES.map((b) => (
           <article id={b.id} class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8">

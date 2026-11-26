@@ -321,6 +321,32 @@
     ],
     "traducido": "2026-09-16T19:40:01.414Z"
   },
+  "cabalgata-en-lago-escondido-1-hora": {
+    "hash": "4cb734b39e4e9ce2",
+    "slugPt": "cavalgada-no-lago-escondido-ushuaia",
+    "titulo": "Cavalgada no Lago Escondido, Ushuaia",
+    "metaDescricao": "Cavalgada de 1 hora pela floresta fueguina até a margem do Lago Escondido, em Ushuaia, com traslado, guia, equipamento e lanche de campo incluídos.",
+    "descricao": "<p>A excursão começa percorrendo a Ruta Nacional 3 em direção à zona dos lagos, atravessando vales de turfa e cruzando a cordilheira dos Andes no Paso Garibaldi, até chegar ao refúgio do baqueano do estabelecimento rural Laguna Escondida.</p><p>Esse é o ponto de partida da cavalgada. O baqueano responsável escolhe o cavalo criollo adequado para cada cavaleiro, de acordo com o seu nível.</p><p>A cavalgada acontece dentro da floresta subantártica fueguina, onde se observam diferentes árvores do gênero Nothofagus.</p><p>Também se percorre parte da antiga Ruta 3 até a margem do Lago Escondido onde, além de dar água aos cavalos, se aprecia uma vista panorâmica única: lago, vales, florestas e montanhas. O passeio termina com um lanche de campo no refúgio, à beira do lago.</p><h3>Detalhes do serviço</h3><ul><li>Opera todo o ano</li><li>Duração da excursão: 4 horas</li><li>Duração da cavalgada: 1 hora</li><li>Horários: das 9:30 às 13:30 aprox. e das 14:00 às 18:00 aprox.</li><li>Dificuldade: sem restrições, é um passeio para todas as idades (menores de 6 anos cavalgam com um adulto)</li></ul><h3>Inclui</h3><ul><li>Traslado</li><li>Guia em espanhol e inglês</li><li>Equipamento</li><li>Lanche com infusões (avise na reserva se precisar de opção vegetariana, vegana ou sem glúten)</li></ul><h3>Roupa recomendada</h3><p>Roupa confortável, de frio e impermeável, calçado confortável (sem botas nem salto), gorro de lã e luvas.</p>",
+    "destino": "Ushuaia, Tierra del Fuego",
+    "categoria": "Excursões",
+    "duracao": "4 horas",
+    "temporada": "Todo o ano",
+    "altImagem": "Cavalgada com cavalos criollos à beira do Lago Escondido, na floresta fueguina de Ushuaia",
+    "faq": [
+      {
+        "pergunta": "Preciso ter experiência para fazer a cavalgada?",
+        "resposta": "Não. O baqueano escolhe o cavalo criollo adequado ao nível de cada pessoa e o passeio não tem restrições: serve para todas as idades. Menores de 6 anos cavalgam acompanhados por um adulto."
+      },
+      {
+        "pergunta": "Quanto tempo se fica a cavalo?",
+        "resposta": "A cavalgada em si dura 1 hora, dentro da floresta subantártica e até a margem do Lago Escondido. A excursão completa, com o traslado de ida e volta pelo Paso Garibaldi, leva cerca de 4 horas."
+      },
+      {
+        "pergunta": "O que está incluído?",
+        "resposta": "Traslado, guia em espanhol e inglês, equipamento e um lanche de campo com infusões no refúgio à beira do lago. Há opções vegetariana, vegana e sem glúten se você avisar na reserva."
+      }
+    ]
+  },
   "cabalgatas-en-esquel": {
     "hash": "38aa751d0a2d3bbe",
     "slugPt": "cavalgadas-em-esquel",
@@ -824,6 +850,32 @@
     "hash": "c94a896249ab3c2d",
     "traducido": "2026-11-21T00:00:00.000Z"
   },
+  "heliexperience-laguna-esmeralda": {
+    "hash": "5200b57449755fc3",
+    "slugPt": "sobrevoo-de-helicoptero-laguna-esmeralda-ushuaia",
+    "titulo": "Sobrevoo de helicóptero à Laguna Esmeralda, Ushuaia",
+    "metaDescricao": "Sobrevoo de helicóptero em Ushuaia: 15 minutos sobre a baía, o Monte Olivia e o Valle Carbajal até a Laguna Esmeralda, com traslado ao aeroclube incluído.",
+    "descricao": "<p>A aventura começa com o traslado do passageiro até o aeroclube, onde antes da decolagem é feita uma breve conversa de segurança.</p><p>A decolagem é em direção ao norte, sobrevoando a baía de Ushuaia, o porto e a cidade, ganhando altura para entrar no Valle del Río Olivia, de onde se vêem com facilidade o majestoso Monte Olivia e o característico Monte Cinco Hermanos. À medida que se avança aparece o Valle Carbajal, com sua surpreendente composição de turfa formada ao longo de milhares de anos pela existência anterior de uma extensa língua glaciar. Ao atravessar esse vale chega-se ao espelho de água que, pela sua cor, se chama Laguna Esmeralda.</p><p>Por fim retorna-se ao heliporto, onde o traslado estará esperando.</p><h3>Detalhes do serviço</h3><ul><li>Duração da excursão: 40 minutos</li><li>Duração do sobrevoo: 15 minutos</li><li>Horários: a confirmar</li><li>Dificuldade: baixa</li><li>Inclui: traslado de ida e volta ao aeroclube</li></ul><p><strong>Observação:</strong> os serviços estão sempre sujeitos às condições meteorológicas. No momento do sobrevoo o piloto tem a faculdade de modificar o percurso, o local de pouso ou de cancelar o voo se as condições não forem suficientemente seguras. Caso o serviço precise ser cancelado por essas condições e não possa ser reprogramado, o valor é reembolsado integralmente.</p>",
+    "destino": "Ushuaia, Tierra del Fuego",
+    "categoria": "Excursões",
+    "duracao": "15 minutos de sobrevoo (40 minutos de excursão)",
+    "temporada": "",
+    "altImagem": "Laguna Esmeralda vista do alto em sobrevoo de helicóptero, com o Valle Carbajal e as montanhas fueguinas",
+    "faq": [
+      {
+        "pergunta": "Quanto tempo dura o sobrevoo de helicóptero?",
+        "resposta": "O sobrevoo dura 15 minutos e a excursão completa, com o traslado de ida e volta ao aeroclube e a conversa de segurança antes de decolar, leva cerca de 40 minutos."
+      },
+      {
+        "pergunta": "O que se vê do helicóptero?",
+        "resposta": "A baía de Ushuaia, o porto e a cidade, o Valle del Río Olivia com o Monte Olivia e o Monte Cinco Hermanos, o Valle Carbajal com suas turfeiras e, ao atravessá-lo, a Laguna Esmeralda."
+      },
+      {
+        "pergunta": "E se o tempo não permitir voar?",
+        "resposta": "O serviço está sempre sujeito às condições meteorológicas: o piloto pode mudar o percurso, o local de pouso ou cancelar o voo por segurança. Se for cancelado por esse motivo e não puder ser reprogramado, o valor é reembolsado integralmente."
+      }
+    ]
+  },
   "jyglo-bar": {
     "hash": "e7e19d96bad1a650",
     "slugPt": "jyglo-bar-trelew-patagonia-argentina",
@@ -904,6 +956,32 @@
       }
     ],
     "traducido": "2026-09-16T19:29:08.701Z"
+  },
+  "lagos-escondido-y-fagnano": {
+    "hash": "b9de72e1ba750966",
+    "slugPt": "lagos-escondido-e-fagnano-passo-garibaldi-ushuaia",
+    "titulo": "Lagos Escondido e Fagnano pelo Paso Garibaldi, Ushuaia",
+    "metaDescricao": "Passeio de dia inteiro saindo de Ushuaia aos lagos Escondido e Fagnano pelo Paso Garibaldi: Valle Carbajal, cascata Velo de Novia e cordeiro fueguino.",
+    "descricao": "<p>Esta excursão atravessa a cordilheira fueguina sempre acompanhada pela floresta. Saindo de Ushuaia em direção ao leste, fazemos uma parada para ver de fora o conjunto completo do Antigo Presídio, passamos pelo setor industrial e, ao entrar na floresta, aparece a cascata Velo de Novia.</p><p>Contornando a base do Monte Olivia abre-se à frente a imponente Sierra Alvear, e a seus pés se estende um vale de turfa gigantesco: é o Valle Carbajal, que mais adiante muda de nome para Valle de los Huskies, Tierra Mayor e Las Cotorras. Quando a estrada passa pelo paraje de Rancho Hambre começa a subida propriamente dita.</p><p>Seguimos até o Paso Garibaldi, o ponto mais alto para cruzar a cordilheira dos Andes, de onde se vêem os lagos Escondido e Fagnano lá embaixo. Dali continuamos pela estrada até a margem do lago Fagnano.</p><p>Na volta paramos em um centro de inverno para almoçar, com a opção de provar o delicioso cordeiro fueguino, um dos pratos típicos da região.</p><p>O almoço não está incluído e é pago no local. Depois da sobremesa e de um momento de descanso, retomamos o caminho para Ushuaia, com chegada prevista em torno das 15:30.</p><p><strong>Operação entre outubro e maio/junho.</strong></p>",
+    "destino": "Ushuaia, Tierra del Fuego",
+    "categoria": "Excursões",
+    "duracao": "7 horas",
+    "temporada": "Outubro a maio/junho",
+    "altImagem": "Vista dos lagos Escondido e Fagnano desde o Paso Garibaldi, com a floresta fueguina, Ushuaia",
+    "faq": [
+      {
+        "pergunta": "O que se vê no passeio aos lagos Escondido e Fagnano?",
+        "resposta": "O conjunto do Antigo Presídio visto de fora, a cascata Velo de Novia na floresta, a base do Monte Olivia, a Sierra Alvear e o vale de turfa do Valle Carbajal, o Paso Garibaldi — o ponto mais alto para cruzar os Andes na ilha, com os dois lagos lá embaixo — e a margem do lago Fagnano."
+      },
+      {
+        "pergunta": "O almoço está incluído?",
+        "resposta": "Não. Na volta o passeio para em um centro de inverno para almoçar, com a opção de provar o cordeiro fueguino, e o almoço é pago no local."
+      },
+      {
+        "pergunta": "Quanto tempo dura e em que época opera?",
+        "resposta": "São cerca de 7 horas, com chegada de volta a Ushuaia em torno das 15:30. A operação vai de outubro a maio ou junho."
+      }
+    ]
   },
   "lagos-off-road": {
     "hash": "a4920d08eaf52dd1",

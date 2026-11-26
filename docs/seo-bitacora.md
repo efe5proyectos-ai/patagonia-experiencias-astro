@@ -430,6 +430,27 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    (El barrido cuenta 35 fichas sin pt por slug único; las otras 30 son las
    que ya estaban anotadas acá como de valor bajo o colgadas de catálogo.)
 
+   **HECHO el 26/11/2026: se tradujeron las tres de valor y el pendiente vuelve
+   a quedar sin nada que valga una corrida entera.** Las tres son
+   `cavalgada-no-lago-escondido-ushuaia`,
+   `sobrevoo-de-helicoptero-laguna-esmeralda-ushuaia` y
+   `lagos-escondido-e-fagnano-passo-garibaldi-ushuaia`, escritas a mano (no por
+   el script), con cuerpo completo, meta description de 147 a 154 caracteres,
+   alt de foto y tres FAQ cada una, y `hreflang` recíproco verificado contra su
+   ficha en español. **Las otras dos se dejaron sin traducir a propósito**, como
+   recomendaba este pendiente: `parque-nacional-tierra-del-fuego-all-patagonia`
+   y `lagos-4x4-off-road` cuelgan de la decisión de catálogo de Marcelo (las dos
+   pisan un paseo que ya vende Noelia Ferrario y que ya tiene su página pt).
+   **Ojo con el texto de los lagos:** se escribió desde el cuerpo en español de
+   la ficha de All patagonia —Velo de Novia, Valle Carbajal, Rancho Hambre,
+   paso Garibaldi, cordero fueguino, almuerzo no incluido— y no se reusó nada
+   de `lagos-off-road`, que es el 4x4 de Noelia y ya tenía pt: son dos páginas
+   del mismo mirador contando dos paseos distintos, no un calco.
+   Con eso el barrido cuenta **32 fichas sin pt** (eran 35): las 32 son las ya
+   anotadas como de valor bajo (6 restaurantes de Comodoro, 4 habitaciones del
+   AGUADA, las variantes de Ruta Galesa/tulipanes/peonías) o colgadas de
+   catálogo, más las tres de Caviahue del pendiente 3b, que esperan a Marcelo.
+
    *(Detalle del pendiente, que sigue valiendo como molde de trabajo.)*
 
    **Detalle anterior — 19 fichas no tienen versión en portugués.** (Eran 28 al 06/11 y 20 al
@@ -4027,3 +4048,62 @@ prestador cargado como "All patagonia " (p minúscula y espacio al final, sólo
 se arregla en el admin) y la decisión de si se quedan las dos fichas del mismo
 paseo que ahora comparten catálogo con Noelia Ferrario (Parque Nacional y
 Lagos Off Road).
+
+### 26/11/2026 — Ushuaia en portugués: la cavalgada, el helicóptero y los lagos
+
+**Qué se hizo.** El pendiente 3, reabierto anteayer por las cinco fichas nuevas
+de All patagonia, quedó cerrado por el lado que se podía cerrar: **las tres de
+más valor para Brasil tienen hoy página en `/pt-br/`**, escritas a mano en
+`src/data/traducciones-pt.json` con el slug único como clave y el `hash` de la
+huella de Firestore, así que el script no las va a pisar. Son la cavalgada de
+una hora en el lago Escondido (`cavalgada-no-lago-escondido-ushuaia`), el
+sobrevuelo en helicóptero a la Laguna Esmeralda
+(`sobrevoo-de-helicoptero-laguna-esmeralda-ushuaia`) y la excursión de día
+completo a los lagos Escondido y Fagnano por el paso Garibaldi
+(`lagos-escondido-e-fagnano-passo-garibaldi-ushuaia`). Las tres llevan título
+de menos de 70 caracteres con el lugar, meta description de 147 a 154, el
+cuerpo completo con lo que incluye y lo que no, horarios, dificultad y ropa
+recomendada, el `alt` de la foto y tres FAQ con las preguntas que hace un
+brasileño. **Y la guía pt del destino las enlaza**: al bloque de los lagos se
+le sumaron las dos de All patagonia, y se agregó un **bloque nuevo de sobrevuelo
+en helicóptero**, porque "sobrevoo de helicóptero Ushuaia" es una búsqueda
+propia del brasileño y en la guía en español el helicóptero vive metido dentro
+del bloque de trekkings. La guía pasó de 14 a 17 enlaces a ficha pt.
+
+**Qué se mide como resultado.** Que la cabalgata y el helicóptero entren al
+índice de Google Brasil: son las dos únicas fichas del catálogo que no compiten
+con nada nuestro —no había cabalgata ni sobrevuelo en Ushuaia—, así que no le
+restan posiciones a ninguna página propia y cubren dos búsquedas que hasta hoy
+no teníamos en portugués. De los lagos, que no se pise con
+`lagos-off-road-4x4-escondido-e-fagnano-ushuaia`: por eso el texto se escribió
+desde el cuerpo en español de All patagonia y no tiene una frase en común con
+el del 4x4 de Noelia. Y que la guía pt reparta autoridad a tres fichas más:
+antes estos tres paseos no existían en portugués y el bloque de los lagos
+ofrecía una sola opción.
+
+**Verificado en producción después del deploy.** Las tres URLs nuevas dan 200,
+la guía pt también, el `hreflang` es recíproco en los tres pares (la pt declara
+su española y la española su pt, con `x-default` al español) y el sitemap pasó
+de **316 a 319 URLs** sin que desaparezca ninguna. Las tres páginas publican
+`Product` y `FAQPage`. IndexNow con el filtro `ushuaia` avisó 15 URLs: **Yandex
+200 OK, Bing 403** por séptima vez, a la espera del token XML de Marcelo
+(pendiente 11).
+
+**Mantenimiento de la corrida (pendiente 13).** 126 de 126 fichas con meta
+description en español. Cero `slugPt` duplicados o faltantes. Cero URLs de
+ficha que desaparecerían en el próximo deploy y cero fichas nuevas fuera del
+sitemap servido. Siguen marcados los dos de siempre, de prioridad baja porque
+cuestan un 301 sobre una URL ya indexada (el `-2` de
+`rota-galesa-represa-futaleufu-trevelin-2` y el `cabalgatas` en español del
+slug pt de `cabalgatas-familiares`) y los dos duplicados de carga del admin
+(`alojamiento` del Hotel Gema y `navegacion-rio-grande-full-day` de MerakiSur).
+
+**Qué quedó pendiente.** De la cola de portugués no queda nada que valga una
+corrida: las 32 fichas sin pt son de valor bajo o cuelgan de decisiones de
+catálogo. Arriba de la cola queda **Caviahue–Copahue (3b)**, que necesita que
+Marcelo diga si Neuquén se queda; después, trabajo de código que no depende de
+nadie: el `Article`/`BreadcrumbList` que le falta a `/que-hacer-patagonia/`, el
+`TouristDestination` de las cinco páginas del valle, el `faq-es.json` del
+pendiente 9 y el CDN de Tailwind del 10. **La próxima corrida, si Marcelo no
+contesta lo de Neuquén, debería agarrar los datos estructurados**, que son
+puro código y no esperan a nadie.

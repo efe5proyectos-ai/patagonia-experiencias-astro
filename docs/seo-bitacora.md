@@ -53,7 +53,9 @@ Reglas de la bitácora:
 - 61 URLs en portugués en el sitemap (home, listado y 59 fichas traducidas).
 - hreflang es-AR / pt-BR recíproco y correcto en las fichas.
 
-Tamaño del sitio al 16/11/2026: **305 URLs** (303 el 15/11 + las dos
+Tamaño del sitio al 27/11/2026: **321 URLs** (319 el 26/11 + las dos
+navegaciones del Canal Beagle de All patagonia).
+Detalle histórico al 16/11/2026: **305 URLs** (303 el 15/11 + las dos
 guías de El Calafate). Detalle histórico al 13/11/2026: **292 URLs** en el sitemap — 112 fichas en
 español, 84 fichas en portugués, 60 guías de viaje, **seis páginas
 informativas en portugués** (calendario de fauna, Puerto Madryn, la puerta de
@@ -79,7 +81,20 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
   que es el mismo paseo que "Lagos Off Road". Los textos son distintos —no es
   contenido duplicado— pero son dos fichas del mismo paseo compitiendo entre
   ellas en Google. Si las dos se quedan, está bien; si una sobra, decime cuál
-  y la saco de los bloques de la guía.
+  y la saco de los bloques de la guía. **(c) Sumado el 27/11: All patagonia
+  cargó dos fichas más, las dos navegaciones del Canal Beagle** —"Navegación
+  Canal Beagle Pinguinera" (5 h en catamarán hasta la isla Martillo) y
+  "Navegación Canal Beagle Lobos" (la corta, 2.30 h)—. Las dos están bien, con
+  texto propio, y ya tienen su meta description escrita a mano. Lo que hay que
+  mirar es que **la Pinguinera se superpone con "Avistaje de pingüinos en barco
+  pequeño" de Explore Tierra del Fuego**: las dos son de 5 horas y las dos
+  llegan a la isla Martillo, con la diferencia real de que una es catamarán
+  grande y la otra barco chico. No es contenido duplicado —los textos son
+  distintos— y la diferencia de embarcación justifica que convivan, pero es el
+  tercer solapamiento que trae este prestador. Si querés que compitan lo menos
+  posible, el arreglo es de catálogo y de una línea: que el título de la de
+  All patagonia diga "en catamarán" y la de Explore siga diciendo "en barco
+  pequeño", y cada una se queda con su búsqueda.
 
 - **La ficha nueva del Hotel Gema se llama "Alojamiento" y por eso su URL es
   `/experiencias/alojamiento/`. Conviene renombrarla en el admin HOY, antes de
@@ -837,6 +852,31 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    resultados con precio se muestran igual, pero la validación tira aviso. El
    campo tiene que salir de una fecha de vigencia del precio, y el precio es
    zona prohibida: hay que definir de dónde sale esa fecha antes de tocarlo.
+
+   **Avance del 27/11/2026, y con esto el hueco de tipos queda cerrado.** Las
+   cinco páginas de localidad del valle, que eran lo último que declaraba
+   `Article` sin decir qué lugar describe, tienen hoy `TouristDestination` con
+   coordenadas, área administrativa, perfiles de viajero y atracciones (ver
+   "Hecho"). **Y se revisó `/que-hacer-patagonia/`, que esta bitácora venía
+   anotando desde el 23/11 como "le falta el `Article`/`BreadcrumbList`": la
+   anotación estaba vieja.** La página declara un solo `<script>` pero con un
+   `@graph` de cinco nodos —`Organization`, `WebPage`, `BreadcrumbList`,
+   `FAQPage` y un `ItemList` de 85 `TouristAttraction`—, que es exactamente lo
+   que corresponde a un índice de actividades: un `Article` ahí sería peor, no
+   mejor, porque la página no es un artículo. **Lo único que le quedaba mal era
+   el `og:image`**, resuelto en la misma corrida. Lo que sigue abierto de este
+   pendiente es sólo el `priceValidUntil`, que depende de una decisión de
+   Marcelo sobre la vigencia del precio y no se toca.
+
+   **Hallazgo menor anotado el 27/11, para la corrida que pase cerca:** el
+   `WebPage` de `/que-hacer-patagonia/` y de `/calendario-fauna/` declara
+   `isPartOf` apuntando al `@id` de la `Organization` (`#org`), y `isPartOf`
+   debería apuntar a un `WebSite`. No rompe nada ni tira error en la
+   herramienta de resultados enriquecidos —el nodo existe y se resuelve—, pero
+   es semánticamente flojo. El arreglo es sumar un nodo `WebSite` al `@graph`
+   de las dos páginas y mover el `publisher` a la `Organization`, el mismo
+   molde que ya usan las ocho guías de `public/guias-de-viaje/`. Cinco minutos,
+   cero riesgo, valor bajo: va después de lo que mueve la aguja.
 9. **Las fichas en español no tienen FAQ.** Las 84 en portugués traen `faq` en
    `traducciones-pt.json`; las 112 en español no tienen de dónde sacarlo.
    **Corrección del 07/11 al motivo:** este pendiente estaba justificado en
@@ -1174,6 +1214,42 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
     nombre del prestador "All patagonia " (ver "Para Marcelo").
 
 ## Hecho
+
+- **27/11/2026** — **Las cinco guías del valle ya le dicen a Google que son un
+  destino, y cinco páginas indexadas dejaron de publicar una imagen social que
+  no existía.** Un commit. **(1) `TouristDestination` en las cinco páginas de
+  localidad del valle del Chubut** (Trelew, Gaiman, Dolavon, 28 de Julio y
+  Rawson), que desde el 19/11 declaraban `Article` + `BreadcrumbList` pero no
+  decían *qué lugar* son. Cada nodo lleva `geo` con las coordenadas de la
+  localidad (Trelew −43,2489/−65,3051; Gaiman −43,2903/−65,4933; Dolavon
+  −43,3083/−65,7119; 28 de Julio −43,3667/−65,8000 —verificadas contra
+  Wikipedia, que es la única de las cinco que no estaba a mano—; Rawson
+  −43,3002/−65,1023), `containedInPlace` en Chubut, `touristType` con los
+  perfiles de viajero de cada pueblo y `includesAttraction` **escrito desde lo
+  que la página realmente describe**, no desde una lista genérica: el MEF y el
+  Patagotitan en Trelew, las casas de té y Bryn Gwyn en Gaiman, las norias y el
+  molino de 1927 en Dolavon, el campo de tulipanes y el trigo de las medallas
+  de oro en 28 de Julio, las toninas y Playa Unión en Rawson. El `Article` de
+  cada página queda enlazado al destino con `about`, así que el grafo es uno
+  solo y no dos bloques sueltos. **(2) Barrido de `og:image` sobre todo el
+  sitio, que encontró cinco páginas del sitemap publicando una imagen social
+  que las redes no pueden resolver:** `/que-hacer-patagonia/` y
+  `/calendario-fauna/` apuntaban a `/og-default.jpg`, que **nunca existió**
+  (404 verificado); `/puerto-madryn` a `/og-puerto-madryn.jpg` (404);
+  `/esquel-trevelin` a `/og-esquel-trevelin.jpg` (404); y `/valle-del-chubut`
+  tenía la ruta **relativa** (`img/destinos/...`), que Facebook y WhatsApp
+  descartan porque Open Graph pide URL absoluta. Las cuatro primeras pasan a
+  `/og-image.jpg` salvo Esquel–Trevelin, que tenía su propia portada en el repo
+  (`/img/destinos/esquel-trevelin/esquel-trevelin-og.jpg`), y la del valle pasó
+  a absoluta sobre el archivo que ya tenía. Las cinco imágenes sirven 200 en
+  producción. **Ojo con el método, que vale para la próxima:** el cruce útil no
+  es mirar página por página sino sacar todos los valores de `og:image` del
+  repo con un `grep -rhoP` y pasarle `curl` a cada uno — en dos minutos
+  aparecieron cinco páginas que llevaban meses compartiéndose sin foto.
+  **(3) Mantenimiento del pendiente 13:** dos fichas nuevas de **All patagonia**
+  en Ushuaia (`navegacion-canal-beagle-pinguinera`, 5 h en catamarán hasta la
+  isla Martillo, y `navegacion-canal-beagle-lobos`, la corta de 2.30 h) con su
+  meta description en español escrita a mano, 151 y 154 caracteres.
 
 - **25/11/2026** — **Las cinco fichas nuevas de Ushuaia, y una URL indexada
   que estuvo a un deploy de cambiar de prestador.** Un commit. **(1)** El
@@ -4107,3 +4183,80 @@ nadie: el `Article`/`BreadcrumbList` que le falta a `/que-hacer-patagonia/`, el
 pendiente 9 y el CDN de Tailwind del 10. **La próxima corrida, si Marcelo no
 contesta lo de Neuquén, debería agarrar los datos estructurados**, que son
 puro código y no esperan a nadie.
+
+### 27/11/2026 — Las guías del valle pasan a ser destinos, y cinco páginas sin foto social
+
+**Qué se hizo.** Dos cosas, las dos de código y ninguna esperando a nadie.
+**(1) `TouristDestination` en las cinco páginas de localidad del valle del
+Chubut.** Desde el 19/11 esas páginas declaran `Article` + `BreadcrumbList`,
+que le dice a Google "esto es un texto firmado por nosotros", pero no le decía
+*qué lugar describe*. Ahora cada una suma un nodo `TouristDestination` al mismo
+`@graph`, con las coordenadas de la localidad, `containedInPlace` en Chubut,
+los perfiles de viajero que corresponden a cada pueblo y un
+`includesAttraction` escrito desde lo que la página efectivamente cuenta —el
+MEF y el Patagotitan en Trelew, las casas de té y Bryn Gwyn en Gaiman, las
+norias y el molino de 1927 en Dolavon, los tulipanes y el trigo de las medallas
+de oro en 28 de Julio, las toninas y Playa Unión en Rawson—, y el `Article`
+queda enlazado al destino con `about`. **(2) Un barrido de `og:image` sobre
+todo el repo que destapó cinco páginas del sitemap compartiéndose sin foto:**
+`/que-hacer-patagonia/` y `/calendario-fauna/` apuntaban a `/og-default.jpg`,
+un archivo que no existe; `/puerto-madryn` y `/esquel-trevelin` a sus propios
+`og-*.jpg` inexistentes; y `/valle-del-chubut` tenía la ruta relativa, que
+Open Graph no acepta. Las cinco quedaron apuntando a una imagen que sirve 200.
+
+**De paso se corrigió la bitácora.** El pendiente que esta misma cola venía
+arrastrando desde el 23/11 —"a `/que-hacer-patagonia/` le falta el
+`Article`/`BreadcrumbList`"— **estaba vieja**: la página declara un `@graph` de
+cinco nodos (`Organization`, `WebPage`, `BreadcrumbList`, `FAQPage` y un
+`ItemList` de 85 `TouristAttraction`), que es lo correcto para un índice de
+actividades; un `Article` ahí sería un error, no una mejora. Lo que sí le
+faltaba era el `og:image`, y se arregló. Vale como aviso de método: cuatro
+corridas seguidas copiaron ese renglón de la cola sin volver a mirar el
+archivo.
+
+**Qué se mide como resultado.** Del `TouristDestination`, que las cinco páginas
+del valle dejen de ser "un artículo sobre algo" y pasen a ser elegibles para
+los resultados de lugar y para las respuestas generadas por IA, que leen
+`geo` y `includesAttraction` para armar un itinerario; las coordenadas también
+las vuelven candidatas a aparecer en búsquedas con intención geográfica
+("qué hacer cerca de Gaiman"). Del `og:image`, algo más directo y más fácil de
+ver: cada vez que alguien pegaba el enlace de `/que-hacer-patagonia/` en
+WhatsApp o en Facebook, la tarjeta salía sin foto, y eso se come el clic. Son
+cinco páginas indexadas y una de ellas es el índice de 85 actividades.
+
+**Verificado en producción después del deploy.** Las cinco URLs del valle
+publican el `TouristDestination` con sus coordenadas; el barrido renderizado
+(`scripts/barrido-render.mjs`) confirma que el bloque **sobrevive al montaje de
+React** en las cinco y que cada una sigue con exactamente un `h1`. Las cinco
+`og:image` nuevas sirven 200. El sitemap pasó de **319 a 321 URLs**: las dos
+nuevas son las navegaciones del Canal Beagle de All patagonia, que sirven 200 y
+publican su título y su description. IndexNow en tres tandas: **Yandex 200/202
+en las tres, Bing 403 por octava vez**, a la espera del token XML de Marcelo
+(pendiente 11). Los 3 recursos en 404 que informa el barrido en cuatro de las
+cinco páginas del valle son las fotos que faltan, ya anotadas en "Para Marcelo".
+
+**Mantenimiento de la corrida (pendiente 13).** 128 fichas publicables contra
+126 descriptions: el admin había cargado dos fichas nuevas de **All patagonia**
+en Ushuaia, las dos navegaciones del Canal Beagle (la Pinguinera de 5 h en
+catamarán hasta la isla Martillo y la corta de 2.30 h). Las dos quedaron con su
+meta description escrita a mano, 151 y 154 caracteres. Cero `slugPt` duplicados
+o faltantes, cero URLs de ficha que desaparecerían en el próximo deploy. Siguen
+marcados los dos de siempre, de prioridad baja porque cuestan un 301 sobre una
+URL ya indexada (el `-2` de `rota-galesa-represa-futaleufu-trevelin-2` y el
+`cabalgatas` en español del slug pt de `cabalgatas-familiares`) y los dos
+duplicados de carga del admin (`alojamiento` del Hotel Gema y
+`navegacion-rio-grande-full-day` de MerakiSur).
+
+**Qué quedó pendiente.** De datos estructurados ya no queda nada que mueva la
+aguja: lo único abierto del pendiente 8 es el `priceValidUntil`, que depende de
+que Marcelo defina la vigencia del precio, y un detalle semántico menor anotado
+hoy (el `isPartOf` de dos páginas apunta a la `Organization` en lugar de a un
+`WebSite`). Arriba de la cola sigue **Caviahue–Copahue (3b)**, esperando que
+Marcelo diga si Neuquén se queda. Después, sin depender de nadie: el **CDN de
+Tailwind del pendiente 10**, una página por corrida, que es lo que queda de
+peso real; el `faq-es.json` del pendiente 9; y el mantenimiento del 3c, sumar
+las fichas nuevas al bloque de la página informativa que les corresponde —las
+dos navegaciones del Canal Beagle deberían entrar al bloque náutico de la guía
+de Ushuaia, en español y en portugués—. **La próxima corrida, si Marcelo no
+contesta lo de Neuquén, debería agarrar el CDN de Tailwind**, que es lo último
+grande que es puro código.

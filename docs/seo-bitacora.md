@@ -53,8 +53,12 @@ Reglas de la bitácora:
 - 61 URLs en portugués en el sitemap (home, listado y 59 fichas traducidas).
 - hreflang es-AR / pt-BR recíproco y correcto en las fichas.
 
-Tamaño del sitio al 27/11/2026: **321 URLs** (319 el 26/11 + las dos
-navegaciones del Canal Beagle de All patagonia).
+Tamaño del sitio al 28/11/2026: **326 URLs** (321 el 27/11 + las cuatro
+fichas nuevas de All patagonia —el Perito Moreno con safari náutico de El
+Calafate, el Parque Nacional Tierra del Fuego con tren, la navegación del
+Beagle en yate y el trekking a la Laguna Esmeralda— y la página pt del
+Perito Moreno). Detalle histórico al 27/11/2026: **321 URLs** (319 el 26/11 +
+las dos navegaciones del Canal Beagle de All patagonia).
 Detalle histórico al 16/11/2026: **305 URLs** (303 el 15/11 + las dos
 guías de El Calafate). Detalle histórico al 13/11/2026: **292 URLs** en el sitemap — 112 fichas en
 español, 84 fichas en portugués, 60 guías de viaje, **seis páginas
@@ -66,6 +70,35 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
 (`navegacion-rio-grande-full-day`), que hay que borrar en el admin.
 
 ## Para Marcelo
+
+- **ACTUALIZADO EL 28/11: All patagonia ya tiene ONCE fichas, salió de
+  Ushuaia y entró a El Calafate.** El admin publicó cuatro más: *Glaciar
+  Perito Moreno con Safari Nautico* (El Calafate, Santa Cruz), *Parque
+  Nacional Tierra del Fuego con Tren*, *Navegación Canal Beagle en Yate* y
+  *Trekking Laguna Esmeralda*. Las cuatro tienen texto propio, ya tienen su
+  meta description escrita a mano y están publicadas. **La del Perito Moreno
+  es una gran noticia y ya la trabajé entera** (está traducida al portugués y
+  enlazada en las dos guías de El Calafate): era el hueco de catálogo más
+  grande que tenía el sitio. **Lo que necesita tu mirada son tres
+  solapamientos nuevos, los tres del mismo prestador:** *(a)* "Parque Nacional
+  Tierra del Fuego con Tren" se pisa con "Parque Nacional Tierra del Fuego y
+  Tren del Fin del Mundo (opcional)" de **Explore Tierra del Fuego** — es el
+  mismo paseo, con la diferencia de que en el de All patagonia el tren va
+  incluido y en el de Explore es opcional; los textos son distintos, no es
+  duplicado, pero compiten. *(b)* "Trekking Laguna Esmeralda" es **el tercero**
+  del catálogo: ya estaban el de Noelia Ferrario (6 horas) y el de VÉRTICE
+  (5 horas, con crampones), y éste son 4 horas de caminata con bastones y box
+  lunch. Tres fichas del mismo trekking es mucho. *(c)* "Navegación Canal
+  Beagle en Yate" es **la tercera navegación del Beagle de All patagonia**,
+  después de la Pinguinera y la de Lobos: ésta es en yate, 4 horas, con
+  caminata en la isla Bridges, así que se diferencia bien de las otras dos
+  suyas, pero entre las tres y "Sabores del Beagle" de Noelia ya son cuatro
+  navegaciones del mismo canal. **Si alguna sobra, decime cuál y la saco de los
+  bloques de las guías.** Y una cosa que ya NO te molesta: el nombre cargado
+  como "All patagonia " con la p minúscula y el espacio al final **lo arreglé
+  desde el código** el 28/11 (`prestadorLegible()`), así que se publica
+  "All Patagonia" en todos lados. Igual conviene corregirlo en el admin alguna
+  vez, para que la fuente diga lo correcto.
 
 - **Entró un prestador nuevo en Ushuaia, All patagonia, con cinco fichas, y
   dos cosas de catálogo quedan para vos.** Visto el 25/11. Las cinco fichas
@@ -465,6 +498,24 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
    anotadas como de valor bajo (6 restaurantes de Comodoro, 4 habitaciones del
    AGUADA, las variantes de Ruta Galesa/tulipanes/peonías) o colgadas de
    catálogo, más las tres de Caviahue del pendiente 3b, que esperan a Marcelo.
+
+   **REABIERTO Y VUELTO A CERRAR el 28/11/2026, con la traducción de más valor
+   que tenía el catálogo.** El admin publicó cuatro fichas de All patagonia y
+   una es **el Perito Moreno clásico de El Calafate**
+   (`glaciar-perito-moreno-con-safari-nautico`). Se tradujo a mano en la misma
+   corrida, porque es el caso que este pendiente venía esperando desde el
+   16/11: la guía pt de El Calafate se publicó con **una sola** ficha a la que
+   derivar el clic, y "Perito Moreno" es la búsqueda más grande del brasileño
+   en toda la Patagonia argentina. Publicada en
+   `/pt-br/experiencias/glaciar-perito-moreno-passarelas-safari-nautico-el-calafate/`.
+   **Las otras tres no se traducen todavía, y por una razón:** las tres se
+   pisan con fichas que ya tienen página pt —el Parque Nacional con tren con la
+   de Explore Tierra del Fuego, el trekking a la Laguna Esmeralda con las de
+   Noelia y VÉRTICE, y la navegación en yate con las otras dos del Beagle del
+   mismo prestador—, así que cuelgan de la decisión de catálogo del bullet de
+   "Para Marcelo" del 28/11. **Con eso el barrido cuenta 38 fichas sin pt**
+   (eran 32 el 26/11: +4 nuevas y −1 traducida, más las tres que ya venían),
+   y de las 38 ninguna es de valor alto sin que antes Marcelo decida.
 
    *(Detalle del pendiente, que sigue valiendo como molde de trabajo.)*
 
@@ -1199,6 +1250,35 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
     Hotel Gema: cuando el título original no dice qué se vende, el JSON
     escrito a mano puede sumar palabras; el respaldo automático nunca.
 
+    **Chequeo del 28/11: cero títulos gritados nuevos, pero apareció el caso
+    opuesto y el respaldo no lo cubre.** Las cuatro fichas nuevas de All
+    patagonia vienen con el título en mayúscula de oración —el prestador
+    aprendió— así que `esGrito` no marca ninguna. El problema fue otro:
+    *"Glaciar Perito Moreno con Safari Nautico"* publica **"Nautico" sin
+    tilde** y el respaldo algorítmico no lo arregla, porque la tabla `ACENTOS`
+    sólo se aplica dentro de un tramo gritado y `TRAMO_GRITADO` pide dos
+    mayúsculas seguidas: "Safari Nautico" no es un tramo. **Lección para el
+    barrido:** el chequeo de títulos no puede ser sólo "¿está gritado?", porque
+    un título bien capitalizado puede venir igual sin tildes, y "náutico",
+    "aéreo" o "panorámico" son justo las palabras con las que se busca. Quedó
+    escrito a mano en `titulos-es.json`. Lo que conviene sumarle al barrido es
+    pasar cada título nuevo por la tabla `ACENTOS` **sin exigir que esté
+    gritado** y listar los que cambiarían, para leerlos y decidir.
+
+    **Y el nombre del prestador dejó de ser un problema del admin: se arregló
+    desde el código el 28/11.** El barrido de nombres de prestador —los catorce
+    activos— encontró **dos con un espacio al final**: "All patagonia " (11
+    fichas) y "VERTICE EXPEDICIONES " (5). Ese espacio se publicaba en el
+    `seller.name` del `Offer` de los datos estructurados y en el chip visible de
+    las 16 fichas; `prestadorEnTitulo` lo recortaba, pero sólo para el
+    `<title>`, y por eso la bitácora lo tenía anotado como "ya lo recorta el
+    código". Ahora `prestadorLegible()` lo recorta en los cuatro lugares y
+    aplica la tabla `PROPIOS` al nombre, lo que de paso arregla las dos marcas
+    que el admin cargó en minúscula ("All patagonia" → "All Patagonia",
+    "Forastero tour" → "Forastero Tour"). **Sumale al barrido de cada corrida
+    el listado de `proveedorNombre` buscando espacios al borde y grafías en
+    minúscula**, que es el cruce que lo encontró.
+
     **Y el campo `destino` dio tres variantes nuevas del mismo lugar.** Las
     cinco fichas nuevas lo traen escrito de cuatro maneras distintas —
     "Ushuaia, Tierra del Fuego", "Ushuaia-Tierra del Fuego",
@@ -1214,6 +1294,60 @@ En Firestore hay 113 tours activos y ahora se publican los 113 menos uno: el
     nombre del prestador "All patagonia " (ver "Para Marcelo").
 
 ## Hecho
+
+- **28/11/2026** — **El Calafate dejó de tener una sola ficha, y el Perito
+  Moreno clásico quedó publicado en las dos lenguas.** Un commit. El barrido
+  de mantenimiento encontró **cuatro fichas nuevas de All patagonia**, y una
+  de ellas es la más valiosa que entró al catálogo en meses: *Glaciar Perito
+  Moreno con Safari Nautico*, en **El Calafate, Santa Cruz**. Hasta hoy Santa
+  Cruz tenía una sola ficha publicada (`tour-alternativo-al-glaciar-moreno`) y
+  las dos guías de El Calafate —la de español del 16/11 y la pt de la misma
+  fecha— lo decían con todas las letras en su bloque de honestidad de
+  catálogo: "vendemos un solo paseo del parque". **(1) Las cuatro
+  descriptions escritas a mano**, de 142 a 144 caracteres:
+  `glaciar-perito-moreno-con-safari-nautico`,
+  `parque-nacional-tierra-del-fuego-con-tren`,
+  `navegacion-canal-beagle-en-yate` y
+  `trekking-laguna-esmeralda-all-patagonia`. **(2) El título del Perito Moreno
+  escrito a mano en `titulos-es.json`**: el admin lo cargó como "Safari
+  Nautico", sin tilde, y el respaldo algorítmico **no lo arregla** porque el
+  título no viene gritado y `TRAMO_GRITADO` pide dos mayúsculas seguidas —
+  "Safari Nautico" no es un tramo gritado—. "Safari náutico" es la palabra con
+  la que se busca, así que va escrito. **(3) La ficha del Perito Moreno
+  traducida al portugués a mano**, con cuerpo completo, meta description de
+  141 caracteres, `altImagem` y tres FAQ, publicada en
+  `/pt-br/experiencias/glaciar-perito-moreno-passarelas-safari-nautico-el-calafate/`
+  con `hreflang` recíproco verificado. Es la traducción de más valor que había
+  en todo el catálogo: "Perito Moreno" es la búsqueda más grande del brasileño
+  en la Patagonia argentina y la guía pt de El Calafate tenía **una sola**
+  ficha a la que derivar el clic. **(4) Las dos guías de El Calafate suman la
+  ficha nueva** en el bloque del glaciar (junto con la del tour alternativo, que
+  no se pisan: una va por la Ruta 11 con 2.30 h libres en pasarelas, la otra por
+  el camino viejo de ripio con la senda a la playa de icebergs) y en el bloque de
+  navegaciones, porque **el safari náutico ahora sí es nuestro**, como opcional.
+  Se corrigieron los tres textos de las dos páginas que decían que vendemos un
+  solo paseo. Las dos guías pasan de 2 a 4 enlaces a ficha.
+  **(5) Y un arreglo de datos sucios del admin que se estaba publicando en los
+  datos estructurados:** dos prestadores tienen el nombre cargado **con un
+  espacio al final** —"All patagonia " (11 fichas) y "VERTICE EXPEDICIONES "
+  (5)— y ese espacio viajaba al `seller.name` del `Offer` y al chip visible de
+  **16 fichas**. La bitácora daba por hecho que "el espacio ya lo recorta el
+  código", y era verdad sólo del `<title>`, por `prestadorEnTitulo`. Ahora
+  `prestadorLegible()` de `src/lib/titulos.js` lo recorta en los cuatro lugares
+  donde el nombre se publica (título, `og:title`, `seller.name` y el chip) y de
+  paso arregla la grafía de las marcas que el admin cargó en minúscula:
+  **"All patagonia" → "All Patagonia"** (lo que cierra la mitad (a) del bullet
+  de "Para Marcelo" del 25/11, que decía que eso sólo se arreglaba en el admin)
+  y "Forastero tour" → "Forastero Tour" (6 fichas). **No mueve ningún slug:** la
+  URL de una ficha hermana se arma con `slugificar(proveedor)` dentro de
+  `conSlugsUnicos`, que baja a minúsculas y saca los espacios, así que las tres
+  grafías dan el mismo slug. `/aike/catalogo.json` sigue publicando el nombre
+  crudo, a propósito, para no tocar nada que lea por nombre de prestador.
+  **Verificado antes de pushear:** el sitemap del build pasa de **321 a 326
+  URLs**, las cinco nuevas son las cuatro fichas más la página pt, y el cruce
+  contra el sitemap servido da **cero URLs publicadas que desaparezcan**. Cero
+  enlaces internos rotos nuevos (el único aviso del barrido es el
+  `/assets/logos/NOMBRE.png` de siempre, que está dentro de un comentario).
 
 - **27/11/2026** — **Las cinco guías del valle ya le dicen a Google que son un
   destino, y cinco páginas indexadas dejaron de publicar una imagen social que
@@ -4260,3 +4394,91 @@ dos navegaciones del Canal Beagle deberían entrar al bloque náutico de la guí
 de Ushuaia, en español y en portugués—. **La próxima corrida, si Marcelo no
 contesta lo de Neuquén, debería agarrar el CDN de Tailwind**, que es lo último
 grande que es puro código.
+
+### 28/11/2026 — El Calafate dejó de tener una sola ficha
+
+**Qué se hizo.** El barrido de mantenimiento (pendiente 13) encontró **cuatro
+fichas nuevas de All patagonia**, y una de ellas cambió el plan de la corrida:
+*Glaciar Perito Moreno con Safari Nautico*, en **El Calafate**. Hasta anoche
+Santa Cruz tenía **una sola** ficha publicada, y las dos guías de El Calafate
+—la de español y la pt, las dos del 16/11— decían textualmente en su bloque de
+honestidad de catálogo que "vendemos un solo paseo del parque". Así que en vez
+de agarrar el CDN de Tailwind, que era lo que la corrida anterior recomendaba,
+se trabajó entera la ficha nueva, que vale mucho más: **"Perito Moreno" es la
+búsqueda más grande del brasileño en toda la Patagonia argentina**, y la guía
+pt de El Calafate se había publicado aceptando que el clic se iba a ir al
+listado porque no había a dónde derivarlo.
+
+Las cuatro descriptions quedaron escritas a mano (142 a 144 caracteres). El
+título del Perito Moreno también: el admin lo cargó como "Safari **Nautico**",
+sin tilde, y el respaldo algorítmico de `titulos.js` **no lo arregla** porque
+sólo aplica la tabla de acentos dentro de un tramo gritado, y "Safari Nautico"
+—bien capitalizado— no es un tramo gritado. La ficha se tradujo al portugués a
+mano, con cuerpo completo, meta description de 141 caracteres, `altImagem` y
+tres FAQ, y las dos guías de El Calafate la suman en el bloque del glaciar
+—junto con el tour alternativo, que no se pisan: uno va por la Ruta 11 con 2.30 h
+libres en pasarelas, el otro por el camino viejo de ripio con la senda a la playa
+de icebergs— y en el bloque de navegaciones, porque el safari náutico ahora sí es
+nuestro, como opcional. Se corrigieron los tres textos de cada página que decían
+que vendemos un solo paseo.
+
+**Y un hallazgo que no estaba buscando.** Al revisar cómo se publica el nombre
+del prestador apareció que **dos de los catorce lo tienen cargado con un espacio
+al final** —"All patagonia " (11 fichas) y "VERTICE EXPEDICIONES " (5)— y que ese
+espacio viajaba al `seller.name` del `Offer` de los datos estructurados y al chip
+visible de **16 fichas**. Esta bitácora lo tenía anotado como resuelto ("el
+espacio ya lo recorta el código"), y era verdad sólo del `<title>`.
+`prestadorLegible()` lo recorta ahora en los cuatro lugares donde el nombre se
+publica y de paso aplica la tabla `PROPIOS`, lo que arregla **"All patagonia" →
+"All Patagonia"** —la mitad (a) del bullet de "Para Marcelo" del 25/11, que decía
+que eso sólo se podía arreglar en el admin— y "Forastero tour" → "Forastero Tour".
+No mueve ningún slug: la URL de una ficha hermana se arma con
+`slugificar(proveedor)`, que baja a minúsculas y saca los espacios.
+`/aike/catalogo.json` se dejó publicando el nombre crudo, a propósito, para no
+tocar nada que lea por nombre de prestador.
+
+**Qué se mide como resultado.** Lo grande es Brasil: El Calafate pasa de una a
+dos fichas en portugués y la ficha nueva ataca de frente la consulta más grande
+del mercado ("Glaciar Perito Moreno", "passarelas Perito Moreno", "safári
+náutico Perito Moreno"), con la guía pt enlazándola dos veces. En español, el
+`<title>` de la ficha ahora dice "safari náutico" con tilde, que es como se
+escribe la búsqueda. Y del arreglo del prestador: 16 fichas dejan de publicar un
+nombre de vendedor con basura al final en el `Offer`, que es el campo que lee
+Google para los resultados con precio.
+
+**Verificado en producción después del deploy.** Las cinco URLs nuevas sirven
+200. El `<title>` del Perito Moreno publica la tilde, el `hreflang` es recíproco
+entre las dos lenguas y la página pt declara `Product`/`Offer`, `BreadcrumbList`
+y `FAQPage` con sus tres preguntas. El `seller.name` de la ficha hermana de
+All patagonia publica "All Patagonia", sin espacio. El sitemap servido pasó de
+**321 a 326 URLs**, y el cruce contra el sitemap anterior da **cero URLs
+publicadas que desaparezcan**. El barrido renderizado confirma que las dos guías
+mantienen un solo `h1`, sus dos bloques de JSON-LD, los tres `hreflang` y cero
+recursos en 404, y que los cuatro enlaces a ficha sobreviven al montaje de React.
+El único aviso del barrido es el enlace `.html` al botón de reserva, que es la
+app y es zona prohibida. IndexNow en cinco tandas: **Yandex 200 OK en las cinco,
+Bing 403 por novena vez**, a la espera del token XML de Marcelo (pendiente 11).
+
+**Mantenimiento de la corrida (pendiente 13).** 132 fichas publicables contra
+128 descriptions antes de la corrida, 132 contra 132 después. Cero `slugPt`
+duplicados o faltantes, cero URLs de ficha que desaparecerían en el próximo
+deploy. Siguen marcados los dos de prioridad baja de siempre, que cuestan un 301
+sobre una URL indexada (el `-2` de `rota-galesa-represa-futaleufu-trevelin-2` y
+el "cabalgatas" en español del slug pt de `cabalgatas-familiares`) y los dos
+duplicados de carga del admin (`alojamiento` del Hotel Gema y
+`navegacion-rio-grande-full-day` de MerakiSur).
+
+**Qué quedó pendiente.** Tres solapamientos nuevos, los tres de All patagonia,
+quedaron en "Para Marcelo": el Parque Nacional con tren contra el de Explore
+Tierra del Fuego, el tercer trekking a la Laguna Esmeralda del catálogo y la
+tercera navegación del Beagle del mismo prestador. **Las tres fichas nuevas que
+no se tradujeron cuelgan de esa decisión**, porque las tres pisan una ficha que
+ya tiene su página pt. Arriba de la cola sigue **Caviahue–Copahue (3b)**,
+esperando que Marcelo diga si Neuquén se queda. Sin depender de nadie quedan: el
+**CDN de Tailwind del pendiente 10**, que es lo último grande que es puro código
+y que esta corrida postergó a propósito; el `faq-es.json` del pendiente 9; y el
+detalle semántico del `isPartOf` de dos páginas, anotado el 27/11. **Y una mejora
+del barrido que conviene hacer en la próxima corrida que lo toque:** pasar cada
+título nuevo por la tabla `ACENTOS` **sin exigir que esté gritado** —el caso
+"Safari Nautico" de hoy— y listar los `proveedorNombre` con espacios al borde o
+grafías en minúscula, que es el cruce que encontró el problema del `seller.name`.

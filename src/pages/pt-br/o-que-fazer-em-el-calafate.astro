@@ -24,12 +24,15 @@
 // "El Chaltén Fitz Roy", "quanto custa a entrada do Parque Nacional Los
 // Glaciares", "El Calafate ou Ushuaia".
 //
-// HONESTIDAD DE CATÁLOGO, como en Ushuaia: de todo lo que se cuenta acá
-// **vendemos una sola cosa**, el tour alternativo por la ruta de las
-// estancias hasta la playa de icebergs. El minitrekking, el Big Ice y las
-// navegaciones a Upsala y Spegazzini no los vendemos y se dice con todas las
-// letras, sin enlace falso. El hueco de catálogo de Santa Cruz queda anotado
-// en "Para Marcelo".
+// HONESTIDAD DE CATÁLOGO, como en Ushuaia. Eran una sola ficha hasta el
+// 28/11/2026, cuando el admin publicó el paseo clásico al glaciar de
+// All patagonia (`glaciar-perito-moreno-con-safari-nautico`, con pasarelas y
+// safari náutico opcional) y Santa Cruz pasó a tener **dos** fichas en
+// portugués: ésa y el tour alternativo por la ruta de las estancias hasta la
+// playa de icebergs. Las dos no se pisan y las dos se enlazan. El
+// minitrekking, el Big Ice y las navegaciones a Upsala y Spegazzini siguen sin
+// ser nuestros y se dice con todas las letras, sin enlace falso. El hueco de
+// catálogo de Santa Cruz que queda está anotado en "Para Marcelo".
 //
 // DATO QUE HAY QUE MANTENER AL DÍA (verificado el 16/11/2026): el glaciar
 // **ya no es el glaciar estable** que dice casi todo el contenido viejo de
@@ -64,7 +67,7 @@ const BLOQUES = [
     titulo: 'O Glaciar Perito Moreno e as passarelas',
     texto:
       'É o motivo da viagem. A geleira fica a cerca de 80 km de El Calafate, dentro do Parque Nacional Los Glaciares, e chega-se de carro em pouco mais de uma hora por estrada asfaltada. O que a torna diferente de qualquer outra geleira do mundo não é o tamanho — há muitas maiores no Campo de Gelo Patagônico Sul — mas a distância: a frente de gelo termina na água a poucas centenas de metros de uma península com mais de 4,5 km de passarelas e mirantes em vários níveis, então você vê a parede de gelo de frente, de cima e de perto, a pé, sem barco e sem guia. As paredes sobressaem uns 60 metros acima da água, e o som é metade do espetáculo: um estrondo seco, parecido com um trovão, cada vez que um pedaço se desprende. Reserve o dia inteiro e leve agasalho: o vento que desce do gelo é bem mais frio do que o termômetro de El Calafate.',
-    fichas: paseos('tour-alternativo-al-glaciar-moreno'),
+    fichas: paseos('glaciar-perito-moreno-con-safari-nautico', 'tour-alternativo-al-glaciar-moreno'),
   },
   {
     id: 'ruptura',
@@ -79,7 +82,7 @@ const BLOQUES = [
     etiqueta: 'Fora do circuito',
     titulo: 'A rota das estâncias e a praia de icebergs',
     texto:
-      'O ônibus turístico comum faz o caminho asfaltado, para no estacionamento e devolve você à cidade. Há uma forma diferente de chegar à mesma geleira: a estrada velha de cascalho, a rota histórica das estâncias, que sai cedo, atravessa a estepe com vistas altas do Lago Argentino, passa em frente à Estancia Anita e para num parador de campo onde se toma mate com um paisano da região. No meio do caminho entra a parte que quase ninguém faz — uma trilha de descida de cerca de 45 minutos, com guia naturalista credenciado pelo Parque Nacional, por bosque nativo até a praia de icebergs do braço Sul do Lago Argentino, onde os blocos de gelo encalham na areia. Depois disso, tempo livre nas passarelas. É um dia inteiro, ativo, e é o único passeio do Parque que vendemos: tudo o mais que está nesta página se contrata em El Calafate.',
+      'O ônibus turístico comum faz o caminho asfaltado, para no estacionamento e devolve você à cidade. Há uma forma diferente de chegar à mesma geleira: a estrada velha de cascalho, a rota histórica das estâncias, que sai cedo, atravessa a estepe com vistas altas do Lago Argentino, passa em frente à Estancia Anita e para num parador de campo onde se toma mate com um paisano da região. No meio do caminho entra a parte que quase ninguém faz — uma trilha de descida de cerca de 45 minutos, com guia naturalista credenciado pelo Parque Nacional, por bosque nativo até a praia de icebergs do braço Sul do Lago Argentino, onde os blocos de gelo encalham na areia. Depois disso, tempo livre nas passarelas. É um dia inteiro, ativo, e é um dos dois passeios do Parque que vendemos: o outro é o clássico pela Ruta 11, com tempo livre nas passarelas. Todo o resto que está nesta página se contrata em El Calafate.',
     fichas: paseos('tour-alternativo-al-glaciar-moreno'),
   },
   {
@@ -95,8 +98,8 @@ const BLOQUES = [
     etiqueta: 'As outras geleiras',
     titulo: 'Navegações: Upsala, Spegazzini e o safári náutico',
     texto:
-      'O Parque Nacional Los Glaciares tem 47 geleiras grandes e o Perito Moreno é só a mais acessível. As duas maiores se veem de barco: a Upsala, que foi a maior da Argentina e hoje tem a frente recuada atrás de um labirinto de icebergs, e a Spegazzini, que é a mais alta de todas, com paredes que passam de 100 metros. A navegação clássica que visita as duas sai do Puerto Punta Bandera, a 45 km de El Calafate, e leva o dia inteiro; há versões com desembarque e caminhada curta em Spegazzini. Separado disso, existe o safári náutico, uma volta de uma hora pelo canal de los Témpanos que aproxima da frente do Perito Moreno pela água e se contrata no mesmo dia da visita às passarelas, do próprio parque. Nenhuma das duas é nossa — contratam-se na cidade — mas são o que justifica um segundo dia de gelo em El Calafate.',
-    fichas: [],
+      'O Parque Nacional Los Glaciares tem 47 geleiras grandes e o Perito Moreno é só a mais acessível. As duas maiores se veem de barco: a Upsala, que foi a maior da Argentina e hoje tem a frente recuada atrás de um labirinto de icebergs, e a Spegazzini, que é a mais alta de todas, com paredes que passam de 100 metros. A navegação clássica que visita as duas sai do Puerto Punta Bandera, a 45 km de El Calafate, e leva o dia inteiro; há versões com desembarque e caminhada curta em Spegazzini. Separado disso, existe o safári náutico, uma volta de uma hora pelo canal de los Témpanos que aproxima da frente do Perito Moreno pela água, no mesmo dia da visita às passarelas: esse nós temos, como opcional do passeio clássico à geleira. As navegações até a Upsala e a Spegazzini não são nossas e se contratam na cidade, mas são o que justifica um segundo dia de gelo em El Calafate.',
+    fichas: paseos('glaciar-perito-moreno-con-safari-nautico'),
   },
   {
     id: 'chalten',
@@ -302,7 +305,7 @@ const schema = [
 
     <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
       <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-2">O que fazer</h2>
-      <p class="text-slate-600 mb-7 max-w-3xl">Nove blocos que justificam a viagem. De todos eles vendemos um só passeio — o tour pela rota das estâncias até a praia de icebergs —, e onde não vendemos a atividade está dito: o resto se contrata em El Calafate.</p>
+      <p class="text-slate-600 mb-7 max-w-3xl">Nove blocos que justificam a viagem. De todos eles vendemos dois passeios — o clássico à geleira pela Ruta 11, com as passarelas e o safári náutico opcional, e o que vai pela rota das estâncias até a praia de icebergs —, e onde não vendemos a atividade está dito: o resto se contrata em El Calafate.</p>
       <div class="space-y-6">
         {BLOQUES.map((b) => (
           <article id={b.id} class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8">

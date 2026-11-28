@@ -71,7 +71,7 @@ const PROPIOS = [
   'LIMITS ADVENTURE', 'MerakiSur', 'VERTICE EXPEDICIONES', 'AGUADA HOTEL',
   'Hotel Gema', 'Geoturismo Caviahue', 'SUSSANICH TURISMO', 'OCTOPUS TRAVEL',
   'Explore Tierra del Fuego', 'Forastero Tour', 'Noelia Ferrario',
-  'Patagonia Experiencias', 'Hotel del Glaciar',
+  'Patagonia Experiencias', 'Hotel del Glaciar', 'All Patagonia',
 ];
 const TABLA = new Map(PROPIOS.map((p) => [sinTildes(p), p]));
 // De más largo a más corto: "parque nacional los alerces" gana a "los alerces".
@@ -198,4 +198,30 @@ export function lugarLegible(destino) {
   return t.split(/(,\s*)/)
     .map((tramo) => (esGrito(tramo) ? mayusculaDeOracion(tramo) : conNombresPropios(tramo)))
     .join('');
+}
+
+/**
+ * El nombre del prestador como se publica: en el `<title>`, en el chip de la
+ * ficha y —lo que más importa— en el `seller.name` del `Offer` de los datos
+ * estructurados.
+ *
+ * Por qué existe (28/11/2026). El nombre sale del admin tal cual lo escribió
+ * el prestador, y dos de los catorce lo tienen con un **espacio al final**:
+ * "All patagonia " (11 fichas) y "VERTICE EXPEDICIONES " (5). Ese espacio
+ * viajaba al `seller.name` del JSON-LD y al chip visible de 16 fichas.
+ * `prestadorEnTitulo` ya lo recortaba, pero sólo para el `<title>`.
+ * De paso, la tabla PROPIOS arregla la grafía de las marcas que el admin
+ * cargó en minúscula ("All patagonia" → "All Patagonia", "Forastero tour" →
+ * "Forastero Tour"), igual que `lugarLegible` hace con los topónimos.
+ *
+ * NO toca el slug: la URL de una ficha hermana se arma con
+ * `slugificar(proveedor)` dentro de `conSlugsUnicos`, que baja a minúsculas y
+ * saca los espacios, así que las tres grafías dan el mismo slug y ninguna
+ * dirección indexada se mueve. Tampoco toca `/aike/catalogo.json`, que sigue
+ * publicando el nombre crudo.
+ */
+export function prestadorLegible(proveedor) {
+  const t = String(proveedor || '').replace(/\s+/g, ' ').trim();
+  if (!t) return t;
+  return conNombresPropios(t);
 }

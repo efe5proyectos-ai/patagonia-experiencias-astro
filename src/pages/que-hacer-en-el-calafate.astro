@@ -20,10 +20,15 @@
 // página nueva y las pone en un contexto de destino en vez de dejarlas
 // sueltas en el listado.
 //
-// HONESTIDAD DE CATÁLOGO: en Santa Cruz tenemos una sola ficha publicada
-// (`tour-alternativo-al-glaciar-moreno`). El minitrekking, el Big Ice y las
-// navegaciones a Upsala y Spegazzini no los vendemos y se dice; a cambio se
-// deriva a las guías propias y al listado. El hueco está en "Para Marcelo".
+// HONESTIDAD DE CATÁLOGO: en Santa Cruz tenemos dos fichas publicadas.
+// Eran una sola (`tour-alternativo-al-glaciar-moreno`) hasta el 28/11/2026,
+// cuando el admin publicó `glaciar-perito-moreno-con-safari-nautico` de
+// All patagonia: el paseo clásico de pasarelas, con el safari náutico como
+// opcional. Las dos no se pisan —una va por el camino viejo de ripio con la
+// senda a la playa de icebergs, la otra por la Ruta 11 con 2.30 h libres en
+// las pasarelas— y por eso las dos se enlazan. El minitrekking y el Big Ice
+// siguen sin ser nuestros y se dice; las navegaciones a Upsala y Spegazzini
+// tampoco. El hueco de catálogo que queda está en "Para Marcelo".
 //
 // DATO QUE HAY QUE MANTENER AL DÍA (verificado el 16/11/2026): el frente del
 // glaciar se alejó 910 m de la península de Magallanes entre el 24/02 y el
@@ -60,7 +65,7 @@ const BLOQUES = [
     titulo: 'El glaciar Perito Moreno y las pasarelas',
     texto:
       'Está a unos 80 km de El Calafate, dentro del Parque Nacional Los Glaciares, y se llega en poco más de una hora por ruta asfaltada. Lo que lo hace único en el mundo no es el tamaño —hay glaciares más grandes en el mismo parque— sino la distancia: el frente de hielo muere en el agua a pocos cientos de metros de una península con más de 4,5 km de pasarelas y miradores en varios niveles, así que la pared se ve de frente, desde arriba y de cerca, a pie, sin barco y sin guía. Las paredes sobresalen unos 60 metros sobre el agua y el sonido es la mitad del espectáculo. La entrada se paga en la portería de la seccional Río Mitre, tiene tarifa diferenciada para residentes argentinos y de la provincia de Santa Cruz, y casi ningún paseo la incluye: conviene llevar efectivo para no depender de la fila. Para el detalle del glaciar en sí, tenemos la guía completa.',
-    fichas: paseos('tour-alternativo-al-glaciar-moreno'),
+    fichas: paseos('glaciar-perito-moreno-con-safari-nautico', 'tour-alternativo-al-glaciar-moreno'),
     guias: [
       { url: '/guias/glaciar-perito-moreno-el-coloso-de-hielo-que-tenes-que-ver-una-vez-en-la-vida/', titulo: 'Glaciar Perito Moreno: el coloso de hielo' },
     ],
@@ -79,7 +84,7 @@ const BLOQUES = [
     etiqueta: 'Fuera del circuito',
     titulo: 'La ruta de las estancias y la playa de icebergs',
     texto:
-      'El micro turístico común hace el camino asfaltado, para en el estacionamiento y vuelve. Hay otra forma de llegar al mismo glaciar: el camino viejo de ripio, la ruta histórica de las estancias, que sale temprano, cruza la estepa con vistas altas del Lago Argentino, pasa frente a la Estancia Anita y se detiene en un parador de campo donde se toma mate con un paisano de la zona. En el medio entra la parte que casi nadie hace: una senda en bajada de unos 45 minutos, con guía naturalista habilitado por Parques Nacionales, por bosque nativo hasta la playa de icebergs del brazo Sur del Lago Argentino, donde los bloques de hielo varan en la arena. Después, tiempo libre en las pasarelas. Es día completo, activo, y es el único paseo del parque que vendemos: todo lo demás de esta página se contrata en El Calafate.',
+      'El micro turístico común hace el camino asfaltado, para en el estacionamiento y vuelve. Hay otra forma de llegar al mismo glaciar: el camino viejo de ripio, la ruta histórica de las estancias, que sale temprano, cruza la estepa con vistas altas del Lago Argentino, pasa frente a la Estancia Anita y se detiene en un parador de campo donde se toma mate con un paisano de la zona. En el medio entra la parte que casi nadie hace: una senda en bajada de unos 45 minutos, con guía naturalista habilitado por Parques Nacionales, por bosque nativo hasta la playa de icebergs del brazo Sur del Lago Argentino, donde los bloques de hielo varan en la arena. Después, tiempo libre en las pasarelas. Es día completo, activo, y es uno de los dos paseos del parque que vendemos: el otro es el clásico por la Ruta 11, con tiempo libre en las pasarelas. El resto de lo que cuenta esta página se contrata en El Calafate.',
     fichas: paseos('tour-alternativo-al-glaciar-moreno'),
     guias: [],
   },
@@ -97,8 +102,8 @@ const BLOQUES = [
     etiqueta: 'Los otros glaciares',
     titulo: 'Navegaciones: Upsala, Spegazzini y el safari náutico',
     texto:
-      'El Parque Nacional Los Glaciares tiene 47 glaciares grandes y el Perito Moreno es solamente el más accesible. Los dos más imponentes se ven desde el agua: el Upsala, que fue el más grande de la Argentina y hoy tiene el frente retirado detrás de un laberinto de témpanos, y el Spegazzini, que es el más alto de todos, con paredes que pasan los 100 metros. La navegación clásica que visita los dos sale de Puerto Punta Bandera, a 45 km de El Calafate, y lleva el día entero; hay versiones con desembarco y caminata corta en Spegazzini. Aparte, el safari náutico es una vuelta de una hora por el canal de los Témpanos que acerca al frente del Perito Moreno desde el agua y se contrata el mismo día de la visita a las pasarelas. Ninguna es nuestra, pero son lo que justifica un segundo día de hielo.',
-    fichas: [],
+      'El Parque Nacional Los Glaciares tiene 47 glaciares grandes y el Perito Moreno es solamente el más accesible. Los dos más imponentes se ven desde el agua: el Upsala, que fue el más grande de la Argentina y hoy tiene el frente retirado detrás de un laberinto de témpanos, y el Spegazzini, que es el más alto de todos, con paredes que pasan los 100 metros. La navegación clásica que visita los dos sale de Puerto Punta Bandera, a 45 km de El Calafate, y lleva el día entero; hay versiones con desembarco y caminata corta en Spegazzini. Aparte, el safari náutico es una vuelta de una hora por el canal de los Témpanos que acerca al frente del Perito Moreno desde el agua, el mismo día de la visita a las pasarelas: ése sí lo tenemos, como opcional del paseo clásico al glaciar. Las navegaciones a Upsala y Spegazzini no son nuestras y se contratan en la ciudad, pero son lo que justifica un segundo día de hielo.',
+    fichas: paseos('glaciar-perito-moreno-con-safari-nautico'),
     guias: [
       { url: '/guias/navegacion-todo-glaciares-el-reino-de-los-gigantes-de-hielo/', titulo: 'Navegación Todo Glaciares: el reino de los gigantes de hielo' },
     ],
@@ -312,7 +317,7 @@ const schema = [
 
     <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
       <h2 class="font-sans font-extrabold text-2xl sm:text-3xl text-brand-oxford mb-2">Qué hacer</h2>
-      <p class="text-slate-600 mb-7 max-w-3xl">Nueve bloques que justifican el viaje. De todos ellos vendemos un solo paseo —el tour por la ruta de las estancias hasta la playa de icebergs—, y donde no vendemos la actividad está dicho: el resto se contrata en El Calafate.</p>
+      <p class="text-slate-600 mb-7 max-w-3xl">Nueve bloques que justifican el viaje. De todos ellos vendemos dos paseos —el clásico al glaciar por la Ruta 11, con las pasarelas y el safari náutico opcional, y el que va por la ruta de las estancias hasta la playa de icebergs—, y donde no vendemos la actividad está dicho: el resto se contrata en El Calafate.</p>
       <div class="space-y-6">
         {BLOQUES.map((b) => (
           <article id={b.id} class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8">

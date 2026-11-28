@@ -2511,5 +2511,31 @@
       }
     ],
     "traducido": "2026-09-16T20:00:16.603Z"
+  },
+  "glaciar-perito-moreno-con-safari-nautico": {
+    "hash": "753f916f0152e008",
+    "slugPt": "glaciar-perito-moreno-passarelas-safari-nautico-el-calafate",
+    "titulo": "Glaciar Perito Moreno com passarelas e safári náutico, El Calafate",
+    "metaDescricao": "Glaciar Perito Moreno saindo de El Calafate: 2h30 livres nas passarelas, a Curva de los Suspiros e safári náutico opcional. 7 horas com guia.",
+    "descricao": "<p>O passeio clássico de El Calafate: o dia inteiro no Glaciar Perito Moreno, com tempo livre nas passarelas e a opção de completar a visita com o safári náutico.</p><p>A saída é do hotel, por volta das 9h. De El Calafate pegamos a Ruta 11 e percorremos 80 km até o Parque Nacional Los Glaciares. No caminho dá para observar a flora e a fauna nativas da estepe patagônica.</p><p>A primeira parada é na Curva de los Suspiros, o mirante onde se tem a primeira vista geral do glaciar — e é ali que quase todo mundo entende o tamanho da parede de gelo.</p><p>Já na zona das passarelas, você tem 2 horas e meia para percorrê-las livremente. Os diferentes níveis levam a balcões com vistas distintas da frente do glaciar, de onde se escutam os desprendimentos de gelo que acontecem o tempo todo.</p><p>Terminado o percurso das passarelas, o grupo se reúne de novo para fazer o safári náutico — a navegação em frente à parede de gelo, para quem a tiver contratado — e depois voltar ao hotel.</p><p>O passeio opera todo o ano e dura cerca de 7 horas, das 9h às 16h. A dificuldade é baixa: as passarelas são percorridas no seu ritmo.</p><p>Inclui guia e transporte. Não inclui o almoço nem a entrada do Parque Nacional.</p><p>Roupa recomendada: agasalho confortável e impermeável e calçado fechado com sola de borracha antiderrapante ou de trilha.</p>",
+    "destino": "El Calafate, Santa Cruz",
+    "categoria": "Glaciares",
+    "duracao": "7 horas",
+    "temporada": "Todo o ano",
+    "altImagem": "Frente de gelo do Glaciar Perito Moreno vista das passarelas do Parque Nacional Los Glaciares, em El Calafate",
+    "faq": [
+      {
+        "pergunta": "O safári náutico está incluído no passeio?",
+        "resposta": "Não. O safári náutico é a navegação em frente à parede de gelo e se contrata à parte: quem o reservar faz a navegação depois das passarelas, no mesmo dia, antes da volta ao hotel."
+      },
+      {
+        "pergunta": "Quanto tempo se fica nas passarelas do Perito Moreno?",
+        "resposta": "Duas horas e meia livres. Os diferentes níveis de passarela levam a balcões com vistas distintas da frente do glaciar, e dá para percorrê-los no seu ritmo."
+      },
+      {
+        "pergunta": "A entrada do Parque Nacional está incluída?",
+        "resposta": "Não. A entrada do Parque Nacional Los Glaciares se paga à parte, na chegada. O passeio inclui guia e transporte com saída do hotel; o almoço também não está incluído."
+      }
+    ]
   }
 }
